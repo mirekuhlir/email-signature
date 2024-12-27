@@ -1,0 +1,58 @@
+TODOs
+
+-
+Projekt 
+
+Projít packege.json a odstranit latest
+@radix-ui - bude potřeba?
+
+Change the Auth confirmation path ?
+https://supabase.com/docs/guides/auth/server-side/nextjs
+
+-
+Logika
+
+Uživatel může mít více různých tiers 
+Koupí si doživotní přístu a pak dokoupí placené období
+
+-
+
+AI
+https://supabase.com/blog/supabase-ai-assistant-v2
+https://v0.dev/
+
+
+-
+Na web
+Chybý vám něco napiště?
+
+Chcete udělat nějakou na mítu, napiště mám. Zpoplatněno.
+
+-
+coolify
+https://coolify.io/docs/installation/
+
+We only support 64-bit architectures:
+
+
+VPS and stick your website behind Cloudflare for DDOS protection
+
+- 8GB of memory (average usage 3.5GB)
+- 4 CPUs (average usage ~20-30%)
+- 150GB disk (usage 40GB)
+
+3 NodeJS apps
+- 4 Static sites
+- Plausible Analytics (for visitor analytics)
+- Fider (feedback tool)
+- UptimeKuma (uptime monitoring)
+- Ghost (my newsletters)
+- 3 Redis databases
+- 2 PostgreSQL databases
+
+záloha všech dat?
+
+-
+Ostatní poznámky
+
+Bude potřeba nastavit vlastní SMTP server, pro DEV posílá supabase https://supabase.com/docs/guides/auth/auth-smtp ale na produkci je potřeba vlastní
