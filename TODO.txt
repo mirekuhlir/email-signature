@@ -1,10 +1,18 @@
 TODOs
 
 -
+
+Projít si konec
+https://supabase.com/docs/guides/auth/server-side/nextjs
+
+
+-
 Projekt 
 
 Projít packege.json a odstranit latest
 @radix-ui - bude potřeba?
+
+Error boundary pro nextjs
 
 Change the Auth confirmation path ?
 https://supabase.com/docs/guides/auth/server-side/nextjs
@@ -56,3 +64,9 @@ záloha všech dat?
 Ostatní poznámky
 
 Bude potřeba nastavit vlastní SMTP server, pro DEV posílá supabase https://supabase.com/docs/guides/auth/auth-smtp ale na produkci je potřeba vlastní
+
+-
+
+supabase
+
+V databázi lze automaticky přiřadit id uživatele
