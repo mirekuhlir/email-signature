@@ -1,6 +1,9 @@
+"use client";
+import { useState } from "react";
 import AdvancedColorPicker from "@/components/advanced-color-picker";
 import { Button } from "@/components/design-system/button";
 import { Typography } from "@/components/design-system/typography";
+import Modal from "@/components/design-system/modal";
 
 const TypographyExample = () => {
   return (
@@ -225,12 +228,53 @@ const ButtonExamples = () => {
   );
 };
 
-export default async function DesignSystem() {
+const ModalExample = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isOpenModalFullscreen, setIsOpenModalFullscreen] = useState(false);
+
+  return (
+    <div className="p-8 space-y-4">
+      <div>
+        {" "}
+        <Button onClick={() => setIsOpen(true)}>Open Modal</Button>
+        <Modal
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          title="Example Modal"
+        >
+          <Typography variant="body">
+            This is an example modal component. You can use it to display
+            additional information or actions in a separate window.
+          </Typography>
+        </Modal>
+      </div>
+      <div>
+        <Button onClick={() => setIsOpenModalFullscreen(true)}>
+          Open Fullscreen Modal
+        </Button>
+        <Modal
+          isOpen={isOpenModalFullscreen}
+          onClose={() => setIsOpenModalFullscreen(false)}
+          title="Fullscreen Modal"
+          size="fullscreen"
+        >
+          <Typography variant="body">
+            This is a fullscreen modal. It covers the entire screen and is
+            useful for displaying content that requires more space or focus.
+          </Typography>
+        </Modal>
+      </div>
+    </div>
+  );
+};
+
+export default function DesignSystem() {
   return (
     <div className="w-full">
       <TypographyExample />
       <ButtonExamples />
       <AdvancedColorPicker />
+      <ModalExample />
     </div>
   );
 }
