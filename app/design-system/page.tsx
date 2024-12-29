@@ -4,6 +4,8 @@ import AdvancedColorPicker from "@/components/advanced-color-picker";
 import { Button } from "@/components/design-system/button";
 import { Typography } from "@/components/design-system/typography";
 import Modal from "@/components/design-system/modal";
+import { useForm, SubmitHandler } from "react-hook-form";
+import TextInput from "@/components/design-system/text-input";
 
 const TypographyExample = () => {
   return (
@@ -268,6 +270,81 @@ const ModalExample = () => {
   );
 };
 
+const TextInputExample: React.FC = () => {
+  type FormValues = {
+    firstName: string;
+    lastName: string;
+    email: string;
+  };
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>();
+
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
+    console.log(data);
+    alert(`Sended: ${JSON.stringify(data)}`);
+  };
+
+  return (
+    <div className="bg-gray-100 p-4">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="bg-white p-6 rounded shadow-md w-full max-w-md"
+      >
+        <TextInput
+          label="Name"
+          name="firstName"
+          register={register}
+          validation={{
+            required: "This field is required",
+            minLength: {
+              value: 2,
+              message: "Minimum 2 characters",
+            },
+          }}
+          errors={errors}
+          placeholder="Name"
+        />
+
+        <TextInput
+          label="Surname"
+          name="lastName"
+          register={register}
+          errors={errors}
+          placeholder="Surname"
+          validation={{
+            required: "This field is required",
+            maxLength: {
+              value: 4,
+              message: "Maximum 4 characters",
+            },
+          }}
+        />
+
+        <TextInput
+          label="Email"
+          name="email"
+          register={register}
+          errors={errors}
+          validation={{
+            required: "This field is required",
+            pattern: {
+              value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+              message: "Invalid email",
+            },
+          }}
+          placeholder="email@example.com"
+        />
+
+        <Button type="submit">Send</Button>
+      </form>
+    </div>
+  );
+};
+
 export default function DesignSystem() {
   return (
     <div className="w-full">
@@ -275,6 +352,7 @@ export default function DesignSystem() {
       <ButtonExamples />
       <AdvancedColorPicker />
       <ModalExample />
+      <TextInputExample />
     </div>
   );
 }
