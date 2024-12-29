@@ -1,5 +1,7 @@
 import { redirect } from "next/navigation";
 
+// TODO - přejmenovat
+
 /**
  * Redirects to a specified path with an encoded message as a query parameter.
  * @param {('error' | 'success')} type - The type of message, either 'error' or 'success'.
@@ -10,7 +12,7 @@ import { redirect } from "next/navigation";
 export function encodedRedirect(
   type: "error" | "success",
   path: string,
-  message: string,
+  message: string
 ) {
   return redirect(`${path}?${type}=${encodeURIComponent(message)}`);
 }
