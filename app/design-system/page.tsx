@@ -7,6 +7,7 @@ import Modal from "@/components/design-system/modal";
 import { useForm, SubmitHandler } from "react-hook-form";
 import TextInput from "@/components/design-system/text-input";
 import RichTextEditor from "@/components/design-system/rich-text-editor";
+import Select from "@/components/design-system/select";
 
 const TypographyExample = () => {
   return (
@@ -350,6 +351,44 @@ const RichTextEditorExample = () => {
   return <RichTextEditor />;
 };
 
+const SelectExample = () => {
+  const options = [
+    { value: "option1", label: "Option 1" },
+    { value: "option2", label: "Option 2" },
+    { value: "option3", label: "Option 3" },
+  ];
+
+  interface FormValues {
+    value: string;
+  }
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>();
+
+  return (
+    <div className="bg-gray-100 p-4">
+      <form
+        onSubmit={handleSubmit((data) =>
+          alert(`Sended: ${JSON.stringify(data)}`)
+        )}
+        className="bg-white p-6 rounded shadow-md w-full max-w-md"
+      >
+        <Select
+          name="selectValue"
+          label="Select Country"
+          options={options}
+          register={register}
+          errors={errors}
+        />
+        <Button type="submit">Submit</Button>
+      </form>
+    </div>
+  );
+};
+
 export default function DesignSystem() {
   return (
     <div className="w-full">
@@ -359,6 +398,7 @@ export default function DesignSystem() {
       <ModalExample />
       <TextInputExample />
       <RichTextEditorExample />
+      <SelectExample />
     </div>
   );
 }
