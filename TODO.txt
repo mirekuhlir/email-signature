@@ -28,6 +28,7 @@ Koupí si doživotní přístu a pak dokoupí placené období
 AI
 https://supabase.com/blog/supabase-ai-assistant-v2
 https://v0.dev/
+https://database.build/
 
 Supabase Assistant v2 in the Dashboard
 

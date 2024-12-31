@@ -6,6 +6,7 @@ import { Typography } from "@/components/design-system/typography";
 import Modal from "@/components/design-system/modal";
 import { useForm, SubmitHandler } from "react-hook-form";
 import TextInput from "@/components/design-system/text-input";
+import RichTextEditor from "@/components/design-system/rich-text-editor";
 
 const TypographyExample = () => {
   return (
@@ -345,6 +346,10 @@ const TextInputExample: React.FC = () => {
   );
 };
 
+const RichTextEditorExample = () => {
+  return <RichTextEditor />;
+};
+
 export default function DesignSystem() {
   return (
     <div className="w-full">
@@ -353,6 +358,7 @@ export default function DesignSystem() {
       <AdvancedColorPicker />
       <ModalExample />
       <TextInputExample />
+      <RichTextEditorExample />
     </div>
   );
 }
