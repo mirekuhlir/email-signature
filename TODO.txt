@@ -29,6 +29,7 @@ AI
 https://supabase.com/blog/supabase-ai-assistant-v2
 https://v0.dev/
 https://database.build/
+https://bolt.new/
 
 Supabase Assistant v2 in the Dashboard
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Typography } from "./typography";
 import { Button } from "./button";
 
@@ -17,6 +17,17 @@ const Modal: React.FC<ModalProps> = ({
   children,
   size = "medium",
 }) => {
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   const sizeClasses = {
@@ -34,7 +45,7 @@ const Modal: React.FC<ModalProps> = ({
         <div className="flex justify-between items-center p-4">
           <Typography variant="h4">{title}</Typography>
         </div>
-        <div className="px-4 pb-4 overflow-auto">{children}</div>
+        <div className="px-4 pb-4 overflow-auto max-h-[80vh]">{children}</div>
         <div className="flex justify-end p-4">
           <Button variant="ghost" onClick={onClose}>
             Close

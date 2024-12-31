@@ -246,6 +246,26 @@ const ModalExample = () => {
           onClose={() => setIsOpen(false)}
           title="Example Modal"
         >
+          <Typography variant="h1">
+            This is an example modal component. You can use it to display
+            additional information or actions in a separate window.
+          </Typography>
+          <Typography variant="h1">
+            This is an example modal component. You can use it to display
+            additional information or actions in a separate window.
+          </Typography>
+          <Typography variant="h1">
+            This is an example modal component. You can use it to display
+            additional information or actions in a separate window.
+          </Typography>
+          <Typography variant="h1">
+            This is an example modal component. You can use it to display
+            additional information or actions in a separate window.
+          </Typography>
+          <Typography variant="h1">
+            This is an example modal component. You can use it to display
+            additional information or actions in a separate window.
+          </Typography>
           <Typography variant="body">
             This is an example modal component. You can use it to display
             additional information or actions in a separate window.
