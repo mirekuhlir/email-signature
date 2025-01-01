@@ -1,8 +1,15 @@
-import AuthButton from "@/components/header-auth";
-
-// TODO - <AuthButton />
+import Link from "next/link";
+import { createClient } from "@/utils/supabase/server";
+import { signOutAction } from "@/app/actions";
+import { Button } from "@/components/design-system/button";
 
 export default async function Home() {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   return (
     <>
       <main className="flex-1 flex flex-col gap-6">
@@ -15,9 +22,19 @@ export default async function Home() {
                   Logo
                 </span>
               </div>
-              <button className="flex items-center gap-2 px-6 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30">
-                Sign In
-              </button>
+              {user ? (
+                <div>
+                  <div> {user.email}</div>
+
+                  <form action={signOutAction}>
+                    <Button type="submit" variant={"outline"}>
+                      Sign out
+                    </Button>
+                  </form>
+                </div>
+              ) : (
+                <Link href="/sign-in">Sign in</Link>
+              )}
             </div>
           </header>
 

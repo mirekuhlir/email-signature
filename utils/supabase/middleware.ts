@@ -32,7 +32,7 @@ export const updateSession = async (request: NextRequest) => {
             );
           },
         },
-      }
+      },
     );
 
     // This will refresh session if expired - required for Server Components
