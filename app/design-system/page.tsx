@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import AdvancedColorPicker from "@/components/advanced-color-picker";
+import AdvancedColorPicker from "@/components/design-system/advanced-color-picker";
 import { Button } from "@/components/design-system/button";
 import { Typography } from "@/components/design-system/typography";
 import Modal from "@/components/design-system/modal";
@@ -8,6 +8,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import TextInput from "@/components/design-system/text-input";
 import RichTextEditor from "@/components/design-system/rich-text-editor";
 import Select from "@/components/design-system/select";
+import { TextEditor } from "@/components/design-system/text-editor-full/TextEditor";
 
 const TypographyExample = () => {
   return (
@@ -419,6 +420,7 @@ export default function DesignSystem() {
       <TextInputExample />
       <RichTextEditorExample />
       <SelectExample />
+      <TextEditor />
     </div>
   );
 }
