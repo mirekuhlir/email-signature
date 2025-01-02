@@ -2,8 +2,11 @@ import Link from "next/link";
 import { createClient } from "@/utils/supabase/server";
 import { signOutAction } from "@/app/actions";
 import { Button } from "@/components/design-system/button";
+import { useTranslation } from "./i18n";
 
 export default async function Home() {
+  const { t } = await useTranslation();
+
   const supabase = await createClient();
 
   const {
@@ -44,6 +47,7 @@ export default async function Home() {
               <div className="absolute inset-0 opacity-30"></div>
               <div className="max-w-[1200px] mx-auto px-4 sm:px-6 relative">
                 <div className="max-w-2xl">
+                  {t("title")}
                   <h1 className="text-4xl sm:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-blue-100">
                     Create amazing projects
                   </h1>
