@@ -1,14 +1,14 @@
 "use client";
 import { useState } from "react";
-import AdvancedColorPicker from "@/components/design-system/advanced-color-picker";
-import { Button } from "@/components/design-system/button";
-import { Typography } from "@/components/design-system/typography";
-import Modal from "@/components/design-system/modal";
+import AdvancedColorPicker from "@/components/ui/advanced-color-picker";
+import { Button } from "@/components/ui/button";
+import { Typography } from "@/components/ui/typography";
+import Modal from "@/components/ui/modal";
 import { useForm, SubmitHandler } from "react-hook-form";
-import TextInput from "@/components/design-system/text-input";
-import RichTextEditor from "@/components/design-system/rich-text-editor";
-import Select from "@/components/design-system/select";
-import { TextEditor } from "@/components/design-system/text-editor-full/TextEditor";
+import TextInput from "@/components/ui/text-input";
+import RichTextEditor from "@/components/ui/rich-text-editor";
+import Select from "@/components/ui/select";
+import { TextEditor } from "@/components/ui/text-editor-full/text-editor";
 
 const TypographyExample = () => {
   return (

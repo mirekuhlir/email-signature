@@ -1,8 +1,8 @@
 "use client";
-import TextInput from "@/components/design-system/text-input";
+import TextInput from "@/components/ui/text-input";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { createClient } from "@/utils/supabase/client";
-import { Button } from "../design-system/button";
+import { Button } from "../ui/button";
 
 export const SignInComponent = () => {
   type FormValues = {

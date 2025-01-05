@@ -1,5 +1,5 @@
 import React from "react";
-import { FormatButton } from "./FormatButton";
+import { FormatButton } from "./format-button";
 
 interface ToolbarProps {
   onFormatClick: (command: string, value?: string) => void;

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useCallback } from "react";
-import { Toolbar } from "./Toolbar";
-import { ColorPicker } from "./ColorPicker";
+import { Toolbar } from "./toolbar";
+import { ColorPicker } from "./color-picker";
 import { formatHtmlToJson } from "./utils";
 
 interface Position {
