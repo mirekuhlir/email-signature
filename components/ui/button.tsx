@@ -37,6 +37,27 @@ const LoadingSpinner = () => (
   </svg>
 );
 
+export const baseStyles =
+  "inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed";
+
+export const variants = {
+  blue: "bg-blue-600 hover:bg-blue-700 text-white",
+  orange: "bg-orange-600 hover:bg-orange-700 text-white",
+  red: "bg-red-600 hover:bg-red-700 text-white",
+  black: "bg-black hover:bg-gray-900 text-white",
+  gray: "bg-gray-600 hover:bg-gray-700 text-white",
+  outline: "border-2 border-current bg-transparent hover:bg-gray-100",
+  ghost: "bg-transparent hover:bg-gray-100",
+  link: "bg-transparent underline-offset-4 hover:underline p-0",
+};
+
+export const sizes = {
+  sm: "h-8 px-3 text-sm",
+  md: "h-10 px-4 text-base",
+  lg: "h-12 px-6 text-lg",
+  xl: "h-14 px-8 text-xl",
+};
+
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
@@ -50,27 +71,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
-    const baseStyles =
-      "inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed";
-
-    const variants = {
-      blue: "bg-blue-600 hover:bg-blue-700 text-white",
-      orange: "bg-orange-600 hover:bg-orange-700 text-white",
-      red: "bg-red-600 hover:bg-red-700 text-white",
-      black: "bg-black hover:bg-gray-900 text-white",
-      gray: "bg-gray-600 hover:bg-gray-700 text-white",
-      outline: "border-2 border-current bg-transparent hover:bg-gray-100",
-      ghost: "bg-transparent hover:bg-gray-100",
-      link: "bg-transparent underline-offset-4 hover:underline p-0",
-    };
-
-    const sizes = {
-      sm: "h-8 px-3 text-sm",
-      md: "h-10 px-4 text-base",
-      lg: "h-12 px-6 text-lg",
-      xl: "h-14 px-8 text-xl",
-    };
-
     const buttonClasses = `${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`;
 
     return (
