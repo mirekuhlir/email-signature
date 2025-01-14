@@ -9,6 +9,7 @@ import TextInput from "@/components/ui/text-input";
 import RichTextEditor from "@/components/ui/rich-text-editor";
 import Select from "@/components/ui/select";
 import { TextEditor } from "@/components/ui/text-editor-full/text-editor";
+import StyledLink from "@/components/ui/styled-link";
 
 const TypographyExample = () => {
   return (
@@ -410,6 +411,61 @@ const SelectExample = () => {
   );
 };
 
+const StyledLinkExample = () => {
+  return (
+    <div className="bg-gray-100 p-4">
+      <div className="bg-white p-6 rounded shadow-md w-full max-w-md space-y-4">
+        <StyledLink href="/" variant="default">
+          Default Link
+        </StyledLink>
+
+        <StyledLink href="/" variant="primary">
+          Primary Link
+        </StyledLink>
+
+        <StyledLink href="/" variant="secondary">
+          Secondary Link
+        </StyledLink>
+
+        <StyledLink href="/" variant="underline">
+          Underline Link
+        </StyledLink>
+
+        <StyledLink href="/" variant="button-blue">
+          Blue Button Link
+        </StyledLink>
+
+        <StyledLink href="/" variant="button-orange">
+          Orange Button Link
+        </StyledLink>
+
+        <StyledLink href="/" variant="button-red">
+          Red Button Link
+        </StyledLink>
+
+        <StyledLink href="/" variant="button-black">
+          Black Button Link
+        </StyledLink>
+
+        <StyledLink href="/" variant="button-gray">
+          Gray Button Link
+        </StyledLink>
+
+        <StyledLink href="/" variant="button-outline">
+          Outline Button Link
+        </StyledLink>
+
+        <StyledLink href="/" variant="button-ghost">
+          Ghost Button Link
+        </StyledLink>
+
+        <StyledLink href="/" variant="button-link">
+          Button Link Style
+        </StyledLink>
+      </div>
+    </div>
+  );
+};
 export default function DesignSystem() {
   return (
     <div className="w-full">
@@ -421,6 +477,7 @@ export default function DesignSystem() {
       <RichTextEditorExample />
       <SelectExample />
       <TextEditor />
+      <StyledLinkExample />
     </div>
   );
 }
