@@ -5,7 +5,7 @@ export const SignaturesList = (props: any) => {
   const { signatures } = props;
 
   return (
-    <main className="flex-grow w-full pt-16">
+    <div className="flex-grow w-full pt-16">
       <Typography variant="h1">Signatures</Typography>
 
       {signatures?.map((signature: any) => (
@@ -24,6 +24,6 @@ export const SignaturesList = (props: any) => {
           </div>
         </div>
       ))}
-    </main>
+    </div>
   );
 };
