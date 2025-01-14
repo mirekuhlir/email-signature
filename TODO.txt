@@ -1,6 +1,26 @@
 TODOs
 
+Hezčí page loading komponenta a přidaj ji všude k page
+
 -
+
+Editor
+
+Každá sekce bude mít svůj jedinečný identifikátor
+Každý obrázek bude mít idetifákátor podle sekce název_sekce_identifikátor
+Při uložení se projdou identifikátory a, obrázek, který nebude mít identifikátor se vymaže
+Omezit maximální počet obrázků - 20
+
+uložení na S3? 
+id_podpisu/idsekce-název.jpg
+Formát jpg?
+
+Nedávat zde id uživatele, aby to nebylo dosptupný veřejně?
+Generovat odkaz na image nějak jinak? 
+
+
+
+---
 
 Projít si konec
 https://supabase.com/docs/guides/auth/server-side/nextjs
