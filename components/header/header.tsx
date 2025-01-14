@@ -1,20 +1,11 @@
-import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { Typography } from "@/components/ui/typography";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { signOutAction } from "@/app/actions";
 
-export const Header = async () => {
-  const supabase = await createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    return redirect("/sign-in");
-  }
+export const Header = (props: any) => {
+  const { user } = props;
 
   return (
     <header className="fixed top-0 w-full bg-white/80 backdrop-blur-lg border-b border-gray-200 shadow-lg z-50">
