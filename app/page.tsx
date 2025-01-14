@@ -13,7 +13,7 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      <Header />
+      <Header user={user} />
 
       {/* Hero Section */}
       <main className="flex-grow w-full pt-16">

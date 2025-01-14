@@ -2,6 +2,7 @@ import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { Header } from "@/components/header/header";
 import { SignaturesList } from "@/components/signatures-list/signatures-list";
+import { Container } from "@/components/ui/container";
 
 export default async function Signatures() {
   const supabase = await createClient();
@@ -22,11 +23,11 @@ export default async function Signatures() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       <Header user={user} />
-      <main className="flex-grow w-full pt-16">
-        <SignaturesList signatures={data} />;
+      <main>
+        <Container>
+          <SignaturesList signatures={data} />
+        </Container>
       </main>
     </div>
   );
-
-  return;
 }
