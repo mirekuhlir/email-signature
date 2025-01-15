@@ -1,5 +1,6 @@
-import { Typography } from "../ui/typography";
-import StyledLink from "../ui/styled-link";
+import { Typography } from "@/components/ui/typography";
+import StyledLink from "@/components/ui/styled-link";
+import t from "@/app/localization/translate";
 
 export const SignaturesList = (props: any) => {
   const { signatures } = props;
@@ -19,7 +20,7 @@ export const SignaturesList = (props: any) => {
               variant="button-blue"
               href={`/signatures/${signature.id}`}
             >
-              Edit
+              {t("edit")}
             </StyledLink>
           </div>
         </div>
