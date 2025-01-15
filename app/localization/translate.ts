@@ -1,17 +1,20 @@
-import {en} from "./en"
 
 
-const allLanguages = {
+import en from "./en.json" assert { type: "json" }
+
+type TranslationType = {
+    [key: string]: string
+}
+
+const allTranslations: Record<string, TranslationType> = {
     en,
 }
 
-const currentLanguage = "en"
+let currentLanguage = "en"
 
 const t = (key: string) => {
-
-
-    const currentTranslation = allLanguages[currentLanguage]
-    const targetKey = key as keyof typeof en
+    const currentTranslation = allTranslations[currentLanguage]
+    const targetKey = key as keyof typeof currentTranslation
 
     if (!currentTranslation[targetKey]) {
         return key
