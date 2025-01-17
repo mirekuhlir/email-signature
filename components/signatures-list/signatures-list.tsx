@@ -6,7 +6,7 @@ export const SignaturesList = (props: any) => {
   const { signatures } = props;
 
   return (
-    <div className="flex-grow w-full pt-16">
+    <div className="w-full">
       <Typography variant="h1">Signatures</Typography>
 
       {signatures?.map((signature: any) => (
