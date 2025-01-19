@@ -1,5 +1,10 @@
 TODOs
 
+
+název
+https://signature.email/generator
+
+
 Hezčí page loading komponenta a přidaj ji všude k page
 
 -

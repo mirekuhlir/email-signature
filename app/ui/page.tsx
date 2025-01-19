@@ -122,7 +122,7 @@ const TypographyExample = () => {
 
       {/* Section 3 */}
       <Typography variant="h3" textColor="text-purple-800" underline>
-        Section 3 - Subheading (Underline)
+        Section h3 - Subheading (Underline)
       </Typography>
       <Typography variant="lead" textColor="text-blue-500" italic>
         This paragraph is styled using the lead variant. It is intended to be a
@@ -133,7 +133,7 @@ const TypographyExample = () => {
 
       {/* Section 4 */}
       <Typography variant="h4" textColor="text-red-500" linethrough>
-        Section 4 - Subheading (Line-through)
+        Section h4 - Subheading (Line-through)
       </Typography>
       <Typography variant="large" textColor="text-teal-500">
         This is another paragraph using the "large" variant. It is slightly
