@@ -2,7 +2,7 @@ import React from "react";
 import { UseFormRegister, FieldErrors } from "react-hook-form";
 
 interface TextInputProps {
-  label: string;
+  label?: string;
   name: string;
   register: UseFormRegister<any>;
   required?: boolean;
@@ -24,10 +24,12 @@ const TextInput: React.FC<TextInputProps> = ({
 
   return (
     <div className="mb-4">
-      <label htmlFor={name} className="block text-gray-700 font-bold mb-2">
-        {label}
-        {validation?.required && " *"}
-      </label>
+      {label && (
+        <label htmlFor={name} className="block text-gray-700 font-bold mb-2">
+          {label}
+          {validation?.required && " *"}
+        </label>
+      )}
       <input
         id={name}
         {...register(name, { ...validation })}
