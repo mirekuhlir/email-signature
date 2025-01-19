@@ -8,81 +8,187 @@ import t from "@/app/localization/translate";
 import TextInput from "../ui/text-input";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Column, Row, Section } from "@react-email/components";
+import { signature_a } from "@/templates/signature_a";
+import { SignaturePart } from "@/const/signature-parts";
 
 export interface StoreState {
   rows: any[];
-  setContent: (id: string, content: string) => void;
-  setStyle: (id: string, style: Partial<any>) => void;
-  addItem: (id: string, item: any) => void;
-  removeItem: (id: any) => void;
+  addRow: (path: string) => void;
+  addColumn: (path: string) => void;
+  removeColumn: (path: string) => void;
+  removeRow: (path: string) => void;
+  /*   addItem: (path: string) => void;
+  removeItem: (path: string) => void; */
 }
+
+const traversePath = (obj: any, path: string): any => {
+  const parts = path.split(".");
+  let current = obj;
+
+  for (let i = 0; i < parts.length - 1; i++) {
+    if (current.rows) {
+      current = current.rows[parseInt(parts[i])];
+    } else if (current.columns) {
+      current = current.columns[parseInt(parts[i])];
+    }
+  }
+
+  return current;
+};
+
+const updatePaths = (rows: any[], basePath: string = "") => {
+  rows.forEach((row, rowIndex) => {
+    const currentPath = basePath ? `${basePath}.${rowIndex}` : `${rowIndex}`;
+    row.path = currentPath;
+
+    row.columns?.forEach((column: any, colIndex: number) => {
+      const columnPath = `${currentPath}.${colIndex}`;
+      column.path = columnPath;
+
+      if (column.rows) {
+        updatePaths(column.rows, columnPath);
+      }
+    });
+  });
+  return rows;
+};
 
 // barvy - rgba nebo hex?
 
 const useStore = create<StoreState>((set) => ({
-  rows: [
-    {
-      path: "0",
-      style: { backgroundColor: "red" },
-      columns: [
-        {
-          path: "0.0",
-          content: { text: "A" },
-          style: { paddingRight: "10px" },
-        },
-        {
-          path: "0.1",
-          style: {},
-          rows: [
-            {
-              path: "0.1.0",
-              style: {},
-              columns: [
-                {
-                  content: { text: "A" },
-                  style: { backgroundColor: "orange" },
-                },
-              ],
-            },
-            {
-              path: "0.1.1",
-              style: {},
-              columns: [
-                {
-                  content: { text: "B" },
-                  style: { backgroundColor: "orange" },
-                },
-              ],
-            },
-            {
-              path: "0.1.2",
-              style: { background: "green", color: "white" },
-              columns: [
-                {
-                  content: { text: "C" },
-                  style: { backgroundColor: "orange" },
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    },
-  ],
+  rows: signature_a,
+  setContent: (path: string, content: any) =>
+    set((state) => {
+      const newRows = [...state.rows];
+      const target = traversePath(newRows, path);
+      const lastIndex = parseInt(path.split(".").pop() || "0");
 
-  addItem: (path: string, item: any) => set((state) => {}),
-  setContent: (path: string, content: any) => set((state) => {}),
-  setStyle: (path: string, style: any) => set((state) => {}),
-  removeItem: (path: string) => set((state) => {}),
-  addRow: (path: string) => set((state) => {}),
-  removeRow: (path: string) => set((state) => {}),
-  addColumn: (path: string) => set((state) => {}),
-  removeColumn: (path: string) => set((state) => {}),
+      if (target.columns) {
+        target.columns[lastIndex].content = content;
+      }
+
+      return { rows: newRows };
+    }),
+
+  setStyle: (path: string, style: any) =>
+    set((state) => {
+      const newRows = [...state.rows];
+      const target = traversePath(newRows, path);
+      const lastIndex = parseInt(path.split(".").pop() || "0");
+
+      if (target.columns) {
+        target.columns[lastIndex].style = {
+          ...target.columns[lastIndex].style,
+          ...style,
+        };
+      } else if (target.rows) {
+        target.rows[lastIndex].style = {
+          ...target.rows[lastIndex].style,
+          ...style,
+        };
+      }
+
+      return { rows: newRows };
+    }),
+
+  addRow: (path: string) =>
+    set((state) => {
+      const newRows = [...state.rows];
+      const target = traversePath(newRows, path);
+      const newRow = {
+        path: "",
+        style: {},
+        columns: [
+          {
+            path: "",
+            content: { text: "New" },
+            style: {},
+          },
+        ],
+      };
+
+      if (path === "-1") {
+        // Add at the beginning
+        newRows.unshift(newRow);
+      } else if (path === String(newRows.length)) {
+        // Add at the end
+        newRows.push(newRow);
+      } else if (target.rows) {
+        target.rows.push(newRow);
+      } else if (target.columns) {
+        // Adding a row inside an empty column
+        const lastIndex = parseInt(path.split(".").pop() || "0");
+        target.columns[lastIndex].rows = [newRow];
+      }
+
+      return { rows: updatePaths(newRows) };
+    }),
+
+  removeRow: (path: string) =>
+    set((state) => {
+      const newRows = [...state.rows];
+      const parts = path.split(".");
+      const lastIndex = parseInt(parts.pop() || "0");
+      const target = traversePath(newRows, parts.join("."));
+
+      if (target.rows) {
+        target.rows.splice(lastIndex, 1);
+      }
+
+      return { rows: updatePaths(newRows) };
+    }),
+
+  addColumn: (path: string) =>
+    set((state) => {
+      const newRows = [...state.rows];
+      const target = traversePath(newRows, path);
+      const lastIndex = parseInt(path.split(".").pop() || "0");
+
+      const newColumn = {
+        path: "",
+        content: { text: "New Column" },
+        style: {},
+      };
+
+      if (target.columns) {
+        target.columns.push(newColumn);
+      } else if (target.rows) {
+        target.rows[lastIndex].columns.push(newColumn);
+      }
+
+      return { rows: updatePaths(newRows) };
+    }),
+
+  removeColumn: (path: string) =>
+    set((state) => {
+      const newRows = [...state.rows];
+      const parts = path.split(".");
+      const lastIndex = parseInt(parts.pop() || "0");
+      const target = traversePath(newRows, parts.join("."));
+
+      if (target.columns && target.columns.length > 1) {
+        target.columns.splice(lastIndex, 1);
+      }
+
+      return { rows: updatePaths(newRows) };
+    }),
 }));
 export const SignatureDetail = (props: any) => {
   const { signatureDetail } = props;
 
-  const { rows } = useStore();
+  const {
+    rows,
+    addRow,
+    addColumn,
+    removeColumn,
+    removeRow,
+    /*     addItem,
+    removeItem, */
+    /*   setContent,
+    setStyle, */
+  } = useStore();
+
+  console.log("rows", rows);
 
   const [isDarkMode, setIsDarkMode] = useState(false);
 
@@ -174,10 +280,7 @@ export const SignatureDetail = (props: any) => {
     }
   }
 
-  // sekce jasně pojmenované náhled podpisu
-  // editace podpoisu
-
-  const MyEmailTemplate = () => {
+  const EmailTemplateTables = () => {
     const renderColumn = (column: any, path: string) => {
       return (
         <Column style={column.style} id={path}>
@@ -205,6 +308,102 @@ export const SignatureDetail = (props: any) => {
     return <Section>{renderRows(rows)}</Section>;
   };
 
+  const TextInputSection = (props: any) => {
+    const { path, text } = props;
+
+    return (
+      <>
+        <TextInput
+          name={path}
+          register={register}
+          validation={{
+            required: "This field is required",
+            minLength: {
+              value: 2,
+              message: "Minimum 2 characters",
+            },
+            maxLength: {
+              value: 4,
+              message: "Maximum 4 characters",
+            },
+          }}
+          errors={errors}
+          placeholder="Name"
+        />
+      </>
+    );
+  };
+
+  const getSignaturePart = (path: string, column: any) => {
+    if (column.type === SignaturePart.TEXT) {
+      return <TextInputSection path={path} text={column.content?.text} />;
+    }
+    return null;
+  };
+
+  const EmailTemplateDivs = () => {
+    const { rows, addRow } = useStore();
+
+    const renderColumn = (column: any, path: string) => {
+      return (
+        <div
+          style={{
+            ...column.style,
+            display: "table-cell",
+            width: "0%",
+          }}
+          id={path}
+        >
+          {getSignaturePart(path, column)}
+          {column.rows && renderRows(column.rows, `${path}`)}
+        </div>
+      );
+    };
+
+    const renderRows = (rows: any, basePath: string = "") => {
+      return rows.map((row: any, index: number) => {
+        const currentPath = basePath ? `${basePath}.${index}` : `${index}`;
+        return (
+          <div
+            key={index}
+            style={{
+              ...row.style,
+              width: "100%",
+            }}
+          >
+            {row.columns.map((column: any, colIndex: number) => (
+              <Fragment key={colIndex}>
+                {renderColumn(column, `${currentPath}.${colIndex}`)}
+              </Fragment>
+            ))}
+          </div>
+        );
+      });
+    };
+
+    return (
+      <div className="">
+        <Button
+          /*           className="absolute -top-8 left-0" */
+          onClick={() => addRow("-1")}
+          size="sm"
+        >
+          Add Row to Start
+        </Button>
+
+        <div>{renderRows(rows)}</div>
+
+        <Button
+          /*           className="absolute -bottom-8 left-0" */
+          onClick={() => addRow(String(rows.length))}
+          size="sm"
+        >
+          Add Row to End
+        </Button>
+      </div>
+    );
+  };
+
   return (
     <Container>
       <Typography variant="h1">Signature</Typography>
@@ -213,54 +412,36 @@ export const SignatureDetail = (props: any) => {
       <Button onClick={() => setIsDarkMode(!isDarkMode)}>
         {isDarkMode ? "Set light Mode" : "Set dark Mode"}
       </Button>
-      <>
-        <Button onClick={() => handleCopy("signature4")}>Copy Signature</Button>
 
-        <Typography variant="h3">{t("signatureEdit")}</Typography>
+      <Typography variant="h3">{t("signatureEdit")}</Typography>
+
+      <div className="w-full flex justify-center">
         <div>
-          <div>
-            {Array.from(["1", "2"]).map((key) => (
-              <div key={key}>
-                <TextInput
-                  label="Name"
-                  name={key}
-                  register={register}
-                  validation={{
-                    required: "This field is required",
-                    minLength: {
-                      value: 2,
-                      message: "Minimum 2 characters",
-                    },
-                    maxLength: {
-                      value: 4,
-                      message: "Maximum 4 characters",
-                    },
-                  }}
-                  errors={errors}
-                  placeholder="Name"
-                />
-              </div>
-            ))}
+          <div
+            id="signature5"
+            style={{
+              display: "table",
+            }}
+          >
+            <EmailTemplateTables />
+          </div>
+          <div
+            style={{
+              display: "table",
+            }}
+          >
+            <EmailTemplateDivs />
           </div>
         </div>
+      </div>
 
-        <div
-          id="signature5"
-          style={{
-            display: "table",
-          }}
-        >
-          <MyEmailTemplate />
-        </div>
-
-        <Button
-          onClick={() => {
-            handleCopy("signature5");
-          }}
-        >
-          Copy Signature
-        </Button>
-      </>
+      <Button
+        onClick={() => {
+          handleCopy("signature5");
+        }}
+      >
+        Copy Signature
+      </Button>
     </Container>
   );
 };
