@@ -1,11 +1,11 @@
 import { create } from "zustand";
-import { traversePath, updatePaths,incrementLastNumber } from "./utils";
+import { traversePath, updatePaths,incrementLastNumber,decreaseLastNumber } from "./utils";
 import { signature_a } from "@/templates/signature_a";
 import { SignaturePart } from "@/const/signature-parts";
 
 export interface StoreState {
   rows: any[];
-  addRow: (path: string) => void;
+  addRow: (path?: string, position? : 'start' | 'end') => void;
   addColumn: (path: string) => void;
   removeColumn: (path: string) => void;
   removeRow: (path: string) => void;
@@ -52,10 +52,54 @@ export const useStore = create<StoreState>((set) => ({
 
   
    // TODO - rozlišit přidání na začátek a na konec 
-  addRow: (path: string) =>
+  addRow: (path?: string, position: "start" | "end" = "end") =>
     set((state) => {
 
       const updatedState = JSON.parse(JSON.stringify(state))
+
+      if(!path) {
+
+        if(position === "start"){
+          updatedState.rows = [
+            {
+              style: {},
+              path: decreaseLastNumber(updatedState.rows[0].path),
+              columns: [
+                {
+                  // struktura s row 
+                  // path
+                  type: SignaturePart.TEXT,
+                  content: { text: "My text" },
+                  style: {},
+                },
+              ],
+            },
+            ...updatedState.rows,
+          ]
+
+          return {rows : updatedState.rows};
+        }
+
+        // TODO - path, row
+        updatedState.rows = [
+            ...updatedState.rows,
+            {
+              style: {},
+              path: incrementLastNumber(updatedState.rows[updatedState.rows.length - 1].path),
+              columns: [
+                {
+                  type: SignaturePart.TEXT,
+                  content: { text: "My text" },
+                  style: {},
+                },
+              ],
+            },
+          ]
+
+          return {rows : updatedState.rows};
+
+
+      }
 
 
       const traverse = (items : any, targetPath: string): boolean => {
@@ -65,6 +109,8 @@ export const useStore = create<StoreState>((set) => ({
           if (item.path === targetPath && Array.isArray(item.rows)) {
             console.warn("item.rows", item.rows)
             const lastRow = item.rows[item.rows.length - 1]
+
+            // TODO - start a end
 
             item.rows  = [...item.rows,{
               style: {},

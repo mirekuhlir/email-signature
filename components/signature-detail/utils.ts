@@ -99,7 +99,14 @@ export   const handleCopy = async (signatureId: string) => {
 
   export const incrementLastNumber = (versionString: string): string => {
     const parts = versionString.split('.');
-    
+
+
+    if(parts.length === 1){
+     const number  = parseInt(parts[0], 10);
+     const incrementNumber = number + 1;
+     return String(incrementNumber);
+    }
+
     const lastPart = parts.pop(); 
       if(lastPart == undefined){
         return versionString; 
@@ -112,4 +119,29 @@ export   const handleCopy = async (signatureId: string) => {
     const incrementedLastNumber = lastNumber + 1;
     
     return [...parts, String(incrementedLastNumber)].join('.'); 
+  
   };
+
+  export const decreaseLastNumber = (versionString: string): string => {
+    const parts = versionString.split('.');
+
+    if(parts.length === 1){
+     const number  = parseInt(parts[0], 10);
+     const incrementNumber = number - 1;
+     return String(incrementNumber);
+    }
+
+    const lastPart = parts.pop();
+    if(lastPart == undefined){
+        return versionString;
+      }
+    const lastNumber = parseInt(lastPart, 10);
+    if (isNaN(lastNumber)) {
+      return versionString;
+    }
+
+    const decrementedLastNumber = lastNumber - 1;
+
+    return [...parts, String(decrementedLastNumber)].join('.');
+  }
+

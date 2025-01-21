@@ -9,9 +9,20 @@ export const signature_a =
           columns: [
             {
               path: "0.0",
-              type: SignaturePart.TEXT,
-              content: { text: "A" },
-              style: { paddingRight: "10px", verticalAlign: "middle" },
+              style: {},
+              rows: [
+                {
+                  path: "0.0.0",
+                  style: {},
+                  columns: [
+                    {
+                    type: SignaturePart.TEXT,
+                    content: { text: "A" },
+                    style: { backgroundColor: "red" },
+                    },
+                    ],
+                  }
+                ],
             },
             {
               path: "0.1",

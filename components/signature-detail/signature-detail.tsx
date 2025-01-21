@@ -58,13 +58,19 @@ export const SignatureDetail = (props: any) => {
 
     console.warn("rows", rows);
 
-    const renderAddRowButton = ({ path }: { path: string }) => {
+    const renderAddRowButton = ({
+      path,
+      position,
+    }: {
+      path: string;
+      position?: "start" | "end";
+    }) => {
       // TODO - nějaký výčet cest
-      if (path === "0.1") {
+      if (path === "0.0" || path === "0.1" || path === "") {
         return (
           <Button
             onClick={() => {
-              addRow(path);
+              addRow(path, position);
             }}
           >
             Add row
@@ -116,15 +122,17 @@ export const SignatureDetail = (props: any) => {
 
     return (
       <>
-        <Button onClick={() => addRow("-1")} size="sm">
-          Add Row to Start
-        </Button>
-
+        <>
+          {renderAddRowButton({
+            path: "",
+            position: "start",
+          })}
+        </>
         <>{renderRows(rows)}</>
-
-        <Button onClick={() => addRow(String(rows.length))} size="sm">
-          Add Row to End
-        </Button>
+        {renderAddRowButton({
+          path: "",
+          position: "end",
+        })}
       </>
     );
   };
