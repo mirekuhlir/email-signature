@@ -41,7 +41,6 @@ export const signature_a =
                 },
                 {
                   path: "0.1.2",
-                  style: { background: "green", color: "white" },
                   columns: [
                     {
                         type: SignaturePart.TEXT,

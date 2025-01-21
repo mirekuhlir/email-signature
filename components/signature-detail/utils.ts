@@ -96,3 +96,20 @@ export   const handleCopy = async (signatureId: string) => {
       return `#${((1 << 24) + (newR << 16) + (newG << 8) + newB).toString(16).slice(1).toUpperCase()}`;
     }
   }
+
+  export const incrementLastNumber = (versionString: string): string => {
+    const parts = versionString.split('.');
+    
+    const lastPart = parts.pop(); 
+      if(lastPart == undefined){
+        return versionString; 
+      }
+    const lastNumber = parseInt(lastPart, 10);
+    if (isNaN(lastNumber)) {
+      return versionString; 
+    }
+  
+    const incrementedLastNumber = lastNumber + 1;
+    
+    return [...parts, String(incrementedLastNumber)].join('.'); 
+  };

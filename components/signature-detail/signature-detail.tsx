@@ -56,6 +56,25 @@ export const SignatureDetail = (props: any) => {
   const EmailTemplateDivs = () => {
     const { rows, addRow } = useStore();
 
+    console.warn("rows", rows);
+
+    const renderAddRowButton = ({ path }: { path: string }) => {
+      // TODO - nějaký výčet cest
+      if (path === "0.1") {
+        return (
+          <Button
+            onClick={() => {
+              addRow(path);
+            }}
+          >
+            Add row
+          </Button>
+        );
+      }
+
+      return null;
+    };
+
     const renderColumn = (column: any, path: string) => {
       return (
         <div
@@ -67,17 +86,19 @@ export const SignatureDetail = (props: any) => {
           id={path}
         >
           {getSignaturePart(path, column)}
-          {column.rows && renderRows(column.rows, `${path}`)}
+          {column.rows && renderRows(column.rows)}
+          {renderAddRowButton({
+            path,
+          })}
         </div>
       );
     };
 
-    const renderRows = (rows: any, basePath: string = "") => {
-      return rows.map((row: any, index: number) => {
-        const currentPath = basePath ? `${basePath}.${index}` : `${index}`;
+    const renderRows = (rows: any) => {
+      return rows.map((row: any, rowIndex: number) => {
         return (
           <div
-            key={index}
+            key={rowIndex}
             style={{
               ...row.style,
               /*   width: "100%", */
@@ -85,7 +106,7 @@ export const SignatureDetail = (props: any) => {
           >
             {row.columns.map((column: any, colIndex: number) => (
               <Fragment key={colIndex}>
-                {renderColumn(column, `${currentPath}.${colIndex}`)}
+                {renderColumn(column, column.path)}
               </Fragment>
             ))}
           </div>
@@ -110,8 +131,8 @@ export const SignatureDetail = (props: any) => {
 
   return (
     <Container>
-      <Typography variant="h1">Signature</Typography>
-      <Typography variant="h3">{signatureDetail.id}</Typography>
+      {/*    <Typography variant="h1">Signature</Typography>
+      <Typography variant="h3">{signatureDetail.id}</Typography> */}
 
       <Button onClick={() => setIsDarkMode(!isDarkMode)}>
         {isDarkMode ? "Set light Mode" : "Set dark Mode"}
