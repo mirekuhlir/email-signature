@@ -1,29 +1,27 @@
 import { SignaturePart } from "@/const/signature-parts";
 
-// TODO - path vymyslet
-
 export const signature_a = [
   {
     path: "-1",
     style: { backgroundColor: "purple" },
     columns: [
       {
-        path: "0.1",
-        style: {},
+        path: "-1.0",
+        style: {
+          verticalAlign: "top",
+        },
         content: { text: "A" },
       },
       {
-        path: "0.2",
-        style: {},
+        path: "-1.1",
         rows: [{
-          path: "0.2.0",
+          path: "-1.1.0",
           style: { backgroundColor: "red" },
           content: {
             text: "123",
           },
         }, {
-          path: "0.3.0",
-          style: {},
+          path: "-1.1.1",
           content: {
             text: "124",
           },
@@ -36,57 +34,30 @@ export const signature_a = [
     style: { backgroundColor: "red" },
     columns: [
       {
-        path: "1.0",
-        style: {},
-        rows: [
-          {
-            path: "1.0.0",
-            style: {},
-            columns: [
-              {
-                type: SignaturePart.TEXT,
-                content: { text: "A" },
-                style: { backgroundColor: "red" },
-              },
-            ],
-          },
-        ],
+        path: "0.1",
+        content: { text: "A" },
+        style: { backgroundColor: "red" },
       },
       {
-        path: "0.1",
-        style: {},
+        path: "0.2",
         rows: [
           {
-            path: "1.1.0",
-            style: {},
-            columns: [
-              {
-                type: SignaturePart.TEXT,
-                content: { text: "B" },
-                style: { backgroundColor: "green" },
-              },
-            ],
+            path: "0.2.0",
+            type: SignaturePart.TEXT,
+            content: { text: "B" },
+            style: { backgroundColor: "green" },
           },
           {
-            path: "1.1.1",
-            style: {},
-            columns: [
-              {
-                type: SignaturePart.TEXT,
-                content: { text: "C" },
-                style: { backgroundColor: "blue" },
-              },
-            ],
+            path: "0.2.1",
+            type: SignaturePart.TEXT,
+            content: { text: "C" },
+            style: { backgroundColor: "blue" },
           },
           {
-            path: "1.1.2",
-            columns: [
-              {
-                type: SignaturePart.TEXT,
-                content: { text: "D" },
-                style: { backgroundColor: "orange" },
-              },
-            ],
+            path: "0.2.2",
+            type: SignaturePart.TEXT,
+            content: { text: "D" },
+            style: { backgroundColor: "orange" },
           },
         ],
       },

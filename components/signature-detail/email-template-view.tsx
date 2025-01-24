@@ -1,46 +1,48 @@
-import { Column, Row, Section } from "@react-email/components";
 import { Fragment } from "react";
+import { getContent } from "./utils";
 
 export const EmailTemplateView = (props: any) => {
   const { rows } = props;
 
-  // donefinovat path a key
-  // border a presentation
+  const renderColumn = (column: any) => {
+    const content = getContent(column.content);
 
-  const renderColumn = (column: any, path: string) => {
-    // TODO - nebude jen text, rozeznávat type
-    if (column.content?.text) {
-      return (
-        <td style={column.style} key={path}>
-          {column.content?.text}
-        </td>
-      );
+    if (content) {
+      return <td style={column.style}>{content}</td>;
     }
 
     return (
-      <td style={column.style} id={path}>
-        <table key={path} width={"100%"}>
-          <tbody>{column.rows && renderRows(column.rows, `${path}`)}</tbody>
+      <td style={column.style}>
+        <table
+          key={column}
+          border={0}
+          cellPadding="0"
+          cellSpacing="0"
+          role="presentation"
+        >
+          <tbody>{column.rows && renderRows(column.rows)}</tbody>
         </table>
       </td>
     );
   };
 
-  // pryč path
-
-  const renderRows = (rows: any, basePath: string = "") => {
-    return rows.map((row: any, index: number) => {
+  const renderRows = (rows: any) => {
+    return rows.map((row: any) => {
       const isFirstRow = !row.path.includes(".");
 
       if (isFirstRow) {
         return (
-          <table key={`table${index}`} width={"100%"}>
+          <table
+            key={`table-${row.path}`}
+            border={0}
+            cellPadding="0"
+            cellSpacing="0"
+            role="presentation"
+          >
             <tbody>
-              <tr key={index} style={row.style}>
-                {row.columns?.map((column: any, colIndex: number) => (
-                  <Fragment key={colIndex}>
-                    {renderColumn(column, row.path)}
-                  </Fragment>
+              <tr key={`tr-${row.path}`} style={row.style}>
+                {row.columns?.map((column: any) => (
+                  <Fragment key={column.path}>{renderColumn(column)}</Fragment>
                 ))}
               </tr>
             </tbody>
@@ -48,19 +50,22 @@ export const EmailTemplateView = (props: any) => {
         );
       }
 
-      // TODO - nebude jen text, rozeznávat type
+      const content = getContent(row.content);
+
       if (row.content?.text) {
         return (
-          <tr key={`row-${index}`} style={row.style}>
-            <td key={row.path}>{row.content.text}</td>
+          <tr key={`tr-${row.path}`} style={row.style}>
+            <td key={row.path}>{content}</td>
           </tr>
         );
       }
 
       return (
-        <tr key={`row-${index}`} style={row.style}>
-          {row.columns?.map((column: any, colIndex: number) => (
-            <Fragment key={colIndex}>{renderColumn(column, row.path)}</Fragment>
+        <tr key={`tr-${row.path}`} style={row.style}>
+          {row.columns?.map((column: any) => (
+            <Fragment key={`td-${column.path}`}>
+              {renderColumn(column)}
+            </Fragment>
           ))}
         </tr>
       );
