@@ -56,8 +56,6 @@ export const SignatureDetail = (props: any) => {
   const EmailTemplateDivs = () => {
     const { rows, addRow } = useStore();
 
-    console.warn("rows", rows);
-
     const renderAddRowButton = ({
       path,
       position,
@@ -89,7 +87,7 @@ export const SignatureDetail = (props: any) => {
             display: "table-cell",
             /*             width: "fit-content", */
           }}
-          id={path}
+          /*         id={path} */
         >
           {getSignaturePart(path, column)}
           {column.rows && renderRows(column.rows)}
@@ -110,7 +108,7 @@ export const SignatureDetail = (props: any) => {
               /*   width: "100%", */
             }}
           >
-            {row.columns.map((column: any, colIndex: number) => (
+            {row.columns?.map((column: any, colIndex: number) => (
               <Fragment key={colIndex}>
                 {renderColumn(column, column.path)}
               </Fragment>
@@ -163,7 +161,8 @@ export const SignatureDetail = (props: any) => {
               display: "table",
             }}
           >
-            <EmailTemplateDivs />
+            {/*   TODO - nadefinovat podle view */}
+            {/*        <EmailTemplateDivs /> */}
           </div>
         </div>
       </div>

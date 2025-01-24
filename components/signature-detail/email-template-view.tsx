@@ -4,29 +4,68 @@ import { Fragment } from "react";
 export const EmailTemplateView = (props: any) => {
   const { rows } = props;
 
+  // donefinovat path a key
+  // border a presentation
+
   const renderColumn = (column: any, path: string) => {
+    // TODO - nebude jen text, rozeznávat type
+    if (column.content?.text) {
+      return (
+        <td style={column.style} key={path}>
+          {column.content?.text}
+        </td>
+      );
+    }
+
     return (
-      <Column style={column.style} id={path}>
-        {column.content?.text}
-        {column.rows && renderRows(column.rows, `${path}`)}
-      </Column>
+      <td style={column.style} id={path}>
+        <table key={path} width={"100%"}>
+          <tbody>{column.rows && renderRows(column.rows, `${path}`)}</tbody>
+        </table>
+      </td>
     );
   };
 
+  // pryč path
+
   const renderRows = (rows: any, basePath: string = "") => {
     return rows.map((row: any, index: number) => {
-      const currentPath = basePath ? `${basePath}.${index}` : `${index}`;
+      const isFirstRow = !row.path.includes(".");
+
+      if (isFirstRow) {
+        return (
+          <table key={`table${index}`} width={"100%"}>
+            <tbody>
+              <tr key={index} style={row.style}>
+                {row.columns?.map((column: any, colIndex: number) => (
+                  <Fragment key={colIndex}>
+                    {renderColumn(column, row.path)}
+                  </Fragment>
+                ))}
+              </tr>
+            </tbody>
+          </table>
+        );
+      }
+
+      // TODO - nebude jen text, rozeznávat type
+      if (row.content?.text) {
+        return (
+          <tr key={`row-${index}`} style={row.style}>
+            <td key={row.path}>{row.content.text}</td>
+          </tr>
+        );
+      }
+
       return (
-        <Row key={index} style={row.style}>
-          {row.columns.map((column: any, colIndex: number) => (
-            <Fragment key={colIndex}>
-              {renderColumn(column, `${currentPath}.${colIndex}`)}
-            </Fragment>
+        <tr key={`row-${index}`} style={row.style}>
+          {row.columns?.map((column: any, colIndex: number) => (
+            <Fragment key={colIndex}>{renderColumn(column, row.path)}</Fragment>
           ))}
-        </Row>
+        </tr>
       );
     });
   };
 
-  return <Section>{renderRows(rows)}</Section>;
+  return <>{renderRows(rows)}</>;
 };
