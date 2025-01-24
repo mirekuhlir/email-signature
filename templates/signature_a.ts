@@ -36,7 +36,7 @@ export const signature_a = [
       {
         path: "0.1",
         content: { text: "A" },
-        style: { backgroundColor: "red" },
+        style: { backgroundColor: "red", verticalAlign: "bottom" },
       },
       {
         path: "0.2",

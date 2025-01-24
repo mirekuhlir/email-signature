@@ -10,7 +10,7 @@ import { SignaturePart } from "@/const/signature-parts";
 import { useStore } from "./store";
 import { handleCopy } from "./utils";
 import { EmailTemplateView } from "./email-template-view";
-import { getSignaturePart } from "./email-template-edit";
+import { EmailTemplateEdit } from "./email-template-edit";
 
 export const SignatureDetail = (props: any) => {
   const { signatureDetail } = props;
@@ -53,88 +53,6 @@ export const SignatureDetail = (props: any) => {
 
   const formValue = getValues();
 
-  const EmailTemplateDivs = () => {
-    const { rows, addRow } = useStore();
-
-    const renderAddRowButton = ({
-      path,
-      position,
-    }: {
-      path: string;
-      position?: "start" | "end";
-    }) => {
-      // TODO - nějaký výčet cest
-      if (path === "0.0" || path === "0.1" || path === "") {
-        return (
-          <Button
-            onClick={() => {
-              addRow(path, position);
-            }}
-          >
-            Add row
-          </Button>
-        );
-      }
-
-      return null;
-    };
-
-    const renderColumn = (column: any, path: string) => {
-      return (
-        <div
-          style={{
-            ...column.style,
-            display: "table-cell",
-            /*             width: "fit-content", */
-          }}
-          /*         id={path} */
-        >
-          {getSignaturePart(path, column)}
-          {column.rows && renderRows(column.rows)}
-          {renderAddRowButton({
-            path,
-          })}
-        </div>
-      );
-    };
-
-    const renderRows = (rows: any) => {
-      return rows.map((row: any, rowIndex: number) => {
-        return (
-          <div
-            key={rowIndex}
-            style={{
-              ...row.style,
-              /*   width: "100%", */
-            }}
-          >
-            {row.columns?.map((column: any, colIndex: number) => (
-              <Fragment key={colIndex}>
-                {renderColumn(column, column.path)}
-              </Fragment>
-            ))}
-          </div>
-        );
-      });
-    };
-
-    return (
-      <>
-        <>
-          {renderAddRowButton({
-            path: "",
-            position: "start",
-          })}
-        </>
-        <>{renderRows(rows)}</>
-        {renderAddRowButton({
-          path: "",
-          position: "end",
-        })}
-      </>
-    );
-  };
-
   return (
     <Container>
       {/*    <Typography variant="h1">Signature</Typography>
@@ -156,13 +74,13 @@ export const SignatureDetail = (props: any) => {
           >
             <EmailTemplateView rows={rows} />
           </div>
+          <div className="h-20" />
           <div
             style={{
               display: "table",
             }}
           >
-            {/*   TODO - nadefinovat podle view */}
-            {/*        <EmailTemplateDivs /> */}
+            <EmailTemplateEdit rows={rows} />
           </div>
         </div>
       </div>

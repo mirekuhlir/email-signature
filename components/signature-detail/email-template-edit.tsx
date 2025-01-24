@@ -1,36 +1,110 @@
-import { SignaturePart } from "@/const/signature-parts";
-import TextInput from "@/components/ui/text-input";
+import { Fragment } from "react";
+import { getContent } from "./utils";
 
-const TextInputSection = (props: any) => {
-  const { path, text } = props;
+// TODO - add row table
+// TODO - add row in column
 
-  return (
-    <>
-      {/*   <TextInput
-        name={path}
-        register={register}
-        validation={{
-          required: "This field is required",
-          minLength: {
-            value: 2,
-            message: "Minimum 2 characters",
-          },
-          maxLength: {
-            value: 4,
-            message: "Maximum 4 characters",
-          },
+export const EmailTemplateEdit = (props: any) => {
+  const { rows } = props;
+
+  const renderColumn = (column: any) => {
+    const content = getContent(column.content);
+    if (content) {
+      return (
+        <div
+          style={{
+            ...column.style,
+            display: "table-cell",
+          }}
+        >
+          {content}
+        </div>
+      );
+    }
+
+    return (
+      <div
+        style={{
+          ...column.style,
+          display: "table-cell",
         }}
-        errors={errors}
-        placeholder="Name"
-      /> */}
-      INPUT
-    </>
-  );
-};
+      >
+        <div
+          style={{
+            display: "table",
+          }}
+        >
+          {column.rows && renderRows(column.rows)}
+        </div>
+      </div>
+    );
+  };
 
-export const getSignaturePart = (path: string, column: any) => {
-  if (column.type === SignaturePart.TEXT) {
-    return <TextInputSection path={path} text={column.content?.text} />;
-  }
-  return null;
+  const renderRows = (rows: any) => {
+    return rows.map((row: any) => {
+      const isFirstRow = !row.path.includes(".");
+
+      if (isFirstRow) {
+        return (
+          <div
+            key={`table-${row.path}`}
+            style={{
+              display: "table",
+            }}
+          >
+            <div
+              style={{
+                display: "table-row",
+                ...row.style,
+              }}
+            >
+              {row.columns?.map((column: any) => (
+                <Fragment key={column.path}>{renderColumn(column)}</Fragment>
+              ))}
+            </div>
+          </div>
+        );
+      }
+
+      const content = getContent(row.content);
+
+      if (row.content?.text) {
+        return (
+          <div
+            key={`tr-${row.path}`}
+            style={{
+              ...row.style,
+              display: "table-row",
+            }}
+          >
+            <div
+              style={{
+                display: "table-cell",
+              }}
+            >
+              {content}
+            </div>
+          </div>
+        );
+      }
+
+      return (
+        <div
+          key={`tr-${row.path}`}
+          style={{
+            ...row.style,
+            display: "table-row",
+          }}
+        >
+          {row.columns?.map((column: any) => (
+            <Fragment key={`td-${column.path}`}>
+              {renderColumn(column)}
+            </Fragment>
+          ))}
+        </div>
+      );
+    });
+  };
+
+  return <>{renderRows(rows)}</>;
 };
