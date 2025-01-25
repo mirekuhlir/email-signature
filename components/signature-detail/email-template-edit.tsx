@@ -39,6 +39,7 @@ export const EmailTemplateEdit = (props: any) => {
           }}
         >
           {column.rows && renderRows(column.rows)}
+          <Button onClick={() => addRow(column.id)}>Add row</Button>
         </div>
       </div>
     );

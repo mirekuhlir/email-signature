@@ -1,194 +1,96 @@
 import { create } from "zustand";
-import { traversePath, updatePaths,incrementLastNumber,decreaseLastNumber } from "./utils";
 import { signature_a } from "@/templates/signature_a";
 import { SignaturePart } from "@/const/signature-parts";
+import { generateRandomId } from "@/utils/generateRandomId";
+
+// TODO - obsah
+const getRow = () => {
+  return ({
+    id: generateRandomId(),
+    style: { backgroundColor: "purple" },
+    columns: [
+      {
+        id: generateRandomId(),
+        style: {
+          verticalAlign: "top",
+        },
+        content: { text: "A" },
+      },
+      {
+        id: generateRandomId(),
+        rows: [{
+          id: generateRandomId(),
+          style: { backgroundColor: "red" },
+          content: {
+            text: "123",
+          },
+        }, {
+          id: generateRandomId(),
+          content: {
+            text: "124",
+          },
+        }],
+      },
+    ],
+  });
+};
 
 export interface StoreState {
   rows: any[];
-  addRow: (path?: string, position? : 'start' | 'end') => void;
-  addColumn: (path: string) => void;
-  removeColumn: (path: string) => void;
-  removeRow: (path: string) => void;
-  /*   addItem: (path: string) => void;
-    removeItem: (path: string) => void; */
+  addRow: (path?: string, position?: "start" | "end") => void;
 }
 
 // barvy - rgba nebo hex?
 
 export const useStore = create<StoreState>((set) => ({
   rows: signature_a,
-  setContent: (path: string, content: any) =>
+
+  addRow: (id?: string, position: "start" | "end" = "end") =>
     set((state) => {
-      const newRows = [...state.rows];
-      const target = traversePath(newRows, path);
-      const lastIndex = parseInt(path.split(".").pop() || "0");
+      const updatedState = JSON.parse(JSON.stringify(state));
 
-      if (target.columns) {
-        target.columns[lastIndex].content = content;
-      }
-
-      return { rows: newRows };
-    }),
-
-  setStyle: (path: string, style: any) =>
-    set((state) => {
-      const newRows = [...state.rows];
-      const target = traversePath(newRows, path);
-      const lastIndex = parseInt(path.split(".").pop() || "0");
-
-      if (target.columns) {
-        target.columns[lastIndex].style = {
-          ...target.columns[lastIndex].style,
-          ...style,
-        };
-      } else if (target.rows) {
-        target.rows[lastIndex].style = {
-          ...target.rows[lastIndex].style,
-          ...style,
-        };
-      }
-      return { rows: newRows };
-    }),
-
-  
-   // TODO - rozlišit přidání na začátek a na konec 
-  addRow: (path?: string, position: "start" | "end" = "end") =>
-    set((state) => {
-
-      const updatedState = JSON.parse(JSON.stringify(state))
-
-      if(!path) {
-
-        if(position === "start"){
+      if (!id) {
+        if (position === "start") {
           updatedState.rows = [
-            {
-              style: {},
-              path: decreaseLastNumber(updatedState.rows[0].path),
-              columns: [
-                {
-                  // struktura s row 
-                  // path
-                  type: SignaturePart.TEXT,
-                  content: { text: "My text" },
-                  style: {},
-                },
-              ],
-            },
+            getRow(),
             ...updatedState.rows,
-          ]
+          ];
 
-          return {rows : updatedState.rows};
+          return { rows: updatedState.rows };
         }
 
-        // TODO - path, row
         updatedState.rows = [
-            ...updatedState.rows,
-            {
-              style: {},
-              path: incrementLastNumber(updatedState.rows[updatedState.rows.length - 1].path),
-              columns: [
-                {
-                  type: SignaturePart.TEXT,
-                  content: { text: "My text" },
-                  style: {},
-                },
-              ],
-            },
-          ]
+          ...updatedState.rows,
+          getRow(),
+        ];
 
-          return {rows : updatedState.rows};
-
-
+        return { rows: updatedState.rows };
       }
 
-
-      const traverse = (items : any, targetPath: string): boolean => {
+      const traverse = (items: any, targetId: string): boolean => {
         for (let i = 0; i < items.length; i++) {
-          const item = items[i]
-          
-          if (item.path === targetPath && Array.isArray(item.rows)) {
-            console.warn("item.rows", item.rows)
-            const lastRow = item.rows[item.rows.length - 1]
+          const item = items[i];
 
+          if (item.id === targetId && Array.isArray(item.rows)) {
             // TODO - start a end
+            // TODO - správný obsah
+            item.rows = [...item.rows, getRow()];
 
-            item.rows  = [...item.rows,{
-              style: {},
-              path: incrementLastNumber(lastRow.path),
-              columns: [
-                // TODO - taky přidat path?
-                {
-                 // TODO - funkce a parametr na type 
-                type: SignaturePart.TEXT,
-                  content: { text: "My text" },
-                },
-              ],
-            }] 
+            return true;
+          }
 
-            return true
+          if (item.rows && traverse(item.rows, targetId)) {
+            return true;
           }
-          
-          if (item.rows && traverse(item.rows, targetPath)) {
-            return true
-          }
-          if (item.columns && traverse(item.columns, targetPath)) {
-            return true
+          if (item.columns && traverse(item.columns, targetId)) {
+            return true;
           }
         }
-        return false
-      }
-    
-      traverse(updatedState.rows, path)
-      return {rows : updatedState.rows};
-
-    }),
-
-  removeRow: (path: string) =>
-    set((state) => {
-      const newRows = [...state.rows];
-      const parts = path.split(".");
-      const lastIndex = parseInt(parts.pop() || "0");
-      const target = traversePath(newRows, parts.join("."));
-
-      if (target.rows) {
-        target.rows.splice(lastIndex, 1);
-      }
-
-      return { rows: updatePaths(newRows) };
-    }),
-
-  addColumn: (path: string) =>
-    set((state) => {
-      const newRows = [...state.rows];
-      const target = traversePath(newRows, path);
-      const lastIndex = parseInt(path.split(".").pop() || "0");
-
-      const newColumn = {
-        path: "",
-        content: { text: "New Column" },
-        style: {},
+        return false;
       };
 
-      if (target.columns) {
-        target.columns.push(newColumn);
-      } else if (target.rows) {
-        target.rows[lastIndex].columns.push(newColumn);
-      }
+      traverse(updatedState.rows, id);
 
-      return { rows: updatePaths(newRows) };
-    }),
-
-  removeColumn: (path: string) =>
-    set((state) => {
-      const newRows = [...state.rows];
-      const parts = path.split(".");
-      const lastIndex = parseInt(parts.pop() || "0");
-      const target = traversePath(newRows, parts.join("."));
-
-      if (target.columns && target.columns.length > 1) {
-        target.columns.splice(lastIndex, 1);
-      }
-
-      return { rows: updatePaths(newRows) };
+      return { rows: updatedState.rows };
     }),
 }));

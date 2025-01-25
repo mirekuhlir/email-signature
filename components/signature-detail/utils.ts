@@ -1,35 +1,3 @@
-export const traversePath = (obj: any, path: string): any => {
-  const parts = path.split(".");
-  let current = obj;
-
-  for (let i = 0; i < parts.length - 1; i++) {
-    if (current.rows) {
-      current = current.rows[parseInt(parts[i])];
-    } else if (current.columns) {
-      current = current.columns[parseInt(parts[i])];
-    }
-  }
-
-  return current;
-};
-
-export const updatePaths = (rows: any[], basePath: string = "") => {
-  rows.forEach((row, rowIndex) => {
-    const currentPath = basePath ? `${basePath}.${rowIndex}` : `${rowIndex}`;
-    row.path = currentPath;
-
-    row.columns?.forEach((column: any, colIndex: number) => {
-      const columnPath = `${currentPath}.${colIndex}`;
-      column.path = columnPath;
-
-      if (column.rows) {
-        updatePaths(column.rows, columnPath);
-      }
-    });
-  });
-  return rows;
-};
-
 export const handleCopy = async (signatureId: string) => {
   const signatureElement = document.getElementById(signatureId);
   if (signatureElement) {
@@ -98,52 +66,6 @@ function adjustColorForDarkMode(hex: string): string {
     }`;
   }
 }
-
-export const incrementLastNumber = (versionString: string): string => {
-  const parts = versionString.split(".");
-
-  if (parts.length === 1) {
-    const number = parseInt(parts[0], 10);
-    const incrementNumber = number + 1;
-    return String(incrementNumber);
-  }
-
-  const lastPart = parts.pop();
-  if (lastPart == undefined) {
-    return versionString;
-  }
-  const lastNumber = parseInt(lastPart, 10);
-  if (isNaN(lastNumber)) {
-    return versionString;
-  }
-
-  const incrementedLastNumber = lastNumber + 1;
-
-  return [...parts, String(incrementedLastNumber)].join(".");
-};
-
-export const decreaseLastNumber = (versionString: string): string => {
-  const parts = versionString.split(".");
-
-  if (parts.length === 1) {
-    const number = parseInt(parts[0], 10);
-    const incrementNumber = number - 1;
-    return String(incrementNumber);
-  }
-
-  const lastPart = parts.pop();
-  if (lastPart == undefined) {
-    return versionString;
-  }
-  const lastNumber = parseInt(lastPart, 10);
-  if (isNaN(lastNumber)) {
-    return versionString;
-  }
-
-  const decrementedLastNumber = lastNumber - 1;
-
-  return [...parts, String(decrementedLastNumber)].join(".");
-};
 
 export const getContent = (content?: any) => {
   if (content?.text) {
