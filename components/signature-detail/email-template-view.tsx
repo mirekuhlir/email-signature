@@ -19,6 +19,7 @@ export const EmailTemplateView = (props: any) => {
           cellPadding="0"
           cellSpacing="0"
           role="presentation"
+          width="100%"
         >
           <tbody>{column.rows && renderRows(column.rows)}</tbody>
         </table>
@@ -36,6 +37,7 @@ export const EmailTemplateView = (props: any) => {
             cellPadding="0"
             cellSpacing="0"
             role="presentation"
+            width="100%"
           >
             <tbody>
               <tr key={`tr-${row.id}`} style={row.style}>

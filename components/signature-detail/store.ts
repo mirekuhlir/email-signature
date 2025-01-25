@@ -38,13 +38,16 @@ const getRow = () => {
 export interface StoreState {
   rows: any[];
   addRow: (path?: string, position?: "start" | "end") => void;
+  initRows: (rows: any) => void;
 }
 
 // barvy - rgba nebo hex?
 
 export const useStore = create<StoreState>((set) => ({
-  rows: signature_a,
-
+  rows: [],
+  initRows: (rows: any) => {
+    set({ rows });
+  },
   addRow: (id?: string, position: "start" | "end" = "end") =>
     set((state) => {
       const updatedState = JSON.parse(JSON.stringify(state));

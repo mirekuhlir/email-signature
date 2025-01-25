@@ -3,6 +3,7 @@ import { SignatureDetail } from "@/components/signature-detail/signature-detail"
 import { Header } from "@/components/header/header";
 import { Container } from "@/components/ui/container";
 import { createClient } from "@/utils/supabase/server";
+import { signature_a } from "@/templates/signature_a";
 
 type Props = {
   params: Promise<{
@@ -28,7 +29,11 @@ export default async function Signature(props: Props) {
       <main>
         <div className="pt-16">
           <Container>
-            <SignatureDetail signatureDetail={{ id }} />
+            <SignatureDetail
+              signatureDetail={{
+                rows: signature_a,
+              }}
+            />
           </Container>
         </div>
       </main>

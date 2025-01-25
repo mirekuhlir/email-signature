@@ -1,5 +1,5 @@
 "use client";
-import { useState, Fragment } from "react";
+import { useState, Fragment, useEffect } from "react";
 import { Typography } from "@/components/ui/typography";
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
@@ -17,19 +17,11 @@ export const SignatureDetail = (props: any) => {
 
   const [isDarkMode, setIsDarkMode] = useState(false);
 
-  const {
-    rows,
-    addRow,
-    addColumn,
-    removeColumn,
-    removeRow,
-    /*     addItem,
-    removeItem, */
-    /*   setContent,
-    setStyle, */
-  } = useStore();
+  const { rows, initRows } = useStore();
 
-  console.log("rows", rows);
+  useEffect(() => {
+    initRows(signatureDetail.rows);
+  }, []);
 
   /*   type FormValues = {
     firstName: string;
