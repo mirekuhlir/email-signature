@@ -5,12 +5,6 @@ export const EmailTemplateView = (props: any) => {
   const { rows } = props;
 
   const renderColumn = (column: any) => {
-    const content = getContent(column.content);
-
-    if (content) {
-      return <td style={column.style}>{content}</td>;
-    }
-
     return (
       <td style={column.style}>
         <table

@@ -9,23 +9,9 @@ import { useStore } from "@/components/signature-detail/store";
 export const EmailTemplateEdit = (props: any) => {
   const { rows } = props;
 
-  const { addRow } = useStore();
+  const { addRow, removeRow } = useStore();
 
   const renderColumn = (column: any) => {
-    const content = getContent(column.content);
-    if (content) {
-      return (
-        <div
-          style={{
-            ...column.style,
-            display: "table-cell",
-          }}
-        >
-          {content}
-        </div>
-      );
-    }
-
     return (
       <div
         style={{
@@ -71,7 +57,7 @@ export const EmailTemplateEdit = (props: any) => {
 
       const content = getContent(row.content);
 
-      if (row.content?.text) {
+      if (content) {
         return (
           <div
             key={`tr-${row.id}`}
@@ -87,6 +73,7 @@ export const EmailTemplateEdit = (props: any) => {
             >
               {content}
             </div>
+            <Button onClick={() => removeRow(row.id)}>Remove</Button>
           </div>
         );
       }

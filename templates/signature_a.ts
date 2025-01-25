@@ -10,7 +10,12 @@ export const signature_a = [
         style: {
           verticalAlign: "top",
         },
-        content: { text: "A" },
+        rows: [{
+          id: "2j9c",
+          content: {
+            text: "A",
+          },
+        }],
       },
       {
         id: "gg6r",
@@ -35,8 +40,15 @@ export const signature_a = [
     columns: [
       {
         id: "xogy",
-        content: { text: "A" },
         style: { backgroundColor: "red", verticalAlign: "bottom" },
+        rows: [
+          {
+            id: "692i",
+            type: SignaturePart.TEXT,
+            content: { text: "A" },
+            style: { backgroundColor: "green" },
+          },
+        ],
       },
       {
         id: "50v9",

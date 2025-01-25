@@ -37,8 +37,9 @@ const getRow = () => {
 
 export interface StoreState {
   rows: any[];
-  addRow: (path?: string, position?: "start" | "end") => void;
   initRows: (rows: any) => void;
+  addRow: (path?: string, position?: "start" | "end") => void;
+  removeRow: (id: string) => void;
 }
 
 // barvy - rgba nebo hex?
@@ -94,6 +95,28 @@ export const useStore = create<StoreState>((set) => ({
 
       traverse(updatedState.rows, id);
 
+      return { rows: updatedState.rows };
+    }),
+  removeRow: (id: string) =>
+    set((state) => {
+      const updatedState = JSON.parse(JSON.stringify(state));
+      const removeRowRecursive = (items: any[]): any[] => {
+        return items.filter((item) => {
+          if (item.id === id) return false;
+
+          if (item.rows) {
+            item.rows = removeRowRecursive(item.rows);
+          }
+
+          if (item.columns) {
+            item.columns = removeRowRecursive(item.columns);
+          }
+
+          return true;
+        });
+      };
+
+      updatedState.rows = removeRowRecursive(updatedState.rows);
       return { rows: updatedState.rows };
     }),
 }));
