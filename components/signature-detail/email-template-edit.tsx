@@ -9,7 +9,7 @@ import { useStore } from "@/components/signature-detail/store";
 export const EmailTemplateEdit = (props: any) => {
   const { rows } = props;
 
-  const { addRow, removeRow } = useStore();
+  const { addRow, addRowTable, removeRow } = useStore();
 
   const renderColumn = (column: any) => {
     return (
@@ -25,7 +25,7 @@ export const EmailTemplateEdit = (props: any) => {
           }}
         >
           {column.rows && renderRows(column.rows)}
-          <Button onClick={() => addRow(column.id)}>Add row</Button>
+          <Button onClick={() => addRow(column.id)}>Add</Button>
         </div>
       </div>
     );
@@ -97,7 +97,7 @@ export const EmailTemplateEdit = (props: any) => {
   return (
     <>
       {renderRows(rows, true)}
-      <Button onClick={() => addRow(undefined, "end")}>Add row</Button>
+      <Button onClick={() => addRowTable("end")}>Add</Button>
     </>
   );
 };

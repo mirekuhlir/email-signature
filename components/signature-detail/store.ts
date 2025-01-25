@@ -1,21 +1,22 @@
 import { create } from "zustand";
-import { signature_a } from "@/templates/signature_a";
 import { SignaturePart } from "@/const/signature-parts";
 import { generateRandomId } from "@/utils/generateRandomId";
 
-// TODO - obsah
+// TODO - content type
 const getRow = () => {
+  return ({
+    id: generateRandomId(),
+    type: SignaturePart.TEXT,
+    style: { backgroundColor: "purple" },
+    content: { text: "A" },
+  });
+};
+
+const getRowTable = () => {
   return ({
     id: generateRandomId(),
     style: { backgroundColor: "purple" },
     columns: [
-      {
-        id: generateRandomId(),
-        style: {
-          verticalAlign: "top",
-        },
-        content: { text: "A" },
-      },
       {
         id: generateRandomId(),
         rows: [{
@@ -23,11 +24,6 @@ const getRow = () => {
           style: { backgroundColor: "red" },
           content: {
             text: "123",
-          },
-        }, {
-          id: generateRandomId(),
-          content: {
-            text: "124",
           },
         }],
       },
@@ -38,7 +34,8 @@ const getRow = () => {
 export interface StoreState {
   rows: any[];
   initRows: (rows: any) => void;
-  addRow: (path?: string, position?: "start" | "end") => void;
+  addRow: (path: string) => void;
+  addRowTable: (position?: "start" | "end") => void;
   removeRow: (id: string) => void;
 }
 
@@ -49,27 +46,11 @@ export const useStore = create<StoreState>((set) => ({
   initRows: (rows: any) => {
     set({ rows });
   },
-  addRow: (id?: string, position: "start" | "end" = "end") =>
+
+  //TODO - content type
+  addRow: (id: string) =>
     set((state) => {
       const updatedState = JSON.parse(JSON.stringify(state));
-
-      if (!id) {
-        if (position === "start") {
-          updatedState.rows = [
-            getRow(),
-            ...updatedState.rows,
-          ];
-
-          return { rows: updatedState.rows };
-        }
-
-        updatedState.rows = [
-          ...updatedState.rows,
-          getRow(),
-        ];
-
-        return { rows: updatedState.rows };
-      }
 
       const traverse = (items: any, targetId: string): boolean => {
         for (let i = 0; i < items.length; i++) {
@@ -97,6 +78,28 @@ export const useStore = create<StoreState>((set) => ({
 
       return { rows: updatedState.rows };
     }),
+
+  addRowTable: (position: "start" | "end" = "end") =>
+    set((state) => {
+      const updatedState = JSON.parse(JSON.stringify(state));
+
+      if (position === "start") {
+        updatedState.rows = [
+          getRowTable(),
+          ...updatedState.rows,
+        ];
+
+        return { rows: updatedState.rows };
+      }
+
+      updatedState.rows = [
+        ...updatedState.rows,
+        getRowTable(),
+      ];
+
+      return { rows: updatedState.rows };
+    }),
+
   removeRow: (id: string) =>
     set((state) => {
       const updatedState = JSON.parse(JSON.stringify(state));
