@@ -22,6 +22,7 @@ export const EmailTemplateEdit = (props: any) => {
         <div
           style={{
             display: "table",
+            width: "100%",
           }}
         >
           {column.rows && renderRows(column.rows)}
@@ -39,6 +40,7 @@ export const EmailTemplateEdit = (props: any) => {
             key={`table-${row.id}`}
             style={{
               display: "table",
+              width: "100%",
             }}
           >
             <div
