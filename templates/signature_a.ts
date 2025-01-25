@@ -2,26 +2,26 @@ import { SignaturePart } from "@/const/signature-parts";
 
 export const signature_a = [
   {
-    path: "-1",
+    id: "gp91",
     style: { backgroundColor: "purple" },
     columns: [
       {
-        path: "-1.0",
+        id: "2j9b",
         style: {
           verticalAlign: "top",
         },
         content: { text: "A" },
       },
       {
-        path: "-1.1",
+        id: "gg6r",
         rows: [{
-          path: "-1.1.0",
+          id: "ex3p",
           style: { backgroundColor: "red" },
           content: {
             text: "123",
           },
         }, {
-          path: "-1.1.1",
+          id: "7jn3",
           content: {
             text: "124",
           },
@@ -30,31 +30,31 @@ export const signature_a = [
     ],
   },
   {
-    path: "0",
+    id: "n9n8",
     style: { backgroundColor: "red" },
     columns: [
       {
-        path: "0.1",
+        id: "xogy",
         content: { text: "A" },
         style: { backgroundColor: "red", verticalAlign: "bottom" },
       },
       {
-        path: "0.2",
+        id: "50v9",
         rows: [
           {
-            path: "0.2.0",
+            id: "juh3",
             type: SignaturePart.TEXT,
             content: { text: "B" },
             style: { backgroundColor: "green" },
           },
           {
-            path: "0.2.1",
+            id: "yfau",
             type: SignaturePart.TEXT,
             content: { text: "C" },
             style: { backgroundColor: "blue" },
           },
           {
-            path: "0.2.2",
+            id: "asnv",
             type: SignaturePart.TEXT,
             content: { text: "D" },
             style: { backgroundColor: "orange" },

@@ -26,23 +26,21 @@ export const EmailTemplateView = (props: any) => {
     );
   };
 
-  const renderRows = (rows: any) => {
+  const renderRows = (rows: any, isFirstRow?: boolean) => {
     return rows.map((row: any) => {
-      const isFirstRow = !row.path.includes(".");
-
       if (isFirstRow) {
         return (
           <table
-            key={`table-${row.path}`}
+            key={`table-${row.id}`}
             border={0}
             cellPadding="0"
             cellSpacing="0"
             role="presentation"
           >
             <tbody>
-              <tr key={`tr-${row.path}`} style={row.style}>
+              <tr key={`tr-${row.id}`} style={row.style}>
                 {row.columns?.map((column: any) => (
-                  <Fragment key={column.path}>{renderColumn(column)}</Fragment>
+                  <Fragment key={column.id}>{renderColumn(column)}</Fragment>
                 ))}
               </tr>
             </tbody>
@@ -54,23 +52,21 @@ export const EmailTemplateView = (props: any) => {
 
       if (row.content?.text) {
         return (
-          <tr key={`tr-${row.path}`} style={row.style}>
-            <td key={row.path}>{content}</td>
+          <tr key={`tr-${row.id}`} style={row.style}>
+            <td key={row.id}>{content}</td>
           </tr>
         );
       }
 
       return (
-        <tr key={`tr-${row.path}`} style={row.style}>
+        <tr key={`tr-${row.id}`} style={row.style}>
           {row.columns?.map((column: any) => (
-            <Fragment key={`td-${column.path}`}>
-              {renderColumn(column)}
-            </Fragment>
+            <Fragment key={`td-${column.id}`}>{renderColumn(column)}</Fragment>
           ))}
         </tr>
       );
     });
   };
 
-  return <>{renderRows(rows)}</>;
+  return <>{renderRows(rows, true)}</>;
 };

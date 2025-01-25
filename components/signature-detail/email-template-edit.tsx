@@ -1,11 +1,15 @@
 import { Fragment } from "react";
 import { getContent } from "./utils";
+import { Button } from "@/components/ui/button";
+import { useStore } from "@/components/signature-detail/store";
 
 // TODO - add row table
 // TODO - add row in column
 
 export const EmailTemplateEdit = (props: any) => {
   const { rows } = props;
+
+  const { addRow } = useStore();
 
   const renderColumn = (column: any) => {
     const content = getContent(column.content);
@@ -40,14 +44,12 @@ export const EmailTemplateEdit = (props: any) => {
     );
   };
 
-  const renderRows = (rows: any) => {
+  const renderRows = (rows: any, isFirstRow?: boolean) => {
     return rows.map((row: any) => {
-      const isFirstRow = !row.path.includes(".");
-
       if (isFirstRow) {
         return (
           <div
-            key={`table-${row.path}`}
+            key={`table-${row.id}`}
             style={{
               display: "table",
             }}
@@ -59,7 +61,7 @@ export const EmailTemplateEdit = (props: any) => {
               }}
             >
               {row.columns?.map((column: any) => (
-                <Fragment key={column.path}>{renderColumn(column)}</Fragment>
+                <Fragment key={column.id}>{renderColumn(column)}</Fragment>
               ))}
             </div>
           </div>
@@ -71,7 +73,7 @@ export const EmailTemplateEdit = (props: any) => {
       if (row.content?.text) {
         return (
           <div
-            key={`tr-${row.path}`}
+            key={`tr-${row.id}`}
             style={{
               ...row.style,
               display: "table-row",
@@ -90,21 +92,24 @@ export const EmailTemplateEdit = (props: any) => {
 
       return (
         <div
-          key={`tr-${row.path}`}
+          key={`tr-${row.id}`}
           style={{
             ...row.style,
             display: "table-row",
           }}
         >
           {row.columns?.map((column: any) => (
-            <Fragment key={`td-${column.path}`}>
-              {renderColumn(column)}
-            </Fragment>
+            <Fragment key={`td-${column.id}`}>{renderColumn(column)}</Fragment>
           ))}
         </div>
       );
     });
   };
 
-  return <>{renderRows(rows)}</>;
+  return (
+    <>
+      {renderRows(rows, true)}
+      <Button onClick={() => addRow(undefined, "end")}>Add row</Button>
+    </>
+  );
 };
