@@ -25,8 +25,8 @@ export const EmailTemplateEdit = (props: any) => {
           }}
         >
           {column.rows && renderRows(column.rows)}
-          <Button onClick={() => addRow(column.id)}>Add</Button>
         </div>
+        <Button onClick={() => addRow(column.id)}>Add</Button>
       </div>
     );
   };
@@ -59,22 +59,24 @@ export const EmailTemplateEdit = (props: any) => {
 
       if (content) {
         return (
-          <div
-            key={`tr-${row.id}`}
-            style={{
-              ...row.style,
-              display: "table-row",
-            }}
-          >
+          <Fragment key={`tr-${row.id}`}>
             <div
+              key={`tr-${row.id}`}
               style={{
-                display: "table-cell",
+                ...row.style,
+                display: "table-row",
               }}
             >
-              {content}
+              <div
+                style={{
+                  display: "table-cell",
+                }}
+              >
+                {content}
+              </div>
             </div>
             <Button onClick={() => removeRow(row.id)}>Remove</Button>
-          </div>
+          </Fragment>
         );
       }
 
