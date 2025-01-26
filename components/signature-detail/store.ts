@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { SignaturePart } from "@/const/signature-parts";
 import { generateRandomId } from "@/utils/generateRandomId";
+import { cloneDeep, get as lGet, set as lSet, unset } from "lodash";
 
 // TODO - content type
 const getRow = () => {
@@ -34,7 +35,7 @@ const getRowTable = () => {
 export interface StoreState {
   rows: any[];
   initRows: (rows: any) => void;
-  addRow: (path: string) => void;
+  addRow: (id: string, path: string) => void;
   addRowTable: (position?: "start" | "end") => void;
   removeRow: (id: string) => void;
 }
@@ -48,78 +49,46 @@ export const useStore = create<StoreState>((set) => ({
   },
 
   //TODO - content type
-  addRow: (id: string) =>
+  addRow: (id: string, path: string) =>
     set((state) => {
-      const updatedState = JSON.parse(JSON.stringify(state));
+      const cloneRows = cloneDeep(state.rows);
 
-      const traverse = (items: any, targetId: string): boolean => {
-        for (let i = 0; i < items.length; i++) {
-          const item = items[i];
+      lSet(cloneRows, path, [
+        ...lGet(cloneRows, path),
+        // start end, správný obsah v row
+        getRow(),
+      ]);
 
-          if (item.id === targetId && Array.isArray(item.rows)) {
-            // TODO - start a end
-            // TODO - správný obsah
-            item.rows = [...item.rows, getRow()];
-
-            return true;
-          }
-
-          if (item.rows && traverse(item.rows, targetId)) {
-            return true;
-          }
-          if (item.columns && traverse(item.columns, targetId)) {
-            return true;
-          }
-        }
-        return false;
-      };
-
-      traverse(updatedState.rows, id);
-
-      return { rows: updatedState.rows };
+      return { rows: cloneRows };
     }),
 
   addRowTable: (position: "start" | "end" = "end") =>
     set((state) => {
-      const updatedState = JSON.parse(JSON.stringify(state));
+      let clonesRows = cloneDeep(state.rows);
 
       if (position === "start") {
-        updatedState.rows = [
+        clonesRows = [
           getRowTable(),
-          ...updatedState.rows,
+          ...clonesRows,
         ];
 
-        return { rows: updatedState.rows };
+        return { rows: clonesRows };
       }
 
-      updatedState.rows = [
-        ...updatedState.rows,
+      clonesRows = [
+        ...clonesRows,
         getRowTable(),
       ];
 
-      return { rows: updatedState.rows };
+      return { rows: clonesRows };
     }),
 
-  removeRow: (id: string) =>
+  removeRow: (path: string) =>
     set((state) => {
-      const updatedState = JSON.parse(JSON.stringify(state));
-      const removeRowRecursive = (items: any[]): any[] => {
-        return items.filter((item) => {
-          if (item.id === id) return false;
+      const cloneRows = cloneDeep(state.rows);
 
-          if (item.rows) {
-            item.rows = removeRowRecursive(item.rows);
-          }
+      unset(cloneRows, path);
 
-          if (item.columns) {
-            item.columns = removeRowRecursive(item.columns);
-          }
-
-          return true;
-        });
-      };
-
-      updatedState.rows = removeRowRecursive(updatedState.rows);
-      return { rows: updatedState.rows };
+      return { rows: cloneRows };
     }),
 }));

@@ -23,6 +23,10 @@ export const EmailTemplateView = (props: any) => {
 
   const renderRows = (rows: any, isFirstRow?: boolean) => {
     return rows.map((row: any) => {
+      if (!row?.id) {
+        return null;
+      }
+
       if (isFirstRow) {
         return (
           <table
@@ -44,9 +48,10 @@ export const EmailTemplateView = (props: any) => {
         );
       }
 
-      const content = getContent(row.content);
+      const content = getContent(row?.content);
 
-      if (row.content?.text) {
+      // TODO - get content
+      if (row.content.text) {
         return (
           <tr key={`tr-${row.id}`} style={row.style}>
             <td key={row.id}>{content}</td>
@@ -55,9 +60,9 @@ export const EmailTemplateView = (props: any) => {
       }
 
       return (
-        <tr key={`tr-${row.id}`} style={row.style}>
-          {row.columns?.map((column: any) => (
-            <Fragment key={`td-${column.id}`}>{renderColumn(column)}</Fragment>
+        <tr key={`tr-${row.id}`} style={row?.style}>
+          {row.columns.map((column: any) => (
+            <Fragment key={`td-${column?.id}`}>{renderColumn(column)}</Fragment>
           ))}
         </tr>
       );

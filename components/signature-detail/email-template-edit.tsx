@@ -3,15 +3,13 @@ import { getContent } from "./utils";
 import { Button } from "@/components/ui/button";
 import { useStore } from "@/components/signature-detail/store";
 
-// TODO - add row table
-// TODO - add row in column
-
 export const EmailTemplateEdit = (props: any) => {
   const { rows } = props;
-
   const { addRow, addRowTable, removeRow } = useStore();
 
-  const renderColumn = (column: any) => {
+  const renderColumn = (column: any, path: string) => {
+    const rowPath = `${path}.rows`;
+
     return (
       <div
         style={{
@@ -25,15 +23,21 @@ export const EmailTemplateEdit = (props: any) => {
             width: "100%",
           }}
         >
-          {column.rows && renderRows(column.rows)}
+          {column.rows && renderRows(column.rows, false, `${rowPath}`)}
         </div>
-        <Button onClick={() => addRow(column.id)}>Add</Button>
+        <Button onClick={() => addRow(column.id, rowPath)}>Add</Button>
       </div>
     );
   };
 
-  const renderRows = (rows: any, isFirstRow?: boolean) => {
-    return rows.map((row: any) => {
+  const renderRows = (rows: any, isFirstRow?: boolean, path?: string) => {
+    return rows.map((row: any, index: number) => {
+      const currentPath = path ? `${path}[${index}]` : `${index}`;
+
+      if (!row?.id) {
+        return null;
+      }
+
       if (isFirstRow) {
         return (
           <div
@@ -49,16 +53,18 @@ export const EmailTemplateEdit = (props: any) => {
                 ...row.style,
               }}
             >
-              {row.columns?.map((column: any) => (
-                <Fragment key={column.id}>{renderColumn(column)}</Fragment>
+              {row.columns?.map((column: any, colIndex: number) => (
+                <Fragment key={column.id}>
+                  {renderColumn(column, `${currentPath}.columns[${colIndex}]`)}
+                </Fragment>
               ))}
             </div>
           </div>
         );
       }
 
-      const content = getContent(row.content);
-
+      const content = getContent(row?.content);
+      const contentPath = `${currentPath}.content`;
       if (content) {
         return (
           <Fragment key={`tr-${row.id}`}>
@@ -77,21 +83,23 @@ export const EmailTemplateEdit = (props: any) => {
                 {content}
               </div>
             </div>
-            <Button onClick={() => removeRow(row.id)}>Remove</Button>
+            <Button onClick={() => removeRow(currentPath)}>Remove</Button>
           </Fragment>
         );
       }
 
       return (
         <div
-          key={`tr-${row.id}`}
+          key={`tr-${row?.id}`}
           style={{
             ...row.style,
             display: "table-row",
           }}
         >
-          {row.columns?.map((column: any) => (
-            <Fragment key={`td-${column.id}`}>{renderColumn(column)}</Fragment>
+          {row.columns?.map((column: any, colIndex: number) => (
+            <Fragment key={`td-${column.id}`}>
+              {renderColumn(column, `${currentPath}.columns[${colIndex}]`)}
+            </Fragment>
           ))}
         </div>
       );
@@ -100,7 +108,7 @@ export const EmailTemplateEdit = (props: any) => {
 
   return (
     <>
-      {renderRows(rows, true)}
+      {renderRows(rows, true, "")}
       <Button onClick={() => addRowTable("end")}>Add</Button>
     </>
   );
