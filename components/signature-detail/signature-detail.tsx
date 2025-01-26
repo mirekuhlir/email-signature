@@ -46,7 +46,8 @@ export const SignatureDetail = (props: any) => {
   const formValue = getValues();
 
   return (
-    <Container>
+    <>
+      {/* TODO */}
       {/*    <Typography variant="h1">Signature</Typography>
       <Typography variant="h3">{signatureDetail.id}</Typography> */}
 
@@ -58,20 +59,11 @@ export const SignatureDetail = (props: any) => {
 
       <div className="w-full flex justify-center">
         <div>
-          <div
-            id="signature5"
-            style={{
-              display: "table",
-            }}
-          >
+          <div id="signature5" className="table mx-auto">
             <EmailTemplateView rows={rows} />
           </div>
           <div className="h-20" />
-          <div
-            style={{
-              display: "table",
-            }}
-          >
+          <div className="table mx-auto">
             <EmailTemplateEdit rows={rows} />
           </div>
         </div>
@@ -84,6 +76,6 @@ export const SignatureDetail = (props: any) => {
       >
         Copy Signature
       </Button>
-    </Container>
+    </>
   );
 };
