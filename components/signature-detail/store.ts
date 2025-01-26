@@ -1,15 +1,17 @@
 import { create } from "zustand";
-import { SignaturePart } from "@/const/signature-parts";
+import { ContentType } from "@/const/signature-parts";
 import { generateRandomId } from "@/utils/generateRandomId";
 import { cloneDeep, get as lGet, set as lSet, unset } from "lodash";
 
-// TODO - content type
 const getRow = () => {
   return ({
     id: generateRandomId(),
-    type: SignaturePart.TEXT,
+    type: ContentType.TEXT,
     style: { backgroundColor: "purple" },
-    content: { text: "A" },
+    content: {
+      type: ContentType.TEXT,
+      text: "A",
+    },
   });
 };
 
@@ -24,6 +26,7 @@ const getRowTable = () => {
           id: generateRandomId(),
           style: { backgroundColor: "red" },
           content: {
+            type: ContentType.TEXT,
             text: "123",
           },
         }],
