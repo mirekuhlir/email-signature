@@ -1,12 +1,9 @@
 "use client";
-import { useState, Fragment, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Typography } from "@/components/ui/typography";
-import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import t from "@/app/localization/translate";
-import TextInput from "../ui/text-input";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { SignaturePart } from "@/const/signature-parts";
 import { useStore } from "./store";
 import { handleCopy } from "./utils";
 import { EmailTemplateView } from "./email-template-view";
