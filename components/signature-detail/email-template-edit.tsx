@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { getContent } from "./utils";
+import { getContent } from "./content";
 import { Button } from "@/components/ui/button";
 import { useStore } from "@/components/signature-detail/store";
 
@@ -64,12 +64,10 @@ export const EmailTemplateEdit = (props: any) => {
       }
 
       const content = getContent(row?.content);
-      const contentPath = `${currentPath}.content`;
       if (content) {
         return (
           <Fragment key={`tr-${row.id}`}>
             <div
-              key={`tr-${row.id}`}
               style={{
                 ...row.style,
                 display: "table-row",

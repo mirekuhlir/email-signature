@@ -86,7 +86,6 @@ export const useStore = create<StoreState>((set) => ({
   removeRow: (path: string) =>
     set((state) => {
       const cloneRows = cloneDeep(state.rows);
-
       unset(cloneRows, path);
 
       return { rows: cloneRows };

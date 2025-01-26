@@ -1,7 +1,41 @@
-import { SignaturePart } from "@/const/signature-parts";
-
 export const signature_a = [
   {
+    id: "gp91",
+    style: { backgroundColor: "purple" },
+    columns: [
+      {
+        id: "2j9b",
+
+        rows: [{
+          id: "2j9c",
+          content: {
+            type: "image",
+            image:
+              "https://fastly.picsum.photos/id/159/140/140.jpg?hmac=Aa3iY6i0Z1Nf_lx_RWn-hSXKm6jTfHbJE7P-trDe-6Y",
+          },
+        }],
+      },
+      {
+        id: "gg6r",
+        style: { backgroundColor: "yellow" },
+        rows: [{
+          id: "ex3p",
+          style: { backgroundColor: "red" },
+          content: {
+            type: "text",
+            text: "123",
+          },
+        }, {
+          id: "7jn3",
+          content: {
+            type: "text",
+            text: "124",
+          },
+        }],
+      },
+    ],
+  },
+  /*   {
     id: "gp91",
     style: { backgroundColor: "purple" },
     columns: [
@@ -33,8 +67,8 @@ export const signature_a = [
         }],
       },
     ],
-  },
-  {
+  }, */
+  /*   {
     id: "n9n8",
     style: { backgroundColor: "red" },
     columns: [
@@ -74,5 +108,5 @@ export const signature_a = [
         ],
       },
     ],
-  },
+  }, */
 ];

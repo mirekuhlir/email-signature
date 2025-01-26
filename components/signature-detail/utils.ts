@@ -66,9 +66,3 @@ function adjustColorForDarkMode(hex: string): string {
     }`;
   }
 }
-
-export const getContent = (content?: any) => {
-  if (content?.text) {
-    return content.text;
-  }
-};

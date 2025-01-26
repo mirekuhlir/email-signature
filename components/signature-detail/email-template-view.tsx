@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { getContent } from "./utils";
+import { getContent } from "./content";
 
 export const EmailTemplateView = (props: any) => {
   const { rows } = props;
@@ -50,8 +50,7 @@ export const EmailTemplateView = (props: any) => {
 
       const content = getContent(row?.content);
 
-      // TODO - get content
-      if (row.content.text) {
+      if (content) {
         return (
           <tr key={`tr-${row.id}`} style={row.style}>
             <td key={row.id}>{content}</td>

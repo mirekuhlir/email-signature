@@ -1,4 +1,4 @@
-export enum SignaturePart  {
+export enum ContentType {
     TEXT = "text",
-    IMAGE = "image"
+    IMAGE = "image",
 }
