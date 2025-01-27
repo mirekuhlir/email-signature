@@ -1,20 +1,95 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-const RichTextEditor = () => {
-  const [text, setText] = useState("");
-  const [fontSize, setFontSize] = useState("16");
-  const [lineHeight, setLineHeight] = useState("1.5");
-  const [fontWeight, setFontWeight] = useState("normal");
-  const [fontStyle, setFontStyle] = useState("normal");
-  const [textAlign, setTextAlign] = useState("left");
-  const [textColor, setTextColor] = useState("#000000");
-  const [backgroundColor, setBackgroundColor] = useState("transparent");
-  const [textDecoration, setTextDecoration] = useState("none");
-  const [fontFamily, setFontFamily] = useState("Arial");
-  const [letterSpacing, setLetterSpacing] = useState("0");
-  const [textTransform, setTextTransform] = useState("none");
-  const [textShadow, setTextShadow] = useState("none");
-  const [opacity, setOpacity] = useState(100);
+const RichTextEditor = (props: any) => {
+  const { content, onChange } = props;
+
+  const {
+    text,
+    fontSize,
+    lineHeight,
+    fontWeight,
+    fontStyle,
+    textAlign,
+    textColor,
+    backgroundColor,
+    textDecoration,
+    fontFamily,
+    letterSpacing,
+    textTransform,
+    textShadow,
+    /*     opacity, */
+  } = content;
+
+  const [editText, setEditText] = useState("");
+  const [editFontSize, setEditFontSize] = useState("");
+  const [editLineHeight, setEditLineHeight] = useState("");
+  const [editFontWeight, setEditFontWeight] = useState("");
+  const [editFontStyle, setEditFontStyle] = useState("");
+  const [editTextAlign, setEditTextAlign] = useState("");
+  const [editTextColor, setEditTextColor] = useState("");
+  const [editBackgroundColor, setEditBackgroundColor] =
+    useState(backgroundColor);
+  const [editTextDecoration, setEditTextDecoration] = useState("");
+  const [editFontFamily, setEditFontFamily] = useState("");
+  const [editLetterSpacing, setEditLetterSpacing] = useState("");
+  const [editTextTransform, setEditTextTransform] = useState("");
+  const [editTextShadow, setEditTextShadow] = useState("");
+  /*   const [editOpacity, setEditOpacity] = useState(""); */
+
+  useEffect(() => {
+    setEditText(text);
+    setEditFontSize(fontSize);
+    setEditLineHeight(lineHeight);
+    setEditFontWeight(fontWeight);
+    setEditFontStyle(fontStyle);
+    setEditTextAlign(textAlign);
+    setEditTextColor(textColor);
+    setEditBackgroundColor(backgroundColor);
+    setEditTextDecoration(textDecoration);
+    setEditFontFamily(fontFamily);
+    setEditLetterSpacing(letterSpacing);
+    setEditTextTransform(textTransform);
+    setEditTextShadow(textShadow);
+    /*     setEditOpacity(opacity); */
+  }, [
+    text,
+    fontSize,
+    lineHeight,
+    fontWeight,
+    fontStyle,
+    textAlign,
+    textColor,
+    backgroundColor,
+    textDecoration,
+    fontFamily,
+    letterSpacing,
+    textTransform,
+    textShadow,
+    /*     opacity, */
+  ]);
+
+  const onChangeContent = (content: any) => {
+    const editContent = {
+      text: editText,
+      fontSize: editFontSize,
+      lineHeight: editLineHeight,
+      fontWeight: editFontWeight,
+      fontStyle: editFontStyle,
+      textAlign: editTextAlign,
+      textColor: editTextColor,
+      backgroundColor: editBackgroundColor,
+      textDecoration: editTextDecoration,
+      fontFamily: editFontFamily,
+      letterSpacing: editLetterSpacing,
+      textTransform: editTextTransform,
+      textShadow: editTextShadow,
+    };
+
+    onChange({
+      ...editContent,
+      ...content,
+    });
+  };
 
   const fontSizes = [
     "12",
@@ -30,6 +105,7 @@ const RichTextEditor = () => {
   ];
   const lineHeights = ["1", "1.25", "1.5", "1.75", "2", "2.5"];
   const letterSpacingOptions = ["0", "1", "2", "4", "8"];
+  // TODO - vybrat fonty, které budou fungovat, onstanta?
   const fonts = [
     "Arial",
     "Times New Roman",
@@ -40,18 +116,24 @@ const RichTextEditor = () => {
   ];
 
   const toggleTextDecoration = (decoration: any) => {
-    setTextDecoration((prev) => (prev === decoration ? "none" : decoration));
+    setEditTextDecoration((prev: any) =>
+      prev === decoration ? "none" : decoration,
+    );
   };
 
   const toggleTextTransform = (transform: any) => {
-    setTextTransform((prev) => (prev === transform ? "none" : transform));
+    setEditTextTransform((prev: any) =>
+      prev === transform ? "none" : transform,
+    );
   };
 
   const toggleTextShadow = () => {
-    setTextShadow((prev) =>
-      prev === "none" ? "2px 2px 4px rgba(0,0,0,0.3)" : "none"
+    setEditTextShadow((prev: any) =>
+      prev === "none" ? "2px 2px 4px rgba(0,0,0,0.3)" : "none",
     );
   };
+
+  //  TODO - donplnit všude onChangeContent
 
   return (
     <div className="w-full max-w-4xl mx-auto p-2 md:p-4 space-y-4">
@@ -60,7 +142,7 @@ const RichTextEditor = () => {
         <div className="flex flex-wrap gap-2 items-center p-2 border-b border-gray-200">
           <select
             value={fontFamily}
-            onChange={(e) => setFontFamily(e.target.value)}
+            onChange={(e) => setEditFontFamily(e.target.value)}
             className="p-2 rounded border bg-white min-w-[120px]"
           >
             {fonts.map((font) => (
@@ -71,8 +153,13 @@ const RichTextEditor = () => {
           </select>
 
           <select
-            value={fontSize}
-            onChange={(e) => setFontSize(e.target.value)}
+            value={editFontSize}
+            onChange={(e) => {
+              setEditFontSize(e.target.value);
+              onChangeContent({
+                fontSize: e.target.value,
+              });
+            }}
             className="p-2 rounded border bg-white min-w-[80px]"
           >
             {fontSizes.map((size) => (
@@ -84,7 +171,7 @@ const RichTextEditor = () => {
 
           <select
             value={lineHeight}
-            onChange={(e) => setLineHeight(e.target.value)}
+            onChange={(e) => setEditLineHeight(e.target.value)}
             className="p-2 rounded border bg-white min-w-[80px]"
           >
             {lineHeights.map((height) => (
@@ -117,7 +204,7 @@ const RichTextEditor = () => {
         <div className="flex flex-wrap gap-2 items-center p-2 border-b border-gray-200">
           <div className="flex gap-1">
             <button
-              onClick={() => setTextAlign("left")}
+              onClick={() => setEditTextAlign("left")}
               className={`p-2 rounded w-10 h-10 flex items-center justify-center ${
                 textAlign === "left" ? "bg-blue-200" : "bg-white"
               }`}
@@ -125,7 +212,7 @@ const RichTextEditor = () => {
               ←
             </button>
             <button
-              onClick={() => setTextAlign("center")}
+              onClick={() => setEditTextAlign("center")}
               className={`p-2 rounded w-10 h-10 flex items-center justify-center ${
                 textAlign === "center" ? "bg-blue-200" : "bg-white"
               }`}
@@ -133,7 +220,7 @@ const RichTextEditor = () => {
               ↔
             </button>
             <button
-              onClick={() => setTextAlign("right")}
+              onClick={() => setEditTextAlign("right")}
               className={`p-2 rounded w-10 h-10 flex items-center justify-center ${
                 textAlign === "right" ? "bg-blue-200" : "bg-white"
               }`}
@@ -141,7 +228,7 @@ const RichTextEditor = () => {
               →
             </button>
             <button
-              onClick={() => setTextAlign("justify")}
+              onClick={() => setEditTextAlign("justify")}
               className={`p-2 rounded w-10 h-10 flex items-center justify-center ${
                 textAlign === "justify" ? "bg-blue-200" : "bg-white"
               }`}
@@ -182,7 +269,7 @@ const RichTextEditor = () => {
         <div className="flex flex-wrap gap-2 items-center p-2 border-b border-gray-200">
           <select
             value={letterSpacing}
-            onChange={(e) => setLetterSpacing(e.target.value)}
+            onChange={(e) => setEditLetterSpacing(e.target.value)}
             className="p-2 rounded border bg-white min-w-[100px]"
           >
             {letterSpacingOptions.map((spacing) => (
@@ -200,19 +287,19 @@ const RichTextEditor = () => {
           >
             Stín
           </button>
-
+          {/* 
           <input
             type="range"
             min="0"
             max="100"
             value={opacity.toString()}
-            onChange={(e) => setOpacity(Number(e.target.value))}
+            onChange={(e) => setEditOpacity(Number(e.target.value))}
             className="w-full h-4 bg-gray-200 rounded-lg appearance-none cursor-pointer"
             style={{
               accentColor: "#4A90E2",
             }}
           />
-          <span className="text-sm">Průhlednost: {opacity}%</span>
+          <span className="text-sm">Průhlednost: {opacity}%</span> */}
         </div>
 
         {/* Barvy */}
@@ -222,7 +309,7 @@ const RichTextEditor = () => {
             <input
               type="color"
               value={textColor}
-              onChange={(e) => setTextColor(e.target.value)}
+              onChange={(e) => setEditTextColor(e.target.value)}
               className="w-10 h-10 rounded cursor-pointer"
             />
           </div>
@@ -233,16 +320,16 @@ const RichTextEditor = () => {
               value={
                 backgroundColor === "transparent" ? "#ffffff" : backgroundColor
               }
-              onChange={(e) => setBackgroundColor(e.target.value)}
+              onChange={(e) => setEditBackgroundColor(e.target.value)}
               className="w-10 h-10 rounded cursor-pointer"
             />
           </div>
         </div>
       </div>
 
-      <div
-        contentEditable
-        className="w-full min-h-[200px] p-4 border rounded focus:outline-none focus:ring-2 focus:ring-blue-200 bg-white"
+      {/*   TODO - style */}
+      <input
+        className="w-full p-4 border rounded focus:outline-none focus:ring-2 focus:ring-blue-200 bg-white"
         style={{
           fontSize: `${fontSize}px`,
           lineHeight: lineHeight,
@@ -259,11 +346,12 @@ const RichTextEditor = () => {
             | "lowercase"
             | "capitalize",
           textShadow: textShadow,
-          opacity: opacity / 100,
+          /*           opacity: opacity / 100, */
         }}
-        onInput={(e) => setText(e.currentTarget.textContent || "")}
+        onChange={(e) => setEditText(e.target.value)}
         role="textbox"
         aria-label="Text editor"
+        value={editText}
       />
     </div>
   );

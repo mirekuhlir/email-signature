@@ -5,9 +5,9 @@ export const signature_a = [
     columns: [
       {
         id: "2j9b",
-
         rows: [{
           id: "2j9c",
+          style: { padding: "10px" },
           content: {
             type: "image",
             image:
@@ -24,6 +24,7 @@ export const signature_a = [
           content: {
             type: "text",
             text: "123",
+            fontSize: "40"
           },
         }, {
           id: "7jn3",

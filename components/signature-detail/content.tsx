@@ -13,7 +13,16 @@ export const getContent = (content?: any) => {
   }
 
   if (content.type === ContentType.TEXT && content?.text) {
-    return <>{content.text}</>;
+    // TODO - ostatní hodnoty
+    return (
+      <span
+        style={{
+          fontSize: `${content.fontSize}px`,
+        }}
+      >
+        {content.text}
+      </span>
+    );
   }
 
   return null;

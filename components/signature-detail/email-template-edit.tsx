@@ -1,11 +1,14 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { getContent } from "./content";
 import { Button } from "@/components/ui/button";
 import { useStore } from "@/components/signature-detail/store";
+import { ContentEdit } from "@/components/content-edit/content-edit";
 
 export const EmailTemplateEdit = (props: any) => {
   const { rows } = props;
   const { addRow, addRowTable, removeRow } = useStore();
+
+  const [contentPathToEdit, setContentPathToEdit] = useState<string | null>();
 
   const renderColumn = (column: any, path: string) => {
     const rowPath = `${path}.rows`;
@@ -69,12 +72,12 @@ export const EmailTemplateEdit = (props: any) => {
           <Fragment key={`tr-${row.id}`}>
             <div
               style={{
-                ...row.style,
                 display: "table-row",
               }}
             >
               <div
                 style={{
+                  ...row.style,
                   display: "table-cell",
                 }}
               >
@@ -82,6 +85,13 @@ export const EmailTemplateEdit = (props: any) => {
               </div>
             </div>
             <Button onClick={() => removeRow(currentPath)}>Remove</Button>
+            <Button
+              onClick={() => {
+                setContentPathToEdit(currentPath);
+              }}
+            >
+              Edit
+            </Button>
           </Fragment>
         );
       }
@@ -108,6 +118,18 @@ export const EmailTemplateEdit = (props: any) => {
     <>
       {renderRows(rows, true, "")}
       <Button onClick={() => addRowTable("end")}>Add</Button>
+
+      {contentPathToEdit && (
+        <div>
+          <ContentEdit
+            contentPathToEdit={contentPathToEdit}
+            key={contentPathToEdit}
+          />
+          <div>
+            <Button onClick={() => setContentPathToEdit(null)}>Close</Button>
+          </div>
+        </div>
+      )}
     </>
   );
 };

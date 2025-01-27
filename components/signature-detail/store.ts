@@ -41,6 +41,7 @@ export interface StoreState {
   addRow: (id: string, path: string) => void;
   addRowTable: (position?: "start" | "end") => void;
   removeRow: (id: string) => void;
+  setContent: (path: string, content: any) => void;
 }
 
 // barvy - rgba nebo hex?
@@ -93,4 +94,18 @@ export const useStore = create<StoreState>((set) => ({
 
       return { rows: cloneRows };
     }),
+  setContent: (path: string, content: any) =>
+    set((state) => {
+      const cloneRows = cloneDeep(state.rows);
+      const currentContent = lGet(cloneRows, path);
+
+      lSet(cloneRows, path, {
+        ...currentContent,
+        ...content,
+
+      });
+
+      return { rows: cloneRows };
+    }),
+    
 }));

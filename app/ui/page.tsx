@@ -394,7 +394,7 @@ const SelectExample = () => {
     <div className="bg-gray-100 p-4">
       <form
         onSubmit={handleSubmit((data) =>
-          alert(`Sended: ${JSON.stringify(data)}`)
+          alert(`Sended: ${JSON.stringify(data)}`),
         )}
         className="bg-white p-6 rounded shadow-md w-full max-w-md"
       >

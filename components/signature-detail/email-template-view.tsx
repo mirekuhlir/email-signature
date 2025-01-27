@@ -35,7 +35,6 @@ export const EmailTemplateView = (props: any) => {
             cellPadding="0"
             cellSpacing="0"
             role="presentation"
-            width="100%"
           >
             <tbody>
               <tr key={`tr-${row.id}`} style={row.style}>
@@ -52,8 +51,10 @@ export const EmailTemplateView = (props: any) => {
 
       if (content) {
         return (
-          <tr key={`tr-${row.id}`} style={row.style}>
-            <td key={row.id}>{content}</td>
+          <tr key={`tr-${row.id}`}>
+            <td style={row.style} key={row.id}>
+              {content}
+            </td>
           </tr>
         );
       }
