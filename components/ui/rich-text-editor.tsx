@@ -348,7 +348,12 @@ const RichTextEditor = (props: any) => {
           textShadow: textShadow,
           /*           opacity: opacity / 100, */
         }}
-        onChange={(e) => setEditText(e.target.value)}
+        onChange={(e) => {
+          setEditText(e.target.value);
+          onChangeContent({
+            text: e.target.value,
+          });
+        }}
         role="textbox"
         aria-label="Text editor"
         value={editText}
