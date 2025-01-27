@@ -54,13 +54,13 @@ export const SignatureDetail = (props: any) => {
 
       <Typography variant="h3">{t("signatureEdit")}</Typography>
 
-      <div className="w-full flex justify-center">
+      <div className="flex justify-center">
         <div>
           <div id="signature5" className="table mx-auto">
             <EmailTemplateView rows={rows} />
           </div>
           <div className="h-20" />
-          <div className="table mx-auto">
+          <div>
             <EmailTemplateEdit rows={rows} />
           </div>
         </div>

@@ -116,20 +116,22 @@ export const EmailTemplateEdit = (props: any) => {
 
   return (
     <>
-      {renderRows(rows, true, "")}
+      <div className="table mx-auto">{renderRows(rows, true, "")}</div>
       <Button onClick={() => addRowTable("end")}>Add</Button>
 
-      {contentPathToEdit && (
-        <div>
-          <ContentEdit
-            contentPathToEdit={contentPathToEdit}
-            key={contentPathToEdit}
-          />
+      <div>
+        {contentPathToEdit && (
           <div>
-            <Button onClick={() => setContentPathToEdit(null)}>Close</Button>
+            <ContentEdit
+              contentPathToEdit={contentPathToEdit}
+              key={contentPathToEdit}
+            />
+            <div>
+              <Button onClick={() => setContentPathToEdit(null)}>Close</Button>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </>
   );
 };
