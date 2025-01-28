@@ -141,8 +141,11 @@ const RichTextEditor = (props: any) => {
         {/* Základní formátování */}
         <div className="flex flex-wrap gap-2 items-center p-2 border-b border-gray-200">
           <select
-            value={fontFamily}
-            onChange={(e) => setEditFontFamily(e.target.value)}
+            value={editFontFamily}
+            onChange={(e) => {
+              setEditFontFamily(e.target.value);
+              onChangeContent({ fontFamily: e.target.value });
+            }}
             className="p-2 rounded border bg-white min-w-[120px]"
           >
             {fonts.map((font) => (
@@ -170,8 +173,11 @@ const RichTextEditor = (props: any) => {
           </select>
 
           <select
-            value={lineHeight}
-            onChange={(e) => setEditLineHeight(e.target.value)}
+            value={editLineHeight}
+            onChange={(e) => {
+              setEditLineHeight(e.target.value);
+              onChangeContent({ lineHeight: e.target.value });
+            }}
             className="p-2 rounded border bg-white min-w-[80px]"
           >
             {lineHeights.map((height) => (
@@ -184,7 +190,7 @@ const RichTextEditor = (props: any) => {
           <button
             onClick={() => toggleTextDecoration("underline")}
             className={`p-2 rounded w-10 h-10 flex items-center justify-center ${
-              textDecoration === "underline" ? "bg-blue-200" : "bg-white"
+              editTextDecoration === "underline" ? "bg-blue-200" : "bg-white"
             }`}
           >
             U
@@ -193,7 +199,7 @@ const RichTextEditor = (props: any) => {
           <button
             onClick={() => toggleTextDecoration("line-through")}
             className={`p-2 rounded w-10 h-10 flex items-center justify-center ${
-              textDecoration === "line-through" ? "bg-blue-200" : "bg-white"
+              editTextDecoration === "line-through" ? "bg-blue-200" : "bg-white"
             }`}
           >
             S
@@ -204,33 +210,45 @@ const RichTextEditor = (props: any) => {
         <div className="flex flex-wrap gap-2 items-center p-2 border-b border-gray-200">
           <div className="flex gap-1">
             <button
-              onClick={() => setEditTextAlign("left")}
+              onClick={() => {
+                setEditTextAlign("left");
+                onChangeContent({ textAlign: "left" });
+              }}
               className={`p-2 rounded w-10 h-10 flex items-center justify-center ${
-                textAlign === "left" ? "bg-blue-200" : "bg-white"
+                editTextAlign === "left" ? "bg-blue-200" : "bg-white"
               }`}
             >
               ←
             </button>
             <button
-              onClick={() => setEditTextAlign("center")}
+              onClick={() => {
+                setEditTextAlign("center");
+                onChangeContent({ textAlign: "center" });
+              }}
               className={`p-2 rounded w-10 h-10 flex items-center justify-center ${
-                textAlign === "center" ? "bg-blue-200" : "bg-white"
+                editTextAlign === "center" ? "bg-blue-200" : "bg-white"
               }`}
             >
               ↔
             </button>
             <button
-              onClick={() => setEditTextAlign("right")}
+              onClick={() => {
+                setEditTextAlign("right");
+                onChangeContent({ textAlign: "right" });
+              }}
               className={`p-2 rounded w-10 h-10 flex items-center justify-center ${
-                textAlign === "right" ? "bg-blue-200" : "bg-white"
+                editTextAlign === "right" ? "bg-blue-200" : "bg-white"
               }`}
             >
               →
             </button>
             <button
-              onClick={() => setEditTextAlign("justify")}
+              onClick={() => {
+                setEditTextAlign("justify");
+                onChangeContent({ textAlign: "justify" });
+              }}
               className={`p-2 rounded w-10 h-10 flex items-center justify-center ${
-                textAlign === "justify" ? "bg-blue-200" : "bg-white"
+                editTextAlign === "justify" ? "bg-blue-200" : "bg-white"
               }`}
             >
               ⇔
@@ -239,25 +257,34 @@ const RichTextEditor = (props: any) => {
 
           <div className="flex gap-1">
             <button
-              onClick={() => toggleTextTransform("uppercase")}
+              onClick={() => {
+                setEditTextTransform("uppercase");
+                onChangeContent({ textTransform: "uppercase" });
+              }}
               className={`p-2 rounded w-10 h-10 flex items-center justify-center ${
-                textTransform === "uppercase" ? "bg-blue-200" : "bg-white"
+                editTextTransform === "uppercase" ? "bg-blue-200" : "bg-white"
               }`}
             >
               AA
             </button>
             <button
-              onClick={() => toggleTextTransform("lowercase")}
+              onClick={() => {
+                setEditTextTransform("lowercase");
+                onChangeContent({ textTransform: "lowercase" });
+              }}
               className={`p-2 rounded w-10 h-10 flex items-center justify-center ${
-                textTransform === "lowercase" ? "bg-blue-200" : "bg-white"
+                editTextTransform === "lowercase" ? "bg-blue-200" : "bg-white"
               }`}
             >
               aa
             </button>
             <button
-              onClick={() => toggleTextTransform("capitalize")}
+              onClick={() => {
+                setEditTextTransform("capitalize");
+                onChangeContent({ textTransform: "capitalize" });
+              }}
               className={`p-2 rounded w-10 h-10 flex items-center justify-center ${
-                textTransform === "capitalize" ? "bg-blue-200" : "bg-white"
+                editTextTransform === "capitalize" ? "bg-blue-200" : "bg-white"
               }`}
             >
               Aa
@@ -268,8 +295,11 @@ const RichTextEditor = (props: any) => {
         {/* Rozšířené formátování */}
         <div className="flex flex-wrap gap-2 items-center p-2 border-b border-gray-200">
           <select
-            value={letterSpacing}
-            onChange={(e) => setEditLetterSpacing(e.target.value)}
+            value={editLetterSpacing}
+            onChange={(e) => {
+              setEditLetterSpacing(e.target.value);
+              onChangeContent({ letterSpacing: e.target.value });
+            }}
             className="p-2 rounded border bg-white min-w-[100px]"
           >
             {letterSpacingOptions.map((spacing) => (
@@ -280,9 +310,17 @@ const RichTextEditor = (props: any) => {
           </select>
 
           <button
-            onClick={toggleTextShadow}
+            onClick={() => {
+              toggleTextShadow();
+              onChangeContent({
+                textShadow:
+                  editTextShadow === "none"
+                    ? "2px 2px 4px rgba(0,0,0,0.3)"
+                    : "none",
+              });
+            }}
             className={`p-2 rounded flex items-center justify-center ${
-              textShadow !== "none" ? "bg-blue-200" : "bg-white"
+              editTextShadow !== "none" ? "bg-blue-200" : "bg-white"
             }`}
           >
             Stín
@@ -308,8 +346,11 @@ const RichTextEditor = (props: any) => {
             <span className="text-sm">Barva textu:</span>
             <input
               type="color"
-              value={textColor}
-              onChange={(e) => setEditTextColor(e.target.value)}
+              value={editTextColor}
+              onChange={(e) => {
+                setEditTextColor(e.target.value);
+                onChangeContent({ textColor: e.target.value });
+              }}
               className="w-10 h-10 rounded cursor-pointer"
             />
           </div>
@@ -318,9 +359,14 @@ const RichTextEditor = (props: any) => {
             <input
               type="color"
               value={
-                backgroundColor === "transparent" ? "#ffffff" : backgroundColor
+                editBackgroundColor === "transparent"
+                  ? "#ffffff"
+                  : backgroundColor
               }
-              onChange={(e) => setEditBackgroundColor(e.target.value)}
+              onChange={(e) => {
+                setEditBackgroundColor(e.target.value);
+                onChangeContent({ backgroundColor: e.target.value });
+              }}
               className="w-10 h-10 rounded cursor-pointer"
             />
           </div>
@@ -331,21 +377,21 @@ const RichTextEditor = (props: any) => {
       <input
         className="w-full p-4 border rounded focus:outline-none focus:ring-2 focus:ring-blue-200 bg-white"
         style={{
-          fontSize: `${fontSize}px`,
-          lineHeight: lineHeight,
-          fontWeight: fontWeight,
-          fontStyle: fontStyle,
-          textAlign: textAlign as "left" | "center" | "right" | "justify",
-          color: textColor,
-          backgroundColor: backgroundColor,
-          textDecoration: textDecoration,
-          fontFamily: fontFamily,
-          letterSpacing: `${letterSpacing}px`,
-          textTransform: textTransform as
+          fontSize: `${editFontSize}px`,
+          lineHeight: editLineHeight,
+          fontWeight: editFontWeight,
+          fontStyle: editFontStyle,
+          textAlign: editTextAlign as "left" | "center" | "right" | "justify",
+          color: editTextColor,
+          backgroundColor: editBackgroundColor,
+          textDecoration: editTextDecoration,
+          fontFamily: editFontFamily,
+          letterSpacing: `${editLetterSpacing}px`,
+          textTransform: editTextTransform as
             | "uppercase"
             | "lowercase"
             | "capitalize",
-          textShadow: textShadow,
+          textShadow: editTextShadow,
           /*           opacity: opacity / 100, */
         }}
         onChange={(e) => {

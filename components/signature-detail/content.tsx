@@ -13,14 +13,18 @@ export const getContent = (content?: any) => {
   }
 
   if (content.type === ContentType.TEXT && content?.text) {
+    const { text, fontSize, textColor, ...rest } = content;
+
     // TODO - ostatní hodnoty
     return (
       <span
         style={{
-          fontSize: `${content.fontSize}px`,
+          fontSize: `${fontSize}px`,
+          color: textColor,
+          ...rest,
         }}
       >
-        {content.text}
+        {text}
       </span>
     );
   }
