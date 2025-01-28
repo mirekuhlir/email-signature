@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import { getContent } from "./content";
 import { Button } from "@/components/ui/button";
 import { useSignatureStore } from "@/components/signature-detail/signature-store";
@@ -9,8 +9,6 @@ export const EmailTemplateEdit = (props: any) => {
   const { rows } = props;
   const { addRow, addRowTable, removeRow } = useSignatureStore();
   const { setCurrentEdit, currentEdit } = useContentEditStore();
-
-  const [contentPathToEdit, setContentPathToEdit] = useState<string | null>();
 
   const renderColumn = (column: any, path: string) => {
     const rowPath = `${path}.rows`;
@@ -87,15 +85,18 @@ export const EmailTemplateEdit = (props: any) => {
               </div>
             </div>
             <Button onClick={() => removeRow(currentPath)}>Remove</Button>
-            <Button
-              onClick={() => {
-                setCurrentEdit({
-                  path: currentPath,
-                });
-              }}
-            >
-              Edit
-            </Button>
+
+            {currentEdit.path !== currentPath && (
+              <Button
+                onClick={() => {
+                  setCurrentEdit({
+                    path: currentPath,
+                  });
+                }}
+              >
+                Edit
+              </Button>
+            )}
           </Fragment>
         );
       }
