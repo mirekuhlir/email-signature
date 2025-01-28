@@ -17,7 +17,7 @@ export const signature_a = [
       },
       {
         id: "gg6r",
-        style: { backgroundColor: "yellow", verticalAlign: "top" },
+        style: { backgroundColor: "yellow", verticalAlign: "top", padding: "10px"   },
         rows: [{
           id: "ex3p",
           style: { backgroundColor: "red" },

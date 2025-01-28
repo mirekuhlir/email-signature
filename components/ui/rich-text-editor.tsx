@@ -1,72 +1,66 @@
 import React, { useEffect, useState } from "react";
 
-const RichTextEditor = (props: any) => {
+interface RichTextEditorProps {
+  content: any;
+  onChange: (content: any) => void;
+}
+
+const RichTextEditor = (props: RichTextEditorProps) => {
   const { content, onChange } = props;
 
-  const {
-    text,
-    fontSize,
-    lineHeight,
-    fontWeight,
-    fontStyle,
-    textAlign,
-    textColor,
-    backgroundColor,
-    textDecoration,
-    fontFamily,
-    letterSpacing,
-    textTransform,
-    textShadow,
-    /*     opacity, */
-  } = content;
-
-  const [editText, setEditText] = useState("");
-  const [editFontSize, setEditFontSize] = useState("");
-  const [editLineHeight, setEditLineHeight] = useState("");
-  const [editFontWeight, setEditFontWeight] = useState("");
-  const [editFontStyle, setEditFontStyle] = useState("");
-  const [editTextAlign, setEditTextAlign] = useState("");
-  const [editTextColor, setEditTextColor] = useState("");
-  const [editBackgroundColor, setEditBackgroundColor] =
-    useState(backgroundColor);
-  const [editTextDecoration, setEditTextDecoration] = useState("");
-  const [editFontFamily, setEditFontFamily] = useState("");
-  const [editLetterSpacing, setEditLetterSpacing] = useState("");
-  const [editTextTransform, setEditTextTransform] = useState("");
-  const [editTextShadow, setEditTextShadow] = useState("");
-  /*   const [editOpacity, setEditOpacity] = useState(""); */
+  const [editText, setEditText] = useState(content?.text ?? "");
+  const [editFontSize, setEditFontSize] = useState(content?.fontSize ?? "16");
+  const [editLineHeight, setEditLineHeight] = useState(
+    content?.lineHeight ?? "1",
+  );
+  const [editFontWeight, setEditFontWeight] = useState(
+    content?.fontWeight ?? "normal",
+  );
+  const [editFontStyle, setEditFontStyle] = useState(
+    content?.fontStyle ?? "normal",
+  );
+  const [editTextAlign, setEditTextAlign] = useState(
+    content?.textAlign ?? "left",
+  );
+  const [editTextColor, setEditTextColor] = useState(
+    content?.textColor ?? "#000000",
+  );
+  const [editBackgroundColor, setEditBackgroundColor] = useState(
+    content?.backgroundColor ?? "transparent",
+  );
+  const [editTextDecoration, setEditTextDecoration] = useState(
+    content?.textDecoration ?? "none",
+  );
+  const [editFontFamily, setEditFontFamily] = useState(
+    content?.fontFamily ?? "Arial",
+  );
+  const [editLetterSpacing, setEditLetterSpacing] = useState(
+    content?.letterSpacing ?? "0",
+  );
+  const [editTextTransform, setEditTextTransform] = useState(
+    content?.textTransform ?? "none",
+  );
+  const [editTextShadow, setEditTextShadow] = useState(
+    content?.textShadow ?? "none",
+  );
 
   useEffect(() => {
-    setEditText(text);
-    setEditFontSize(fontSize);
-    setEditLineHeight(lineHeight);
-    setEditFontWeight(fontWeight);
-    setEditFontStyle(fontStyle);
-    setEditTextAlign(textAlign);
-    setEditTextColor(textColor);
-    setEditBackgroundColor(backgroundColor);
-    setEditTextDecoration(textDecoration);
-    setEditFontFamily(fontFamily);
-    setEditLetterSpacing(letterSpacing);
-    setEditTextTransform(textTransform);
-    setEditTextShadow(textShadow);
-    /*     setEditOpacity(opacity); */
-  }, [
-    text,
-    fontSize,
-    lineHeight,
-    fontWeight,
-    fontStyle,
-    textAlign,
-    textColor,
-    backgroundColor,
-    textDecoration,
-    fontFamily,
-    letterSpacing,
-    textTransform,
-    textShadow,
-    /*     opacity, */
-  ]);
+    if (content) {
+      setEditText(content.text ?? "");
+      setEditFontSize(content.fontSize ?? "16");
+      setEditLineHeight(content.lineHeight ?? "1");
+      setEditFontWeight(content.fontWeight ?? "normal");
+      setEditFontStyle(content.fontStyle ?? "normal");
+      setEditTextAlign(content.textAlign ?? "left");
+      setEditTextColor(content.textColor ?? "#000000");
+      setEditBackgroundColor(content.backgroundColor ?? "transparent");
+      setEditTextDecoration(content.textDecoration ?? "none");
+      setEditFontFamily(content.fontFamily ?? "Arial");
+      setEditLetterSpacing(content.letterSpacing ?? "0");
+      setEditTextTransform(content.textTransform ?? "none");
+      setEditTextShadow(content.textShadow ?? "none");
+    }
+  }, [content]);
 
   const onChangeContent = (content: any) => {
     const editContent = {
@@ -358,14 +352,11 @@ const RichTextEditor = (props: any) => {
             <span className="text-sm">Barva pozadí:</span>
             <input
               type="color"
-              value={
-                editBackgroundColor === "transparent"
-                  ? "#ffffff"
-                  : backgroundColor
-              }
+              value={editBackgroundColor || "transparent"}
               onChange={(e) => {
-                setEditBackgroundColor(e.target.value);
-                onChangeContent({ backgroundColor: e.target.value });
+                const newColor = e.target.value || "transparent";
+                setEditBackgroundColor(newColor);
+                onChangeContent({ backgroundColor: newColor });
               }}
               className="w-10 h-10 rounded cursor-pointer"
             />
@@ -392,7 +383,6 @@ const RichTextEditor = (props: any) => {
             | "lowercase"
             | "capitalize",
           textShadow: editTextShadow,
-          /*           opacity: opacity / 100, */
         }}
         onChange={(e) => {
           setEditText(e.target.value);
