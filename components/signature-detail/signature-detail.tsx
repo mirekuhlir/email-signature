@@ -4,7 +4,7 @@ import { Typography } from "@/components/ui/typography";
 import { Button } from "@/components/ui/button";
 import t from "@/app/localization/translate";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useStore } from "./store";
+import { useSignatureStore } from "./signature-store";
 import { handleCopy } from "./utils";
 import { EmailTemplateView } from "./email-template-view";
 import { EmailTemplateEdit } from "./email-template-edit";
@@ -14,7 +14,7 @@ export const SignatureDetail = (props: any) => {
 
   const [isDarkMode, setIsDarkMode] = useState(false);
 
-  const { rows, initRows } = useStore();
+  const { rows, initRows } = useSignatureStore();
 
   useEffect(() => {
     initRows(signatureDetail.rows);
@@ -59,20 +59,22 @@ export const SignatureDetail = (props: any) => {
           <div id="signature5" className="table mx-auto">
             <EmailTemplateView rows={rows} />
           </div>
+          <div>
+            <Button
+              onClick={() => {
+                handleCopy("signature5");
+              }}
+            >
+              Copy Signature
+            </Button>
+          </div>
+
           <div className="h-20" />
           <div>
             <EmailTemplateEdit rows={rows} />
           </div>
         </div>
       </div>
-
-      <Button
-        onClick={() => {
-          handleCopy("signature5");
-        }}
-      >
-        Copy Signature
-      </Button>
     </>
   );
 };

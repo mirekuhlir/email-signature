@@ -1,15 +1,40 @@
-import { get, set } from "lodash";
-import { useStore } from "@/components/signature-detail/store";
+import { get } from "lodash";
+import { useSignatureStore } from "@/components/signature-detail/signature-store";
 import { ContentType } from "@/const/signature-parts";
-import RichTextEditor from "../ui/rich-text-editor";
+import RichTextEditor from "@/components/ui/rich-text-editor";
+import { Button } from "@/components/ui/button";
+import { useContentEditStore } from "./content-edit-store";
+import { useEffect, useRef } from "react";
 
 export const ContentEdit = (props: any) => {
   const { contentPathToEdit } = props;
-  const { rows } = useStore();
+  const { rows } = useSignatureStore();
+  const { setCurrentEdit } = useContentEditStore();
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
-  const content = get(rows, `${contentPathToEdit}.content`);
+  const path = `${contentPathToEdit}.content`;
+  const content = get(rows, path);
 
-  return <>{getContentType(content, contentPathToEdit)}</>;
+  useEffect(() => {
+    wrapperRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, []);
+
+  return (
+    <div>
+      {getContentType(content, path)}
+      <div ref={wrapperRef}>
+        <Button
+          onClick={() => {
+            setCurrentEdit({
+              path: null,
+            });
+          }}
+        >
+          Close
+        </Button>
+      </div>
+    </div>
+  );
 };
 
 const getContentType = (content: any, contentPathToEdit: any) => {
@@ -30,10 +55,10 @@ const getContentType = (content: any, contentPathToEdit: any) => {
 
 const TextEditContent = (props: any) => {
   const { content, contentPathToEdit } = props;
-  const { setContent } = useStore();
+  const { setContent } = useSignatureStore();
 
   const onChange = (editContent: any) => {
-    setContent(`${contentPathToEdit}.content`, editContent);
+    setContent(contentPathToEdit, editContent);
   };
 
   return <RichTextEditor content={content} onChange={onChange} />;

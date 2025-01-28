@@ -1,12 +1,14 @@
 import { Fragment, useState } from "react";
 import { getContent } from "./content";
 import { Button } from "@/components/ui/button";
-import { useStore } from "@/components/signature-detail/store";
+import { useSignatureStore } from "@/components/signature-detail/signature-store";
 import { ContentEdit } from "@/components/content-edit/content-edit";
+import { useContentEditStore } from "../content-edit/content-edit-store";
 
 export const EmailTemplateEdit = (props: any) => {
   const { rows } = props;
-  const { addRow, addRowTable, removeRow } = useStore();
+  const { addRow, addRowTable, removeRow } = useSignatureStore();
+  const { setCurrentEdit, currentEdit } = useContentEditStore();
 
   const [contentPathToEdit, setContentPathToEdit] = useState<string | null>();
 
@@ -87,7 +89,9 @@ export const EmailTemplateEdit = (props: any) => {
             <Button onClick={() => removeRow(currentPath)}>Remove</Button>
             <Button
               onClick={() => {
-                setContentPathToEdit(currentPath);
+                setCurrentEdit({
+                  path: currentPath,
+                });
               }}
             >
               Edit
@@ -120,15 +124,13 @@ export const EmailTemplateEdit = (props: any) => {
       <Button onClick={() => addRowTable("end")}>Add</Button>
 
       <div>
-        {contentPathToEdit && (
+        {currentEdit.path && (
           <div>
             <ContentEdit
-              contentPathToEdit={contentPathToEdit}
-              key={contentPathToEdit}
+              contentPathToEdit={currentEdit.path}
+              key={`edit-${currentEdit.path}`}
             />
-            <div>
-              <Button onClick={() => setContentPathToEdit(null)}>Close</Button>
-            </div>
+            <div></div>
           </div>
         )}
       </div>

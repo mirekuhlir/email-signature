@@ -3,6 +3,7 @@ import { ContentType } from "@/const/signature-parts";
 import { generateRandomId } from "@/utils/generateRandomId";
 import { cloneDeep, get as lGet, set as lSet, unset } from "lodash";
 
+// TODO - parametrizovat
 const getRow = () => {
   return ({
     id: generateRandomId(),
@@ -46,7 +47,7 @@ export interface StoreState {
 
 // barvy - rgba nebo hex?
 
-export const useStore = create<StoreState>((set) => ({
+export const useSignatureStore = create<StoreState>((set) => ({
   rows: [],
   initRows: (rows: any) => {
     set({ rows });
