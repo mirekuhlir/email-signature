@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { getContent } from "./content";
+import { getContentView } from "./content-view";
 
 export const EmailTemplateView = (props: any) => {
   const { rows } = props;
@@ -47,7 +47,7 @@ export const EmailTemplateView = (props: any) => {
         );
       }
 
-      const content = getContent(row?.content);
+      const content = getContentView(row?.content);
 
       if (content) {
         return (

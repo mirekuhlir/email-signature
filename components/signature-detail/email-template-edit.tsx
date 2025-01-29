@@ -1,13 +1,14 @@
 import { Fragment } from "react";
-import { getContent } from "./content";
+import { getContentView } from "./content-view";
 import { Button } from "@/components/ui/button";
 import { useSignatureStore } from "@/components/signature-detail/signature-store";
 import { ContentEdit } from "@/components/content-edit/content-edit";
 import { useContentEditStore } from "../content-edit/content-edit-store";
+import { ContentAdd } from "@/components/content-edit/content-add";
 
 export const EmailTemplateEdit = (props: any) => {
   const { rows } = props;
-  const { addRow, addRowTable, removeRow } = useSignatureStore();
+  const { addRowTable, removeRow } = useSignatureStore();
   const { setCurrentEdit, currentEdit } = useContentEditStore();
 
   const renderColumn = (column: any, path: string) => {
@@ -28,7 +29,18 @@ export const EmailTemplateEdit = (props: any) => {
         >
           {column.rows && renderRows(column.rows, false, `${rowPath}`)}
         </div>
-        <Button onClick={() => addRow(column.id, rowPath)}>Add</Button>
+
+        {currentEdit.addPath !== rowPath && (
+          <Button
+            onClick={() => {
+              setCurrentEdit({
+                addPath: rowPath,
+              });
+            }}
+          >
+            Add
+          </Button>
+        )}
       </div>
     );
   };
@@ -66,7 +78,7 @@ export const EmailTemplateEdit = (props: any) => {
         );
       }
 
-      const content = getContent(row?.content);
+      const content = getContentView(row?.content);
       if (content) {
         return (
           <Fragment key={`tr-${row.id}`}>
@@ -86,11 +98,15 @@ export const EmailTemplateEdit = (props: any) => {
             </div>
             <Button onClick={() => removeRow(currentPath)}>Remove</Button>
 
-            {currentEdit.path !== currentPath && (
+            {currentEdit.editPath !== currentPath && (
               <Button
                 onClick={() => {
                   setCurrentEdit({
-                    path: currentPath,
+                    editPath: currentPath,
+                  });
+
+                  setCurrentEdit({
+                    addPath: null,
                   });
                 }}
               >
@@ -125,13 +141,28 @@ export const EmailTemplateEdit = (props: any) => {
       <Button onClick={() => addRowTable("end")}>Add</Button>
 
       <div>
-        {currentEdit.path && (
+        {currentEdit.editPath && (
           <div>
             <ContentEdit
-              contentPathToEdit={currentEdit.path}
-              key={`edit-${currentEdit.path}`}
+              contentPathToEdit={currentEdit.editPath}
+              key={`edit-${currentEdit.editPath}`}
             />
             <div></div>
+          </div>
+        )}
+      </div>
+
+      <div>
+        {currentEdit.addPath && (
+          <div>
+            <ContentAdd
+              path={currentEdit.addPath}
+              onClose={() => {
+                setCurrentEdit({
+                  addPath: null,
+                });
+              }}
+            />
           </div>
         )}
       </div>

@@ -1,7 +1,7 @@
 import { Img } from "@/components/ui/img";
-import { ContentType } from "@/const/signature-parts";
+import { ContentType } from "@/const/content";
 
-export const getContent = (content?: any) => {
+export const getContentView = (content?: any) => {
   if (content.type == ContentType.IMAGE && content.image) {
     return (
       <Img

@@ -1,6 +1,6 @@
 import { get } from "lodash";
 import { useSignatureStore } from "@/components/signature-detail/signature-store";
-import { ContentType } from "@/const/signature-parts";
+import { ContentType } from "@/const/content";
 import RichTextEditor from "@/components/ui/rich-text-editor";
 import { Button } from "@/components/ui/button";
 import { useContentEditStore } from "./content-edit-store";
@@ -26,7 +26,7 @@ export const ContentEdit = (props: any) => {
         <Button
           onClick={() => {
             setCurrentEdit({
-              path: null,
+              editPath: null,
             });
           }}
         >

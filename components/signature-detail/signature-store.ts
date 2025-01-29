@@ -1,11 +1,12 @@
 import { create } from "zustand";
-import { ContentType } from "@/const/signature-parts";
+import { ContentType } from "@/const/content";
 import { generateRandomId } from "@/utils/generateRandomId";
 import { cloneDeep, get as lGet, set as lSet, unset } from "lodash";
 
-// TODO - parametrizovat
-const getRow = () => {
-  return ({
+// TODO - někam do util?
+
+const getText = () => {
+  return {
     id: generateRandomId(),
     type: ContentType.TEXT,
     style: { backgroundColor: "purple" },
@@ -13,8 +14,18 @@ const getRow = () => {
       type: ContentType.TEXT,
       text: "A",
     },
-  });
+  }
 };
+
+const getContentAdd = (type: ContentType) => {
+  switch (type) {
+    case ContentType.TEXT:
+      return getText();
+    default:
+      return getText();
+  }
+};
+
 
 const getRowTable = () => {
   return ({
@@ -39,7 +50,7 @@ const getRowTable = () => {
 export interface StoreState {
   rows: any[];
   initRows: (rows: any) => void;
-  addRow: (id: string, path: string) => void;
+  addRow: ( path: string, type: ContentType) => void;
   addRowTable: (position?: "start" | "end") => void;
   removeRow: (id: string) => void;
   setContent: (path: string, content: any) => void;
@@ -54,14 +65,14 @@ export const useSignatureStore = create<StoreState>((set) => ({
   },
 
   //TODO - content type
-  addRow: (id: string, path: string) =>
+  addRow: (path: string, type: ContentType) =>
     set((state) => {
       const cloneRows = cloneDeep(state.rows);
 
       lSet(cloneRows, path, [
         ...lGet(cloneRows, path),
         // start end, správný obsah v row
-        getRow(),
+        getContentAdd(type),
       ]);
 
       return { rows: cloneRows };
