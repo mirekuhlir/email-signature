@@ -32,6 +32,8 @@ export const EmailTemplateEdit = (props: any) => {
 
         {currentEdit.addPath !== rowPath && (
           <Button
+            size="sm"
+            variant="orange"
             onClick={() => {
               setCurrentEdit({
                 addPath: rowPath,
@@ -100,6 +102,7 @@ export const EmailTemplateEdit = (props: any) => {
 
             {currentEdit.editPath !== currentPath && (
               <Button
+                size="sm"
                 onClick={() => {
                   setCurrentEdit({
                     editPath: currentPath,

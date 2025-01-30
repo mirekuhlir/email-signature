@@ -40,9 +40,6 @@ const RichTextEditor = (props: RichTextEditorProps) => {
   const [editTextTransform, setEditTextTransform] = useState(
     content?.textTransform ?? "none",
   );
-  const [editTextShadow, setEditTextShadow] = useState(
-    content?.textShadow ?? "none",
-  );
 
   useEffect(() => {
     if (content) {
@@ -58,7 +55,6 @@ const RichTextEditor = (props: RichTextEditorProps) => {
       setEditFontFamily(content.fontFamily ?? "Arial");
       setEditLetterSpacing(content.letterSpacing ?? "0");
       setEditTextTransform(content.textTransform ?? "none");
-      setEditTextShadow(content.textShadow ?? "none");
     }
   }, [content]);
 
@@ -76,7 +72,6 @@ const RichTextEditor = (props: RichTextEditorProps) => {
       fontFamily: editFontFamily,
       letterSpacing: editLetterSpacing,
       textTransform: editTextTransform,
-      textShadow: editTextShadow,
     };
 
     onChange({
@@ -121,18 +116,9 @@ const RichTextEditor = (props: RichTextEditorProps) => {
     );
   };
 
-  const toggleTextShadow = () => {
-    setEditTextShadow((prev: any) =>
-      prev === "none" ? "2px 2px 4px rgba(0,0,0,0.3)" : "none",
-    );
-  };
-
-  //  TODO - donplnit všude onChangeContent
-
   return (
     <div className="w-full max-w-4xl mx-auto p-2 md:p-4 space-y-4">
       <div className="grid grid-cols-1 gap-2 bg-gray-100 p-2 rounded">
-        {/* Základní formátování */}
         <div className="flex flex-wrap gap-2 items-center p-2 border-b border-gray-200">
           <select
             value={editFontFamily}
@@ -182,7 +168,10 @@ const RichTextEditor = (props: RichTextEditorProps) => {
           </select>
 
           <button
-            onClick={() => toggleTextDecoration("underline")}
+            onClick={() => {
+              toggleTextDecoration("underline");
+              onChangeContent({ textDecoration: "underline" });
+            }}
             className={`p-2 rounded w-10 h-10 flex items-center justify-center ${
               editTextDecoration === "underline" ? "bg-blue-200" : "bg-white"
             }`}
@@ -191,16 +180,49 @@ const RichTextEditor = (props: RichTextEditorProps) => {
           </button>
 
           <button
-            onClick={() => toggleTextDecoration("line-through")}
+            onClick={() => {
+              toggleTextDecoration("line-through");
+              onChangeContent({ textDecoration: "line-through" });
+            }}
             className={`p-2 rounded w-10 h-10 flex items-center justify-center ${
               editTextDecoration === "line-through" ? "bg-blue-200" : "bg-white"
             }`}
           >
             S
           </button>
+
+          {/*  TODO - font weight */}
+          <button
+            onClick={() => {
+              setEditFontWeight(
+                editFontWeight === "normal" ? "bold" : "normal",
+              );
+              onChangeContent({
+                fontWeight: editFontWeight === "normal" ? "bold" : "normal",
+              });
+            }}
+            className={`p-2 rounded w-10 h-10 flex items-center justify-center ${
+              editFontWeight === "bold" ? "bg-blue-200" : "bg-white"
+            }`}
+          >
+            B
+          </button>
+
+          <button
+            onClick={() => {
+              setEditFontStyle(
+                editFontStyle === "normal" ? "italic" : "normal",
+              );
+              onChangeContent({
+                fontStyle: editFontStyle === "normal" ? "italic" : "normal",
+              });
+            }}
+            className={`p-2 rounded w-10 h-10 flex items-center justify-center ${editFontStyle === "italic" ? "bg-blue-200" : "bg-white"}`}
+          >
+            I
+          </button>
         </div>
 
-        {/* Zarovnání a transformace */}
         <div className="flex flex-wrap gap-2 items-center p-2 border-b border-gray-200">
           <div className="flex gap-1">
             <button
@@ -303,22 +325,6 @@ const RichTextEditor = (props: RichTextEditorProps) => {
             ))}
           </select>
 
-          <button
-            onClick={() => {
-              toggleTextShadow();
-              onChangeContent({
-                textShadow:
-                  editTextShadow === "none"
-                    ? "2px 2px 4px rgba(0,0,0,0.3)"
-                    : "none",
-              });
-            }}
-            className={`p-2 rounded flex items-center justify-center ${
-              editTextShadow !== "none" ? "bg-blue-200" : "bg-white"
-            }`}
-          >
-            Stín
-          </button>
           {/* 
           <input
             type="range"
@@ -382,7 +388,6 @@ const RichTextEditor = (props: RichTextEditorProps) => {
             | "uppercase"
             | "lowercase"
             | "capitalize",
-          textShadow: editTextShadow,
         }}
         onChange={(e) => {
           setEditText(e.target.value);

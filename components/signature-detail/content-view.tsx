@@ -13,14 +13,16 @@ export const getContentView = (content?: any) => {
   }
 
   if (content.type === ContentType.TEXT && content?.text) {
-    const { text, fontSize, textColor, ...rest } = content;
+    const { text, fontSize, textColor, letterSpacing, ...rest } = content;
 
-    // TODO - ostatní hodnoty
     return (
       <span
         style={{
+          display: "inline-block",
+          width: "100%",
           fontSize: `${fontSize}px`,
           color: textColor,
+          letterSpacing: `${letterSpacing}px`,
           ...rest,
         }}
       >
