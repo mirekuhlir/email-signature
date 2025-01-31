@@ -11,10 +11,11 @@ const getText = () => {
     type: ContentType.TEXT,
     style: { backgroundColor: "purple" },
     content: {
+      // TODO - pryč type z content
       type: ContentType.TEXT,
       text: "A",
     },
-  }
+  };
 };
 
 const getContentAdd = (type: ContentType) => {
@@ -26,22 +27,15 @@ const getContentAdd = (type: ContentType) => {
   }
 };
 
-
-const getRowTable = () => {
+const getRowTable = (type?: ContentType) => {
   return ({
     id: generateRandomId(),
     style: { backgroundColor: "purple" },
     columns: [
       {
         id: generateRandomId(),
-        rows: [{
-          id: generateRandomId(),
-          style: { backgroundColor: "red" },
-          content: {
-            type: ContentType.TEXT,
-            text: "123",
-          },
-        }],
+        // TODO
+        rows: [getContentAdd(type as ContentType)],
       },
     ],
   });
@@ -50,8 +44,8 @@ const getRowTable = () => {
 export interface StoreState {
   rows: any[];
   initRows: (rows: any) => void;
-  addRow: ( path: string, type: ContentType) => void;
-  addRowTable: (position?: "start" | "end") => void;
+  addRow: (path: string, type: ContentType) => void;
+  addRowTable: (position?: "start" | "end", type?: ContentType) => void;
   removeRow: (id: string) => void;
   setContent: (path: string, content: any) => void;
 }
@@ -78,13 +72,13 @@ export const useSignatureStore = create<StoreState>((set) => ({
       return { rows: cloneRows };
     }),
 
-  addRowTable: (position: "start" | "end" = "end") =>
+  addRowTable: (position: "start" | "end" = "end", type?: ContentType) =>
     set((state) => {
       let clonesRows = cloneDeep(state.rows);
 
       if (position === "start") {
         clonesRows = [
-          getRowTable(),
+          getRowTable(type),
           ...clonesRows,
         ];
 
@@ -93,7 +87,7 @@ export const useSignatureStore = create<StoreState>((set) => ({
 
       clonesRows = [
         ...clonesRows,
-        getRowTable(),
+        getRowTable(type),
       ];
 
       return { rows: clonesRows };
@@ -102,7 +96,25 @@ export const useSignatureStore = create<StoreState>((set) => ({
   removeRow: (path: string) =>
     set((state) => {
       const cloneRows = cloneDeep(state.rows);
-      unset(cloneRows, path);
+      const tableIndex = parseInt(path.split(".")[0].replace(/[\[\]]/g, ""));
+
+      const columnIndex = parseInt(path.split("columns[")[1].split("]")[0]);
+
+      const columnsLength = cloneRows[tableIndex].columns.length;
+      const rowsLength = cloneRows[tableIndex].columns[columnIndex].rows.length;
+
+      if (columnsLength === 1 && rowsLength === 1) {
+        // Remove entire table object
+        cloneRows.splice(tableIndex, 1);
+      } else {
+        // Remove just the specific row
+        const rowIndex = parseInt(path.split("rows[")[1].split("]")[0]);
+        const rows = cloneRows[tableIndex].columns[columnIndex].rows;
+        cloneRows[tableIndex].columns[columnIndex].rows = rows.filter((
+          _: any,
+          index: number,
+        ) => index !== rowIndex);
+      }
 
       return { rows: cloneRows };
     }),
@@ -114,10 +126,8 @@ export const useSignatureStore = create<StoreState>((set) => ({
       lSet(cloneRows, path, {
         ...currentContent,
         ...content,
-
       });
 
       return { rows: cloneRows };
     }),
-    
 }));

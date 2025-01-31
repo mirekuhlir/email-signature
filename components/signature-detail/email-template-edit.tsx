@@ -8,7 +8,6 @@ import { ContentAdd } from "@/components/content-edit/content-add";
 
 export const EmailTemplateEdit = (props: any) => {
   const { rows } = props;
-  const { addRowTable, removeRow } = useSignatureStore();
   const { setCurrentEdit, currentEdit } = useContentEditStore();
 
   const renderColumn = (column: any, path: string) => {
@@ -31,17 +30,24 @@ export const EmailTemplateEdit = (props: any) => {
         </div>
 
         {currentEdit.addPath !== rowPath && (
-          <Button
-            size="sm"
-            variant="orange"
-            onClick={() => {
-              setCurrentEdit({
-                addPath: rowPath,
-              });
-            }}
-          >
-            Add
-          </Button>
+          <div className="mt-5">
+            <Button
+              size="sm"
+              variant="orange"
+              onClick={() => {
+                const numberOfRows = column.rows.length;
+                const nextEditRowPath = `${rowPath}[${numberOfRows}]`;
+
+                setCurrentEdit({
+                  editPath: null,
+                  addPath: rowPath,
+                  nextEditPath: nextEditRowPath,
+                });
+              }}
+            >
+              Add
+            </Button>
+          </div>
         )}
       </div>
     );
@@ -93,22 +99,20 @@ export const EmailTemplateEdit = (props: any) => {
                 style={{
                   ...row.style,
                   display: "table-cell",
+                  backgroundColor: row?.content.backgroundColor,
                 }}
               >
                 {content}
               </div>
             </div>
-            <Button onClick={() => removeRow(currentPath)}>Remove</Button>
 
             {currentEdit.editPath !== currentPath && (
               <Button
                 size="sm"
+                variant="blue"
                 onClick={() => {
                   setCurrentEdit({
                     editPath: currentPath,
-                  });
-
-                  setCurrentEdit({
                     addPath: null,
                   });
                 }}
@@ -138,10 +142,22 @@ export const EmailTemplateEdit = (props: any) => {
     });
   };
 
+  //TODO - kam dát upravu barvy celého sloupce? nebo řádku? do editu?
+
   return (
     <>
       <div className="table mx-auto">{renderRows(rows, true, "")}</div>
-      <Button onClick={() => addRowTable("end")}>Add</Button>
+      <Button
+        onClick={() => {
+          setCurrentEdit({
+            position: "end",
+            addPath: "table-root",
+            nextEditPath: `[${rows.length}].columns[0].rows[0]`,
+          });
+        }}
+      >
+        Add
+      </Button>
 
       <div>
         {currentEdit.editPath && (

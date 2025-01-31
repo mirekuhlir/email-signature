@@ -8,7 +8,7 @@ import { useEffect, useRef } from "react";
 
 export const ContentEdit = (props: any) => {
   const { contentPathToEdit } = props;
-  const { rows } = useSignatureStore();
+  const { rows, removeRow } = useSignatureStore();
   const { setCurrentEdit } = useContentEditStore();
   const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -23,6 +23,16 @@ export const ContentEdit = (props: any) => {
     <div>
       {getContentType(content, path)}
       <div ref={wrapperRef}>
+        <Button
+          onClick={() => {
+            setCurrentEdit({
+              editPath: null,
+            });
+            removeRow(contentPathToEdit);
+          }}
+        >
+          Remove
+        </Button>
         <Button
           onClick={() => {
             setCurrentEdit({

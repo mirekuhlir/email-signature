@@ -1,6 +1,7 @@
 import { create } from "zustand";
 
 export interface StoreState {
+  //TODO -  přejmenovat a otypovat
   currentEdit: any;
   setCurrentEdit: (currentEdit: any) => void;
 }

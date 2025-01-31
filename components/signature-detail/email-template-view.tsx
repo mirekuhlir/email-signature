@@ -52,7 +52,13 @@ export const EmailTemplateView = (props: any) => {
       if (content) {
         return (
           <tr key={`tr-${row.id}`}>
-            <td style={row.style} key={row.id}>
+            <td
+              style={{
+                ...row.style,
+                backgroundColor: row?.content.backgroundColor,
+              }}
+              key={row.id}
+            >
               {content}
             </td>
           </tr>
