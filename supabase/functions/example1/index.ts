@@ -1,6 +1,7 @@
+// deno-lint-ignore-file no-explicit-any
 import { serve } from "https://deno.land/std@0.114.0/http/server.ts";
 
-serve((req) => {
+serve((req: any) => {
     const { method, url } = req;
 
     /*     if (method === "OPTIONS") {

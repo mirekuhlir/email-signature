@@ -370,7 +370,7 @@ const TextInputExample: React.FC = () => {
 };
 
 const RichTextEditorExample = () => {
-  return <RichTextEditor />;
+  return <RichTextEditor content={{}} onChange={() => {}} />;
 };
 
 const SelectExample = () => {

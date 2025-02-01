@@ -48,32 +48,40 @@ const RichTextEditor2 = () => {
   ];
 
   useEffect(() => {
-    if (selectedLineId && inputRefs.current[selectedLineId]) {
-      inputRefs.current[selectedLineId].focus();
+    if (
+      selectedLineId &&
+      inputRefs.current &&
+      selectedLineId in inputRefs.current
+    ) {
+      (
+        inputRefs.current[
+          selectedLineId as keyof typeof inputRefs.current
+        ] as HTMLInputElement
+      ).focus();
     }
   }, [selectedLineId, lines.length]);
 
-  const updateLineProperty = (property, value) => {
+  const updateLineProperty = (property: any, value: any) => {
     setLines((prevLines) =>
       prevLines.map((line) =>
-        line.id === selectedLineId ? { ...line, [property]: value } : line
-      )
+        line.id === selectedLineId ? { ...line, [property]: value } : line,
+      ),
     );
   };
 
-  const toggleTextDecoration = (decoration) => {
+  const toggleTextDecoration = (decoration: any) => {
     const selectedLine = lines.find((line) => line.id === selectedLineId);
     updateLineProperty(
       "textDecoration",
-      selectedLine.textDecoration === decoration ? "none" : decoration
+      selectedLine?.textDecoration === decoration ? "none" : decoration,
     );
   };
 
-  const toggleTextTransform = (transform) => {
+  const toggleTextTransform = (transform: any) => {
     const selectedLine = lines.find((line) => line.id === selectedLineId);
     updateLineProperty(
       "textTransform",
-      selectedLine.textTransform === transform ? "none" : transform
+      selectedLine?.textTransform === transform ? "none" : transform,
     );
   };
 
@@ -81,17 +89,17 @@ const RichTextEditor2 = () => {
     const selectedLine = lines.find((line) => line.id === selectedLineId);
     updateLineProperty(
       "textShadow",
-      selectedLine.textShadow === "none"
+      selectedLine?.textShadow === "none"
         ? "2px 2px 4px rgba(0,0,0,0.3)"
-        : "none"
+        : "none",
     );
   };
 
-  const handleLineClick = (lineId) => {
+  const handleLineClick = (lineId: any) => {
     setSelectedLineId(lineId);
   };
 
-  const handleKeyDown = (e, lineIndex) => {
+  const handleKeyDown = (e: any, lineIndex: any) => {
     if (e.key === "Enter") {
       e.preventDefault();
       const newId = Date.now().toString();
@@ -121,11 +129,11 @@ const RichTextEditor2 = () => {
     }
   };
 
-  const handleLineChange = (lineId, newText) => {
+  const handleLineChange = (lineId: any, newText: any) => {
     setLines((prevLines) =>
       prevLines.map((line) =>
-        line.id === lineId ? { ...line, text: newText } : line
-      )
+        line.id === lineId ? { ...line, text: newText } : line,
+      ),
     );
   };
 
@@ -337,7 +345,7 @@ const RichTextEditor2 = () => {
       </div>
 
       <div className="w-full min-h-[200px] p-4 border rounded focus:outline-none focus:ring-2 focus:ring-blue-200 bg-white">
-        {lines.map((line, index) => (
+        {/*     {lines.map((line, index) => (
           <div
             key={line.id}
             onClick={() => handleLineClick(line.id)}
@@ -346,7 +354,12 @@ const RichTextEditor2 = () => {
             }`}
           >
             <input
-              ref={(el) => (inputRefs.current[line.id] = el)}
+              ref={(el) => {
+                if (el && inputRefs.current) {
+                  inputRefs.current[line.id as keyof typeof inputRefs.current] =
+                    el;
+                }
+              }}
               type="text"
               value={line.text}
               onChange={(e) => handleLineChange(line.id, e.target.value)}
@@ -369,7 +382,7 @@ const RichTextEditor2 = () => {
               }}
             />
           </div>
-        ))}
+        ))} */}
       </div>
     </div>
   );
