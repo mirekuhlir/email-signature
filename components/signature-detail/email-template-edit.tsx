@@ -8,7 +8,7 @@ import { ContentAdd } from "@/components/content-edit/content-add";
 
 export const EmailTemplateEdit = (props: any) => {
   const { rows } = props;
-  const { setContentEdit, currentEdit } = useContentEditStore();
+  const { setContentEdit, contentEdit } = useContentEditStore();
 
   const renderColumn = (column: any, path: string) => {
     const rowPath = `${path}.rows`;
@@ -29,7 +29,7 @@ export const EmailTemplateEdit = (props: any) => {
           {column.rows && renderRows(column.rows, false, `${rowPath}`)}
         </div>
 
-        {currentEdit.addPath !== rowPath && (
+        {contentEdit.addPath !== rowPath && (
           <div className="mt-5">
             <Button
               size="sm"
@@ -106,7 +106,7 @@ export const EmailTemplateEdit = (props: any) => {
               </div>
             </div>
 
-            {currentEdit.editPath !== currentPath && (
+            {contentEdit.editPath !== currentPath && (
               <div className="mb-4">
                 <Button
                   size="sm"
@@ -149,7 +149,7 @@ export const EmailTemplateEdit = (props: any) => {
   return (
     <>
       <div>
-        {!currentEdit.editPath && !currentEdit.addPath && (
+        {!contentEdit.editPath && !contentEdit.addPath && (
           <div className="mb-5">
             <Button
               onClick={() => {
@@ -168,7 +168,7 @@ export const EmailTemplateEdit = (props: any) => {
 
         <div className="table mx-auto">{renderRows(rows, true, "")}</div>
 
-        {!currentEdit.editPath && !currentEdit.addPath && (
+        {!contentEdit.editPath && !contentEdit.addPath && (
           <div className="mt-5">
             <Button
               onClick={() => {
@@ -187,11 +187,11 @@ export const EmailTemplateEdit = (props: any) => {
       </div>
 
       <div>
-        {currentEdit.editPath && (
+        {contentEdit.editPath && (
           <div>
             <ContentEdit
-              contentPathToEdit={currentEdit.editPath}
-              key={`edit-${currentEdit.editPath}`}
+              contentPathToEdit={contentEdit.editPath}
+              key={`edit-${contentEdit.editPath}`}
             />
             <div></div>
           </div>
@@ -199,10 +199,10 @@ export const EmailTemplateEdit = (props: any) => {
       </div>
 
       <div>
-        {currentEdit.addPath && (
+        {contentEdit.addPath && (
           <div>
             <ContentAdd
-              path={currentEdit.addPath}
+              path={contentEdit.addPath}
               onClose={() => {
                 setContentEdit({
                   addPath: null,

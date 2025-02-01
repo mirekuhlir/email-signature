@@ -9,13 +9,13 @@ export const ContentAdd = (props: any) => {
   const { path, onClose } = props;
 
   const { addRow, addRowTable } = useSignatureStore();
-  const { setContentEdit, currentEdit } = useContentEditStore();
+  const { setContentEdit, contentEdit } = useContentEditStore();
 
   const onClick = (type: ContentType) => {
-    if (currentEdit.addPath === "table-root" && currentEdit.position) {
-      addRowTable(currentEdit.position, type);
+    if (contentEdit.addPath === "table-root" && contentEdit.position) {
+      addRowTable(contentEdit.position, type);
       setContentEdit({
-        editPath: currentEdit.nextEditPath,
+        editPath: contentEdit.nextEditPath,
         addPath: null,
       });
       return;
@@ -23,7 +23,7 @@ export const ContentAdd = (props: any) => {
 
     addRow(path, type);
     setContentEdit({
-      editPath: currentEdit.nextEditPath,
+      editPath: contentEdit.nextEditPath,
       addPath: null,
     });
   };
