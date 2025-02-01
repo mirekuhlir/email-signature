@@ -1,10 +1,9 @@
 import { Fragment } from "react";
-import { getContentView } from "../content-view/content-view";
+import { getContentView } from "./content-view/content-view";
 import { Button } from "@/components/ui/button";
-import { useSignatureStore } from "@/components/signature-detail/content-signature-store";
-import { ContentEdit } from "@/components/content-edit/content-edit";
-import { useContentEditStore } from "./content-edit-path-store";
-import { ContentAdd } from "@/components/content-add/content-add";
+import { ContentEdit } from "@/components/signature-detail/content-edit/content-edit";
+import { useContentEditStore } from "./store/content-edit-add-path-store";
+import { ContentAdd } from "@/components/signature-detail/content-add/content-add";
 
 export const EmailTemplateEdit = (props: any) => {
   const { rows } = props;

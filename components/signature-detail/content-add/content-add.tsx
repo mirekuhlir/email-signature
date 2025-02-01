@@ -1,7 +1,7 @@
-import { useSignatureStore } from "@/components/signature-detail/content-signature-store";
-import { useContentEditStore } from "@/components/content-edit/content-edit-path-store";
+import { useSignatureStore } from "@/components/signature-detail/store/content-edit-add-store";
+import { useContentEditStore } from "@/components/signature-detail/store/content-edit-add-path-store";
 import { Button } from "@/components/ui/button";
-import { Typography } from "../ui/typography";
+import { Typography } from "../../ui/typography";
 import { CONTENT_TYPES } from "./const";
 import { ContentType } from "@/const/content";
 
@@ -32,7 +32,7 @@ export const ContentAdd = (props: any) => {
     <div className="pt-6">
       {CONTENT_TYPES.map((typeItem, index) => (
         <div key={index}>
-          <Typography>{typeItem.name}</Typography>
+          <Typography>{typeItem.content}</Typography>
           <Button onClick={() => onAdd(typeItem.type)}>Add text</Button>
         </div>
       ))}

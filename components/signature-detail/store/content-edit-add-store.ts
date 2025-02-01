@@ -1,44 +1,7 @@
 import { create } from "zustand";
 import { ContentType } from "@/const/content";
-import { generateRandomId } from "@/utils/generateRandomId";
-import { cloneDeep, get as lGet, set as lSet, unset } from "lodash";
-
-// TODO - někam do util?
-
-const getText = () => {
-  return {
-    id: generateRandomId(),
-    type: ContentType.TEXT,
-    style: { backgroundColor: "purple" },
-    content: {
-      // TODO - pryč type z content
-      type: ContentType.TEXT,
-      text: "A",
-    },
-  };
-};
-
-const getContentAdd = (type: ContentType) => {
-  switch (type) {
-    case ContentType.TEXT:
-      return getText();
-    default:
-      return getText();
-  }
-};
-
-const getRowTable = (type: ContentType) => {
-  return ({
-    id: generateRandomId(),
-    style: { backgroundColor: "purple" },
-    columns: [
-      {
-        id: generateRandomId(),
-        rows: [getContentAdd(type)],
-      },
-    ],
-  });
-};
+import { cloneDeep, get as lGet, set as lSet } from "lodash";
+import { getContentAdd, getRowTable } from "../content-add/utils";
 
 export interface StoreState {
   rows: any[];
