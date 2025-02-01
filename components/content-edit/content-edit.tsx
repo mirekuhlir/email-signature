@@ -1,9 +1,9 @@
 import { get } from "lodash";
-import { useSignatureStore } from "@/components/signature-detail/signature-store";
+import { useSignatureStore } from "@/components/signature-detail/content-signature-store";
 import { ContentType } from "@/const/content";
 import RichTextEditor from "@/components/ui/rich-text-editor";
 import { Button } from "@/components/ui/button";
-import { useContentEditStore } from "./content-edit-store";
+import { useContentEditStore } from "./content-edit-path-store";
 import { useEffect, useRef } from "react";
 
 export const ContentEdit = (props: any) => {

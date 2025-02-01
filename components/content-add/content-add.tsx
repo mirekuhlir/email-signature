@@ -1,5 +1,5 @@
-import { useSignatureStore } from "@/components/signature-detail/signature-store";
-import { useContentEditStore } from "@/components/content-edit/content-edit-store";
+import { useSignatureStore } from "@/components/signature-detail/content-signature-store";
+import { useContentEditStore } from "@/components/content-edit/content-edit-path-store";
 import { Button } from "@/components/ui/button";
 import { Typography } from "../ui/typography";
 import { CONTENT_TYPES } from "./const";
@@ -9,9 +9,9 @@ export const ContentAdd = (props: any) => {
   const { path, onClose } = props;
 
   const { addRow, addRowTable } = useSignatureStore();
-  const { setContentEdit, contentEdit } = useContentEditStore();
+  const { contentEdit, setContentEdit } = useContentEditStore();
 
-  const onClick = (type: ContentType) => {
+  const onAdd = (type: ContentType) => {
     if (contentEdit.addPath === "table-root" && contentEdit.position) {
       addRowTable(contentEdit.position, type);
       setContentEdit({
@@ -30,16 +30,10 @@ export const ContentAdd = (props: any) => {
 
   return (
     <div className="pt-6">
-      {CONTENT_TYPES.map((typeItem) => (
-        <div key={typeItem.id}>
+      {CONTENT_TYPES.map((typeItem, index) => (
+        <div key={index}>
           <Typography>{typeItem.name}</Typography>
-          <Button
-            onClick={() => {
-              onClick(typeItem.type);
-            }}
-          >
-            Add text
-          </Button>
+          <Button onClick={() => onAdd(typeItem.type)}>Add text</Button>
         </div>
       ))}
 

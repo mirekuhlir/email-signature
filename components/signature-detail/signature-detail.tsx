@@ -4,10 +4,10 @@ import { Typography } from "@/components/ui/typography";
 import { Button } from "@/components/ui/button";
 import t from "@/app/localization/translate";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useSignatureStore } from "./signature-store";
-import { handleCopy } from "./utils";
-import { EmailTemplateView } from "./email-template-view";
-import { EmailTemplateEdit } from "./email-template-edit";
+import { useSignatureStore } from "./content-signature-store";
+import { handleCopy } from "../content-view/utils";
+import { EmailTemplateView } from "../content-view/email-template-view";
+import { EmailTemplateEdit } from "../content-edit/email-template-edit";
 
 export const SignatureDetail = (props: any) => {
   const { signatureDetail } = props;
