@@ -1,7 +1,8 @@
 import { generateRandomId } from "@/utils/generateRandomId";
 import { ContentType } from "@/const/content";
+import t from "@/app/localization/translate";
 
-export const getExampleText = () => "Example text";
+export const getExampleText = () => t("exampleText");
 
 const getText = () => {
     return {
