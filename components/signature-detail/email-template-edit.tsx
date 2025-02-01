@@ -8,7 +8,7 @@ import { ContentAdd } from "@/components/content-edit/content-add";
 
 export const EmailTemplateEdit = (props: any) => {
   const { rows } = props;
-  const { setCurrentEdit, currentEdit } = useContentEditStore();
+  const { setContentEdit, currentEdit } = useContentEditStore();
 
   const renderColumn = (column: any, path: string) => {
     const rowPath = `${path}.rows`;
@@ -38,7 +38,7 @@ export const EmailTemplateEdit = (props: any) => {
                 const numberOfRows = column.rows.length;
                 const nextEditRowPath = `${rowPath}[${numberOfRows}]`;
 
-                setCurrentEdit({
+                setContentEdit({
                   editPath: null,
                   addPath: rowPath,
                   nextEditPath: nextEditRowPath,
@@ -107,18 +107,20 @@ export const EmailTemplateEdit = (props: any) => {
             </div>
 
             {currentEdit.editPath !== currentPath && (
-              <Button
-                size="sm"
-                variant="blue"
-                onClick={() => {
-                  setCurrentEdit({
-                    editPath: currentPath,
-                    addPath: null,
-                  });
-                }}
-              >
-                Edit
-              </Button>
+              <div className="mb-4">
+                <Button
+                  size="sm"
+                  variant="blue"
+                  onClick={() => {
+                    setContentEdit({
+                      editPath: currentPath,
+                      addPath: null,
+                    });
+                  }}
+                >
+                  Edit
+                </Button>
+              </div>
             )}
           </Fragment>
         );
@@ -146,18 +148,43 @@ export const EmailTemplateEdit = (props: any) => {
 
   return (
     <>
-      <div className="table mx-auto">{renderRows(rows, true, "")}</div>
-      <Button
-        onClick={() => {
-          setCurrentEdit({
-            position: "end",
-            addPath: "table-root",
-            nextEditPath: `[${rows.length}].columns[0].rows[0]`,
-          });
-        }}
-      >
-        Add
-      </Button>
+      <div>
+        {!currentEdit.editPath && !currentEdit.addPath && (
+          <div className="mb-5">
+            <Button
+              onClick={() => {
+                setContentEdit({
+                  position: "start",
+                  addPath: "table-root",
+                  nextEditPath: "[0].columns[0].rows[0]",
+                });
+              }}
+              variant="gray"
+            >
+              Add
+            </Button>
+          </div>
+        )}
+
+        <div className="table mx-auto">{renderRows(rows, true, "")}</div>
+
+        {!currentEdit.editPath && !currentEdit.addPath && (
+          <div className="mt-5">
+            <Button
+              onClick={() => {
+                setContentEdit({
+                  position: "end",
+                  addPath: "table-root",
+                  nextEditPath: `[${rows.length}].columns[0].rows[0]`,
+                });
+              }}
+              variant="gray"
+            >
+              Add
+            </Button>
+          </div>
+        )}
+      </div>
 
       <div>
         {currentEdit.editPath && (
@@ -177,7 +204,7 @@ export const EmailTemplateEdit = (props: any) => {
             <ContentAdd
               path={currentEdit.addPath}
               onClose={() => {
-                setCurrentEdit({
+                setContentEdit({
                   addPath: null,
                 });
               }}

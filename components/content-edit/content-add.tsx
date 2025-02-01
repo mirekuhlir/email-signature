@@ -9,12 +9,12 @@ export const ContentAdd = (props: any) => {
   const { path, onClose } = props;
 
   const { addRow, addRowTable } = useSignatureStore();
-  const { setCurrentEdit, currentEdit } = useContentEditStore();
+  const { setContentEdit, currentEdit } = useContentEditStore();
 
   const onClick = (type: ContentType) => {
     if (currentEdit.addPath === "table-root" && currentEdit.position) {
       addRowTable(currentEdit.position, type);
-      setCurrentEdit({
+      setContentEdit({
         editPath: currentEdit.nextEditPath,
         addPath: null,
       });
@@ -22,7 +22,7 @@ export const ContentAdd = (props: any) => {
     }
 
     addRow(path, type);
-    setCurrentEdit({
+    setContentEdit({
       editPath: currentEdit.nextEditPath,
       addPath: null,
     });
@@ -44,7 +44,7 @@ export const ContentAdd = (props: any) => {
       ))}
 
       <div></div>
-      <div>
+      <div className="flex justify-end mb-6">
         <Button onClick={onClose}>Close</Button>
       </div>
     </div>

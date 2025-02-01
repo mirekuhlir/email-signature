@@ -9,7 +9,7 @@ import { useEffect, useRef } from "react";
 export const ContentEdit = (props: any) => {
   const { contentPathToEdit } = props;
   const { rows, removeRow } = useSignatureStore();
-  const { setCurrentEdit } = useContentEditStore();
+  const { setContentEdit } = useContentEditStore();
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   const path = `${contentPathToEdit}.content`;
@@ -22,20 +22,21 @@ export const ContentEdit = (props: any) => {
   return (
     <div>
       {getContentType(content, path)}
-      <div ref={wrapperRef}>
+      <Button
+        onClick={() => {
+          setContentEdit({
+            editPath: null,
+          });
+          removeRow(contentPathToEdit);
+        }}
+        variant="red"
+      >
+        Remove
+      </Button>
+      <div className="flex justify-end mb-6" ref={wrapperRef}>
         <Button
           onClick={() => {
-            setCurrentEdit({
-              editPath: null,
-            });
-            removeRow(contentPathToEdit);
-          }}
-        >
-          Remove
-        </Button>
-        <Button
-          onClick={() => {
-            setCurrentEdit({
+            setContentEdit({
               editPath: null,
             });
           }}

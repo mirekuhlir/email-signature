@@ -27,15 +27,14 @@ const getContentAdd = (type: ContentType) => {
   }
 };
 
-const getRowTable = (type?: ContentType) => {
+const getRowTable = (type: ContentType) => {
   return ({
     id: generateRandomId(),
     style: { backgroundColor: "purple" },
     columns: [
       {
         id: generateRandomId(),
-        // TODO
-        rows: [getContentAdd(type as ContentType)],
+        rows: [getContentAdd(type)],
       },
     ],
   });
@@ -45,7 +44,7 @@ export interface StoreState {
   rows: any[];
   initRows: (rows: any) => void;
   addRow: (path: string, type: ContentType) => void;
-  addRowTable: (position?: "start" | "end", type?: ContentType) => void;
+  addRowTable: (position: "start" | "end", type: ContentType) => void;
   removeRow: (id: string) => void;
   setContent: (path: string, content: any) => void;
 }
@@ -72,7 +71,7 @@ export const useSignatureStore = create<StoreState>((set) => ({
       return { rows: cloneRows };
     }),
 
-  addRowTable: (position: "start" | "end" = "end", type?: ContentType) =>
+  addRowTable: (position: "start" | "end" = "end", type: ContentType) =>
     set((state) => {
       let clonesRows = cloneDeep(state.rows);
 
