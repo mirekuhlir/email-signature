@@ -8,7 +8,7 @@ export const EmailTemplateView = (props: any) => {
     return (
       <td style={column.style}>
         <table
-          key={column}
+          key={column.id}
           border={0}
           cellPadding="0"
           cellSpacing="0"
@@ -58,7 +58,6 @@ export const EmailTemplateView = (props: any) => {
                 ...row.style,
                 backgroundColor: row?.content.backgroundColor,
               }}
-              key={row.id}
             >
               {content}
             </td>
@@ -76,5 +75,13 @@ export const EmailTemplateView = (props: any) => {
     });
   };
 
-  return <>{renderRows(rows, true)}</>;
+  return (
+    <table border={0} cellPadding="0" cellSpacing="0" role="presentation">
+      <tbody>
+        <tr>
+          <td>{renderRows(rows, true)}</td>
+        </tr>
+      </tbody>
+    </table>
+  );
 };

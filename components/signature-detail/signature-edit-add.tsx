@@ -147,7 +147,7 @@ export const EmailTemplateEdit = (props: any) => {
 
   return (
     <>
-      <div>
+      <div className="table mx-auto">
         {!contentEdit.editPath && !contentEdit.addPath && (
           <div className="mb-5">
             <Button
@@ -164,9 +164,17 @@ export const EmailTemplateEdit = (props: any) => {
             </Button>
           </div>
         )}
-
-        <div className="table mx-auto">{renderRows(rows, true, "")}</div>
-
+        <>{renderRows(rows, true, "")}</>
+        {contentEdit.addPath && (
+          <ContentAdd
+            path={contentEdit.addPath}
+            onClose={() => {
+              setContentEdit({
+                addPath: null,
+              });
+            }}
+          />
+        )}
         {!contentEdit.editPath && !contentEdit.addPath && (
           <div className="mt-5">
             <Button
@@ -185,30 +193,12 @@ export const EmailTemplateEdit = (props: any) => {
         )}
       </div>
 
-      <div>
+      <div className="flex justify-center">
         {contentEdit.editPath && (
-          <div>
-            <ContentEdit
-              contentPathToEdit={contentEdit.editPath}
-              key={`edit-${contentEdit.editPath}`}
-            />
-            <div></div>
-          </div>
-        )}
-      </div>
-
-      <div>
-        {contentEdit.addPath && (
-          <div>
-            <ContentAdd
-              path={contentEdit.addPath}
-              onClose={() => {
-                setContentEdit({
-                  addPath: null,
-                });
-              }}
-            />
-          </div>
+          <ContentEdit
+            contentPathToEdit={contentEdit.editPath}
+            key={`edit-${contentEdit.editPath}`}
+          />
         )}
       </div>
     </>

@@ -36,8 +36,6 @@ export const ContentAdd = (props: any) => {
           <Button onClick={() => onAdd(typeItem.type)}>Add text</Button>
         </div>
       ))}
-
-      <div></div>
       <div className="flex justify-end mb-6">
         <Button onClick={onClose}>Close</Button>
       </div>

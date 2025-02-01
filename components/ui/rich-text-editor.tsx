@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, ChangeEvent } from "react";
 
 interface RichTextEditorProps {
   content: any;
@@ -58,7 +58,7 @@ const RichTextEditor = (props: RichTextEditorProps) => {
     }
   }, [content]);
 
-  const onChangeContent = (content: any) => {
+  const onChangeContent = (updated: any) => {
     const editContent = {
       text: editText,
       fontSize: editFontSize,
@@ -76,7 +76,7 @@ const RichTextEditor = (props: RichTextEditorProps) => {
 
     onChange({
       ...editContent,
-      ...content,
+      ...updated,
     });
   };
 
@@ -104,25 +104,14 @@ const RichTextEditor = (props: RichTextEditorProps) => {
     "Helvetica",
   ];
 
-  const toggleTextDecoration = (decoration: any) => {
-    setEditTextDecoration((prev: any) =>
-      prev === decoration ? "none" : decoration,
-    );
-  };
-
-  const toggleTextTransform = (transform: any) => {
-    setEditTextTransform((prev: any) =>
-      prev === transform ? "none" : transform,
-    );
-  };
-
   return (
     <div className="w-full max-w-4xl mx-auto p-2 md:p-4 space-y-4">
       <div className="grid grid-cols-1 gap-2 bg-gray-100 p-2 rounded">
+        {/* Basic Formatting */}
         <div className="flex flex-wrap gap-2 items-center p-2 border-b border-gray-200">
           <select
             value={editFontFamily}
-            onChange={(e) => {
+            onChange={(e: ChangeEvent<HTMLSelectElement>) => {
               setEditFontFamily(e.target.value);
               onChangeContent({ fontFamily: e.target.value });
             }}
@@ -137,11 +126,9 @@ const RichTextEditor = (props: RichTextEditorProps) => {
 
           <select
             value={editFontSize}
-            onChange={(e) => {
+            onChange={(e: ChangeEvent<HTMLSelectElement>) => {
               setEditFontSize(e.target.value);
-              onChangeContent({
-                fontSize: e.target.value,
-              });
+              onChangeContent({ fontSize: e.target.value });
             }}
             className="p-2 rounded border bg-white min-w-[80px]"
           >
@@ -154,7 +141,7 @@ const RichTextEditor = (props: RichTextEditorProps) => {
 
           <select
             value={editLineHeight}
-            onChange={(e) => {
+            onChange={(e: ChangeEvent<HTMLSelectElement>) => {
               setEditLineHeight(e.target.value);
               onChangeContent({ lineHeight: e.target.value });
             }}
@@ -169,8 +156,10 @@ const RichTextEditor = (props: RichTextEditorProps) => {
 
           <button
             onClick={() => {
-              toggleTextDecoration("underline");
-              onChangeContent({ textDecoration: "underline" });
+              const newDecoration =
+                editTextDecoration === "underline" ? "none" : "underline";
+              setEditTextDecoration(newDecoration);
+              onChangeContent({ textDecoration: newDecoration });
             }}
             className={`p-2 rounded w-10 h-10 flex items-center justify-center ${
               editTextDecoration === "underline" ? "bg-blue-200" : "bg-white"
@@ -181,8 +170,10 @@ const RichTextEditor = (props: RichTextEditorProps) => {
 
           <button
             onClick={() => {
-              toggleTextDecoration("line-through");
-              onChangeContent({ textDecoration: "line-through" });
+              const newDecoration =
+                editTextDecoration === "line-through" ? "none" : "line-through";
+              setEditTextDecoration(newDecoration);
+              onChangeContent({ textDecoration: newDecoration });
             }}
             className={`p-2 rounded w-10 h-10 flex items-center justify-center ${
               editTextDecoration === "line-through" ? "bg-blue-200" : "bg-white"
@@ -191,15 +182,11 @@ const RichTextEditor = (props: RichTextEditorProps) => {
             S
           </button>
 
-          {/*  TODO - font weight */}
           <button
             onClick={() => {
-              setEditFontWeight(
-                editFontWeight === "normal" ? "bold" : "normal",
-              );
-              onChangeContent({
-                fontWeight: editFontWeight === "normal" ? "bold" : "normal",
-              });
+              const newWeight = editFontWeight === "normal" ? "bold" : "normal";
+              setEditFontWeight(newWeight);
+              onChangeContent({ fontWeight: newWeight });
             }}
             className={`p-2 rounded w-10 h-10 flex items-center justify-center ${
               editFontWeight === "bold" ? "bg-blue-200" : "bg-white"
@@ -210,19 +197,19 @@ const RichTextEditor = (props: RichTextEditorProps) => {
 
           <button
             onClick={() => {
-              setEditFontStyle(
-                editFontStyle === "normal" ? "italic" : "normal",
-              );
-              onChangeContent({
-                fontStyle: editFontStyle === "normal" ? "italic" : "normal",
-              });
+              const newStyle = editFontStyle === "normal" ? "italic" : "normal";
+              setEditFontStyle(newStyle);
+              onChangeContent({ fontStyle: newStyle });
             }}
-            className={`p-2 rounded w-10 h-10 flex items-center justify-center ${editFontStyle === "italic" ? "bg-blue-200" : "bg-white"}`}
+            className={`p-2 rounded w-10 h-10 flex items-center justify-center ${
+              editFontStyle === "italic" ? "bg-blue-200" : "bg-white"
+            }`}
           >
             I
           </button>
         </div>
 
+        {/* Alignment and Text Transform */}
         <div className="flex flex-wrap gap-2 items-center p-2 border-b border-gray-200">
           <div className="flex gap-1">
             <button
@@ -274,8 +261,10 @@ const RichTextEditor = (props: RichTextEditorProps) => {
           <div className="flex gap-1">
             <button
               onClick={() => {
-                setEditTextTransform("uppercase");
-                onChangeContent({ textTransform: "uppercase" });
+                const newTransform =
+                  editTextTransform === "uppercase" ? "none" : "uppercase";
+                setEditTextTransform(newTransform);
+                onChangeContent({ textTransform: newTransform });
               }}
               className={`p-2 rounded w-10 h-10 flex items-center justify-center ${
                 editTextTransform === "uppercase" ? "bg-blue-200" : "bg-white"
@@ -285,8 +274,10 @@ const RichTextEditor = (props: RichTextEditorProps) => {
             </button>
             <button
               onClick={() => {
-                setEditTextTransform("lowercase");
-                onChangeContent({ textTransform: "lowercase" });
+                const newTransform =
+                  editTextTransform === "lowercase" ? "none" : "lowercase";
+                setEditTextTransform(newTransform);
+                onChangeContent({ textTransform: newTransform });
               }}
               className={`p-2 rounded w-10 h-10 flex items-center justify-center ${
                 editTextTransform === "lowercase" ? "bg-blue-200" : "bg-white"
@@ -296,8 +287,10 @@ const RichTextEditor = (props: RichTextEditorProps) => {
             </button>
             <button
               onClick={() => {
-                setEditTextTransform("capitalize");
-                onChangeContent({ textTransform: "capitalize" });
+                const newTransform =
+                  editTextTransform === "capitalize" ? "none" : "capitalize";
+                setEditTextTransform(newTransform);
+                onChangeContent({ textTransform: newTransform });
               }}
               className={`p-2 rounded w-10 h-10 flex items-center justify-center ${
                 editTextTransform === "capitalize" ? "bg-blue-200" : "bg-white"
@@ -308,11 +301,11 @@ const RichTextEditor = (props: RichTextEditorProps) => {
           </div>
         </div>
 
-        {/* Rozšířené formátování */}
+        {/* Extended Formatting */}
         <div className="flex flex-wrap gap-2 items-center p-2 border-b border-gray-200">
           <select
             value={editLetterSpacing}
-            onChange={(e) => {
+            onChange={(e: ChangeEvent<HTMLSelectElement>) => {
               setEditLetterSpacing(e.target.value);
               onChangeContent({ letterSpacing: e.target.value });
             }}
@@ -324,30 +317,16 @@ const RichTextEditor = (props: RichTextEditorProps) => {
               </option>
             ))}
           </select>
-
-          {/* 
-          <input
-            type="range"
-            min="0"
-            max="100"
-            value={opacity.toString()}
-            onChange={(e) => setEditOpacity(Number(e.target.value))}
-            className="w-full h-4 bg-gray-200 rounded-lg appearance-none cursor-pointer"
-            style={{
-              accentColor: "#4A90E2",
-            }}
-          />
-          <span className="text-sm">Průhlednost: {opacity}%</span> */}
         </div>
 
-        {/* Barvy */}
+        {/* Colors */}
         <div className="flex flex-wrap gap-2 items-center p-2">
           <div className="flex items-center gap-2">
             <span className="text-sm">Barva textu:</span>
             <input
               type="color"
               value={editTextColor}
-              onChange={(e) => {
+              onChange={(e: ChangeEvent<HTMLInputElement>) => {
                 setEditTextColor(e.target.value);
                 onChangeContent({ textColor: e.target.value });
               }}
@@ -359,7 +338,7 @@ const RichTextEditor = (props: RichTextEditorProps) => {
             <input
               type="color"
               value={editBackgroundColor || "transparent"}
-              onChange={(e) => {
+              onChange={(e: ChangeEvent<HTMLInputElement>) => {
                 const newColor = e.target.value || "transparent";
                 setEditBackgroundColor(newColor);
                 onChangeContent({ backgroundColor: newColor });
@@ -370,7 +349,6 @@ const RichTextEditor = (props: RichTextEditorProps) => {
         </div>
       </div>
 
-      {/*   TODO - style */}
       <input
         className="w-full p-4 border rounded focus:outline-none focus:ring-2 focus:ring-blue-200 bg-white"
         style={{
@@ -387,7 +365,8 @@ const RichTextEditor = (props: RichTextEditorProps) => {
           textTransform: editTextTransform as
             | "uppercase"
             | "lowercase"
-            | "capitalize",
+            | "capitalize"
+            | "none",
         }}
         onChange={(e) => {
           setEditText(e.target.value);
