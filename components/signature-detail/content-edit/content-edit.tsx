@@ -4,7 +4,8 @@ import { ContentType } from "@/const/content";
 import RichTextEditor from "@/components/ui/rich-text-editor";
 import { Button } from "@/components/ui/button";
 import { useContentEditStore } from "../store/content-edit-add-path-store";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import t from "@/app/localization/translate";
 
 export const ContentEdit = (props: any) => {
   const { contentPathToEdit } = props;
@@ -104,22 +105,50 @@ const EmailEditContent = (props: any) => {
   const { components, contentPathToEdit, contentType } = props;
   const { setContent } = useSignatureStore();
 
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const validateEmail = (email: string) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
+  const validate = (text: string, componentId: string) => {
+    if (!validateEmail(text)) {
+      setErrors((prev) => ({
+        ...prev,
+        [componentId]: t("emailWrongFormat"),
+      }));
+      return false;
+    }
+    setErrors((prev) => {
+      const newErrors = { ...prev };
+      delete newErrors[componentId];
+      return newErrors;
+    });
+    return true;
+  };
+
   return components.map((component: any, index: number) => {
     const path = `${contentPathToEdit}.components[${index}]`;
 
     const onChange = (editContent: any) => {
+      if (component.type === ContentType.EMAIL_LINK && editContent.text) {
+        validate(editContent.text, component.id);
+      }
+
       setContent(path, editContent);
     };
 
-    // TODO - component vzít email link a validovat správný email
-
     return (
-      <div key={index}>
+      <div key={component.id}>
         <RichTextEditor
           content={component}
           onChange={onChange}
           contentType={contentType}
         />
+        {errors[component.id] && (
+          <p className="text-red-500 mt-2 text-sm">{errors[component.id]}</p>
+        )}
       </div>
     );
   });
