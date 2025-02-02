@@ -10,8 +10,13 @@ export const signature_a = [
           style: { padding: "10px" },
           content: {
             type: "image",
-            image:
-              "https://fastly.picsum.photos/id/159/140/140.jpg?hmac=Aa3iY6i0Z1Nf_lx_RWn-hSXKm6jTfHbJE7P-trDe-6Y",
+            components: [
+              {
+                id: "2j9c1",
+                src:
+                  "https://fastly.picsum.photos/id/159/140/140.jpg?hmac=Aa3iY6i0Z1Nf_lx_RWn-hSXKm6jTfHbJE7P-trDe-6Y",
+              },
+            ],
           },
         }],
       },
@@ -27,14 +32,26 @@ export const signature_a = [
           style: { backgroundColor: "red" },
           content: {
             type: "text",
-            text: "Miroslav Uhlíř",
-            fontSize: "40",
+            components: [
+              {
+                id: "2j9ba1",
+                text: "Miroslav Uhlíř",
+                fontSize: "40",
+              },
+            ],
           },
         }, {
           id: "7jn3",
           content: {
             type: "text",
-            text: "javascript developer",
+            components: [
+              {
+                id: "2j9ba2",
+                text: "javascript developer",
+                fontSize: "16",
+                color: "gray  ",
+              },
+            ],
           },
         }],
       },

@@ -2,33 +2,38 @@ import { Img } from "@/components/ui/img";
 import { ContentType } from "@/const/content";
 
 export const getContentView = (content?: any) => {
-  if (content.type == ContentType.IMAGE && content.image) {
-    return (
-      <Img
-        src={
-          "https://fastly.picsum.photos/id/159/140/140.jpg?hmac=Aa3iY6i0Z1Nf_lx_RWn-hSXKm6jTfHbJE7P-trDe-6Y"
-        }
-      />
-    );
+  if (content.type == ContentType.IMAGE) {
+    const { components } = content;
+
+    return components.map((component: any, index: number) => {
+      const { id, src } = component;
+      return <Img key={id} src={src} />;
+    });
   }
 
-  if (content.type === ContentType.TEXT && content?.text) {
-    const { text, fontSize, textColor, letterSpacing, ...rest } = content;
+  if (content.type === ContentType.TEXT) {
+    const { components } = content;
 
-    return (
-      <span
-        style={{
-          display: "inline-block",
-          width: "100%",
-          fontSize: `${fontSize}px`,
-          color: textColor,
-          letterSpacing: `${letterSpacing}px`,
-          ...rest,
-        }}
-      >
-        {text}
-      </span>
-    );
+    return components.map((component: any) => {
+      const { id, text, fontSize, textColor, letterSpacing, ...rest } =
+        component;
+
+      return (
+        <span
+          key={id}
+          style={{
+            display: "inline-block",
+            width: "100%",
+            fontSize: `${fontSize}px`,
+            color: textColor,
+            letterSpacing: `${letterSpacing}px`,
+            ...rest,
+          }}
+        >
+          {text}
+        </span>
+      );
+    });
   }
 
   return null;
