@@ -44,7 +44,7 @@ const SelectBase: React.FC<CustomSelectProps> = ({
   const selectedOption = options.find((option) => option.value === value);
 
   return (
-    <div ref={selectRef} className="relative inline-block w-64">
+    <div ref={selectRef} className="relative inline-block w-48">
       {/* Tlačítko, které zobrazuje vybranou možnost */}
       <button
         type="button"

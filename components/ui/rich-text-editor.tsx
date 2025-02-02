@@ -1,5 +1,6 @@
 import { ContentType } from "@/const/content";
 import React, { useEffect, useState, ChangeEvent } from "react";
+import SelectBase from "./select-base";
 
 interface RichTextEditorProps {
   content: any;
@@ -100,33 +101,44 @@ const RichTextEditor = (props: RichTextEditorProps) => {
   const letterSpacingOptions = ["0", "1", "2", "4", "8"];
   // TODO - vybrat fonty, které budou fungovat, onstanta?
   const fonts = [
-    "Arial",
-    "Times New Roman",
-    "Courier New",
-    "Georgia",
-    "Verdana",
-    "Helvetica",
+    {
+      value: "Arial",
+      label: "Arial",
+    },
+    {
+      value: "Times New Roman",
+      label: "Times New Roman",
+    },
+    {
+      value: "Courier New",
+      label: "Courier New",
+    },
+    {
+      value: "Georgia",
+      label: "Georgia",
+    },
+    {
+      value: "Verdana",
+      label: "Verdana",
+    },
+    {
+      value: "Helvetica",
+      label: "Helvetica",
+    },
   ];
 
   return (
     <div className="w-full max-w-4xl mx-auto p-2 md:p-4 space-y-4">
       <div className="grid grid-cols-1 gap-2 bg-gray-100 p-2 rounded">
-        {/* Basic Formatting */}
         <div className="flex flex-wrap gap-2 items-center p-2 border-b border-gray-200">
-          <select
+          <SelectBase
+            options={fonts}
             value={editFontFamily}
-            onChange={(e: ChangeEvent<HTMLSelectElement>) => {
-              setEditFontFamily(e.target.value);
-              onChangeContent({ fontFamily: e.target.value });
+            onChange={(value) => {
+              setEditFontFamily(value);
+              onChangeContent({ fontFamily: value });
             }}
-            className="p-2 rounded border bg-white min-w-[120px]"
-          >
-            {fonts.map((font) => (
-              <option key={font} value={font}>
-                {font}
-              </option>
-            ))}
-          </select>
+          />
 
           <select
             value={editFontSize}
