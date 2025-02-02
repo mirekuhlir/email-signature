@@ -51,11 +51,13 @@ export const ContentEdit = (props: any) => {
 const getContentType = (content: any, contentPathToEdit: any) => {
   const type: ContentType = content?.type;
 
+  const { components } = content;
+
   switch (type) {
     case ContentType.TEXT:
       return (
         <TextEditContent
-          content={content}
+          components={components}
           contentPathToEdit={contentPathToEdit}
         />
       );
@@ -65,12 +67,20 @@ const getContentType = (content: any, contentPathToEdit: any) => {
 };
 
 const TextEditContent = (props: any) => {
-  const { content, contentPathToEdit } = props;
+  const { components, contentPathToEdit } = props;
   const { setContent } = useSignatureStore();
 
-  const onChange = (editContent: any) => {
-    setContent(contentPathToEdit, editContent);
-  };
+  return components.map((component: any, index: number) => {
+    const path = `${contentPathToEdit}.components[${index}]`;
 
-  return <RichTextEditor content={content} onChange={onChange} />;
+    const onChange = (editContent: any) => {
+      setContent(path, editContent);
+    };
+
+    return (
+      <div key={index}>
+        <RichTextEditor content={component} onChange={onChange} />
+      </div>
+    );
+  });
 };
