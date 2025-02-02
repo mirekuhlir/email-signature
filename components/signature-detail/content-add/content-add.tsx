@@ -31,9 +31,11 @@ export const ContentAdd = (props: any) => {
   return (
     <div className="pt-6">
       {CONTENT_TYPES.map((typeItem, index) => (
-        <div key={index}>
+        <div key={index} className="mb-4">
           <Typography>{typeItem.content}</Typography>
-          <Button onClick={() => onAdd(typeItem.type)}>Add text</Button>
+          <Button
+            onClick={() => onAdd(typeItem.type)}
+          >{`Add ${typeItem.name}`}</Button>
         </div>
       ))}
       <div className="flex justify-end mb-6">

@@ -48,6 +48,8 @@ export const ContentEdit = (props: any) => {
   );
 };
 
+// TODO - refactor, nějak ty komponenty sjednotit
+
 const getContentType = (content: any, contentPathToEdit: any) => {
   const type: ContentType = content?.type;
 
@@ -57,6 +59,15 @@ const getContentType = (content: any, contentPathToEdit: any) => {
     case ContentType.TEXT:
       return (
         <TextEditContent
+          contentType={type}
+          components={components}
+          contentPathToEdit={contentPathToEdit}
+        />
+      );
+    case ContentType.EMAIL:
+      return (
+        <EmailEditContent
+          contentType={type}
           components={components}
           contentPathToEdit={contentPathToEdit}
         />
@@ -67,7 +78,7 @@ const getContentType = (content: any, contentPathToEdit: any) => {
 };
 
 const TextEditContent = (props: any) => {
-  const { components, contentPathToEdit } = props;
+  const { components, contentPathToEdit, contentType } = props;
   const { setContent } = useSignatureStore();
 
   return components.map((component: any, index: number) => {
@@ -79,7 +90,36 @@ const TextEditContent = (props: any) => {
 
     return (
       <div key={index}>
-        <RichTextEditor content={component} onChange={onChange} />
+        <RichTextEditor
+          content={component}
+          onChange={onChange}
+          contentType={contentType}
+        />
+      </div>
+    );
+  });
+};
+
+const EmailEditContent = (props: any) => {
+  const { components, contentPathToEdit, contentType } = props;
+  const { setContent } = useSignatureStore();
+
+  return components.map((component: any, index: number) => {
+    const path = `${contentPathToEdit}.components[${index}]`;
+
+    const onChange = (editContent: any) => {
+      setContent(path, editContent);
+    };
+
+    // TODO - component vzít email link a validovat správný email
+
+    return (
+      <div key={index}>
+        <RichTextEditor
+          content={component}
+          onChange={onChange}
+          contentType={contentType}
+        />
       </div>
     );
   });

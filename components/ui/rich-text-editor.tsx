@@ -1,8 +1,12 @@
+import { ContentType } from "@/const/content";
 import React, { useEffect, useState, ChangeEvent } from "react";
 
 interface RichTextEditorProps {
   content: any;
   onChange: (content: any) => void;
+  // TODO - na základě content type sestavit layout - text editor, email (schovat zarování pro druhý text)
+  contentType: ContentType;
+  //TODO - validations a validovat správný email
 }
 
 const RichTextEditor = (props: RichTextEditorProps) => {

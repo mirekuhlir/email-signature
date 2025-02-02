@@ -20,14 +20,12 @@ export const useSignatureStore = create<StoreState>((set) => ({
     set({ rows });
   },
 
-  //TODO - content type
   addRow: (path: string, type: ContentType) =>
     set((state) => {
       const cloneRows = cloneDeep(state.rows);
 
       lSet(cloneRows, path, [
         ...lGet(cloneRows, path),
-        // start end, správný obsah v row
         getContentAdd(type),
       ]);
 

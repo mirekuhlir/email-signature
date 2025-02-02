@@ -7,4 +7,10 @@ export const CONTENT_TYPES = [
     content: getExampleText(),
     type: ContentType.TEXT,
   },
+  // TODO - image
+  {
+    name: "E-mail",
+    content: "my email",
+    type: ContentType.EMAIL,
+  },
 ];

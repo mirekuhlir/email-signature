@@ -36,7 +36,7 @@ export const signature_a = [
               {
                 id: "2j9ba1",
                 text: "Miroslav Uhlíř",
-                fontSize: "40",
+                fontSize: "32",
               },
             ],
           },

@@ -15,8 +15,21 @@ export const getContentView = (content?: any) => {
     const { components } = content;
 
     return components.map((component: any) => {
-      const { id, text, fontSize, textColor, letterSpacing, ...rest } =
-        component;
+      const {
+        id,
+        text,
+        fontSize,
+        textColor,
+        letterSpacing,
+        backgroundColor,
+        fontFamily,
+        fontStyle,
+        fontWeight,
+        lineHeight,
+        textAlign,
+        textDecoration,
+        textTransform,
+      } = component;
 
       return (
         <span
@@ -27,13 +40,81 @@ export const getContentView = (content?: any) => {
             fontSize: `${fontSize}px`,
             color: textColor,
             letterSpacing: `${letterSpacing}px`,
-            ...rest,
+            backgroundColor,
+            fontFamily,
+            fontStyle,
+            fontWeight,
+            lineHeight,
+            textAlign,
+            textDecoration,
+            textTransform,
           }}
         >
           {text}
         </span>
       );
     });
+  }
+
+  if (content.type === ContentType.EMAIL) {
+    const { components } = content;
+
+    const textAlign = components[0].textAlign;
+
+    return (
+      <span style={{ width: "100%", display: "inline-block", textAlign }}>
+        {components.map((component: any) => {
+          const {
+            id,
+            text,
+            fontSize,
+            textColor,
+            letterSpacing,
+            backgroundColor,
+            fontFamily,
+            fontStyle,
+            fontWeight,
+            lineHeight,
+            textAlign,
+            textDecoration,
+            textTransform,
+          } = component;
+
+          const style = {
+            width: "100%",
+            fontSize: `${fontSize}px`,
+            color: textColor,
+            letterSpacing: `${letterSpacing}px`,
+            backgroundColor,
+            fontFamily,
+            fontStyle,
+            fontWeight,
+            lineHeight,
+            textAlign,
+            textDecoration,
+            textTransform,
+          };
+
+          if (!text) {
+            return null;
+          }
+
+          if (component.type === ContentType.EMAIL_LINK) {
+            return (
+              <a key={id} href={`mailto:${text}`} target="_blank" style={style}>
+                {text}
+              </a>
+            );
+          }
+
+          return (
+            <span key={id} style={style}>
+              {text}
+            </span>
+          );
+        })}
+      </span>
+    );
   }
 
   return null;

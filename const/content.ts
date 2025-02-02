@@ -1,6 +1,8 @@
 export enum ContentType {
     TEXT = "text",
     IMAGE = "image",
+    EMAIL = "email",
+    EMAIL_LINK = "emailLink",
 }
 
 // tel, mob, email, address, website, social,
@@ -8,6 +10,3 @@ export enum ContentType {
 // link
 // image - odkaz na image?
 // button a link
-
-
-
