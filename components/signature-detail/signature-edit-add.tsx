@@ -96,9 +96,10 @@ export const EmailTemplateEdit = (props: any) => {
             >
               <div
                 style={{
-                  ...row.style,
+                  lineHeight: 1,
                   display: "table-cell",
                   backgroundColor: row?.content.backgroundColor,
+                  ...row.style,
                 }}
               >
                 {content}
@@ -106,7 +107,7 @@ export const EmailTemplateEdit = (props: any) => {
             </div>
 
             {contentEdit.editPath !== currentPath && (
-              <div className="mb-4">
+              <div className="mb-2">
                 <Button
                   size="sm"
                   variant="blue"
