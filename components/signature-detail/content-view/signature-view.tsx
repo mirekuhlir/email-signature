@@ -55,8 +55,9 @@ export const EmailTemplateView = (props: any) => {
           <tr key={`tr-${row.id}`}>
             <td
               style={{
-                ...row.style,
                 backgroundColor: row?.content.backgroundColor,
+                lineHeight: 1,
+                ...row.style,
               }}
             >
               {content}

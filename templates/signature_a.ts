@@ -17,20 +17,24 @@ export const signature_a = [
       },
       {
         id: "gg6r",
-        style: { backgroundColor: "yellow", verticalAlign: "top", padding: "10px"   },
+        style: {
+          backgroundColor: "yellow",
+          verticalAlign: "top",
+          padding: "10px",
+        },
         rows: [{
           id: "ex3p",
           style: { backgroundColor: "red" },
           content: {
             type: "text",
-            text: "123",
-            fontSize: "40"
+            text: "Miroslav Uhlíř",
+            fontSize: "40",
           },
         }, {
           id: "7jn3",
           content: {
             type: "text",
-            text: "124",
+            text: "javascript developer",
           },
         }],
       },
