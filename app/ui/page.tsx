@@ -10,6 +10,8 @@ import RichTextEditor from "@/components/ui/rich-text-editor";
 import Select from "@/components/ui/select";
 import { TextEditor } from "@/components/ui/text-editor-full/text-editor";
 import StyledLink from "@/components/ui/styled-link";
+import SelectBase from "@/components/ui/select-base";
+import { ContentType } from "@/const/content";
 
 const TypographyExample = () => {
   return (
@@ -370,7 +372,13 @@ const TextInputExample: React.FC = () => {
 };
 
 const RichTextEditorExample = () => {
-  return <RichTextEditor content={{}} onChange={() => {}} />;
+  return (
+    <RichTextEditor
+      content={{}}
+      onChange={() => {}}
+      contentType={ContentType.TEXT}
+    />
+  );
 };
 
 const SelectExample = () => {
@@ -466,9 +474,33 @@ const StyledLinkExample = () => {
     </div>
   );
 };
+
+const SelectBaseExample = () => {
+  const options = [
+    { value: "option1", label: "Option 1" },
+    { value: "option2", label: "Option 2" },
+    { value: "option3", label: "Option 3" },
+  ];
+
+  return (
+    <>
+      <div className="bg-gray-100 p-4">
+        <div className="bg-white p-6 rounded shadow-md w-full max-w-md space-y-4">
+          <SelectBase options={options} onChange={() => {}} />
+        </div>
+      </div>
+      <div className="bg-gray-100 p-4">
+        <div className="bg-white p-6 rounded shadow-md w-full max-w-md space-y-4">
+          <SelectBase options={options} onChange={() => {}} value="option3" />
+        </div>
+      </div>
+    </>
+  );
+};
+
 export default function DesignSystem() {
   return (
-    <div className="w-full">
+    <div className="w-full p-b-10">
       <TypographyExample />
       <ButtonExamples />
       <AdvancedColorPicker />
@@ -478,6 +510,7 @@ export default function DesignSystem() {
       <SelectExample />
       <TextEditor />
       <StyledLinkExample />
+      <SelectBaseExample />
     </div>
   );
 }
