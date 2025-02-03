@@ -1,11 +1,12 @@
 import { get } from "lodash";
 import { useSignatureStore } from "@/components/signature-detail/store/content-edit-add-store";
 import { ContentType } from "@/const/content";
-import RichTextEditor from "@/components/ui/rich-text-editor";
+import RichTextEditor from "@/components/ui/rich-text-editor/rich-text-editor";
 import { Button } from "@/components/ui/button";
 import { useContentEditStore } from "../store/content-edit-add-path-store";
-import { useEffect, useRef, useState } from "react";
-import t from "@/app/localization/translate";
+import { useEffect, useRef } from "react";
+import useValidate from "@/hooks/useValidate";
+import { validateEmail } from "@/hooks/validations";
 
 export const ContentEdit = (props: any) => {
   const { contentPathToEdit } = props;
@@ -104,36 +105,18 @@ const TextEditContent = (props: any) => {
 const EmailEditContent = (props: any) => {
   const { components, contentPathToEdit, contentType } = props;
   const { setContent } = useSignatureStore();
-
-  const [errors, setErrors] = useState<Record<string, string>>({});
-
-  const validateEmail = (email: string) => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-  };
-
-  const validate = (text: string, componentId: string) => {
-    if (!validateEmail(text)) {
-      setErrors((prev) => ({
-        ...prev,
-        [componentId]: t("emailWrongFormat"),
-      }));
-      return false;
-    }
-    setErrors((prev) => {
-      const newErrors = { ...prev };
-      delete newErrors[componentId];
-      return newErrors;
-    });
-    return true;
-  };
+  const { validate, errors } = useValidate();
 
   return components.map((component: any, index: number) => {
     const path = `${contentPathToEdit}.components[${index}]`;
 
     const onChange = (editContent: any) => {
       if (component.type === ContentType.EMAIL_LINK && editContent.text) {
-        validate(editContent.text, component.id);
+        validate({
+          text: editContent.text,
+          componentId: component.id,
+          validation: validateEmail,
+        });
       }
 
       setContent(path, editContent);
@@ -145,10 +128,8 @@ const EmailEditContent = (props: any) => {
           content={component}
           onChange={onChange}
           contentType={contentType}
+          errorMessage={errors[component.id]}
         />
-        {errors[component.id] && (
-          <p className="text-red-500 mt-2 text-sm">{errors[component.id]}</p>
-        )}
       </div>
     );
   });

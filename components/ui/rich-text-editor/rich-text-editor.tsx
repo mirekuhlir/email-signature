@@ -8,10 +8,11 @@ interface RichTextEditorProps {
   onChange: (content: any) => void;
   // TODO - na základě content type sestavit layout - text editor, email (schovat zarování pro druhý text)
   contentType: ContentType;
+  errorMessage?: string;
 }
 
 const RichTextEditor = (props: RichTextEditorProps) => {
-  const { content, onChange } = props;
+  const { content, onChange, errorMessage } = props;
 
   const [editText, setEditText] = useState(content?.text ?? "");
   const [editFontSize, setEditFontSize] = useState(content?.fontSize ?? "16");
@@ -352,6 +353,9 @@ const RichTextEditor = (props: RichTextEditorProps) => {
         aria-label="Text editor"
         value={editText}
       />
+      {errorMessage && (
+        <p className="text-red-500 mt-2 text-sm">{errorMessage}</p>
+      )}
     </div>
   );
 };
