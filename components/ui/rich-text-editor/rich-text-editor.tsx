@@ -1,13 +1,13 @@
 import { ContentType } from "@/const/content";
 import React, { useEffect, useState, ChangeEvent } from "react";
-import SelectBase from "./select-base";
+import SelectBase from "../select-base";
+import { FONTS, FONT_SIZES, LINE_HEIGHTS, LETTER_SPACINGS } from "./fonts";
 
 interface RichTextEditorProps {
   content: any;
   onChange: (content: any) => void;
   // TODO - na základě content type sestavit layout - text editor, email (schovat zarování pro druhý text)
   contentType: ContentType;
-  //TODO - validations a validovat správný email
 }
 
 const RichTextEditor = (props: RichTextEditorProps) => {
@@ -85,54 +85,12 @@ const RichTextEditor = (props: RichTextEditorProps) => {
     });
   };
 
-  const fontSizes = [
-    "12",
-    "14",
-    "16",
-    "18",
-    "20",
-    "24",
-    "28",
-    "32",
-    "40",
-    "48",
-  ];
-  const lineHeights = ["1", "1.25", "1.5", "1.75", "2", "2.5"];
-  const letterSpacingOptions = ["0", "1", "2", "4", "8"];
-  // TODO - vybrat fonty, které budou fungovat, onstanta?
-  const fonts = [
-    {
-      value: "Arial",
-      label: "Arial",
-    },
-    {
-      value: "Times New Roman",
-      label: "Times New Roman",
-    },
-    {
-      value: "Courier New",
-      label: "Courier New",
-    },
-    {
-      value: "Georgia",
-      label: "Georgia",
-    },
-    {
-      value: "Verdana",
-      label: "Verdana",
-    },
-    {
-      value: "Helvetica",
-      label: "Helvetica",
-    },
-  ];
-
   return (
     <div className="w-full max-w-4xl mx-auto p-2 md:p-4 space-y-4">
       <div className="grid grid-cols-1 gap-2 bg-gray-100 p-2 rounded">
         <div className="flex flex-wrap gap-2 items-center p-2 border-b border-gray-200">
           <SelectBase
-            options={fonts}
+            options={FONTS}
             value={editFontFamily}
             onChange={(value) => {
               setEditFontFamily(value);
@@ -148,7 +106,7 @@ const RichTextEditor = (props: RichTextEditorProps) => {
             }}
             className="p-2 rounded border bg-white min-w-[80px]"
           >
-            {fontSizes.map((size) => (
+            {FONT_SIZES.map((size) => (
               <option key={size} value={size}>
                 {size}px
               </option>
@@ -163,7 +121,7 @@ const RichTextEditor = (props: RichTextEditorProps) => {
             }}
             className="p-2 rounded border bg-white min-w-[80px]"
           >
-            {lineHeights.map((height) => (
+            {LINE_HEIGHTS.map((height) => (
               <option key={height} value={height}>
                 ×{height}
               </option>
@@ -327,7 +285,7 @@ const RichTextEditor = (props: RichTextEditorProps) => {
             }}
             className="p-2 rounded border bg-white min-w-[100px]"
           >
-            {letterSpacingOptions.map((spacing) => (
+            {LETTER_SPACINGS.map((spacing) => (
               <option key={spacing} value={spacing}>
                 Mezery {spacing}px
               </option>

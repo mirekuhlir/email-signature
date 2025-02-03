@@ -6,7 +6,7 @@ import { Typography } from "@/components/ui/typography";
 import Modal from "@/components/ui/modal";
 import { useForm, SubmitHandler } from "react-hook-form";
 import TextInput from "@/components/ui/text-input";
-import RichTextEditor from "@/components/ui/rich-text-editor";
+import RichTextEditor from "@/components/ui/rich-text-editor/rich-text-editor";
 import Select from "@/components/ui/select";
 import { TextEditor } from "@/components/ui/text-editor-full/text-editor";
 import StyledLink from "@/components/ui/styled-link";
