@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { Typography } from "./typography";
 
 interface Option {
   value: string;
@@ -47,11 +48,7 @@ const SelectBase: React.FC<CustomSelectProps> = ({
 
   return (
     <div className="flex flex-col">
-      {label ? (
-        <label className="block text-sm font-medium text-gray-700">
-          {label}
-        </label>
-      ) : null}
+      {label ? <Typography variant="label">{label}</Typography> : null}
       <div ref={selectRef} className="relative inline-block w-48">
         <button
           type="button"

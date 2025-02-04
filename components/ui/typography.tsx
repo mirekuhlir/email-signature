@@ -2,7 +2,14 @@ import React from "react";
 
 type HeadlineType = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 
-type VariantType = HeadlineType | "lead" | "large" | "body" | "small" | "tiny";
+type VariantType =
+  | HeadlineType
+  | "lead"
+  | "large"
+  | "body"
+  | "small"
+  | "tiny"
+  | "label";
 
 type WeightType =
   | "thin"
@@ -30,6 +37,7 @@ const variantStyles: Record<VariantType, string> = {
   body: "text-base",
   small: "text-sm",
   tiny: "text-xs",
+  label: "block text-sm font-medium text-gray-700",
 };
 
 const weightStyles: Record<WeightType, string> = {
@@ -82,7 +90,7 @@ export const Typography = ({
     uppercase && "uppercase",
     lowercase && "lowercase",
     capitalize && "capitalize",
-    className
+    className,
   );
 
   return <Component className={classes}>{children}</Component>;
