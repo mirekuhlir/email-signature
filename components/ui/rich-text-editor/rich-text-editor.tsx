@@ -2,6 +2,7 @@ import { ContentType } from "@/const/content";
 import React, { useEffect, useState, ChangeEvent } from "react";
 import SelectBase from "../select-base";
 import { FONTS, FONT_SIZES, LINE_HEIGHTS, LETTER_SPACINGS } from "./fonts";
+import AdvancedColorPicker from "../advanced-color-picker";
 
 interface RichTextEditorProps {
   content: any;
@@ -10,6 +11,27 @@ interface RichTextEditorProps {
   contentType: ContentType;
   errorMessage?: string;
 }
+
+const ButtonSquare = ({
+  onClick,
+  children,
+  isSelected,
+  className,
+}: {
+  onClick: () => void;
+  children: React.ReactNode;
+  isSelected?: boolean;
+  className?: string;
+}) => {
+  return (
+    <button
+      onClick={onClick}
+      className={`p-2 rounded w-20 h-10 flex items-center justify-center ${isSelected ? "bg-blue-200" : "bg-white"} ${className}`}
+    >
+      {children}
+    </button>
+  );
+};
 
 const RichTextEditor = (props: RichTextEditorProps) => {
   const { content, onChange, errorMessage } = props;
@@ -28,11 +50,16 @@ const RichTextEditor = (props: RichTextEditorProps) => {
   const [editTextAlign, setEditTextAlign] = useState(
     content?.textAlign ?? "left",
   );
+
+  // TODO - text color nebo color? změnit načíst
+  // TODO - použít vlastní color picker?
   const [editTextColor, setEditTextColor] = useState(
+    // TODO barva, použit rgba a bude to tady
     content?.textColor ?? "#000000",
   );
   const [editBackgroundColor, setEditBackgroundColor] = useState(
-    content?.backgroundColor ?? "transparent",
+    // TODO barva
+    content?.backgroundColor ?? "rgba(0, 0, 0, 0)",
   );
   const [editTextDecoration, setEditTextDecoration] = useState(
     content?.textDecoration ?? "none",
@@ -56,7 +83,7 @@ const RichTextEditor = (props: RichTextEditorProps) => {
       setEditFontStyle(content.fontStyle ?? "normal");
       setEditTextAlign(content.textAlign ?? "left");
       setEditTextColor(content.textColor ?? "#000000");
-      setEditBackgroundColor(content.backgroundColor ?? "transparent");
+      setEditBackgroundColor(content.backgroundColor ?? "rgba(0, 0, 0, 0)");
       setEditTextDecoration(content.textDecoration ?? "none");
       setEditFontFamily(content.fontFamily ?? "Arial");
       setEditLetterSpacing(content.letterSpacing ?? "0");
@@ -86,215 +113,165 @@ const RichTextEditor = (props: RichTextEditorProps) => {
     });
   };
 
+  //TODO lokalizace
+
   return (
     <div className="w-full max-w-4xl mx-auto p-2 md:p-4 space-y-4">
       <div className="grid grid-cols-1 gap-2 bg-gray-100 p-2 rounded">
-        <div className="flex flex-wrap gap-2 items-center p-2 border-b border-gray-200">
+        <div className="flex flex-col gap-2 p-2 border-b border-gray-200">
           <SelectBase
             options={FONTS}
             value={editFontFamily}
+            label="Font"
             onChange={(value) => {
               setEditFontFamily(value);
               onChangeContent({ fontFamily: value });
             }}
           />
 
-          <select
+          <SelectBase
+            options={FONT_SIZES}
             value={editFontSize}
-            onChange={(e: ChangeEvent<HTMLSelectElement>) => {
-              setEditFontSize(e.target.value);
-              onChangeContent({ fontSize: e.target.value });
+            label="Font size"
+            onChange={(value) => {
+              setEditFontFamily(value);
+              onChangeContent({ fontSize: value });
             }}
-            className="p-2 rounded border bg-white min-w-[80px]"
-          >
-            {FONT_SIZES.map((size) => (
-              <option key={size} value={size}>
-                {size}px
-              </option>
-            ))}
-          </select>
+          />
 
-          <select
+          <SelectBase
+            options={LINE_HEIGHTS}
+            label="Line height"
             value={editLineHeight}
-            onChange={(e: ChangeEvent<HTMLSelectElement>) => {
-              setEditLineHeight(e.target.value);
-              onChangeContent({ lineHeight: e.target.value });
+            onChange={(value) => {
+              setEditFontFamily(value);
+              onChangeContent({ lineHeight: value });
             }}
-            className="p-2 rounded border bg-white min-w-[80px]"
-          >
-            {LINE_HEIGHTS.map((height) => (
-              <option key={height} value={height}>
-                ×{height}
-              </option>
-            ))}
-          </select>
+          />
+        </div>
 
-          <button
+        <div className="flex gap-2 p-2 border-b border-gray-200">
+          <ButtonSquare
+            isSelected={editFontWeight === "bold"}
+            onClick={() => {
+              const newWeight = editFontWeight === "normal" ? "bold" : "normal";
+              setEditFontWeight(newWeight);
+              onChangeContent({ fontWeight: newWeight });
+            }}
+          >
+            Bold
+          </ButtonSquare>
+
+          <ButtonSquare
+            isSelected={editFontStyle === "italic"}
+            onClick={() => {
+              const newStyle = editFontStyle === "normal" ? "italic" : "normal";
+              setEditFontStyle(newStyle);
+              onChangeContent({ fontStyle: newStyle });
+            }}
+          >
+            Italic
+          </ButtonSquare>
+
+          <ButtonSquare
+            isSelected={editTextDecoration === "underline"}
             onClick={() => {
               const newDecoration =
                 editTextDecoration === "underline" ? "none" : "underline";
               setEditTextDecoration(newDecoration);
               onChangeContent({ textDecoration: newDecoration });
             }}
-            className={`p-2 rounded w-10 h-10 flex items-center justify-center ${
-              editTextDecoration === "underline" ? "bg-blue-200" : "bg-white"
-            }`}
           >
-            U
-          </button>
-
-          <button
-            onClick={() => {
-              const newDecoration =
-                editTextDecoration === "line-through" ? "none" : "line-through";
-              setEditTextDecoration(newDecoration);
-              onChangeContent({ textDecoration: newDecoration });
-            }}
-            className={`p-2 rounded w-10 h-10 flex items-center justify-center ${
-              editTextDecoration === "line-through" ? "bg-blue-200" : "bg-white"
-            }`}
-          >
-            S
-          </button>
-
-          <button
-            onClick={() => {
-              const newWeight = editFontWeight === "normal" ? "bold" : "normal";
-              setEditFontWeight(newWeight);
-              onChangeContent({ fontWeight: newWeight });
-            }}
-            className={`p-2 rounded w-10 h-10 flex items-center justify-center ${
-              editFontWeight === "bold" ? "bg-blue-200" : "bg-white"
-            }`}
-          >
-            B
-          </button>
-
-          <button
-            onClick={() => {
-              const newStyle = editFontStyle === "normal" ? "italic" : "normal";
-              setEditFontStyle(newStyle);
-              onChangeContent({ fontStyle: newStyle });
-            }}
-            className={`p-2 rounded w-10 h-10 flex items-center justify-center ${
-              editFontStyle === "italic" ? "bg-blue-200" : "bg-white"
-            }`}
-          >
-            I
-          </button>
+            Underline
+          </ButtonSquare>
         </div>
 
-        {/* Alignment and Text Transform */}
-        <div className="flex flex-wrap gap-2 items-center p-2 border-b border-gray-200">
-          <div className="flex gap-1">
-            <button
-              onClick={() => {
-                setEditTextAlign("left");
-                onChangeContent({ textAlign: "left" });
-              }}
-              className={`p-2 rounded w-10 h-10 flex items-center justify-center ${
-                editTextAlign === "left" ? "bg-blue-200" : "bg-white"
-              }`}
-            >
-              ←
-            </button>
-            <button
-              onClick={() => {
-                setEditTextAlign("center");
-                onChangeContent({ textAlign: "center" });
-              }}
-              className={`p-2 rounded w-10 h-10 flex items-center justify-center ${
-                editTextAlign === "center" ? "bg-blue-200" : "bg-white"
-              }`}
-            >
-              ↔
-            </button>
-            <button
-              onClick={() => {
-                setEditTextAlign("right");
-                onChangeContent({ textAlign: "right" });
-              }}
-              className={`p-2 rounded w-10 h-10 flex items-center justify-center ${
-                editTextAlign === "right" ? "bg-blue-200" : "bg-white"
-              }`}
-            >
-              →
-            </button>
-            <button
-              onClick={() => {
-                setEditTextAlign("justify");
-                onChangeContent({ textAlign: "justify" });
-              }}
-              className={`p-2 rounded w-10 h-10 flex items-center justify-center ${
-                editTextAlign === "justify" ? "bg-blue-200" : "bg-white"
-              }`}
-            >
-              ⇔
-            </button>
-          </div>
+        <div className="flex gap-2 p-2 border-b border-gray-200">
+          <ButtonSquare
+            isSelected={editTextAlign === "left"}
+            onClick={() => {
+              setEditTextAlign("left");
+              onChangeContent({ textAlign: "left" });
+            }}
+          >
+            Left
+          </ButtonSquare>
 
-          <div className="flex gap-1">
-            <button
-              onClick={() => {
-                const newTransform =
-                  editTextTransform === "uppercase" ? "none" : "uppercase";
-                setEditTextTransform(newTransform);
-                onChangeContent({ textTransform: newTransform });
-              }}
-              className={`p-2 rounded w-10 h-10 flex items-center justify-center ${
-                editTextTransform === "uppercase" ? "bg-blue-200" : "bg-white"
-              }`}
-            >
-              AA
-            </button>
-            <button
-              onClick={() => {
-                const newTransform =
-                  editTextTransform === "lowercase" ? "none" : "lowercase";
-                setEditTextTransform(newTransform);
-                onChangeContent({ textTransform: newTransform });
-              }}
-              className={`p-2 rounded w-10 h-10 flex items-center justify-center ${
-                editTextTransform === "lowercase" ? "bg-blue-200" : "bg-white"
-              }`}
-            >
-              aa
-            </button>
-            <button
-              onClick={() => {
-                const newTransform =
-                  editTextTransform === "capitalize" ? "none" : "capitalize";
-                setEditTextTransform(newTransform);
-                onChangeContent({ textTransform: newTransform });
-              }}
-              className={`p-2 rounded w-10 h-10 flex items-center justify-center ${
-                editTextTransform === "capitalize" ? "bg-blue-200" : "bg-white"
-              }`}
-            >
-              Aa
-            </button>
-          </div>
+          <ButtonSquare
+            isSelected={editTextAlign === "center"}
+            onClick={() => {
+              setEditTextAlign("center");
+              onChangeContent({ textAlign: "center" });
+            }}
+          >
+            Center
+          </ButtonSquare>
+
+          <ButtonSquare
+            isSelected={editTextAlign === "right"}
+            onClick={() => {
+              setEditTextAlign("right");
+              onChangeContent({ textAlign: "right" });
+            }}
+          >
+            Right
+          </ButtonSquare>
         </div>
 
-        {/* Extended Formatting */}
-        <div className="flex flex-wrap gap-2 items-center p-2 border-b border-gray-200">
-          <select
+        <div className="flex gap-2 p-2 border-b border-gray-200">
+          <ButtonSquare
+            isSelected={editTextTransform === "uppercase"}
+            onClick={() => {
+              const newTransform =
+                editTextTransform === "uppercase" ? "none" : "uppercase";
+              setEditTextTransform(newTransform);
+              onChangeContent({ textTransform: newTransform });
+            }}
+          >
+            AA
+          </ButtonSquare>
+
+          <ButtonSquare
+            isSelected={editTextTransform === "lowercase"}
+            onClick={() => {
+              const newTransform =
+                editTextTransform === "lowercase" ? "none" : "lowercase";
+              setEditTextTransform(newTransform);
+              onChangeContent({ textTransform: newTransform });
+            }}
+          >
+            aa
+          </ButtonSquare>
+
+          <ButtonSquare
+            isSelected={editTextTransform === "capitalize"}
+            onClick={() => {
+              const newTransform =
+                editTextTransform === "capitalize" ? "none" : "capitalize";
+              setEditTextTransform(newTransform);
+              onChangeContent({ textTransform: newTransform });
+            }}
+          >
+            Aa
+          </ButtonSquare>
+        </div>
+
+        <div className="flex gap-2 p-2 border-b border-gray-200">
+          <SelectBase
+            options={LETTER_SPACINGS}
             value={editLetterSpacing}
-            onChange={(e: ChangeEvent<HTMLSelectElement>) => {
-              setEditLetterSpacing(e.target.value);
-              onChangeContent({ letterSpacing: e.target.value });
+            label="Letter spacing"
+            onChange={(value) => {
+              setEditLetterSpacing(value);
+              onChangeContent({ letterSpacing: value });
             }}
-            className="p-2 rounded border bg-white min-w-[100px]"
-          >
-            {LETTER_SPACINGS.map((spacing) => (
-              <option key={spacing} value={spacing}>
-                Mezery {spacing}px
-              </option>
-            ))}
-          </select>
+          />
         </div>
 
-        {/* Colors */}
+        {/* TODO */}
+        <AdvancedColorPicker onChange={({ rgba, hex }) => {}} />
+
+        {/*TODO colors */}
         <div className="flex flex-wrap gap-2 items-center p-2">
           <div className="flex items-center gap-2">
             <span className="text-sm">Barva textu:</span>
@@ -312,7 +289,7 @@ const RichTextEditor = (props: RichTextEditorProps) => {
             <span className="text-sm">Barva pozadí:</span>
             <input
               type="color"
-              value={editBackgroundColor || "transparent"}
+              value={editBackgroundColor || "rgba(0, 0, 0, 0)"}
               onChange={(e: ChangeEvent<HTMLInputElement>) => {
                 const newColor = e.target.value || "transparent";
                 setEditBackgroundColor(newColor);

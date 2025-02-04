@@ -24,7 +24,14 @@ interface HSV {
   v: number;
 }
 
-const AdvancedColorPicker = () => {
+interface Props {
+  onChange: ({ rgba, hex }: { rgba: string; hex: string }) => void;
+  color?: string;
+}
+
+const AdvancedColorPicker = (props: Props) => {
+  // TODO - input pro hex a rgba, zpětně měnit barvu
+  const { onChange, color } = props;
   const [hsv, setHsv] = useState<HSV>({ h: 0, s: 100, v: 100 });
   const [isDraggingField, setIsDraggingField] = useState(false);
   const [isDraggingHue, setIsDraggingHue] = useState(false);
@@ -79,7 +86,7 @@ const AdvancedColorPicker = () => {
 
   const updateColorFromEvent = (
     e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>,
-    isField: boolean
+    isField: boolean,
   ) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
@@ -104,14 +111,14 @@ const AdvancedColorPicker = () => {
   };
 
   const handleFieldInteraction = (
-    e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
+    e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>,
   ) => {
     e.preventDefault();
     updateColorFromEvent(e, true);
   };
 
   const handleHueInteraction = (
-    e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
+    e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>,
   ) => {
     e.preventDefault();
     updateColorFromEvent(e, false);
@@ -220,7 +227,7 @@ const AdvancedColorPicker = () => {
             {rgbToHex(
               parseRgb(currentColor).r,
               parseRgb(currentColor).g,
-              parseRgb(currentColor).b
+              parseRgb(currentColor).b,
             )}
           </div>
         </div>
