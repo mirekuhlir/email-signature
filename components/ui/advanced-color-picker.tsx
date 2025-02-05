@@ -24,21 +24,60 @@ interface HSV {
   v: number;
 }
 
+const rgbToHsv = (rgb: string): { h: number; s: number; v: number } => {
+  const matches = rgb.match(/rgb\((\d+),?\s*(\d+),?\s*(\d+)\)/);
+  if (!matches) {
+    throw new Error("Invalid RGB string format. Expected format: rgb(r,g,b)");
+  }
+
+  const r = parseInt(matches[1], 10);
+  const g = parseInt(matches[2], 10);
+  const b = parseInt(matches[3], 10);
+
+  const r1 = r / 255;
+  const g1 = g / 255;
+  const b1 = b / 255;
+
+  const max = Math.max(r1, g1, b1);
+  const min = Math.min(r1, g1, b1);
+  const diff = max - min;
+
+  let h = 0;
+  let s = max === 0 ? 0 : diff / max;
+  let v = max;
+
+  if (diff !== 0) {
+    switch (max) {
+      case r1:
+        h = (g1 - b1) / diff + (g1 < b1 ? 6 : 0);
+        break;
+      case g1:
+        h = (b1 - r1) / diff + 2;
+        break;
+      case b1:
+        h = (r1 - g1) / diff + 4;
+        break;
+    }
+    h = h / 6;
+  }
+
+  return { h, s: Math.round(s * 100), v: Math.round(v * 100) };
+};
 interface Props {
-  onChange: ({ rgba, hex }: { rgba: string; hex: string }) => void;
-  color?: string;
+  onChange: (color: string) => void;
+  initColor: string;
 }
 
 const AdvancedColorPicker = (props: Props) => {
-  // TODO - input pro hex a rgba, zpětně měnit barvu
-  const { onChange, color } = props;
-  const [hsv, setHsv] = useState<HSV>({ h: 0, s: 100, v: 100 });
+  const { onChange, initColor } = props;
+  const [hsv, setHsv] = useState<HSV>(rgbToHsv(initColor));
   const [isDraggingField, setIsDraggingField] = useState(false);
   const [isDraggingHue, setIsDraggingHue] = useState(false);
 
   const hsvToRgb = (h: number, s: number, v: number): string => {
     s = s / 100;
     v = v / 100;
+
     const i = Math.floor(h * 6);
     const f = h * 6 - i;
     const p = v * (1 - s);
@@ -113,14 +152,12 @@ const AdvancedColorPicker = (props: Props) => {
   const handleFieldInteraction = (
     e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>,
   ) => {
-    e.preventDefault();
     updateColorFromEvent(e, true);
   };
 
   const handleHueInteraction = (
     e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>,
   ) => {
-    e.preventDefault();
     updateColorFromEvent(e, false);
   };
 
@@ -153,6 +190,10 @@ const AdvancedColorPicker = (props: Props) => {
 
   const currentColor = hsvToRgb(hsv.h, hsv.s, hsv.v);
   const hueColor = hsvToRgb(hsv.h, 100, 100);
+
+  useEffect(() => {
+    onChange(currentColor);
+  }, [currentColor]);
 
   return (
     <div className="w-full bg-white rounded-lg shadow-lg mx-auto">

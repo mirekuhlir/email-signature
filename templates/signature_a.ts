@@ -47,9 +47,9 @@ export const signature_a = [
             components: [
               {
                 id: "2j9ba2",
-                text: "javascript developer",
+                text: "javascript developer2",
                 fontSize: "16",
-                color: "gray  ",
+                color: "rgb(0,148,47)",
               },
             ],
           },

@@ -2,7 +2,7 @@ import { ContentType } from "@/const/content";
 import React, { useEffect, useState, ChangeEvent } from "react";
 import SelectBase from "../select-base";
 import { FONTS, FONT_SIZES, LINE_HEIGHTS, LETTER_SPACINGS } from "./fonts";
-import AdvancedColorPicker from "../advanced-color-picker";
+import { EditColor } from "../edit-color";
 
 interface RichTextEditorProps {
   content: any;
@@ -55,7 +55,7 @@ const RichTextEditor = (props: RichTextEditorProps) => {
   // TODO - použít vlastní color picker?
   const [editTextColor, setEditTextColor] = useState(
     // TODO barva, použit rgba a bude to tady
-    content?.textColor ?? "#000000",
+    content?.color ?? "#000000",
   );
   const [editBackgroundColor, setEditBackgroundColor] = useState(
     // TODO barva
@@ -82,7 +82,7 @@ const RichTextEditor = (props: RichTextEditorProps) => {
       setEditFontWeight(content.fontWeight ?? "normal");
       setEditFontStyle(content.fontStyle ?? "normal");
       setEditTextAlign(content.textAlign ?? "left");
-      setEditTextColor(content.textColor ?? "#000000");
+      setEditTextColor(content.color ?? "#000000");
       setEditBackgroundColor(content.backgroundColor ?? "rgba(0, 0, 0, 0)");
       setEditTextDecoration(content.textDecoration ?? "none");
       setEditFontFamily(content.fontFamily ?? "Arial");
@@ -99,7 +99,7 @@ const RichTextEditor = (props: RichTextEditorProps) => {
       fontWeight: editFontWeight,
       fontStyle: editFontStyle,
       textAlign: editTextAlign,
-      textColor: editTextColor,
+      color: editTextColor,
       backgroundColor: editBackgroundColor,
       textDecoration: editTextDecoration,
       fontFamily: editFontFamily,
@@ -268,23 +268,15 @@ const RichTextEditor = (props: RichTextEditorProps) => {
           />
         </div>
 
-        {/* TODO */}
-        <AdvancedColorPicker onChange={({ rgba, hex }) => {}} />
+        <EditColor
+          initColor={editTextColor}
+          onChange={(color) => {
+            setEditTextColor(color);
+            onChangeContent({ color });
+          }}
+        />
 
-        {/*TODO colors */}
-        <div className="flex flex-wrap gap-2 items-center p-2">
-          <div className="flex items-center gap-2">
-            <span className="text-sm">Barva textu:</span>
-            <input
-              type="color"
-              value={editTextColor}
-              onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                setEditTextColor(e.target.value);
-                onChangeContent({ textColor: e.target.value });
-              }}
-              className="w-10 h-10 rounded cursor-pointer"
-            />
-          </div>
+        {/*     <div className="flex flex-wrap gap-2 items-center p-2">
           <div className="flex items-center gap-2">
             <span className="text-sm">Barva pozadí:</span>
             <input
@@ -298,7 +290,7 @@ const RichTextEditor = (props: RichTextEditorProps) => {
               className="w-10 h-10 rounded cursor-pointer"
             />
           </div>
-        </div>
+        </div> */}
       </div>
 
       <input
