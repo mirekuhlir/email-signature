@@ -12,7 +12,7 @@ import { TextEditor } from "@/components/ui/text-editor-full/text-editor";
 import StyledLink from "@/components/ui/styled-link";
 import SelectBase from "@/components/ui/select-base";
 import { ContentType } from "@/const/content";
-
+import Slider from "@/components/ui/slider";
 const TypographyExample = () => {
   return (
     <div className="p-8">
@@ -234,6 +234,10 @@ const ButtonExamples = () => {
       </div>
     </div>
   );
+};
+
+const AdvancedColorPickerExample = () => {
+  return <AdvancedColorPicker initColor="rgb(255,0,0)" onChange={() => {}} />;
 };
 
 const ModalExample = () => {
@@ -498,12 +502,51 @@ const SelectBaseExample = () => {
   );
 };
 
+const SliderExample = () => {
+  const steps = [
+    { label: "Min", value: 0 },
+    { label: "Low", value: 25 },
+    { label: "Med", value: 50 },
+    { label: "High", value: 75 },
+    { label: "Max", value: 100 },
+  ];
+
+  const [sliderWithStepsValue, setSliderWithStepsValue] = useState(0);
+  const [sliderWithRangeValue, setSliderWithRangeValue] = useState(0);
+
+  return (
+    <div className="w-full max-w-md pl-6">
+      <div className="w-full max-w-md mb-8">
+        <h2 className="text-2xl font-semibold mb-4">Slider with steps</h2>
+        <Slider
+          steps={steps}
+          defaultValue={50}
+          onChange={setSliderWithStepsValue}
+        />
+        <p className="mt-4 text-center">Value: {sliderWithStepsValue}</p>
+      </div>
+
+      <div className="w-full max-w-md">
+        <h2 className="text-2xl font-semibold mb-4">Slider with range</h2>
+        <Slider
+          min={0}
+          max={100}
+          step={1}
+          defaultValue={50}
+          onChange={setSliderWithRangeValue}
+        />
+        <p className="mt-4 text-center">Value: {sliderWithRangeValue}</p>
+      </div>
+    </div>
+  );
+};
+
 export default function DesignSystem() {
   return (
     <div className="w-full p-b-10">
       <TypographyExample />
       <ButtonExamples />
-      <AdvancedColorPicker />
+      <AdvancedColorPickerExample />
       <ModalExample />
       <TextInputExample />
       <RichTextEditorExample />
@@ -511,6 +554,7 @@ export default function DesignSystem() {
       <TextEditor />
       <StyledLinkExample />
       <SelectBaseExample />
+      <SliderExample />
     </div>
   );
 }
