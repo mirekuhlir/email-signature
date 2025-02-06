@@ -1,5 +1,6 @@
 TODOs
 
+Přidat k types version
 
 název
 https://signature.email/generator

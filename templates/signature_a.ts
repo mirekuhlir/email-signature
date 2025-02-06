@@ -5,9 +5,12 @@ export const signature_a = [
     columns: [
       {
         id: "2j9b",
+        style: {
+          padding: "10px",
+        },
         rows: [{
           id: "2j9c",
-          style: { padding: "10px" },
+          style: {},
           content: {
             type: "image",
             components: [

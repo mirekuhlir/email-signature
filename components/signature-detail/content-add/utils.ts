@@ -6,12 +6,29 @@ export const getContentAdd = (type: ContentType) => {
     switch (type) {
         case ContentType.TEXT:
             return getText();
-        /*    TODO - case ContentType.IMAGE: */
+        case ContentType.IMAGE:
+            return getImage();
         case ContentType.EMAIL:
             return getEmail();
         default:
             return getText();
     }
+};
+
+export const getImage = () => {
+    return {
+        id: generateRandomId(),
+        style: { backgroundColor: "green" },
+        content: {
+            type: ContentType.IMAGE,
+            components: [
+                {
+                    id: generateRandomId(),
+                    src: "",
+                },
+            ],
+        },
+    };
 };
 
 const getEmail = () => {
