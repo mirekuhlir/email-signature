@@ -230,7 +230,7 @@ const AdvancedColorPicker = (props: Props) => {
 
         {/* Hue slider */}
         <div
-          className="relative w-full h-12 rounded-lg cursor-pointer shadow-inner"
+          className="relative w-full h-16 rounded-lg cursor-pointer shadow-inner"
           style={{
             background:
               "linear-gradient(to right, #ff0000 0%, #ffff00 17%, #00ff00 33%, #00ffff 50%, #0000ff 67%, #ff00ff 83%, #ff0000 100%)",
@@ -248,7 +248,7 @@ const AdvancedColorPicker = (props: Props) => {
           onTouchMove={(e) => isDraggingHue && handleHueInteraction(e)}
         >
           <div
-            className="absolute w-4 h-full border-4 border-white -translate-x-2 shadow-lg"
+            className="absolute w-7 h-full border-4 border-white -translate-x-4 shadow-lg"
             style={{
               left: `${hsv.h * 100}%`,
             }}
@@ -263,18 +263,9 @@ const AdvancedColorPicker = (props: Props) => {
       </div>
       <div className="flex justify-between items-center space-x-4">
         <div className="flex-1">
-          <div className="text-sm text-gray-600">HEX</div>
-          <div className="font-mono text-gray-600">
-            {rgbToHex(
-              parseRgb(currentColor).r,
-              parseRgb(currentColor).g,
-              parseRgb(currentColor).b,
-            )}
-          </div>
-        </div>
-        <div className="flex-1">
           <div className="text-sm text-gray-600">RGBA</div>
           <div className="font-mono text-gray-600">{currentColor}</div>
+          <div></div>
         </div>
       </div>
     </div>

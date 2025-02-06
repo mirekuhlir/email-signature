@@ -22,7 +22,6 @@ const SelectBase: React.FC<CustomSelectProps> = ({
   const [isOpen, setIsOpen] = useState(false);
   const selectRef = useRef<HTMLDivElement>(null);
 
-  // Zavře dropdown, pokud uživatel klikne mimo komponentu
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -43,7 +42,6 @@ const SelectBase: React.FC<CustomSelectProps> = ({
     setIsOpen(false);
   };
 
-  // Získáme vybranou možnost
   const selectedOption = options.find((option) => option.value === value);
 
   return (
