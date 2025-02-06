@@ -27,7 +27,7 @@ interface HSV {
 const rgbToHsv = (rgb: string): { h: number; s: number; v: number } => {
   const matches = rgb.match(/rgb\((\d+),?\s*(\d+),?\s*(\d+)\)/);
   if (!matches) {
-    throw new Error("Invalid RGB string format. Expected format: rgb(r,g,b)");
+    return { h: 0, s: 0, v: 0 };
   }
 
   const r = parseInt(matches[1], 10);

@@ -15,7 +15,7 @@ export const EditColor = (props: Props) => {
 
   return (
     <div>
-      <Typography variant="label">Text color</Typography>
+      <Typography variant="labelBase">Text color</Typography>
 
       {!isColorPickerOpen && (
         <div className="flex gap-2">

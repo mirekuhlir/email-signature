@@ -9,7 +9,7 @@ type VariantType =
   | "body"
   | "small"
   | "tiny"
-  | "label";
+  | "labelBase";
 
 type WeightType =
   | "thin"
@@ -37,7 +37,7 @@ const variantStyles: Record<VariantType, string> = {
   body: "text-base",
   small: "text-sm",
   tiny: "text-xs",
-  label: "block text-sm font-medium text-gray-700",
+  labelBase: "block text-base font-medium text-gray-700",
 };
 
 const weightStyles: Record<WeightType, string> = {

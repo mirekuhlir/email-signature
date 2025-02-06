@@ -48,7 +48,7 @@ const SelectBase: React.FC<CustomSelectProps> = ({
 
   return (
     <div className="flex flex-col">
-      {label ? <Typography variant="label">{label}</Typography> : null}
+      {label ? <Typography variant="labelBase">{label}</Typography> : null}
       <div ref={selectRef} className="relative inline-block w-48">
         <button
           type="button"

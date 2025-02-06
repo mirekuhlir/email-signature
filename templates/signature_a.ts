@@ -1,7 +1,7 @@
 export const signature_a = [
   {
     id: "gp91",
-    style: { backgroundColor: "purple" },
+    style: { backgroundColor: "rgb(128,0,128)" },
     columns: [
       {
         id: "2j9b",
@@ -23,13 +23,13 @@ export const signature_a = [
       {
         id: "gg6r",
         style: {
-          backgroundColor: "yellow",
+          backgroundColor: "rgb(255,255,0)",
           verticalAlign: "top",
           padding: "10px",
         },
         rows: [{
           id: "ex3p",
-          style: { backgroundColor: "red" },
+          style: { backgroundColor: "rgb(255,0,0)" },
           content: {
             type: "text",
             components: [
