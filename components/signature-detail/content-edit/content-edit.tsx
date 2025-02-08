@@ -129,6 +129,7 @@ const ImageEditContent = (props: any) => {
   return (
     <>
       <ImageCrop
+        previewImage={imageComponent.imagePreview || imageComponent.src}
         onSetImagePreview={(croppedImage: string) => {
           setContent(
             `${contentPathToEdit}.components[0].imagePreview`,

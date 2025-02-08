@@ -18,7 +18,10 @@ export const getContentAdd = (type: ContentType) => {
 export const getImage = () => {
     return {
         id: generateRandomId(),
-        style: { backgroundColor: "green" },
+        style: {
+            display: "table",
+            margin: "0 auto",
+        },
         content: {
             type: ContentType.IMAGE,
             components: [

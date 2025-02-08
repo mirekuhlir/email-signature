@@ -6,8 +6,8 @@ import "react-image-crop/dist/ReactCrop.css";
 import { Button } from "@/components/ui/button";
 
 interface ImageUploaderProps {
-  onImageChange?: (croppedImage: string) => void;
   onSetImagePreview?: (preview: string) => void;
+  previewImage?: string;
 }
 
 function getDefaultCrop(
@@ -26,8 +26,10 @@ function getDefaultCrop(
   };
 }
 
-export default function ImageCrop({ onSetImagePreview }: ImageUploaderProps) {
-  const [imgSrc, setImgSrc] = useState("");
+export default function ImageCrop(props: ImageUploaderProps) {
+  const { onSetImagePreview, previewImage } = props;
+
+  const [previewImageSrc, setPreviewImageSrc] = useState(previewImage);
 
   const [crop, setCrop] = useState<Crop>({
     unit: "px",
@@ -47,10 +49,7 @@ export default function ImageCrop({ onSetImagePreview }: ImageUploaderProps) {
     if (files && files.length > 0) {
       const file = files[0];
 
-      setImgSrc(URL.createObjectURL(file));
-
-      onSetImagePreview?.(URL.createObjectURL(file));
-      // TODO - upload image
+      setPreviewImageSrc(URL.createObjectURL(file));
     }
   }
 
@@ -153,7 +152,7 @@ export default function ImageCrop({ onSetImagePreview }: ImageUploaderProps) {
 
   return (
     <div className="w-full max-w-3xl mx-auto p-4 space-y-4">
-      {!imgSrc ? (
+      {!previewImageSrc ? (
         <div className="grid place-items-center p-4 border border-dashed border-gray-300 rounded min-h-[200px]">
           <input
             id="file-upload"
@@ -184,8 +183,7 @@ export default function ImageCrop({ onSetImagePreview }: ImageUploaderProps) {
               <img
                 ref={imgRef}
                 alt="Crop me"
-                // TODO - placeholder?
-                src={imgSrc || "/placeholder.svg"}
+                src={previewImageSrc}
                 onLoad={() => {
                   if (imgRef.current) {
                     const { width: imgWidth, height: imgHeight } =
