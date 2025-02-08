@@ -141,7 +141,7 @@ const ImageEditContent = (props: any) => {
             originalImage,
           );
         }}
-        originalImagePreviewSaved={imageComponent.originalImagePreview}
+        originalImagePreview={imageComponent.originalImagePreview}
         onSetCropImageFile={(file: File) => {
           setContent(`${contentPathToEdit}.components[0].cropImageFile`, file);
         }}

@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 interface ImageUploaderProps {
   onSetCropImagePreview?: (preview: string) => void;
   onSetOriginalImagePreview?: (original: string) => void;
-  originalImagePreviewSaved?: string;
+  originalImagePreview?: string;
   // TODO
   /*   cropImageFile?: File;
   originalImageFile?: File; */
@@ -39,13 +39,10 @@ export default function ImageCrop(props: ImageUploaderProps) {
     onSetOriginalImagePreview,
     onSetOriginalImageFile,
     onSetCropImageFile,
-    originalImagePreviewSaved,
+    originalImagePreview,
     imageName,
   } = props;
 
-  const [originalPreviewImage, setOriginalPreviewImage] = useState<
-    string | null
-  >(originalImagePreviewSaved ?? null);
   const [crop, setCrop] = useState<Crop>({
     unit: "px",
     width: 100,
@@ -65,7 +62,6 @@ export default function ImageCrop(props: ImageUploaderProps) {
       const file = files[0];
       const fileUrl = URL.createObjectURL(file);
 
-      setOriginalPreviewImage(fileUrl);
       onSetOriginalImagePreview?.(fileUrl);
       onSetOriginalImageFile?.(file);
     }
@@ -192,9 +188,13 @@ export default function ImageCrop(props: ImageUploaderProps) {
     }
   }
 
+  function handleDeleteImage() {
+    onSetOriginalImagePreview?.("");
+  }
+
   return (
     <div className="w-full max-w-3xl mx-auto p-4 space-y-4">
-      {!originalPreviewImage ? (
+      {!originalImagePreview ? (
         <div className="grid place-items-center p-4 border border-dashed border-gray-300 rounded min-h-[200px]">
           <input
             id="file-upload"
@@ -225,7 +225,7 @@ export default function ImageCrop(props: ImageUploaderProps) {
               <img
                 ref={imgRef}
                 alt="Crop me"
-                src={originalPreviewImage}
+                src={originalImagePreview}
                 onLoad={() => {
                   if (imgRef.current) {
                     const { width: imgWidth, height: imgHeight } =
@@ -300,8 +300,11 @@ export default function ImageCrop(props: ImageUploaderProps) {
             </Button>
           </div>
 
-          <div className="flex justify-end">
+          <div className="flex items-center justify-end gap-4">
             <Button onClick={handleApply}>Apply</Button>
+            <Button variant="red" onClick={handleDeleteImage}>
+              Delete Image
+            </Button>
           </div>
 
           <canvas ref={previewCanvasRef} className="hidden" />
