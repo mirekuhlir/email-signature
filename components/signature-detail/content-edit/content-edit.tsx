@@ -7,12 +7,17 @@ import { useContentEditStore } from "../store/content-edit-add-path-store";
 import { useEffect, useRef } from "react";
 import useValidate from "@/hooks/useValidate";
 import { validateEmail } from "@/hooks/validations";
+import { Img } from "@/components/ui/img";
+import ImageCrop from "@/components/ui/text-editor-full/image-uploader-crop";
 
 export const ContentEdit = (props: any) => {
   const { contentPathToEdit } = props;
-  const { rows, removeRow } = useSignatureStore();
+  const { rows, removeRow, setContent } = useSignatureStore();
   const { setContentEdit } = useContentEditStore();
   const wrapperRef = useRef<HTMLDivElement>(null);
+
+  // TODO - označi výběr, který copr je zaopnutý?
+  // todo - button vlastní?
 
   const path = `${contentPathToEdit}.content`;
   const content = get(rows, path);
@@ -66,6 +71,16 @@ const getContentType = (content: any, contentPathToEdit: any) => {
           contentPathToEdit={contentPathToEdit}
         />
       );
+
+    case ContentType.IMAGE:
+      return (
+        <ImageEditContent
+          contentType={type}
+          components={components}
+          contentPathToEdit={contentPathToEdit}
+        />
+      );
+
     case ContentType.EMAIL:
       return (
         <EmailEditContent
@@ -100,6 +115,29 @@ const TextEditContent = (props: any) => {
       </div>
     );
   });
+};
+const ImageEditContent = (props: any) => {
+  const { components, contentPathToEdit, contentType } = props;
+
+  const { setContent } = useSignatureStore();
+  const imageComponent = components[0];
+
+  if (imageComponent.src) {
+    return <Img src={imageComponent.src} />;
+  }
+
+  return (
+    <>
+      <ImageCrop
+        onSetImagePreview={(croppedImage: string) => {
+          setContent(
+            `${contentPathToEdit}.components[0].imagePreview`,
+            croppedImage,
+          );
+        }}
+      />
+    </>
+  );
 };
 
 const EmailEditContent = (props: any) => {

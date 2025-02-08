@@ -18,6 +18,8 @@ export const signature_a = [
                 id: "2j9c1",
                 src:
                   "https://fastly.picsum.photos/id/159/140/140.jpg?hmac=Aa3iY6i0Z1Nf_lx_RWn-hSXKm6jTfHbJE7P-trDe-6Y",
+                imagePreview: "",
+                imageFile: {},
               },
             ],
           },
