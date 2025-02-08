@@ -5,12 +5,6 @@ import ReactCrop, { type Crop } from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 import { Button } from "@/components/ui/button";
 
-// TODO image resize, nechat PNG
-//https://codesandbox.io/p/sandbox/react-image-crop-demo-with-react-hooks-y831o
-
-// TODO - slider na šířku?
-// TODO - kulaté roky?
-
 interface ImageUploaderProps {
   onImageChange?: (croppedImage: string) => void;
   onSetImagePreview?: (preview: string) => void;
