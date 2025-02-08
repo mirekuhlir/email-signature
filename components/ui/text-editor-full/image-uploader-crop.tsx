@@ -105,14 +105,19 @@ export default function ImageCrop(props: ImageUploaderProps) {
   function generateCroppedImage(): string | null {
     if (imgRef.current && crop.width && crop.height) {
       const image = imgRef.current;
+      const pixelRatio = window.devicePixelRatio || 1;
       const canvas = document.createElement("canvas");
       const scaleX = image.naturalWidth / image.width;
       const scaleY = image.naturalHeight / image.height;
-      canvas.width = crop.width;
-      canvas.height = crop.height;
+
+      // Nastavíme canvas s ohledem na devicePixelRatio
+      canvas.width = crop.width * pixelRatio;
+      canvas.height = crop.height * pixelRatio;
       const ctx = canvas.getContext("2d");
 
       if (ctx) {
+        // Zajistíme, aby se kreslilo ve správné velikosti
+        ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
         ctx.drawImage(
           image,
           crop.x * scaleX,
