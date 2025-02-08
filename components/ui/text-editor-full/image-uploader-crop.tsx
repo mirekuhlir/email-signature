@@ -6,8 +6,15 @@ import "react-image-crop/dist/ReactCrop.css";
 import { Button } from "@/components/ui/button";
 
 interface ImageUploaderProps {
-  onSetImagePreview?: (preview: string) => void;
-  previewImage?: string;
+  onSetCropImagePreview?: (preview: string) => void;
+  onSetOriginalImagePreview?: (original: string) => void;
+  originalImagePreviewSaved?: string;
+  // TODO
+  /*   cropImageFile?: File;
+  originalImageFile?: File; */
+  onSetCropImageFile?: (file: File) => void;
+  onSetOriginalImageFile?: (file: File) => void;
+  imageName: string;
 }
 
 function getDefaultCrop(
@@ -27,10 +34,18 @@ function getDefaultCrop(
 }
 
 export default function ImageCrop(props: ImageUploaderProps) {
-  const { onSetImagePreview, previewImage } = props;
+  const {
+    onSetCropImagePreview,
+    onSetOriginalImagePreview,
+    onSetOriginalImageFile,
+    onSetCropImageFile,
+    originalImagePreviewSaved,
+    imageName,
+  } = props;
 
-  const [previewImageSrc, setPreviewImageSrc] = useState(previewImage);
-
+  const [originalPreviewImage, setOriginalPreviewImage] = useState<
+    string | null
+  >(originalImagePreviewSaved ?? null);
   const [crop, setCrop] = useState<Crop>({
     unit: "px",
     width: 100,
@@ -48,8 +63,11 @@ export default function ImageCrop(props: ImageUploaderProps) {
     const files = e.target.files;
     if (files && files.length > 0) {
       const file = files[0];
+      const fileUrl = URL.createObjectURL(file);
 
-      setPreviewImageSrc(URL.createObjectURL(file));
+      setOriginalPreviewImage(fileUrl);
+      onSetOriginalImagePreview?.(fileUrl);
+      onSetOriginalImageFile?.(file);
     }
   }
 
@@ -102,6 +120,22 @@ export default function ImageCrop(props: ImageUploaderProps) {
     }
   }
 
+  function dataURLtoFile(dataurl: string, filename: string): File {
+    const arr = dataurl.split(",");
+    const mimeMatch = arr[0].match(/:(.*?);/);
+    if (!mimeMatch) {
+      throw new Error("Invalid dataURL");
+    }
+    const mime = mimeMatch[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], filename, { type: mime });
+  }
+
   function generateCroppedImage(): string | null {
     if (imgRef.current && crop.width && crop.height) {
       const image = imgRef.current;
@@ -151,13 +185,16 @@ export default function ImageCrop(props: ImageUploaderProps) {
   function handleApply() {
     const croppedImageData = generateCroppedImage();
     if (croppedImageData) {
-      onSetImagePreview?.(croppedImageData);
+      onSetCropImagePreview?.(croppedImageData);
+
+      const croppedFile = dataURLtoFile(croppedImageData, `${imageName}.png`);
+      onSetCropImageFile?.(croppedFile);
     }
   }
 
   return (
     <div className="w-full max-w-3xl mx-auto p-4 space-y-4">
-      {!previewImageSrc ? (
+      {!originalPreviewImage ? (
         <div className="grid place-items-center p-4 border border-dashed border-gray-300 rounded min-h-[200px]">
           <input
             id="file-upload"
@@ -188,7 +225,7 @@ export default function ImageCrop(props: ImageUploaderProps) {
               <img
                 ref={imgRef}
                 alt="Crop me"
-                src={previewImageSrc}
+                src={originalPreviewImage}
                 onLoad={() => {
                   if (imgRef.current) {
                     const { width: imgWidth, height: imgHeight } =

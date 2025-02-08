@@ -27,6 +27,7 @@ export const getImage = () => {
             components: [
                 {
                     id: generateRandomId(),
+                    // TODO - bude asi jinak?
                     src: "",
                 },
             ],

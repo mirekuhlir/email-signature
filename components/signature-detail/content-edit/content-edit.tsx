@@ -129,13 +129,29 @@ const ImageEditContent = (props: any) => {
   return (
     <>
       <ImageCrop
-        previewImage={imageComponent.imagePreview || imageComponent.src}
-        onSetImagePreview={(croppedImage: string) => {
+        onSetCropImagePreview={(croppedImage: string) => {
           setContent(
-            `${contentPathToEdit}.components[0].imagePreview`,
+            `${contentPathToEdit}.components[0].cropImagePreview`,
             croppedImage,
           );
         }}
+        onSetOriginalImagePreview={(originalImage: string) => {
+          setContent(
+            `${contentPathToEdit}.components[0].originalImagePreview`,
+            originalImage,
+          );
+        }}
+        originalImagePreviewSaved={imageComponent.originalImagePreview}
+        onSetCropImageFile={(file: File) => {
+          setContent(`${contentPathToEdit}.components[0].cropImageFile`, file);
+        }}
+        onSetOriginalImageFile={(file: File) => {
+          setContent(
+            `${contentPathToEdit}.components[0].originalImageFile`,
+            file,
+          );
+        }}
+        imageName={imageComponent.id}
       />
     </>
   );
