@@ -151,12 +151,15 @@ const ImageEditContent = (props: any) => {
             file,
           );
         }}
-        onSetCropImageInfo={(cropInfo: any) => {
-          setContent(`${contentPathToEdit}.components[0].cropInfo`, cropInfo);
+        onSetImageSettings={(imageSettings: any) => {
+          setContent(
+            `${contentPathToEdit}.components[0].imageSettings`,
+            imageSettings,
+          );
         }}
-        cropInfo={imageComponent.cropInfo}
+        imageSettings={imageComponent.imageSettings}
         imageName={imageComponent.id}
-        previewWidth={imageComponent.previewWidth}
+        previewWidthInit={imageComponent.previewWidth}
         onSetPreviewWidth={(width: number) => {
           setContent(`${contentPathToEdit}.components[0].previewWidth`, width);
         }}

@@ -22,7 +22,7 @@ export const signature_a = [
                 originalImagePreview: "",
                 cropImageFile: {},
                 originalImageFile: {},
-                cropInfo: {},
+                imageSettings: {},
                 previewWidth: "",
               },
             ],

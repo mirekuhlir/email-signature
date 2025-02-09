@@ -6,7 +6,7 @@ import "react-image-crop/dist/ReactCrop.css";
 import { Button } from "@/components/ui/button";
 import Slider from "../slider";
 
-interface CropInfo {
+interface ImageSettings {
   crop: Crop;
   aspect?: number;
   isCircular: boolean;
@@ -19,9 +19,9 @@ interface ImageUploaderProps {
   onSetCropImageFile?: (file: File) => void;
   onSetOriginalImageFile?: (file: File) => void;
   imageName: string;
-  cropInfo?: CropInfo;
-  onSetCropImageInfo?: (info: CropInfo) => void;
-  previewWidth?: number;
+  imageSettings?: ImageSettings;
+  onSetImageSettings?: (info: ImageSettings) => void;
+  previewWidthInit?: number;
   onSetPreviewWidth?: (width: number) => void;
 }
 
@@ -59,16 +59,21 @@ export default function ImageCrop(props: ImageUploaderProps) {
     onSetCropImageFile,
     originalImagePreview,
     imageName,
-    cropInfo,
-    onSetCropImageInfo,
-    previewWidth,
+    imageSettings,
+    onSetImageSettings,
+    previewWidthInit,
     onSetPreviewWidth,
   } = props;
 
-  const [crop, setCrop] = useState<Crop | null>(null);
+  const [crop, setCrop] = useState<Crop | undefined>(undefined);
   const [aspect, setAspect] = useState<number | undefined>(undefined);
   const [isCircular, setIsCircular] = useState(false);
   const [croppedImageData, setCroppedImageData] = useState<string | null>(null);
+  const [previewWidth, setPreviewWidth] = useState<number | undefined>(
+    undefined,
+  );
+
+  console.warn("render");
 
   const imgRef = useRef<HTMLImageElement>(null);
   const previewCanvasRef = useRef<HTMLCanvasElement>(null);
@@ -191,7 +196,7 @@ export default function ImageCrop(props: ImageUploaderProps) {
     return null;
   }
 
-  function handleApply() {
+  function handleCrop() {
     const croppedImageDataUrl = generateCroppedImage();
     if (croppedImageDataUrl) {
       onSetCropImagePreview?.(croppedImageDataUrl);
@@ -201,12 +206,11 @@ export default function ImageCrop(props: ImageUploaderProps) {
       );
       onSetCropImageFile?.(croppedFile);
       setCroppedImageData(croppedImageDataUrl);
-      onSetCropImageInfo?.({
+      onSetImageSettings?.({
         crop: crop!,
         aspect,
         isCircular,
       });
-      onSetPreviewWidth?.(150);
     }
   }
 
@@ -242,12 +246,12 @@ export default function ImageCrop(props: ImageUploaderProps) {
       };
       img.src = croppedImageData;
     }
-  }, [croppedImageData, previewWidth, onSetCropImagePreview]);
+  }, [croppedImageData, onSetCropImagePreview]);
 
   useEffect(() => {
-    if (cropInfo && !crop?.width) {
+    if (imageSettings && !crop?.width) {
       setCrop(
-        cropInfo.crop || {
+        imageSettings.crop || {
           unit: "px",
           width: 100,
           height: 100,
@@ -256,11 +260,17 @@ export default function ImageCrop(props: ImageUploaderProps) {
         },
       );
 
-      setAspect(cropInfo.aspect);
-      setIsCircular(cropInfo.isCircular);
+      setAspect(imageSettings.aspect || 1);
+      setIsCircular(imageSettings.isCircular || false);
     }
-  }, [cropInfo?.crop.width]);
+  }, [imageSettings?.crop.width]);
 
+  /*   useEffect(() => {
+    if (!previewWidth) {
+      setPreviewWidth(previewWidthInit || 150);
+    }
+  }, [previewWidthInit]);
+ */
   return (
     <div className="w-full max-w-3xl mx-auto p-4 space-y-4">
       {!originalImagePreview ? (
@@ -295,7 +305,7 @@ export default function ImageCrop(props: ImageUploaderProps) {
                 alt="Crop me"
                 src={originalImagePreview}
                 onLoad={() => {
-                  if (imgRef.current && !cropInfo) {
+                  if (imgRef.current && !imageSettings) {
                     const { width: imgWidth, height: imgHeight } =
                       imgRef.current.getBoundingClientRect();
                     setCrop(getDefaultCrop(1, imgWidth, imgHeight));
@@ -366,7 +376,7 @@ export default function ImageCrop(props: ImageUploaderProps) {
           </div>
 
           <div className="flex items-center justify-end gap-4">
-            <Button onClick={handleApply}>Apply</Button>
+            <Button onClick={handleCrop}>Crop</Button>
             <Button variant="red" onClick={handleDeleteImage}>
               Delete Image
             </Button>
@@ -382,6 +392,7 @@ export default function ImageCrop(props: ImageUploaderProps) {
                   max={200}
                   defaultValue={previewWidth}
                   onChange={(value: number) => {
+                    setPreviewWidth(value);
                     onSetPreviewWidth?.(value);
                   }}
                 />
