@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import ReactCrop, { type Crop } from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 import { Button } from "@/components/ui/button";
@@ -78,63 +78,78 @@ export default function ImageCrop(props: ImageUploaderProps) {
   const imgRef = useRef<HTMLImageElement>(null);
   const previewCanvasRef = useRef<HTMLCanvasElement>(null);
 
-  function onSelectFile(e: React.ChangeEvent<HTMLInputElement>) {
-    const files = e.target.files;
-    if (files && files.length > 0) {
-      const file = files[0];
-      const fileUrl = URL.createObjectURL(file);
-      onSetOriginalImagePreview?.(fileUrl);
-      onSetOriginalImageFile?.(file);
-      setCroppedImageData(null);
-    }
-  }
+  // Memoize getDefaultCrop result for current image dimensions
+  const getDefaultCropForCurrentImage = useCallback((aspectRatio: number) => {
+    if (!imgRef.current) return null;
+    const { width: imgWidth, height: imgHeight } =
+      imgRef.current.getBoundingClientRect();
+    return getDefaultCrop(aspectRatio, imgWidth, imgHeight);
+  }, []);
 
-  function onCropComplete(crop: Crop) {
-    if (imgRef.current && crop.width && crop.height) {
-      const image = imgRef.current;
-      const canvas = document.createElement("canvas");
-      const scaleX = image.naturalWidth / image.width;
-      const scaleY = image.naturalHeight / image.height;
-      const ctx = canvas.getContext("2d");
+  // Memoize file handling functions
+  const onSelectFile = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const files = e.target.files;
+      if (files && files.length > 0) {
+        const file = files[0];
+        const fileUrl = URL.createObjectURL(file);
+        onSetOriginalImagePreview?.(fileUrl);
+        onSetOriginalImageFile?.(file);
+        setCroppedImageData(null);
+      }
+    },
+    [onSetOriginalImagePreview, onSetOriginalImageFile],
+  );
 
-      canvas.width = crop.width;
-      canvas.height = crop.height;
+  const onCropComplete = useCallback(
+    (crop: Crop) => {
+      if (imgRef.current && crop.width && crop.height) {
+        const image = imgRef.current;
+        const canvas = document.createElement("canvas");
+        const scaleX = image.naturalWidth / image.width;
+        const scaleY = image.naturalHeight / image.height;
+        const ctx = canvas.getContext("2d");
 
-      if (ctx) {
-        ctx.drawImage(
-          image,
-          crop.x * scaleX,
-          crop.y * scaleY,
-          crop.width * scaleX,
-          crop.height * scaleY,
-          0,
-          0,
-          crop.width,
-          crop.height,
-        );
+        canvas.width = crop.width;
+        canvas.height = crop.height;
 
-        if (isCircular) {
-          ctx.globalCompositeOperation = "destination-in";
-          ctx.beginPath();
-          ctx.arc(
-            crop.width / 2,
-            crop.height / 2,
-            Math.min(crop.width, crop.height) / 2,
+        if (ctx) {
+          ctx.drawImage(
+            image,
+            crop.x * scaleX,
+            crop.y * scaleY,
+            crop.width * scaleX,
+            crop.height * scaleY,
             0,
-            Math.PI * 2,
+            0,
+            crop.width,
+            crop.height,
           );
-          ctx.fill();
+
+          if (isCircular) {
+            ctx.globalCompositeOperation = "destination-in";
+            ctx.beginPath();
+            ctx.arc(
+              crop.width / 2,
+              crop.height / 2,
+              Math.min(crop.width, crop.height) / 2,
+              0,
+              Math.PI * 2,
+            );
+            ctx.fill();
+          }
+        }
+
+        if (previewCanvasRef.current) {
+          previewCanvasRef.current.width = crop.width;
+          previewCanvasRef.current.height = crop.height;
+          const previewCtx = previewCanvasRef.current.getContext("2d");
+          previewCtx?.drawImage(canvas, 0, 0);
         }
       }
-
-      if (previewCanvasRef.current) {
-        previewCanvasRef.current.width = crop.width;
-        previewCanvasRef.current.height = crop.height;
-        const previewCtx = previewCanvasRef.current.getContext("2d");
-        previewCtx?.drawImage(canvas, 0, 0);
-      }
-    }
-  }
+    },
+    [isCircular],
+  );
 
   function dataURLtoFile(dataurl: string, filename: string): File {
     const arr = dataurl.split(",");
@@ -152,7 +167,7 @@ export default function ImageCrop(props: ImageUploaderProps) {
     return new File([u8arr], filename, { type: mime });
   }
 
-  function generateCroppedImage(): string | null {
+  const generateCroppedImage = useCallback((): string | null => {
     if (imgRef.current && crop?.width && crop?.height) {
       const image = imgRef.current;
       const pixelRatio = window.devicePixelRatio || 1;
@@ -194,9 +209,9 @@ export default function ImageCrop(props: ImageUploaderProps) {
       }
     }
     return null;
-  }
+  }, [crop, isCircular]);
 
-  function handleCrop() {
+  const handleCrop = useCallback(() => {
     const croppedImageDataUrl = generateCroppedImage();
     if (croppedImageDataUrl) {
       onSetCropImagePreview?.(croppedImageDataUrl);
@@ -212,12 +227,60 @@ export default function ImageCrop(props: ImageUploaderProps) {
         isCircular,
       });
     }
-  }
+  }, [
+    generateCroppedImage,
+    onSetCropImagePreview,
+    onSetCropImageFile,
+    onSetImageSettings,
+    crop,
+    aspect,
+    isCircular,
+    imageName,
+  ]);
 
-  function handleDeleteImage() {
+  const handleDeleteImage = useCallback(() => {
     onSetOriginalImagePreview?.("");
     setCroppedImageData(null);
-  }
+  }, [onSetOriginalImagePreview]);
+
+  // Memoize aspect ratio handlers
+  const handleAspectChange = useCallback(
+    (newAspect: number, circular: boolean = false) => {
+      setAspect(newAspect);
+      setIsCircular(circular);
+      const newCrop = getDefaultCropForCurrentImage(newAspect);
+      if (newCrop) {
+        setCrop(newCrop);
+      }
+    },
+    [getDefaultCropForCurrentImage],
+  );
+
+  // Memoize slider change handler
+  const handlePreviewWidthChange = useCallback(
+    (value: number) => {
+      setPreviewWidth(value);
+      onSetPreviewWidth?.(value);
+    },
+    [onSetPreviewWidth],
+  );
+
+  // Memoize initial crop settings check
+  useEffect(() => {
+    if (imageSettings && !crop?.width) {
+      setCrop(
+        imageSettings.crop || {
+          unit: "px",
+          width: 100,
+          height: 100,
+          x: 0,
+          y: 0,
+        },
+      );
+      setAspect(imageSettings.aspect || 1);
+      setIsCircular(imageSettings.isCircular || false);
+    }
+  }, [imageSettings, crop?.width]);
 
   useEffect(() => {
     if (croppedImageData) {
@@ -246,31 +309,8 @@ export default function ImageCrop(props: ImageUploaderProps) {
       };
       img.src = croppedImageData;
     }
-  }, [croppedImageData, onSetCropImagePreview]);
+  }, [croppedImageData, previewWidth, onSetCropImagePreview]);
 
-  useEffect(() => {
-    if (imageSettings && !crop?.width) {
-      setCrop(
-        imageSettings.crop || {
-          unit: "px",
-          width: 100,
-          height: 100,
-          x: 0,
-          y: 0,
-        },
-      );
-
-      setAspect(imageSettings.aspect || 1);
-      setIsCircular(imageSettings.isCircular || false);
-    }
-  }, [imageSettings?.crop.width]);
-
-  /*   useEffect(() => {
-    if (!previewWidth) {
-      setPreviewWidth(previewWidthInit || 150);
-    }
-  }, [previewWidthInit]);
- */
   return (
     <div className="w-full max-w-3xl mx-auto p-4 space-y-4">
       {!originalImagePreview ? (
@@ -317,59 +357,18 @@ export default function ImageCrop(props: ImageUploaderProps) {
           </div>
 
           <div className="flex items-center justify-between gap-4">
-            <Button
-              variant="outline"
-              onClick={() => {
-                setAspect(1);
-                setIsCircular(false);
-                if (imgRef.current) {
-                  const { width: imgWidth, height: imgHeight } =
-                    imgRef.current.getBoundingClientRect();
-                  setCrop(getDefaultCrop(1, imgWidth, imgHeight));
-                }
-              }}
-            >
+            <Button variant="outline" onClick={() => handleAspectChange(1)}>
               1:1
             </Button>
-            <Button
-              variant="outline"
-              onClick={() => {
-                setAspect(3 / 2);
-                setIsCircular(false);
-                if (imgRef.current) {
-                  const { width: imgWidth, height: imgHeight } =
-                    imgRef.current.getBoundingClientRect();
-                  setCrop(getDefaultCrop(3 / 2, imgWidth, imgHeight));
-                }
-              }}
-            >
+            <Button variant="outline" onClick={() => handleAspectChange(3 / 2)}>
               3:2
             </Button>
-            <Button
-              variant="outline"
-              onClick={() => {
-                setAspect(2 / 3);
-                setIsCircular(false);
-                if (imgRef.current) {
-                  const { width: imgWidth, height: imgHeight } =
-                    imgRef.current.getBoundingClientRect();
-                  setCrop(getDefaultCrop(2 / 3, imgWidth, imgHeight));
-                }
-              }}
-            >
+            <Button variant="outline" onClick={() => handleAspectChange(2 / 3)}>
               2:3
             </Button>
             <Button
               variant="outline"
-              onClick={() => {
-                setAspect(1);
-                setIsCircular(true);
-                if (imgRef.current) {
-                  const { width: imgWidth, height: imgHeight } =
-                    imgRef.current.getBoundingClientRect();
-                  setCrop(getDefaultCrop(1, imgWidth, imgHeight));
-                }
-              }}
+              onClick={() => handleAspectChange(1, true)}
             >
               Circular
             </Button>
@@ -391,10 +390,8 @@ export default function ImageCrop(props: ImageUploaderProps) {
                   min={50}
                   max={200}
                   defaultValue={previewWidth}
-                  onChange={(value: number) => {
-                    setPreviewWidth(value);
-                    onSetPreviewWidth?.(value);
-                  }}
+                  /*     value={previewWidth} */
+                  onChange={handlePreviewWidthChange}
                 />
               </div>
             </div>
