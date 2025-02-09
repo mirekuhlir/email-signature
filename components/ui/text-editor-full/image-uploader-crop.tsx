@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import ReactCrop, { type Crop } from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 import { Button } from "@/components/ui/button";
+import Slider from "../slider";
 
 interface ImageUploaderProps {
   onSetCropImagePreview?: (preview: string) => void;
@@ -63,9 +64,12 @@ export default function ImageCrop(props: ImageUploaderProps) {
 
   const [aspect, setAspect] = useState<number | undefined>(undefined);
   const [isCircular, setIsCircular] = useState(false);
+  const [croppedImageData, setCroppedImageData] = useState<string | null>(null);
+  const [previewWidth, setPreviewWidth] = useState<number>(150);
+
   const imgRef = useRef<HTMLImageElement>(null);
   const previewCanvasRef = useRef<HTMLCanvasElement>(null);
-
+  const previewDisplayCanvasRef = useRef<HTMLCanvasElement>(null);
   function onSelectFile(e: React.ChangeEvent<HTMLInputElement>) {
     const files = e.target.files;
     if (files && files.length > 0) {
@@ -74,6 +78,7 @@ export default function ImageCrop(props: ImageUploaderProps) {
 
       onSetOriginalImagePreview?.(fileUrl);
       onSetOriginalImageFile?.(file);
+      setCroppedImageData(null);
     }
   }
 
@@ -189,18 +194,52 @@ export default function ImageCrop(props: ImageUploaderProps) {
   }
 
   function handleApply() {
-    const croppedImageData = generateCroppedImage();
-    if (croppedImageData) {
-      onSetCropImagePreview?.(croppedImageData);
+    const croppedImageDataUrl = generateCroppedImage();
+    if (croppedImageDataUrl) {
+      onSetCropImagePreview?.(croppedImageDataUrl);
 
-      const croppedFile = dataURLtoFile(croppedImageData, `${imageName}.png`);
+      const croppedFile = dataURLtoFile(
+        croppedImageDataUrl,
+        `${imageName}.png`,
+      );
       onSetCropImageFile?.(croppedFile);
+      setCroppedImageData(croppedImageDataUrl);
     }
   }
 
   function handleDeleteImage() {
     onSetOriginalImagePreview?.("");
+    setCroppedImageData(null);
   }
+
+  useEffect(() => {
+    if (croppedImageData && previewCanvasRef.current) {
+      const img = new Image();
+      img.onload = () => {
+        const scale = previewWidth / img.width;
+        previewCanvasRef.current!.width = previewWidth;
+        previewCanvasRef.current!.height = img.height * scale;
+        const ctx = previewCanvasRef.current!.getContext("2d");
+        ctx?.clearRect(
+          0,
+          0,
+          previewCanvasRef.current!.width,
+          previewCanvasRef.current!.height,
+        );
+        ctx?.drawImage(
+          img,
+          0,
+          0,
+          previewCanvasRef.current!.width,
+          previewCanvasRef.current!.height,
+        );
+        // Ihned uložíme nový dataURL s upravenou šířkou
+        const newDataUrl = previewCanvasRef.current!.toDataURL("image/png");
+        onSetCropImagePreview?.(newDataUrl);
+      };
+      img.src = croppedImageData;
+    }
+  }, [croppedImageData, previewWidth, onSetCropImagePreview]);
 
   return (
     <div className="w-full max-w-3xl mx-auto p-4 space-y-4">
@@ -243,7 +282,6 @@ export default function ImageCrop(props: ImageUploaderProps) {
                     setCrop(getDefaultCrop(1, imgWidth, imgHeight));
                   }
                 }}
-                // TODO ?
                 className="max-h-[600px] w-full object-contain"
               />
             </ReactCrop>
@@ -318,6 +356,19 @@ export default function ImageCrop(props: ImageUploaderProps) {
           </div>
 
           <canvas ref={previewCanvasRef} className="hidden" />
+          {croppedImageData && (
+            <div className="space-y-4">
+              <div className="flex items-center gap-2">
+                <span>Width: {previewWidth}px</span>
+                <Slider
+                  min={50}
+                  max={200}
+                  value={previewWidth}
+                  onChange={(value: number) => setPreviewWidth(value)}
+                />
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>
