@@ -1,32 +1,52 @@
 export const handleCopy = async (signatureId: string) => {
   const signatureElement = document.getElementById(signatureId);
-  if (signatureElement) {
-    const textContent = signatureElement.innerText;
-    try {
-      const htmlContent = signatureElement.outerHTML;
+  if (!signatureElement) return;
 
+  const textContent = signatureElement.innerText;
+  const htmlContent = signatureElement.outerHTML;
+
+  if (navigator.clipboard && window.ClipboardItem) {
+    try {
       const clipboardItem = new ClipboardItem({
         "text/plain": new Blob([textContent], { type: "text/plain" }),
         "text/html": new Blob([htmlContent], { type: "text/html" }),
       });
-
       await navigator.clipboard.write([clipboardItem]);
-
       console.warn("htmlContent", htmlContent);
-      /*  setCopySuccess(`Signature ${signatureId} copied!`);
-        setTimeout(() => setCopySuccess(null), 2000); */
+      return;
     } catch (err) {
-      console.error("Copying failed:", err);
-      // Fallback for browsers without Clipboard API support
-      try {
-        await navigator.clipboard.writeText(textContent);
-
-        /*        setCopySuccess(`Signature ${signatureId} copied (plain text)!`);
-          setTimeout(() => setCopySuccess(null), 2000); */
-      } catch (fallbackErr) {
-        console.error("Fallback copying failed:", fallbackErr);
-      }
+      console.error("Modern clipboard API failed:", err);
     }
+  }
+
+  // Fallback fot Safari iOS or older browsers
+  try {
+    const tempElement = document.createElement("div");
+    tempElement.innerHTML = htmlContent;
+    tempElement.style.position = "fixed";
+    tempElement.style.left = "-9999px";
+    document.body.appendChild(tempElement);
+
+    const range = document.createRange();
+    range.selectNodeContents(tempElement);
+    const selection = window.getSelection();
+    if (selection) {
+      selection.removeAllRanges();
+      selection.addRange(range);
+    }
+
+    const success = document.execCommand("copy");
+
+    if (selection) {
+      selection.removeAllRanges();
+    }
+    document.body.removeChild(tempElement);
+
+    if (!success) {
+      throw new Error("execCommand copy failed");
+    }
+  } catch (err) {
+    console.error("Fallback copying failed:", err);
   }
 };
 
