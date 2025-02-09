@@ -4,7 +4,7 @@ import { ContentType } from "@/const/content";
 import RichTextEditor from "@/components/ui/rich-text-editor/rich-text-editor";
 import { Button } from "@/components/ui/button";
 import { useContentEditStore } from "../store/content-edit-add-path-store";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import useValidate from "@/hooks/useValidate";
 import { validateEmail } from "@/hooks/validations";
 import { Img } from "@/components/ui/img";
@@ -118,9 +118,59 @@ const TextEditContent = (props: any) => {
 };
 const ImageEditContent = (props: any) => {
   const { components, contentPathToEdit, contentType } = props;
-
   const { setContent } = useSignatureStore();
   const imageComponent = components[0];
+
+  const handleCropImagePreview = useCallback(
+    (croppedImage: string) => {
+      setContent(
+        `${contentPathToEdit}.components[0].cropImagePreview`,
+        croppedImage,
+      );
+    },
+    [contentPathToEdit, setContent],
+  );
+
+  const handleOriginalImagePreview = useCallback(
+    (originalImage: string) => {
+      setContent(
+        `${contentPathToEdit}.components[0].originalImagePreview`,
+        originalImage,
+      );
+    },
+    [contentPathToEdit, setContent],
+  );
+
+  const handleCropImageFile = useCallback(
+    (file: File) => {
+      setContent(`${contentPathToEdit}.components[0].cropImageFile`, file);
+    },
+    [contentPathToEdit, setContent],
+  );
+
+  const handleOriginalImageFile = useCallback(
+    (file: File) => {
+      setContent(`${contentPathToEdit}.components[0].originalImageFile`, file);
+    },
+    [contentPathToEdit, setContent],
+  );
+
+  const handleImageSettings = useCallback(
+    (imageSettings: any) => {
+      setContent(
+        `${contentPathToEdit}.components[0].imageSettings`,
+        imageSettings,
+      );
+    },
+    [contentPathToEdit, setContent],
+  );
+
+  const handlePreviewWidth = useCallback(
+    (width: number) => {
+      setContent(`${contentPathToEdit}.components[0].previewWidth`, width);
+    },
+    [contentPathToEdit, setContent],
+  );
 
   if (imageComponent.src) {
     return <Img src={imageComponent.src} />;
@@ -129,40 +179,17 @@ const ImageEditContent = (props: any) => {
   return (
     <>
       <ImageCrop
-        onSetCropImagePreview={(croppedImage: string) => {
-          setContent(
-            `${contentPathToEdit}.components[0].cropImagePreview`,
-            croppedImage,
-          );
-        }}
-        onSetOriginalImagePreview={(originalImage: string) => {
-          setContent(
-            `${contentPathToEdit}.components[0].originalImagePreview`,
-            originalImage,
-          );
-        }}
+        onSetCropImagePreview={handleCropImagePreview}
+        onSetOriginalImagePreview={handleOriginalImagePreview}
         originalImagePreview={imageComponent.originalImagePreview}
-        onSetCropImageFile={(file: File) => {
-          setContent(`${contentPathToEdit}.components[0].cropImageFile`, file);
-        }}
-        onSetOriginalImageFile={(file: File) => {
-          setContent(
-            `${contentPathToEdit}.components[0].originalImageFile`,
-            file,
-          );
-        }}
-        onSetImageSettings={(imageSettings: any) => {
-          setContent(
-            `${contentPathToEdit}.components[0].imageSettings`,
-            imageSettings,
-          );
-        }}
+        onSetCropImageFile={handleCropImageFile}
+        onSetOriginalImageFile={handleOriginalImageFile}
+        onSetImageSettings={handleImageSettings}
         imageSettings={imageComponent.imageSettings}
         imageName={imageComponent.id}
         previewWidthInit={imageComponent.previewWidth}
-        onSetPreviewWidth={(width: number) => {
-          setContent(`${contentPathToEdit}.components[0].previewWidth`, width);
-        }}
+        onSetPreviewWidth={handlePreviewWidth}
+        cropImagePreviewInit={imageComponent.cropImagePreview}
       />
     </>
   );
