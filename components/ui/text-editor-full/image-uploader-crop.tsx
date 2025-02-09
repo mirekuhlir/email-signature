@@ -69,7 +69,6 @@ export default function ImageCrop(props: ImageUploaderProps) {
 
   const imgRef = useRef<HTMLImageElement>(null);
   const previewCanvasRef = useRef<HTMLCanvasElement>(null);
-  const previewDisplayCanvasRef = useRef<HTMLCanvasElement>(null);
   function onSelectFile(e: React.ChangeEvent<HTMLInputElement>) {
     const files = e.target.files;
     if (files && files.length > 0) {
@@ -233,7 +232,7 @@ export default function ImageCrop(props: ImageUploaderProps) {
           previewCanvasRef.current!.width,
           previewCanvasRef.current!.height,
         );
-        // Ihned uložíme nový dataURL s upravenou šířkou
+
         const newDataUrl = previewCanvasRef.current!.toDataURL("image/png");
         onSetCropImagePreview?.(newDataUrl);
       };
@@ -363,7 +362,7 @@ export default function ImageCrop(props: ImageUploaderProps) {
                 <Slider
                   min={50}
                   max={200}
-                  value={previewWidth}
+                  defaultValue={previewWidth}
                   onChange={(value: number) => setPreviewWidth(value)}
                 />
               </div>
