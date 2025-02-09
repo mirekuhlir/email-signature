@@ -212,28 +212,28 @@ export default function ImageCrop(props: ImageUploaderProps) {
   }
 
   useEffect(() => {
-    if (croppedImageData && previewCanvasRef.current) {
+    if (croppedImageData) {
       const img = new Image();
       img.onload = () => {
+        if (!previewCanvasRef.current) return;
         const scale = previewWidth / img.width;
-        previewCanvasRef.current!.width = previewWidth;
-        previewCanvasRef.current!.height = img.height * scale;
-        const ctx = previewCanvasRef.current!.getContext("2d");
+        previewCanvasRef.current.width = previewWidth;
+        previewCanvasRef.current.height = img.height * scale;
+        const ctx = previewCanvasRef.current.getContext("2d");
         ctx?.clearRect(
           0,
           0,
-          previewCanvasRef.current!.width,
-          previewCanvasRef.current!.height,
+          previewCanvasRef.current.width,
+          previewCanvasRef.current.height,
         );
         ctx?.drawImage(
           img,
           0,
           0,
-          previewCanvasRef.current!.width,
-          previewCanvasRef.current!.height,
+          previewCanvasRef.current.width,
+          previewCanvasRef.current.height,
         );
-
-        const newDataUrl = previewCanvasRef.current!.toDataURL("image/png");
+        const newDataUrl = previewCanvasRef.current.toDataURL("image/png");
         onSetCropImagePreview?.(newDataUrl);
       };
       img.src = croppedImageData;
