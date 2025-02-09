@@ -1,45 +1,37 @@
 "use client";
 
-import type React from "react";
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 interface Step {
   label: string;
   value: number;
 }
 
-interface SliderPropsWithSteps {
-  steps: Step[];
+interface SliderProps {
   defaultValue?: number;
   onChange?: (value: number) => void;
-  value?: number;
-}
+  steps?: Step[];
 
-interface SliderPropsWithRange {
-  min: number;
-  max: number;
+  min?: number;
+  max?: number;
   step?: number;
-  defaultValue?: number;
-  onChange?: (value: number) => void;
-  value?: number;
 }
-
-type SliderProps = SliderPropsWithSteps | SliderPropsWithRange;
 
 const Slider: React.FC<SliderProps> = (props) => {
-  const isUsingSteps = "steps" in props;
+  const { defaultValue, onChange, steps, min, max, step } = props;
+  const isUsingSteps = steps !== undefined && steps.length > 0;
   const sliderRef = useRef<HTMLDivElement>(null);
 
   const getInitialValue = () => {
-    return isUsingSteps
-      ? (props.defaultValue ?? props.steps[0].value)
-      : (props.defaultValue ?? props.min);
+    if (isUsingSteps) {
+      return defaultValue ?? steps![0].value;
+    } else {
+      return defaultValue ?? min ?? 0;
+    }
   };
 
-  // TODO - je potřeba interní hodnota?
-
-  const [internalValue, setInternalValue] = useState(getInitialValue());
-  const currentValue = props.value !== undefined ? props.value : internalValue;
+  const [internalValue, setInternalValue] = useState<number>(getInitialValue());
+  const currentValue = internalValue;
 
   const handleMove = (clientX: number) => {
     if (sliderRef.current) {
@@ -47,24 +39,22 @@ const Slider: React.FC<SliderProps> = (props) => {
       const percent = (clientX - rect.left) / rect.width;
       let newValue: number;
       if (isUsingSteps) {
-        const index = Math.round(percent * (props.steps.length - 1));
-        newValue = props.steps[index].value;
+        const index = Math.round(percent * (steps!.length - 1));
+        newValue = steps![index].value;
       } else {
-        const step = props.step ?? 1;
-        const rawValue = percent * (props.max - props.min) + props.min;
-        newValue = Math.round(rawValue / step) * step;
-        newValue = Math.max(props.min, Math.min(props.max, newValue));
+        const _min = min ?? 0;
+        const _max = max ?? 100;
+        const _step = step ?? 1;
+        const rawValue = percent * (_max - _min) + _min;
+        newValue = Math.round(rawValue / _step) * _step;
+        newValue = Math.max(_min, Math.min(_max, newValue));
       }
-      if (props.value !== undefined) {
-        props.onChange && props.onChange(newValue);
-      } else {
-        setInternalValue(newValue);
-        props.onChange && props.onChange(newValue);
-      }
+      setInternalValue(newValue);
+      onChange?.(newValue);
     }
   };
 
-  // Tuto funkci budeme volat v našem neregistrovaném listeneru
+  // Neregistrovaný listener s možností volat preventDefault (musí být non-passive)
   const handleTouchMove = (e: TouchEvent) => {
     if (e.cancelable) {
       e.preventDefault();
@@ -83,12 +73,14 @@ const Slider: React.FC<SliderProps> = (props) => {
   const getPercentValue = () => {
     if (isUsingSteps) {
       return (
-        ((currentValue - props.steps[0].value) /
-          (props.steps[props.steps.length - 1].value - props.steps[0].value)) *
+        ((currentValue - steps![0].value) /
+          (steps![steps!.length - 1].value - steps![0].value)) *
         100
       );
     } else {
-      return ((currentValue - props.min) / (props.max - props.min)) * 100;
+      const _min = min ?? 0;
+      const _max = max ?? 100;
+      return ((currentValue - _min) / (_max - _min)) * 100;
     }
   };
 
@@ -104,7 +96,7 @@ const Slider: React.FC<SliderProps> = (props) => {
         sliderElem.removeEventListener("touchmove", handleTouchMove);
       };
     }
-  }, [sliderRef]);
+  }, []);
 
   return (
     <div
@@ -113,10 +105,8 @@ const Slider: React.FC<SliderProps> = (props) => {
       style={{ touchAction: "none" }}
       onMouseMove={handleMouseMove}
       role="slider"
-      aria-valuemin={isUsingSteps ? props.steps[0].value : props.min}
-      aria-valuemax={
-        isUsingSteps ? props.steps[props.steps.length - 1].value : props.max
-      }
+      aria-valuemin={isUsingSteps ? steps![0].value : min}
+      aria-valuemax={isUsingSteps ? steps![steps!.length - 1].value : max}
       aria-valuenow={currentValue}
     >
       <div className="absolute top-1/2 left-0 w-full h-2 bg-gray-300 rounded-full transform -translate-y-1/2">
@@ -131,15 +121,15 @@ const Slider: React.FC<SliderProps> = (props) => {
       />
       <div className="absolute top-full left-0 w-full flex justify-between mt-2 text-xs text-gray-600">
         {isUsingSteps ? (
-          props.steps.map((step, index) => (
+          steps!.map((step, index) => (
             <span key={index} className="flex-1 text-center">
               {step.label}
             </span>
           ))
         ) : (
           <>
-            <span>{props.min}</span>
-            <span>{props.max}</span>
+            <span>{min}</span>
+            <span>{max}</span>
           </>
         )}
       </div>
