@@ -22,8 +22,18 @@ function getDefaultCrop(
   imgWidth: number,
   imgHeight: number,
 ): Crop {
-  const cropHeight = Math.floor(imgHeight * 0.8);
-  const cropWidth = Math.round(cropHeight * aspect);
+  const maxCropWidth = imgWidth * 0.8;
+  const maxCropHeight = imgHeight * 0.8;
+
+  let cropWidth, cropHeight;
+  if (maxCropWidth / aspect <= maxCropHeight) {
+    cropWidth = Math.round(maxCropWidth);
+    cropHeight = Math.round(maxCropWidth / aspect);
+  } else {
+    cropHeight = Math.round(maxCropHeight);
+    cropWidth = Math.round(maxCropHeight * aspect);
+  }
+
   return {
     unit: "px",
     width: cropWidth,
