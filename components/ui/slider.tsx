@@ -99,39 +99,48 @@ const Slider: React.FC<SliderProps> = (props) => {
   }, []);
 
   return (
-    <div
-      ref={sliderRef}
-      className="relative w-full h-20 select-none"
-      style={{ touchAction: "none" }}
-      onMouseMove={handleMouseMove}
-      role="slider"
-      aria-valuemin={isUsingSteps ? steps![0].value : min}
-      aria-valuemax={isUsingSteps ? steps![steps!.length - 1].value : max}
-      aria-valuenow={currentValue}
-    >
-      <div className="absolute top-1/2 left-0 w-full h-2 bg-gray-300 rounded-full transform -translate-y-1/2">
-        <div
-          className="absolute top-0 left-0 h-full bg-blue-500 rounded-full"
-          style={{ width: `${percentValue}%` }}
-        />
-      </div>
+    <div className="pb-10">
       <div
-        className="absolute top-1/2 w-8 h-8 bg-white border-2 border-blue-500 rounded-full shadow transform -translate-y-1/2 -translate-x-1/2 cursor-pointer"
-        style={{ left: `${percentValue}%` }}
-      />
-      <div className="absolute top-full left-0 w-full flex justify-between mt-2 text-xs text-gray-600">
-        {isUsingSteps ? (
-          steps!.map((step, index) => (
-            <span key={index} className="flex-1 text-center">
-              {step.label}
-            </span>
-          ))
-        ) : (
-          <>
-            <span>{min}</span>
-            <span>{max}</span>
-          </>
-        )}
+        ref={sliderRef}
+        className="relative w-full select-none"
+        style={{ touchAction: "none" }}
+        onMouseMove={handleMouseMove}
+        role="slider"
+        aria-valuemin={isUsingSteps ? steps![0].value : min}
+        aria-valuemax={isUsingSteps ? steps![steps!.length - 1].value : max}
+        aria-valuenow={currentValue}
+      >
+        <div className="absolute top-1/2 left-0 w-full h-2 bg-gray-300 rounded-full transform -translate-y-1/2">
+          <div
+            className="absolute top-0 left-0 h-full bg-blue-500 rounded-full"
+            style={{ width: `${percentValue}%` }}
+          />
+        </div>
+        <div
+          className="absolute top-1/2 w-8 h-8 bg-white border-2 border-blue-500 rounded-full shadow transform -translate-y-1/2 -translate-x-1/2 cursor-pointer"
+          style={{ left: `${percentValue}%` }}
+        />
+        <div className="absolute top-4 left-0 w-full flex justify-between mt-2 text-xs text-gray-600">
+          {isUsingSteps ? (
+            steps!.map((step, index) => (
+              <span
+                key={index}
+                className="flex-1 text-center text-sm font-bold text-gray-700 px-1"
+              >
+                {step.label}
+              </span>
+            ))
+          ) : (
+            <>
+              <span className="text-center text-sm font-bold text-gray-700">
+                {min}
+              </span>
+              <span className="text-center text-sm font-bold text-gray-700">
+                {max}
+              </span>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

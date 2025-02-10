@@ -383,16 +383,19 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
 
           <canvas ref={previewCanvasRef} className="hidden" />
           {previewWidth !== undefined && (
-            <div className="space-y-4">
-              <div className="flex items-center gap-2">
-                <span>Width: {previewWidth}px</span>
-                <Slider
-                  min={50}
-                  max={200}
-                  defaultValue={previewWidth}
-                  onChange={handlePreviewWidthChange}
-                />
-              </div>
+            <div className="space-y-2">
+              <label
+                htmlFor="width-slider"
+                className="block pb-5 text-center text-sm font-medium text-gray-700"
+              >
+                Width: {previewWidth}px
+              </label>
+              <Slider
+                min={50}
+                max={200}
+                defaultValue={previewWidth}
+                onChange={handlePreviewWidthChange}
+              />
             </div>
           )}
         </div>
