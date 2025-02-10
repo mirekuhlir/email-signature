@@ -541,11 +541,50 @@ const SliderExample = () => {
   );
 };
 
+const ButtonSelectedExamples = () => {
+  return (
+    <div className="space-y-4 p-8">
+      <Typography variant="h2">Selected Button Variants</Typography>
+
+      <div className="flex flex-wrap gap-4">
+        <Button variant="blue" selected>
+          Selected Blue
+        </Button>
+        <Button variant="orange" selected>
+          Selected Orange
+        </Button>
+        <Button variant="red" selected>
+          Selected Red
+        </Button>
+        <Button variant="black" selected>
+          Selected Black
+        </Button>
+        <Button variant="gray" selected>
+          Selected Gray
+        </Button>
+        <Button variant="outline" selected>
+          Selected Outline
+        </Button>
+        <Button variant="ghost" selected>
+          Selected Ghost
+        </Button>
+        <Button variant="link" selected>
+          Selected Link
+        </Button>
+      </div>
+    </div>
+  );
+};
+
 export default function DesignSystem() {
   return (
-    <div className="w-full p-b-10">
+    <div className="w-full pb-10">
+      <Typography variant="h1" className="p-8">
+        Design System
+      </Typography>
       <TypographyExample />
       <ButtonExamples />
+      <ButtonSelectedExamples />
       <AdvancedColorPickerExample />
       <ModalExample />
       <TextInputExample />
