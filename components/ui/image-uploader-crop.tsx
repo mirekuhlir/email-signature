@@ -3,7 +3,7 @@ import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import ReactCrop, { type Crop } from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 import { Button } from "@/components/ui/button";
-import Slider from "../slider";
+import Slider from "./slider";
 
 const cropDefault: Crop = {
   unit: "px",

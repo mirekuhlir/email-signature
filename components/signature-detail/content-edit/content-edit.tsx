@@ -8,7 +8,7 @@ import { useEffect, useRef, useCallback } from "react";
 import useValidate from "@/hooks/useValidate";
 import { validateEmail } from "@/hooks/validations";
 import { Img } from "@/components/ui/img";
-import ImageUploaderCrop from "@/components/ui/text-editor-full/image-uploader-crop";
+import ImageUploaderCrop from "@/components/ui/image-uploader-crop";
 
 export const ContentEdit = (props: any) => {
   const { contentPathToEdit } = props;
