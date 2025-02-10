@@ -4,16 +4,12 @@ import ReactCrop, { type Crop } from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 import { Button } from "@/components/ui/button";
 import Slider from "../slider";
-
-const cropDefault: Crop = {
-  unit: "px",
-  width: 100,
-  height: 100,
-  x: 0,
-  y: 0,
-};
-
-const imageWidthDefault = 150;
+import {
+  getDefaultCrop,
+  dataURLToFile,
+  cropDefault,
+  imageWidthDefault,
+} from "./utils";
 
 interface ImageSettings {
   crop: Crop;
@@ -32,32 +28,6 @@ interface ImageUploaderProps {
   onSetImageSettings?: (info: ImageSettings) => void;
   previewWidthInit?: number;
   onSetPreviewWidth?: (width: number) => void;
-}
-
-function getDefaultCrop(
-  aspect: number,
-  imgWidth: number,
-  imgHeight: number,
-): Crop {
-  const maxCropWidth = imgWidth * 0.8;
-  const maxCropHeight = imgHeight * 0.8;
-
-  let cropWidth, cropHeight;
-  if (maxCropWidth / aspect <= maxCropHeight) {
-    cropWidth = Math.round(maxCropWidth);
-    cropHeight = Math.round(maxCropWidth / aspect);
-  } else {
-    cropHeight = Math.round(maxCropHeight);
-    cropWidth = Math.round(maxCropHeight * aspect);
-  }
-
-  return {
-    unit: "px",
-    width: cropWidth,
-    height: cropHeight,
-    x: Math.floor((imgWidth - cropWidth) / 2),
-    y: Math.floor((imgHeight - cropHeight) / 2),
-  };
 }
 
 export default function ImageUploadCrop(props: ImageUploaderProps) {
@@ -156,22 +126,6 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     [isCircular],
   );
 
-  function dataURLtoFile(dataurl: string, filename: string): File {
-    const arr = dataurl.split(",");
-    const mimeMatch = arr[0].match(/:(.*?);/);
-    if (!mimeMatch) {
-      throw new Error("Invalid dataURL");
-    }
-    const mime = mimeMatch[1];
-    const bstr = atob(arr[1]);
-    let n = bstr.length;
-    const u8arr = new Uint8Array(n);
-    while (n--) {
-      u8arr[n] = bstr.charCodeAt(n);
-    }
-    return new File([u8arr], filename, { type: mime });
-  }
-
   const generateCroppedImage = useCallback((): string | null => {
     if (imgRef.current && crop?.width && crop?.height) {
       const image = imgRef.current;
@@ -220,7 +174,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     const croppedImageDataUrl = generateCroppedImage();
     if (croppedImageDataUrl) {
       onSetCropImagePreview?.(croppedImageDataUrl);
-      const croppedFile = dataURLtoFile(
+      const croppedFile = dataURLToFile(
         croppedImageDataUrl,
         `${imageName}.png`,
       );
@@ -237,7 +191,6 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
       }
     }
   }, [
-    generateCroppedImage,
     onSetCropImagePreview,
     onSetCropImageFile,
     onSetImageSettings,
@@ -303,10 +256,10 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   );
 
   useEffect(() => {
-    if (imageSettings && !crop?.width) {
-      setCrop(imageSettings.crop || cropDefault);
-      setAspect(imageSettings.aspect || 1);
-      setIsCircular(imageSettings.isCircular || false);
+    if (!crop?.width) {
+      setCrop(imageSettings?.crop || cropDefault);
+      setAspect(imageSettings?.aspect || 1);
+      setIsCircular(imageSettings?.isCircular || false);
     }
   }, [imageSettings, crop?.width]);
 
@@ -379,10 +332,11 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
                 alt="Crop me"
                 src={originalImagePreview}
                 onLoad={() => {
-                  if (imgRef.current && !imageSettings) {
+                  if (imgRef.current && !imageSettings?.crop?.width) {
                     const { width: imgWidth, height: imgHeight } =
                       imgRef.current.getBoundingClientRect();
-                    setCrop(getDefaultCrop(1, imgWidth, imgHeight));
+                    const defaultCrop = getDefaultCrop(1, imgWidth, imgHeight);
+                    setCrop(defaultCrop);
                   }
                 }}
                 className="max-h-[600px] w-full object-contain"
