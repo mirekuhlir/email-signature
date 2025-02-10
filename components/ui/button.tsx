@@ -12,6 +12,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     | "link";
   size?: "sm" | "md" | "lg" | "xl";
   loading?: boolean;
+  selected?: boolean;
 }
 
 const LoadingSpinner = () => (
@@ -51,6 +52,17 @@ export const variants = {
   link: "bg-transparent underline-offset-4 hover:underline p-0",
 };
 
+export const selectedStyles = {
+  blue: "bg-blue-500 hover:bg-blue-500 text-white",
+  orange: "bg-orange-500 hover:bg-orange-500 text-white",
+  red: "bg-red-500 hover:bg-red-500 text-white",
+  black: "bg-gray-700 hover:bg-gray-700 text-white",
+  gray: "bg-gray-500 hover:bg-gray-500 text-white",
+  outline: "border-2 border-blue-500 bg-blue-50 hover:bg-blue-50",
+  ghost: "bg-gray-50 hover:bg-gray-50",
+  link: "bg-transparent underline-offset-4 hover:underline p-0",
+};
+
 export const sizes = {
   sm: "h-8 px-3 text-sm",
   md: "h-10 px-4 text-base",
@@ -66,12 +78,15 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       size = "md",
       loading,
       disabled,
+      selected = false,
       children,
       ...props
     },
-    ref
+    ref,
   ) => {
-    const buttonClasses = `${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`;
+    const variantClass = selected ? selectedStyles[variant] : variants[variant];
+
+    const buttonClasses = `${baseStyles} ${variantClass} ${sizes[size]} ${className}`;
 
     return (
       <button
@@ -84,7 +99,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {children}
       </button>
     );
-  }
+  },
 );
 
 Button.displayName = "Button";
