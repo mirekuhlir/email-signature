@@ -1,10 +1,19 @@
 "use client";
-
 import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import ReactCrop, { type Crop } from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 import { Button } from "@/components/ui/button";
 import Slider from "../slider";
+
+const cropDefault: Crop = {
+  unit: "px",
+  width: 100,
+  height: 100,
+  x: 0,
+  y: 0,
+};
+
+const imageWidthDefault = 150;
 
 interface ImageSettings {
   crop: Crop;
@@ -66,6 +75,7 @@ export default function ImageCrop(props: ImageUploaderProps) {
   } = props;
 
   const [crop, setCrop] = useState<Crop | undefined>(undefined);
+  // TODO - vybrat
   const [aspect, setAspect] = useState<number | undefined>(undefined);
   const [isCircular, setIsCircular] = useState(false);
   const [croppedImageData, setCroppedImageData] = useState<string | null>(null);
@@ -73,12 +83,9 @@ export default function ImageCrop(props: ImageUploaderProps) {
     undefined,
   );
 
-  console.warn("render");
-
   const imgRef = useRef<HTMLImageElement>(null);
   const previewCanvasRef = useRef<HTMLCanvasElement>(null);
 
-  // Memoize getDefaultCrop result for current image dimensions
   const getDefaultCropForCurrentImage = useCallback((aspectRatio: number) => {
     if (!imgRef.current) return null;
     const { width: imgWidth, height: imgHeight } =
@@ -86,7 +93,6 @@ export default function ImageCrop(props: ImageUploaderProps) {
     return getDefaultCrop(aspectRatio, imgWidth, imgHeight);
   }, []);
 
-  // Memoize file handling functions
   const onSelectFile = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const files = e.target.files;
@@ -226,6 +232,10 @@ export default function ImageCrop(props: ImageUploaderProps) {
         aspect,
         isCircular,
       });
+
+      if (!previewWidth) {
+        setPreviewWidth(imageWidthDefault);
+      }
     }
   }, [
     generateCroppedImage,
@@ -238,12 +248,32 @@ export default function ImageCrop(props: ImageUploaderProps) {
     imageName,
   ]);
 
+  useEffect(() => {
+    if (
+      originalImagePreview &&
+      crop &&
+      aspect &&
+      isCircular &&
+      previewWidth &&
+      !croppedImageData
+    ) {
+      handleCrop();
+    }
+  }, [
+    originalImagePreview,
+    crop,
+    aspect,
+    isCircular,
+    previewWidth,
+    croppedImageData,
+    handleCrop,
+  ]);
+
   const handleDeleteImage = useCallback(() => {
     onSetOriginalImagePreview?.("");
     setCroppedImageData(null);
   }, [onSetOriginalImagePreview]);
 
-  // Memoize aspect ratio handlers
   const handleAspectChange = useCallback(
     (newAspect: number, circular: boolean = false) => {
       setAspect(newAspect);
@@ -256,7 +286,6 @@ export default function ImageCrop(props: ImageUploaderProps) {
     [getDefaultCropForCurrentImage],
   );
 
-  // Memoize slider change handler
   const handlePreviewWidthChange = useCallback(
     (value: number) => {
       setPreviewWidth(value);
@@ -265,22 +294,19 @@ export default function ImageCrop(props: ImageUploaderProps) {
     [onSetPreviewWidth],
   );
 
-  // Memoize initial crop settings check
   useEffect(() => {
     if (imageSettings && !crop?.width) {
-      setCrop(
-        imageSettings.crop || {
-          unit: "px",
-          width: 100,
-          height: 100,
-          x: 0,
-          y: 0,
-        },
-      );
+      setCrop(imageSettings.crop || cropDefault);
       setAspect(imageSettings.aspect || 1);
       setIsCircular(imageSettings.isCircular || false);
     }
   }, [imageSettings, crop?.width]);
+
+  useEffect(() => {
+    if (previewWidthInit && !previewWidth) {
+      setPreviewWidth(previewWidthInit);
+    }
+  });
 
   useEffect(() => {
     if (croppedImageData) {
@@ -390,7 +416,6 @@ export default function ImageCrop(props: ImageUploaderProps) {
                   min={50}
                   max={200}
                   defaultValue={previewWidth}
-                  /*     value={previewWidth} */
                   onChange={handlePreviewWidthChange}
                 />
               </div>

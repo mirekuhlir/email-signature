@@ -189,7 +189,6 @@ const ImageEditContent = (props: any) => {
         imageName={imageComponent.id}
         previewWidthInit={imageComponent.previewWidth}
         onSetPreviewWidth={handlePreviewWidth}
-        cropImagePreviewInit={imageComponent.cropImagePreview}
       />
     </>
   );
