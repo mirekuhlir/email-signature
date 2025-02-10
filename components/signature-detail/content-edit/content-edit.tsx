@@ -8,16 +8,13 @@ import { useEffect, useRef, useCallback } from "react";
 import useValidate from "@/hooks/useValidate";
 import { validateEmail } from "@/hooks/validations";
 import { Img } from "@/components/ui/img";
-import ImageCrop from "@/components/ui/text-editor-full/image-uploader-crop";
+import ImageUploaderCrop from "@/components/ui/text-editor-full/image-uploader-crop";
 
 export const ContentEdit = (props: any) => {
   const { contentPathToEdit } = props;
   const { rows, removeRow, setContent } = useSignatureStore();
   const { setContentEdit } = useContentEditStore();
   const wrapperRef = useRef<HTMLDivElement>(null);
-
-  // TODO - označi výběr, který copr je zaopnutý?
-  // todo - button vlastní?
 
   const path = `${contentPathToEdit}.content`;
   const content = get(rows, path);
@@ -178,7 +175,7 @@ const ImageEditContent = (props: any) => {
 
   return (
     <>
-      <ImageCrop
+      <ImageUploaderCrop
         onSetCropImagePreview={handleCropImagePreview}
         onSetOriginalImagePreview={handleOriginalImagePreview}
         originalImagePreview={imageComponent.originalImagePreview}

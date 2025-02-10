@@ -60,7 +60,7 @@ function getDefaultCrop(
   };
 }
 
-export default function ImageCrop(props: ImageUploaderProps) {
+export default function ImageUploadCrop(props: ImageUploaderProps) {
   const {
     onSetCropImagePreview,
     onSetOriginalImagePreview,
@@ -75,7 +75,6 @@ export default function ImageCrop(props: ImageUploaderProps) {
   } = props;
 
   const [crop, setCrop] = useState<Crop | undefined>(undefined);
-  // TODO - vybrat
   const [aspect, setAspect] = useState<number | undefined>(undefined);
   const [isCircular, setIsCircular] = useState(false);
   const [croppedImageData, setCroppedImageData] = useState<string | null>(null);
@@ -276,11 +275,20 @@ export default function ImageCrop(props: ImageUploaderProps) {
 
   const handleAspectChange = useCallback(
     (newAspect: number, circular: boolean = false) => {
-      setAspect(newAspect);
-      setIsCircular(circular);
-      const newCrop = getDefaultCropForCurrentImage(newAspect);
-      if (newCrop) {
-        setCrop(newCrop);
+      if (circular) {
+        setIsCircular(true);
+        setAspect(undefined);
+        const newCrop = getDefaultCropForCurrentImage(1);
+        if (newCrop) {
+          setCrop(newCrop);
+        }
+      } else {
+        setIsCircular(false);
+        setAspect(newAspect);
+        const newCrop = getDefaultCropForCurrentImage(newAspect);
+        if (newCrop) {
+          setCrop(newCrop);
+        }
       }
     },
     [getDefaultCropForCurrentImage],
@@ -383,23 +391,35 @@ export default function ImageCrop(props: ImageUploaderProps) {
           </div>
 
           <div className="flex items-center justify-between gap-4">
-            <Button variant="outline" onClick={() => handleAspectChange(1)}>
+            <Button
+              variant="outline"
+              onClick={() => handleAspectChange(1, false)}
+              selected={!isCircular && aspect === 1}
+            >
               1:1
             </Button>
-            <Button variant="outline" onClick={() => handleAspectChange(3 / 2)}>
+            <Button
+              variant="outline"
+              onClick={() => handleAspectChange(3 / 2, false)}
+              selected={!isCircular && aspect === 3 / 2}
+            >
               3:2
             </Button>
-            <Button variant="outline" onClick={() => handleAspectChange(2 / 3)}>
+            <Button
+              variant="outline"
+              onClick={() => handleAspectChange(2 / 3, false)}
+              selected={!isCircular && aspect === 2 / 3}
+            >
               2:3
             </Button>
             <Button
               variant="outline"
               onClick={() => handleAspectChange(1, true)}
+              selected={isCircular}
             >
               Circular
             </Button>
           </div>
-
           <div className="flex items-center justify-end gap-4">
             <Button onClick={handleCrop}>Crop</Button>
             <Button variant="red" onClick={handleDeleteImage}>
