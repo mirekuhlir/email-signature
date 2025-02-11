@@ -14,10 +14,10 @@ interface Step {
 }
 
 interface SliderProps {
-  min: number;
-  max: number;
+  min?: number;
+  max?: number;
   step?: number;
-  steps: Step[];
+  steps?: Step[];
   defaultValue?: number;
   onChange?: (value: number) => void;
   value?: number;
@@ -31,8 +31,14 @@ const Slider: React.FC<SliderProps> = (props) => {
 
   const getInitialValue = useCallback((): number => {
     return isUsingSteps
-      ? (defaultValue ?? steps[0].value)
-      : (defaultValue ?? min);
+      ? defaultValue !== undefined
+        ? defaultValue
+        : steps![0].value
+      : defaultValue !== undefined
+        ? defaultValue
+        : min !== undefined
+          ? min
+          : 0;
   }, [isUsingSteps, defaultValue, steps, min]);
 
   const [internalValue, setInternalValue] = useState<number>(getInitialValue());
@@ -45,8 +51,8 @@ const Slider: React.FC<SliderProps> = (props) => {
         const percent = (clientX - rect.left) / rect.width;
         let newValue: number;
         if (isUsingSteps) {
-          const index = Math.round(percent * (steps.length - 1));
-          newValue = steps[index].value;
+          const index = Math.round(percent * (steps!.length - 1));
+          newValue = steps![index].value;
         } else {
           const stepValue = step ?? 1;
           const rawValue =
@@ -87,20 +93,21 @@ const Slider: React.FC<SliderProps> = (props) => {
   );
 
   const getPercentValue = useCallback((): number => {
-    if (isUsingSteps) {
+    if (isUsingSteps && steps && steps.length > 0) {
       return (
         ((currentValue - steps[0].value) /
           (steps[steps.length - 1].value - steps[0].value)) *
         100
       );
-    } else {
+    } else if (!isUsingSteps && min !== undefined && max !== undefined) {
       return (
         ((currentValue - (min as number)) /
           ((max as number) - (min as number))) *
         100
       );
     }
-  }, [currentValue, isUsingSteps, props]);
+    return 0;
+  }, [currentValue, isUsingSteps, steps, min, max]);
 
   const percentValue = useMemo(() => getPercentValue(), [getPercentValue]);
 
@@ -117,29 +124,29 @@ const Slider: React.FC<SliderProps> = (props) => {
   }, [handleTouchMove]);
 
   return (
-    <div className="pb-10">
+    <div className="pb-6">
       <div
         ref={sliderRef}
-        className="relative w-full h-20 select-none"
+        className="relative w-full h-4 select-none"
         style={{ touchAction: "none" }}
         onMouseMove={handleMouseMove}
         role="slider"
-        aria-valuemin={isUsingSteps ? steps[0].value : min}
-        aria-valuemax={isUsingSteps ? steps[steps.length - 1].value : max}
+        aria-valuemin={isUsingSteps ? steps![0].value : min}
+        aria-valuemax={isUsingSteps ? steps![steps!.length - 1].value : max}
         aria-valuenow={currentValue}
       >
-        <div className="absolute top-1/2 left-0 w-full h-2 bg-gray-300 rounded-full transform -translate-y-1/2">
+        <div className="absolute left-0 w-full h-2 bg-gray-300 rounded-full transform -translate-y-1/2">
           <div
             className="absolute top-0 left-0 h-full bg-blue-500 rounded-full"
             style={{ width: `${percentValue}%` }}
           />
         </div>
         <div
-          className="absolute top-1/2 w-8 h-8 bg-white border-2 border-blue-500 rounded-full shadow transform -translate-y-1/2 -translate-x-1/2 cursor-pointer"
+          className="absolute w-8 h-8 bg-white border-2 border-blue-500 rounded-full shadow transform -translate-y-1/2 -translate-x-1/2 cursor-pointer"
           style={{ left: `${percentValue}%` }}
         />
         <div className="absolute top-full left-0 w-full flex justify-between mt-2 text-xs text-gray-600">
-          {isUsingSteps ? (
+          {isUsingSteps && steps ? (
             steps.map((step, index) => (
               <span key={index} className="flex-1 text-center">
                 {step.label}
