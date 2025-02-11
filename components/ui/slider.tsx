@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useCallback, useMemo } from "react";
 
 interface Step {
   label: string;
@@ -11,7 +11,6 @@ interface SliderProps {
   defaultValue?: number;
   onChange?: (value: number) => void;
   steps?: Step[];
-
   min?: number;
   max?: number;
   step?: number;
@@ -22,55 +21,51 @@ const Slider: React.FC<SliderProps> = (props) => {
   const isUsingSteps = steps !== undefined && steps.length > 0;
   const sliderRef = useRef<HTMLDivElement>(null);
 
-  const getInitialValue = () => {
+  const getInitialValue = useCallback((): number => {
     if (isUsingSteps) {
       return defaultValue ?? steps![0].value;
     } else {
       return defaultValue ?? min ?? 0;
     }
-  };
+  }, [defaultValue, isUsingSteps, min, steps]);
 
   const [internalValue, setInternalValue] = useState<number>(getInitialValue());
   const currentValue = internalValue;
 
-  const handleMove = (clientX: number) => {
-    if (sliderRef.current) {
-      const rect = sliderRef.current.getBoundingClientRect();
-      const percent = (clientX - rect.left) / rect.width;
-      let newValue: number;
-      if (isUsingSteps) {
-        const index = Math.round(percent * (steps!.length - 1));
-        newValue = steps![index].value;
-      } else {
-        const _min = min ?? 0;
-        const _max = max ?? 100;
-        const _step = step ?? 1;
-        const rawValue = percent * (_max - _min) + _min;
-        newValue = Math.round(rawValue / _step) * _step;
-        newValue = Math.max(_min, Math.min(_max, newValue));
+  const handleMove = useCallback(
+    (clientX: number) => {
+      if (sliderRef.current) {
+        const rect = sliderRef.current.getBoundingClientRect();
+        const percent = (clientX - rect.left) / rect.width;
+        let newValue: number;
+        if (isUsingSteps) {
+          const index = Math.round(percent * (steps!.length - 1));
+          newValue = steps![index].value;
+        } else {
+          const _min = min ?? 0;
+          const _max = max ?? 100;
+          const _step = step ?? 1;
+          const rawValue = percent * (_max - _min) + _min;
+          newValue = Math.round(rawValue / _step) * _step;
+          newValue = Math.max(_min, Math.min(_max, newValue));
+        }
+        setInternalValue(newValue);
+        onChange?.(newValue);
       }
-      setInternalValue(newValue);
-      onChange?.(newValue);
-    }
-  };
+    },
+    [isUsingSteps, max, min, onChange, step, steps],
+  );
 
-  // Neregistrovaný listener s možností volat preventDefault (musí být non-passive)
-  const handleTouchMove = (e: TouchEvent) => {
-    if (e.cancelable) {
-      e.preventDefault();
-    }
-    if (e.touches.length > 0) {
-      handleMove(e.touches[0].clientX);
-    }
-  };
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent) => {
+      if (e.buttons === 1) {
+        handleMove(e.clientX);
+      }
+    },
+    [handleMove],
+  );
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (e.buttons === 1) {
-      handleMove(e.clientX);
-    }
-  };
-
-  const getPercentValue = () => {
+  const getPercentValue = useCallback((): number => {
     if (isUsingSteps) {
       return (
         ((currentValue - steps![0].value) /
@@ -82,21 +77,9 @@ const Slider: React.FC<SliderProps> = (props) => {
       const _max = max ?? 100;
       return ((currentValue - _min) / (_max - _min)) * 100;
     }
-  };
+  }, [currentValue, isUsingSteps, max, min, steps]);
 
-  const percentValue = getPercentValue();
-
-  useEffect(() => {
-    const sliderElem = sliderRef.current;
-    if (sliderElem) {
-      sliderElem.addEventListener("touchmove", handleTouchMove, {
-        passive: false,
-      });
-      return () => {
-        sliderElem.removeEventListener("touchmove", handleTouchMove);
-      };
-    }
-  }, []);
+  const percentValue = useMemo(() => getPercentValue(), [getPercentValue]);
 
   return (
     <div className="pb-10">
