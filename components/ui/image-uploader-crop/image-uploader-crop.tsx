@@ -341,7 +341,6 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
               onComplete={onCropComplete}
               aspect={aspect}
               circularCrop={isCircular}
-              className="relative [&_.ReactCrop__crop-selection]:border-2 [&_.ReactCrop__crop-selection]:border-white [&_.ReactCrop__drag-handle]:w-2.5 [&_.ReactCrop__drag-handle]:h-2.5 [&_.ReactCrop__drag-handle]:bg-white [&_.ReactCrop__drag-handle]:rounded-full [&_.ReactCrop__drag-handle]:border-2 [&_.ReactCrop__drag-handle]:border-primary [&_.ReactCrop__drag-handle]:shadow-xl [&_.ReactCrop__drag-handle]:block"
             >
               <img
                 ref={imgRef}
@@ -391,7 +390,6 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
             </Button>
           </div>
           <div className="flex items-center justify-end gap-4">
-            <Button onClick={handleCrop}>Crop</Button>
             <Button variant="red" onClick={handleDeleteImage}>
               Delete Image
             </Button>
