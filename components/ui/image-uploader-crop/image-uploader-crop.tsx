@@ -78,7 +78,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     [onSetOriginalImagePreview, onSetOriginalImageFile],
   );
 
-  const onCropComplete = useCallback(
+  /*  const onCropComplete = useCallback(
     (crop: Crop) => {
       if (imgRef.current && crop.width && crop.height) {
         const image = imgRef.current;
@@ -126,7 +126,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
       }
     },
     [isCircular],
-  );
+  ); */
 
   const generateCroppedImage = useCallback((): string | null => {
     if (imgRef.current && crop?.width && crop?.height && previewWidth) {
@@ -360,7 +360,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
             <ReactCrop
               crop={crop}
               onChange={(c) => setCrop(c)}
-              onComplete={onCropComplete}
+              /*     onComplete={onCropComplete} */
               aspect={aspect}
               circularCrop={isCircular}
             >
