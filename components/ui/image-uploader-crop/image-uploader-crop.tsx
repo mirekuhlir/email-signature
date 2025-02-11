@@ -4,6 +4,7 @@ import ReactCrop, { type Crop } from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 import { Button } from "@/components/ui/button";
 import Slider from "../slider";
+import { debounce } from "lodash";
 import {
   getDefaultCrop,
   dataURLToFile,
@@ -127,48 +128,74 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   );
 
   const generateCroppedImage = useCallback((): string | null => {
-    if (imgRef.current && crop?.width && crop?.height) {
+    if (imgRef.current && crop?.width && crop?.height && previewWidth) {
       const image = imgRef.current;
-      const pixelRatio = window.devicePixelRatio || 1;
-      const canvas = document.createElement("canvas");
       const scaleX = image.naturalWidth / image.width;
       const scaleY = image.naturalHeight / image.height;
 
-      canvas.width = crop.width * pixelRatio;
-      canvas.height = crop.height * pixelRatio;
-      const ctx = canvas.getContext("2d");
+      const cropWidthOrig = crop.width * scaleX;
+      const cropHeightOrig = crop.height * scaleY;
+      const xOrig = crop.x * scaleX;
+      const yOrig = crop.y * scaleY;
 
-      if (ctx) {
-        ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
-        ctx.drawImage(
-          image,
-          crop.x * scaleX,
-          crop.y * scaleY,
-          crop.width * scaleX,
-          crop.height * scaleY,
+      const tempCanvas = document.createElement("canvas");
+      tempCanvas.width = cropWidthOrig;
+      tempCanvas.height = cropHeightOrig;
+      const tempCtx = tempCanvas.getContext("2d");
+      if (!tempCtx) return null;
+
+      tempCtx.drawImage(
+        image,
+        xOrig,
+        yOrig,
+        cropWidthOrig,
+        cropHeightOrig,
+        0,
+        0,
+        cropWidthOrig,
+        cropHeightOrig,
+      );
+
+      const finalCanvas = document.createElement("canvas");
+      finalCanvas.width = previewWidth;
+      finalCanvas.height = Math.round(
+        previewWidth * (cropHeightOrig / cropWidthOrig),
+      );
+      const ctx = finalCanvas.getContext("2d");
+      if (!ctx) return null;
+
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = "high";
+
+      ctx.drawImage(
+        tempCanvas,
+        0,
+        0,
+        cropWidthOrig,
+        cropHeightOrig,
+        0,
+        0,
+        finalCanvas.width,
+        finalCanvas.height,
+      );
+
+      if (isCircular) {
+        ctx.globalCompositeOperation = "destination-in";
+        ctx.beginPath();
+        ctx.arc(
+          finalCanvas.width / 2,
+          finalCanvas.height / 2,
+          Math.min(finalCanvas.width, finalCanvas.height) / 2,
           0,
-          0,
-          crop.width,
-          crop.height,
+          Math.PI * 2,
         );
-
-        if (isCircular) {
-          ctx.globalCompositeOperation = "destination-in";
-          ctx.beginPath();
-          ctx.arc(
-            crop.width / 2,
-            crop.height / 2,
-            Math.min(crop.width, crop.height) / 2,
-            0,
-            Math.PI * 2,
-          );
-          ctx.fill();
-        }
-        return canvas.toDataURL("image/png");
+        ctx.fill();
       }
+
+      return finalCanvas.toDataURL("image/png", 1.0);
     }
     return null;
-  }, [crop, isCircular]);
+  }, [crop, isCircular, previewWidth]);
 
   const handleCrop = useCallback(() => {
     const croppedImageDataUrl = generateCroppedImage();
@@ -185,10 +212,6 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         aspect,
         isCircular,
       });
-
-      if (!previewWidth) {
-        setPreviewWidth(imageWidthDefault);
-      }
     }
   }, [
     onSetCropImagePreview,
@@ -198,7 +221,23 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     aspect,
     isCircular,
     imageName,
+    generateCroppedImage,
   ]);
+
+  const debouncedHandleCrop = useMemo(
+    () => debounce(handleCrop, 200),
+    [handleCrop],
+  );
+
+  useEffect(() => {
+    if (croppedImageData) {
+      debouncedHandleCrop();
+    }
+
+    return () => {
+      debouncedHandleCrop.cancel();
+    };
+  }, [previewWidth, debouncedHandleCrop, croppedImageData]);
 
   useEffect(() => {
     if (
@@ -264,10 +303,10 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   }, [imageSettings, crop?.width]);
 
   useEffect(() => {
-    if (previewWidthInit && !previewWidth) {
-      setPreviewWidth(previewWidthInit);
+    if (!previewWidth) {
+      setPreviewWidth(previewWidthInit || imageWidthDefault);
     }
-  });
+  }, [previewWidthInit]);
 
   useEffect(() => {
     if (croppedImageData) {
@@ -382,7 +421,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
           </div>
 
           <canvas ref={previewCanvasRef} className="hidden" />
-          {previewWidth !== undefined && (
+          {croppedImageData && (
             <div className="space-y-2">
               <label
                 htmlFor="width-slider"
