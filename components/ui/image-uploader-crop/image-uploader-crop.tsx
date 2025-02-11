@@ -246,7 +246,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     (newAspect: number, circular: boolean = false) => {
       if (circular) {
         setIsCircular(true);
-        setAspect(undefined);
+        setAspect(1);
         const newCrop = getDefaultCropForCurrentImage(1);
         if (newCrop) {
           setCrop(newCrop);
