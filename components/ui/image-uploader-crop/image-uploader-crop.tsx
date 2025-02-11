@@ -337,6 +337,9 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         <div className="space-y-4">
           {croppedImageData && (
             <div className="space-y-2">
+              <Typography variant="labelBase">
+                Set the width of the cropped image
+              </Typography>
               <Slider
                 min={50}
                 max={200}
@@ -416,9 +419,6 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
           </div>
 
           <canvas ref={previewCanvasRef} className="hidden" />
-          <Typography variant="labelBase">
-            Set the width of the cropped image
-          </Typography>
         </div>
       )}
     </div>

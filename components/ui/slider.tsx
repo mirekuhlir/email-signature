@@ -125,7 +125,7 @@ const Slider: React.FC<SliderProps> = (props) => {
   }, [handleTouchMove]);
 
   return (
-    <div className="pb-6">
+    <div className="pb-6 pt-3">
       <div
         id={id}
         ref={sliderRef}
