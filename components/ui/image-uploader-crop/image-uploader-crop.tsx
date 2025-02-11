@@ -230,35 +230,12 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   );
 
   useEffect(() => {
-    if (croppedImageData) {
-      debouncedHandleCrop();
-    }
+    debouncedHandleCrop();
 
     return () => {
       debouncedHandleCrop.cancel();
     };
   }, [previewWidth, debouncedHandleCrop, croppedImageData]);
-
-  useEffect(() => {
-    if (
-      originalImagePreview &&
-      crop &&
-      aspect &&
-      isCircular &&
-      previewWidth &&
-      !croppedImageData
-    ) {
-      handleCrop();
-    }
-  }, [
-    originalImagePreview,
-    crop,
-    aspect,
-    isCircular,
-    previewWidth,
-    croppedImageData,
-    handleCrop,
-  ]);
 
   const handleDeleteImage = useCallback(() => {
     onSetOriginalImagePreview?.("");
