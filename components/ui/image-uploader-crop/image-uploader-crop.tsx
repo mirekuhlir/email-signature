@@ -11,6 +11,7 @@ import {
   cropDefault,
   imageWidthDefault,
 } from "./utils";
+import { Typography } from "../typography";
 
 interface ImageSettings {
   crop: Crop;
@@ -359,6 +360,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
             </ReactCrop>
           </div>
 
+          <Typography variant="labelBase">Choose the aspect ratio</Typography>
           <div className="flex items-center justify-between gap-4">
             <Button
               variant="outline"
@@ -396,20 +398,24 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
           </div>
 
           <canvas ref={previewCanvasRef} className="hidden" />
+          <Typography variant="labelBase">
+            Set the width of the cropped image
+          </Typography>
           {croppedImageData && (
             <div className="space-y-2">
-              <label
-                htmlFor="width-slider"
-                className="block pb-5 text-center text-sm font-medium text-gray-700"
-              >
-                Width: {previewWidth}px
-              </label>
               <Slider
                 min={50}
                 max={200}
                 defaultValue={previewWidth}
                 onChange={handlePreviewWidthChange}
+                id="slider"
               />
+              <label
+                htmlFor="slider"
+                className="block pb-5 text-center text-sm font-medium text-gray-700"
+              >
+                Width: {previewWidth}px
+              </label>
             </div>
           )}
         </div>

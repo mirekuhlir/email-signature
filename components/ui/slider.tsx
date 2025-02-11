@@ -14,6 +14,7 @@ interface Step {
 }
 
 interface SliderProps {
+  id?: string;
   min?: number;
   max?: number;
   step?: number;
@@ -24,7 +25,7 @@ interface SliderProps {
 }
 
 const Slider: React.FC<SliderProps> = (props) => {
-  const { defaultValue, onChange, value, min, max, step, steps } = props;
+  const { id, defaultValue, onChange, value, min, max, step, steps } = props;
 
   const isUsingSteps = "steps" in props;
   const sliderRef = useRef<HTMLDivElement>(null);
@@ -126,6 +127,7 @@ const Slider: React.FC<SliderProps> = (props) => {
   return (
     <div className="pb-6">
       <div
+        id={id}
         ref={sliderRef}
         className="relative w-full h-4 select-none"
         style={{ touchAction: "none" }}
