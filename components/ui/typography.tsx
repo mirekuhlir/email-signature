@@ -52,6 +52,7 @@ const weightStyles: Record<WeightType, string> = {
 };
 
 type TypographyProps = {
+  id?: string;
   variant?: VariantType;
   weight?: WeightType;
   textColor?: string;
@@ -66,6 +67,7 @@ type TypographyProps = {
 };
 
 export const Typography = ({
+  id,
   variant = "body",
   weight,
   textColor = "text-black",
@@ -78,12 +80,20 @@ export const Typography = ({
   className,
   children,
 }: TypographyProps) => {
-  const Component = variant.startsWith("h") ? (variant as HeadlineType) : "p";
+  let Component: React.ElementType;
+
+  if (variant === "labelBase") {
+    Component = "label";
+  } else if (variant.startsWith("h")) {
+    Component = variant as HeadlineType;
+  } else {
+    Component = "p";
+  }
 
   const classes = joinClasses(
     variantStyles[variant],
     weight && weightStyles[weight],
-    textColor && textColor,
+    textColor,
     italic && "italic",
     underline && "underline",
     linethrough && "line-through",
@@ -93,5 +103,9 @@ export const Typography = ({
     className,
   );
 
-  return <Component className={classes}>{children}</Component>;
+  return (
+    <Component id={id} className={classes}>
+      {children}
+    </Component>
+  );
 };
