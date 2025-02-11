@@ -316,7 +316,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   }, [croppedImageData, previewWidth, onSetCropImagePreview]);
 
   return (
-    <div className="w-full max-w-3xl mx-auto p-4 space-y-4">
+    <div className="w-full pt-8">
       {!originalImagePreview ? (
         <div className="grid place-items-center p-4 border border-dashed border-gray-300 rounded min-h-[200px]">
           <input
@@ -335,7 +335,25 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         </div>
       ) : (
         <div className="space-y-4">
-          <div className="border rounded-lg overflow-hidden bg-black/5">
+          {croppedImageData && (
+            <div className="space-y-2">
+              <Slider
+                min={50}
+                max={200}
+                defaultValue={previewWidth}
+                onChange={handlePreviewWidthChange}
+                id="slider"
+              />
+              <label
+                htmlFor="slider"
+                className="block pb-5 text-center text-sm font-medium text-gray-700"
+              >
+                Width: {previewWidth}px
+              </label>
+            </div>
+          )}
+
+          <div className="overflow-hidden bg-black/5 max-w-[90%] mx-0 md:mx-auto">
             <ReactCrop
               crop={crop}
               onChange={(c) => setCrop(c)}
@@ -401,23 +419,6 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
           <Typography variant="labelBase">
             Set the width of the cropped image
           </Typography>
-          {croppedImageData && (
-            <div className="space-y-2">
-              <Slider
-                min={50}
-                max={200}
-                defaultValue={previewWidth}
-                onChange={handlePreviewWidthChange}
-                id="slider"
-              />
-              <label
-                htmlFor="slider"
-                className="block pb-5 text-center text-sm font-medium text-gray-700"
-              >
-                Width: {previewWidth}px
-              </label>
-            </div>
-          )}
         </div>
       )}
     </div>
