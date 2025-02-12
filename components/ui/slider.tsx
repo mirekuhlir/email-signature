@@ -131,7 +131,12 @@ const Slider: React.FC<SliderProps> = (props) => {
         ref={sliderRef}
         className="relative w-full h-4 select-none"
         style={{ touchAction: "none" }}
-        onMouseMove={handleMouseMove}
+        onPointerDown={(e) => sliderRef.current?.setPointerCapture(e.pointerId)}
+        onPointerMove={(e) => {
+          if (e.buttons === 1) {
+            handleMove(e.clientX);
+          }
+        }}
         role="slider"
         aria-valuemin={isUsingSteps ? steps![0].value : min}
         aria-valuemax={isUsingSteps ? steps![steps!.length - 1].value : max}
