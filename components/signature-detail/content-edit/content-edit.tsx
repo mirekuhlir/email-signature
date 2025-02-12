@@ -4,7 +4,7 @@ import { ContentType } from "@/const/content";
 import RichTextEditor from "@/components/ui/rich-text-editor/rich-text-editor";
 import { Button } from "@/components/ui/button";
 import { useContentEditStore } from "../store/content-edit-add-path-store";
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useCallback, use } from "react";
 import useValidate from "@/hooks/useValidate";
 import { validateEmail } from "@/hooks/validations";
 import { Img } from "@/components/ui/img";
@@ -12,7 +12,7 @@ import ImageUploaderCrop from "@/components/ui/image-uploader-crop/image-uploade
 
 export const ContentEdit = (props: any) => {
   const { contentPathToEdit } = props;
-  const { rows, removeRow, setContent } = useSignatureStore();
+  const { rows, removeRow } = useSignatureStore();
   const { setContentEdit } = useContentEditStore();
   const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -24,7 +24,7 @@ export const ContentEdit = (props: any) => {
   }, []);
 
   return (
-    <div>
+    <div key={path}>
       {getContentType(content, path)}
       <Button
         onClick={() => {
@@ -56,7 +56,6 @@ export const ContentEdit = (props: any) => {
 
 const getContentType = (content: any, contentPathToEdit: any) => {
   const type: ContentType = content?.type;
-
   const { components } = content;
 
   switch (type) {
@@ -113,8 +112,9 @@ const TextEditContent = (props: any) => {
     );
   });
 };
+
 const ImageEditContent = (props: any) => {
-  const { components, contentPathToEdit, contentType } = props;
+  const { components, contentPathToEdit } = props;
   const { setContent } = useSignatureStore();
   const imageComponent = components[0];
 

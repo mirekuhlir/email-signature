@@ -78,56 +78,6 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     [onSetOriginalImagePreview, onSetOriginalImageFile],
   );
 
-  /*  const onCropComplete = useCallback(
-    (crop: Crop) => {
-      if (imgRef.current && crop.width && crop.height) {
-        const image = imgRef.current;
-        const canvas = document.createElement("canvas");
-        const scaleX = image.naturalWidth / image.width;
-        const scaleY = image.naturalHeight / image.height;
-        const ctx = canvas.getContext("2d");
-
-        canvas.width = crop.width;
-        canvas.height = crop.height;
-
-        if (ctx) {
-          ctx.drawImage(
-            image,
-            crop.x * scaleX,
-            crop.y * scaleY,
-            crop.width * scaleX,
-            crop.height * scaleY,
-            0,
-            0,
-            crop.width,
-            crop.height,
-          );
-
-          if (isCircular) {
-            ctx.globalCompositeOperation = "destination-in";
-            ctx.beginPath();
-            ctx.arc(
-              crop.width / 2,
-              crop.height / 2,
-              Math.min(crop.width, crop.height) / 2,
-              0,
-              Math.PI * 2,
-            );
-            ctx.fill();
-          }
-        }
-
-        if (previewCanvasRef.current) {
-          previewCanvasRef.current.width = crop.width;
-          previewCanvasRef.current.height = crop.height;
-          const previewCtx = previewCanvasRef.current.getContext("2d");
-          previewCtx?.drawImage(canvas, 0, 0);
-        }
-      }
-    },
-    [isCircular],
-  ); */
-
   const generateCroppedImage = useCallback((): string | null => {
     if (imgRef.current && crop?.width && crop?.height && previewWidth) {
       const image = imgRef.current;
@@ -232,7 +182,6 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
 
   useEffect(() => {
     debouncedHandleCrop();
-
     return () => {
       debouncedHandleCrop.cancel();
     };
@@ -285,6 +234,31 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
       setPreviewWidth(previewWidthInit || imageWidthDefault);
     }
   }, [previewWidthInit]);
+
+  const scrollDownInit = useCallback(() => {
+    setTimeout(() => {
+      window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+    }, 200);
+  }, []);
+
+  const initCalledRef = useRef(false);
+
+  useEffect(() => {
+    if (croppedImageData && !initCalledRef.current) {
+      initCalledRef.current = true;
+      scrollDownInit();
+    }
+    return () => {
+      scrollDownInit();
+    };
+  }, [croppedImageData]);
+
+  const scrollDown = useCallback(() => {
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: "instant",
+    });
+  }, []);
 
   useEffect(() => {
     if (croppedImageData) {
@@ -360,7 +334,6 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
             <ReactCrop
               crop={crop}
               onChange={(c) => setCrop(c)}
-              /*     onComplete={onCropComplete} */
               aspect={aspect}
               circularCrop={isCircular}
             >
@@ -385,28 +358,40 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
           <div className="flex items-center justify-between gap-4">
             <Button
               variant="outline"
-              onClick={() => handleAspectChange(1, false)}
+              onClick={() => {
+                handleAspectChange(1, false);
+                scrollDown();
+              }}
               selected={!isCircular && aspect === 1}
             >
               1:1
             </Button>
             <Button
               variant="outline"
-              onClick={() => handleAspectChange(3 / 2, false)}
+              onClick={() => {
+                handleAspectChange(3 / 2, false);
+                scrollDown();
+              }}
               selected={!isCircular && aspect === 3 / 2}
             >
               3:2
             </Button>
             <Button
               variant="outline"
-              onClick={() => handleAspectChange(2 / 3, false)}
+              onClick={() => {
+                handleAspectChange(2 / 3, false);
+                scrollDown();
+              }}
               selected={!isCircular && aspect === 2 / 3}
             >
               2:3
             </Button>
             <Button
               variant="outline"
-              onClick={() => handleAspectChange(1, true)}
+              onClick={() => {
+                handleAspectChange(1, true);
+                scrollDown();
+              }}
               selected={isCircular}
             >
               Circular

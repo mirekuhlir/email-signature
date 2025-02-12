@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { useSignatureStore } from "@/components/signature-detail/store/content-edit-add-store";
 import { useContentEditStore } from "@/components/signature-detail/store/content-edit-add-path-store";
 import { Button } from "@/components/ui/button";
@@ -10,6 +11,7 @@ export const ContentAdd = (props: any) => {
 
   const { addRow, addRowTable } = useSignatureStore();
   const { contentEdit, setContentEdit } = useContentEditStore();
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
   const onAdd = (type: ContentType) => {
     if (contentEdit.addPath === "table-root" && contentEdit.position) {
@@ -28,6 +30,10 @@ export const ContentAdd = (props: any) => {
     });
   };
 
+  useEffect(() => {
+    wrapperRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, []);
+
   return (
     <div className="pt-6">
       {CONTENT_TYPES.map((typeItem, index) => (
@@ -38,7 +44,7 @@ export const ContentAdd = (props: any) => {
           >{`Add ${typeItem.name}`}</Button>
         </div>
       ))}
-      <div className="flex justify-end mb-6">
+      <div className="flex justify-end mb-6" ref={wrapperRef}>
         <Button onClick={onClose}>Close</Button>
       </div>
     </div>
