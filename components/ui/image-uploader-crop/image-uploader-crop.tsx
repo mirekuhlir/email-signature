@@ -248,10 +248,14 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
       initCalledRef.current = true;
       scrollDownInit();
     }
+    return () => {};
+  }, [croppedImageData]);
+
+  useEffect(() => {
     return () => {
       scrollDownInit();
     };
-  }, [croppedImageData]);
+  }, []);
 
   const scrollDown = useCallback(() => {
     window.scrollTo({
