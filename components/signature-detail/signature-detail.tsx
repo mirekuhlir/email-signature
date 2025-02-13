@@ -59,7 +59,7 @@ export const SignatureDetail = (props: any) => {
         </div>
       </div>
       <div className="h-20" />
-      {/*     <div>
+      {/*       <div>
         <EmailTemplateEdit rows={rows} />
       </div> */}
       <div>

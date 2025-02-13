@@ -154,6 +154,7 @@ export const EmailTemplateEdit = (props: any) => {
             <Button
               onClick={() => {
                 setContentEdit({
+                  editPath: null,
                   position: "start",
                   addPath: "table-root",
                   nextEditPath: "[0].columns[0].rows[0]",
@@ -181,6 +182,7 @@ export const EmailTemplateEdit = (props: any) => {
             <Button
               onClick={() => {
                 setContentEdit({
+                  editPath: null,
                   position: "end",
                   addPath: "table-root",
                   nextEditPath: `[${rows.length}].columns[0].rows[0]`,

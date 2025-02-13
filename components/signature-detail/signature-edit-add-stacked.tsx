@@ -1,9 +1,11 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { getContentView } from "./content-view/content-view";
 import { Button } from "@/components/ui/button";
 import { ContentEdit } from "@/components/signature-detail/content-edit/content-edit";
 import { ContentAdd } from "@/components/signature-detail/content-add/content-add";
 import { useContentEditStore } from "./store/content-edit-add-path-store";
+import Modal from "../ui/modal";
+import { Typography } from "../ui/typography";
 
 export const EmailTemplateEditStacked: React.FC<{ rows: any[] }> = ({
   rows,
@@ -12,7 +14,7 @@ export const EmailTemplateEditStacked: React.FC<{ rows: any[] }> = ({
 
   const renderRows = (rows: any[], path: string = "") => {
     return rows.map((row: any, index: number) => {
-      const currentPath = path ? `${path}[${index}]` : `${index}`;
+      const currentPath = path ? `${path}[${index}]` : `[${index}]`;
 
       if (!row?.id) {
         return null;
@@ -106,9 +108,10 @@ export const EmailTemplateEditStacked: React.FC<{ rows: any[] }> = ({
           <Button
             onClick={() => {
               setContentEdit({
+                editPath: null,
                 position: "start",
-                addPath: "stacked-root",
-                nextEditPath: "[0]",
+                addPath: "table-root",
+                nextEditPath: "[0].columns[0].rows[0]",
               });
             }}
             variant="gray"
@@ -118,20 +121,12 @@ export const EmailTemplateEditStacked: React.FC<{ rows: any[] }> = ({
         )}
       </div>
       <div>{renderRows(rows)}</div>
-      {contentEdit.addPath && (
-        <ContentAdd
-          path={contentEdit.addPath}
-          onClose={() => {
-            setContentEdit({ addPath: null });
-          }}
-        />
-      )}
-
       {!contentEdit.editPath && !contentEdit.addPath && (
         <div className="mt-5">
           <Button
             onClick={() => {
               setContentEdit({
+                editPath: null,
                 position: "end",
                 addPath: "table-root",
                 nextEditPath: `[${rows.length}].columns[0].rows[0]`,
@@ -143,6 +138,28 @@ export const EmailTemplateEditStacked: React.FC<{ rows: any[] }> = ({
           </Button>
         </div>
       )}
+      <Modal
+        isOpen={Boolean(contentEdit.addPath)}
+        onClose={() =>
+          setContentEdit({
+            addPath: null,
+          })
+        }
+        title="Fullscreen Modal"
+        size="fullscreen"
+      >
+        <Typography variant="body">Select what you want to add</Typography>
+        {contentEdit.addPath && (
+          <ContentAdd
+            path={contentEdit.addPath}
+            onClose={() => {
+              setContentEdit({
+                addPath: null,
+              });
+            }}
+          />
+        )}
+      </Modal>
     </>
   );
 };
