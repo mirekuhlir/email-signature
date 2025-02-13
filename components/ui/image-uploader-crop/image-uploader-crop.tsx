@@ -30,6 +30,7 @@ interface ImageUploaderProps {
   onSetImageSettings?: (info: ImageSettings) => void;
   previewWidthInit?: number;
   onSetPreviewWidth?: (width: number) => void;
+  onInit?: () => void;
 }
 
 export default function ImageUploadCrop(props: ImageUploaderProps) {
@@ -44,6 +45,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     onSetImageSettings,
     previewWidthInit,
     onSetPreviewWidth,
+    onInit,
   } = props;
 
   const [crop, setCrop] = useState<Crop | undefined>(undefined);
@@ -235,34 +237,15 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     }
   }, [previewWidthInit]);
 
-  const scrollDownInit = useCallback(() => {
-    setTimeout(() => {
-      /*     window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" }); */
-    }, 200);
-  }, []);
-
   const initCalledRef = useRef(false);
 
   useEffect(() => {
     if (croppedImageData && !initCalledRef.current) {
       initCalledRef.current = true;
-      scrollDownInit();
+      onInit?.();
     }
     return () => {};
   }, [croppedImageData]);
-
-  useEffect(() => {
-    return () => {
-      scrollDownInit();
-    };
-  }, []);
-
-  const scrollDown = useCallback(() => {
-    window.scrollTo({
-      top: document.body.scrollHeight,
-      behavior: "instant",
-    });
-  }, []);
 
   useEffect(() => {
     if (croppedImageData) {
@@ -364,7 +347,6 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
               variant="outline"
               onClick={() => {
                 handleAspectChange(1, false);
-                scrollDown();
               }}
               selected={!isCircular && aspect === 1}
             >
@@ -374,7 +356,6 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
               variant="outline"
               onClick={() => {
                 handleAspectChange(3 / 2, false);
-                scrollDown();
               }}
               selected={!isCircular && aspect === 3 / 2}
             >
@@ -384,7 +365,6 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
               variant="outline"
               onClick={() => {
                 handleAspectChange(2 / 3, false);
-                scrollDown();
               }}
               selected={!isCircular && aspect === 2 / 3}
             >
@@ -394,7 +374,6 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
               variant="outline"
               onClick={() => {
                 handleAspectChange(1, true);
-                scrollDown();
               }}
               selected={isCircular}
             >

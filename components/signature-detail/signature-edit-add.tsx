@@ -166,7 +166,7 @@ export const EmailTemplateEdit = (props: any) => {
             </Button>
           </div>
         )}
-        <>{renderRows(rows, true, "")}</>
+        <>{!contentEdit.editPath && renderRows(rows, true, "")}</>
         {contentEdit.addPath && (
           <ContentAdd
             path={contentEdit.addPath}

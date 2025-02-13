@@ -4,7 +4,7 @@ import { ContentType } from "@/const/content";
 import RichTextEditor from "@/components/ui/rich-text-editor/rich-text-editor";
 import { Button } from "@/components/ui/button";
 import { useContentEditStore } from "../store/content-edit-add-path-store";
-import { useEffect, useRef, useCallback, use } from "react";
+import { useRef, useCallback } from "react";
 import useValidate from "@/hooks/useValidate";
 import { validateEmail } from "@/hooks/validations";
 import { Img } from "@/components/ui/img";
@@ -19,13 +19,9 @@ export const ContentEdit = (props: any) => {
   const path = `${contentPathToEdit}.content`;
   const content = get(rows, path);
 
-  useEffect(() => {
-    /*     wrapperRef.current?.scrollIntoView({ behavior: "smooth" }); */
-  }, []);
-
   return (
     <div key={path}>
-      {getContentType(content, path)}
+      <div ref={wrapperRef}>{getContentType(content, path)}</div>
       <Button
         onClick={() => {
           setContentEdit({
@@ -37,7 +33,7 @@ export const ContentEdit = (props: any) => {
       >
         Remove
       </Button>
-      <div className="flex justify-end mb-6" ref={wrapperRef}>
+      <div className="flex justify-end mb-6">
         <Button
           onClick={() => {
             setContentEdit({
@@ -173,8 +169,14 @@ const ImageEditContent = (props: any) => {
     return <Img src={imageComponent.src} />;
   }
 
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  const onInit = useCallback(() => {
+    wrapperRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, []);
+
   return (
-    <>
+    <div ref={wrapperRef}>
       <ImageUploaderCrop
         onSetCropImagePreview={handleCropImagePreview}
         onSetOriginalImagePreview={handleOriginalImagePreview}
@@ -186,8 +188,9 @@ const ImageEditContent = (props: any) => {
         imageName={imageComponent.id}
         previewWidthInit={imageComponent.previewWidth}
         onSetPreviewWidth={handlePreviewWidth}
+        onInit={onInit}
       />
-    </>
+    </div>
   );
 };
 

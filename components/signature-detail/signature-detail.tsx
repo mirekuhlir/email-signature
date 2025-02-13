@@ -8,7 +8,7 @@ import { useSignatureStore } from "./store/content-edit-add-store";
 import { handleCopy } from "./content-view/utils";
 import { EmailTemplateView } from "./content-view/signature-view";
 import { EmailTemplateEdit } from "./signature-edit-add";
-import SignatureEditAddStacked from "./signature-edit-add-stacked";
+import { useContentEditStore } from "./store/content-edit-add-path-store";
 
 export const SignatureDetail = (props: any) => {
   const { signatureDetail } = props;
@@ -16,6 +16,7 @@ export const SignatureDetail = (props: any) => {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   const { rows, initRows } = useSignatureStore();
+  const { contentEdit } = useContentEditStore();
 
   useEffect(() => {
     initRows(signatureDetail.rows);
@@ -45,25 +46,25 @@ export const SignatureDetail = (props: any) => {
 
       <Typography variant="h3">{t("signatureEdit")}</Typography>
       <div className="flex flex-col items-center">
-        <div id="signature5">
-          <EmailTemplateView rows={rows} />
-        </div>
-        <div className="mt-5">
-          <Button
-            onClick={() => {
-              handleCopy("signature5");
-            }}
-          >
-            Copy Signature
-          </Button>
-        </div>
+        {contentEdit.editPath && (
+          <>
+            <div id="signature5">
+              <EmailTemplateView rows={rows} />
+            </div>
+            <div className="mt-5">
+              <Button
+                onClick={() => {
+                  handleCopy("signature5");
+                }}
+              >
+                Copy Signature
+              </Button>
+            </div>
+          </>
+        )}
       </div>
-      <div className="h-20" />
-      {/*       <div>
-        <EmailTemplateEdit rows={rows} />
-      </div> */}
       <div>
-        <SignatureEditAddStacked rows={rows} />
+        <EmailTemplateEdit rows={rows} />
       </div>
     </>
   );
