@@ -13,8 +13,6 @@ import { useContentEditStore } from "./store/content-edit-add-path-store";
 export const SignatureDetail = (props: any) => {
   const { signatureDetail } = props;
 
-  const [isDarkMode, setIsDarkMode] = useState(false);
-
   const { rows, initRows } = useSignatureStore();
   const { contentEdit } = useContentEditStore();
 
@@ -40,11 +38,6 @@ export const SignatureDetail = (props: any) => {
 
   return (
     <>
-      <Button onClick={() => setIsDarkMode(!isDarkMode)}>
-        {isDarkMode ? "Set light Mode" : "Set dark Mode"}
-      </Button>
-
-      <Typography variant="h3">{t("signatureEdit")}</Typography>
       <div className="flex flex-col items-center">
         {contentEdit.editPath && (
           <>
