@@ -117,6 +117,39 @@ const RichTextEditor = (props: RichTextEditorProps) => {
 
   return (
     <div className="w-full max-w-4xl mx-auto p-2 md:p-4 space-y-4">
+      <input
+        className="w-full p-4 border rounded focus:outline-none focus:ring-2 focus:ring-blue-200 bg-white"
+        style={{
+          fontSize: `${editFontSize}px`,
+          lineHeight: editLineHeight,
+          fontWeight: editFontWeight,
+          fontStyle: editFontStyle,
+          textAlign: editTextAlign as "left" | "center" | "right" | "justify",
+          color: editTextColor,
+          backgroundColor: editBackgroundColor,
+          textDecoration: editTextDecoration,
+          fontFamily: editFontFamily,
+          letterSpacing: `${editLetterSpacing}px`,
+          textTransform: editTextTransform as
+            | "uppercase"
+            | "lowercase"
+            | "capitalize"
+            | "none",
+        }}
+        onChange={(e) => {
+          setEditText(e.target.value);
+          onChangeContent({
+            text: e.target.value,
+          });
+        }}
+        role="textbox"
+        aria-label="Text editor"
+        value={editText}
+      />
+      {errorMessage && (
+        <p className="text-red-500 mt-2 text-sm">{errorMessage}</p>
+      )}
+
       <div className="grid grid-cols-1 gap-2 bg-gray-100 p-2 rounded">
         <div className="flex flex-col gap-2 p-2 border-b border-gray-200">
           <SelectBase
@@ -292,39 +325,6 @@ const RichTextEditor = (props: RichTextEditorProps) => {
           </div>
         </div> */}
       </div>
-
-      <input
-        className="w-full p-4 border rounded focus:outline-none focus:ring-2 focus:ring-blue-200 bg-white"
-        style={{
-          fontSize: `${editFontSize}px`,
-          lineHeight: editLineHeight,
-          fontWeight: editFontWeight,
-          fontStyle: editFontStyle,
-          textAlign: editTextAlign as "left" | "center" | "right" | "justify",
-          color: editTextColor,
-          backgroundColor: editBackgroundColor,
-          textDecoration: editTextDecoration,
-          fontFamily: editFontFamily,
-          letterSpacing: `${editLetterSpacing}px`,
-          textTransform: editTextTransform as
-            | "uppercase"
-            | "lowercase"
-            | "capitalize"
-            | "none",
-        }}
-        onChange={(e) => {
-          setEditText(e.target.value);
-          onChangeContent({
-            text: e.target.value,
-          });
-        }}
-        role="textbox"
-        aria-label="Text editor"
-        value={editText}
-      />
-      {errorMessage && (
-        <p className="text-red-500 mt-2 text-sm">{errorMessage}</p>
-      )}
     </div>
   );
 };

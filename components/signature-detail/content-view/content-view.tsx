@@ -2,7 +2,7 @@ import { Img } from "@/components/ui/img";
 import { ContentType } from "@/const/content";
 
 export const getContentView = (content?: any) => {
-  if (content.type == ContentType.IMAGE) {
+  if (content?.type == ContentType.IMAGE) {
     const { components } = content;
 
     return components.map((component: any, index: number) => {
@@ -12,7 +12,7 @@ export const getContentView = (content?: any) => {
     });
   }
 
-  if (content.type === ContentType.TEXT) {
+  if (content?.type === ContentType.TEXT) {
     const { components } = content;
 
     return components.map((component: any) => {
@@ -57,7 +57,7 @@ export const getContentView = (content?: any) => {
     });
   }
 
-  if (content.type === ContentType.EMAIL) {
+  if (content?.type === ContentType.EMAIL) {
     const { components } = content;
 
     const textAlign = components[0].textAlign;

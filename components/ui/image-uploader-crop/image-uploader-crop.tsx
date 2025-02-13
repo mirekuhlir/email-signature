@@ -237,7 +237,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
 
   const scrollDownInit = useCallback(() => {
     setTimeout(() => {
-      window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+      /*     window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" }); */
     }, 200);
   }, []);
 

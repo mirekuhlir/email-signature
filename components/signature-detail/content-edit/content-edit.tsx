@@ -20,7 +20,7 @@ export const ContentEdit = (props: any) => {
   const content = get(rows, path);
 
   useEffect(() => {
-    wrapperRef.current?.scrollIntoView({ behavior: "smooth" });
+    /*     wrapperRef.current?.scrollIntoView({ behavior: "smooth" }); */
   }, []);
 
   return (

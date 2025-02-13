@@ -8,6 +8,8 @@ import { useSignatureStore } from "./store/content-edit-add-store";
 import { handleCopy } from "./content-view/utils";
 import { EmailTemplateView } from "./content-view/signature-view";
 import { EmailTemplateEdit } from "./signature-edit-add";
+import SignatureEditAddStacked from "./signature-edit-add-stacked";
+
 export const SignatureDetail = (props: any) => {
   const { signatureDetail } = props;
 
@@ -57,8 +59,11 @@ export const SignatureDetail = (props: any) => {
         </div>
       </div>
       <div className="h-20" />
-      <div>
+      {/*     <div>
         <EmailTemplateEdit rows={rows} />
+      </div> */}
+      <div>
+        <SignatureEditAddStacked rows={rows} />
       </div>
     </>
   );
