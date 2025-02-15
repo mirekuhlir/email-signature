@@ -107,7 +107,7 @@ export const EmailTemplateEdit = (props: any) => {
             </div>
 
             {contentEdit.editPath !== currentPath && (
-              <div className="mb-2">
+              <div className="mt-1 mb-3 flex justify-between">
                 <Button
                   size="sm"
                   variant="blue"
@@ -120,6 +120,8 @@ export const EmailTemplateEdit = (props: any) => {
                 >
                   Edit
                 </Button>
+                {/*        TODO */}
+                <div>menu</div>
               </div>
             )}
           </Fragment>
@@ -145,6 +147,7 @@ export const EmailTemplateEdit = (props: any) => {
   };
 
   //TODO - kam dát upravu barvy celého sloupce? nebo řádku? do editu?
+  // TODO - table mx-auto je ěnkdy navíc
 
   return (
     <>
@@ -196,14 +199,12 @@ export const EmailTemplateEdit = (props: any) => {
         )}
       </div>
 
-      <div className="flex justify-center">
-        {contentEdit.editPath && (
-          <ContentEdit
-            contentPathToEdit={contentEdit.editPath}
-            key={`edit-${contentEdit.editPath}`}
-          />
-        )}
-      </div>
+      {contentEdit.editPath && (
+        <ContentEdit
+          contentPathToEdit={contentEdit.editPath}
+          key={`edit-${contentEdit.editPath}`}
+        />
+      )}
     </>
   );
 };

@@ -44,20 +44,20 @@ export const SignatureDetail = (props: any) => {
             <div id="signature5">
               <EmailTemplateView rows={rows} />
             </div>
-            <div className="mt-5">
-              <Button
-                onClick={() => {
-                  handleCopy("signature5");
-                }}
-              >
-                Copy Signature
-              </Button>
-            </div>
+            <div className="mt-5"></div>
           </>
         )}
       </div>
       <div>
         <EmailTemplateEdit rows={rows} />
+        {/*      TODO - jen při náhledu */}
+        {/*         <Button
+          onClick={() => {
+            handleCopy("signature5");
+          }}
+        >
+          Copy Signature
+        </Button> */}
       </div>
     </>
   );

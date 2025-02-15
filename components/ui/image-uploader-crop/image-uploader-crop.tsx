@@ -2,7 +2,7 @@
 import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import ReactCrop, { type Crop } from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
-import { Button } from "@/components/ui/button";
+import { baseStyles, Button, sizes, variants } from "@/components/ui/button";
 import Slider from "../slider";
 import { debounce } from "lodash";
 import {
@@ -279,7 +279,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   return (
     <div className="w-full pt-8">
       {!originalImagePreview ? (
-        <div className="grid place-items-center p-4 border border-dashed border-gray-300 rounded min-h-[200px]">
+        <div className="grid place-items-center p-4 border border-dashed border-gray-300 rounded min-h-[200px] w-[80%] md:w-[400px] mx-auto">
           <input
             id="file-upload"
             type="file"
@@ -289,7 +289,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
           />
           <label
             htmlFor="file-upload"
-            className="cursor-pointer inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            className={`${baseStyles} ${variants.blue} ${sizes.md}`}
           >
             Select image
           </label>
@@ -381,9 +381,10 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
             </Button>
           </div>
           <div className="flex items-center justify-end gap-4">
-            <Button variant="red" onClick={handleDeleteImage}>
+            {/*   TODO */}
+            {/*   <Button variant="red" onClick={handleDeleteImage}>
               Delete Image
-            </Button>
+            </Button> */}
           </div>
 
           <canvas ref={previewCanvasRef} className="hidden" />

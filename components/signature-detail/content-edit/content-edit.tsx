@@ -22,7 +22,8 @@ export const ContentEdit = (props: any) => {
   return (
     <div key={path}>
       <div ref={wrapperRef}>{getContentType(content, path)}</div>
-      <Button
+      {/*        TODO  */}
+      {/*       <Button
         onClick={() => {
           setContentEdit({
             editPath: null,
@@ -32,9 +33,10 @@ export const ContentEdit = (props: any) => {
         variant="red"
       >
         Remove
-      </Button>
-      <div className="flex justify-end mb-6">
+      </Button> */}
+      <div className="flex w-full justify-end mb-6 mt-6">
         <Button
+          variant="outline"
           onClick={() => {
             setContentEdit({
               editPath: null,
@@ -169,28 +171,24 @@ const ImageEditContent = (props: any) => {
     return <Img src={imageComponent.src} />;
   }
 
-  const wrapperRef = useRef<HTMLDivElement>(null);
-
   const onInit = useCallback(() => {
-    wrapperRef.current?.scrollIntoView({ behavior: "smooth" });
+    window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
   }, []);
 
   return (
-    <div ref={wrapperRef}>
-      <ImageUploaderCrop
-        onSetCropImagePreview={handleCropImagePreview}
-        onSetOriginalImagePreview={handleOriginalImagePreview}
-        originalImagePreview={imageComponent.originalImagePreview}
-        onSetCropImageFile={handleCropImageFile}
-        onSetOriginalImageFile={handleOriginalImageFile}
-        onSetImageSettings={handleImageSettings}
-        imageSettings={imageComponent.imageSettings}
-        imageName={imageComponent.id}
-        previewWidthInit={imageComponent.previewWidth}
-        onSetPreviewWidth={handlePreviewWidth}
-        onInit={onInit}
-      />
-    </div>
+    <ImageUploaderCrop
+      onSetCropImagePreview={handleCropImagePreview}
+      onSetOriginalImagePreview={handleOriginalImagePreview}
+      originalImagePreview={imageComponent.originalImagePreview}
+      onSetCropImageFile={handleCropImageFile}
+      onSetOriginalImageFile={handleOriginalImageFile}
+      onSetImageSettings={handleImageSettings}
+      imageSettings={imageComponent.imageSettings}
+      imageName={imageComponent.id}
+      previewWidthInit={imageComponent.previewWidth}
+      onSetPreviewWidth={handlePreviewWidth}
+      onInit={onInit}
+    />
   );
 };
 
