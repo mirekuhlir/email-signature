@@ -15,6 +15,7 @@ export const SignatureDetail = (props: any) => {
 
   const { rows, initRows } = useSignatureStore();
   const { contentEdit } = useContentEditStore();
+  const [isEdit, setIsEdit] = useState(false);
 
   useEffect(() => {
     initRows(signatureDetail.rows);
@@ -39,26 +40,48 @@ export const SignatureDetail = (props: any) => {
   return (
     <>
       <div className="flex flex-col items-center">
-        {contentEdit.editPath && (
+        {(!isEdit || contentEdit.editPath) && (
           <>
             <div id="signature5">
               <EmailTemplateView rows={rows} />
             </div>
+            {!contentEdit.editPath && (
+              <>
+                <Button size="lg" onClick={() => setIsEdit(true)}>
+                  Edit
+                </Button>
+                <Button
+                  size="lg"
+                  onClick={() => {
+                    handleCopy("signature5");
+                  }}
+                >
+                  Copy Signature
+                </Button>
+              </>
+            )}
             <div className="mt-5"></div>
           </>
         )}
       </div>
-      <div>
-        <EmailTemplateEdit rows={rows} />
-        {/*      TODO - jen při náhledu */}
-        {/*         <Button
-          onClick={() => {
-            handleCopy("signature5");
-          }}
-        >
-          Copy Signature
-        </Button> */}
-      </div>
+
+      {isEdit && (
+        <div>
+          <EmailTemplateEdit rows={rows} />
+          {!contentEdit.editPath && (
+            <div className="flex justify-center mt-5">
+              {/*   TODO - view se ukáže až po save */}
+              <Button size="lg" onClick={() => setIsEdit(false)}>
+                View
+              </Button>
+              {/*  TODO - nějak rozeznat, že došlo k uložení */}
+              <Button size="lg" onClick={() => {}} className="ml-5">
+                Save
+              </Button>
+            </div>
+          )}
+        </div>
+      )}
     </>
   );
 };

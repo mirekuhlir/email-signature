@@ -129,7 +129,7 @@ const RichTextEditor = (props: RichTextEditorProps) => {
       <div>
         {label && <Typography variant="labelBase">{label}</Typography>}
         <input
-          className="w-full p-4 border rounded focus:outline-none focus:ring-2 focus:ring-blue-200 bg-white border-gray-300 rounded-md shadow-sm"
+          className="w-full p-4 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white border-gray-300 rounded-md shadow-sm"
           style={{
             fontSize: `${editFontSize}px`,
             lineHeight: editLineHeight,
