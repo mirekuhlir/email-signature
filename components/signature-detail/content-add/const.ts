@@ -14,7 +14,7 @@ export const CONTENT_TYPES = [
   },
   {
     name: "E-mail",
-    content: "john.doe@email.com",
+    content: "example@email.com",
     type: ContentType.EMAIL,
   },
 ];

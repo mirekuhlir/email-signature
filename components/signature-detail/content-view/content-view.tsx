@@ -58,7 +58,7 @@ export const getContentView = (content?: any) => {
   if (content?.type === ContentType.EMAIL) {
     const { components } = content;
 
-    const textAlign = components[0].textAlign;
+    const textAlign = components[1].textAlign;
 
     return (
       <span style={{ width: "100%", display: "inline-block", textAlign }}>

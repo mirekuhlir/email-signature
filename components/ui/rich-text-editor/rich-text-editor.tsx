@@ -5,12 +5,19 @@ import { FONTS, FONT_SIZES, LINE_HEIGHTS, LETTER_SPACINGS } from "./fonts";
 import { EditColor } from "../edit-color";
 import { Typography } from "../typography";
 
+export enum LayoutType {
+  TEXT = "text",
+  PREFIX = "prefix",
+}
+
 interface RichTextEditorProps {
   content: any;
   onChange: (content: any) => void;
   // TODO - na základě content type sestavit layout - text editor, email (schovat zarování pro druhý text)
   contentType: ContentType;
   errorMessage?: string;
+  label?: string;
+  layoutType?: LayoutType;
 }
 
 const ButtonSquare = ({
@@ -35,7 +42,13 @@ const ButtonSquare = ({
 };
 
 const RichTextEditor = (props: RichTextEditorProps) => {
-  const { content, onChange, errorMessage } = props;
+  const {
+    content,
+    onChange,
+    errorMessage,
+    label,
+    layoutType = LayoutType.TEXT,
+  } = props;
 
   const [editText, setEditText] = useState(content?.text ?? "");
   const [editFontSize, setEditFontSize] = useState(content?.fontSize ?? "16");
@@ -112,33 +125,36 @@ const RichTextEditor = (props: RichTextEditorProps) => {
   //TODO lokalizace
 
   return (
-    <div className="w-full max-w-4xl mx-auto p-2 md:p-4 space-y-4 ">
-      <input
-        className="w-full p-4 border rounded focus:outline-none focus:ring-2 focus:ring-blue-200 bg-white border-gray-300 rounded-md shadow-sm"
-        style={{
-          fontSize: `${editFontSize}px`,
-          lineHeight: editLineHeight,
-          fontWeight: editFontWeight,
-          fontStyle: editFontStyle,
-          textAlign: editTextAlign as "left" | "center" | "right" | "justify",
-          color: editTextColor,
-          textDecoration: editTextDecoration,
-          fontFamily: editFontFamily,
-          letterSpacing: `${editLetterSpacing}px`,
-        }}
-        onChange={(e) => {
-          setEditText(e.target.value);
-          onChangeContent({
-            text: e.target.value,
-          });
-        }}
-        role="textbox"
-        aria-label="Text editor"
-        value={editText}
-      />
-      {errorMessage && (
-        <p className="text-red-500 mt-2 text-sm">{errorMessage}</p>
-      )}
+    <div className="w-full max-w-4xl mx-auto space-y-4 ">
+      <div>
+        {label && <Typography variant="labelBase">{label}</Typography>}
+        <input
+          className="w-full p-4 border rounded focus:outline-none focus:ring-2 focus:ring-blue-200 bg-white border-gray-300 rounded-md shadow-sm"
+          style={{
+            fontSize: `${editFontSize}px`,
+            lineHeight: editLineHeight,
+            fontWeight: editFontWeight,
+            fontStyle: editFontStyle,
+            textAlign: editTextAlign as "left" | "center" | "right" | "justify",
+            color: editTextColor,
+            textDecoration: editTextDecoration,
+            fontFamily: editFontFamily,
+            letterSpacing: `${editLetterSpacing}px`,
+          }}
+          onChange={(e) => {
+            setEditText(e.target.value);
+            onChangeContent({
+              text: e.target.value,
+            });
+          }}
+          role="textbox"
+          aria-label="Text editor"
+          value={editText}
+        />
+        {errorMessage && (
+          <p className="text-red-500 mt-2 text-sm">{errorMessage}</p>
+        )}
+      </div>
 
       <div className="grid grid-cols-2 gap-4">
         <SelectBase
@@ -218,41 +234,43 @@ const RichTextEditor = (props: RichTextEditorProps) => {
         </div>
       </div>
 
-      <div>
-        <Typography variant="labelBase">Text align</Typography>
+      {layoutType !== LayoutType.PREFIX && (
+        <div>
+          <Typography variant="labelBase">Text align</Typography>
 
-        <div className="flex gap-2">
-          <ButtonSquare
-            isSelected={editTextAlign === "left"}
-            onClick={() => {
-              setEditTextAlign("left");
-              onChangeContent({ textAlign: "left" });
-            }}
-          >
-            Left
-          </ButtonSquare>
+          <div className="flex gap-2">
+            <ButtonSquare
+              isSelected={editTextAlign === "left"}
+              onClick={() => {
+                setEditTextAlign("left");
+                onChangeContent({ textAlign: "left" });
+              }}
+            >
+              Left
+            </ButtonSquare>
 
-          <ButtonSquare
-            isSelected={editTextAlign === "center"}
-            onClick={() => {
-              setEditTextAlign("center");
-              onChangeContent({ textAlign: "center" });
-            }}
-          >
-            Center
-          </ButtonSquare>
+            <ButtonSquare
+              isSelected={editTextAlign === "center"}
+              onClick={() => {
+                setEditTextAlign("center");
+                onChangeContent({ textAlign: "center" });
+              }}
+            >
+              Center
+            </ButtonSquare>
 
-          <ButtonSquare
-            isSelected={editTextAlign === "right"}
-            onClick={() => {
-              setEditTextAlign("right");
-              onChangeContent({ textAlign: "right" });
-            }}
-          >
-            Right
-          </ButtonSquare>
+            <ButtonSquare
+              isSelected={editTextAlign === "right"}
+              onClick={() => {
+                setEditTextAlign("right");
+                onChangeContent({ textAlign: "right" });
+              }}
+            >
+              Right
+            </ButtonSquare>
+          </div>
         </div>
-      </div>
+      )}
 
       <EditColor
         initColor={editTextColor}

@@ -46,6 +46,7 @@ const getEmail = () => {
                     id: generateRandomId(),
                     text: "email: ",
                     fontSize: "14",
+                    type: ContentType.TEXT,
                 },
                 {
                     id: generateRandomId(),

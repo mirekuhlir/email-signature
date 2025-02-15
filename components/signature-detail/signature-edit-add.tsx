@@ -170,18 +170,8 @@ export const EmailTemplateEdit = (props: any) => {
           </div>
         )}
         <>{!contentEdit.editPath && renderRows(rows, true, "")}</>
-        {contentEdit.addPath && (
-          <ContentAdd
-            path={contentEdit.addPath}
-            onClose={() => {
-              setContentEdit({
-                addPath: null,
-              });
-            }}
-          />
-        )}
         {!contentEdit.editPath && !contentEdit.addPath && (
-          <div className="mt-5">
+          <div className="mt-5 mb-5">
             <Button
               onClick={() => {
                 setContentEdit({
@@ -198,6 +188,17 @@ export const EmailTemplateEdit = (props: any) => {
           </div>
         )}
       </div>
+
+      {contentEdit.addPath && (
+        <ContentAdd
+          path={contentEdit.addPath}
+          onClose={() => {
+            setContentEdit({
+              addPath: null,
+            });
+          }}
+        />
+      )}
 
       {contentEdit.editPath && (
         <ContentEdit

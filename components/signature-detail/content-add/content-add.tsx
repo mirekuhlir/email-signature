@@ -37,7 +37,7 @@ export const ContentAdd = (props: any) => {
   return (
     <div className="pt-6">
       {CONTENT_TYPES.map((typeItem, index) => (
-        <div key={index} className="mb-4">
+        <div key={index} className="mb-4 border-b border-gray-300 pb-4">
           <Typography>{typeItem.content}</Typography>
           <Button
             onClick={() => onAdd(typeItem.type)}
@@ -45,7 +45,9 @@ export const ContentAdd = (props: any) => {
         </div>
       ))}
       <div className="flex justify-end mb-6" ref={wrapperRef}>
-        <Button onClick={onClose}>Close</Button>
+        <Button variant="outline" onClick={onClose}>
+          Close
+        </Button>
       </div>
     </div>
   );

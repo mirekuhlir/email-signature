@@ -1,10 +1,12 @@
+import { useRef, useCallback } from "react";
 import { get } from "lodash";
 import { useSignatureStore } from "@/components/signature-detail/store/content-edit-add-store";
 import { ContentType } from "@/const/content";
-import RichTextEditor from "@/components/ui/rich-text-editor/rich-text-editor";
+import RichTextEditor, {
+  LayoutType,
+} from "@/components/ui/rich-text-editor/rich-text-editor";
 import { Button } from "@/components/ui/button";
 import { useContentEditStore } from "../store/content-edit-add-path-store";
-import { useRef, useCallback } from "react";
 import useValidate from "@/hooks/useValidate";
 import { validateEmail } from "@/hooks/validations";
 import { Img } from "@/components/ui/img";
@@ -192,6 +194,8 @@ const ImageEditContent = (props: any) => {
   );
 };
 
+// TODO - samostatný soubor
+
 const EmailEditContent = (props: any) => {
   const { components, contentPathToEdit, contentType } = props;
   const { setContent } = useSignatureStore();
@@ -216,13 +220,39 @@ const EmailEditContent = (props: any) => {
         setContent(path, editContent);
       };
 
+      const getLabelText = useCallback(() => {
+        if (component.type === ContentType.TEXT) {
+          return "Prefix";
+        }
+
+        if (component.type === ContentType.EMAIL_LINK) {
+          return "Email";
+        }
+
+        return "";
+      }, []);
+
+      const labeText = getLabelText();
+
+      const getLayoutType = useCallback(() => {
+        if (component.type === ContentType.TEXT) {
+          return LayoutType.PREFIX;
+        }
+
+        return LayoutType.TEXT;
+      }, []);
+
+      const layoutType = getLayoutType();
+
       return (
         <div key={component.id} className="pt-6 border-b border-gray-300 pb-4">
           <RichTextEditor
+            label={labeText}
             content={component}
             onChange={onChange}
             contentType={contentType}
             errorMessage={errors[component.id]}
+            layoutType={layoutType}
           />
         </div>
       );
