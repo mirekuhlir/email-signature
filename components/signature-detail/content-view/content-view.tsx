@@ -29,7 +29,6 @@ export const getContentView = (content?: any) => {
         lineHeight,
         textAlign,
         textDecoration,
-        textTransform,
       } = component;
 
       return (
@@ -48,7 +47,6 @@ export const getContentView = (content?: any) => {
             lineHeight,
             textAlign,
             textDecoration,
-            textTransform,
           }}
         >
           {text}
@@ -78,7 +76,6 @@ export const getContentView = (content?: any) => {
             lineHeight,
             textAlign,
             textDecoration,
-            textTransform,
           } = component;
 
           const style = {
@@ -93,7 +90,6 @@ export const getContentView = (content?: any) => {
             lineHeight,
             textAlign,
             textDecoration,
-            textTransform,
           };
 
           if (!text) {

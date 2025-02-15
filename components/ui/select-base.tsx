@@ -47,7 +47,7 @@ const SelectBase: React.FC<CustomSelectProps> = ({
   return (
     <div className="flex flex-col">
       {label ? <Typography variant="labelBase">{label}</Typography> : null}
-      <div ref={selectRef} className="relative inline-block w-48">
+      <div ref={selectRef} className="relative inline-block">
         <button
           type="button"
           onClick={() => setIsOpen((prev) => !prev)}

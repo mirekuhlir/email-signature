@@ -11,6 +11,7 @@ interface Props {
 export const EditColor = (props: Props) => {
   const { initColor, onChange } = props;
   const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
+  // TODO
   const [currentColor, setCurrentColor] = useState(initColor);
 
   return (
@@ -18,33 +19,29 @@ export const EditColor = (props: Props) => {
       <Typography variant="labelBase">Text color</Typography>
 
       {!isColorPickerOpen && (
-        <div className="flex gap-2">
+        <div className="flex gap-2 items-end">
           <div
+            className="shadow-md w-10 h-10 rounded-md"
             style={{
               backgroundColor: currentColor,
-              width: "50px",
-              height: "50px",
-              border: "1px solid black",
             }}
           />
           <Button onClick={() => setIsColorPickerOpen(true)}>Edit color</Button>
         </div>
       )}
 
-      <div>
-        {isColorPickerOpen && (
-          <div>
-            <AdvancedColorPicker
-              initColor={initColor}
-              onChange={(color) => {
-                onChange(color);
-                setCurrentColor(color);
-              }}
-            />
-            <Button onClick={() => setIsColorPickerOpen(false)}>Close</Button>
-          </div>
-        )}
-      </div>
+      {isColorPickerOpen && (
+        <div>
+          <AdvancedColorPicker
+            initColor={initColor}
+            onChange={(color) => {
+              onChange(color);
+              setCurrentColor(color);
+            }}
+            onClose={() => setIsColorPickerOpen(false)}
+          />
+        </div>
+      )}
     </div>
   );
 };

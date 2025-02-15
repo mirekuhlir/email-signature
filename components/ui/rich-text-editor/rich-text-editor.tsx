@@ -3,6 +3,7 @@ import React, { useEffect, useState, ChangeEvent } from "react";
 import SelectBase from "../select-base";
 import { FONTS, FONT_SIZES, LINE_HEIGHTS, LETTER_SPACINGS } from "./fonts";
 import { EditColor } from "../edit-color";
+import { Typography } from "../typography";
 
 interface RichTextEditorProps {
   content: any;
@@ -26,7 +27,7 @@ const ButtonSquare = ({
   return (
     <button
       onClick={onClick}
-      className={`p-2 rounded w-20 h-10 flex items-center justify-center ${isSelected ? "bg-blue-200" : "bg-white"} ${className}`}
+      className={`p-2 rounded w-20 h-10 flex items-center justify-center rounded-md shadow-sm ${isSelected ? "bg-blue-200" : "bg-white"} ${className}`}
     >
       {children}
     </button>
@@ -70,9 +71,6 @@ const RichTextEditor = (props: RichTextEditorProps) => {
   const [editLetterSpacing, setEditLetterSpacing] = useState(
     content?.letterSpacing ?? "0",
   );
-  const [editTextTransform, setEditTextTransform] = useState(
-    content?.textTransform ?? "none",
-  );
 
   useEffect(() => {
     if (content) {
@@ -87,7 +85,6 @@ const RichTextEditor = (props: RichTextEditorProps) => {
       setEditTextDecoration(content.textDecoration ?? "none");
       setEditFontFamily(content.fontFamily ?? "Arial");
       setEditLetterSpacing(content.letterSpacing ?? "0");
-      setEditTextTransform(content.textTransform ?? "none");
     }
   }, [content]);
 
@@ -104,7 +101,6 @@ const RichTextEditor = (props: RichTextEditorProps) => {
       textDecoration: editTextDecoration,
       fontFamily: editFontFamily,
       letterSpacing: editLetterSpacing,
-      textTransform: editTextTransform,
     };
 
     onChange({
@@ -116,9 +112,9 @@ const RichTextEditor = (props: RichTextEditorProps) => {
   //TODO lokalizace
 
   return (
-    <div className="w-full max-w-4xl mx-auto p-2 md:p-4 space-y-4">
+    <div className="w-full max-w-4xl mx-auto p-2 md:p-4 space-y-4 ">
       <input
-        className="w-full p-4 border rounded focus:outline-none focus:ring-2 focus:ring-blue-200 bg-white"
+        className="w-full p-4 border rounded focus:outline-none focus:ring-2 focus:ring-blue-200 bg-white border-gray-300 rounded-md shadow-sm"
         style={{
           fontSize: `${editFontSize}px`,
           lineHeight: editLineHeight,
@@ -126,15 +122,9 @@ const RichTextEditor = (props: RichTextEditorProps) => {
           fontStyle: editFontStyle,
           textAlign: editTextAlign as "left" | "center" | "right" | "justify",
           color: editTextColor,
-          backgroundColor: editBackgroundColor,
           textDecoration: editTextDecoration,
           fontFamily: editFontFamily,
           letterSpacing: `${editLetterSpacing}px`,
-          textTransform: editTextTransform as
-            | "uppercase"
-            | "lowercase"
-            | "capitalize"
-            | "none",
         }}
         onChange={(e) => {
           setEditText(e.target.value);
@@ -150,40 +140,48 @@ const RichTextEditor = (props: RichTextEditorProps) => {
         <p className="text-red-500 mt-2 text-sm">{errorMessage}</p>
       )}
 
-      <div className="grid grid-cols-1 gap-2 bg-gray-100 p-2 rounded">
-        <div className="flex flex-col gap-2 p-2 border-b border-gray-200">
-          <SelectBase
-            options={FONTS}
-            value={editFontFamily}
-            label="Font"
-            onChange={(value) => {
-              setEditFontFamily(value);
-              onChangeContent({ fontFamily: value });
-            }}
-          />
+      <div className="grid grid-cols-2 gap-4">
+        <SelectBase
+          options={FONTS}
+          value={editFontFamily}
+          label="Font"
+          onChange={(value) => {
+            setEditFontFamily(value);
+            onChangeContent({ fontFamily: value });
+          }}
+        />
+        <SelectBase
+          options={FONT_SIZES}
+          value={editFontSize}
+          label="Font size"
+          onChange={(value) => {
+            setEditFontSize(value);
+            onChangeContent({ fontSize: value });
+          }}
+        />
+        <SelectBase
+          options={LINE_HEIGHTS}
+          label="Line height"
+          value={editLineHeight}
+          onChange={(value) => {
+            setEditLineHeight(value);
+            onChangeContent({ lineHeight: value });
+          }}
+        />
+        <SelectBase
+          options={LETTER_SPACINGS}
+          value={editLetterSpacing}
+          label="Letter spacing"
+          onChange={(value) => {
+            setEditLetterSpacing(value);
+            onChangeContent({ letterSpacing: value });
+          }}
+        />
+      </div>
 
-          <SelectBase
-            options={FONT_SIZES}
-            value={editFontSize}
-            label="Font size"
-            onChange={(value) => {
-              setEditFontFamily(value);
-              onChangeContent({ fontSize: value });
-            }}
-          />
-
-          <SelectBase
-            options={LINE_HEIGHTS}
-            label="Line height"
-            value={editLineHeight}
-            onChange={(value) => {
-              setEditFontFamily(value);
-              onChangeContent({ lineHeight: value });
-            }}
-          />
-        </div>
-
-        <div className="flex gap-2 p-2 border-b border-gray-200">
+      <div>
+        <Typography variant="labelBase">Text style</Typography>
+        <div className="flex gap-2">
           <ButtonSquare
             isSelected={editFontWeight === "bold"}
             onClick={() => {
@@ -218,8 +216,12 @@ const RichTextEditor = (props: RichTextEditorProps) => {
             Underline
           </ButtonSquare>
         </div>
+      </div>
 
-        <div className="flex gap-2 p-2 border-b border-gray-200">
+      <div>
+        <Typography variant="labelBase">Text align</Typography>
+
+        <div className="flex gap-2">
           <ButtonSquare
             isSelected={editTextAlign === "left"}
             onClick={() => {
@@ -250,81 +252,31 @@ const RichTextEditor = (props: RichTextEditorProps) => {
             Right
           </ButtonSquare>
         </div>
-
-        <div className="flex gap-2 p-2 border-b border-gray-200">
-          <ButtonSquare
-            isSelected={editTextTransform === "uppercase"}
-            onClick={() => {
-              const newTransform =
-                editTextTransform === "uppercase" ? "none" : "uppercase";
-              setEditTextTransform(newTransform);
-              onChangeContent({ textTransform: newTransform });
-            }}
-          >
-            AA
-          </ButtonSquare>
-
-          <ButtonSquare
-            isSelected={editTextTransform === "lowercase"}
-            onClick={() => {
-              const newTransform =
-                editTextTransform === "lowercase" ? "none" : "lowercase";
-              setEditTextTransform(newTransform);
-              onChangeContent({ textTransform: newTransform });
-            }}
-          >
-            aa
-          </ButtonSquare>
-
-          <ButtonSquare
-            isSelected={editTextTransform === "capitalize"}
-            onClick={() => {
-              const newTransform =
-                editTextTransform === "capitalize" ? "none" : "capitalize";
-              setEditTextTransform(newTransform);
-              onChangeContent({ textTransform: newTransform });
-            }}
-          >
-            Aa
-          </ButtonSquare>
-        </div>
-
-        <div className="flex gap-2 p-2 border-b border-gray-200">
-          <SelectBase
-            options={LETTER_SPACINGS}
-            value={editLetterSpacing}
-            label="Letter spacing"
-            onChange={(value) => {
-              setEditLetterSpacing(value);
-              onChangeContent({ letterSpacing: value });
-            }}
-          />
-        </div>
-
-        <EditColor
-          initColor={editTextColor}
-          onChange={(color) => {
-            setEditTextColor(color);
-            onChangeContent({ color });
-          }}
-        />
-
-        {/*     <div className="flex flex-wrap gap-2 items-center p-2">
-          <div className="flex items-center gap-2">
-            <span className="text-sm">Barva pozadí:</span>
-            <input
-              type="color"
-              value={editBackgroundColor || "rgba(0, 0, 0, 0)"}
-              onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                const newColor = e.target.value || "transparent";
-                setEditBackgroundColor(newColor);
-                onChangeContent({ backgroundColor: newColor });
-              }}
-              className="w-10 h-10 rounded cursor-pointer"
-            />
-          </div>
-        </div> */}
       </div>
+
+      <EditColor
+        initColor={editTextColor}
+        onChange={(color) => {
+          setEditTextColor(color);
+          onChangeContent({ color });
+        }}
+      />
+
+      {/*     <div className="flex flex-wrap gap-2 items-center p-2">
+        <div className="flex items-center gap-2">
+        <span className="text-sm">Barva pozadí:</span>
+        <input
+          type="color"
+          value={editBackgroundColor || "rgba(0, 0, 0, 0)"}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => {
+          const newColor = e.target.value || "transparent";
+          setEditBackgroundColor(newColor);
+          onChangeContent({ backgroundColor: newColor });
+          }}
+          className="w-10 h-10 rounded cursor-pointer"
+        />
+        </div>
+      </div> */}
     </div>
   );
 };

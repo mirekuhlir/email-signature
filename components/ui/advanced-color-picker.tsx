@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
 
 const rgbToHex = (r: number, g: number, b: number): string => {
   const toHex = (n: number) => {
@@ -66,10 +67,11 @@ const rgbToHsv = (rgb: string): { h: number; s: number; v: number } => {
 interface Props {
   onChange: (color: string) => void;
   initColor: string;
+  onClose?: () => void;
 }
 
 const AdvancedColorPicker = (props: Props) => {
-  const { onChange, initColor } = props;
+  const { onChange, initColor, onClose } = props;
   const [hsv, setHsv] = useState<HSV>(rgbToHsv(initColor));
   const [isDraggingField, setIsDraggingField] = useState(false);
   const [isDraggingHue, setIsDraggingHue] = useState(false);
@@ -254,20 +256,17 @@ const AdvancedColorPicker = (props: Props) => {
             }}
           />
         </div>
-
-        {/* Selected color preview */}
         <div
           className="w-full h-16 rounded-lg shadow-inner"
           style={{ backgroundColor: currentColor }}
         />
+        <p className="font-mono text-gray-600">{currentColor}</p>
       </div>
-      <div className="flex justify-between items-center space-x-4">
-        <div className="flex-1">
-          <div className="text-sm text-gray-600">RGBA</div>
-          <div className="font-mono text-gray-600">{currentColor}</div>
-          <div></div>
+      {onClose && (
+        <div className="flex justify-end p-6">
+          <Button onClick={() => onClose?.()}>Close</Button>
         </div>
-      </div>
+      )}
     </div>
   );
 };

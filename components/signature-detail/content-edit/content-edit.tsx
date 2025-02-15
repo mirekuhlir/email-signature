@@ -34,7 +34,7 @@ export const ContentEdit = (props: any) => {
       >
         Remove
       </Button> */}
-      <div className="flex w-full justify-end mb-6 mt-6">
+      <div className="flex w-full justify-end pb-6 pt-6">
         <Button
           variant="outline"
           onClick={() => {
@@ -197,30 +197,34 @@ const EmailEditContent = (props: any) => {
   const { setContent } = useSignatureStore();
   const { validate, errors } = useValidate();
 
-  return components.map((component: any, index: number) => {
-    const path = `${contentPathToEdit}.components[${index}]`;
+  return components
+    .slice()
+    .reverse()
+    .map((component: any, index: number) => {
+      const originalIndex = components.length - 1 - index;
+      const path = `${contentPathToEdit}.components[${originalIndex}]`;
 
-    const onChange = (editContent: any) => {
-      if (component.type === ContentType.EMAIL_LINK && editContent.text) {
-        validate({
-          text: editContent.text,
-          componentId: component.id,
-          validation: validateEmail,
-        });
-      }
+      const onChange = (editContent: any) => {
+        if (component.type === ContentType.EMAIL_LINK && editContent.text) {
+          validate({
+            text: editContent.text,
+            componentId: component.id,
+            validation: validateEmail,
+          });
+        }
 
-      setContent(path, editContent);
-    };
+        setContent(path, editContent);
+      };
 
-    return (
-      <div key={component.id}>
-        <RichTextEditor
-          content={component}
-          onChange={onChange}
-          contentType={contentType}
-          errorMessage={errors[component.id]}
-        />
-      </div>
-    );
-  });
+      return (
+        <div key={component.id} className="pt-6 border-b border-gray-300 pb-4">
+          <RichTextEditor
+            content={component}
+            onChange={onChange}
+            contentType={contentType}
+            errorMessage={errors[component.id]}
+          />
+        </div>
+      );
+    });
 };
