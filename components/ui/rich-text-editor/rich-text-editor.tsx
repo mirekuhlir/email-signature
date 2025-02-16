@@ -41,7 +41,7 @@ const ButtonSquare = ({
   );
 };
 
-const RichTextEditor = (props: RichTextEditorProps) => {
+export const RichTextEditor = (props: RichTextEditorProps) => {
   const {
     content,
     onChange,
@@ -298,5 +298,3 @@ const RichTextEditor = (props: RichTextEditorProps) => {
     </div>
   );
 };
-
-export default RichTextEditor;
