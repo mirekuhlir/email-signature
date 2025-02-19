@@ -8,9 +8,12 @@ import { Img } from "@/components/ui/img";
 import ImageUploaderCrop from "@/components/ui/image-uploader-crop/image-uploader-crop";
 import { RichTextEditor } from "@/components/ui/rich-text-editor/rich-text-editor";
 import { EmailEditContent } from "./email-edit-content";
+import { createClient } from "@/utils/supabase/client";
 
 export const ContentEdit = (props: any) => {
   const { contentPathToEdit } = props;
+
+  const supabase = createClient();
   const { rows } = useSignatureStore();
   const { setContentEdit } = useContentEditStore();
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -33,13 +36,27 @@ export const ContentEdit = (props: any) => {
       >
         Remove
       </Button> */}
+      {/*     TODO - save to BE on close */}
       <div className="flex w-full justify-end pb-6 pt-6">
         <Button
           variant="outline"
-          onClick={() => {
+          onClick={async () => {
             setContentEdit({
               editPath: null,
             });
+
+            const { data, error } = await supabase.functions.invoke(
+              "save-signature",
+              {
+                method: "POST",
+                body: {
+                  signatureId: "2b2b8df1-c38d-4292-9481-0a5973fa84cc",
+                  signatureContent: { rows },
+                },
+              },
+            );
+
+            //
           }}
         >
           Close

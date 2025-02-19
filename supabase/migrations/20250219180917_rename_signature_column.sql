@@ -1,0 +1,1 @@
+ALTER TABLE signatures RENAME COLUMN signature TO signature_content;
