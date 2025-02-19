@@ -70,13 +70,8 @@ export const SignatureDetail = (props: any) => {
           <EmailTemplateEdit rows={rows} />
           {!contentEdit.editPath && !contentEdit.addPath && (
             <div className="flex justify-center mt-5">
-              {/*   TODO - view se ukáže až po save */}
               <Button size="lg" onClick={() => setIsEdit(false)}>
                 View
-              </Button>
-              {/*  TODO - nějak rozeznat, že došlo k uložení */}
-              <Button size="lg" onClick={() => {}} className="ml-5">
-                Save
               </Button>
             </div>
           )}
