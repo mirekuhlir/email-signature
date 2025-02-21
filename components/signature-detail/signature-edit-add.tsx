@@ -4,10 +4,12 @@ import { Button } from "@/components/ui/button";
 import { ContentEdit } from "@/components/signature-detail/content-edit/content-edit";
 import { useContentEditStore } from "./store/content-edit-add-path-store";
 import { ContentAdd } from "@/components/signature-detail/content-add/content-add";
+import { useParams } from "next/navigation";
 
 export const EmailTemplateEdit = (props: any) => {
   const { rows } = props;
   const { setContentEdit, contentEdit } = useContentEditStore();
+  const { id: signatureId } = useParams();
 
   const renderColumn = (column: any, path: string) => {
     const rowPath = `${path}.rows`;
@@ -204,6 +206,7 @@ export const EmailTemplateEdit = (props: any) => {
         <ContentEdit
           contentPathToEdit={contentEdit.editPath}
           key={`edit-${contentEdit.editPath}`}
+          signatureId={signatureId}
         />
       )}
     </>

@@ -11,7 +11,7 @@ import { EmailEditContent } from "./email-edit-content";
 import { createClient } from "@/utils/supabase/client";
 
 export const ContentEdit = (props: any) => {
-  const { contentPathToEdit } = props;
+  const { contentPathToEdit, signatureId } = props;
 
   const supabase = createClient();
   const { rows } = useSignatureStore();
@@ -50,7 +50,7 @@ export const ContentEdit = (props: any) => {
               {
                 method: "POST",
                 body: {
-                  signatureId: "2b2b8df1-c38d-4292-9481-0a5973fa84cc",
+                  signatureId,
                   signatureContent: { rows },
                 },
               },
