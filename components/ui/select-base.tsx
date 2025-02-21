@@ -1,9 +1,9 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, ReactNode } from "react";
 import { Typography } from "./typography";
 
 interface Option {
   value: string;
-  label: string;
+  label: string | ReactNode;
 }
 
 interface CustomSelectProps {

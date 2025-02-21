@@ -122,6 +122,15 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
     });
   };
 
+  const fontsOptions = React.useMemo(
+    () =>
+      FONTS.map((font) => ({
+        value: font.value,
+        label: <span style={{ fontFamily: font.value }}>{font.label}</span>,
+      })),
+    [],
+  );
+
   //TODO lokalizace
 
   return (
@@ -158,7 +167,7 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
 
       <div className="grid grid-cols-2 gap-4">
         <SelectBase
-          options={FONTS}
+          options={fontsOptions}
           value={editFontFamily}
           label="Font"
           onChange={(value) => {
