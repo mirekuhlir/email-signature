@@ -4,8 +4,8 @@ import { Button } from "./button";
 
 interface ModalProps {
   isOpen: boolean;
-  onClose: () => void;
-  title: string;
+  onClose?: () => void;
+  title?: string;
   children: React.ReactNode;
   size?: "small" | "medium" | "large" | "fullscreen";
 }
@@ -42,15 +42,19 @@ const Modal: React.FC<ModalProps> = ({
       <div
         className={`bg-white rounded-lg shadow-lg ${sizeClasses[size]} ${size === "fullscreen" ? "h-full" : ""}`}
       >
-        <div className="flex justify-between items-center p-4">
-          <Typography variant="h4">{title}</Typography>
-        </div>
+        {title && (
+          <div className="flex justify-between items-center p-4">
+            <Typography variant="h4">{title}</Typography>
+          </div>
+        )}
         <div className="px-4 pb-4 overflow-auto max-h-[80vh]">{children}</div>
-        <div className="flex justify-end p-4">
-          <Button variant="ghost" onClick={onClose}>
-            Close
-          </Button>
-        </div>
+        {onClose && (
+          <div className="flex justify-end p-4">
+            <Button variant="ghost" onClick={onClose}>
+              Close
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );

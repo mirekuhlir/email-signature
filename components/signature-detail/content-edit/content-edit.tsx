@@ -45,16 +45,13 @@ export const ContentEdit = (props: any) => {
               editPath: null,
             });
 
-            const { data, error } = await supabase.functions.invoke(
-              "save-signature",
-              {
-                method: "POST",
-                body: {
-                  signatureId,
-                  signatureContent: { rows },
-                },
+            await supabase.functions.invoke("patch-signature", {
+              method: "PATCH",
+              body: {
+                signatureId,
+                signatureContent: { rows },
               },
-            );
+            });
 
             //
           }}
