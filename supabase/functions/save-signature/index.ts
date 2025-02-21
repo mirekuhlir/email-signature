@@ -50,10 +50,10 @@ serve(async (req: Request) => {
       JSON.stringify({ error: "User not found" }),
     );
   }
+  let body: any = {};
 
-  let jsonBody: any = {};
   try {
-    jsonBody = await req.json();
+    body = await req.json();
   } catch (error) {
     const errMsg = error instanceof Error ? error.message : String(error);
     return new Response(
@@ -64,8 +64,8 @@ serve(async (req: Request) => {
       },
     );
   }
+  const { signatureContent, signatureId } = body;
 
-  const { signatureContent, signatureId } = jsonBody;
   if (!signatureContent || typeof signatureContent !== "object") {
     return new Response(
       JSON.stringify({ error: "Missing signature object in body" }),
@@ -76,32 +76,7 @@ serve(async (req: Request) => {
     );
   }
 
-  const { count, error: countError } = await supabase
-    .from("signatures")
-    .select("id", { count: "exact", head: true })
-    .eq("user_id", userId);
-
-  if (countError) {
-    return new Response(
-      JSON.stringify({ error: countError.message }),
-      {
-        status: 400,
-        headers: { "Content-Type": "application/json", ...corsHeaders },
-      },
-    );
-  }
-
-  // TODO
-  if ((count ?? 0) >= 10) {
-    return new Response(
-      JSON.stringify({ error: "Signature limit reached" }),
-      {
-        status: 400,
-        headers: { "Content-Type": "application/json", ...corsHeaders },
-      },
-    );
-  }
-
+  // Edit existing signature
   if (signatureId) {
     const { data: existingSignature, error: fetchError } = await supabase
       .from("signatures")
@@ -143,7 +118,36 @@ serve(async (req: Request) => {
         headers: { "Content-Type": "application/json", ...corsHeaders },
       },
     );
+
+
   } else {
+
+    const { count, error: countError } = await supabase
+    .from("signatures")
+    .select("id", { count: "exact", head: true })
+    .eq("user_id", userId);
+
+  if (countError) {
+    return new Response(
+      JSON.stringify({ error: countError.message }),
+      {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      },
+    );
+  }
+
+    if ((count ?? 0) >= 10) {
+      return new Response(
+        JSON.stringify({ error: "Signature limit reached" }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        },
+      );
+    }
+
+    // Create new signature 
     const { data: insertedData, error: insertError } = await supabase
       .from("signatures")
       .insert([{
