@@ -49,7 +49,11 @@ export const SignaturesList = (props: any) => {
           Create signature
         </Button>
       </div>
-      <Modal size="fullscreen" isOpen={isModalOpen}>
+      <Modal
+        size="fullscreen"
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      >
         <div>
           <Typography variant="h2">Select your signature</Typography>
           <EmailTemplateView rows={signature_a} />
