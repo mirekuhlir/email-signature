@@ -2,34 +2,7 @@
 import { serve } from "https://deno.land/std@0.114.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import {S3Client, PutObjectCommand,DeleteObjectsCommand,waitUntilObjectNotExists } from 'npm:@aws-sdk/client-s3';
-
-function transformUrlToKey(urlString: string): string {
-  const marker = "amazonaws.com/";
-  const parts = urlString.split(marker);
-  return parts.length > 1 ? parts[1] : urlString;
-}
-
-function extractImageSrc(data: unknown): string[] {
-  const srcArr: string[] = [];
-
-  if (Array.isArray(data)) {
-    data.forEach(item => {
-      srcArr.push(...extractImageSrc(item));
-    });
-  } else if (data && typeof data === "object") {
-    const obj = data as Record<string, unknown>;
-
-    if (typeof obj.src === "string") {
-      srcArr.push(transformUrlToKey(obj.src));
-    }
-
-    Object.values(obj).forEach(value => {
-      srcArr.push(...extractImageSrc(value));
-    });
-  }
-
-  return srcArr;
-}
+import {extractImageSrc, transformUrlToKey} from "../_shared/utils.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -152,7 +125,7 @@ serve(async (req: Request) => {
 
           for (const key in srcImages) {
             await waitUntilObjectNotExists(
-              { client },
+              { client : s3 },
               { Bucket: bucketName, Key: key },
             );
           }

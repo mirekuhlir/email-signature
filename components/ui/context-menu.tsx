@@ -1,14 +1,26 @@
 import React, { useState, useRef, useEffect } from "react";
+import { Button } from "./button";
+
+interface MenuItem {
+  label: string;
+  onClick: () => void;
+}
 
 interface ContextMenuProps {
   label?: string;
-  items: {
-    label: string;
-    onClick: () => void;
-  }[];
+  items?: MenuItem[];
+  placement?: "left" | "right";
+  children?: React.ReactNode;
+  el?: React.ElementType;
 }
 
-export const ContextMenu: React.FC<ContextMenuProps> = ({ label, items }) => {
+export const ContextMenu: React.FC<ContextMenuProps> = ({
+  label,
+  items,
+  placement = "left",
+  children,
+  el,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [direction, setDirection] = useState<"down" | "up">("down");
 
@@ -30,7 +42,6 @@ export const ContextMenu: React.FC<ContextMenuProps> = ({ label, items }) => {
     if (isOpen && buttonRef.current) {
       const rect = buttonRef.current.getBoundingClientRect();
       const spaceBelow = window.innerHeight - rect.bottom;
-      // TODO - spočítat výšku nabídky
       if (spaceBelow < 100) {
         setDirection("up");
       } else {
@@ -39,40 +50,49 @@ export const ContextMenu: React.FC<ContextMenuProps> = ({ label, items }) => {
     }
   }, [isOpen]);
 
+  const MenuContainer: React.ElementType = el || "div";
+
+  const menuStyle: React.CSSProperties = {
+    ...(direction === "up"
+      ? { bottom: "100%", marginBottom: "0.25rem" }
+      : { top: "100%", marginTop: "0.25rem" }),
+    ...(placement === "left" ? { right: 0 } : { left: 0 }),
+  };
+
   return (
     <div className="relative inline-block" ref={menuRef}>
-      <button
+      <Button
+        size="sm"
+        variant="outline"
         ref={buttonRef}
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-3 py-2 rounded bg-white hover:bg-gray-50 border border-gray-200 focus:outline-none"
       >
-        {label ? label : <span className="text-gray-600">•••</span>}
-      </button>
+        {label ? label : "•••"}
+      </Button>
 
       {isOpen && (
-        <div
+        <MenuContainer
           className="absolute z-10 w-48 rounded shadow-lg bg-white border border-gray-200"
-          style={
-            direction === "up"
-              ? { bottom: "100%", marginBottom: "0.25rem" }
-              : { top: "100%", marginTop: "0.25rem" }
-          }
+          style={menuStyle}
         >
           <div className="py-1">
-            {items.map((item, index) => (
-              <button
-                key={index}
-                onClick={() => {
-                  item.onClick();
-                  setIsOpen(false);
-                }}
-                className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none"
-              >
-                {item.label}
-              </button>
-            ))}
+            {children
+              ? children
+              : items &&
+                items.map((item, index) => (
+                  <button
+                    key={index}
+                    onClick={() => {
+                      item.onClick();
+                      setIsOpen(false);
+                    }}
+                    className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none"
+                  >
+                    {item.label}
+                  </button>
+                ))}
           </div>
-        </div>
+        </MenuContainer>
       )}
     </div>
   );

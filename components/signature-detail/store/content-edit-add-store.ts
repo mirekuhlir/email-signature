@@ -8,7 +8,7 @@ export interface StoreState {
   initRows: (rows: any) => void;
   addRow: (path: string, type: ContentType) => void;
   addRowTable: (position: "start" | "end", type: ContentType) => void;
-  removeRow: (id: string) => void;
+  removeRow: (path: string, onRemoveRow?: (rows: any)=>void) => void;
   setContent: (path: string, content: any) => void;
 }
 
@@ -53,7 +53,7 @@ export const useSignatureStore = create<StoreState>((set) => ({
       return { rows: clonesRows };
     }),
 
-  removeRow: (path: string) =>
+  removeRow: (path: string, onRemoveRow?: (rows: any)=>void) =>
     set((state) => {
       const cloneRows = cloneDeep(state.rows);
       const tableIndex = parseInt(path.split(".")[0].replace(/[\[\]]/g, ""));
@@ -75,6 +75,8 @@ export const useSignatureStore = create<StoreState>((set) => ({
           index: number,
         ) => index !== rowIndex);
       }
+
+      onRemoveRow?.(cloneRows);
 
       return { rows: cloneRows };
     }),

@@ -31,9 +31,9 @@ const Modal: React.FC<ModalProps> = ({
   if (!isOpen) return null;
 
   const sizeClasses = {
-    small: "w-1/4",
-    medium: "w-1/3",
-    large: "w-1/2",
+    small: "w-full sm:w-1/4",
+    medium: "w-full sm:w-1/3",
+    large: "w-full sm:w-1/2",
     fullscreen: "w-full h-full",
   };
 
