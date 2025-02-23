@@ -1,9 +1,8 @@
 // deno-lint-ignore-file no-explicit-any
 import { serve } from "https://deno.land/std@0.114.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-import { S3Client,ListObjectsV2Command } from 'npm:@aws-sdk/client-s3'
 import {multiParser, FormFile} from 'https://deno.land/x/multiparser@0.114.0/mod.ts'
-import { PutObjectCommand } from 'npm:@aws-sdk/client-s3';
+import {S3Client, PutObjectCommand } from 'npm:@aws-sdk/client-s3';
 
 
 const corsHeaders = {
@@ -22,7 +21,6 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 const AWS_ACCESS_KEY_ID = Deno.env.get("AWS_ACCESS_KEY_ID");
 const AWS_SECRET_ACCESS_KEY = Deno.env.get("AWS_SECRET_ACCESS_KEY");
 
-// TODO - access z DENO env
 const s3 = new S3Client({
   region: "us-east-1",
   credentials: {
@@ -31,7 +29,7 @@ const s3 = new S3Client({
   },
 });
 
-// taky z env
+// TODO z env
 const bucketName = "signatures-photos" 
 
 serve(async (req: Request) => {

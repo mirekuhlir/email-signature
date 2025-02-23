@@ -1,6 +1,35 @@
 // deno-lint-ignore-file no-explicit-any
 import { serve } from "https://deno.land/std@0.114.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import {S3Client, PutObjectCommand,DeleteObjectsCommand,waitUntilObjectNotExists } from 'npm:@aws-sdk/client-s3';
+
+function transformUrlToKey(urlString: string): string {
+  const marker = "amazonaws.com/";
+  const parts = urlString.split(marker);
+  return parts.length > 1 ? parts[1] : urlString;
+}
+
+function extractImageSrc(data: unknown): string[] {
+  const srcArr: string[] = [];
+
+  if (Array.isArray(data)) {
+    data.forEach(item => {
+      srcArr.push(...extractImageSrc(item));
+    });
+  } else if (data && typeof data === "object") {
+    const obj = data as Record<string, unknown>;
+
+    if (typeof obj.src === "string") {
+      srcArr.push(transformUrlToKey(obj.src));
+    }
+
+    Object.values(obj).forEach(value => {
+      srcArr.push(...extractImageSrc(value));
+    });
+  }
+
+  return srcArr;
+}
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -12,6 +41,20 @@ const corsHeaders = {
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL") || "";
 const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || "";
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+
+const AWS_ACCESS_KEY_ID = Deno.env.get("AWS_ACCESS_KEY_ID");
+const AWS_SECRET_ACCESS_KEY = Deno.env.get("AWS_SECRET_ACCESS_KEY");
+
+const s3 = new S3Client({
+  region: "us-east-1",
+  credentials: {
+    accessKeyId: AWS_ACCESS_KEY_ID,
+    secretAccessKey: AWS_SECRET_ACCESS_KEY,
+  },
+});
+
+// TODO z env
+const bucketName = "signatures-photos" 
 
 serve(async (req: Request) => {
   const { method } = req;
@@ -69,7 +112,7 @@ serve(async (req: Request) => {
 
   const { data: existingSignature, error: fetchError } = await supabase
     .from("signatures")
-    .select("id, user_id")
+    .select("*")
     .eq("id", signatureId)
     .eq("user_id", userId)
     .single();
@@ -81,20 +124,44 @@ serve(async (req: Request) => {
     );
   }
 
-  const { data: deletedData, error: deleteError } = await supabase
+ const srcImages = extractImageSrc(existingSignature.signature_content.rows)
+
+  const {  error: deleteError } = await supabase
     .from("signatures")
     .delete()
     .eq("id", signatureId)
     .select();
 
-  if (deleteError) {
-    return new Response(
-      JSON.stringify({ error: deleteError.message }),
-      { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } },
-    );
-  }
+    if (deleteError) {
+        return new Response(
+          JSON.stringify({ error: deleteError.message }),
+          { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } },
+        );
+      }
+    
+      try {
+    if (srcImages.length > 0) {
+    await s3.send(
+            new DeleteObjectsCommand({
+              Bucket: bucketName,
+              Delete: {
+                Objects: srcImages.map((k) => ({ Key: k })),
+              },
+            }),
+          );
 
-  // TODO - delete all images associated with the signature, src
+          for (const key in srcImages) {
+            await waitUntilObjectNotExists(
+              { client },
+              { Bucket: bucketName, Key: key },
+            );
+          }
+    }
+      } catch (error) {
+        console.error(
+            `Error from S3 while deleting objects from ${bucketName}.  ${error.name}: ${error.message}`,
+          );
+      }
 
   return new Response(
     JSON.stringify({ deleted: "ok" }),
