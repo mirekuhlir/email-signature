@@ -19,12 +19,15 @@ const SUPABASE_SERVICE_ROLE_KEY =
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
+const AWS_ACCESS_KEY_ID = Deno.env.get("AWS_ACCESS_KEY_ID");
+const AWS_SECRET_ACCESS_KEY = Deno.env.get("AWS_SECRET_ACCESS_KEY");
+
 // TODO - access z DENO env
 const s3 = new S3Client({
   region: "us-east-1",
   credentials: {
-    accessKeyId: "",
-    secretAccessKey: ""
+    accessKeyId: AWS_ACCESS_KEY_ID,
+    secretAccessKey: AWS_SECRET_ACCESS_KEY,
   },
 });
 
@@ -117,7 +120,7 @@ if (fetchError || !existingSignature) {
   }
 
 
-  // TODO - nějaká funkce
+  // TODO - nějaká funkce a region do env
   const publicUrl = `https://${bucketName}.s3.${Deno.env.get("AWS_REGION") || "us-east-1"}.amazonaws.com/${uploadKey}`;
 
   return new Response(JSON.stringify({ publicUrl}), {
