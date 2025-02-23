@@ -1,5 +1,5 @@
 import { useRef, useCallback } from "react";
-import { get } from "lodash";
+import { get, set, cloneDeep } from "lodash";
 import { useSignatureStore } from "@/components/signature-detail/store/content-edit-add-store";
 import { ContentType } from "@/const/content";
 import { Button } from "@/components/ui/button";
@@ -10,11 +10,25 @@ import { RichTextEditor } from "@/components/ui/rich-text-editor/rich-text-edito
 import { EmailEditContent } from "./email-edit-content";
 import { createClient } from "@/utils/supabase/client";
 
+const base64ToFile = (dataUrl: string, filename: string): File => {
+  const arr = dataUrl.split(",");
+  const mimeMatch = arr[0].match(/:(.*?);/);
+  const mime = mimeMatch ? mimeMatch[1] : "";
+  const bstr = atob(arr[1]);
+  let n = bstr.length;
+  const u8arr = new Uint8Array(n);
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+  return new File([u8arr], filename, { type: mime });
+};
+
 export const ContentEdit = (props: any) => {
   const { contentPathToEdit, signatureId } = props;
 
   const supabase = createClient();
-  const { rows } = useSignatureStore();
+  const { rows, setContent } = useSignatureStore();
+
   const { setContentEdit } = useContentEditStore();
   const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -45,6 +59,50 @@ export const ContentEdit = (props: any) => {
               editPath: null,
             });
 
+            if (content.type == ContentType.IMAGE) {
+              const cropImagePreviewBase64 =
+                content.components[0].cropImagePreview;
+
+              const componentId = content.components[0].id;
+
+              const file = base64ToFile(
+                cropImagePreviewBase64,
+                `${componentId}.jpg`,
+              );
+
+              const formData = new FormData();
+              formData.append("image", file);
+              formData.append("signatureId", signatureId);
+
+              const { data: imageData } = await supabase.functions.invoke(
+                "post-image",
+                {
+                  method: "POST",
+                  body: formData,
+                },
+              );
+
+              if (imageData.publicUrl) {
+                const pathToImageSrc = `${contentPathToEdit}.content.components[0].src`;
+
+                const deepCopyRows = cloneDeep(rows);
+
+                set(deepCopyRows, pathToImageSrc, imageData.publicUrl);
+
+                setContent(pathToImageSrc, imageData.publicUrl);
+
+                await supabase.functions.invoke("patch-signature", {
+                  method: "PATCH",
+                  body: {
+                    signatureId,
+                    signatureContent: { rows: deepCopyRows },
+                  },
+                });
+              }
+
+              return;
+            }
+
             await supabase.functions.invoke("patch-signature", {
               method: "PATCH",
               body: {
@@ -52,8 +110,6 @@ export const ContentEdit = (props: any) => {
                 signatureContent: { rows },
               },
             });
-
-            //
           }}
         >
           Close
