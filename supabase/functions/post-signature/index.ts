@@ -84,7 +84,7 @@ serve(async (req: Request) => {
     );
   }
 
-    const { count, error: countError } = await supabase
+  const { count, error: countError } = await supabase
     .from("signatures")
     .select("id", { count: "exact", head: true })
     .eq("user_id", userId);
@@ -99,42 +99,41 @@ serve(async (req: Request) => {
     );
   }
 
-    if ((count ?? 0) >= 10) {
-      return new Response(
-        JSON.stringify({ error: "Signature limit reached" }),
-        {
-          status: 400,
-          headers: { "Content-Type": "application/json", ...corsHeaders },
-        },
-      );
-    }
-
-    const { data: insertedData, error: insertError } = await supabase
-      .from("signatures")
-      .insert([{
-        signature_content: signatureContent,
-        user_id: userId,
-        updated_at: new Date(),
-      }])
-      .select()
-      .single();
-
-    if (insertError) {
-      return new Response(
-        JSON.stringify({ error: insertError.message }),
-        {
-          status: 400,
-          headers: { "Content-Type": "application/json", ...corsHeaders },
-        },
-      );
-    }
-
+  if ((count ?? 0) >= 10) {
     return new Response(
-      JSON.stringify({ signatureId: insertedData.id }),
+      JSON.stringify({ error: "Signature limit reached" }),
       {
-        status: 201,
+        status: 400,
         headers: { "Content-Type": "application/json", ...corsHeaders },
       },
     );
   }
-);
+
+  const { data: insertedData, error: insertError } = await supabase
+    .from("signatures")
+    .insert([{
+      signature_content: signatureContent,
+      user_id: userId,
+      updated_at: new Date(),
+    }])
+    .select()
+    .single();
+
+  if (insertError) {
+    return new Response(
+      JSON.stringify({ error: insertError.message }),
+      {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      },
+    );
+  }
+
+  return new Response(
+    JSON.stringify({ signatureId: insertedData.id }),
+    {
+      status: 201,
+      headers: { "Content-Type": "application/json", ...corsHeaders },
+    },
+  );
+});

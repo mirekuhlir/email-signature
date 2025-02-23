@@ -8,7 +8,7 @@ export function extractImageSrc(data: unknown): string[] {
   const srcArr: string[] = [];
 
   if (Array.isArray(data)) {
-    data.forEach(item => {
+    data.forEach((item) => {
       srcArr.push(...extractImageSrc(item));
     });
   } else if (data && typeof data === "object") {
@@ -18,7 +18,7 @@ export function extractImageSrc(data: unknown): string[] {
       srcArr.push(transformUrlToKey(obj.src));
     }
 
-    Object.values(obj).forEach(value => {
+    Object.values(obj).forEach((value) => {
       srcArr.push(...extractImageSrc(value));
     });
   }
