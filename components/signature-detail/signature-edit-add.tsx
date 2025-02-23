@@ -56,7 +56,7 @@ export const EmailTemplateEdit = (props: any) => {
 
   const renderRows = (rows: any, isFirstRow?: boolean, path?: string) => {
     return rows.map((row: any, index: number) => {
-      const currentPath = path ? `${path}[${index}]` : `${index}`;
+      const currentPath = path ? `${path}[${index}]` : `[${index}]`;
 
       if (!row?.id) {
         return null;

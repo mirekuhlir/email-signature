@@ -42,9 +42,7 @@ export const SignatureDetail = (props: any) => {
       <div className="flex flex-col items-center">
         {(!isEdit || contentEdit.editPath) && (
           <>
-            <div id="signature5">
-              <EmailTemplateView rows={rows} />
-            </div>
+            <EmailTemplateView rows={rows} />
             {!contentEdit.editPath && (
               <>
                 <Button size="lg" onClick={() => setIsEdit(true)}>
@@ -53,7 +51,7 @@ export const SignatureDetail = (props: any) => {
                 <Button
                   size="lg"
                   onClick={() => {
-                    handleCopy("signature5");
+                    handleCopy("email-signature");
                   }}
                 >
                   Copy Signature

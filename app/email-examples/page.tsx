@@ -339,7 +339,7 @@ export default function EmailExamples() {
 
       {/* Real Estate Agent Signature with Services */}
       <div className="mb-8 border p-4 rounded">
-        <div id="signature5">
+        <div id="email-signature">
           <div
             style={{
               background:
@@ -439,7 +439,7 @@ export default function EmailExamples() {
           </div>
         </div>
         <button
-          onClick={() => handleCopy("signature5")}
+          onClick={() => handleCopy("email-signature")}
           className="mt-4 px-4 py-2 bg-gradient-to-r from-[#2C5364] to-[#203A43] text-white rounded hover:opacity-90"
         >
           Copy Signature

@@ -8,7 +8,7 @@ export const getContentView = (content?: any) => {
     return components.map((component: any, index: number) => {
       const { id, src, cropImagePreview } = component;
 
-      return <Img key={id} src={cropImagePreview || src} />;
+      return <Img key={id} src={src || cropImagePreview} />;
     });
   }
 
