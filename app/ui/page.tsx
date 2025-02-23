@@ -6,13 +6,15 @@ import { Typography } from "@/components/ui/typography";
 import Modal from "@/components/ui/modal";
 import { useForm, SubmitHandler } from "react-hook-form";
 import TextInput from "@/components/ui/text-input";
-import RichTextEditor from "@/components/ui/rich-text-editor/rich-text-editor";
+import { RichTextEditor } from "@/components/ui/rich-text-editor/rich-text-editor";
 import Select from "@/components/ui/select";
 import { TextEditor } from "@/components/ui/text-editor-full/text-editor";
 import StyledLink from "@/components/ui/styled-link";
 import SelectBase from "@/components/ui/select-base";
 import { ContentType } from "@/const/content";
 import Slider from "@/components/ui/slider";
+import { ContextMenu } from "@/components/ui/context-menu";
+
 const TypographyExample = () => {
   return (
     <div className="p-8">
@@ -576,6 +578,26 @@ const ButtonSelectedExamples = () => {
   );
 };
 
+const ContentMenuExample = () => {
+  const menuItems = [
+    {
+      label: "Edit",
+      onClick: () => console.log("Edit"),
+    },
+    {
+      label: "Delete",
+      onClick: () => console.log("Delete"),
+    },
+  ];
+
+  return (
+    <div className="p-4 space-x-4">
+      <ContextMenu items={menuItems} />
+      <ContextMenu label="Actions" items={menuItems} />
+    </div>
+  );
+};
+
 export default function DesignSystem() {
   return (
     <div className="w-full pb-10">
@@ -594,6 +616,7 @@ export default function DesignSystem() {
       <StyledLinkExample />
       <SelectBaseExample />
       <SliderExample />
+      <ContentMenuExample />
     </div>
   );
 }
