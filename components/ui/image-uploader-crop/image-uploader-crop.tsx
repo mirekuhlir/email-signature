@@ -23,8 +23,6 @@ interface ImageUploaderProps {
   onSetCropImagePreview?: (preview: string) => void;
   onSetOriginalImagePreview?: (original: string) => void;
   originalImagePreview?: string;
-  onSetCropImageFile?: (file: File) => void;
-  onSetOriginalImageFile?: (file: File) => void;
   imageName: string;
   imageSettings?: ImageSettings;
   onSetImageSettings?: (info: ImageSettings) => void;
@@ -37,8 +35,6 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   const {
     onSetCropImagePreview,
     onSetOriginalImagePreview,
-    onSetOriginalImageFile,
-    onSetCropImageFile,
     originalImagePreview,
     imageName,
     imageSettings,
@@ -73,11 +69,10 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         const file = files[0];
         const fileUrl = URL.createObjectURL(file);
         onSetOriginalImagePreview?.(fileUrl);
-        onSetOriginalImageFile?.(file);
         setCroppedImageData(null);
       }
     },
-    [onSetOriginalImagePreview, onSetOriginalImageFile],
+    [onSetOriginalImagePreview],
   );
 
   const generateCroppedImage = useCallback((): string | null => {
@@ -158,7 +153,6 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         croppedImageDataUrl,
         `${imageName}.png`,
       );
-      onSetCropImageFile?.(croppedFile);
       setCroppedImageData(croppedImageDataUrl);
       onSetImageSettings?.({
         crop: crop!,
@@ -168,7 +162,6 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     }
   }, [
     onSetCropImagePreview,
-    onSetCropImageFile,
     onSetImageSettings,
     crop,
     aspect,

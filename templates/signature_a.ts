@@ -20,8 +20,6 @@ export const signature_a = [
                   "https://fastly.picsum.photos/id/159/140/140.jpg?hmac=Aa3iY6i0Z1Nf_lx_RWn-hSXKm6jTfHbJE7P-trDe-6Y",
                 cropImagePreview: "",
                 originalImagePreview: "",
-                cropImageFile: {},
-                originalImageFile: {},
                 imageSettings: {},
                 previewWidth: "",
               },

@@ -10,6 +10,7 @@ import { RichTextEditor } from "@/components/ui/rich-text-editor/rich-text-edito
 import { EmailEditContent } from "./email-edit-content";
 import { createClient } from "@/utils/supabase/client";
 
+// TODO - utils
 const base64ToFile = (dataUrl: string, filename: string): File => {
   const arr = dataUrl.split(",");
   const mimeMatch = arr[0].match(/:(.*?);/);
@@ -59,12 +60,23 @@ export const ContentEdit = (props: any) => {
               editPath: null,
             });
 
-            if (content.type == ContentType.IMAGE) {
+            if (
+              content.type == ContentType.IMAGE &&
+              !content.components[0].cropImagePreview
+            ) {
+              return;
+            }
+
+            if (
+              content.type == ContentType.IMAGE &&
+              content.components[0].cropImagePreview
+            ) {
               const cropImagePreviewBase64 =
                 content.components[0].cropImagePreview;
 
               const componentId = content.components[0].id;
 
+              // TODO zpátky na png?
               const file = base64ToFile(
                 cropImagePreviewBase64,
                 `${componentId}.jpg`,
@@ -82,14 +94,20 @@ export const ContentEdit = (props: any) => {
                 },
               );
 
-              if (imageData.publicUrl) {
-                const pathToImageSrc = `${contentPathToEdit}.content.components[0].src`;
-
+              if (imageData?.publicUrl) {
                 const deepCopyRows = cloneDeep(rows);
 
-                set(deepCopyRows, pathToImageSrc, imageData.publicUrl);
+                // TODO - funkce
 
+                const pathToImageSrc = `${contentPathToEdit}.content.components[0].src`;
+                set(deepCopyRows, pathToImageSrc, imageData.publicUrl);
                 setContent(pathToImageSrc, imageData.publicUrl);
+
+                const pathOriginalImagePreview = `${contentPathToEdit}.content.components[0].originalImagePreview`;
+                set(deepCopyRows, pathOriginalImagePreview, "");
+
+                const pathToCropImagePreview = `${contentPathToEdit}.content.components[0].cropImagePreview`;
+                set(deepCopyRows, pathToCropImagePreview, "");
 
                 await supabase.functions.invoke("patch-signature", {
                   method: "PATCH",
@@ -180,6 +198,7 @@ const TextEditContent = (props: any) => {
   });
 };
 
+// TODO - komponenta?
 const ImageEditContent = (props: any) => {
   const { components, contentPathToEdit } = props;
   const { setContent } = useSignatureStore();
@@ -205,20 +224,6 @@ const ImageEditContent = (props: any) => {
     [contentPathToEdit, setContent],
   );
 
-  const handleCropImageFile = useCallback(
-    (file: File) => {
-      setContent(`${contentPathToEdit}.components[0].cropImageFile`, file);
-    },
-    [contentPathToEdit, setContent],
-  );
-
-  const handleOriginalImageFile = useCallback(
-    (file: File) => {
-      setContent(`${contentPathToEdit}.components[0].originalImageFile`, file);
-    },
-    [contentPathToEdit, setContent],
-  );
-
   const handleImageSettings = useCallback(
     (imageSettings: any) => {
       setContent(
@@ -236,10 +241,6 @@ const ImageEditContent = (props: any) => {
     [contentPathToEdit, setContent],
   );
 
-  if (imageComponent.src) {
-    return <Img src={imageComponent.src} />;
-  }
-
   const onInit = useCallback(() => {
     window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
   }, []);
@@ -249,8 +250,6 @@ const ImageEditContent = (props: any) => {
       onSetCropImagePreview={handleCropImagePreview}
       onSetOriginalImagePreview={handleOriginalImagePreview}
       originalImagePreview={imageComponent.originalImagePreview}
-      onSetCropImageFile={handleCropImageFile}
-      onSetOriginalImageFile={handleOriginalImageFile}
       onSetImageSettings={handleImageSettings}
       imageSettings={imageComponent.imageSettings}
       imageName={imageComponent.id}
