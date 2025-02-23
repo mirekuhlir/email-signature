@@ -94,6 +94,8 @@ serve(async (req: Request) => {
     );
   }
 
+  // TODO - delete all images associated with the signature, src
+
   return new Response(
     JSON.stringify({ deleted: "ok" }),
     { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } },
