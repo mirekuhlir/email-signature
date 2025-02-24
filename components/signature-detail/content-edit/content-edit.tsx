@@ -1,10 +1,10 @@
-import { useRef, useCallback } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useRef, useCallback, useState } from "react";
 import { get, set, cloneDeep } from "lodash";
 import { useSignatureStore } from "@/components/signature-detail/store/content-edit-add-store";
 import { ContentType } from "@/const/content";
 import { Button } from "@/components/ui/button";
 import { useContentEditStore } from "../store/content-edit-add-path-store";
-import { Img } from "@/components/ui/img";
 import ImageUploaderCrop from "@/components/ui/image-uploader-crop/image-uploader-crop";
 import { RichTextEditor } from "@/components/ui/rich-text-editor/rich-text-editor";
 import { EmailEditContent } from "./email-edit-content";
@@ -27,6 +27,8 @@ const base64ToFile = (dataUrl: string, filename: string): File => {
 export const ContentEdit = (props: any) => {
   const { contentPathToEdit, signatureId } = props;
 
+  const [isSavingSignature, setIsSavingSignature] = useState(false);
+
   const supabase = createClient();
   const { rows, setContent } = useSignatureStore();
 
@@ -36,101 +38,97 @@ export const ContentEdit = (props: any) => {
   const path = `${contentPathToEdit}.content`;
   const content = get(rows, path);
 
+  const saveSignature = useCallback(async () => {
+    if (
+      content.type == ContentType.IMAGE &&
+      !content.components[0].cropImagePreview
+    ) {
+      return;
+    }
+
+    setIsSavingSignature(true);
+
+    if (
+      content.type == ContentType.IMAGE &&
+      content.components[0].cropImagePreview
+    ) {
+      const cropImagePreviewBase64 = content.components[0].cropImagePreview;
+
+      const componentId = content.components[0].id;
+
+      const file = base64ToFile(cropImagePreviewBase64, `${componentId}.png`);
+
+      const formData = new FormData();
+      formData.append("image", file);
+      formData.append("signatureId", signatureId);
+
+      const { data: imageData } = await supabase.functions.invoke(
+        "post-image",
+        {
+          method: "POST",
+          body: formData,
+        },
+      );
+
+      if (imageData?.publicUrl) {
+        const deepCopyRows = cloneDeep(rows);
+
+        // TODO - funkce
+        const pathToImageSrc = `${contentPathToEdit}.content.components[0].src`;
+        set(deepCopyRows, pathToImageSrc, imageData.publicUrl);
+        setContent(pathToImageSrc, imageData.publicUrl);
+
+        const pathOriginalImagePreview = `${contentPathToEdit}.content.components[0].originalImagePreview`;
+        set(deepCopyRows, pathOriginalImagePreview, "");
+
+        const pathToCropImagePreview = `${contentPathToEdit}.content.components[0].cropImagePreview`;
+        set(deepCopyRows, pathToCropImagePreview, "");
+
+        await supabase.functions.invoke("patch-signature", {
+          method: "PATCH",
+          body: {
+            signatureId,
+            signatureContent: { rows: deepCopyRows },
+          },
+        });
+      }
+
+      return;
+    }
+
+    await supabase.functions.invoke("patch-signature", {
+      method: "PATCH",
+      body: {
+        signatureId,
+        signatureContent: { rows },
+      },
+    });
+  }, [
+    content.components,
+    content.type,
+    contentPathToEdit,
+    rows,
+    setContent,
+    signatureId,
+    supabase.functions,
+  ]);
+
   return (
     <div key={path}>
       <div ref={wrapperRef}>{getContentType(content, path)}</div>
-      {/*        TODO  */}
-      {/*       <Button
-        onClick={() => {
-          setContentEdit({
-            editPath: null,
-          });
-          removeRow(contentPathToEdit);
-        }}
-        variant="red"
-      >
-        Remove
-      </Button> */}
-      {/*     TODO - save to BE on close */}
       <div className="flex w-full justify-end pb-6 pt-6">
         <Button
-          variant="outline"
+          variant="blue"
+          size="md"
           onClick={async () => {
+            await saveSignature();
             setContentEdit({
               editPath: null,
             });
-
-            if (
-              content.type == ContentType.IMAGE &&
-              !content.components[0].cropImagePreview
-            ) {
-              return;
-            }
-
-            if (
-              content.type == ContentType.IMAGE &&
-              content.components[0].cropImagePreview
-            ) {
-              const cropImagePreviewBase64 =
-                content.components[0].cropImagePreview;
-
-              const componentId = content.components[0].id;
-
-              // TODO zpátky na png?
-              const file = base64ToFile(
-                cropImagePreviewBase64,
-                `${componentId}.jpg`,
-              );
-
-              const formData = new FormData();
-              formData.append("image", file);
-              formData.append("signatureId", signatureId);
-
-              const { data: imageData } = await supabase.functions.invoke(
-                "post-image",
-                {
-                  method: "POST",
-                  body: formData,
-                },
-              );
-
-              if (imageData?.publicUrl) {
-                const deepCopyRows = cloneDeep(rows);
-
-                // TODO - funkce
-
-                const pathToImageSrc = `${contentPathToEdit}.content.components[0].src`;
-                set(deepCopyRows, pathToImageSrc, imageData.publicUrl);
-                setContent(pathToImageSrc, imageData.publicUrl);
-
-                const pathOriginalImagePreview = `${contentPathToEdit}.content.components[0].originalImagePreview`;
-                set(deepCopyRows, pathOriginalImagePreview, "");
-
-                const pathToCropImagePreview = `${contentPathToEdit}.content.components[0].cropImagePreview`;
-                set(deepCopyRows, pathToCropImagePreview, "");
-
-                await supabase.functions.invoke("patch-signature", {
-                  method: "PATCH",
-                  body: {
-                    signatureId,
-                    signatureContent: { rows: deepCopyRows },
-                  },
-                });
-              }
-
-              return;
-            }
-
-            await supabase.functions.invoke("patch-signature", {
-              method: "PATCH",
-              body: {
-                signatureId,
-                signatureContent: { rows },
-              },
-            });
           }}
+          loading={isSavingSignature}
         >
-          Close
+          {isSavingSignature ? "Saving..." : "Close"}
         </Button>
       </div>
     </div>
