@@ -1,4 +1,5 @@
-import { Fragment, useState } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Fragment, useCallback, useState } from "react";
 import { getContentView } from "./content-view/content-view";
 import { Button } from "@/components/ui/button";
 import { ContentEdit } from "@/components/signature-detail/content-edit/content-edit";
@@ -17,9 +18,30 @@ export const EmailTemplateEdit = (props: any) => {
   const { id: signatureId } = useParams();
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [currentPath, setCurrentPath] = useState("");
 
   const { removeRow } = useSignatureStore();
   const supabase = createClient();
+
+  const deleteRow = useCallback(async () => {
+    setIsDeleting(true);
+
+    const saveData = async (rows: any) => {
+      await supabase.functions.invoke("patch-signature", {
+        method: "PATCH",
+        body: {
+          signatureId,
+          signatureContent: { rows },
+        },
+      });
+
+      setIsDeleting(false);
+      setIsDeleteModalOpen(false);
+    };
+
+    removeRow(currentPath, saveData);
+  }, [currentPath, removeRow, signatureId, supabase.functions]);
 
   const renderColumn = (column: any, path: string) => {
     const rowPath = `${path}.rows`;
@@ -136,50 +158,14 @@ export const EmailTemplateEdit = (props: any) => {
                   <Button
                     size="sm"
                     variant="ghost"
-                    onClick={() => setIsDeleteModalOpen(true)}
+                    onClick={() => {
+                      setIsDeleteModalOpen(true);
+                      setCurrentPath(currentPath);
+                    }}
                   >
                     Delete
                   </Button>
                 </ContextMenu>
-                {/*      TODO: ukazel mazání
-                TODO: lepší popis a název modálu, co se bude mazat */}
-                <Modal size="medium" isOpen={isDeleteModalOpen}>
-                  <div className="p-2">
-                    <Typography variant="h3">Delete content</Typography>
-                    <Typography variant="body">
-                      Are you sure you want to delete this content?
-                    </Typography>
-                    <div className="mt-8 flex justify-between">
-                      <Button
-                        variant="outline"
-                        onClick={() => {
-                          setIsDeleteModalOpen(false);
-                        }}
-                      >
-                        Cancel
-                      </Button>
-                      <Button
-                        variant="red"
-                        onClick={async () => {
-                          const saveData = async (rows: any) => {
-                            await supabase.functions.invoke("patch-signature", {
-                              method: "PATCH",
-                              body: {
-                                signatureId,
-                                signatureContent: { rows },
-                              },
-                            });
-                          };
-
-                          removeRow(currentPath, saveData);
-                          setIsDeleteModalOpen(false);
-                        }}
-                      >
-                        Delete
-                      </Button>
-                    </div>
-                  </div>
-                </Modal>
               </div>
             )}
           </Fragment>
@@ -265,6 +251,34 @@ export const EmailTemplateEdit = (props: any) => {
           signatureId={signatureId}
         />
       )}
+
+      {/* 
+                TODO: lepší popis a název modálu, co se bude mazat */}
+      <Modal size="medium" isOpen={isDeleteModalOpen}>
+        <div className="p-2">
+          <Typography variant="h3">Delete content</Typography>
+          <Typography variant="body">
+            Are you sure you want to delete this content?
+          </Typography>
+          <div className="mt-8 flex justify-between">
+            <Button
+              variant="outline"
+              onClick={() => {
+                setIsDeleteModalOpen(false);
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              loading={isDeleting}
+              variant="red"
+              onClick={async () => deleteRow()}
+            >
+              Delete
+            </Button>
+          </div>
+        </div>
+      </Modal>
     </>
   );
 };

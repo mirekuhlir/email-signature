@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { create } from "zustand";
 import { ContentType } from "@/const/content";
 import { cloneDeep, get as lGet, set as lSet } from "lodash";
@@ -8,7 +9,7 @@ export interface StoreState {
   initRows: (rows: any) => void;
   addRow: (path: string, type: ContentType) => void;
   addRowTable: (position: "start" | "end", type: ContentType) => void;
-  removeRow: (path: string, onRemoveRow?: (rows: any)=>void) => void;
+  removeRow: (path: string, onRemoveRow?: (rows: any) => void) => void;
   setContent: (path: string, content: any) => void;
 }
 
@@ -53,7 +54,7 @@ export const useSignatureStore = create<StoreState>((set) => ({
       return { rows: clonesRows };
     }),
 
-  removeRow: (path: string, onRemoveRow?: (rows: any)=>void) =>
+  removeRow: (path: string, onRemoveRow?: (rows: any) => void) =>
     set((state) => {
       const cloneRows = cloneDeep(state.rows);
       const tableIndex = parseInt(path.split(".")[0].replace(/[\[\]]/g, ""));
