@@ -213,7 +213,11 @@ export const EmailTemplateEdit = (props: any) => {
             </Button>
           </div>
         )}
-        <>{!contentEdit.editPath && renderRows(rows, true, "")}</>
+        <>
+          {!contentEdit.addPath &&
+            !contentEdit.editPath &&
+            renderRows(rows, true, "")}
+        </>
         {!contentEdit.editPath && !contentEdit.addPath && (
           <div className="mt-5 mb-5">
             <Button

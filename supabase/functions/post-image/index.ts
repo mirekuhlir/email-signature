@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // deno-lint-ignore-file no-explicit-any
 import { serve } from "https://deno.land/std@0.114.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
