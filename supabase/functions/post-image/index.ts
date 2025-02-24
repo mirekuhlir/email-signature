@@ -32,6 +32,8 @@ const s3 = new S3Client({
   },
 });
 
+// TODO - nějaké omození, kolik obrázků může uložit
+
 // TODO z env
 const bucketName = "signatures-photos";
 

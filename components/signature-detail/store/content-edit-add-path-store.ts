@@ -5,6 +5,7 @@ interface ContentEdit {
   addPath?: string | null;
   nextEditPath?: string | null;
   position?: "start" | "end" | null;
+  subEdit?: string | null;
 }
 
 export interface StoreState {
@@ -21,6 +22,7 @@ export const useContentEditStore = create<StoreState>((set) => ({
     // open edit after add content
     nextEditPath: null,
     position: null,
+    subEdit: null,
   },
   setContentEdit: (edit: ContentEdit) =>
     set((state) => {

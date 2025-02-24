@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import AdvancedColorPicker from "./advanced-color-picker";
 import { Typography } from "./typography";
+import { useContentEditStore } from "../signature-detail/store/content-edit-add-path-store";
 
 interface Props {
   initColor: string;
@@ -13,6 +14,7 @@ export const EditColor = (props: Props) => {
   const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
   // TODO
   const [currentColor, setCurrentColor] = useState(initColor);
+  const { setContentEdit } = useContentEditStore();
 
   return (
     <div>
@@ -26,7 +28,16 @@ export const EditColor = (props: Props) => {
               backgroundColor: currentColor,
             }}
           />
-          <Button onClick={() => setIsColorPickerOpen(true)}>Edit color</Button>
+          <Button
+            onClick={() => {
+              setContentEdit({
+                subEdit: "edit-color",
+              });
+              setIsColorPickerOpen(true);
+            }}
+          >
+            Edit color
+          </Button>
         </div>
       )}
 
@@ -38,7 +49,12 @@ export const EditColor = (props: Props) => {
               onChange(color);
               setCurrentColor(color);
             }}
-            onClose={() => setIsColorPickerOpen(false)}
+            onClose={() => {
+              setContentEdit({
+                subEdit: null,
+              });
+              setIsColorPickerOpen(false);
+            }}
           />
         </div>
       )}

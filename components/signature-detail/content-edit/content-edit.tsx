@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useRef, useCallback, useState } from "react";
+import { useRef, useCallback, useState, useEffect } from "react";
 import { get, set, cloneDeep } from "lodash";
 import { useSignatureStore } from "@/components/signature-detail/store/content-edit-add-store";
 import { ContentType } from "@/const/content";
@@ -27,16 +27,24 @@ const base64ToFile = (dataUrl: string, filename: string): File => {
 export const ContentEdit = (props: any) => {
   const { contentPathToEdit, signatureId } = props;
 
+  const [iniContent, setIniContent] = useState<any>(null);
   const [isSavingSignature, setIsSavingSignature] = useState(false);
 
   const supabase = createClient();
   const { rows, setContent } = useSignatureStore();
 
-  const { setContentEdit } = useContentEditStore();
+  const { setContentEdit, contentEdit } = useContentEditStore();
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   const path = `${contentPathToEdit}.content`;
   const content = get(rows, path);
+
+  useEffect(() => {
+    if (!iniContent) {
+      setIniContent(content);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [content]);
 
   const saveSignature = useCallback(async () => {
     if (
@@ -115,22 +123,38 @@ export const ContentEdit = (props: any) => {
 
   return (
     <div key={path}>
-      <div ref={wrapperRef}>{getContentType(content, path)}</div>
-      <div className="flex w-full justify-end pb-6 pt-6">
-        <Button
-          variant="blue"
-          size="md"
-          onClick={async () => {
-            await saveSignature();
-            setContentEdit({
-              editPath: null,
-            });
-          }}
-          loading={isSavingSignature}
-        >
-          {isSavingSignature ? "Saving..." : "Close"}
-        </Button>
+      <div ref={wrapperRef}>
+        {<div className="pb-8">{getContentType(content, path)}</div>}
       </div>
+
+      {!contentEdit.subEdit && (
+        <div className="flex flex-row w-full pb-6 pt-6 justify-between">
+          <Button
+            variant="outline"
+            onClick={() => {
+              setContent(path, iniContent);
+              setContentEdit({
+                editPath: null,
+              });
+            }}
+          >
+            Close
+          </Button>
+          <Button
+            variant="blue"
+            size="md"
+            onClick={async () => {
+              await saveSignature();
+              setContentEdit({
+                editPath: null,
+              });
+            }}
+            loading={isSavingSignature}
+          >
+            {isSavingSignature ? "Saving..." : "Save"}
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

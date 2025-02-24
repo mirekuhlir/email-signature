@@ -5,12 +5,7 @@ import "react-image-crop/dist/ReactCrop.css";
 import { baseStyles, Button, sizes, variants } from "@/components/ui/button";
 import Slider from "../slider";
 import { debounce } from "lodash";
-import {
-  getDefaultCrop,
-  dataURLToFile,
-  cropDefault,
-  imageWidthDefault,
-} from "./utils";
+import { getDefaultCrop, cropDefault, imageWidthDefault } from "./utils";
 import { Typography } from "../typography";
 
 interface ImageSettings {
@@ -36,7 +31,6 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     onSetCropImagePreview,
     onSetOriginalImagePreview,
     originalImagePreview,
-    imageName,
     imageSettings,
     onSetImageSettings,
     previewWidthInit,
@@ -76,7 +70,13 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   );
 
   const generateCroppedImage = useCallback((): string | null => {
-    if (imgRef.current && crop?.width && crop?.height && previewWidth) {
+    if (
+      imgRef.current &&
+      crop?.width &&
+      crop?.height &&
+      previewWidth &&
+      originalImagePreview
+    ) {
       const image = imgRef.current;
       const scaleX = image.naturalWidth / image.width;
       const scaleY = image.naturalHeight / image.height;
@@ -149,10 +149,6 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     const croppedImageDataUrl = generateCroppedImage();
     if (croppedImageDataUrl) {
       onSetCropImagePreview?.(croppedImageDataUrl);
-      const croppedFile = dataURLToFile(
-        croppedImageDataUrl,
-        `${imageName}.png`,
-      );
       setCroppedImageData(croppedImageDataUrl);
       onSetImageSettings?.({
         crop: crop!,
@@ -166,7 +162,6 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     crop,
     aspect,
     isCircular,
-    imageName,
     generateCroppedImage,
   ]);
 
@@ -182,6 +177,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     };
   }, [previewWidth, debouncedHandleCrop, croppedImageData]);
 
+  // TODO
   const handleDeleteImage = useCallback(() => {
     onSetOriginalImagePreview?.("");
     setCroppedImageData(null);
