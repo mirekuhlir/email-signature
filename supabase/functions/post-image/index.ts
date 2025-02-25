@@ -110,9 +110,7 @@ serve(async (req: Request) => {
       /*       ACL: "public-read", */
       /*       ContentType: image.contentType, */
     });
-    const response = await s3.send(command);
-
-    console.warn("response", response);
+    await s3.send(command);
   } catch (uploadError: any) {
     return new Response(
       JSON.stringify({

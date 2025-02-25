@@ -155,16 +155,21 @@ export const EmailTemplateEdit = (props: any) => {
                   Edit
                 </Button>
                 <ContextMenu>
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    onClick={() => {
-                      setIsDeleteModalOpen(true);
-                      setCurrentPath(currentPath);
-                    }}
-                  >
-                    Delete
-                  </Button>
+                  <div className="p-1 flex flex-col gap-2 items-start">
+                    <Button
+                      size="sm"
+                      variant="gray"
+                      onClick={() => {
+                        setIsDeleteModalOpen(true);
+                        setCurrentPath(currentPath);
+                      }}
+                    >
+                      Delete
+                    </Button>
+                    <Button size="sm" variant="gray" onClick={() => {}}>
+                      Settings
+                    </Button>
+                  </div>
                 </ContextMenu>
               </div>
             )}

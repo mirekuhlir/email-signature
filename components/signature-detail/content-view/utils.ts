@@ -12,7 +12,6 @@ export const handleCopy = async (signatureId: string) => {
         "text/html": new Blob([htmlContent], { type: "text/html" }),
       });
       await navigator.clipboard.write([clipboardItem]);
-      console.warn("htmlContent", htmlContent);
       return;
     } catch (err) {
       console.error("Modern clipboard API failed:", err);

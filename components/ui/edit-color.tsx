@@ -24,8 +24,6 @@ export const EditColor = (props: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initColor]);
 
-  console.warn("initColor", initColor);
-
   return (
     <div>
       <Typography variant="labelBase">Text color</Typography>
