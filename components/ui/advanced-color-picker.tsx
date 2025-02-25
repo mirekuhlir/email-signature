@@ -1,8 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
 
-const rgbToHex = (r: number, g: number, b: number): string => {
+/* const rgbToHex = (r: number, g: number, b: number): string => {
   const toHex = (n: number) => {
     const hex = Math.round(n).toString(16);
     return hex.length === 1 ? "0" + hex : hex;
@@ -17,7 +16,7 @@ const parseRgb = (rgbString: string): { r: number; g: number; b: number } => {
     g: parseInt(matches![1]),
     b: parseInt(matches![2]),
   };
-};
+}; */
 
 interface HSV {
   h: number;
@@ -44,8 +43,8 @@ const rgbToHsv = (rgb: string): { h: number; s: number; v: number } => {
   const diff = max - min;
 
   let h = 0;
-  let s = max === 0 ? 0 : diff / max;
-  let v = max;
+  const s = max === 0 ? 0 : diff / max;
+  const v = max;
 
   if (diff !== 0) {
     switch (max) {
@@ -67,11 +66,10 @@ const rgbToHsv = (rgb: string): { h: number; s: number; v: number } => {
 interface Props {
   onChange: (color: string) => void;
   initColor: string;
-  onClose?: () => void;
 }
 
 const AdvancedColorPicker = (props: Props) => {
-  const { onChange, initColor, onClose } = props;
+  const { onChange, initColor } = props;
   const [hsv, setHsv] = useState<HSV>(rgbToHsv(initColor));
   const [isDraggingField, setIsDraggingField] = useState(false);
   const [isDraggingHue, setIsDraggingHue] = useState(false);
@@ -195,10 +193,11 @@ const AdvancedColorPicker = (props: Props) => {
 
   useEffect(() => {
     onChange(currentColor);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentColor]);
 
   return (
-    <div className="w-full bg-white rounded-lg shadow-lg mx-auto">
+    <div className="w-full">
       <div className="p-6 space-y-6">
         {/* Color field */}
         <div
@@ -262,11 +261,6 @@ const AdvancedColorPicker = (props: Props) => {
         />
         <p className="font-mono text-gray-600">{currentColor}</p>
       </div>
-      {onClose && (
-        <div className="flex justify-end p-6">
-          <Button onClick={() => onClose?.()}>Close</Button>
-        </div>
-      )}
     </div>
   );
 };
