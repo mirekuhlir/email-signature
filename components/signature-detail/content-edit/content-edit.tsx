@@ -5,24 +5,11 @@ import { useSignatureStore } from "@/components/signature-detail/store/content-e
 import { ContentType } from "@/const/content";
 import { Button } from "@/components/ui/button";
 import { useContentEditStore } from "../store/content-edit-add-path-store";
-import ImageUploaderCrop from "@/components/ui/image-uploader-crop/image-uploader-crop";
 import { RichTextEditor } from "@/components/ui/rich-text-editor/rich-text-editor";
 import { EmailEditContent } from "./email-edit-content";
 import { createClient } from "@/utils/supabase/client";
-
-// TODO - utils
-const base64ToFile = (dataUrl: string, filename: string): File => {
-  const arr = dataUrl.split(",");
-  const mimeMatch = arr[0].match(/:(.*?);/);
-  const mime = mimeMatch ? mimeMatch[1] : "";
-  const bstr = atob(arr[1]);
-  let n = bstr.length;
-  const u8arr = new Uint8Array(n);
-  while (n--) {
-    u8arr[n] = bstr.charCodeAt(n);
-  }
-  return new File([u8arr], filename, { type: mime });
-};
+import { base64ToFile } from "@/utils/base64ToFile";
+import { ImageEditContent } from "./image-edit-content";
 
 export const ContentEdit = (props: any) => {
   const { contentPathToEdit, signatureId } = props;
@@ -159,8 +146,6 @@ export const ContentEdit = (props: any) => {
   );
 };
 
-// TODO - refactor, nějak ty komponenty sjednotit
-
 const getContentType = (content: any, contentPathToEdit: any) => {
   const type: ContentType = content?.type;
   const { components } = content;
@@ -218,66 +203,4 @@ const TextEditContent = (props: any) => {
       </div>
     );
   });
-};
-
-// TODO - komponenta?
-const ImageEditContent = (props: any) => {
-  const { components, contentPathToEdit } = props;
-  const { setContent } = useSignatureStore();
-  const imageComponent = components[0];
-
-  const handleCropImagePreview = useCallback(
-    (croppedImage: string) => {
-      setContent(
-        `${contentPathToEdit}.components[0].cropImagePreview`,
-        croppedImage,
-      );
-    },
-    [contentPathToEdit, setContent],
-  );
-
-  const handleOriginalImagePreview = useCallback(
-    (originalImage: string) => {
-      setContent(
-        `${contentPathToEdit}.components[0].originalImagePreview`,
-        originalImage,
-      );
-    },
-    [contentPathToEdit, setContent],
-  );
-
-  const handleImageSettings = useCallback(
-    (imageSettings: any) => {
-      setContent(
-        `${contentPathToEdit}.components[0].imageSettings`,
-        imageSettings,
-      );
-    },
-    [contentPathToEdit, setContent],
-  );
-
-  const handlePreviewWidth = useCallback(
-    (width: number) => {
-      setContent(`${contentPathToEdit}.components[0].previewWidth`, width);
-    },
-    [contentPathToEdit, setContent],
-  );
-
-  const onInit = useCallback(() => {
-    window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
-  }, []);
-
-  return (
-    <ImageUploaderCrop
-      onSetCropImagePreview={handleCropImagePreview}
-      onSetOriginalImagePreview={handleOriginalImagePreview}
-      originalImagePreview={imageComponent.originalImagePreview}
-      onSetImageSettings={handleImageSettings}
-      imageSettings={imageComponent.imageSettings}
-      imageName={imageComponent.id}
-      previewWidthInit={imageComponent.previewWidth}
-      onSetPreviewWidth={handlePreviewWidth}
-      onInit={onInit}
-    />
-  );
 };
