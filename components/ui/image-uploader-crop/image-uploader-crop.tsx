@@ -99,10 +99,10 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   );
 
   useEffect(() => {
-    if (srcOriginalImage && !originalImagePreview) {
+    if (srcOriginalImage) {
       onSelectUrl(srcOriginalImage);
     }
-  }, [originalImagePreview, srcOriginalImage]);
+  }, [srcOriginalImage]);
 
   const generateCroppedImage = useCallback((): string | null => {
     if (
