@@ -77,7 +77,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     [onSetOriginalImagePreview],
   );
 
-  const onSelectUrl = useCallback(
+  const loadOriginalImage = useCallback(
     async (url: string) => {
       try {
         setIsLoadingOriginalImage(true);
@@ -100,7 +100,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
 
   useEffect(() => {
     if (srcOriginalImage) {
-      onSelectUrl(srcOriginalImage);
+      loadOriginalImage(srcOriginalImage);
     }
   }, [srcOriginalImage]);
 
