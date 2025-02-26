@@ -51,6 +51,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   const [previewWidth, setPreviewWidth] = useState<number | undefined>(
     undefined,
   );
+  const [isLoadingOriginalImage, setIsLoadingOriginalImage] = useState(false);
 
   const imgRef = useRef<HTMLImageElement>(null);
   const previewCanvasRef = useRef<HTMLCanvasElement>(null);
@@ -79,18 +80,19 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   const onSelectUrl = useCallback(
     async (url: string) => {
       try {
-        // Načteme obrázek přes fetch s povoleným CORS režimem
+        setIsLoadingOriginalImage(true);
         const response = await fetch(url, { mode: "cors" });
         if (!response.ok) {
           throw new Error("Failed to fetch image");
         }
         const blob = await response.blob();
-        // Vytvoříme objektovou URL, kterou můžeme použít jako src obrázku
         const fileUrl = URL.createObjectURL(blob);
         onSetOriginalImagePreview?.(fileUrl);
         setCroppedImageData(null);
       } catch (error) {
         console.error("Error fetching image from URL:", error);
+      } finally {
+        setIsLoadingOriginalImage(false);
       }
     },
     [onSetOriginalImagePreview],
@@ -103,14 +105,6 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   }, [originalImagePreview, srcOriginalImage]);
 
   const generateCroppedImage = useCallback((): string | null => {
-    console.warn(
-      "generateCroppedImage",
-      imgRef.current,
-      crop,
-      previewWidth,
-      originalImagePreview,
-    );
-
     if (
       imgRef.current &&
       crop?.width &&
@@ -305,6 +299,10 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
       img.src = croppedImageData;
     }
   }, [croppedImageData, previewWidth, onSetCropImagePreview]);
+
+  if (isLoadingOriginalImage) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="w-full pt-8">
