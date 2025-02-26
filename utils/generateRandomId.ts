@@ -1,4 +1,3 @@
-// TODO - testy
 export const generateRandomId = (length: number = 7): string => {
     let result = "";
     const characters = "abcdefghijklmnopqrstuvwxyz0123456789";

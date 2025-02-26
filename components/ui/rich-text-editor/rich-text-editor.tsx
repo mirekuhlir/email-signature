@@ -14,7 +14,6 @@ export enum LayoutType {
 interface RichTextEditorProps {
   content: any;
   onChange: (content: any) => void;
-  // TODO - na základě content type sestavit layout - text editor, email (schovat zarování pro druhý text)
   contentType: ContentType;
   errorMessage?: string;
   label?: string;
@@ -66,8 +65,6 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
     content?.textAlign ?? "left",
   );
 
-  // TODO - text color nebo color? změnit načíst
-  // TODO - použít vlastní color picker?
   const [editTextColor, setEditTextColor] = useState(
     // TODO barva, použit rgba a bude to tady
     content?.color ?? "#000000",
@@ -131,8 +128,6 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
       })),
     [],
   );
-
-  //TODO lokalizace
 
   return (
     <div className="w-full max-w-4xl mx-auto space-y-4 ">
