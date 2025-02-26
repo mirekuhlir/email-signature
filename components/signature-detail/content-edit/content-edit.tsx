@@ -51,11 +51,22 @@ export const ContentEdit = (props: any) => {
 
       const componentId = content.components[0].id;
 
-      const file = base64ToFile(cropImagePreviewBase64, `${componentId}.png`);
+      const time = new Date().getTime();
+      const filePreviewFile = base64ToFile(
+        cropImagePreviewBase64,
+        `${time}-${componentId}.png`,
+      );
 
       const formData = new FormData();
-      formData.append("image", file);
+      formData.append("imagePreviewFile", filePreviewFile);
       formData.append("signatureId", signatureId);
+
+      const pathToImageOriginalSrc = `${contentPathToEdit}.content.components[0].originalSrc`;
+
+      if (!content.components[0].originalSrc) {
+        const originalImageFile = content.components[0].originalImageFile;
+        formData.append("originalImageFile", originalImageFile);
+      }
 
       const { data: imageData } = await supabase.functions.invoke(
         "post-image",
@@ -65,19 +76,30 @@ export const ContentEdit = (props: any) => {
         },
       );
 
-      if (imageData?.publicUrl) {
+      if (imageData?.imagePreviewPublicUrl) {
         const deepCopyRows = cloneDeep(rows);
 
-        // TODO - funkce
         const pathToImageSrc = `${contentPathToEdit}.content.components[0].src`;
-        set(deepCopyRows, pathToImageSrc, imageData.publicUrl);
-        setContent(pathToImageSrc, imageData.publicUrl);
+        set(deepCopyRows, pathToImageSrc, imageData.imagePreviewPublicUrl);
+        setContent(pathToImageSrc, imageData.imagePreviewPublicUrl);
 
         const pathOriginalImagePreview = `${contentPathToEdit}.content.components[0].originalImagePreview`;
         set(deepCopyRows, pathOriginalImagePreview, "");
 
         const pathToCropImagePreview = `${contentPathToEdit}.content.components[0].cropImagePreview`;
         set(deepCopyRows, pathToCropImagePreview, "");
+
+        if (imageData?.originalImagePublicUrl) {
+          set(
+            deepCopyRows,
+            pathToImageOriginalSrc,
+            imageData.originalImagePublicUrl,
+          );
+          setContent(pathToImageOriginalSrc, imageData.originalImagePublicUrl);
+
+          const pathToOriginalImageFile = `${contentPathToEdit}.content.components[0].originalImageFile`;
+          set(deepCopyRows, pathToOriginalImageFile, "");
+        }
 
         await supabase.functions.invoke("patch-signature", {
           method: "PATCH",
@@ -127,6 +149,7 @@ export const ContentEdit = (props: any) => {
           >
             Close
           </Button>
+          {/*   TODO - modál pro nepřihlášené uživatele "Ukládat mohou pouze registrovaní uživatelé" */}
           <Button
             variant="blue"
             size="md"

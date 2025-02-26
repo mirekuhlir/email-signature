@@ -17,6 +17,7 @@ interface ImageSettings {
 interface ImageUploaderProps {
   onSetCropImagePreview?: (preview: string) => void;
   onSetOriginalImagePreview?: (original: string) => void;
+  onSetOriginalImage?: (file: File) => void;
   originalImagePreview?: string;
   imageName: string;
   imageSettings?: ImageSettings;
@@ -24,11 +25,14 @@ interface ImageUploaderProps {
   previewWidthInit?: number;
   onSetPreviewWidth?: (width: number) => void;
   onInit?: () => void;
+  srcOriginalImage?: string;
+  originalSrc?: string;
 }
 
 export default function ImageUploadCrop(props: ImageUploaderProps) {
   const {
     onSetCropImagePreview,
+    onSetOriginalImage,
     onSetOriginalImagePreview,
     originalImagePreview,
     imageSettings,
@@ -36,6 +40,8 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     previewWidthInit,
     onSetPreviewWidth,
     onInit,
+    srcOriginalImage,
+    originalSrc,
   } = props;
 
   const [crop, setCrop] = useState<Crop | undefined>(undefined);
@@ -64,12 +70,47 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         const fileUrl = URL.createObjectURL(file);
         onSetOriginalImagePreview?.(fileUrl);
         setCroppedImageData(null);
+        onSetOriginalImage?.(file);
       }
     },
     [onSetOriginalImagePreview],
   );
 
+  const onSelectUrl = useCallback(
+    async (url: string) => {
+      try {
+        // Načteme obrázek přes fetch s povoleným CORS režimem
+        const response = await fetch(url, { mode: "cors" });
+        if (!response.ok) {
+          throw new Error("Failed to fetch image");
+        }
+        const blob = await response.blob();
+        // Vytvoříme objektovou URL, kterou můžeme použít jako src obrázku
+        const fileUrl = URL.createObjectURL(blob);
+        onSetOriginalImagePreview?.(fileUrl);
+        setCroppedImageData(null);
+      } catch (error) {
+        console.error("Error fetching image from URL:", error);
+      }
+    },
+    [onSetOriginalImagePreview],
+  );
+
+  useEffect(() => {
+    if (srcOriginalImage && !originalImagePreview) {
+      onSelectUrl(srcOriginalImage);
+    }
+  }, [originalImagePreview, srcOriginalImage]);
+
   const generateCroppedImage = useCallback((): string | null => {
+    console.warn(
+      "generateCroppedImage",
+      imgRef.current,
+      crop,
+      previewWidth,
+      originalImagePreview,
+    );
+
     if (
       imgRef.current &&
       crop?.width &&
@@ -143,7 +184,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
       return finalCanvas.toDataURL("image/png", 1.0);
     }
     return null;
-  }, [crop, isCircular, previewWidth]);
+  }, [crop, previewWidth, originalImagePreview, isCircular]);
 
   const handleCrop = useCallback(() => {
     const croppedImageDataUrl = generateCroppedImage();
@@ -267,7 +308,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
 
   return (
     <div className="w-full pt-8">
-      {!originalImagePreview ? (
+      {!originalImagePreview && !originalSrc ? (
         <div className="grid place-items-center p-4 border border-dashed border-gray-300 rounded min-h-[200px] w-[80%] md:w-[400px] mx-auto">
           <input
             id="file-upload"

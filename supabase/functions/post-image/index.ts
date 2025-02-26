@@ -98,19 +98,33 @@ serve(async (req: Request) => {
     );
   }
 
-  const image: FormFile = form.files.image as FormFile;
+  const imagePreviewFile: FormFile = form.files.imagePreviewFile as FormFile;
+  const imagePreviewUploadKey = imagePreviewFile
+    ? `${userId}/${signatureId}/${imagePreviewFile.filename}`
+    : "";
 
-  const uploadKey = `${userId}/${signatureId}/${image.filename}`;
+  const originalImageFile = form.files.originalImageFile &&
+    form.files.originalImageFile as FormFile;
+
+  const originalImageKey = originalImageFile?.filename &&
+    `${userId}/${signatureId}/${originalImageFile?.filename}`;
 
   try {
-    const command = new PutObjectCommand({
+    const commandPreview = new PutObjectCommand({
       Bucket: bucketName,
-      Key: uploadKey,
-      Body: image.content,
-      /*       ACL: "public-read", */
-      /*       ContentType: image.contentType, */
+      Key: imagePreviewUploadKey,
+      Body: imagePreviewFile.content,
     });
-    await s3.send(command);
+    await s3.send(commandPreview);
+
+    if (originalImageFile) {
+      const commandOriginal = new PutObjectCommand({
+        Bucket: bucketName,
+        Key: originalImageKey,
+        Body: originalImageFile.content,
+      });
+      await s3.send(commandOriginal);
+    }
   } catch (uploadError: any) {
     return new Response(
       JSON.stringify({
@@ -125,11 +139,25 @@ serve(async (req: Request) => {
   }
 
   // TODO - nějaká funkce a region do env
-  const publicUrl = `https://${bucketName}.s3.${
+  const imagePreviewPublicUrl = `https://${bucketName}.s3.${
     Deno.env.get("AWS_REGION") || "us-east-1"
-  }.amazonaws.com/${uploadKey}`;
+  }.amazonaws.com/${imagePreviewUploadKey}`;
 
-  return new Response(JSON.stringify({ publicUrl }), {
+  const originalImagePublicUrl = `https://${bucketName}.s3.${
+    Deno.env.get("AWS_REGION") || "us-east-1"
+  }.amazonaws.com/${originalImageKey}`;
+
+  const responseImageUrl: any = {};
+
+  if (imagePreviewUploadKey) {
+    responseImageUrl["imagePreviewPublicUrl"] = imagePreviewPublicUrl;
+  }
+
+  if (originalImageKey) {
+    responseImageUrl["originalImagePublicUrl"] = originalImagePublicUrl;
+  }
+
+  return new Response(JSON.stringify(responseImageUrl), {
     status: 201,
     headers: { "Content-Type": "application/json", ...corsHeaders },
   });

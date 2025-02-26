@@ -18,6 +18,10 @@ export function extractImageSrc(data: unknown): string[] {
       srcArr.push(transformUrlToKey(obj.src));
     }
 
+    if (typeof obj.originalSrc === "string") {
+      srcArr.push(transformUrlToKey(obj.originalSrc));
+    }
+
     Object.values(obj).forEach((value) => {
       srcArr.push(...extractImageSrc(value));
     });

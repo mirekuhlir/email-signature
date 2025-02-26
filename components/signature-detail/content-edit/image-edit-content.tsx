@@ -21,12 +21,11 @@ export const ImageEditContent = (props: any) => {
 
   const handleOriginalImagePreview = useCallback(
     (originalImage: string) => {
+      setContent(`${contentPathToEdit}.components[0].src`, "");
       setContent(
         `${contentPathToEdit}.components[0].originalImagePreview`,
         originalImage,
       );
-
-      setContent(`${contentPathToEdit}.components[0].src`, "");
     },
     [contentPathToEdit, setContent],
   );
@@ -48,6 +47,21 @@ export const ImageEditContent = (props: any) => {
     [contentPathToEdit, setContent],
   );
 
+  const handleOriginalImage = useCallback(
+    (originalImage: File) => {
+      const newFileName = `${imageComponent.id}-${originalImage.name}`;
+      const modifiedFile = new File([originalImage], newFileName, {
+        type: originalImage.type,
+        lastModified: Date.now(),
+      });
+      setContent(
+        `${contentPathToEdit}.components[0].originalImageFile`,
+        modifiedFile,
+      );
+    },
+    [contentPathToEdit, setContent, imageComponent.id],
+  );
+
   const onInit = useCallback(() => {
     window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
   }, []);
@@ -63,6 +77,8 @@ export const ImageEditContent = (props: any) => {
       previewWidthInit={imageComponent.previewWidth}
       onSetPreviewWidth={handlePreviewWidth}
       onInit={onInit}
+      srcOriginalImage={imageComponent.originalSrc}
+      onSetOriginalImage={handleOriginalImage}
     />
   );
 };
