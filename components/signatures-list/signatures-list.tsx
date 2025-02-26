@@ -56,7 +56,7 @@ export const SignaturesList = (props: any) => {
       >
         <div>
           <Typography variant="h2">Select your signature</Typography>
-          <EmailTemplateView rows={signature_a} />
+          <EmailTemplateView rows={signature_a.rows} />
           <Button
             onClick={async () => {
               const { data } = await supabase.functions.invoke(
@@ -64,7 +64,7 @@ export const SignaturesList = (props: any) => {
                 {
                   method: "POST",
                   body: {
-                    signatureContent: { rows: signature_a },
+                    signatureContent: signature_a,
                   },
                 },
               );

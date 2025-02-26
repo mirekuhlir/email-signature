@@ -40,7 +40,7 @@ export default async function Signature(props: Props) {
           <Container>
             <SignatureDetail
               /*     signatureDetail={{
-                rows: signature_a,
+                rows: signature_a.rows,
               }} */
               signatureDetail={{
                 rows: data.signature_content.rows,

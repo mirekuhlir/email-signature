@@ -1,53 +1,56 @@
-export const signature_a = [
-  {
-    id: "gp91",
-    style: { backgroundColor: "rgb(128,0,128)" },
-    columns: [
-      {
-        id: "2j9b",
-        style: {
-          padding: "10px",
-        },
-        rows: [],
-      },
-      {
-        id: "gg6r",
-        style: {
-          backgroundColor: "rgb(255,255,0)",
-          verticalAlign: "top",
-          padding: "10px",
-        },
-        rows: [{
-          id: "ex3p",
-          style: { backgroundColor: "rgb(255,0,0)" },
-          content: {
-            type: "text",
-            components: [
-              {
-                id: "2j9ba1",
-                text: "Miroslav Uhlíř",
-                fontSize: "32",
-              },
-            ],
+export const signature_a = {
+  templateName: "signature_a",
+  version: "0.1",
+  rows: [
+    {
+      id: "gp91",
+      style: { backgroundColor: "rgb(128,0,128)" },
+      columns: [
+        {
+          id: "2j9b",
+          style: {
+            padding: "10px",
           },
-        }, {
-          id: "7jn3",
-          content: {
-            type: "text",
-            components: [
-              {
-                id: "2j9ba2",
-                text: "javascript developer2",
-                fontSize: "16",
-                color: "rgb(0,148,47)",
-              },
-            ],
+          rows: [],
+        },
+        {
+          id: "gg6r",
+          style: {
+            backgroundColor: "rgb(255,255,0)",
+            verticalAlign: "top",
+            padding: "10px",
           },
-        }],
-      },
-    ],
-  },
-  /*   {
+          rows: [{
+            id: "ex3p",
+            style: { backgroundColor: "rgb(255,0,0)" },
+            content: {
+              type: "text",
+              components: [
+                {
+                  id: "2j9ba1",
+                  text: "Miroslav Uhlíř",
+                  fontSize: "32",
+                },
+              ],
+            },
+          }, {
+            id: "7jn3",
+            content: {
+              type: "text",
+              components: [
+                {
+                  id: "2j9ba2",
+                  text: "javascript developer2",
+                  fontSize: "16",
+                  color: "rgb(0,148,47)",
+                },
+              ],
+            },
+          }],
+        },
+      ],
+    },
+    /*   {
     id: "gp91",
     style: { backgroundColor: "purple" },
     columns: [
@@ -80,7 +83,7 @@ export const signature_a = [
       },
     ],
   }, */
-  /*   {
+    /*   {
     id: "n9n8",
     style: { backgroundColor: "red" },
     columns: [
@@ -121,4 +124,5 @@ export const signature_a = [
       },
     ],
   }, */
-];
+  ],
+};
