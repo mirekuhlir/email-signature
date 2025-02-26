@@ -1,8 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Fragment } from "react";
 import { getContentView } from "./content-view";
+import { useContentEditStore } from "../store/content-edit-add-path-store";
 
 export const EmailTemplateView = (props: any) => {
   const { rows } = props;
+  const { contentEdit } = useContentEditStore();
 
   const renderColumn = (column: any) => {
     return (
@@ -48,7 +51,10 @@ export const EmailTemplateView = (props: any) => {
         );
       }
 
-      const content = getContentView(row?.content);
+      const content = getContentView(
+        row?.content,
+        Boolean(contentEdit.editPath),
+      );
 
       if (content) {
         return (

@@ -1,14 +1,17 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Img } from "@/components/ui/img";
 import { ContentType } from "@/const/content";
 
-export const getContentView = (content?: any) => {
+export const getContentView = (content?: any, isImageEdit?: boolean) => {
   if (content?.type == ContentType.IMAGE) {
     const { components } = content;
 
-    return components.map((component: any, index: number) => {
+    return components.map((component: any) => {
       const { id, src, cropImagePreview } = component;
 
-      return <Img key={id} src={src || cropImagePreview} />;
+      const image = isImageEdit ? cropImagePreview : src || cropImagePreview;
+
+      return <Img key={id} src={image} />;
     });
   }
 
@@ -98,7 +101,13 @@ export const getContentView = (content?: any) => {
 
           if (component.type === ContentType.EMAIL_LINK) {
             return (
-              <a key={id} href={`mailto:${text}`} target="_blank" style={style}>
+              <a
+                key={id}
+                href={`mailto:${text}`}
+                target="_blank"
+                style={style}
+                rel="noreferrer"
+              >
                 {text}
               </a>
             );

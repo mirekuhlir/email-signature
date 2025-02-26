@@ -119,7 +119,7 @@ export const EmailTemplateEdit = (props: any) => {
         );
       }
 
-      const content = getContentView(row?.content);
+      const content = getContentView(row?.content, false);
       if (content) {
         return (
           <Fragment key={`tr-${row.id}`}>
@@ -283,7 +283,7 @@ export const EmailTemplateEdit = (props: any) => {
               variant="red"
               onClick={async () => deleteRow()}
             >
-              Delete
+              {isDeleting ? "Deleting..." : "Delete"}
             </Button>
           </div>
         </div>
