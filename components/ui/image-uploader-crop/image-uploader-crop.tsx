@@ -4,7 +4,7 @@ import ReactCrop, { type Crop } from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 import { baseStyles, Button, sizes, variants } from "@/components/ui/button";
 import Slider from "../slider";
-import { debounce } from "lodash";
+import { debounce, get, set } from "lodash";
 import { getDefaultCrop, cropDefault, imageWidthDefault } from "./utils";
 import { Typography } from "../typography";
 
@@ -18,7 +18,7 @@ interface ImageUploaderProps {
   onSetCropImagePreview?: (preview: string) => void;
   onSetOriginalImagePreview?: (original: string) => void;
   onSetOriginalImage?: (file: File | null) => void;
-  onSetImageSettings?: (info: ImageSettings) => void;
+  onSetImageSettings?: (info: ImageSettings | string) => void;
   onSetPreviewWidth?: (width: number) => void;
   originalImagePreview?: string;
   imageName: string;
@@ -57,7 +57,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   const previewCanvasRef = useRef<HTMLCanvasElement>(null);
 
   const getDefaultCropForCurrentImage = useCallback((aspectRatio: number) => {
-    if (!imgRef.current) return null;
+    if (!imgRef.current) return undefined;
     const { width: imgWidth, height: imgHeight } =
       imgRef.current.getBoundingClientRect();
     return getDefaultCrop(aspectRatio, imgWidth, imgHeight);
@@ -217,7 +217,15 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     onSetCropImagePreview?.("");
     setCroppedImageData?.(null);
     onSetOriginalImage?.(null);
-  }, [onSetCropImagePreview, onSetOriginalImage, onSetOriginalImagePreview]);
+    onSetImageSettings?.("");
+    setCrop(undefined);
+    setIsCircular(false);
+  }, [
+    onSetCropImagePreview,
+    onSetImageSettings,
+    onSetOriginalImage,
+    onSetOriginalImagePreview,
+  ]);
 
   const handleAspectChange = useCallback(
     (newAspect: number, circular: boolean = false) => {
@@ -250,7 +258,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
 
   useEffect(() => {
     if (!crop?.width) {
-      setCrop(imageSettings?.crop || cropDefault);
+      setCrop(imageSettings?.crop || getDefaultCropForCurrentImage(1));
       setAspect(imageSettings?.aspect || 1);
       setIsCircular(imageSettings?.isCircular || false);
     }
