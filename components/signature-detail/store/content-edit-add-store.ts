@@ -81,21 +81,27 @@ export const useSignatureStore = create<StoreState>((set) => ({
 
       return { rows: cloneRows };
     }),
+
+
+    
   setContent: (path: string, content: any) =>
     set((state) => {
       const cloneRows = cloneDeep(state.rows);
       const currentContent = lGet(cloneRows, path);
 
-      // Save image on the path, content is a string
-      if (typeof currentContent !== "object") {
+      if (content instanceof File) {
         lSet(cloneRows, path, content);
-      } else {
+        return { rows: cloneRows };
+      }
+
+      else if  (typeof currentContent === "string") {
+        lSet(cloneRows, path, content);
+      } else { 
         lSet(cloneRows, path, {
           ...currentContent,
           ...content,
         });
       }
-
       return { rows: cloneRows };
     }),
-}));
+})); 

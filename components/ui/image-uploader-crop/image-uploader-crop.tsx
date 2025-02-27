@@ -17,13 +17,13 @@ interface ImageSettings {
 interface ImageUploaderProps {
   onSetCropImagePreview?: (preview: string) => void;
   onSetOriginalImagePreview?: (original: string) => void;
-  onSetOriginalImage?: (file: File) => void;
+  onSetOriginalImage?: (file: File | null) => void;
+  onSetImageSettings?: (info: ImageSettings) => void;
+  onSetPreviewWidth?: (width: number) => void;
   originalImagePreview?: string;
   imageName: string;
   imageSettings?: ImageSettings;
-  onSetImageSettings?: (info: ImageSettings) => void;
   previewWidthInit?: number;
-  onSetPreviewWidth?: (width: number) => void;
   onInit?: () => void;
   srcOriginalImage?: string;
   originalSrc?: string;
@@ -49,7 +49,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   const [isCircular, setIsCircular] = useState(false);
   const [croppedImageData, setCroppedImageData] = useState<string | null>(null);
   const [previewWidth, setPreviewWidth] = useState<number | undefined>(
-    undefined,
+    undefined
   );
   const [isLoadingOriginalImage, setIsLoadingOriginalImage] = useState(false);
 
@@ -74,7 +74,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         onSetOriginalImage?.(file);
       }
     },
-    [onSetOriginalImagePreview],
+    [onSetOriginalImage, onSetOriginalImagePreview]
   );
 
   const loadOriginalImage = useCallback(
@@ -95,7 +95,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         setIsLoadingOriginalImage(false);
       }
     },
-    [onSetOriginalImagePreview],
+    [onSetOriginalImagePreview]
   );
 
   useEffect(() => {
@@ -136,13 +136,13 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         0,
         0,
         cropWidthOrig,
-        cropHeightOrig,
+        cropHeightOrig
       );
 
       const finalCanvas = document.createElement("canvas");
       finalCanvas.width = previewWidth;
       finalCanvas.height = Math.round(
-        previewWidth * (cropHeightOrig / cropWidthOrig),
+        previewWidth * (cropHeightOrig / cropWidthOrig)
       );
       const ctx = finalCanvas.getContext("2d");
       if (!ctx) return null;
@@ -159,7 +159,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         0,
         0,
         finalCanvas.width,
-        finalCanvas.height,
+        finalCanvas.height
       );
 
       if (isCircular) {
@@ -170,7 +170,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
           finalCanvas.height / 2,
           Math.min(finalCanvas.width, finalCanvas.height) / 2,
           0,
-          Math.PI * 2,
+          Math.PI * 2
         );
         ctx.fill();
       }
@@ -202,7 +202,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
 
   const debouncedHandleCrop = useMemo(
     () => debounce(handleCrop, 200),
-    [handleCrop],
+    [handleCrop]
   );
 
   useEffect(() => {
@@ -212,11 +212,25 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     };
   }, [previewWidth, debouncedHandleCrop, croppedImageData]);
 
-  // TODO
   const handleDeleteImage = useCallback(() => {
     onSetOriginalImagePreview?.("");
-    setCroppedImageData(null);
-  }, [onSetOriginalImagePreview]);
+    onSetCropImagePreview?.("");
+    setCroppedImageData?.(null);
+    onSetOriginalImage?.(null);
+    setCrop(cropDefault);
+    setAspect(1);
+    setIsCircular(false);
+    onSetImageSettings?.({
+      crop: cropDefault,
+      aspect: 1,
+      isCircular: false,
+    });
+  }, [
+    onSetCropImagePreview,
+    onSetImageSettings,
+    onSetOriginalImage,
+    onSetOriginalImagePreview,
+  ]);
 
   const handleAspectChange = useCallback(
     (newAspect: number, circular: boolean = false) => {
@@ -236,7 +250,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         }
       }
     },
-    [getDefaultCropForCurrentImage],
+    [getDefaultCropForCurrentImage]
   );
 
   const handlePreviewWidthChange = useCallback(
@@ -244,7 +258,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
       setPreviewWidth(value);
       onSetPreviewWidth?.(value);
     },
-    [onSetPreviewWidth],
+    [onSetPreviewWidth]
   );
 
   useEffect(() => {
@@ -284,14 +298,14 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
           0,
           0,
           previewCanvasRef.current.width,
-          previewCanvasRef.current.height,
+          previewCanvasRef.current.height
         );
         ctx?.drawImage(
           img,
           0,
           0,
           previewCanvasRef.current.width,
-          previewCanvasRef.current.height,
+          previewCanvasRef.current.height
         );
         const newDataUrl = previewCanvasRef.current.toDataURL("image/png");
         onSetCropImagePreview?.(newDataUrl);
@@ -345,7 +359,14 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
             </div>
           )}
 
-          <div className="overflow-hidden bg-black/5 max-w-[90%] mx-0 md:mx-auto">
+          <div className="relative overflow-hidden bg-black/5 max-w-[90%] mx-0 md:mx-auto">
+            <Button
+              variant="red"
+              onClick={handleDeleteImage}
+              className="absolute top-2 left-2 z-10 px-2 py-1"
+            >
+              Delete
+            </Button>
             <ReactCrop
               crop={crop}
               onChange={(c) => setCrop(c)}
@@ -407,12 +428,6 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
             >
               Circular
             </Button>
-          </div>
-          <div className="flex items-center justify-end gap-4">
-            {/*   TODO */}
-            {/*   <Button variant="red" onClick={handleDeleteImage}>
-              Delete Image
-            </Button> */}
           </div>
 
           <canvas ref={previewCanvasRef} className="hidden" />
