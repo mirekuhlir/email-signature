@@ -1,17 +1,20 @@
-import  { type Crop } from "react-image-crop";
+import { type Crop } from "react-image-crop";
 
 export const cropDefault: Crop = {
-    unit: "px",
-    width: 100,
-    height: 100,
-    x: 0,
-    y: 0,
-  };
-  
-  export const imageWidthDefault = 150;
+  unit: "px",
+  width: 100,
+  height: 100,
+  x: 0,
+  y: 0,
+};
 
+export const imageWidthDefault = 150;
 
-export function getDefaultCrop(aspect: number, imgWidth: number, imgHeight: number): Crop {
+export function getDefaultCrop(
+  aspect: number,
+  imgWidth: number,
+  imgHeight: number,
+): Crop {
   const maxCropWidth = imgWidth * 0.8;
   const maxCropHeight = imgHeight * 0.8;
 
@@ -29,10 +32,9 @@ export function getDefaultCrop(aspect: number, imgWidth: number, imgHeight: numb
     width: cropWidth,
     height: cropHeight,
     x: Math.floor((imgWidth - cropWidth) / 2),
-    y: Math.floor((imgHeight - cropHeight) / 2)
+    y: Math.floor((imgHeight - cropHeight) / 2),
   };
 }
-
 
 export function dataURLToFile(dataUrl: string, filename: string): File {
   const arr = dataUrl.split(",");
@@ -49,4 +51,3 @@ export function dataURLToFile(dataUrl: string, filename: string): File {
   }
   return new File([u8arr], filename, { type: mime });
 }
-

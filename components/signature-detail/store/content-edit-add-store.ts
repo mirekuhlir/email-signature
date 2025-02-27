@@ -82,8 +82,6 @@ export const useSignatureStore = create<StoreState>((set) => ({
       return { rows: cloneRows };
     }),
 
-
-    
   setContent: (path: string, content: any) =>
     set((state) => {
       const cloneRows = cloneDeep(state.rows);
@@ -92,11 +90,9 @@ export const useSignatureStore = create<StoreState>((set) => ({
       if (content instanceof File) {
         lSet(cloneRows, path, content);
         return { rows: cloneRows };
-      }
-
-      else if  (typeof currentContent === "string") {
+      } else if (typeof content === "string") {
         lSet(cloneRows, path, content);
-      } else { 
+      } else {
         lSet(cloneRows, path, {
           ...currentContent,
           ...content,
@@ -104,4 +100,4 @@ export const useSignatureStore = create<StoreState>((set) => ({
       }
       return { rows: cloneRows };
     }),
-})); 
+}));

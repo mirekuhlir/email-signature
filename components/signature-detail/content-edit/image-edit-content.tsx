@@ -13,10 +13,10 @@ export const ImageEditContent = (props: any) => {
     (croppedImage: string) => {
       setContent(
         `${contentPathToEdit}.components[0].cropImagePreview`,
-        croppedImage
+        croppedImage,
       );
     },
-    [contentPathToEdit, setContent]
+    [contentPathToEdit, setContent],
   );
 
   const handleOriginalImagePreview = useCallback(
@@ -25,27 +25,27 @@ export const ImageEditContent = (props: any) => {
 
       setContent(
         `${contentPathToEdit}.components[0].originalImagePreview`,
-        originalImage
+        originalImage,
       );
     },
-    [contentPathToEdit, setContent]
+    [contentPathToEdit, setContent],
   );
 
   const handleImageSettings = useCallback(
     (imageSettings: any) => {
       setContent(
         `${contentPathToEdit}.components[0].imageSettings`,
-        imageSettings
+        imageSettings,
       );
     },
-    [contentPathToEdit, setContent]
+    [contentPathToEdit, setContent],
   );
 
   const handlePreviewWidth = useCallback(
     (width: number) => {
       setContent(`${contentPathToEdit}.components[0].previewWidth`, width);
     },
-    [contentPathToEdit, setContent]
+    [contentPathToEdit, setContent],
   );
 
   const handleOriginalImage = useCallback(
@@ -59,7 +59,7 @@ export const ImageEditContent = (props: any) => {
 
         setContent(
           `${contentPathToEdit}.components[0].originalImageFile`,
-          modifiedFile
+          modifiedFile,
         );
         // remove image
       } else {
@@ -67,7 +67,7 @@ export const ImageEditContent = (props: any) => {
         setContent(`${contentPathToEdit}.components[0].originalImageFile`, {});
       }
     },
-    [contentPathToEdit, setContent, imageComponent.id]
+    [contentPathToEdit, setContent, imageComponent.id],
   );
 
   const onInit = useCallback(() => {
