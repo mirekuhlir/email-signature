@@ -277,7 +277,6 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
       initCalledRef.current = true;
       onInit?.();
     }
-    return () => {};
   }, [croppedImageData]);
 
   useEffect(() => {

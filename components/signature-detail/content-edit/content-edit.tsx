@@ -54,7 +54,7 @@ export const ContentEdit = (props: any) => {
       const time = new Date().getTime();
       const filePreviewFile = base64ToFile(
         cropImagePreviewBase64,
-        `${time}-${componentId}.png`
+        `${time}-${componentId}.png`,
       );
 
       const formData = new FormData();
@@ -73,7 +73,7 @@ export const ContentEdit = (props: any) => {
         {
           method: "POST",
           body: formData,
-        }
+        },
       );
 
       if (imageData?.imagePreviewPublicUrl) {
@@ -93,7 +93,7 @@ export const ContentEdit = (props: any) => {
           set(
             deepCopyRows,
             pathToImageOriginalSrc,
-            imageData.originalImagePublicUrl
+            imageData.originalImagePublicUrl,
           );
           setContent(pathToImageOriginalSrc, imageData.originalImagePublicUrl);
 

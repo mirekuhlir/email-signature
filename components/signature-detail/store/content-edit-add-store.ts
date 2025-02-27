@@ -92,11 +92,13 @@ export const useSignatureStore = create<StoreState>((set) => ({
         return { rows: cloneRows };
       } else if (typeof content === "string") {
         lSet(cloneRows, path, content);
-      } else {
+      } else if (typeof content === "object") {
         lSet(cloneRows, path, {
           ...currentContent,
           ...content,
         });
+      } else {
+        lSet(cloneRows, path, content);
       }
       return { rows: cloneRows };
     }),
