@@ -64,7 +64,7 @@ export const ImageEditContent = (props: any) => {
         // remove image
       } else {
         setContent(`${contentPathToEdit}.components[0].originalSrc`, "");
-        setContent(`${contentPathToEdit}.components[0].originalImageFile`, {});
+        setContent(`${contentPathToEdit}.components[0].originalImageFile`, "");
       }
     },
     [contentPathToEdit, setContent, imageComponent.id],

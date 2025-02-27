@@ -346,15 +346,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
             </div>
           )}
 
-          <div className="relative overflow-hidden bg-black/5 max-w-[90%] mx-0 md:mx-auto">
-            <Button
-              variant="red"
-              size="sm"
-              onClick={handleDeleteImage}
-              className="absolute top-2 left-2 z-10 px-2 py-1"
-            >
-              Delete
-            </Button>
+          <div className="overflow-hidden bg-black/5 max-w-[90%] mx-0 md:mx-auto">
             <ReactCrop
               crop={crop}
               onChange={(c) => setCrop(c)}
@@ -416,6 +408,14 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
             >
               Circular
             </Button>
+          </div>
+
+          <div>
+            <div className="mt-10">
+              <Button variant="red" onClick={handleDeleteImage}>
+                Change image
+              </Button>
+            </div>
           </div>
 
           <canvas ref={previewCanvasRef} className="hidden" />
