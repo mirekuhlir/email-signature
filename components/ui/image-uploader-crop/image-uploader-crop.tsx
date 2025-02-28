@@ -4,8 +4,8 @@ import ReactCrop, { type Crop } from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 import { baseStyles, Button, sizes, variants } from "@/components/ui/button";
 import Slider from "../slider";
-import { debounce, get, set } from "lodash";
-import { getDefaultCrop, cropDefault, imageWidthDefault } from "./utils";
+import { debounce } from "lodash";
+import { getDefaultCrop, imageWidthDefault } from "./utils";
 import { Typography } from "../typography";
 
 interface ImageSettings {
@@ -116,33 +116,50 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
       const scaleX = image.naturalWidth / image.width;
       const scaleY = image.naturalHeight / image.height;
 
-      const cropWidthOrig = crop.width * scaleX;
-      const cropHeightOrig = crop.height * scaleY;
+      // Ensure we have valid dimensions
+      if (
+        image.naturalWidth === 0 ||
+        image.naturalHeight === 0 ||
+        image.width === 0 ||
+        image.height === 0
+      ) {
+        console.error("Image dimensions are invalid");
+        return null;
+      }
+
+      const cropWidthOrig = Math.max(1, crop.width * scaleX);
+      const cropHeightOrig = Math.max(1, crop.height * scaleY);
       const xOrig = crop.x * scaleX;
       const yOrig = crop.y * scaleY;
 
       const tempCanvas = document.createElement("canvas");
-      tempCanvas.width = cropWidthOrig;
-      tempCanvas.height = cropHeightOrig;
+      tempCanvas.width = Math.max(1, cropWidthOrig);
+      tempCanvas.height = Math.max(1, cropHeightOrig);
       const tempCtx = tempCanvas.getContext("2d");
       if (!tempCtx) return null;
 
-      tempCtx.drawImage(
-        image,
-        xOrig,
-        yOrig,
-        cropWidthOrig,
-        cropHeightOrig,
-        0,
-        0,
-        cropWidthOrig,
-        cropHeightOrig,
-      );
+      try {
+        tempCtx.drawImage(
+          image,
+          xOrig,
+          yOrig,
+          cropWidthOrig,
+          cropHeightOrig,
+          0,
+          0,
+          cropWidthOrig,
+          cropHeightOrig,
+        );
+      } catch (error) {
+        console.error("Error drawing on temp canvas:", error);
+        return null;
+      }
 
       const finalCanvas = document.createElement("canvas");
-      finalCanvas.width = previewWidth;
-      finalCanvas.height = Math.round(
-        previewWidth * (cropHeightOrig / cropWidthOrig),
+      finalCanvas.width = Math.max(1, previewWidth);
+      finalCanvas.height = Math.max(
+        1,
+        Math.round(previewWidth * (cropHeightOrig / cropWidthOrig)),
       );
       const ctx = finalCanvas.getContext("2d");
       if (!ctx) return null;
@@ -150,17 +167,22 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
       ctx.imageSmoothingEnabled = true;
       ctx.imageSmoothingQuality = "high";
 
-      ctx.drawImage(
-        tempCanvas,
-        0,
-        0,
-        cropWidthOrig,
-        cropHeightOrig,
-        0,
-        0,
-        finalCanvas.width,
-        finalCanvas.height,
-      );
+      try {
+        ctx.drawImage(
+          tempCanvas,
+          0,
+          0,
+          cropWidthOrig,
+          cropHeightOrig,
+          0,
+          0,
+          finalCanvas.width,
+          finalCanvas.height,
+        );
+      } catch (error) {
+        console.error("Error drawing on final canvas:", error);
+        return null;
+      }
 
       if (isCircular) {
         ctx.globalCompositeOperation = "destination-in";
@@ -309,7 +331,11 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   }, [croppedImageData, previewWidth, onSetCropImagePreview]);
 
   if (isLoadingOriginalImage) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex items-center justify-center w-full h-[70px]">
+        <Typography variant="large">Loading image...</Typography>
+      </div>
+    );
   }
 
   return (
