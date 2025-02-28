@@ -2,14 +2,14 @@
 import { Img } from "@/components/ui/img";
 import { ContentType } from "@/const/content";
 
-export const getContentView = (content?: any, isImageEdit?: boolean) => {
+export const getContentView = (content?: any) => {
   if (content?.type == ContentType.IMAGE) {
     const { components } = content;
 
     return components.map((component: any) => {
       const { id, src, cropImagePreview } = component;
 
-      const image = isImageEdit ? cropImagePreview : src || cropImagePreview;
+      const image = cropImagePreview || src;
 
       return <Img key={id} src={image} />;
     });

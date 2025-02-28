@@ -51,10 +51,7 @@ export const EmailTemplateView = (props: any) => {
         );
       }
 
-      const content = getContentView(
-        row?.content,
-        Boolean(contentEdit.editPath),
-      );
+      const content = getContentView(row?.content);
 
       if (content) {
         return (

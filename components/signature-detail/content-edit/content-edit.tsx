@@ -53,16 +53,14 @@ export const ContentEdit = (props: any) => {
       const componentId = content.components[0].id;
 
       const time = new Date().getTime();
-      const filePreviewFile = base64ToFile(
+      const imagePreviewFile = base64ToFile(
         cropImagePreviewBase64,
         `${time}-${componentId}.png`,
       );
 
       const formData = new FormData();
-      formData.append("imagePreviewFile", filePreviewFile);
+      formData.append("imagePreviewFile", imagePreviewFile);
       formData.append("signatureId", signatureId);
-
-      const pathToImageOriginalSrc = `${contentPathToEdit}.content.components[0].originalSrc`;
 
       if (!content.components[0].originalSrc) {
         const originalImageFile = content.components[0].originalImageFile;
@@ -80,6 +78,8 @@ export const ContentEdit = (props: any) => {
       if (imageData?.imagePreviewPublicUrl) {
         const deepCopyRows = cloneDeep(rows);
 
+        // remove all unnecessary data because we wont to save them into database
+
         const pathToImageSrc = `${contentPathToEdit}.content.components[0].src`;
         set(deepCopyRows, pathToImageSrc, imageData.imagePreviewPublicUrl);
         setContent(pathToImageSrc, imageData.imagePreviewPublicUrl);
@@ -89,8 +89,11 @@ export const ContentEdit = (props: any) => {
 
         const pathToCropImagePreview = `${contentPathToEdit}.content.components[0].cropImagePreview`;
         set(deepCopyRows, pathToCropImagePreview, "");
+        setContent(pathToCropImagePreview, "");
 
         if (imageData?.originalImagePublicUrl) {
+          const pathToImageOriginalSrc = `${contentPathToEdit}.content.components[0].originalSrc`;
+
           set(
             deepCopyRows,
             pathToImageOriginalSrc,
