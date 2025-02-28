@@ -10,6 +10,7 @@ import { EmailEditContent } from "./email-edit-content";
 import { createClient } from "@/utils/supabase/client";
 import { base64ToFile } from "@/utils/base64ToFile";
 import { ImageEditContent } from "./image-edit-content";
+import { Typography } from "@/components/ui/typography";
 
 export const ContentEdit = (props: any) => {
   const { contentPathToEdit, signatureId } = props;
@@ -136,7 +137,13 @@ export const ContentEdit = (props: any) => {
         {<div className="pb-8">{getContentType(content, path)}</div>}
       </div>
 
-      {!contentEdit.subEdit && (
+      {isSavingSignature && (
+        <div className="flex  w-full pb-6 pt-6 justify-center">
+          <Typography variant="large">Saving... Please wait</Typography>
+        </div>
+      )}
+
+      {!isSavingSignature && !contentEdit.subEdit && (
         <div className="flex flex-row w-full pb-6 pt-6 justify-between">
           <Button
             variant="outline"
