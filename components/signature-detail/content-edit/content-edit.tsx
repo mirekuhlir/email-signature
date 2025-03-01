@@ -178,6 +178,15 @@ export const ContentEdit = (props: any) => {
     signatureId,
   ]);
 
+  const isImage = content.components[0].type === ContentType.IMAGE;
+
+  const canDisplaySave = isImage
+    ? Boolean(
+        content.components[0].cropImagePreview &&
+          content.components[0].originalImagePreview,
+      )
+    : true;
+
   return (
     <div key={path}>
       <div ref={wrapperRef}>
@@ -236,7 +245,7 @@ export const ContentEdit = (props: any) => {
             )}
           </Modal>
 
-          <div className="flex flex-row w-full pb-6 pt-6 justify-between">
+          <div className="flex flex-row w-full pb-6 pt-2 justify-between">
             <Button
               variant="outline"
               onClick={() => {
@@ -250,7 +259,7 @@ export const ContentEdit = (props: any) => {
             </Button>
             {/*   TODO - modál pro nepřihlášené uživatele "Ukládat mohou pouze registrovaní uživatelé" */}
 
-            {content.components[0].cropImagePreview && (
+            {canDisplaySave && (
               <Button
                 variant="blue"
                 size="md"

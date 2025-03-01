@@ -67,7 +67,7 @@ export const SignatureDetail = (props: any) => {
         <div>
           <EmailTemplateEdit rows={rows} />
           {!contentEdit.editPath && !contentEdit.addPath && (
-            <div className="flex justify-center mt-5">
+            <div className="flex justify-end pt-2 pb-8">
               <Button size="lg" onClick={() => setIsEdit(false)}>
                 View
               </Button>
