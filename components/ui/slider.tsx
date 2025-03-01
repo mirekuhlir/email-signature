@@ -22,6 +22,7 @@ interface SliderProps {
   defaultValue?: number;
   onChange?: (value: number) => void;
   value?: number;
+  units?: string;
 }
 
 const Slider: React.FC<SliderProps> = (props) => {
@@ -62,10 +63,10 @@ const Slider: React.FC<SliderProps> = (props) => {
           newValue = Math.max(min as number, Math.min(max as number, newValue));
         }
         if (value !== undefined) {
-          onChange && onChange(newValue);
+          onChange?.(newValue);
         } else {
           setInternalValue(newValue);
-          onChange && onChange(newValue);
+          onChange?.(newValue);
         }
       }
     },
@@ -79,15 +80,6 @@ const Slider: React.FC<SliderProps> = (props) => {
       }
       if (e.touches.length > 0) {
         handleMove(e.touches[0].clientX);
-      }
-    },
-    [handleMove],
-  );
-
-  const handleMouseMove = useCallback(
-    (e: React.MouseEvent) => {
-      if (e.buttons === 1) {
-        handleMove(e.clientX);
       }
     },
     [handleMove],
@@ -160,14 +152,9 @@ const Slider: React.FC<SliderProps> = (props) => {
               </span>
             ))
           ) : (
-            <>
-              <span className="text-center text-sm font-bold text-gray-700">
-                {min}
-              </span>
-              <span className="text-center text-sm font-bold text-gray-700">
-                {max}
-              </span>
-            </>
+            <span className="w-full text-center text-sm font-bold text-gray-700">
+              {`${currentValue} ${props.units ?? ""}`}
+            </span>
           )}
         </div>
       </div>

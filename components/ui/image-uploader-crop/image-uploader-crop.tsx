@@ -363,19 +363,16 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
               <Typography variant="labelBase">
                 Set the width of the cropped image
               </Typography>
-              <Slider
-                min={50}
-                max={200}
-                defaultValue={previewWidth}
-                onChange={handlePreviewWidthChange}
-                id="slider"
-              />
-              <label
-                htmlFor="slider"
-                className="block pb-5 text-center text-sm font-medium text-gray-700"
-              >
-                Width: {previewWidth}px
-              </label>
+              <div className="pb-3">
+                <Slider
+                  min={50}
+                  max={200}
+                  units="pixels"
+                  defaultValue={previewWidth}
+                  onChange={handlePreviewWidthChange}
+                  id="slider"
+                />
+              </div>
             </div>
           )}
 
