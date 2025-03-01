@@ -1,4 +1,5 @@
-import React, { useCallback } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React from "react";
 import { useSignatureStore } from "../store/content-edit-add-store";
 import useValidate from "@/hooks/useValidate";
 import { ContentType } from "@/const/content";
@@ -32,7 +33,7 @@ export const EmailEditContent = (props: any) => {
         setContent(path, editContent);
       };
 
-      const getLabelText = useCallback(() => {
+      const getLabelText = () => {
         if (component.type === ContentType.TEXT) {
           return "Prefix";
         }
@@ -42,17 +43,17 @@ export const EmailEditContent = (props: any) => {
         }
 
         return "";
-      }, []);
+      };
 
       const labeText = getLabelText();
 
-      const getLayoutType = useCallback(() => {
+      const getLayoutType = () => {
         if (component.type === ContentType.TEXT) {
           return LayoutType.PREFIX;
         }
 
         return LayoutType.TEXT;
-      }, []);
+      };
 
       const layoutType = getLayoutType();
 
