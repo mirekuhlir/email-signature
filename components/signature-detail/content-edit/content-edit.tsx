@@ -26,6 +26,7 @@ export const ContentEdit = (props: any) => {
 
   const [iniContent, setIniContent] = useState<any>(null);
   const [isSavingSignature, setIsSavingSignature] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const supabase = createClient();
   const { rows, setContent, removeRow } = useSignatureStore();
@@ -37,10 +38,13 @@ export const ContentEdit = (props: any) => {
   const content = get(rows, path);
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
+
+  console.warn("rows", rows);
 
   const deleteRow = useCallback(async () => {
     setIsDeleting(true);
+    setIsDeleteModalOpen(false);
+    setIsSavingSignature(true);
 
     const saveData = async (rows: any) => {
       await supabase.functions.invoke("patch-signature", {
@@ -52,11 +56,18 @@ export const ContentEdit = (props: any) => {
       });
 
       setIsDeleting(false);
-      setIsDeleteModalOpen(false);
+      setIsSavingSignature(false);
+      setContentEdit({ editPath: null });
     };
 
     removeRow(contentPathToEdit, saveData);
-  }, [contentPathToEdit, removeRow, signatureId, supabase.functions]);
+  }, [
+    contentPathToEdit,
+    removeRow,
+    setContentEdit,
+    signatureId,
+    supabase.functions,
+  ]);
 
   useEffect(() => {
     if (!iniContent) {
@@ -169,8 +180,8 @@ export const ContentEdit = (props: any) => {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    content.components,
-    content.type,
+    content?.components,
+    content?.type,
     contentPathToEdit,
     rows,
     setContent,
@@ -178,13 +189,17 @@ export const ContentEdit = (props: any) => {
     signatureId,
   ]);
 
-  const isImage = content.components[0].type === ContentType.IMAGE;
+  const isImage = content?.components[0]?.type === ContentType.IMAGE;
 
   const canDisplaySave = isImage
     ? Boolean(
-        content.components[0].cropImagePreview &&
-          content.components[0].originalImagePreview,
+        content?.components[0]?.cropImagePreview &&
+          content?.components[0]?.originalImagePreview,
       )
+    : true;
+
+  const canDisplayDeleteButton = isImage
+    ? content?.components[0]?.cropImagePreview
     : true;
 
   return (
@@ -195,11 +210,11 @@ export const ContentEdit = (props: any) => {
         )}
       </div>
 
-      {isSavingSignature && <SavingInfo />}
+      {(isSavingSignature || isDeleting) && <SavingInfo />}
 
-      {!isSavingSignature && !contentEdit.subEdit && (
+      {!isSavingSignature && !isDeleting && !contentEdit.subEdit && (
         <>
-          {content.components[0].cropImagePreview && (
+          {canDisplayDeleteButton && (
             <>
               <div>
                 <Button
@@ -216,33 +231,25 @@ export const ContentEdit = (props: any) => {
           )}
 
           <Modal size="medium" isOpen={isDeleteModalOpen}>
-            {isDeleting && <SavingInfo />}
-
-            {!isDeleting && (
-              <div className="p-2">
-                <Typography variant="h3">Delete content</Typography>
-                <Typography variant="body">
-                  Are you sure you want to delete this content?
-                </Typography>
-                <div className="mt-8 flex justify-between">
-                  <Button
-                    variant="outline"
-                    onClick={() => {
-                      setIsDeleteModalOpen(false);
-                    }}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    loading={isDeleting}
-                    variant="red"
-                    onClick={async () => deleteRow()}
-                  >
-                    {isDeleting ? "Deleting..." : "Delete"}
-                  </Button>
-                </div>
+            <div className="p-2">
+              <Typography variant="h3">Delete content</Typography>
+              <Typography variant="body">
+                Are you sure you want to delete this content?
+              </Typography>
+              <div className="mt-8 flex justify-between">
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setIsDeleteModalOpen(false);
+                  }}
+                >
+                  Cancel
+                </Button>
+                <Button variant="red" onClick={async () => deleteRow()}>
+                  Delete
+                </Button>
               </div>
-            )}
+            </div>
           </Modal>
 
           <div className="flex flex-row w-full pb-6 pt-2 justify-between">
