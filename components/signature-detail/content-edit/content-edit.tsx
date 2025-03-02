@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useRef, useCallback, useState, useEffect } from "react";
-import { get, set, cloneDeep } from "lodash";
-import { useSignatureStore } from "@/components/signature-detail/store/content-edit-add-store";
-import { ContentType } from "@/const/content";
-import { Button } from "@/components/ui/button";
-import { useContentEditStore } from "../store/content-edit-add-path-store";
-import { RichTextEditor } from "@/components/ui/rich-text-editor/rich-text-editor";
-import { EmailEditContent } from "./email-edit-content";
-import { createClient } from "@/utils/supabase/client";
-import { base64ToFile } from "@/utils/base64ToFile";
-import { ImageEditContent } from "./image-edit-content";
-import Modal from "@/components/ui/modal";
-import { Typography } from "@/components/ui/typography";
+import { useRef, useCallback, useState, useEffect, useMemo } from 'react';
+import { get, set, cloneDeep } from 'lodash';
+import { useSignatureStore } from '@/components/signature-detail/store/content-edit-add-store';
+import { ContentType } from '@/const/content';
+import { Button } from '@/components/ui/button';
+import { useContentEditStore } from '../store/content-edit-add-path-store';
+import { RichTextEditor } from '@/components/ui/rich-text-editor/rich-text-editor';
+import { EmailEditContent } from './email-edit-content';
+import { createClient } from '@/utils/supabase/client';
+import { base64ToFile } from '@/utils/base64ToFile';
+import { ImageEditContent } from './image-edit-content';
+import Modal from '@/components/ui/modal';
+import { Typography } from '@/components/ui/typography';
 
 const SavingInfo = () => {
   return (
@@ -35,11 +35,11 @@ export const ContentEdit = (props: any) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   const path = `${contentPathToEdit}.content`;
-  const content = get(rows, path);
+  const content = useMemo(() => get(rows, path), [rows, path]);
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
-  console.warn("rows", rows);
+  console.warn('rows', rows);
 
   const deleteRow = useCallback(async () => {
     setIsDeleting(true);
@@ -47,8 +47,8 @@ export const ContentEdit = (props: any) => {
     setIsSavingSignature(true);
 
     const saveData = async (rows: any) => {
-      await supabase.functions.invoke("patch-signature", {
-        method: "PATCH",
+      await supabase.functions.invoke('patch-signature', {
+        method: 'PATCH',
         body: {
           signatureId,
           signatureContent: { rows },
@@ -102,18 +102,18 @@ export const ContentEdit = (props: any) => {
       );
 
       const formData = new FormData();
-      formData.append("imagePreviewFile", imagePreviewFile);
-      formData.append("signatureId", signatureId);
+      formData.append('imagePreviewFile', imagePreviewFile);
+      formData.append('signatureId', signatureId);
 
       if (!content.components[0].originalSrc) {
         const originalImageFile = content.components[0].originalImageFile;
-        formData.append("originalImageFile", originalImageFile);
+        formData.append('originalImageFile', originalImageFile);
       }
 
       const { data: imageData } = await supabase.functions.invoke(
-        "post-image",
+        'post-image',
         {
-          method: "POST",
+          method: 'POST',
           body: formData,
         },
       );
@@ -130,12 +130,12 @@ export const ContentEdit = (props: any) => {
         setContent(pathToImageSrc, imageData.imagePreviewPublicUrl);
 
         const pathOriginalImagePreview = `${contentPathToEdit}.content.components[0].originalImagePreview`;
-        set(deepCopyRows, pathOriginalImagePreview, "");
-        setContent(pathOriginalImagePreview, "");
+        set(deepCopyRows, pathOriginalImagePreview, '');
+        setContent(pathOriginalImagePreview, '');
 
         const pathToCropImagePreview = `${contentPathToEdit}.content.components[0].cropImagePreview`;
-        set(deepCopyRows, pathToCropImagePreview, "");
-        setContent(pathToCropImagePreview, "");
+        set(deepCopyRows, pathToCropImagePreview, '');
+        setContent(pathToCropImagePreview, '');
 
         if (imageData?.originalImagePublicUrl) {
           const pathToImageOriginalSrc = `${contentPathToEdit}.content.components[0].originalSrc`;
@@ -148,11 +148,11 @@ export const ContentEdit = (props: any) => {
           setContent(pathToImageOriginalSrc, imageData.originalImagePublicUrl);
 
           const pathToOriginalImageFile = `${contentPathToEdit}.content.components[0].originalImageFile`;
-          set(deepCopyRows, pathToOriginalImageFile, "");
+          set(deepCopyRows, pathToOriginalImageFile, '');
         }
 
-        await supabase.functions.invoke("patch-signature", {
-          method: "PATCH",
+        await supabase.functions.invoke('patch-signature', {
+          method: 'PATCH',
           body: {
             signatureId,
             signatureContent: { rows: deepCopyRows },
@@ -167,8 +167,8 @@ export const ContentEdit = (props: any) => {
       return;
     }
 
-    await supabase.functions.invoke("patch-signature", {
-      method: "PATCH",
+    await supabase.functions.invoke('patch-signature', {
+      method: 'PATCH',
       body: {
         signatureId,
         signatureContent: { rows },
@@ -189,7 +189,7 @@ export const ContentEdit = (props: any) => {
     signatureId,
   ]);
 
-  const isImage = content?.components[0]?.type === ContentType.IMAGE;
+  const isImage = content?.type === ContentType.IMAGE;
 
   const canDisplaySave = isImage
     ? Boolean(
@@ -197,7 +197,6 @@ export const ContentEdit = (props: any) => {
           content?.components[0]?.originalImagePreview,
       )
     : true;
-
 
   const canDisplayDeleteButton = isImage
     ? content?.components[0]?.cropImagePreview
@@ -285,7 +284,7 @@ export const ContentEdit = (props: any) => {
                 </Button>
               )}
             </div>
-          </>,
+          </>
         )}
     </div>
   );
