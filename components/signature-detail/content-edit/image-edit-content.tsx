@@ -3,10 +3,12 @@
 import { useCallback } from "react";
 import { useSignatureStore } from "@/components/signature-detail/store/content-edit-add-store";
 import ImageUploadCrop from "@/components/ui/image-uploader-crop/image-uploader-crop";
+import { useContentEditStore } from "../store/content-edit-add-path-store";
 
 export const ImageEditContent = (props: any) => {
   const { components, contentPathToEdit } = props;
   const { setContent } = useSignatureStore();
+  const { setContentEdit } = useContentEditStore();
   const imageComponent = components[0];
 
   const handleCropImagePreview = useCallback(
@@ -74,6 +76,13 @@ export const ImageEditContent = (props: any) => {
     window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
   }, []);
 
+  const handleImageLoadingChange = useCallback(
+    (isLoading: boolean) => {
+      setContentEdit({ isImageLoading: isLoading });
+    },
+    [setContentEdit],
+  );
+
   return (
     <ImageUploadCrop
       onSetCropImagePreview={handleCropImagePreview}
@@ -87,6 +96,7 @@ export const ImageEditContent = (props: any) => {
       onInit={onInit}
       srcOriginalImage={imageComponent.originalSrc}
       onSetOriginalImage={handleOriginalImage}
+      onLoadingChange={handleImageLoadingChange}
     />
   );
 };

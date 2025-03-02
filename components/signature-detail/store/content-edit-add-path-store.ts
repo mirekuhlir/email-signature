@@ -6,6 +6,7 @@ interface ContentEdit {
   nextEditPath?: string | null;
   position?: "start" | "end" | null;
   subEdit?: string | null;
+  isImageLoading?: boolean;
 }
 
 export interface StoreState {
@@ -23,6 +24,7 @@ export const useContentEditStore = create<StoreState>((set) => ({
     nextEditPath: null,
     position: null,
     subEdit: null,
+    isImageLoading: false,
   },
   setContentEdit: (edit: ContentEdit) =>
     set((state) => {

@@ -198,6 +198,7 @@ export const ContentEdit = (props: any) => {
       )
     : true;
 
+
   const canDisplayDeleteButton = isImage
     ? content?.components[0]?.cropImagePreview
     : true;
@@ -212,77 +213,80 @@ export const ContentEdit = (props: any) => {
 
       {(isSavingSignature || isDeleting) && <SavingInfo />}
 
-      {!isSavingSignature && !isDeleting && !contentEdit.subEdit && (
-        <>
-          {canDisplayDeleteButton && (
-            <>
-              <div>
-                <Button
-                  variant="red"
-                  onClick={() => {
-                    setIsDeleteModalOpen(true);
-                  }}
-                >
-                  Delete
-                </Button>
+      {!isSavingSignature &&
+        !isDeleting &&
+        !contentEdit.subEdit &&
+        !contentEdit.isImageLoading && (
+          <>
+            {canDisplayDeleteButton && (
+              <>
+                <div>
+                  <Button
+                    variant="red"
+                    onClick={() => {
+                      setIsDeleteModalOpen(true);
+                    }}
+                  >
+                    Delete
+                  </Button>
+                </div>
+                <hr className="border-t border-gray-200 my-4" />
+              </>
+            )}
+
+            <Modal size="medium" isOpen={isDeleteModalOpen}>
+              <div className="p-2">
+                <Typography variant="h3">Delete content</Typography>
+                <Typography variant="body">
+                  Are you sure you want to delete this content?
+                </Typography>
+                <div className="mt-8 flex justify-between">
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      setIsDeleteModalOpen(false);
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                  <Button variant="red" onClick={async () => deleteRow()}>
+                    Delete
+                  </Button>
+                </div>
               </div>
-              <hr className="border-t border-gray-200 my-4" />
-            </>
-          )}
+            </Modal>
 
-          <Modal size="medium" isOpen={isDeleteModalOpen}>
-            <div className="p-2">
-              <Typography variant="h3">Delete content</Typography>
-              <Typography variant="body">
-                Are you sure you want to delete this content?
-              </Typography>
-              <div className="mt-8 flex justify-between">
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    setIsDeleteModalOpen(false);
-                  }}
-                >
-                  Cancel
-                </Button>
-                <Button variant="red" onClick={async () => deleteRow()}>
-                  Delete
-                </Button>
-              </div>
-            </div>
-          </Modal>
-
-          <div className="flex flex-row w-full pb-6 pt-2 justify-between">
-            <Button
-              variant="outline"
-              onClick={() => {
-                setContent(path, iniContent);
-                setContentEdit({
-                  editPath: null,
-                });
-              }}
-            >
-              Close
-            </Button>
-            {/*   TODO - modál pro nepřihlášené uživatele "Ukládat mohou pouze registrovaní uživatelé" */}
-
-            {canDisplaySave && (
+            <div className="flex flex-row w-full pb-6 pt-2 justify-between">
               <Button
-                variant="blue"
-                size="md"
-                onClick={async () => {
-                  await saveSignature();
+                variant="outline"
+                onClick={() => {
+                  setContent(path, iniContent);
                   setContentEdit({
                     editPath: null,
                   });
                 }}
               >
-                Save
+                Close
               </Button>
-            )}
-          </div>
-        </>
-      )}
+              {/*   TODO - modál pro nepřihlášené uživatele "Ukládat mohou pouze registrovaní uživatelé" */}
+
+              {canDisplaySave && (
+                <Button
+                  variant="blue"
+                  size="md"
+                  onClick={async () => {
+                    await saveSignature();
+                    setContentEdit({
+                      editPath: null,
+                    });
+                  }}
+                >
+                  Save
+                </Button>
+              )}
+            </div>
+          </>,
+        )}
     </div>
   );
 };

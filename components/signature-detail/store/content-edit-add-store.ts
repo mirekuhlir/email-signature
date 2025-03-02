@@ -57,7 +57,7 @@ export const useSignatureStore = create<StoreState>((set) => ({
   removeRow: (path: string, onRemoveRow?: (rows: any) => void) =>
     set((state) => {
       const cloneRows = cloneDeep(state.rows);
-      const tableIndex = parseInt(path.split(".")[0].replace(/[\[\]]/g, ""));
+      const tableIndex = parseInt(path.split(".")[0].replace(/[[\]]/g, ""));
 
       const columnIndex = parseInt(path.split("columns[")[1].split("]")[0]);
 

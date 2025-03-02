@@ -20,6 +20,7 @@ interface ImageUploaderProps {
   onSetOriginalImage?: (file: File | null) => void;
   onSetImageSettings?: (info: ImageSettings | string) => void;
   onSetPreviewWidth?: (width: number) => void;
+  onLoadingChange?: (isLoading: boolean) => void;
   originalImagePreview?: string;
   imageName: string;
   imageSettings?: ImageSettings;
@@ -42,6 +43,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     onInit,
     srcOriginalImage,
     originalSrc,
+    onLoadingChange,
   } = props;
 
   const [crop, setCrop] = useState<Crop | undefined>(undefined);
@@ -67,20 +69,23 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const files = e.target.files;
       if (files && files.length > 0) {
+        onLoadingChange?.(true);
         const file = files[0];
         const fileUrl = URL.createObjectURL(file);
         onSetOriginalImagePreview?.(fileUrl);
         setCroppedImageData(null);
         onSetOriginalImage?.(file);
+        onLoadingChange?.(false);
       }
     },
-    [onSetOriginalImage, onSetOriginalImagePreview],
+    [onSetOriginalImage, onSetOriginalImagePreview, onLoadingChange],
   );
 
   const loadOriginalImage = useCallback(
     async (url: string) => {
       try {
         setIsLoadingOriginalImage(true);
+        onLoadingChange?.(true);
         const response = await fetch(url, { mode: "cors" });
         if (!response.ok) {
           throw new Error("Failed to fetch image");
@@ -93,9 +98,10 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         console.error("Error fetching image from URL:", error);
       } finally {
         setIsLoadingOriginalImage(false);
+        onLoadingChange?.(false);
       }
     },
-    [onSetOriginalImagePreview],
+    [onSetOriginalImagePreview, onLoadingChange],
   );
 
   useEffect(() => {
