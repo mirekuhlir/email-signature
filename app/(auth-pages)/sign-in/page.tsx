@@ -1,5 +1,4 @@
-import Link from "next/link";
-import { SignInComponent } from "@/components/signin/signin";
+import { SignInComponent } from '@/components/signin';
 
 export default async function Signin() {
   return (

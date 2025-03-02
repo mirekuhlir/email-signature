@@ -1,8 +1,8 @@
-import { createClient } from "@/utils/supabase/server";
-import { redirect } from "next/navigation";
-import { Header } from "@/components/header/header";
-import { SignaturesList } from "@/components/signatures-list/signatures-list";
-import { Container } from "@/components/ui/container";
+import { createClient } from '@/utils/supabase/server';
+import { redirect } from 'next/navigation';
+import { Header } from '@/components/header';
+import { SignaturesList } from '@/components/signatures-list';
+import { Container } from '@/components/ui/container';
 
 export default async function Signatures() {
   const supabase = await createClient();
@@ -12,13 +12,13 @@ export default async function Signatures() {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return redirect("/sign-in");
+    return redirect('/sign-in');
   }
 
   let { data } = await supabase
-    .from("signatures")
-    .select("*")
-    .eq("user_id", user.id);
+    .from('signatures')
+    .select('*')
+    .eq('user_id', user.id);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">

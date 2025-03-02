@@ -1,8 +1,8 @@
-"use client";
-import TextInput from "@/components/ui/text-input";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { createClient } from "@/utils/supabase/client";
-import { Button } from "../ui/button";
+'use client';
+import TextInput from '@/components/ui/text-input';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { createClient } from '@/utils/supabase/client';
+import { Button } from './ui/button';
 
 export const SignInComponent = () => {
   type FormValues = {
@@ -43,10 +43,10 @@ export const SignInComponent = () => {
           register={register}
           errors={errors}
           validation={{
-            required: "This field is required",
+            required: 'This field is required',
             pattern: {
               value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-              message: "Invalid email",
+              message: 'Invalid email',
             },
           }}
           placeholder="email@example.com"

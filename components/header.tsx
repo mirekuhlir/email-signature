@@ -1,9 +1,7 @@
-import { redirect } from "next/navigation";
-import { Typography } from "@/components/ui/typography";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { signOutAction } from "@/app/actions";
-import { Container } from "../ui/container";
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import { signOutAction } from '@/app/actions';
+import { Container } from './ui/container';
 
 export const Header = (props: any) => {
   const { user } = props;
@@ -22,7 +20,7 @@ export const Header = (props: any) => {
               <div> {user.email}</div>
 
               <form action={signOutAction}>
-                <Button type="submit" variant={"outline"}>
+                <Button type="submit" variant={'outline'}>
                   Sign out
                 </Button>
               </form>
