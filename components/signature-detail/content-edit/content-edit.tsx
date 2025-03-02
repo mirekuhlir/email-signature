@@ -22,7 +22,7 @@ const SavingInfo = () => {
 };
 
 export const ContentEdit = (props: any) => {
-  const { contentPathToEdit, signatureId } = props;
+  const { contentPathToEdit, signatureId, isExample } = props;
 
   const [iniContent, setIniContent] = useState<any>(null);
   const [isSavingSignature, setIsSavingSignature] = useState(false);
@@ -47,13 +47,15 @@ export const ContentEdit = (props: any) => {
     setIsSavingSignature(true);
 
     const saveData = async (rows: any) => {
-      await supabase.functions.invoke('patch-signature', {
-        method: 'PATCH',
-        body: {
-          signatureId,
-          signatureContent: { rows },
-        },
-      });
+      if (!isExample) {
+        await supabase.functions.invoke('patch-signature', {
+          method: 'PATCH',
+          body: {
+            signatureId,
+            signatureContent: { rows },
+          },
+        });
+      }
 
       setIsDeleting(false);
       setIsSavingSignature(false);
@@ -63,6 +65,7 @@ export const ContentEdit = (props: any) => {
     removeRow(contentPathToEdit, saveData);
   }, [
     contentPathToEdit,
+    isExample,
     removeRow,
     setContentEdit,
     signatureId,
@@ -291,6 +294,7 @@ export const ContentEdit = (props: any) => {
                   size="md"
                   onClick={async () => {
                     await saveSignature();
+                    // TODO - je potřeba? když je už ve funkci
                     setContentEdit({
                       editPath: null,
                     });

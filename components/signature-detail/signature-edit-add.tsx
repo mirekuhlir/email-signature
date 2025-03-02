@@ -1,16 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Fragment } from "react";
-import { getContentView } from "./content-view/content-view";
-import { Button } from "@/components/ui/button";
-import { ContentEdit } from "@/components/signature-detail/content-edit/content-edit";
-import { useContentEditStore } from "./store/content-edit-add-path-store";
-import { ContentAdd } from "@/components/signature-detail/content-add/content-add";
-import { useParams } from "next/navigation";
+import { Fragment } from 'react';
+import { getContentView } from './content-view/content-view';
+import { Button } from '@/components/ui/button';
+import { ContentEdit } from '@/components/signature-detail/content-edit/content-edit';
+import { useContentEditStore } from './store/content-edit-add-path-store';
+import { ContentAdd } from '@/components/signature-detail/content-add/content-add';
+import { useParams } from 'next/navigation';
 
 export const EmailTemplateEdit = (props: any) => {
-  const { rows } = props;
+  const { rows, isExample } = props;
   const { setContentEdit, contentEdit } = useContentEditStore();
   const { id: signatureId } = useParams();
+
+  console.warn('isExample', isExample);
 
   const renderColumn = (column: any, path: string) => {
     const rowPath = `${path}.rows`;
@@ -19,14 +21,14 @@ export const EmailTemplateEdit = (props: any) => {
       <div
         style={{
           ...column.style,
-          display: "table-cell",
-          verticalAlign: "middle",
+          display: 'table-cell',
+          verticalAlign: 'middle',
         }}
       >
         <div
           style={{
-            display: "table",
-            width: "100%",
+            display: 'table',
+            width: '100%',
           }}
         >
           {column.rows && renderRows(column.rows, false, `${rowPath}`)}
@@ -72,13 +74,13 @@ export const EmailTemplateEdit = (props: any) => {
           <div
             key={`table-${row.id}`}
             style={{
-              display: "table",
-              width: "100%",
+              display: 'table',
+              width: '100%',
             }}
           >
             <div
               style={{
-                display: "table-row",
+                display: 'table-row',
                 ...row.style,
               }}
             >
@@ -98,13 +100,13 @@ export const EmailTemplateEdit = (props: any) => {
           <Fragment key={`tr-${row.id}`}>
             <div
               style={{
-                display: "table-row",
+                display: 'table-row',
               }}
             >
               <div
                 style={{
                   lineHeight: 1,
-                  display: "table-cell",
+                  display: 'table-cell',
                   backgroundColor: row?.content.backgroundColor,
                   ...row.style,
                 }}
@@ -140,7 +142,7 @@ export const EmailTemplateEdit = (props: any) => {
           key={`tr-${row?.id}`}
           style={{
             ...row.style,
-            display: "table-row",
+            display: 'table-row',
           }}
         >
           {row.columns?.map((column: any, colIndex: number) => (
@@ -165,9 +167,9 @@ export const EmailTemplateEdit = (props: any) => {
               onClick={() => {
                 setContentEdit({
                   editPath: null,
-                  position: "start",
-                  addPath: "table-root",
-                  nextEditPath: "[0].columns[0].rows[0]",
+                  position: 'start',
+                  addPath: 'table-root',
+                  nextEditPath: '[0].columns[0].rows[0]',
                 });
               }}
               variant="gray"
@@ -179,7 +181,7 @@ export const EmailTemplateEdit = (props: any) => {
         <>
           {!contentEdit.addPath &&
             !contentEdit.editPath &&
-            renderRows(rows, true, "")}
+            renderRows(rows, true, '')}
         </>
         {!contentEdit.editPath && !contentEdit.addPath && (
           <div className="mt-5 mb-5">
@@ -187,8 +189,8 @@ export const EmailTemplateEdit = (props: any) => {
               onClick={() => {
                 setContentEdit({
                   editPath: null,
-                  position: "end",
-                  addPath: "table-root",
+                  position: 'end',
+                  addPath: 'table-root',
                   nextEditPath: `[${rows.length}].columns[0].rows[0]`,
                 });
               }}
@@ -213,6 +215,7 @@ export const EmailTemplateEdit = (props: any) => {
 
       {contentEdit.editPath && (
         <ContentEdit
+          isExample={isExample}
           contentPathToEdit={contentEdit.editPath}
           key={`edit-${contentEdit.editPath}`}
           signatureId={signatureId}

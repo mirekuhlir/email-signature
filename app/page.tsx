@@ -1,5 +1,6 @@
-import { createClient } from "@/utils/supabase/server";
-import { Header } from "@/components/header/header";
+import { createClient } from '@/utils/supabase/server';
+import { Header } from '@/components/header';
+import StyledLink from '@/components/ui/styled-link';
 
 export default async function Home() {
   const supabase = await createClient();
@@ -14,6 +15,9 @@ export default async function Home() {
 
       {/* Hero Section */}
       <main className="flex-grow w-full pt-16">
+        <StyledLink variant="button-orange" href="/templates">
+          Try for free
+        </StyledLink>
         <section className="relative bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900 text-white py-24 sm:py-32 overflow-hidden">
           <div className="absolute inset-0 opacity-30"></div>
           <div className="max-w-[1200px] mx-auto px-4 sm:px-6 relative">
@@ -46,16 +50,16 @@ export default async function Home() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {[
                 {
-                  title: "Quality",
-                  gradient: "from-yellow-400 to-orange-500",
+                  title: 'Quality',
+                  gradient: 'from-yellow-400 to-orange-500',
                 },
                 {
-                  title: "Security",
-                  gradient: "from-green-400 to-emerald-600",
+                  title: 'Security',
+                  gradient: 'from-green-400 to-emerald-600',
                 },
                 {
-                  title: "Speed",
-                  gradient: "from-purple-400 to-purple-600",
+                  title: 'Speed',
+                  gradient: 'from-purple-400 to-purple-600',
                 },
               ].map((feature, idx) => (
                 <div
@@ -87,19 +91,19 @@ export default async function Home() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-12">
               {[
                 {
-                  number: "10k+",
-                  text: "Satisfied customers",
-                  gradient: "from-blue-600 to-blue-800",
+                  number: '10k+',
+                  text: 'Satisfied customers',
+                  gradient: 'from-blue-600 to-blue-800',
                 },
                 {
-                  number: "99.9%",
-                  text: "Service availability",
-                  gradient: "from-purple-600 to-blue-600",
+                  number: '99.9%',
+                  text: 'Service availability',
+                  gradient: 'from-purple-600 to-blue-600',
                 },
                 {
-                  number: "24/7",
-                  text: "Customer support",
-                  gradient: "from-blue-600 to-purple-600",
+                  number: '24/7',
+                  text: 'Customer support',
+                  gradient: 'from-blue-600 to-purple-600',
                 },
               ].map((stat, idx) => (
                 <div
@@ -180,24 +184,24 @@ export default async function Home() {
             <div className="space-y-12">
               {[
                 {
-                  year: "2020",
-                  title: "Founding of the company",
-                  description: "We started with a vision to change the world.",
+                  year: '2020',
+                  title: 'Founding of the company',
+                  description: 'We started with a vision to change the world.',
                 },
                 {
-                  year: "2021",
-                  title: "First successes",
-                  description: "We have achieved significant milestones.",
+                  year: '2021',
+                  title: 'First successes',
+                  description: 'We have achieved significant milestones.',
                 },
                 {
-                  year: "2022",
-                  title: "International expansion",
-                  description: "We have expanded our operations abroad.",
+                  year: '2022',
+                  title: 'International expansion',
+                  description: 'We have expanded our operations abroad.',
                 },
                 {
-                  year: "2023",
-                  title: "Innovation and growth",
-                  description: "We have introduced revolutionary solutions.",
+                  year: '2023',
+                  title: 'Innovation and growth',
+                  description: 'We have introduced revolutionary solutions.',
                 },
               ].map((item, idx) => (
                 <div
@@ -230,10 +234,10 @@ export default async function Home() {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {[
-                "Strategic consulting",
-                "Digital transformation",
-                "Cloud solutions",
-                "Data analytics",
+                'Strategic consulting',
+                'Digital transformation',
+                'Cloud solutions',
+                'Data analytics',
               ].map((service, idx) => (
                 <div
                   key={idx}
@@ -260,12 +264,12 @@ export default async function Home() {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
               {[
-                { title: "Analysis", bg: "from-blue-500 to-blue-600" },
+                { title: 'Analysis', bg: 'from-blue-500 to-blue-600' },
                 {
-                  title: "Implementation",
-                  bg: "from-purple-500 to-purple-600",
+                  title: 'Implementation',
+                  bg: 'from-purple-500 to-purple-600',
                 },
-                { title: "Optimization", bg: "from-pink-500 to-pink-600" },
+                { title: 'Optimization', bg: 'from-pink-500 to-pink-600' },
               ].map((step, idx) => (
                 <div key={idx} className="relative group">
                   <div className="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl transform transition-transform group-hover:scale-105"></div>
@@ -283,7 +287,7 @@ export default async function Home() {
                       {step.title}
                     </h3>
                     <p className="text-gray-400">
-                      Detailed description of the {step.title.toLowerCase()}{" "}
+                      Detailed description of the {step.title.toLowerCase()}{' '}
                       phase and what it entails.
                     </p>
                   </div>

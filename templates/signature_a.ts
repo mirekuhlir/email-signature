@@ -1,5 +1,6 @@
 export const signature_a = {
   templateName: "signature_a",
+  templateSlug: "signature-a",
   version: "0.1",
   rows: [
     {

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Fragment } from "react";
-import { getContentView } from "./content-view";
-import { useContentEditStore } from "../store/content-edit-add-path-store";
+import { Fragment } from 'react';
+import { getContentView } from './content-view';
+import { useContentEditStore } from '../store/content-edit-add-path-store';
 
 export const EmailTemplateView = (props: any) => {
   const { rows } = props;
