@@ -121,21 +121,18 @@ export const ContentEdit = (props: any) => {
       if (imageData?.imagePreviewPublicUrl) {
         const deepCopyRows = cloneDeep(rows);
 
-        // TODO - zkusit nastavit udefined místo prádzného stringu
-
         // remove all unnecessary data because we wont to save them into database
-
         const pathToImageSrc = `${contentPathToEdit}.content.components[0].src`;
         set(deepCopyRows, pathToImageSrc, imageData.imagePreviewPublicUrl);
         setContent(pathToImageSrc, imageData.imagePreviewPublicUrl);
 
         const pathOriginalImagePreview = `${contentPathToEdit}.content.components[0].originalImagePreview`;
-        set(deepCopyRows, pathOriginalImagePreview, '');
-        setContent(pathOriginalImagePreview, '');
+        set(deepCopyRows, pathOriginalImagePreview, undefined);
+        setContent(pathOriginalImagePreview, undefined);
 
         const pathToCropImagePreview = `${contentPathToEdit}.content.components[0].cropImagePreview`;
-        set(deepCopyRows, pathToCropImagePreview, '');
-        setContent(pathToCropImagePreview, '');
+        set(deepCopyRows, pathToCropImagePreview, undefined);
+        setContent(pathToCropImagePreview, undefined);
 
         if (imageData?.originalImagePublicUrl) {
           const pathToImageOriginalSrc = `${contentPathToEdit}.content.components[0].originalSrc`;
@@ -148,7 +145,8 @@ export const ContentEdit = (props: any) => {
           setContent(pathToImageOriginalSrc, imageData.originalImagePublicUrl);
 
           const pathToOriginalImageFile = `${contentPathToEdit}.content.components[0].originalImageFile`;
-          set(deepCopyRows, pathToOriginalImageFile, '');
+          setContent(pathToOriginalImageFile, undefined);
+          set(deepCopyRows, pathToOriginalImageFile, undefined);
         }
 
         await supabase.functions.invoke('patch-signature', {
@@ -201,6 +199,27 @@ export const ContentEdit = (props: any) => {
   const canDisplayDeleteButton = isImage
     ? content?.components[0]?.cropImagePreview
     : true;
+
+  const closeContent = () => {
+    const closeEdit = () => {
+      setContent(path, iniContent);
+      setContentEdit({
+        editPath: null,
+      });
+    };
+
+    // image was not loaded so we can delete row
+    const image = content?.components[0];
+    if (
+      content.type === ContentType.IMAGE &&
+      !image.src &&
+      !image.cropImagePreview
+    ) {
+      removeRow(contentPathToEdit, closeEdit);
+    } else {
+      closeEdit();
+    }
+  };
 
   return (
     <div key={path}>
@@ -259,10 +278,7 @@ export const ContentEdit = (props: any) => {
               <Button
                 variant="outline"
                 onClick={() => {
-                  setContent(path, iniContent);
-                  setContentEdit({
-                    editPath: null,
-                  });
+                  closeContent();
                 }}
               >
                 Close

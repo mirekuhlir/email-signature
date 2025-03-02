@@ -1,12 +1,12 @@
-"use client";
-import { useState, useRef, useEffect, useCallback, useMemo } from "react";
-import ReactCrop, { type Crop } from "react-image-crop";
-import "react-image-crop/dist/ReactCrop.css";
-import { baseStyles, Button, sizes, variants } from "@/components/ui/button";
-import Slider from "../slider";
-import { debounce } from "lodash";
-import { getDefaultCrop, imageWidthDefault } from "./utils";
-import { Typography } from "../typography";
+'use client';
+import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
+import ReactCrop, { type Crop } from 'react-image-crop';
+import 'react-image-crop/dist/ReactCrop.css';
+import { baseStyles, Button, sizes, variants } from '@/components/ui/button';
+import Slider from '../slider';
+import { debounce } from 'lodash';
+import { getDefaultCrop, imageWidthDefault } from './utils';
+import { Typography } from '../typography';
 
 interface ImageSettings {
   crop: Crop;
@@ -86,16 +86,16 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
       try {
         setIsLoadingOriginalImage(true);
         onLoadingChange?.(true);
-        const response = await fetch(url, { mode: "cors" });
+        const response = await fetch(url, { mode: 'cors' });
         if (!response.ok) {
-          throw new Error("Failed to fetch image");
+          throw new Error('Failed to fetch image');
         }
         const blob = await response.blob();
         const fileUrl = URL.createObjectURL(blob);
         onSetOriginalImagePreview?.(fileUrl);
         setCroppedImageData(null);
       } catch (error) {
-        console.error("Error fetching image from URL:", error);
+        console.error('Error fetching image from URL:', error);
       } finally {
         setIsLoadingOriginalImage(false);
         onLoadingChange?.(false);
@@ -129,7 +129,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         image.width === 0 ||
         image.height === 0
       ) {
-        console.error("Image dimensions are invalid");
+        console.error('Image dimensions are invalid');
         return null;
       }
 
@@ -138,10 +138,10 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
       const xOrig = crop.x * scaleX;
       const yOrig = crop.y * scaleY;
 
-      const tempCanvas = document.createElement("canvas");
+      const tempCanvas = document.createElement('canvas');
       tempCanvas.width = Math.max(1, cropWidthOrig);
       tempCanvas.height = Math.max(1, cropHeightOrig);
-      const tempCtx = tempCanvas.getContext("2d");
+      const tempCtx = tempCanvas.getContext('2d');
       if (!tempCtx) return null;
 
       try {
@@ -157,21 +157,21 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
           cropHeightOrig,
         );
       } catch (error) {
-        console.error("Error drawing on temp canvas:", error);
+        console.error('Error drawing on temp canvas:', error);
         return null;
       }
 
-      const finalCanvas = document.createElement("canvas");
+      const finalCanvas = document.createElement('canvas');
       finalCanvas.width = Math.max(1, previewWidth);
       finalCanvas.height = Math.max(
         1,
         Math.round(previewWidth * (cropHeightOrig / cropWidthOrig)),
       );
-      const ctx = finalCanvas.getContext("2d");
+      const ctx = finalCanvas.getContext('2d');
       if (!ctx) return null;
 
       ctx.imageSmoothingEnabled = true;
-      ctx.imageSmoothingQuality = "high";
+      ctx.imageSmoothingQuality = 'high';
 
       try {
         ctx.drawImage(
@@ -186,12 +186,12 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
           finalCanvas.height,
         );
       } catch (error) {
-        console.error("Error drawing on final canvas:", error);
+        console.error('Error drawing on final canvas:', error);
         return null;
       }
 
       if (isCircular) {
-        ctx.globalCompositeOperation = "destination-in";
+        ctx.globalCompositeOperation = 'destination-in';
         ctx.beginPath();
         ctx.arc(
           finalCanvas.width / 2,
@@ -203,7 +203,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         ctx.fill();
       }
 
-      return finalCanvas.toDataURL("image/png", 1.0);
+      return finalCanvas.toDataURL('image/png', 1.0);
     }
     return null;
   }, [crop, previewWidth, originalImagePreview, isCircular]);
@@ -241,11 +241,11 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   }, [previewWidth, debouncedHandleCrop, croppedImageData]);
 
   const handleDeleteImage = useCallback(() => {
-    onSetOriginalImagePreview?.("");
-    onSetCropImagePreview?.("");
+    onSetOriginalImagePreview?.('');
+    onSetCropImagePreview?.('');
     setCroppedImageData?.(null);
     onSetOriginalImage?.(null);
-    onSetImageSettings?.("");
+    onSetImageSettings?.('');
     setCrop(undefined);
     setIsCircular(false);
   }, [
@@ -315,7 +315,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         const scale = previewWidth / img.width;
         previewCanvasRef.current.width = previewWidth;
         previewCanvasRef.current.height = img.height * scale;
-        const ctx = previewCanvasRef.current.getContext("2d");
+        const ctx = previewCanvasRef.current.getContext('2d');
         ctx?.clearRect(
           0,
           0,
@@ -329,7 +329,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
           previewCanvasRef.current.width,
           previewCanvasRef.current.height,
         );
-        const newDataUrl = previewCanvasRef.current.toDataURL("image/png");
+        const newDataUrl = previewCanvasRef.current.toDataURL('image/png');
         onSetCropImagePreview?.(newDataUrl);
       };
       img.src = croppedImageData;
@@ -447,8 +447,8 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
           </div>
 
           <div>
-            <div className="mt-10">
-              <Button variant="red" onClick={handleDeleteImage}>
+            <div className="mt-10 flex justify-center">
+              <Button variant="orange" size="md" onClick={handleDeleteImage}>
                 Change image
               </Button>
             </div>
