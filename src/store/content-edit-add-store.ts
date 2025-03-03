@@ -18,7 +18,7 @@ export interface StoreState {
   addRowTable: (position: "start" | "end", type: ContentType) => void;
   removeRow: (path: string, onRemoveRow?: (rows: any) => void) => void;
   setContent: (path: string, content: any) => void;
-  saveSignature: (
+  saveSignatureContentRow: (
     signatureId: string,
     contentPathToEdit: string,
   ) => Promise<void>;
@@ -114,7 +114,10 @@ export const useSignatureStore = create<StoreState>((set, get) => ({
       return { rows: cloneRows };
     }),
 
-  saveSignature: async (signatureId: string, contentPathToEdit: string) => {
+  saveSignatureContentRow: async (
+    signatureId: string,
+    contentPathToEdit: string,
+  ) => {
     const { rows, setContent } = get();
 
     const path = `${contentPathToEdit}.content`;

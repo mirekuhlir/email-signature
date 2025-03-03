@@ -29,7 +29,8 @@ export const ContentEdit = (props: any) => {
   const [isDeleting, setIsDeleting] = useState(false);
 
   const supabase = createClient();
-  const { rows, setContent, removeRow, saveSignature } = useSignatureStore();
+  const { rows, setContent, removeRow, saveSignatureContentRow } =
+    useSignatureStore();
 
   const { setContentEdit, contentEdit } = useContentEditStore();
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -184,7 +185,10 @@ export const ContentEdit = (props: any) => {
                       localStorage.setItem(templateSlug, JSON.stringify(rows));
                     } else {
                       setIsSavingSignature(true);
-                      await saveSignature(signatureId, contentPathToEdit);
+                      await saveSignatureContentRow(
+                        signatureId,
+                        contentPathToEdit,
+                      );
                     }
                     setContentEdit({
                       editPath: null,
