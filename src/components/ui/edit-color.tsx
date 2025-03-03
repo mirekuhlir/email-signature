@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/src/components/ui/button';
 import AdvancedColorPicker from './advanced-color-picker';
 import { Typography } from './typography';
-import { useContentEditStore } from '@/store/content-edit-add-path-store';
+import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
 
 interface Props {
   initColor: string;

@@ -2,7 +2,12 @@
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import ReactCrop, { type Crop } from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
-import { baseStyles, Button, sizes, variants } from '@/components/ui/button';
+import {
+  baseStyles,
+  Button,
+  sizes,
+  variants,
+} from '@/src/components/ui/button';
 import Slider from '../slider';
 import { debounce } from 'lodash';
 import { getDefaultCrop, imageWidthDefault } from './utils';

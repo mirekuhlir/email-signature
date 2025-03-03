@@ -1,4 +1,4 @@
-import { ContentType } from "@/const/content";
+import { ContentType } from "@/src/const/content";
 import { getExampleText, getImage } from "./utils";
 
 export const CONTENT_TYPES = [

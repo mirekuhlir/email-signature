@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useCallback } from 'react';
-import { useSignatureStore } from '@/store/content-edit-add-store';
-import ImageUploadCrop from '@/components/ui/image-uploader-crop/image-uploader-crop';
-import { useContentEditStore } from '@/store/content-edit-add-path-store';
+import { useSignatureStore } from '@/src/store/content-edit-add-store';
+import ImageUploadCrop from '@/src/components/ui/image-uploader-crop/image-uploader-crop';
+import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
 
 export const ImageEditContent = (props: any) => {
   const { components, contentPathToEdit } = props;

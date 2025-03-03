@@ -1,6 +1,6 @@
 'use client';
 import { EmailTemplateView } from './signature-detail/content-view/signature-view';
-import { templates } from '@/templates';
+import { templates } from '@/src/templates';
 import { Container } from './ui/container';
 import StyledLink from './ui/styled-link';
 

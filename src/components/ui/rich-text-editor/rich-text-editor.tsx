@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ContentType } from "@/const/content";
-import React, { useEffect, useState } from "react";
-import SelectBase from "../select-base";
-import { FONTS, FONT_SIZES, LINE_HEIGHTS, LETTER_SPACINGS } from "./fonts";
-import { EditColor } from "../edit-color";
-import { Typography } from "../typography";
+import { ContentType } from '@/src/const/content';
+import React, { useEffect, useState } from 'react';
+import SelectBase from '../select-base';
+import { FONTS, FONT_SIZES, LINE_HEIGHTS, LETTER_SPACINGS } from './fonts';
+import { EditColor } from '../edit-color';
+import { Typography } from '../typography';
 
 export enum LayoutType {
-  TEXT = "text",
-  PREFIX = "prefix",
+  TEXT = 'text',
+  PREFIX = 'prefix',
 }
 
 interface RichTextEditorProps {
@@ -34,7 +34,7 @@ const ButtonSquare = ({
   return (
     <button
       onClick={onClick}
-      className={`p-2 rounded w-20 h-10 flex items-center justify-center rounded-md shadow-sm ${isSelected ? "bg-blue-200" : "bg-white"} ${className}`}
+      className={`p-2 rounded w-20 h-10 flex items-center justify-center rounded-md shadow-sm ${isSelected ? 'bg-blue-200' : 'bg-white'} ${className}`}
     >
       {children}
     </button>
@@ -50,52 +50,52 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
     layoutType = LayoutType.TEXT,
   } = props;
 
-  const [editText, setEditText] = useState(content?.text ?? "");
-  const [editFontSize, setEditFontSize] = useState(content?.fontSize ?? "16");
+  const [editText, setEditText] = useState(content?.text ?? '');
+  const [editFontSize, setEditFontSize] = useState(content?.fontSize ?? '16');
   const [editLineHeight, setEditLineHeight] = useState(
-    content?.lineHeight ?? "1",
+    content?.lineHeight ?? '1',
   );
   const [editFontWeight, setEditFontWeight] = useState(
-    content?.fontWeight ?? "normal",
+    content?.fontWeight ?? 'normal',
   );
   const [editFontStyle, setEditFontStyle] = useState(
-    content?.fontStyle ?? "normal",
+    content?.fontStyle ?? 'normal',
   );
   const [editTextAlign, setEditTextAlign] = useState(
-    content?.textAlign ?? "left",
+    content?.textAlign ?? 'left',
   );
 
   const [editTextColor, setEditTextColor] = useState(
     // TODO barva, použit rgba a bude to tady
-    content?.color ?? "#000000",
+    content?.color ?? '#000000',
   );
   const [editBackgroundColor, setEditBackgroundColor] = useState(
     // TODO barva
-    content?.backgroundColor ?? "rgba(0, 0, 0, 0)",
+    content?.backgroundColor ?? 'rgba(0, 0, 0, 0)',
   );
   const [editTextDecoration, setEditTextDecoration] = useState(
-    content?.textDecoration ?? "none",
+    content?.textDecoration ?? 'none',
   );
   const [editFontFamily, setEditFontFamily] = useState(
-    content?.fontFamily ?? "Arial",
+    content?.fontFamily ?? 'Arial',
   );
   const [editLetterSpacing, setEditLetterSpacing] = useState(
-    content?.letterSpacing ?? "0",
+    content?.letterSpacing ?? '0',
   );
 
   useEffect(() => {
     if (content) {
-      setEditText(content.text ?? "");
-      setEditFontSize(content.fontSize ?? "16");
-      setEditLineHeight(content.lineHeight ?? "1");
-      setEditFontWeight(content.fontWeight ?? "normal");
-      setEditFontStyle(content.fontStyle ?? "normal");
-      setEditTextAlign(content.textAlign ?? "left");
-      setEditTextColor(content.color ?? "#000000");
-      setEditBackgroundColor(content.backgroundColor ?? "rgba(0, 0, 0, 0)");
-      setEditTextDecoration(content.textDecoration ?? "none");
-      setEditFontFamily(content.fontFamily ?? "Arial");
-      setEditLetterSpacing(content.letterSpacing ?? "0");
+      setEditText(content.text ?? '');
+      setEditFontSize(content.fontSize ?? '16');
+      setEditLineHeight(content.lineHeight ?? '1');
+      setEditFontWeight(content.fontWeight ?? 'normal');
+      setEditFontStyle(content.fontStyle ?? 'normal');
+      setEditTextAlign(content.textAlign ?? 'left');
+      setEditTextColor(content.color ?? '#000000');
+      setEditBackgroundColor(content.backgroundColor ?? 'rgba(0, 0, 0, 0)');
+      setEditTextDecoration(content.textDecoration ?? 'none');
+      setEditFontFamily(content.fontFamily ?? 'Arial');
+      setEditLetterSpacing(content.letterSpacing ?? '0');
     }
   }, [content]);
 
@@ -140,7 +140,7 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
             lineHeight: editLineHeight,
             fontWeight: editFontWeight,
             fontStyle: editFontStyle,
-            textAlign: editTextAlign as "left" | "center" | "right" | "justify",
+            textAlign: editTextAlign as 'left' | 'center' | 'right' | 'justify',
             color: editTextColor,
             textDecoration: editTextDecoration,
             fontFamily: editFontFamily,
@@ -204,9 +204,9 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
         <Typography variant="labelBase">Text style</Typography>
         <div className="flex gap-2">
           <ButtonSquare
-            isSelected={editFontWeight === "bold"}
+            isSelected={editFontWeight === 'bold'}
             onClick={() => {
-              const newWeight = editFontWeight === "normal" ? "bold" : "normal";
+              const newWeight = editFontWeight === 'normal' ? 'bold' : 'normal';
               setEditFontWeight(newWeight);
               onChangeContent({ fontWeight: newWeight });
             }}
@@ -215,9 +215,9 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
           </ButtonSquare>
 
           <ButtonSquare
-            isSelected={editFontStyle === "italic"}
+            isSelected={editFontStyle === 'italic'}
             onClick={() => {
-              const newStyle = editFontStyle === "normal" ? "italic" : "normal";
+              const newStyle = editFontStyle === 'normal' ? 'italic' : 'normal';
               setEditFontStyle(newStyle);
               onChangeContent({ fontStyle: newStyle });
             }}
@@ -226,10 +226,10 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
           </ButtonSquare>
 
           <ButtonSquare
-            isSelected={editTextDecoration === "underline"}
+            isSelected={editTextDecoration === 'underline'}
             onClick={() => {
               const newDecoration =
-                editTextDecoration === "underline" ? "none" : "underline";
+                editTextDecoration === 'underline' ? 'none' : 'underline';
               setEditTextDecoration(newDecoration);
               onChangeContent({ textDecoration: newDecoration });
             }}
@@ -245,30 +245,30 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
 
           <div className="flex gap-2">
             <ButtonSquare
-              isSelected={editTextAlign === "left"}
+              isSelected={editTextAlign === 'left'}
               onClick={() => {
-                setEditTextAlign("left");
-                onChangeContent({ textAlign: "left" });
+                setEditTextAlign('left');
+                onChangeContent({ textAlign: 'left' });
               }}
             >
               Left
             </ButtonSquare>
 
             <ButtonSquare
-              isSelected={editTextAlign === "center"}
+              isSelected={editTextAlign === 'center'}
               onClick={() => {
-                setEditTextAlign("center");
-                onChangeContent({ textAlign: "center" });
+                setEditTextAlign('center');
+                onChangeContent({ textAlign: 'center' });
               }}
             >
               Center
             </ButtonSquare>
 
             <ButtonSquare
-              isSelected={editTextAlign === "right"}
+              isSelected={editTextAlign === 'right'}
               onClick={() => {
-                setEditTextAlign("right");
-                onChangeContent({ textAlign: "right" });
+                setEditTextAlign('right');
+                onChangeContent({ textAlign: 'right' });
               }}
             >
               Right

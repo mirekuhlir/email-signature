@@ -1,6 +1,6 @@
-import { createClient } from '@/utils/supabase/server';
-import { Header } from '@/components/header';
-import StyledLink from '@/components/ui/styled-link';
+import { createClient } from '@/src/utils/supabase/server';
+import { Header } from '@/src/components/header';
+import StyledLink from '@/src/components/ui/styled-link';
 
 export default async function Home() {
   const supabase = await createClient();

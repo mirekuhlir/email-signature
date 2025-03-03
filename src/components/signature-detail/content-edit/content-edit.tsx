@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useRef, useCallback, useState, useEffect, useMemo } from 'react';
 import { get, set, cloneDeep } from 'lodash';
-import { useSignatureStore } from '@/store/content-edit-add-store';
-import { ContentType } from '@/const/content';
-import { Button } from '@/components/ui/button';
-import { useContentEditStore } from '@/store/content-edit-add-path-store';
-import { RichTextEditor } from '@/components/ui/rich-text-editor/rich-text-editor';
+import { useSignatureStore } from '@/src/store/content-edit-add-store';
+import { ContentType } from '@/src/const/content';
+import { Button } from '@/src/components/ui/button';
+import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
+import { RichTextEditor } from '@/src/components/ui/rich-text-editor/rich-text-editor';
 import { EmailEditContent } from './email-edit-content';
-import { createClient } from '@/utils/supabase/client';
-import { base64ToFile } from '@/utils/base64ToFile';
+import { createClient } from '@/src/utils/supabase/client';
+import { base64ToFile } from '@/src/utils/base64ToFile';
 import { ImageEditContent } from './image-edit-content';
-import Modal from '@/components/ui/modal';
-import { Typography } from '@/components/ui/typography';
+import Modal from '@/src/components/ui/modal';
+import { Typography } from '@/src/components/ui/typography';
 
 const SavingInfo = () => {
   return (

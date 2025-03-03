@@ -1,8 +1,8 @@
-import { createClient } from '@/utils/supabase/server';
+import { createClient } from '@/src/utils/supabase/server';
 import { redirect } from 'next/navigation';
-import { Header } from '@/components/header';
-import { SignaturesList } from '@/components/signatures-list';
-import { Container } from '@/components/ui/container';
+import { Header } from '@/src/components/header';
+import { SignaturesList } from '@/src/components/signatures-list';
+import { Container } from '@/src/components/ui/container';
 
 export default async function Signatures() {
   const supabase = await createClient();

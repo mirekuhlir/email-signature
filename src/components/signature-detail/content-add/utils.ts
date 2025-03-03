@@ -1,5 +1,5 @@
-import { generateRandomId } from "@/utils/generateRandomId";
-import { ContentType } from "@/const/content";
+import { generateRandomId } from "@/src/utils/generateRandomId";
+import { ContentType } from "@/src/const/content";
 import t from "@/app/localization/translate";
 
 export const getContentAdd = (type: ContentType) => {

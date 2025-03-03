@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { create } from "zustand";
-import { ContentType } from "@/const/content";
+import { ContentType } from "@/src/const/content";
 import { cloneDeep, get as lGet, set as lSet } from "lodash";
 import {
   getContentAdd,
   getRowTable,
-} from "@/components/signature-detail/content-add/utils";
+} from "@/src/components/signature-detail/content-add/utils";
 
 export interface StoreState {
   rows: any[];

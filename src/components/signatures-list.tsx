@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 import { useState } from 'react';
-import { Typography } from '@/components/ui/typography';
-import StyledLink from '@/components/ui/styled-link';
+import { Typography } from '@/src/components/ui/typography';
+import StyledLink from '@/src/components/ui/styled-link';
 import t from '@/app/localization/translate';
 import Modal from './ui/modal';
-import { Button } from '@/components/ui/button';
-import { createClient } from '@/utils/supabase/client';
+import { Button } from '@/src/components/ui/button';
+import { createClient } from '@/src/utils/supabase/client';
 import { TemplatesExamples } from './templates-examples';
 
 export const SignaturesList = (props: any) => {

@@ -1,4 +1,4 @@
-import { SignInComponent } from '@/components/signin';
+import { SignInComponent } from '@/src/components/signin';
 
 export default async function Signin() {
   return (

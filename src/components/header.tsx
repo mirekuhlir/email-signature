@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button';
+import { Button } from '@/src/components/ui/button';
 import Link from 'next/link';
 import { signOutAction } from '@/app/actions';
 import { Container } from './ui/container';

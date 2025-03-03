@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
-import { useSignatureStore } from '@/store/content-edit-add-store';
-import useValidate from '@/hooks/useValidate';
-import { ContentType } from '@/const/content';
-import { validateEmail } from '@/hooks/validations';
+import { useSignatureStore } from '@/src/store/content-edit-add-store';
+import useValidate from '@/src/hooks/useValidate';
+import { ContentType } from '@/src/const/content';
+import { validateEmail } from '@/src/hooks/validations';
 import {
   LayoutType,
   RichTextEditor,
-} from '@/components/ui/rich-text-editor/rich-text-editor';
+} from '@/src/components/ui/rich-text-editor/rich-text-editor';
 
 export const EmailEditContent = (props: any) => {
   const { components, contentPathToEdit, contentType } = props;

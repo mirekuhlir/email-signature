@@ -1,7 +1,7 @@
 'use client';
-import TextInput from '@/components/ui/text-input';
+import TextInput from '@/src/components/ui/text-input';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { createClient } from '@/utils/supabase/client';
+import { createClient } from '@/src/utils/supabase/client';
 import { Button } from './ui/button';
 
 export const SignInComponent = () => {

@@ -1,5 +1,5 @@
-import { Container } from '@/components/ui/container';
-import { TemplatesExamples } from '@/components/templates-examples';
+import { Container } from '@/src/components/ui/container';
+import { TemplatesExamples } from '@/src/components/templates-examples';
 
 export default async function Examples() {
   return (

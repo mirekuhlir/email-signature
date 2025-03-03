@@ -1,9 +1,9 @@
-import { SignatureDetail } from '@/components/signature-detail/signature-detail';
-import { Header } from '@/components/header';
-import { Container } from '@/components/ui/container';
-import { createClient } from '@/utils/supabase/server';
+import { SignatureDetail } from '@/src/components/signature-detail/signature-detail';
+import { Header } from '@/src/components/header';
+import { Container } from '@/src/components/ui/container';
+import { createClient } from '@/src/utils/supabase/server';
 import { redirect } from 'next/navigation';
-import { getTemplateBySlug } from '@/templates';
+import { getTemplateBySlug } from '@/src/templates';
 
 type Props = {
   params: Promise<{

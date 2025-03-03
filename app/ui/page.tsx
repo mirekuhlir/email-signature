@@ -1,19 +1,19 @@
-"use client";
-import { useState } from "react";
-import AdvancedColorPicker from "@/components/ui/advanced-color-picker";
-import { Button } from "@/components/ui/button";
-import { Typography } from "@/components/ui/typography";
-import Modal from "@/components/ui/modal";
-import { useForm, SubmitHandler } from "react-hook-form";
-import TextInput from "@/components/ui/text-input";
-import { RichTextEditor } from "@/components/ui/rich-text-editor/rich-text-editor";
-import Select from "@/components/ui/select";
-import { TextEditor } from "@/components/ui/text-editor-full/text-editor";
-import StyledLink from "@/components/ui/styled-link";
-import SelectBase from "@/components/ui/select-base";
-import { ContentType } from "@/const/content";
-import Slider from "@/components/ui/slider";
-import { ContextMenu } from "@/components/ui/context-menu";
+'use client';
+import { useState } from 'react';
+import AdvancedColorPicker from '@/src/components/ui/advanced-color-picker';
+import { Button } from '@/src/components/ui/button';
+import { Typography } from '@/src/components/ui/typography';
+import Modal from '@/src/components/ui/modal';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import TextInput from '@/src/components/ui/text-input';
+import { RichTextEditor } from '@/src/components/ui/rich-text-editor/rich-text-editor';
+import Select from '@/src/components/ui/select';
+import { TextEditor } from '@/src/components/ui/text-editor-full/text-editor';
+import StyledLink from '@/src/components/ui/styled-link';
+import SelectBase from '@/src/components/ui/select-base';
+import { ContentType } from '@/src/const/content';
+import Slider from '@/src/components/ui/slider';
+import { ContextMenu } from '@/src/components/ui/context-menu';
 
 const TypographyExample = () => {
   return (
@@ -249,7 +249,7 @@ const ModalExample = () => {
   return (
     <div className="p-8 space-y-4">
       <div>
-        {" "}
+        {' '}
         <Button onClick={() => setIsOpen(true)}>Open Modal</Button>
         <Modal
           isOpen={isOpen}
@@ -331,10 +331,10 @@ const TextInputExample: React.FC = () => {
           name="firstName"
           register={register}
           validation={{
-            required: "This field is required",
+            required: 'This field is required',
             minLength: {
               value: 2,
-              message: "Minimum 2 characters",
+              message: 'Minimum 2 characters',
             },
           }}
           errors={errors}
@@ -348,10 +348,10 @@ const TextInputExample: React.FC = () => {
           errors={errors}
           placeholder="Surname"
           validation={{
-            required: "This field is required",
+            required: 'This field is required',
             maxLength: {
               value: 4,
-              message: "Maximum 4 characters",
+              message: 'Maximum 4 characters',
             },
           }}
         />
@@ -362,10 +362,10 @@ const TextInputExample: React.FC = () => {
           register={register}
           errors={errors}
           validation={{
-            required: "This field is required",
+            required: 'This field is required',
             pattern: {
               value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-              message: "Invalid email",
+              message: 'Invalid email',
             },
           }}
           placeholder="email@example.com"
@@ -389,9 +389,9 @@ const RichTextEditorExample = () => {
 
 const SelectExample = () => {
   const options = [
-    { value: "option1", label: "Option 1" },
-    { value: "option2", label: "Option 2" },
-    { value: "option3", label: "Option 3" },
+    { value: 'option1', label: 'Option 1' },
+    { value: 'option2', label: 'Option 2' },
+    { value: 'option3', label: 'Option 3' },
   ];
 
   interface FormValues {
@@ -483,9 +483,9 @@ const StyledLinkExample = () => {
 
 const SelectBaseExample = () => {
   const options = [
-    { value: "option1", label: "Option 1" },
-    { value: "option2", label: "Option 2" },
-    { value: "option3", label: "Option 3" },
+    { value: 'option1', label: 'Option 1' },
+    { value: 'option2', label: 'Option 2' },
+    { value: 'option3', label: 'Option 3' },
   ];
 
   return (
@@ -506,11 +506,11 @@ const SelectBaseExample = () => {
 
 const SliderExample = () => {
   const steps = [
-    { label: "Min", value: 0 },
-    { label: "Low", value: 25 },
-    { label: "Med", value: 50 },
-    { label: "High", value: 75 },
-    { label: "Max", value: 100 },
+    { label: 'Min', value: 0 },
+    { label: 'Low', value: 25 },
+    { label: 'Med', value: 50 },
+    { label: 'High', value: 75 },
+    { label: 'Max', value: 100 },
   ];
 
   const [sliderWithStepsValue, setSliderWithStepsValue] = useState(0);
@@ -581,12 +581,12 @@ const ButtonSelectedExamples = () => {
 const ContentMenuExample = () => {
   const menuItems = [
     {
-      label: "Edit",
-      onClick: () => console.log("Edit"),
+      label: 'Edit',
+      onClick: () => console.log('Edit'),
     },
     {
-      label: "Delete",
-      onClick: () => console.log("Delete"),
+      label: 'Delete',
+      onClick: () => console.log('Delete'),
     },
   ];
 

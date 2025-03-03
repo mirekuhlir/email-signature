@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Img } from "@/components/ui/img";
-import { ContentType } from "@/const/content";
+import { Img } from '@/src/components/ui/img';
+import { ContentType } from '@/src/const/content';
 
 export const getContentView = (content?: any) => {
   if (content?.type == ContentType.IMAGE) {
@@ -38,8 +38,8 @@ export const getContentView = (content?: any) => {
         <span
           key={id}
           style={{
-            display: "inline-block",
-            width: "100%",
+            display: 'inline-block',
+            width: '100%',
             fontSize: `${fontSize}px`,
             color,
             letterSpacing: `${letterSpacing}px`,
@@ -64,7 +64,7 @@ export const getContentView = (content?: any) => {
     const textAlign = components[1].textAlign;
 
     return (
-      <span style={{ width: "100%", display: "inline-block", textAlign }}>
+      <span style={{ width: '100%', display: 'inline-block', textAlign }}>
         {components.map((component: any) => {
           const {
             id,
@@ -82,7 +82,7 @@ export const getContentView = (content?: any) => {
           } = component;
 
           const style = {
-            width: "100%",
+            width: '100%',
             fontSize: `${fontSize}px`,
             color,
             letterSpacing: `${letterSpacing}px`,

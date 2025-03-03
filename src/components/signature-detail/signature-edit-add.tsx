@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Fragment } from 'react';
 import { getContentView } from './content-view/content-view';
-import { Button } from '@/components/ui/button';
-import { ContentEdit } from '@/components/signature-detail/content-edit/content-edit';
-import { useContentEditStore } from '@/store/content-edit-add-path-store';
-import { ContentAdd } from '@/components/signature-detail/content-add/content-add';
+import { Button } from '@/src/components/ui/button';
+import { ContentEdit } from '@/src/components/signature-detail/content-edit/content-edit';
+import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
+import { ContentAdd } from '@/src/components/signature-detail/content-add/content-add';
 import { useParams } from 'next/navigation';
 
 export const EmailTemplateEdit = (props: any) => {

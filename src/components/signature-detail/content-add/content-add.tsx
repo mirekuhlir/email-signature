@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react';
-import { useSignatureStore } from '@/store/content-edit-add-store';
-import { useContentEditStore } from '@/store/content-edit-add-path-store';
-import { Button } from '@/components/ui/button';
+import { useSignatureStore } from '@/src/store/content-edit-add-store';
+import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
+import { Button } from '@/src/components/ui/button';
 import { Typography } from '../../ui/typography';
 import { CONTENT_TYPES } from './const';
-import { ContentType } from '@/const/content';
+import { ContentType } from '@/src/const/content';
 
 interface ContentAddProps {
   path: string;
