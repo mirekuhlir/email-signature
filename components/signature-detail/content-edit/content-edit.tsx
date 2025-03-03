@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useRef, useCallback, useState, useEffect, useMemo } from 'react';
 import { get, set, cloneDeep } from 'lodash';
-import { useSignatureStore } from '@/components/signature-detail/store/content-edit-add-store';
+import { useSignatureStore } from '@/store/content-edit-add-store';
 import { ContentType } from '@/const/content';
 import { Button } from '@/components/ui/button';
-import { useContentEditStore } from '../store/content-edit-add-path-store';
+import { useContentEditStore } from '@/store/content-edit-add-path-store';
 import { RichTextEditor } from '@/components/ui/rich-text-editor/rich-text-editor';
 import { EmailEditContent } from './email-edit-content';
 import { createClient } from '@/utils/supabase/client';

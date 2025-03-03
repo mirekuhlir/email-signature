@@ -3,7 +3,7 @@ import { Fragment } from 'react';
 import { getContentView } from './content-view/content-view';
 import { Button } from '@/components/ui/button';
 import { ContentEdit } from '@/components/signature-detail/content-edit/content-edit';
-import { useContentEditStore } from './store/content-edit-add-path-store';
+import { useContentEditStore } from '@/store/content-edit-add-path-store';
 import { ContentAdd } from '@/components/signature-detail/content-add/content-add';
 import { useParams } from 'next/navigation';
 

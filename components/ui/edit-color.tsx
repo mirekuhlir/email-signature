@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import AdvancedColorPicker from "./advanced-color-picker";
-import { Typography } from "./typography";
-import { useContentEditStore } from "../signature-detail/store/content-edit-add-path-store";
+import { useEffect, useState } from 'react';
+import { Button } from '@/components/ui/button';
+import AdvancedColorPicker from './advanced-color-picker';
+import { Typography } from './typography';
+import { useContentEditStore } from '@/store/content-edit-add-path-store';
 
 interface Props {
   initColor: string;
@@ -39,7 +39,7 @@ export const EditColor = (props: Props) => {
           <Button
             onClick={() => {
               setContentEdit({
-                subEdit: "edit-color",
+                subEdit: 'edit-color',
               });
               setIsColorPickerOpen(true);
             }}

@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 import { useState, useEffect, useRef } from 'react';
-import { useSignatureStore } from './store/content-edit-add-store';
+import { useSignatureStore } from '@/store/content-edit-add-store';
 import { Button } from '@/components/ui/button';
 import { handleCopy } from './content-view/utils';
 import { EmailTemplateView } from './content-view/signature-view';
 import { EmailTemplateEdit } from './signature-edit-add';
-import { useContentEditStore } from './store/content-edit-add-path-store';
+import { useContentEditStore } from '@/store/content-edit-add-path-store';
 
 export const SignatureDetail = (props: any) => {
   const { signatureDetail, isSignedIn, templateSlug } = props;

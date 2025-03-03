@@ -1,12 +1,17 @@
 import { useEffect, useRef } from 'react';
-import { useSignatureStore } from '@/components/signature-detail/store/content-edit-add-store';
-import { useContentEditStore } from '@/components/signature-detail/store/content-edit-add-path-store';
+import { useSignatureStore } from '@/store/content-edit-add-store';
+import { useContentEditStore } from '@/store/content-edit-add-path-store';
 import { Button } from '@/components/ui/button';
 import { Typography } from '../../ui/typography';
 import { CONTENT_TYPES } from './const';
 import { ContentType } from '@/const/content';
 
-export const ContentAdd = (props: any) => {
+interface ContentAddProps {
+  path: string;
+  onClose: () => void;
+}
+
+export const ContentAdd = (props: ContentAddProps) => {
   const { path, onClose } = props;
 
   const { addRow, addRowTable } = useSignatureStore();

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
-import { useSignatureStore } from '../store/content-edit-add-store';
+import { useSignatureStore } from '@/store/content-edit-add-store';
 import useValidate from '@/hooks/useValidate';
 import { ContentType } from '@/const/content';
 import { validateEmail } from '@/hooks/validations';
