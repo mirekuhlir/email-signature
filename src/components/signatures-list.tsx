@@ -53,7 +53,8 @@ export const SignaturesList = (props: any) => {
         onClose={() => setIsModalOpen(false)}
       >
         <div>
-          <TemplatesExamples />
+          {/*        TODO - bdue tady vždy uživatel přihlášen? */}
+          <TemplatesExamples isSignedIn={true} />
         </div>
       </Modal>
     </div>

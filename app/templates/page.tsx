@@ -7,7 +7,7 @@ export default async function Examples() {
       <main>
         <div className="pt-16 ">
           <Container>
-            <TemplatesExamples />
+            <TemplatesExamples isSignedIn={false} />
           </Container>
         </div>
       </main>

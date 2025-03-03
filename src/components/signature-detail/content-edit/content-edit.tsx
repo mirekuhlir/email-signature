@@ -29,7 +29,7 @@ export const ContentEdit = (props: any) => {
   const [isDeleting, setIsDeleting] = useState(false);
 
   const supabase = createClient();
-  const { rows, setContent, removeRow } = useSignatureStore();
+  const { rows, setContent, removeRow, saveSignature } = useSignatureStore();
 
   const { setContentEdit, contentEdit } = useContentEditStore();
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -76,114 +76,6 @@ export const ContentEdit = (props: any) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [content]);
-
-  // TODO - samostatná funkce
-  const saveSignature = useCallback(async () => {
-    if (
-      content.type == ContentType.IMAGE &&
-      !content.components[0].cropImagePreview
-    ) {
-      return;
-    }
-
-    setIsSavingSignature(true);
-
-    if (
-      content.type == ContentType.IMAGE &&
-      content.components[0].cropImagePreview
-    ) {
-      const cropImagePreviewBase64 = content.components[0].cropImagePreview;
-
-      const componentId = content.components[0].id;
-
-      const time = new Date().getTime();
-      const imagePreviewFile = base64ToFile(
-        cropImagePreviewBase64,
-        `${time}-${componentId}.png`,
-      );
-
-      const formData = new FormData();
-      formData.append('imagePreviewFile', imagePreviewFile);
-      formData.append('signatureId', signatureId);
-
-      if (!content.components[0].originalSrc) {
-        const originalImageFile = content.components[0].originalImageFile;
-        formData.append('originalImageFile', originalImageFile);
-      }
-
-      const { data: imageData } = await supabase.functions.invoke(
-        'post-image',
-        {
-          method: 'POST',
-          body: formData,
-        },
-      );
-
-      if (imageData?.imagePreviewPublicUrl) {
-        const deepCopyRows = cloneDeep(rows);
-
-        // remove all unnecessary data because we wont to save them into database
-        const pathToImageSrc = `${contentPathToEdit}.content.components[0].src`;
-        set(deepCopyRows, pathToImageSrc, imageData.imagePreviewPublicUrl);
-        setContent(pathToImageSrc, imageData.imagePreviewPublicUrl);
-
-        const pathOriginalImagePreview = `${contentPathToEdit}.content.components[0].originalImagePreview`;
-        set(deepCopyRows, pathOriginalImagePreview, undefined);
-        setContent(pathOriginalImagePreview, undefined);
-
-        const pathToCropImagePreview = `${contentPathToEdit}.content.components[0].cropImagePreview`;
-        set(deepCopyRows, pathToCropImagePreview, undefined);
-        setContent(pathToCropImagePreview, undefined);
-
-        if (imageData?.originalImagePublicUrl) {
-          const pathToImageOriginalSrc = `${contentPathToEdit}.content.components[0].originalSrc`;
-
-          set(
-            deepCopyRows,
-            pathToImageOriginalSrc,
-            imageData.originalImagePublicUrl,
-          );
-          setContent(pathToImageOriginalSrc, imageData.originalImagePublicUrl);
-
-          const pathToOriginalImageFile = `${contentPathToEdit}.content.components[0].originalImageFile`;
-          setContent(pathToOriginalImageFile, undefined);
-          set(deepCopyRows, pathToOriginalImageFile, undefined);
-        }
-
-        await supabase.functions.invoke('patch-signature', {
-          method: 'PATCH',
-          body: {
-            signatureId,
-            signatureContent: { rows: deepCopyRows },
-          },
-        });
-
-        setContentEdit({
-          editPath: null,
-        });
-      }
-
-      return;
-    }
-
-    await supabase.functions.invoke('patch-signature', {
-      method: 'PATCH',
-      body: {
-        signatureId,
-        signatureContent: { rows },
-      },
-    });
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    content?.components,
-    content?.type,
-    contentPathToEdit,
-    rows,
-    setContent,
-    setContentEdit,
-    signatureId,
-  ]);
 
   const isImage = content?.type === ContentType.IMAGE;
 
@@ -291,7 +183,8 @@ export const ContentEdit = (props: any) => {
                     if (templateSlug) {
                       localStorage.setItem(templateSlug, JSON.stringify(rows));
                     } else {
-                      await saveSignature();
+                      setIsSavingSignature(true);
+                      await saveSignature(signatureId, contentPathToEdit);
                     }
                     setContentEdit({
                       editPath: null,

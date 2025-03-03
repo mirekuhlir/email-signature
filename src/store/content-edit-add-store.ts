@@ -6,6 +6,10 @@ import {
   getContentAdd,
   getRowTable,
 } from "@/src/components/signature-detail/content-add/utils";
+import { createClient } from "../utils/supabase/client";
+import { base64ToFile } from "../utils/base64ToFile";
+
+const supabase = createClient();
 
 export interface StoreState {
   rows: any[];
@@ -14,11 +18,15 @@ export interface StoreState {
   addRowTable: (position: "start" | "end", type: ContentType) => void;
   removeRow: (path: string, onRemoveRow?: (rows: any) => void) => void;
   setContent: (path: string, content: any) => void;
+  saveSignature: (
+    signatureId: string,
+    contentPathToEdit: string,
+  ) => Promise<void>;
 }
 
 // barvy - rgba nebo hex?
 
-export const useSignatureStore = create<StoreState>((set) => ({
+export const useSignatureStore = create<StoreState>((set, get) => ({
   rows: [],
   initRows: (rows: any) => {
     set({ rows });
@@ -105,4 +113,105 @@ export const useSignatureStore = create<StoreState>((set) => ({
       }
       return { rows: cloneRows };
     }),
+
+  saveSignature: async (signatureId: string, contentPathToEdit: string) => {
+    const { rows, setContent } = get();
+
+    const path = `${contentPathToEdit}.content`;
+    const content = lGet(rows, path);
+
+    // TODO -  je to tady potřeba?
+    /*     if (
+      content.type == ContentType.IMAGE &&
+      !content.components[0].cropImagePreview
+    ) {
+      return;
+    } */
+
+    if (
+      content.type == ContentType.IMAGE &&
+      content.components[0].cropImagePreview
+    ) {
+      const cropImagePreviewBase64 = content.components[0].cropImagePreview;
+
+      const componentId = content.components[0].id;
+
+      const time = new Date().getTime();
+      const imagePreviewFile = base64ToFile(
+        cropImagePreviewBase64,
+        `${time}-${componentId}.png`,
+      );
+
+      const formData = new FormData();
+      formData.append("imagePreviewFile", imagePreviewFile);
+      formData.append("signatureId", signatureId);
+
+      if (!content.components[0].originalSrc) {
+        const originalImageFile = content.components[0].originalImageFile;
+        formData.append("originalImageFile", originalImageFile);
+      }
+
+      const { data: imageData } = await supabase.functions.invoke(
+        "post-image",
+        {
+          method: "POST",
+          body: formData,
+        },
+      );
+
+      if (imageData?.imagePreviewPublicUrl) {
+        const deepCopyRows = cloneDeep(rows);
+
+        // remove all unnecessary data because we wont to save them into database
+        const pathToImageSrc = `${contentPathToEdit}.content.components[0].src`;
+        lSet(deepCopyRows, pathToImageSrc, imageData.imagePreviewPublicUrl);
+        setContent(pathToImageSrc, imageData.imagePreviewPublicUrl);
+
+        const pathOriginalImagePreview =
+          `${contentPathToEdit}.content.components[0].originalImagePreview`;
+        lSet(deepCopyRows, pathOriginalImagePreview, undefined);
+        setContent(pathOriginalImagePreview, undefined);
+
+        const pathToCropImagePreview =
+          `${contentPathToEdit}.content.components[0].cropImagePreview`;
+        lSet(deepCopyRows, pathToCropImagePreview, undefined);
+        setContent(pathToCropImagePreview, undefined);
+
+        if (imageData?.originalImagePublicUrl) {
+          const pathToImageOriginalSrc =
+            `${contentPathToEdit}.content.components[0].originalSrc`;
+
+          lSet(
+            deepCopyRows,
+            pathToImageOriginalSrc,
+            imageData.originalImagePublicUrl,
+          );
+          setContent(pathToImageOriginalSrc, imageData.originalImagePublicUrl);
+
+          const pathToOriginalImageFile =
+            `${contentPathToEdit}.content.components[0].originalImageFile`;
+          setContent(pathToOriginalImageFile, undefined);
+          lSet(deepCopyRows, pathToOriginalImageFile, undefined);
+        }
+
+        await supabase.functions.invoke("patch-signature", {
+          method: "PATCH",
+          body: {
+            signatureId,
+            signatureContent: { rows: deepCopyRows },
+          },
+        });
+      }
+
+      return;
+    } else {
+      await supabase.functions.invoke("patch-signature", {
+        method: "PATCH",
+        body: {
+          signatureId,
+          signatureContent: { rows },
+        },
+      });
+    }
+  },
 }));
