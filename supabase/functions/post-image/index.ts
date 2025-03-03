@@ -110,21 +110,26 @@ serve(async (req: Request) => {
     `${userId}/${signatureId}/${originalImageFile?.filename}`;
 
   try {
-    const commandPreview = new PutObjectCommand({
-      Bucket: bucketName,
-      Key: imagePreviewUploadKey,
-      Body: imagePreviewFile.content,
-    });
-    await s3.send(commandPreview);
+    const uploadTasks = [];
+    uploadTasks.push(s3.send(
+      new PutObjectCommand({
+        Bucket: bucketName,
+        Key: imagePreviewUploadKey,
+        Body: imagePreviewFile.content,
+      }),
+    ));
 
     if (originalImageFile) {
-      const commandOriginal = new PutObjectCommand({
-        Bucket: bucketName,
-        Key: originalImageKey,
-        Body: originalImageFile.content,
-      });
-      await s3.send(commandOriginal);
+      uploadTasks.push(s3.send(
+        new PutObjectCommand({
+          Bucket: bucketName,
+          Key: originalImageKey,
+          Body: originalImageFile.content,
+        }),
+      ));
     }
+
+    await Promise.all(uploadTasks);
   } catch (uploadError: any) {
     return new Response(
       JSON.stringify({
