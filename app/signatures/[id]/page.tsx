@@ -66,6 +66,9 @@ export default async function Signature(props: Props) {
       .eq('user_id', user.id)
       .single();
 
+    // TODO - taky ještě domylset, co se stane, když uživatel nemá signature, ale j příhlášen je na example?template=signature-a
+    const rows = data?.signature_content?.rows || [];
+
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
         <Header user={user} />
@@ -74,7 +77,7 @@ export default async function Signature(props: Props) {
             <Container>
               <SignatureDetail
                 signatureDetail={{
-                  rows: data.signature_content.rows,
+                  rows,
                 }}
               />
             </Container>
