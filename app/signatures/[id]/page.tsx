@@ -22,8 +22,16 @@ export default async function Signature(props: Props) {
   const awaitedSearchParams = await searchParams;
   const templateSlug = awaitedSearchParams['template'];
 
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const isSignedIn = !!user;
+
   // User is not signed in
-  if (id === 'example' && templateSlug) {
+  if (templateSlug && !isSignedIn) {
     const template = getTemplateBySlug(
       Array.isArray(templateSlug) ? templateSlug[0] : templateSlug,
     );
@@ -38,7 +46,8 @@ export default async function Signature(props: Props) {
                 signatureDetail={{
                   rows: template?.rows,
                 }}
-                isExample={true}
+                isSignedIn={isSignedIn}
+                templateSlug={templateSlug}
               />
             </Container>
           </div>
@@ -46,13 +55,7 @@ export default async function Signature(props: Props) {
       </div>
     );
   } else {
-    const supabase = await createClient();
-
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
-    if (!user) {
+    if (!isSignedIn) {
       return redirect('/sign-in');
     }
 

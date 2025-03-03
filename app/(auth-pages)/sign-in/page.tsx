@@ -7,6 +7,7 @@ export default async function Signin() {
       <div className="flex flex-col gap-2 [&>input]:mb-3 mt-8">
         <SignInComponent />
       </div>
+      {/*  TODO - nabídnout možnost uživateli, aby si mohl zkusit aplikaci i bez přihlášení  */}
     </>
   );
 }

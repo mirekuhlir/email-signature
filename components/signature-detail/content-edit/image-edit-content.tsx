@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { useCallback } from "react";
-import { useSignatureStore } from "@/components/signature-detail/store/content-edit-add-store";
-import ImageUploadCrop from "@/components/ui/image-uploader-crop/image-uploader-crop";
-import { useContentEditStore } from "../store/content-edit-add-path-store";
+import { useCallback } from 'react';
+import { useSignatureStore } from '@/components/signature-detail/store/content-edit-add-store';
+import ImageUploadCrop from '@/components/ui/image-uploader-crop/image-uploader-crop';
+import { useContentEditStore } from '../store/content-edit-add-path-store';
 
 export const ImageEditContent = (props: any) => {
   const { components, contentPathToEdit } = props;
@@ -23,7 +23,7 @@ export const ImageEditContent = (props: any) => {
 
   const handleOriginalImagePreview = useCallback(
     (originalImage: string) => {
-      setContent(`${contentPathToEdit}.components[0].src`, "");
+      setContent(`${contentPathToEdit}.components[0].src`, '');
 
       setContent(
         `${contentPathToEdit}.components[0].originalImagePreview`,
@@ -65,15 +65,15 @@ export const ImageEditContent = (props: any) => {
         );
         // remove image
       } else {
-        setContent(`${contentPathToEdit}.components[0].originalSrc`, "");
-        setContent(`${contentPathToEdit}.components[0].originalImageFile`, "");
+        setContent(`${contentPathToEdit}.components[0].originalSrc`, '');
+        setContent(`${contentPathToEdit}.components[0].originalImageFile`, '');
       }
     },
     [contentPathToEdit, setContent, imageComponent.id],
   );
 
   const onInit = useCallback(() => {
-    window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
   }, []);
 
   const handleImageLoadingChange = useCallback(

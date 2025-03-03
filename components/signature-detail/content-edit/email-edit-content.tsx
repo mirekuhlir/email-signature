@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from "react";
-import { useSignatureStore } from "../store/content-edit-add-store";
-import useValidate from "@/hooks/useValidate";
-import { ContentType } from "@/const/content";
-import { validateEmail } from "@/hooks/validations";
+import React from 'react';
+import { useSignatureStore } from '../store/content-edit-add-store';
+import useValidate from '@/hooks/useValidate';
+import { ContentType } from '@/const/content';
+import { validateEmail } from '@/hooks/validations';
 import {
   LayoutType,
   RichTextEditor,
-} from "@/components/ui/rich-text-editor/rich-text-editor";
+} from '@/components/ui/rich-text-editor/rich-text-editor';
 
 export const EmailEditContent = (props: any) => {
   const { components, contentPathToEdit, contentType } = props;
@@ -35,14 +35,14 @@ export const EmailEditContent = (props: any) => {
 
       const getLabelText = () => {
         if (component.type === ContentType.TEXT) {
-          return "Prefix";
+          return 'Prefix';
         }
 
         if (component.type === ContentType.EMAIL_LINK) {
-          return "Email";
+          return 'Email';
         }
 
-        return "";
+        return '';
       };
 
       const labeText = getLabelText();

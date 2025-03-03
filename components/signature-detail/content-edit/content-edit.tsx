@@ -22,7 +22,7 @@ const SavingInfo = () => {
 };
 
 export const ContentEdit = (props: any) => {
-  const { contentPathToEdit, signatureId, isExample } = props;
+  const { contentPathToEdit, signatureId, isSignedIn, templateSlug } = props;
 
   const [iniContent, setIniContent] = useState<any>(null);
   const [isSavingSignature, setIsSavingSignature] = useState(false);
@@ -39,15 +39,13 @@ export const ContentEdit = (props: any) => {
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
-  console.warn('rows', rows);
-
   const deleteRow = useCallback(async () => {
     setIsDeleting(true);
     setIsDeleteModalOpen(false);
     setIsSavingSignature(true);
 
     const saveData = async (rows: any) => {
-      if (!isExample) {
+      if (!isSignedIn) {
         await supabase.functions.invoke('patch-signature', {
           method: 'PATCH',
           body: {
@@ -65,7 +63,7 @@ export const ContentEdit = (props: any) => {
     removeRow(contentPathToEdit, saveData);
   }, [
     contentPathToEdit,
-    isExample,
+    isSignedIn,
     removeRow,
     setContentEdit,
     signatureId,
@@ -176,9 +174,6 @@ export const ContentEdit = (props: any) => {
       },
     });
 
-    setContentEdit({
-      editPath: null,
-    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     content?.components,
@@ -291,10 +286,13 @@ export const ContentEdit = (props: any) => {
               {canDisplaySave && (
                 <Button
                   variant="blue"
-                  size="md"
+                  size="lg"
                   onClick={async () => {
-                    await saveSignature();
-                    // TODO - je potřeba? když je už ve funkci
+                    if (templateSlug) {
+                      localStorage.setItem(templateSlug, JSON.stringify(rows));
+                    } else {
+                      await saveSignature();
+                    }
                     setContentEdit({
                       editPath: null,
                     });

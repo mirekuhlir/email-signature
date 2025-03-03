@@ -8,11 +8,9 @@ import { ContentAdd } from '@/components/signature-detail/content-add/content-ad
 import { useParams } from 'next/navigation';
 
 export const EmailTemplateEdit = (props: any) => {
-  const { rows, isExample } = props;
+  const { rows, isSignedIn, templateSlug } = props;
   const { setContentEdit, contentEdit } = useContentEditStore();
   const { id: signatureId } = useParams();
-
-  console.warn('isExample', isExample);
 
   const renderColumn = (column: any, path: string) => {
     const rowPath = `${path}.rows`;
@@ -215,7 +213,8 @@ export const EmailTemplateEdit = (props: any) => {
 
       {contentEdit.editPath && (
         <ContentEdit
-          isExample={isExample}
+          isSignedIn={isSignedIn}
+          templateSlug={templateSlug}
           contentPathToEdit={contentEdit.editPath}
           key={`edit-${contentEdit.editPath}`}
           signatureId={signatureId}

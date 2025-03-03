@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSignatureStore } from './store/content-edit-add-store';
 import { Button } from '@/components/ui/button';
 import { handleCopy } from './content-view/utils';
@@ -9,14 +9,34 @@ import { EmailTemplateEdit } from './signature-edit-add';
 import { useContentEditStore } from './store/content-edit-add-path-store';
 
 export const SignatureDetail = (props: any) => {
-  const { signatureDetail, isExample } = props;
+  const { signatureDetail, isSignedIn, templateSlug } = props;
 
   const { rows, initRows } = useSignatureStore();
   const { contentEdit } = useContentEditStore();
   const [isEdit, setIsEdit] = useState(false);
 
+  // TODO - zmizit
+  const isInitialized = useRef(false);
+
   useEffect(() => {
-    initRows(signatureDetail.rows);
+    if (isInitialized.current) return;
+
+    // TODO - bude asi někde jinde, o krok dřív a na detail se uživatel už dostane s vytvořenou signature
+    const savedData = localStorage.getItem(templateSlug);
+
+    if (savedData) {
+      try {
+        const parsedData = JSON.parse(savedData);
+        initRows(parsedData);
+        localStorage.removeItem(templateSlug);
+      } catch (error) {
+        console.error('Error parsing local data:', error);
+      }
+    } else {
+      initRows(signatureDetail.rows);
+    }
+    isInitialized.current = true;
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -25,7 +45,7 @@ export const SignatureDetail = (props: any) => {
       <div className="flex flex-col items-center">
         {(!isEdit || contentEdit.editPath) && (
           <>
-            <EmailTemplateView isExample={isExample} rows={rows} />
+            <EmailTemplateView rows={rows} />
             {!contentEdit.editPath && (
               <>
                 <Button size="lg" onClick={() => setIsEdit(true)}>
@@ -48,7 +68,11 @@ export const SignatureDetail = (props: any) => {
 
       {isEdit && (
         <div>
-          <EmailTemplateEdit isExample={isExample} rows={rows} />
+          <EmailTemplateEdit
+            isSignedIn={isSignedIn}
+            templateSlug={templateSlug}
+            rows={rows}
+          />
           {!contentEdit.editPath && !contentEdit.addPath && (
             <div className="flex justify-end pt-2 pb-8">
               <Button size="lg" onClick={() => setIsEdit(false)}>

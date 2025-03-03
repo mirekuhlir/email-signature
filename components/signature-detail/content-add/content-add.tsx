@@ -1,10 +1,10 @@
-import { useEffect, useRef } from "react";
-import { useSignatureStore } from "@/components/signature-detail/store/content-edit-add-store";
-import { useContentEditStore } from "@/components/signature-detail/store/content-edit-add-path-store";
-import { Button } from "@/components/ui/button";
-import { Typography } from "../../ui/typography";
-import { CONTENT_TYPES } from "./const";
-import { ContentType } from "@/const/content";
+import { useEffect, useRef } from 'react';
+import { useSignatureStore } from '@/components/signature-detail/store/content-edit-add-store';
+import { useContentEditStore } from '@/components/signature-detail/store/content-edit-add-path-store';
+import { Button } from '@/components/ui/button';
+import { Typography } from '../../ui/typography';
+import { CONTENT_TYPES } from './const';
+import { ContentType } from '@/const/content';
 
 export const ContentAdd = (props: any) => {
   const { path, onClose } = props;
@@ -14,7 +14,7 @@ export const ContentAdd = (props: any) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   const onAdd = (type: ContentType) => {
-    if (contentEdit.addPath === "table-root" && contentEdit.position) {
+    if (contentEdit.addPath === 'table-root' && contentEdit.position) {
       addRowTable(contentEdit.position, type);
       setContentEdit({
         editPath: contentEdit.nextEditPath,
@@ -31,7 +31,7 @@ export const ContentAdd = (props: any) => {
   };
 
   useEffect(() => {
-    wrapperRef.current?.scrollIntoView({ behavior: "smooth" });
+    wrapperRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, []);
 
   return (
