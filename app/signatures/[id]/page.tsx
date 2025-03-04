@@ -76,6 +76,7 @@ export default async function Signature(props: Props) {
           <div className="pt-24">
             <Container>
               <SignatureDetail
+                isSignedIn={isSignedIn}
                 signatureDetail={{
                   rows,
                 }}

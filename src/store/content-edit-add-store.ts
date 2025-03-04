@@ -16,7 +16,11 @@ export interface StoreState {
   initRows: (rows: any) => void;
   addRow: (path: string, type: ContentType) => void;
   addRowTable: (position: "start" | "end", type: ContentType) => void;
-  removeRow: (path: string, onRemoveRow?: (rows: any) => void) => void;
+  removeRow: (
+    path: string,
+    signatureId: string,
+    isSignedIn: boolean,
+  ) => Promise<void>;
   setContent: (path: string, content: any) => void;
   saveSignatureContentRow: (
     signatureId: string,
@@ -65,33 +69,47 @@ export const useSignatureStore = create<StoreState>((set, get) => ({
       return { rows: clonesRows };
     }),
 
-  removeRow: (path: string, onRemoveRow?: (rows: any) => void) =>
-    set((state) => {
-      const cloneRows = cloneDeep(state.rows);
-      const tableIndex = parseInt(path.split(".")[0].replace(/[[\]]/g, ""));
+  removeRow: async (
+    path: string,
+    signatureId: string,
+    isSignedIn: boolean,
+  ) => {
+    const cloneRows = cloneDeep(get().rows);
+    const tableIndex = parseInt(path.split(".")[0].replace(/[[\]]/g, ""));
 
-      const columnIndex = parseInt(path.split("columns[")[1].split("]")[0]);
+    const columnIndex = parseInt(path.split("columns[")[1].split("]")[0]);
 
-      const columnsLength = cloneRows[tableIndex].columns.length;
-      const rowsLength = cloneRows[tableIndex].columns[columnIndex].rows.length;
+    const columnsLength = cloneRows[tableIndex].columns.length;
+    const rowsLength = cloneRows[tableIndex].columns[columnIndex].rows.length;
 
-      if (columnsLength === 1 && rowsLength === 1) {
-        // Remove entire table object
-        cloneRows.splice(tableIndex, 1);
-      } else {
-        // Remove just the specific row
-        const rowIndex = parseInt(path.split("rows[")[1].split("]")[0]);
-        const rows = cloneRows[tableIndex].columns[columnIndex].rows;
-        cloneRows[tableIndex].columns[columnIndex].rows = rows.filter((
-          _: any,
-          index: number,
-        ) => index !== rowIndex);
+    if (columnsLength === 1 && rowsLength === 1) {
+      // Remove entire table object
+      cloneRows.splice(tableIndex, 1);
+    } else {
+      // Remove just the specific row
+      const rowIndex = parseInt(path.split("rows[")[1].split("]")[0]);
+      const rows = cloneRows[tableIndex].columns[columnIndex].rows;
+      cloneRows[tableIndex].columns[columnIndex].rows = rows.filter((
+        _: any,
+        index: number,
+      ) => index !== rowIndex);
+    }
+    if (isSignedIn) {
+      const { error } = await supabase.functions.invoke("patch-signature", {
+        method: "PATCH",
+        body: {
+          signatureId,
+          signatureContent: { rows: cloneRows },
+        },
+      });
+
+      if (error) {
+        throw error;
       }
+    }
 
-      onRemoveRow?.(cloneRows);
-
-      return { rows: cloneRows };
-    }),
+    set({ rows: cloneRows });
+  },
 
   setContent: (path: string, content: any) =>
     set((state) => {
@@ -120,23 +138,14 @@ export const useSignatureStore = create<StoreState>((set, get) => ({
   ) => {
     const { rows, setContent } = get();
 
-    const path = `${contentPathToEdit}.content`;
-    const content = lGet(rows, path);
+    const content = lGet(rows, contentPathToEdit);
 
-    // TODO -  je to tady potřeba?
-    /*     if (
-      content.type == ContentType.IMAGE &&
-      !content.components[0].cropImagePreview
-    ) {
-      return;
-    } */
-
+    // Save image content
     if (
       content.type == ContentType.IMAGE &&
       content.components[0].cropImagePreview
     ) {
       const cropImagePreviewBase64 = content.components[0].cropImagePreview;
-
       const componentId = content.components[0].id;
 
       const time = new Date().getTime();
@@ -154,35 +163,40 @@ export const useSignatureStore = create<StoreState>((set, get) => ({
         formData.append("originalImageFile", originalImageFile);
       }
 
-      const { data: imageData } = await supabase.functions.invoke(
-        "post-image",
-        {
-          method: "POST",
-          body: formData,
-        },
-      );
+      const { data: imageData, error: imageError } = await supabase.functions
+        .invoke(
+          "post-image",
+          {
+            method: "POST",
+            body: formData,
+          },
+        );
+
+      if (imageError) {
+        throw imageError;
+      }
 
       if (imageData?.imagePreviewPublicUrl) {
         const deepCopyRows = cloneDeep(rows);
 
+        const componentPath = `${contentPathToEdit}.components[0]`;
+
         // remove all unnecessary data because we wont to save them into database
-        const pathToImageSrc = `${contentPathToEdit}.content.components[0].src`;
+        const pathToImageSrc = `${componentPath}.src`;
         lSet(deepCopyRows, pathToImageSrc, imageData.imagePreviewPublicUrl);
         setContent(pathToImageSrc, imageData.imagePreviewPublicUrl);
 
         const pathOriginalImagePreview =
-          `${contentPathToEdit}.content.components[0].originalImagePreview`;
+          `${componentPath}.originalImagePreview`;
         lSet(deepCopyRows, pathOriginalImagePreview, undefined);
         setContent(pathOriginalImagePreview, undefined);
 
-        const pathToCropImagePreview =
-          `${contentPathToEdit}.content.components[0].cropImagePreview`;
+        const pathToCropImagePreview = `${componentPath}.cropImagePreview`;
         lSet(deepCopyRows, pathToCropImagePreview, undefined);
         setContent(pathToCropImagePreview, undefined);
 
         if (imageData?.originalImagePublicUrl) {
-          const pathToImageOriginalSrc =
-            `${contentPathToEdit}.content.components[0].originalSrc`;
+          const pathToImageOriginalSrc = `${componentPath}.originalSrc`;
 
           lSet(
             deepCopyRows,
@@ -191,30 +205,41 @@ export const useSignatureStore = create<StoreState>((set, get) => ({
           );
           setContent(pathToImageOriginalSrc, imageData.originalImagePublicUrl);
 
-          const pathToOriginalImageFile =
-            `${contentPathToEdit}.content.components[0].originalImageFile`;
+          const pathToOriginalImageFile = `${componentPath}.originalImageFile`;
           setContent(pathToOriginalImageFile, undefined);
           lSet(deepCopyRows, pathToOriginalImageFile, undefined);
         }
 
-        await supabase.functions.invoke("patch-signature", {
+        const { error: patchError } = await supabase.functions.invoke(
+          "patch-signature",
+          {
+            method: "PATCH",
+            body: {
+              signatureId,
+              signatureContent: { rows: deepCopyRows },
+            },
+          },
+        );
+
+        if (patchError) {
+          throw patchError;
+        }
+      }
+    } else {
+      const { error: patchError } = await supabase.functions.invoke(
+        "patch-signature",
+        {
           method: "PATCH",
           body: {
             signatureId,
-            signatureContent: { rows: deepCopyRows },
+            signatureContent: { rows },
           },
-        });
-      }
-
-      return;
-    } else {
-      await supabase.functions.invoke("patch-signature", {
-        method: "PATCH",
-        body: {
-          signatureId,
-          signatureContent: { rows },
         },
-      });
+      );
+
+      if (patchError) {
+        throw patchError;
+      }
     }
   },
 }));

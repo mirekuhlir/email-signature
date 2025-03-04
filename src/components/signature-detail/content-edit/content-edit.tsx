@@ -1,14 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useRef, useCallback, useState, useEffect, useMemo } from 'react';
-import { get, set, cloneDeep } from 'lodash';
+import { get } from 'lodash';
 import { useSignatureStore } from '@/src/store/content-edit-add-store';
 import { ContentType } from '@/src/const/content';
 import { Button } from '@/src/components/ui/button';
 import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
 import { RichTextEditor } from '@/src/components/ui/rich-text-editor/rich-text-editor';
 import { EmailEditContent } from './email-edit-content';
-import { createClient } from '@/src/utils/supabase/client';
-import { base64ToFile } from '@/src/utils/base64ToFile';
 import { ImageEditContent } from './image-edit-content';
 import Modal from '@/src/components/ui/modal';
 import { Typography } from '@/src/components/ui/typography';
@@ -26,9 +24,7 @@ export const ContentEdit = (props: any) => {
 
   const [iniContent, setIniContent] = useState<any>(null);
   const [isSavingSignature, setIsSavingSignature] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
 
-  const supabase = createClient();
   const { rows, setContent, removeRow, saveSignatureContentRow } =
     useSignatureStore();
 
@@ -41,35 +37,19 @@ export const ContentEdit = (props: any) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const deleteRow = useCallback(async () => {
-    setIsDeleting(true);
     setIsDeleteModalOpen(false);
     setIsSavingSignature(true);
 
-    const saveData = async (rows: any) => {
-      if (!isSignedIn) {
-        await supabase.functions.invoke('patch-signature', {
-          method: 'PATCH',
-          body: {
-            signatureId,
-            signatureContent: { rows },
-          },
-        });
-      }
-
-      setIsDeleting(false);
+    try {
+      await removeRow(contentPathToEdit, signatureId, isSignedIn);
+    } catch (error) {
+      // TODO toast error
+      console.error(error);
+    } finally {
       setIsSavingSignature(false);
       setContentEdit({ editPath: null });
-    };
-
-    removeRow(contentPathToEdit, saveData);
-  }, [
-    contentPathToEdit,
-    isSignedIn,
-    removeRow,
-    setContentEdit,
-    signatureId,
-    supabase.functions,
-  ]);
+    }
+  }, [contentPathToEdit, isSignedIn, removeRow, setContentEdit, signatureId]);
 
   useEffect(() => {
     if (!iniContent) {
@@ -120,10 +100,9 @@ export const ContentEdit = (props: any) => {
         )}
       </div>
 
-      {(isSavingSignature || isDeleting) && <SavingInfo />}
+      {isSavingSignature && <SavingInfo />}
 
       {!isSavingSignature &&
-        !isDeleting &&
         !contentEdit.subEdit &&
         !contentEdit.isImageLoading && (
           <>
@@ -143,7 +122,7 @@ export const ContentEdit = (props: any) => {
               </>
             )}
 
-            <Modal size="medium" isOpen={isDeleteModalOpen}>
+            <Modal size="large" isOpen={isDeleteModalOpen}>
               <div className="p-2">
                 <Typography variant="h3">Delete content</Typography>
                 <Typography variant="body">
@@ -181,18 +160,29 @@ export const ContentEdit = (props: any) => {
                   variant="blue"
                   size="lg"
                   onClick={async () => {
-                    if (templateSlug) {
+                    if (!isSignedIn) {
                       localStorage.setItem(templateSlug, JSON.stringify(rows));
+                      setContentEdit({
+                        editPath: null,
+                      });
                     } else {
                       setIsSavingSignature(true);
-                      await saveSignatureContentRow(
-                        signatureId,
-                        contentPathToEdit,
-                      );
+
+                      try {
+                        await saveSignatureContentRow(
+                          signatureId,
+                          `${contentPathToEdit}.content`,
+                        );
+                        setContentEdit({
+                          editPath: null,
+                        });
+                      } catch (error) {
+                        // TODO toast error
+                        console.error(error);
+                      } finally {
+                        setIsSavingSignature(false);
+                      }
                     }
-                    setContentEdit({
-                      editPath: null,
-                    });
                   }}
                 >
                   Save
