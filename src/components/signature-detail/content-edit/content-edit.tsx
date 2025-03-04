@@ -158,7 +158,7 @@ export const ContentEdit = (props: any) => {
               {canDisplaySave && (
                 <Button
                   variant="blue"
-                  size="lg"
+                  size="md"
                   onClick={async () => {
                     if (!isSignedIn) {
                       localStorage.setItem(templateSlug, JSON.stringify(rows));
