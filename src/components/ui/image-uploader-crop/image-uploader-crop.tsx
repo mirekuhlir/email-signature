@@ -362,7 +362,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
           />
           <label
             htmlFor="file-upload"
-            className={`${baseStyles} ${variants.outline} ${sizes.md}`}
+            className={`${baseStyles} ${variants.orange} ${sizes.md} cursor-pointer`}
           >
             Select image
           </label>
