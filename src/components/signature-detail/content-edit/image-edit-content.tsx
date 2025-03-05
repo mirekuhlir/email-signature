@@ -6,7 +6,7 @@ import ImageUploadCrop from '@/src/components/ui/image-uploader-crop/image-uploa
 import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
 
 export const ImageEditContent = (props: any) => {
-  const { components, contentPathToEdit } = props;
+  const { components, contentPathToEdit, isSignedIn } = props;
   const { setContent } = useSignatureStore();
   const { setContentEdit } = useContentEditStore();
   const imageComponent = components[0];
@@ -97,6 +97,7 @@ export const ImageEditContent = (props: any) => {
       srcOriginalImage={imageComponent.originalSrc}
       onSetOriginalImage={handleOriginalImage}
       onLoadingChange={handleImageLoadingChange}
+      isSignedIn={isSignedIn}
     />
   );
 };

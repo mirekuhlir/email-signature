@@ -31,6 +31,8 @@ export const ContentEdit = (props: any) => {
   const { setContentEdit, contentEdit } = useContentEditStore();
   const wrapperRef = useRef<HTMLDivElement>(null);
 
+  console.warn('rows', rows);
+
   const path = `${contentPathToEdit}.content`;
   const content = useMemo(() => get(rows, path), [rows, path]);
 
@@ -86,7 +88,7 @@ export const ContentEdit = (props: any) => {
       !image.src &&
       !image.cropImagePreview
     ) {
-      removeRow(contentPathToEdit, closeEdit);
+      removeRow(contentPathToEdit, signatureId, isSignedIn);
     } else {
       closeEdit();
     }
@@ -96,7 +98,9 @@ export const ContentEdit = (props: any) => {
     <div key={path}>
       <div ref={wrapperRef}>
         {!isSavingSignature && (
-          <div className="pb-8">{getContentType(content, path)}</div>
+          <div className="pb-8">
+            {getContentType(content, path, isSignedIn)}
+          </div>
         )}
       </div>
 
@@ -195,7 +199,11 @@ export const ContentEdit = (props: any) => {
   );
 };
 
-const getContentType = (content: any, contentPathToEdit: any) => {
+const getContentType = (
+  content: any,
+  contentPathToEdit: any,
+  isSignedIn: boolean,
+) => {
   const type: ContentType = content?.type;
   const components = content?.components;
 
@@ -215,6 +223,7 @@ const getContentType = (content: any, contentPathToEdit: any) => {
           contentType={type}
           components={components}
           contentPathToEdit={contentPathToEdit}
+          isSignedIn={isSignedIn}
         />
       );
 
