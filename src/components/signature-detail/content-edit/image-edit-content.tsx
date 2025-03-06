@@ -21,18 +21,6 @@ export const ImageEditContent = (props: any) => {
     [contentPathToEdit, setContent],
   );
 
-  const handleOriginalImagePreview = useCallback(
-    (originalImage: string) => {
-      setContent(`${contentPathToEdit}.components[0].src`, '');
-
-      setContent(
-        `${contentPathToEdit}.components[0].originalImagePreview`,
-        originalImage,
-      );
-    },
-    [contentPathToEdit, setContent],
-  );
-
   const handleImageSettings = useCallback(
     (imageSettings: any) => {
       setContent(
@@ -86,8 +74,6 @@ export const ImageEditContent = (props: any) => {
   return (
     <ImageUploadCrop
       onSetCropImagePreview={handleCropImagePreview}
-      onSetOriginalImagePreview={handleOriginalImagePreview}
-      originalImagePreview={imageComponent.originalImagePreview}
       onSetImageSettings={handleImageSettings}
       imageSettings={imageComponent.imageSettings}
       imageName={imageComponent.id}

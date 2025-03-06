@@ -63,16 +63,14 @@ export const ContentEdit = (props: any) => {
   const isImage = content?.type === ContentType.IMAGE;
 
   const canDisplaySave = isImage
-    ? Boolean(
-        content?.components[0]?.cropImagePreview &&
-          content?.components[0]?.originalImagePreview,
-      )
+    ? Boolean(content?.components[0]?.cropImagePreview)
     : true;
 
   const canDisplayDeleteButton = isImage
     ? content?.components[0]?.cropImagePreview
     : true;
 
+  // TODO - odzkoušet
   const closeContent = () => {
     const closeEdit = () => {
       setContent(path, iniContent);
@@ -81,7 +79,7 @@ export const ContentEdit = (props: any) => {
       });
     };
 
-    // image was not loaded so we can delete row
+    // image was not loaded from client so we can delete row
     const image = content?.components[0];
     if (
       content.type === ContentType.IMAGE &&
@@ -89,6 +87,7 @@ export const ContentEdit = (props: any) => {
       !image.cropImagePreview
     ) {
       removeRow(contentPathToEdit, signatureId, isSignedIn);
+      setContentEdit({ editPath: null });
     } else {
       closeEdit();
     }

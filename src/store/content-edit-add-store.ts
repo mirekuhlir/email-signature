@@ -186,11 +186,6 @@ export const useSignatureStore = create<StoreState>((set, get) => ({
         lSet(deepCopyRows, pathToImageSrc, imageData.imagePreviewPublicUrl);
         setContent(pathToImageSrc, imageData.imagePreviewPublicUrl);
 
-        const pathOriginalImagePreview =
-          `${componentPath}.originalImagePreview`;
-        lSet(deepCopyRows, pathOriginalImagePreview, undefined);
-        setContent(pathOriginalImagePreview, undefined);
-
         const pathToCropImagePreview = `${componentPath}.cropImagePreview`;
         lSet(deepCopyRows, pathToCropImagePreview, undefined);
         setContent(pathToCropImagePreview, undefined);
