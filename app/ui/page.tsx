@@ -14,6 +14,7 @@ import SelectBase from '@/src/components/ui/select-base';
 import { ContentType } from '@/src/const/content';
 import Slider from '@/src/components/ui/slider';
 import { ContextMenu } from '@/src/components/ui/context-menu';
+import { useToast } from '@/src/components/ui/toast';
 
 const TypographyExample = () => {
   return (
@@ -598,6 +599,81 @@ const ContentMenuExample = () => {
   );
 };
 
+const ToastExample = () => {
+  const { toast, success, error, warning, info } = useToast();
+
+  return (
+    <div className="p-8 space-y-8 border-b border-gray-200">
+      <Typography variant="h2">Toast Notifications</Typography>
+      <div className="flex flex-wrap gap-4">
+        <Button
+          onClick={() =>
+            toast({
+              title: 'Default Toast',
+              description: 'This is a default toast notification',
+              duration: 3000,
+            })
+          }
+        >
+          Show Default Toast
+        </Button>
+
+        <Button
+          onClick={() =>
+            success({
+              title: 'Success',
+              description: 'Operation completed successfully!',
+              duration: 3000,
+            })
+          }
+          variant="blue"
+        >
+          Show Success Toast
+        </Button>
+
+        <Button
+          onClick={() =>
+            error({
+              title: 'Error',
+              description: 'Something went wrong!',
+              duration: 3000,
+            })
+          }
+          variant="red"
+        >
+          Show Error Toast
+        </Button>
+
+        <Button
+          onClick={() =>
+            warning({
+              title: 'Warning',
+              description: 'This action might have consequences',
+              duration: 3000,
+            })
+          }
+          variant="orange"
+        >
+          Show Warning Toast
+        </Button>
+
+        <Button
+          onClick={() =>
+            info({
+              title: 'Information',
+              description: 'Here is some useful information',
+              duration: 3000,
+            })
+          }
+          variant="gray"
+        >
+          Show Info Toast
+        </Button>
+      </div>
+    </div>
+  );
+};
+
 export default function DesignSystem() {
   return (
     <div className="w-full pb-10">
@@ -617,6 +693,7 @@ export default function DesignSystem() {
       <SelectBaseExample />
       <SliderExample />
       <ContentMenuExample />
+      <ToastExample />
     </div>
   );
 }
