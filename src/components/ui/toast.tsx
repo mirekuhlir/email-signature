@@ -58,16 +58,8 @@ export const useToast = () => {
 
   return {
     toasts,
-    toast: addToast,
+    toast: (props: Omit<ToastMessage, 'id'>) => addToast(props),
     removeToast,
-    success: (props: Omit<ToastMessage, 'id' | 'variant'>) =>
-      addToast({ ...props, variant: 'success' }),
-    error: (props: Omit<ToastMessage, 'id' | 'variant'>) =>
-      addToast({ ...props, variant: 'error' }),
-    warning: (props: Omit<ToastMessage, 'id' | 'variant'>) =>
-      addToast({ ...props, variant: 'warning' }),
-    info: (props: Omit<ToastMessage, 'id' | 'variant'>) =>
-      addToast({ ...props, variant: 'info' }),
   };
 };
 

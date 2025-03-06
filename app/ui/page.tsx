@@ -600,7 +600,7 @@ const ContentMenuExample = () => {
 };
 
 const ToastExample = () => {
-  const { toast, success, error, warning, info } = useToast();
+  const { toast } = useToast();
 
   return (
     <div className="p-8 space-y-8 border-b border-gray-200">
@@ -612,6 +612,7 @@ const ToastExample = () => {
               title: 'Default Toast',
               description: 'This is a default toast notification',
               duration: 3000,
+              variant: 'default',
             })
           }
         >
@@ -620,10 +621,11 @@ const ToastExample = () => {
 
         <Button
           onClick={() =>
-            success({
+            toast({
               title: 'Success',
               description: 'Operation completed successfully!',
               duration: 3000,
+              variant: 'success',
             })
           }
           variant="blue"
@@ -633,10 +635,11 @@ const ToastExample = () => {
 
         <Button
           onClick={() =>
-            error({
+            toast({
               title: 'Error',
               description: 'Something went wrong!',
               duration: 3000,
+              variant: 'error',
             })
           }
           variant="red"
@@ -646,10 +649,11 @@ const ToastExample = () => {
 
         <Button
           onClick={() =>
-            warning({
+            toast({
               title: 'Warning',
               description: 'This action might have consequences',
               duration: 3000,
+              variant: 'warning',
             })
           }
           variant="orange"
@@ -659,10 +663,11 @@ const ToastExample = () => {
 
         <Button
           onClick={() =>
-            info({
+            toast({
               title: 'Information',
               description: 'Here is some useful information',
               duration: 3000,
+              variant: 'info',
             })
           }
           variant="gray"
