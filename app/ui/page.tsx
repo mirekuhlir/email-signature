@@ -15,6 +15,7 @@ import { ContentType } from '@/src/const/content';
 import Slider from '@/src/components/ui/slider';
 import { ContextMenu } from '@/src/components/ui/context-menu';
 import { useToast } from '@/src/components/ui/toast';
+import { useModal } from '@/src/components/ui/modal-system';
 
 const TypographyExample = () => {
   return (
@@ -162,7 +163,6 @@ const TypographyExample = () => {
       </Typography>
       <Typography variant="small" textColor="text-gray-600">
         This small text is intended to be less prominent but still important.
-        It’s a perfect fit for additional notes or fine print, especially when
         you want to convey extra information without overwhelming the reader.
       </Typography>
 
@@ -679,6 +679,71 @@ const ToastExample = () => {
   );
 };
 
+const ModalSystemExample = () => {
+  const { modal } = useModal();
+
+  const showSimpleModal = () => {
+    modal({
+      title: 'Simple Modal',
+      content: (
+        <div className="py-4">
+          <p>This is a simple modal with some basic content.</p>
+        </div>
+      ),
+      size: 'small',
+    });
+  };
+
+  const showConfirmModal = () => {
+    modal({
+      title: 'Confirm Action',
+      content: (
+        <div className="py-4">
+          <p>Are you sure you want to perform this action?</p>
+        </div>
+      ),
+      onConfirm: () => {
+        console.log('Action confirmed!');
+      },
+      onCancel: () => {
+        console.log('Action cancelled');
+      },
+    });
+  };
+
+  const showLargeModal = () => {
+    modal({
+      title: 'Large Modal Example',
+      content: (
+        <div className="py-4">
+          <p>This is a larger modal with more content space.</p>
+          <p className="mt-4">You can put any React components here.</p>
+        </div>
+      ),
+      size: 'large',
+    });
+  };
+
+  return (
+    <div className="p-8 space-y-4">
+      <Typography variant="h2" className="mb-4">
+        Modal System Example
+      </Typography>
+      <div className="flex flex-wrap gap-4">
+        <Button onClick={showSimpleModal} variant="blue">
+          Show Simple Modal
+        </Button>
+        <Button onClick={showConfirmModal} variant="orange">
+          Show Confirm Modal
+        </Button>
+        <Button onClick={showLargeModal} variant="black">
+          Show Large Modal
+        </Button>
+      </div>
+    </div>
+  );
+};
+
 export default function DesignSystem() {
   return (
     <div className="w-full pb-10">
@@ -699,6 +764,7 @@ export default function DesignSystem() {
       <SliderExample />
       <ContentMenuExample />
       <ToastExample />
+      <ModalSystemExample />
     </div>
   );
 }

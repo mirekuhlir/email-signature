@@ -1,6 +1,7 @@
 import { Geist } from 'next/font/google';
 import './globals.css';
 import { ToastContainer } from '../src/components/ui/toast';
+import { ModalContainer } from '../src/components/ui/modal-system';
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -45,6 +46,7 @@ export default function RootLayout({
       <body>
         {children}
         <ToastContainer />
+        <ModalContainer />
       </body>
     </html>
   );
