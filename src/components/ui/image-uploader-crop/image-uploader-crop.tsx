@@ -12,6 +12,7 @@ import Slider from '../slider';
 import { debounce } from 'lodash';
 import { getDefaultCrop, imageWidthDefault } from './utils';
 import { Typography } from '../typography';
+import { useModal } from '../modal-system';
 
 interface ImageSettings {
   crop: Crop;
@@ -21,26 +22,23 @@ interface ImageSettings {
 
 interface ImageUploaderProps {
   onSetCropImagePreview?: (preview: string) => void;
-  onSetOriginalImagePreview?: (original: string) => void;
   onSetOriginalImage?: (file: File | null) => void;
   onSetImageSettings?: (info: ImageSettings | string) => void;
   onSetPreviewWidth?: (width: number) => void;
   onLoadingChange?: (isLoading: boolean) => void;
-  originalImagePreview?: string;
   imageName: string;
   imageSettings?: ImageSettings;
   previewWidthInit?: number;
   onInit?: () => void;
   srcOriginalImage?: string;
   originalSrc?: string;
+  isSignedIn?: boolean;
 }
 
 export default function ImageUploadCrop(props: ImageUploaderProps) {
   const {
     onSetCropImagePreview,
     onSetOriginalImage,
-    onSetOriginalImagePreview,
-    originalImagePreview,
     imageSettings,
     onSetImageSettings,
     previewWidthInit,
@@ -49,7 +47,10 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     srcOriginalImage,
     originalSrc,
     onLoadingChange,
+    isSignedIn,
   } = props;
+
+  const { modal } = useModal();
 
   const [crop, setCrop] = useState<Crop | undefined>(undefined);
   const [aspect, setAspect] = useState<number | undefined>(undefined);
@@ -58,6 +59,10 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   const [previewWidth, setPreviewWidth] = useState<number | undefined>(
     undefined,
   );
+
+  const [originalImagePreview, setOriginalImagePreview] = useState<
+    string | undefined
+  >(undefined);
   const [isLoadingOriginalImage, setIsLoadingOriginalImage] = useState(false);
 
   const imgRef = useRef<HTMLImageElement>(null);
@@ -74,16 +79,31 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const files = e.target.files;
       if (files && files.length > 0) {
-        onLoadingChange?.(true);
         const file = files[0];
+        const fileSize = file.size / (1024 * 1024);
+
+        if (!isSignedIn && fileSize > 1) {
+          modal({
+            title: 'Confirm Action',
+            content: (
+              <Typography>
+                As an unregistered user, you cannot upload large images. You can
+                only upload one image smaller than 1MB.
+              </Typography>
+            ),
+          });
+
+          return;
+        }
+
         const fileUrl = URL.createObjectURL(file);
-        onSetOriginalImagePreview?.(fileUrl);
+        setOriginalImagePreview(fileUrl);
+
         setCroppedImageData(null);
         onSetOriginalImage?.(file);
-        onLoadingChange?.(false);
       }
     },
-    [onSetOriginalImage, onSetOriginalImagePreview, onLoadingChange],
+    [onSetOriginalImage, onLoadingChange],
   );
 
   const loadOriginalImage = useCallback(
@@ -97,7 +117,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         }
         const blob = await response.blob();
         const fileUrl = URL.createObjectURL(blob);
-        onSetOriginalImagePreview?.(fileUrl);
+        setOriginalImagePreview(fileUrl);
         setCroppedImageData(null);
       } catch (error) {
         console.error('Error fetching image from URL:', error);
@@ -106,7 +126,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         onLoadingChange?.(false);
       }
     },
-    [onSetOriginalImagePreview, onLoadingChange],
+    [onLoadingChange],
   );
 
   useEffect(() => {
@@ -246,19 +266,15 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   }, [previewWidth, debouncedHandleCrop, croppedImageData]);
 
   const handleDeleteImage = useCallback(() => {
-    onSetOriginalImagePreview?.('');
+    // TODO - sjednotit - null undefined prázdný string
     onSetCropImagePreview?.('');
     setCroppedImageData?.(null);
     onSetOriginalImage?.(null);
     onSetImageSettings?.('');
     setCrop(undefined);
     setIsCircular(false);
-  }, [
-    onSetCropImagePreview,
-    onSetImageSettings,
-    onSetOriginalImage,
-    onSetOriginalImagePreview,
-  ]);
+    setOriginalImagePreview(undefined);
+  }, [onSetCropImagePreview, onSetImageSettings, onSetOriginalImage]);
 
   const handleAspectChange = useCallback(
     (newAspect: number, circular: boolean = false) => {
@@ -414,6 +430,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
           <Typography variant="labelBase">Choose the aspect ratio</Typography>
           <div className="flex items-center justify-between gap-4">
             <Button
+              size="lg"
               variant="outline"
               onClick={() => {
                 handleAspectChange(1, false);
@@ -423,6 +440,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
               1:1
             </Button>
             <Button
+              size="lg"
               variant="outline"
               onClick={() => {
                 handleAspectChange(3 / 2, false);
@@ -432,6 +450,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
               3:2
             </Button>
             <Button
+              size="lg"
               variant="outline"
               onClick={() => {
                 handleAspectChange(2 / 3, false);
@@ -441,6 +460,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
               2:3
             </Button>
             <Button
+              size="lg"
               variant="outline"
               onClick={() => {
                 handleAspectChange(1, true);

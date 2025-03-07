@@ -2,8 +2,8 @@
 import React from 'react';
 import { create } from 'zustand';
 import Modal from './modal';
+import { Button } from './button';
 
-// TYPES
 export type ModalSize = 'small' | 'medium' | 'large' | 'fullscreen';
 
 export interface ModalMessage {
@@ -52,7 +52,6 @@ export const useModal = () => {
   };
 };
 
-// MODAL CONTAINER COMPONENT
 export const ModalContainer: React.FC = () => {
   const { modals, removeModal } = useModalStore();
 
@@ -74,28 +73,27 @@ export const ModalContainer: React.FC = () => {
             <div>{modal.content}</div>
 
             {(modal.onConfirm || modal.onCancel) && (
-              <div className="flex justify-end space-x-2 mt-4">
+              <div className="flex justify-between space-x-2 mt-4">
                 {modal.onCancel && (
-                  <button
-                    className="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300"
+                  <Button
+                    variant="outline"
                     onClick={() => {
                       modal.onCancel?.();
                       removeModal(modal.id);
                     }}
                   >
                     Cancel
-                  </button>
+                  </Button>
                 )}
                 {modal.onConfirm && (
-                  <button
-                    className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                  <Button
                     onClick={() => {
                       modal.onConfirm?.();
                       removeModal(modal.id);
                     }}
                   >
                     Confirm
-                  </button>
+                  </Button>
                 )}
               </div>
             )}
