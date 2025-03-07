@@ -33,6 +33,7 @@ interface ImageUploaderProps {
   srcOriginalImage?: string;
   originalSrc?: string;
   isSignedIn?: boolean;
+  imageCount?: number;
 }
 
 export default function ImageUploadCrop(props: ImageUploaderProps) {
@@ -48,6 +49,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     originalSrc,
     onLoadingChange,
     isSignedIn,
+    imageCount,
   } = props;
 
   const { modal } = useModal();
@@ -82,18 +84,33 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         const file = files[0];
         const fileSize = file.size / (1024 * 1024);
 
-        if (!isSignedIn && fileSize > 1) {
-          modal({
-            title: 'Confirm Action',
-            content: (
-              <Typography>
-                As an unregistered user, you cannot upload large images. You can
-                only upload one image smaller than 1MB.
-              </Typography>
-            ),
-          });
-
-          return;
+        // TODO - lepší texty
+        // TODO - odkázat tady uživatele na registraci
+        // TODO - onConfirm on Cncel
+        if (!isSignedIn) {
+          if (imageCount && imageCount >= 3) {
+            modal({
+              title: 'Confirm Action',
+              content: (
+                <Typography>
+                  As an unregistered user, you have reached the maximum number
+                  of images.
+                </Typography>
+              ),
+            });
+            return;
+          } else if (fileSize > 1) {
+            modal({
+              title: 'Confirm Action',
+              content: (
+                <Typography>
+                  As an unregistered user, you cannot upload large images. You
+                  can only upload one image smaller than 1MB.
+                </Typography>
+              ),
+            });
+            return;
+          }
         }
 
         const fileUrl = URL.createObjectURL(file);
@@ -103,7 +120,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         onSetOriginalImage?.(file);
       }
     },
-    [onSetOriginalImage, onLoadingChange],
+    [isSignedIn, onSetOriginalImage, modal],
   );
 
   const loadOriginalImage = useCallback(

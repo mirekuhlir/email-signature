@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useSignatureStore } from '@/src/store/content-edit-add-store';
 import ImageUploadCrop from '@/src/components/ui/image-uploader-crop/image-uploader-crop';
 import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
+import { countImageComponents } from '@/src/utils/content';
 
 export const ImageEditContent = (props: any) => {
   const { components, contentPathToEdit, isSignedIn } = props;
-  const { setContent } = useSignatureStore();
+  const { setContent, rows } = useSignatureStore();
   const { setContentEdit } = useContentEditStore();
   const imageComponent = components[0];
 
@@ -71,6 +72,14 @@ export const ImageEditContent = (props: any) => {
     [setContentEdit],
   );
 
+  const imageCount = useMemo(() => {
+    if (isSignedIn) {
+      return;
+    }
+
+    return countImageComponents(rows);
+  }, [isSignedIn, rows]);
+
   return (
     <ImageUploadCrop
       onSetCropImagePreview={handleCropImagePreview}
@@ -84,6 +93,7 @@ export const ImageEditContent = (props: any) => {
       onSetOriginalImage={handleOriginalImage}
       onLoadingChange={handleImageLoadingChange}
       isSignedIn={isSignedIn}
+      imageCount={imageCount}
     />
   );
 };
