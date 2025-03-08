@@ -6,6 +6,7 @@ import { Container } from './ui/container';
 import { useModal } from './ui/modal-system';
 import { Auth } from './auth/auth';
 import { ContextMenu } from './ui/context-menu';
+import StyledLink from './ui/styled-link';
 
 const getInitialsFromEmail = (email: string): string => {
   if (!email) return '??';
@@ -39,9 +40,11 @@ export const Header = (props: any) => {
       <Container>
         <div className="mx-auto px-4 sm:px-6 lg:px-0 h-16 flex items-center justify-between">
           <div className="flex items-center">
-            <span className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
-              Logo
-            </span>
+            <StyledLink variant="none" href="/">
+              <span className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
+                Logo
+              </span>
+            </StyledLink>
           </div>
           {user ? (
             <div>
@@ -50,7 +53,10 @@ export const Header = (props: any) => {
                 label={getInitialsFromEmail(user.email)}
               >
                 <form action={signOutAction}>
-                  <div className="p-2 flex items-center whitespace-nowrap">
+                  <div className="p-2 flex flex-col gap-2 whitespace-nowrap items-start">
+                    <StyledLink variant="button-ghost" href="/signatures">
+                      My signatures
+                    </StyledLink>
                     <Button type="submit" variant="ghost">
                       Sign out
                     </Button>
