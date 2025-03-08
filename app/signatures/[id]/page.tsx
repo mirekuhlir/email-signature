@@ -30,6 +30,10 @@ export default async function Signature(props: Props) {
 
   const isSignedIn = !!user;
 
+  if (templateSlug && isSignedIn) {
+    return redirect('/signatures');
+  }
+
   // User is not signed in
   if (templateSlug && !isSignedIn) {
     const template = getTemplateBySlug(
