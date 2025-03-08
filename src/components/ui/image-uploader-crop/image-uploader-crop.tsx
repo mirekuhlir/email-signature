@@ -14,6 +14,12 @@ import { getDefaultCrop, imageWidthDefault } from './utils';
 import { Typography } from '../typography';
 import { useModal } from '../modal-system';
 
+// TODO - promyslet kolik obrázků jak velký, podívat se na limity aodkoušet, co se stane, když uživatel uloží větší obrázek ne limit
+// N2Jaký flag dokud obrázek není nahrát a pak ho podle toho mazat?
+// Max number is two images, but adding flow add image component before upload image
+const MAX_IMAGE_COUNT = 3;
+const MAX_IMAGE_SIZE = 1;
+
 interface ImageSettings {
   crop: Crop;
   aspect?: number;
@@ -66,6 +72,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     string | undefined
   >(undefined);
   const [isLoadingOriginalImage, setIsLoadingOriginalImage] = useState(false);
+  const [isReplacing, setIsReplacing] = useState(false);
 
   const imgRef = useRef<HTMLImageElement>(null);
   const previewCanvasRef = useRef<HTMLCanvasElement>(null);
@@ -84,28 +91,29 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         const file = files[0];
         const fileSize = file.size / (1024 * 1024);
 
-        // TODO - lepší texty
         // TODO - odkázat tady uživatele na registraci
-        // TODO - onConfirm on Cncel
+        // TODO - onConfirm onCancel
+        // Přidat tlačítko Sign up a close.
         if (!isSignedIn) {
-          if (imageCount && imageCount >= 3) {
+          if (!isReplacing && imageCount && imageCount >= MAX_IMAGE_COUNT) {
             modal({
-              title: 'Confirm Action',
+              title: 'Image Limit Reached',
               content: (
                 <Typography>
-                  As an unregistered user, you have reached the maximum number
-                  of images.
+                  {`You have reached the maximum number of images allowed.
+                  Unregistered users can upload up to ${MAX_IMAGE_COUNT - 1} images.
+                  To upload more images and access additional features, please
+                  Sign up.`}
                 </Typography>
               ),
             });
             return;
-          } else if (fileSize > 1) {
+          } else if (fileSize > MAX_IMAGE_SIZE) {
             modal({
-              title: 'Confirm Action',
+              title: 'Image Size Limit Exceeded',
               content: (
                 <Typography>
-                  As an unregistered user, you cannot upload large images. You
-                  can only upload one image smaller than 1MB.
+                  {`Your image exceeds the maximum allowed size. Unregistered users can upload images up to ${MAX_IMAGE_SIZE}MB. To upload larger images, please Sign up.`}
                 </Typography>
               ),
             });
@@ -115,12 +123,13 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
 
         const fileUrl = URL.createObjectURL(file);
         setOriginalImagePreview(fileUrl);
+        setIsReplacing(false); // Reset isReplacing po úspěšném nahrání
 
         setCroppedImageData(null);
         onSetOriginalImage?.(file);
       }
     },
-    [isSignedIn, onSetOriginalImage, modal],
+    [isSignedIn, onSetOriginalImage, modal, isReplacing, imageCount],
   );
 
   const loadOriginalImage = useCallback(
@@ -283,6 +292,8 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   }, [previewWidth, debouncedHandleCrop, croppedImageData]);
 
   const handleDeleteImage = useCallback(() => {
+    setIsReplacing(true);
+
     // TODO - sjednotit - null undefined prázdný string
     onSetCropImagePreview?.('');
     setCroppedImageData?.(null);

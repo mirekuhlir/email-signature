@@ -31,8 +31,6 @@ export const ContentEdit = (props: any) => {
   const { setContentEdit, contentEdit } = useContentEditStore();
   const wrapperRef = useRef<HTMLDivElement>(null);
 
-  console.warn('rows', rows);
-
   const path = `${contentPathToEdit}.content`;
   const content = useMemo(() => get(rows, path), [rows, path]);
 
