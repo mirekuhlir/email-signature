@@ -456,9 +456,9 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
           </div>
 
           <Typography variant="labelBase">Choose the aspect ratio</Typography>
-          <div className="flex items-center justify-between gap-4">
+          <div className="flex items-center justify-between">
             <Button
-              size="lg"
+              size="md"
               variant="outline"
               onClick={() => {
                 handleAspectChange(1, false);
@@ -468,7 +468,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
               1:1
             </Button>
             <Button
-              size="lg"
+              size="md"
               variant="outline"
               onClick={() => {
                 handleAspectChange(3 / 2, false);
@@ -478,7 +478,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
               3:2
             </Button>
             <Button
-              size="lg"
+              size="md"
               variant="outline"
               onClick={() => {
                 handleAspectChange(2 / 3, false);
@@ -488,7 +488,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
               2:3
             </Button>
             <Button
-              size="lg"
+              size="md"
               variant="outline"
               onClick={() => {
                 handleAspectChange(1, true);

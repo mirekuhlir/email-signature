@@ -2,9 +2,9 @@
 import TextInput from '@/src/components/ui/text-input';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { createClient } from '@/src/utils/supabase/client';
-import { Button } from './ui/button';
+import { Button } from '../ui/button';
 
-export const SignInComponent = () => {
+export const Auth = () => {
   type FormValues = {
     email: string;
   };
