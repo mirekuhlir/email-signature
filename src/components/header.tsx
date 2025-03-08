@@ -5,6 +5,22 @@ import { signOutAction } from '@/app/actions';
 import { Container } from './ui/container';
 import { useModal } from './ui/modal-system';
 import { Auth } from './auth/auth';
+import { ContextMenu } from './ui/context-menu';
+
+const getInitialsFromEmail = (email: string): string => {
+  if (!email) return '??';
+
+  const localPart = email.split('@')[0];
+
+  if (localPart.includes('.')) {
+    const parts = localPart.split('.');
+    if (parts.length >= 2 && parts[0].length > 0 && parts[1].length > 0) {
+      return (parts[0][0] + parts[1][0]).toUpperCase();
+    }
+  }
+
+  return localPart.substring(0, 2).toUpperCase();
+};
 
 export const Header = (props: any) => {
   const { user } = props;
@@ -29,13 +45,18 @@ export const Header = (props: any) => {
           </div>
           {user ? (
             <div>
-              <div> {user.email}</div>
-
-              <form action={signOutAction}>
-                <Button type="submit" variant={'outline'}>
-                  Sign out
-                </Button>
-              </form>
+              <ContextMenu
+                buttonClassName="w-10 h-10 rounded-full bg-gradient-to-r from-blue-600 to-blue-800 flex items-center justify-center text-white font-medium"
+                label={getInitialsFromEmail(user.email)}
+              >
+                <form action={signOutAction}>
+                  <div className="p-2 flex items-center whitespace-nowrap">
+                    <Button type="submit" variant="ghost">
+                      Sign out
+                    </Button>
+                  </div>
+                </form>
+              </ContextMenu>
             </div>
           ) : (
             <Button onClick={showAuthModal}>Sign in</Button>

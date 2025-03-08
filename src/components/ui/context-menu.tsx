@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
-import { Button } from "./button";
+import React, { useState, useRef, useEffect } from 'react';
+import { Button } from './button';
 
 interface MenuItem {
   label: string;
@@ -9,20 +9,22 @@ interface MenuItem {
 interface ContextMenuProps {
   label?: string;
   items?: MenuItem[];
-  placement?: "left" | "right";
+  placement?: 'left' | 'right';
   children?: React.ReactNode;
   el?: React.ElementType;
+  buttonClassName?: string;
 }
 
 export const ContextMenu: React.FC<ContextMenuProps> = ({
   label,
   items,
-  placement = "left",
+  placement = 'left',
   children,
   el,
+  buttonClassName,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [direction, setDirection] = useState<"down" | "up">("down");
+  const [direction, setDirection] = useState<'down' | 'up'>('down');
 
   const menuRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -34,8 +36,8 @@ export const ContextMenu: React.FC<ContextMenuProps> = ({
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   useEffect(() => {
@@ -43,36 +45,37 @@ export const ContextMenu: React.FC<ContextMenuProps> = ({
       const rect = buttonRef.current.getBoundingClientRect();
       const spaceBelow = window.innerHeight - rect.bottom;
       if (spaceBelow < 100) {
-        setDirection("up");
+        setDirection('up');
       } else {
-        setDirection("down");
+        setDirection('down');
       }
     }
   }, [isOpen]);
 
-  const MenuContainer: React.ElementType = el || "div";
+  const MenuContainer: React.ElementType = el || 'div';
 
   const menuStyle: React.CSSProperties = {
-    ...(direction === "up"
-      ? { bottom: "100%", marginBottom: "0.25rem" }
-      : { top: "100%", marginTop: "0.25rem" }),
-    ...(placement === "left" ? { right: 0 } : { left: 0 }),
+    ...(direction === 'up'
+      ? { bottom: '100%', marginBottom: '0.25rem' }
+      : { top: '100%', marginTop: '0.25rem' }),
+    ...(placement === 'left' ? { right: 0 } : { left: 0 }),
   };
 
   return (
     <div className="relative inline-block" ref={menuRef}>
       <Button
+        className={buttonClassName}
         size="sm"
         variant="outline"
         ref={buttonRef}
         onClick={() => setIsOpen(!isOpen)}
       >
-        {label ? label : "•••"}
+        {label ? label : '•••'}
       </Button>
 
       {isOpen && (
         <MenuContainer
-          className="absolute z-10 w-48 rounded shadow-lg bg-white border border-gray-200"
+          className="absolute z-10 rounded shadow-lg bg-white border border-gray-200"
           style={menuStyle}
         >
           <div className="py-1">
