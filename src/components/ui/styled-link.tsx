@@ -21,6 +21,7 @@ interface StyledLinkProps {
     | 'none';
   size?: 'sm' | 'md' | 'lg' | 'xl';
   className?: string;
+  prefetch?: boolean;
 }
 
 const StyledLink: FC<StyledLinkProps> = ({
@@ -29,6 +30,7 @@ const StyledLink: FC<StyledLinkProps> = ({
   variant = 'default',
   size = 'md',
   className = '',
+  /*   prefetch = false, */
 }) => {
   const variants = {
     'button-blue': buttonVariants.blue,
@@ -53,6 +55,8 @@ const StyledLink: FC<StyledLinkProps> = ({
   return (
     <Link
       href={href}
+      /*    link preload warning  */
+      /*      prefetch={prefetch} */
       className={`${variant.startsWith('button-') ? baseStyles : ''} ${variantStyles} ${sizeStyles} ${className}`}
     >
       {children}
