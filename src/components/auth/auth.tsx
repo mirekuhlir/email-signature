@@ -1,22 +1,26 @@
 'use client';
+import { useState } from 'react';
 import TextInput from '@/src/components/ui/text-input';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { createClient } from '@/src/utils/supabase/client';
 import { Button } from '../ui/button';
+import { Typography } from '../ui/typography';
+
+type FormValues = {
+  email: string;
+};
 
 export const Auth = () => {
-  type FormValues = {
-    email: string;
-  };
+  const [isEmailSent, setIsEmailSent] = useState(false);
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors: formErrors },
   } = useForm<FormValues>();
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    const email = data.email;
+    const { email } = data;
 
     const supabase = await createClient();
 
@@ -28,20 +32,34 @@ export const Auth = () => {
         /*    emailRedirectTo: '', */
       },
     });
+
+    if (error) {
+      console.error(error);
+    } else {
+      setIsEmailSent(true);
+    }
   };
 
+  if (isEmailSent) {
+    return (
+      <div className="flex flex-col p-4">
+        <Typography variant="lead">Email sent</Typography>
+        <Typography variant="body">
+          Please check your e-mail for a verification link. Use this link to
+          sign in.
+        </Typography>
+      </div>
+    );
+  }
+
   return (
-    <div className="flex-1 flex flex-col min-w-64">
-      <h1 className="text-2xl font-medium">Sign in</h1>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="bg-white p-6 rounded shadow-md w-full max-w-md"
-      >
+    <div className="flex flex-col">
+      <form onSubmit={handleSubmit(onSubmit)} className="bg-white p-6">
         <TextInput
-          label="Email"
+          label="Enter your e-mail"
           name="email"
           register={register}
-          errors={errors}
+          errors={formErrors}
           validation={{
             required: 'This field is required',
             pattern: {
