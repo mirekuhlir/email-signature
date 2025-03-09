@@ -34,7 +34,7 @@ const ButtonSquare = ({
   return (
     <button
       onClick={onClick}
-      className={`p-2 rounded w-20 h-10 flex items-center justify-center rounded-md shadow-xs ${isSelected ? 'bg-blue-200' : 'bg-white'} ${className}`}
+      className={`p-2 rounded w-20 h-10 flex items-center justify-center rounded-md shadow-xs cursor-pointer ${isSelected ? 'bg-blue-200' : 'bg-white'} ${className}`}
     >
       {children}
     </button>

@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect, ReactNode } from "react";
-import { Typography } from "./typography";
+import React, { useState, useRef, useEffect, ReactNode } from 'react';
+import { Typography } from './typography';
 
 interface Option {
   value: string;
@@ -31,9 +31,9 @@ const SelectBase: React.FC<CustomSelectProps> = ({
         setIsOpen(false);
       }
     };
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
 
@@ -51,10 +51,10 @@ const SelectBase: React.FC<CustomSelectProps> = ({
         <button
           type="button"
           onClick={() => setIsOpen((prev) => !prev)}
-          className="w-full bg-white border border-gray-300 rounded-md shadow-xs pl-3 pr-10 py-2 text-left cursor-default focus:outline-hidden focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+          className="w-full bg-white border border-gray-300 rounded-md shadow-xs pl-3 pr-10 py-2 text-left cursor-pointer focus:outline-hidden focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
         >
           <span className="block truncate">
-            {selectedOption ? selectedOption.label : "Vyberte možnost"}
+            {selectedOption ? selectedOption.label : 'Vyberte možnost'}
           </span>
           <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
             {isOpen ? (
@@ -95,13 +95,13 @@ const SelectBase: React.FC<CustomSelectProps> = ({
                 key={option.value}
                 className={`cursor-pointer select-none relative py-2 pl-3 pr-9 ${
                   option.value === value
-                    ? "text-white bg-blue-600"
-                    : "text-gray-900 hover:bg-blue-100"
+                    ? 'text-white bg-blue-600'
+                    : 'text-gray-900 hover:bg-blue-100'
                 }`}
                 onClick={() => handleOptionClick(option)}
               >
                 <span
-                  className={`block truncate ${option.value === value ? "font-semibold" : "font-normal"}`}
+                  className={`block truncate ${option.value === value ? 'font-semibold' : 'font-normal'}`}
                 >
                   {option.label}
                 </span>

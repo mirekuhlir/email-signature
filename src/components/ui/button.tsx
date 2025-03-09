@@ -39,7 +39,7 @@ const LoadingSpinner = () => (
 );
 
 export const baseStyles =
-  'inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-hidden disabled:opacity-50 disabled:cursor-not-allowed';
+  'inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-hidden disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer';
 
 export const variants = {
   blue: 'bg-blue-600 hover:bg-blue-700 text-white',
