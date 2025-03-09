@@ -8,11 +8,14 @@ import Modal from './ui/modal';
 import { Button } from '@/src/components/ui/button';
 import { createClient } from '@/src/utils/supabase/client';
 import { TemplatesExamples } from './templates-examples';
+import { useMediaQuery } from '@/src/hooks/useMediaQuery';
+import { MEDIA_QUERIES } from '@/src/constants/mediaQueries';
 
 export const SignaturesList = (props: any) => {
   const { signatures } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const supabase = createClient();
+  const isMobile = useMediaQuery(MEDIA_QUERIES.MOBILE);
 
   return (
     <div className="w-full">
@@ -48,12 +51,14 @@ export const SignaturesList = (props: any) => {
         </Button>
       </div>
       <Modal
-        size="fullscreen"
+        size={isMobile ? 'fullscreen' : 'large'}
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
       >
-        <div>
-          {/*        TODO - bdue tady vždy uživatel přihlášen? */}
+        <div className="pt-4">
+          <div className="mb-6">
+            <Typography variant="h3">Select signature</Typography>
+          </div>
           <TemplatesExamples isSignedIn={true} />
         </div>
       </Modal>
