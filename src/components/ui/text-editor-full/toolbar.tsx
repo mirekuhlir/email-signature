@@ -20,7 +20,7 @@ export function Toolbar({
       <div className="flex items-center gap-2">
         <select
           onChange={(e) => onFontChange(e.target.value)}
-          className="h-8 px-2 border rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="h-8 px-2 border rounded text-sm focus:outline-hidden focus:ring-2 focus:ring-blue-500"
           defaultValue={fonts[0].value}
         >
           {fonts.map((font) => (
@@ -79,7 +79,7 @@ export function Toolbar({
       <div className="flex gap-2">
         <button
           onClick={onColorClick}
-          className="h-8 px-3 border rounded text-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="h-8 px-3 border rounded text-sm hover:bg-gray-50 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
           title="Text Color"
         >
           <span className="text-lg">🎨</span>

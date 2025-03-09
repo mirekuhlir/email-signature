@@ -34,7 +34,7 @@ const TextInput: React.FC<TextInputProps> = ({
         id={name}
         {...register(name, { ...validation })}
         placeholder={placeholder}
-        className={`appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:border-teal-500 focus:outline-none ${
+        className={`appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:border-teal-500 focus:outline-hidden ${
           errors && errors[name] ? "border-red-500" : ""
         }`}
       />

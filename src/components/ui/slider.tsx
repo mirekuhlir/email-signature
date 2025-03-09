@@ -141,7 +141,7 @@ const Slider: React.FC<SliderProps> = (props) => {
           />
         </div>
         <div
-          className="absolute w-8 h-8 bg-white border-2 border-blue-500 rounded-full shadow transform -translate-y-1/2 -translate-x-1/2 cursor-pointer"
+          className="absolute w-8 h-8 bg-white border-2 border-blue-500 rounded-full shadow-sm transform -translate-y-1/2 -translate-x-1/2 cursor-pointer"
           style={{ left: `${percentValue}%` }}
         />
         <div className="absolute top-full left-0 w-full flex justify-between mt-2 text-xs text-gray-600">

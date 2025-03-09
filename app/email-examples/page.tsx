@@ -110,7 +110,7 @@ export default function EmailExamples() {
         </div>
         <button
           onClick={() => handleCopy("signature1")}
-          className="mt-4 px-4 py-2 bg-gradient-to-r from-[#FF6B6B] to-[#4ECDC4] text-white rounded hover:opacity-90"
+          className="mt-4 px-4 py-2 bg-linear-to-r from-[#FF6B6B] to-[#4ECDC4] text-white rounded hover:opacity-90"
         >
           Copy Signature
         </button>
@@ -201,7 +201,7 @@ export default function EmailExamples() {
         </div>
         <button
           onClick={() => handleCopy("signature4")}
-          className="mt-4 px-4 py-2 bg-gradient-to-r from-[#FF0080] to-[#7928CA] text-white rounded hover:opacity-90"
+          className="mt-4 px-4 py-2 bg-linear-to-r from-[#FF0080] to-[#7928CA] text-white rounded hover:opacity-90"
         >
           Copy Signature
         </button>
@@ -440,7 +440,7 @@ export default function EmailExamples() {
         </div>
         <button
           onClick={() => handleCopy("email-signature")}
-          className="mt-4 px-4 py-2 bg-gradient-to-r from-[#2C5364] to-[#203A43] text-white rounded hover:opacity-90"
+          className="mt-4 px-4 py-2 bg-linear-to-r from-[#2C5364] to-[#203A43] text-white rounded hover:opacity-90"
         >
           Copy Signature
         </button>
@@ -526,7 +526,7 @@ export default function EmailExamples() {
         </div>
         <button
           onClick={() => handleCopy("signature6")}
-          className="mt-4 px-4 py-2 bg-gradient-to-r from-[#FF61D2] to-[#FE9090] text-white rounded hover:opacity-90"
+          className="mt-4 px-4 py-2 bg-linear-to-r from-[#FF61D2] to-[#FE9090] text-white rounded hover:opacity-90"
         >
           Copy Signature
         </button>
@@ -615,7 +615,7 @@ export default function EmailExamples() {
         </div>
         <button
           onClick={() => handleCopy("signature7")}
-          className="mt-4 px-4 py-2 bg-gradient-to-r from-[#00F5A0] to-[#00D9F5] text-white rounded hover:opacity-90"
+          className="mt-4 px-4 py-2 bg-linear-to-r from-[#00F5A0] to-[#00D9F5] text-white rounded hover:opacity-90"
         >
           Copy Signature
         </button>

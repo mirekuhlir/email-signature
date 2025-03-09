@@ -41,7 +41,7 @@ export default async function Signature(props: Props) {
     );
 
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+      <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100">
         {/*       <Header user={user} /> */}
         <main>
           <div className="pt-24">
@@ -74,7 +74,7 @@ export default async function Signature(props: Props) {
     const rows = data?.signature_content?.rows || [];
 
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+      <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100">
         <Header user={user} />
         <main>
           <div className="pt-24">

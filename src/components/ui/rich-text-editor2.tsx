@@ -344,7 +344,7 @@ const RichTextEditor2 = () => {
         </div>
       </div>
 
-      <div className="w-full min-h-[200px] p-4 border rounded focus:outline-none focus:ring-2 focus:ring-blue-200 bg-white">
+      <div className="w-full min-h-[200px] p-4 border rounded focus:outline-hidden focus:ring-2 focus:ring-blue-200 bg-white">
         {/*     {lines.map((line, index) => (
           <div
             key={line.id}
@@ -364,7 +364,7 @@ const RichTextEditor2 = () => {
               value={line.text}
               onChange={(e) => handleLineChange(line.id, e.target.value)}
               onKeyDown={(e) => handleKeyDown(e, index)}
-              className="w-full bg-transparent border-none focus:outline-none"
+              className="w-full bg-transparent border-none focus:outline-hidden"
               style={{
                 fontSize: `${line.fontSize}px`,
                 lineHeight: line.lineHeight,

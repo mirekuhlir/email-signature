@@ -21,7 +21,7 @@ export default async function Signatures() {
     .eq('user_id', user.id);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+    <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100">
       <Header user={user} />
       <main>
         <div className="pt-16 ">

@@ -41,7 +41,7 @@ export const Header = (props: any) => {
         <div className="mx-auto px-4 sm:px-6 lg:px-0 h-16 flex items-center justify-between">
           <div className="flex items-center">
             <StyledLink variant="none" href="/">
-              <span className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
+              <span className="text-xl sm:text-2xl font-bold bg-linear-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
                 Logo
               </span>
             </StyledLink>
@@ -49,7 +49,7 @@ export const Header = (props: any) => {
           {user ? (
             <div>
               <ContextMenu
-                buttonClassName="w-10 h-10 rounded-full bg-gradient-to-r from-blue-600 to-blue-800 flex items-center justify-center text-white font-medium"
+                buttonClassName="w-10 h-10 rounded-full bg-linear-to-r from-blue-600 to-blue-800 flex items-center justify-center text-white font-medium"
                 label={getInitialsFromEmail(user.email)}
               >
                 <form action={signOutAction}>

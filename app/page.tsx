@@ -10,19 +10,19 @@ export default async function Home() {
   } = await supabase.auth.getUser();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+    <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100">
       <Header user={user} />
 
       {/* Hero Section */}
-      <main className="flex-grow w-full pt-16">
+      <main className="grow w-full pt-16">
         <StyledLink variant="button-orange" href="/templates">
           Try for free
         </StyledLink>
-        <section className="relative bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900 text-white py-24 sm:py-32 overflow-hidden">
+        <section className="relative bg-linear-to-br from-blue-600 via-blue-700 to-blue-900 text-white py-24 sm:py-32 overflow-hidden">
           <div className="absolute inset-0 opacity-30"></div>
           <div className="max-w-[1200px] mx-auto px-4 sm:px-6 relative">
             <div className="max-w-2xl">
-              <h1 className="text-4xl sm:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-blue-100">
+              <h1 className="text-4xl sm:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-linear-to-r from-white to-blue-100">
                 Create amazing projects
               </h1>
               <p className="text-lg sm:text-xl mb-8 text-blue-100">
@@ -42,9 +42,9 @@ export default async function Home() {
 
         {/* Features Section */}
         <section className="py-24 bg-white relative">
-          <div className="absolute inset-0 bg-gradient-to-b from-gray-50/50 to-white"></div>
+          <div className="absolute inset-0 bg-linear-to-b from-gray-50/50 to-white"></div>
           <div className="max-w-[1200px] mx-auto px-4 sm:px-6 relative">
-            <h2 className="text-3xl sm:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+            <h2 className="text-3xl sm:text-5xl font-bold text-center mb-16 bg-linear-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
               Why choose our services?
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -66,10 +66,10 @@ export default async function Home() {
                   key={idx}
                   className="group p-8 rounded-2xl bg-white border border-gray-100 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 relative"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-gray-100/50 rounded-2xl transition-opacity opacity-0 group-hover:opacity-100"></div>
+                  <div className="absolute inset-0 bg-linear-to-br from-gray-50 to-gray-100/50 rounded-2xl transition-opacity opacity-0 group-hover:opacity-100"></div>
                   <div className="relative">
                     <div
-                      className={`w-16 h-16 rounded-xl bg-gradient-to-r ${feature.gradient} mb-6`}
+                      className={`w-16 h-16 rounded-xl bg-linear-to-r ${feature.gradient} mb-6`}
                     ></div>
                     <h3 className="text-2xl font-semibold mb-4">
                       {feature.title}
@@ -86,7 +86,7 @@ export default async function Home() {
 
         {/* Stats Section */}
         <section className="relative py-24 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-purple-50"></div>
+          <div className="absolute inset-0 bg-linear-to-br from-blue-50 via-white to-purple-50"></div>
           <div className="max-w-[1200px] mx-auto px-4 sm:px-6 relative">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-12">
               {[
@@ -111,7 +111,7 @@ export default async function Home() {
                   className="text-center bg-white rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all hover:-translate-y-1"
                 >
                   <div
-                    className={`text-4xl sm:text-5xl font-bold bg-gradient-to-r ${stat.gradient} bg-clip-text text-transparent mb-4`}
+                    className={`text-4xl sm:text-5xl font-bold bg-linear-to-r ${stat.gradient} bg-clip-text text-transparent mb-4`}
                   >
                     {stat.number}
                   </div>
@@ -124,25 +124,25 @@ export default async function Home() {
 
         {/* Testimonials Section */}
         <section className="bg-white py-24 relative">
-          <div className="absolute inset-0 bg-gradient-to-br from-white to-gray-50"></div>
+          <div className="absolute inset-0 bg-linear-to-br from-white to-gray-50"></div>
           <div className="max-w-[1200px] mx-auto px-4 sm:px-6 relative">
-            <h2 className="text-3xl sm:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+            <h2 className="text-3xl sm:text-5xl font-bold text-center mb-16 bg-linear-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
               What our clients say
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {[1, 2].map((item) => (
                 <div
                   key={item}
-                  className="group p-8 rounded-2xl bg-gradient-to-br from-white to-gray-50 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 relative border border-gray-100"
+                  className="group p-8 rounded-2xl bg-linear-to-br from-white to-gray-50 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 relative border border-gray-100"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-purple-50/50 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                  <div className="absolute inset-0 bg-linear-to-br from-blue-50/50 to-purple-50/50 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
                   <div className="relative">
                     <p className="text-gray-600 mb-6 text-lg">
                       "Great services, professional approach. I can only
                       recommend!"
                     </p>
                     <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-400 to-blue-600"></div>
+                      <div className="w-12 h-12 rounded-full bg-linear-to-br from-blue-400 to-blue-600"></div>
                       <div>
                         <div className="font-semibold text-lg">Jan Novák</div>
                         <div className="text-gray-500">
@@ -158,7 +158,7 @@ export default async function Home() {
         </section>
 
         {/* Final CTA Section */}
-        <section className="bg-gradient-to-br from-purple-600 via-blue-700 to-blue-800 text-white py-24 relative overflow-hidden">
+        <section className="bg-linear-to-br from-purple-600 via-blue-700 to-blue-800 text-white py-24 relative overflow-hidden">
           <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMjk4IDUwYTQ4IDQ4IDAgMDAwLTk2IDQ4IDQ4IDAgMDAwIDk2em0wIDEwMGE0OCA0OCAwIDEwMC05NiA0OCA0OCAwIDAwMCA5NnptMCAxMDBhNDggNDggMCAxMDAtOTYgNDggNDggMCAwMDAgOTZ6IiBmaWxsPSJ3aGl0ZSIgZmlsbC1vcGFjaXR5PSIuMDUiLz48L3N2Zz4=')] opacity-30"></div>
           <div className="max-w-[1200px] mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between relative">
             <div className="mb-8 sm:mb-0">
@@ -176,9 +176,9 @@ export default async function Home() {
         </section>
 
         <section className="py-24 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 to-purple-50"></div>
+          <div className="absolute inset-0 bg-linear-to-br from-indigo-50 to-purple-50"></div>
           <div className="max-w-[1200px] mx-auto px-4 sm:px-6 relative">
-            <h2 className="text-3xl sm:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+            <h2 className="text-3xl sm:text-5xl font-bold text-center mb-16 bg-linear-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
               Our story
             </h2>
             <div className="space-y-12">
@@ -209,7 +209,7 @@ export default async function Home() {
                   className="flex flex-col md:flex-row gap-8 items-center group"
                 >
                   <div className="w-full md:w-1/4 p-6 bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all group-hover:-translate-y-1">
-                    <div className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                    <div className="text-3xl font-bold bg-linear-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
                       {item.year}
                     </div>
                   </div>
@@ -227,7 +227,7 @@ export default async function Home() {
 
         {/* New section: Services with diagonal split */}
         <section className="py-24 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-emerald-600 to-teal-600 transform -skew-y-6 scale-110"></div>
+          <div className="absolute inset-0 bg-linear-to-r from-emerald-600 to-teal-600 transform -skew-y-6 scale-110"></div>
           <div className="relative max-w-[1200px] mx-auto px-4 sm:px-6">
             <h2 className="text-3xl sm:text-5xl font-bold text-center mb-16 text-white">
               Our Services
@@ -243,7 +243,7 @@ export default async function Home() {
                   key={idx}
                   className="bg-white/90 backdrop-blur-lg p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all hover:-translate-y-1"
                 >
-                  <h3 className="text-2xl font-semibold mb-4 bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
+                  <h3 className="text-2xl font-semibold mb-4 bg-linear-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
                     {service}
                   </h3>
                   <p className="text-gray-600">
@@ -272,12 +272,12 @@ export default async function Home() {
                 { title: 'Optimization', bg: 'from-pink-500 to-pink-600' },
               ].map((step, idx) => (
                 <div key={idx} className="relative group">
-                  <div className="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl transform transition-transform group-hover:scale-105"></div>
+                  <div className="absolute inset-0 bg-linear-to-br from-gray-800 to-gray-900 rounded-2xl transform transition-transform group-hover:scale-105"></div>
                   <div
                     className={`relative p-8 border border-gray-700 rounded-2xl overflow-hidden`}
                   >
                     <div
-                      className={`w-20 h-20 mb-6 rounded-xl bg-gradient-to-r ${step.bg}`}
+                      className={`w-20 h-20 mb-6 rounded-xl bg-linear-to-r ${step.bg}`}
                     >
                       <div className="w-full h-full flex items-center justify-center text-2xl font-bold">
                         {idx + 1}
@@ -298,7 +298,7 @@ export default async function Home() {
         </section>
 
         {/* New section: Newsletter with wavy background */}
-        <section className="py-24 relative overflow-hidden bg-gradient-to-br from-orange-400 to-pink-600">
+        <section className="py-24 relative overflow-hidden bg-linear-to-br from-orange-400 to-pink-600">
           <div className="absolute inset-0 bg-repeat-x bg-bottom"></div>
           <div className="max-w-[1200px] mx-auto px-4 sm:px-6 relative">
             <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-12 shadow-2xl">
@@ -314,7 +314,7 @@ export default async function Home() {
                   <input
                     type="email"
                     placeholder="Your email"
-                    className="flex-1 px-6 py-3 rounded-lg bg-white/20 backdrop-blur-lg text-white placeholder-white/60 border border-white/30 focus:outline-none focus:ring-2 focus:ring-white/50"
+                    className="flex-1 px-6 py-3 rounded-lg bg-white/20 backdrop-blur-lg text-white placeholder-white/60 border border-white/30 focus:outline-hidden focus:ring-2 focus:ring-white/50"
                   />
                   <button className="px-6 py-3 bg-white text-pink-600 rounded-lg font-semibold hover:bg-pink-50 transition-all">
                     Subscribe
@@ -326,7 +326,7 @@ export default async function Home() {
         </section>
 
         {/* Footer */}
-        <footer className="bg-gradient-to-br from-gray-900 to-gray-800 text-gray-300">
+        <footer className="bg-linear-to-br from-gray-900 to-gray-800 text-gray-300">
           <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-16">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
               <div>

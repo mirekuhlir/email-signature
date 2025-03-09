@@ -72,7 +72,7 @@ export function TextEditor() {
           ref={editorRef}
           contentEditable
           onInput={handleInput}
-          className="min-h-[200px] p-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="min-h-[200px] p-4 border rounded-lg focus:outline-hidden focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         />
 
         {showColorPicker && (

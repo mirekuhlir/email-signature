@@ -35,7 +35,7 @@ const Select = <TFormValues extends FieldValues>({
             errors?.[name]
               ? "border-red-500 focus:ring-red-500"
               : "border-gray-300 focus:ring-blue-500"
-          } hover:border-gray-400 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:ring-1 ${className}`}
+          } hover:border-gray-400 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-hidden focus:ring-1 ${className}`}
         >
           {options.map((option) => (
             <option

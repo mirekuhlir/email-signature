@@ -51,7 +51,7 @@ const SelectBase: React.FC<CustomSelectProps> = ({
         <button
           type="button"
           onClick={() => setIsOpen((prev) => !prev)}
-          className="w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+          className="w-full bg-white border border-gray-300 rounded-md shadow-xs pl-3 pr-10 py-2 text-left cursor-default focus:outline-hidden focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
         >
           <span className="block truncate">
             {selectedOption ? selectedOption.label : "Vyberte možnost"}
@@ -89,7 +89,7 @@ const SelectBase: React.FC<CustomSelectProps> = ({
           </span>
         </button>
         {isOpen && (
-          <ul className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none">
+          <ul className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-hidden">
             {options.map((option) => (
               <li
                 key={option.value}

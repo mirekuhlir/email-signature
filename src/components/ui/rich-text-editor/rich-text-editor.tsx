@@ -34,7 +34,7 @@ const ButtonSquare = ({
   return (
     <button
       onClick={onClick}
-      className={`p-2 rounded w-20 h-10 flex items-center justify-center rounded-md shadow-sm ${isSelected ? 'bg-blue-200' : 'bg-white'} ${className}`}
+      className={`p-2 rounded w-20 h-10 flex items-center justify-center rounded-md shadow-xs ${isSelected ? 'bg-blue-200' : 'bg-white'} ${className}`}
     >
       {children}
     </button>
@@ -134,7 +134,7 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
       <div>
         {label && <Typography variant="labelBase">{label}</Typography>}
         <input
-          className="w-full p-4 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white border-gray-300 rounded-md shadow-sm"
+          className="w-full p-4 border rounded focus:outline-hidden focus:ring-2 focus:ring-blue-500 bg-white border-gray-300 rounded-md shadow-xs"
           style={{
             fontSize: `${editFontSize}px`,
             lineHeight: editLineHeight,
