@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, {
   useState,
@@ -6,7 +6,7 @@ import React, {
   useEffect,
   useCallback,
   useMemo,
-} from "react";
+} from 'react';
 
 interface Step {
   label: string;
@@ -28,7 +28,7 @@ interface SliderProps {
 const Slider: React.FC<SliderProps> = (props) => {
   const { id, defaultValue, onChange, value, min, max, step, steps } = props;
 
-  const isUsingSteps = "steps" in props;
+  const isUsingSteps = 'steps' in props;
   const sliderRef = useRef<HTMLDivElement>(null);
 
   const getInitialValue = useCallback((): number => {
@@ -107,11 +107,11 @@ const Slider: React.FC<SliderProps> = (props) => {
   useEffect(() => {
     const sliderElem = sliderRef.current;
     if (sliderElem) {
-      sliderElem.addEventListener("touchmove", handleTouchMove, {
+      sliderElem.addEventListener('touchmove', handleTouchMove, {
         passive: false,
       });
       return () => {
-        sliderElem.removeEventListener("touchmove", handleTouchMove);
+        sliderElem.removeEventListener('touchmove', handleTouchMove);
       };
     }
   }, [handleTouchMove]);
@@ -122,7 +122,7 @@ const Slider: React.FC<SliderProps> = (props) => {
         id={id}
         ref={sliderRef}
         className="relative w-full h-4 select-none"
-        style={{ touchAction: "none" }}
+        style={{ touchAction: 'none' }}
         onPointerDown={(e) => sliderRef.current?.setPointerCapture(e.pointerId)}
         onPointerMove={(e) => {
           if (e.buttons === 1) {
@@ -153,7 +153,7 @@ const Slider: React.FC<SliderProps> = (props) => {
             ))
           ) : (
             <span className="w-full text-center text-sm font-bold text-gray-700">
-              {`${currentValue} ${props.units ?? ""}`}
+              {`${currentValue} ${props.units ?? ''}`}
             </span>
           )}
         </div>

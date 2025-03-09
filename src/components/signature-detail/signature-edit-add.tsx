@@ -5,6 +5,7 @@ import { Button } from '@/src/components/ui/button';
 import { ContentEdit } from '@/src/components/signature-detail/content-edit/content-edit';
 import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
 import { ContentAdd } from '@/src/components/signature-detail/content-add/content-add';
+import { ColumnSettings } from '@/src/components/signature-detail/column-settings/column-settings';
 import { useParams } from 'next/navigation';
 
 export const EmailTemplateEdit = (props: any) => {
@@ -20,7 +21,7 @@ export const EmailTemplateEdit = (props: any) => {
         style={{
           ...column.style,
           display: 'table-cell',
-          verticalAlign: 'middle',
+          verticalAlign: 'top',
         }}
       >
         <div
@@ -32,9 +33,19 @@ export const EmailTemplateEdit = (props: any) => {
           {column.rows && renderRows(column.rows, false, `${rowPath}`)}
         </div>
 
-        {contentEdit.addPath !== rowPath && (
-          <div className="flex justify-between mt-2">
-            <Button variant="blue" size="sm">
+        {contentEdit.addPath !== rowPath && contentEdit.columnPath === null && (
+          <div className="flex justify-between p-1">
+            <Button
+              variant="blue"
+              size="sm"
+              onClick={() => {
+                setContentEdit({
+                  columnPath: path,
+                  editPath: null,
+                  addPath: null,
+                });
+              }}
+            >
               Settings
             </Button>
             <Button
@@ -113,24 +124,25 @@ export const EmailTemplateEdit = (props: any) => {
               </div>
             </div>
 
-            {contentEdit.editPath !== currentPath && (
-              <>
-                <div className="mt-1 mb-4 flex justify-end">
-                  <Button
-                    size="sm"
-                    variant="blue"
-                    onClick={() => {
-                      setContentEdit({
-                        editPath: currentPath,
-                        addPath: null,
-                      });
-                    }}
-                  >
-                    Edit
-                  </Button>
-                </div>
-              </>
-            )}
+            {contentEdit.editPath !== currentPath &&
+              contentEdit.columnPath === null && (
+                <>
+                  <div className="mt-1 mb-4 flex justify-end p-1">
+                    <Button
+                      size="sm"
+                      variant="blue"
+                      onClick={() => {
+                        setContentEdit({
+                          editPath: currentPath,
+                          addPath: null,
+                        });
+                      }}
+                    >
+                      Edit
+                    </Button>
+                  </div>
+                </>
+              )}
           </Fragment>
         );
       }
@@ -159,45 +171,49 @@ export const EmailTemplateEdit = (props: any) => {
   return (
     <>
       <div className="table mx-auto">
-        {!contentEdit.editPath && !contentEdit.addPath && (
-          <div className="mb-5">
-            <Button
-              onClick={() => {
-                setContentEdit({
-                  editPath: null,
-                  position: 'start',
-                  addPath: 'table-root',
-                  nextEditPath: '[0].columns[0].rows[0]',
-                });
-              }}
-              variant="gray"
-            >
-              Add
-            </Button>
-          </div>
-        )}
+        {!contentEdit.editPath &&
+          !contentEdit.addPath &&
+          !contentEdit.columnPath && (
+            <div className="mb-5">
+              <Button
+                onClick={() => {
+                  setContentEdit({
+                    editPath: null,
+                    position: 'start',
+                    addPath: 'table-root',
+                    nextEditPath: '[0].columns[0].rows[0]',
+                  });
+                }}
+                variant="gray"
+              >
+                Add
+              </Button>
+            </div>
+          )}
         <>
           {!contentEdit.addPath &&
             !contentEdit.editPath &&
             renderRows(rows, true, '')}
         </>
-        {!contentEdit.editPath && !contentEdit.addPath && (
-          <div className="mt-5 mb-5">
-            <Button
-              onClick={() => {
-                setContentEdit({
-                  editPath: null,
-                  position: 'end',
-                  addPath: 'table-root',
-                  nextEditPath: `[${rows.length}].columns[0].rows[0]`,
-                });
-              }}
-              variant="gray"
-            >
-              Add
-            </Button>
-          </div>
-        )}
+        {!contentEdit.editPath &&
+          !contentEdit.addPath &&
+          !contentEdit.columnPath && (
+            <div className="mt-5 mb-5">
+              <Button
+                onClick={() => {
+                  setContentEdit({
+                    editPath: null,
+                    position: 'end',
+                    addPath: 'table-root',
+                    nextEditPath: `[${rows.length}].columns[0].rows[0]`,
+                  });
+                }}
+                variant="gray"
+              >
+                Add
+              </Button>
+            </div>
+          )}
       </div>
 
       {contentEdit.addPath && (
@@ -217,6 +233,16 @@ export const EmailTemplateEdit = (props: any) => {
           templateSlug={templateSlug}
           contentPathToEdit={contentEdit.editPath}
           key={`edit-${contentEdit.editPath}`}
+          signatureId={signatureId}
+        />
+      )}
+
+      {contentEdit.columnPath && (
+        <ColumnSettings
+          isSignedIn={isSignedIn}
+          templateSlug={templateSlug}
+          columnPathToEdit={contentEdit.columnPath}
+          key={`settings-${contentEdit.columnPath}`}
           signatureId={signatureId}
         />
       )}

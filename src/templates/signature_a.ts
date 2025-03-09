@@ -10,7 +10,7 @@ export const signature_a = {
         {
           id: "2j9b",
           style: {
-            padding: "10px",
+            padding: "10px 10px 10px 10px",
           },
           rows: [],
         },
@@ -19,7 +19,7 @@ export const signature_a = {
           style: {
             backgroundColor: "rgb(255,255,0)",
             verticalAlign: "top",
-            padding: "10px",
+            padding: "10px 10px 10px 10px",
           },
           rows: [{
             id: "ex3p",

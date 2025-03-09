@@ -11,7 +11,7 @@ import { ImageEditContent } from './image-edit-content';
 import Modal from '@/src/components/ui/modal';
 import { Typography } from '@/src/components/ui/typography';
 
-const SavingInfo = () => {
+export const SavingInfo = () => {
   return (
     <div className="flex  w-full pb-6 pt-6 justify-center">
       <Typography variant="large">Saving... Please wait</Typography>

@@ -73,13 +73,15 @@ export const SignatureDetail = (props: any) => {
             templateSlug={templateSlug}
             rows={rows}
           />
-          {!contentEdit.editPath && !contentEdit.addPath && (
-            <div className="flex justify-end pt-2 pb-8">
-              <Button size="lg" onClick={() => setIsEdit(false)}>
-                View
-              </Button>
-            </div>
-          )}
+          {!contentEdit.editPath &&
+            !contentEdit.addPath &&
+            !contentEdit.columnPath && (
+              <div className="flex justify-end pt-2 pb-8">
+                <Button size="lg" onClick={() => setIsEdit(false)}>
+                  View
+                </Button>
+              </div>
+            )}
         </div>
       )}
     </>
