@@ -690,7 +690,7 @@ const ModalSystemExample = () => {
           <p>This is a simple modal with some basic content.</p>
         </div>
       ),
-      size: 'small',
+      size: 'medium',
     });
   };
 

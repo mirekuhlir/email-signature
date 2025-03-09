@@ -51,7 +51,7 @@ export const SignaturesList = (props: any) => {
         </Button>
       </div>
       <Modal
-        size={isMobile ? 'fullscreen' : 'large'}
+        size={isMobile ? 'fullscreen' : 'xlarge'}
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
       >

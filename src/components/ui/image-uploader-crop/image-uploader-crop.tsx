@@ -98,6 +98,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
           if (!isReplacing && imageCount && imageCount >= MAX_IMAGE_COUNT) {
             modal({
               title: 'Image Limit Reached',
+              size: 'medium',
               content: (
                 <Typography>
                   {`You have reached the maximum number of images allowed.
