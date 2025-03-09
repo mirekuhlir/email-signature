@@ -49,7 +49,7 @@ export const Header = (props: any) => {
           {user ? (
             <div>
               <ContextMenu
-                buttonClassName="w-10 h-10 rounded-full bg-linear-to-r from-blue-600 to-blue-800 flex items-center justify-center text-white font-medium"
+                buttonClassName="w-10 h-10 rounded-full bg-linear-to-r from-blue-600 to-blue-800 flex items-center justify-center text-white font-medium cursor-pointer"
                 label={getInitialsFromEmail(user.email)}
               >
                 <form action={signOutAction}>
