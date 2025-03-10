@@ -417,7 +417,9 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
           {croppedImageData && (
             <div className="space-y-2">
               <Typography variant="labelBase">
-                Set the width of the cropped image
+                {`Width of image: ${
+                  croppedImageData ? `${previewWidth}px` : ''
+                }`}
               </Typography>
               <div className="pb-3">
                 <Slider

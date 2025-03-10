@@ -7,6 +7,7 @@ import React, {
   useCallback,
   useMemo,
 } from 'react';
+import { Typography } from './typography';
 
 interface Step {
   label: string;
@@ -23,10 +24,24 @@ interface SliderProps {
   onChange?: (value: number) => void;
   value?: number;
   units?: string;
+  showValues?: boolean;
+  label?: string;
+  showValue?: boolean;
 }
 
 const Slider: React.FC<SliderProps> = (props) => {
-  const { id, defaultValue, onChange, value, min, max, step, steps } = props;
+  const {
+    id,
+    defaultValue,
+    onChange,
+    value,
+    min,
+    max,
+    step,
+    steps,
+    label,
+    showValue,
+  } = props;
 
   const isUsingSteps = 'steps' in props;
   const sliderRef = useRef<HTMLDivElement>(null);
@@ -118,6 +133,7 @@ const Slider: React.FC<SliderProps> = (props) => {
 
   return (
     <div className="pb-6 pt-3">
+      {label && <Typography variant="labelBase">{label}</Typography>}
       <div
         id={id}
         ref={sliderRef}
@@ -145,17 +161,17 @@ const Slider: React.FC<SliderProps> = (props) => {
           style={{ left: `${percentValue}%` }}
         />
         <div className="absolute top-full left-0 w-full flex justify-between mt-2 text-xs text-gray-600">
-          {isUsingSteps && steps ? (
-            steps.map((step, index) => (
-              <span key={index} className="flex-1 text-center">
-                {step.label}
-              </span>
-            ))
-          ) : (
-            <span className="w-full text-center text-sm font-bold text-gray-700">
-              {`${currentValue} ${props.units ?? ''}`}
-            </span>
-          )}
+          {isUsingSteps && steps
+            ? steps.map((step, index) => (
+                <span key={index} className="flex-1 text-center">
+                  {step.label}
+                </span>
+              ))
+            : showValue && (
+                <span className="w-full text-center text-sm font-bold text-gray-700">
+                  {`${currentValue} ${props.units ?? ''}`}
+                </span>
+              )}
         </div>
       </div>
     </div>
