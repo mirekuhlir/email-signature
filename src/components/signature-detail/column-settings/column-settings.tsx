@@ -7,12 +7,13 @@ import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
 import { Typography } from '@/src/components/ui/typography';
 import Slider from '@/src/components/ui/slider';
 import { SavingInfo } from '../content-edit/content-edit';
+import { EditColor } from '../../ui/edit-color';
 
 export const ColumnSettings = (props: any) => {
   const { columnPathToEdit, signatureId, isSignedIn, templateSlug } = props;
 
   const { rows, setContent, saveSignatureContentRow } = useSignatureStore();
-  const { setContentEdit } = useContentEditStore();
+  const { setContentEdit, contentEdit } = useContentEditStore();
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   const [initContent, setInitContent] = useState<any>(null);
@@ -84,7 +85,7 @@ export const ColumnSettings = (props: any) => {
     <div key={`settings-${columnPathToEdit}`} className="mt-6 p-6">
       <div ref={wrapperRef}>
         {!isSavingSignature && (
-          <div className="pb-8">
+          <div className="pb-2">
             <div className="grid grid-cols-1 gap-6">
               <div>
                 <Typography variant="labelBase" className="mb-2">
@@ -148,12 +149,20 @@ export const ColumnSettings = (props: any) => {
             </div>
           </div>
         )}
+
+        <EditColor
+          initColor={originalStyle.backgroundColor}
+          label="Background color"
+          onChange={(color) => {
+            setContent(path, { ...originalStyle, backgroundColor: color });
+          }}
+        />
       </div>
 
       {isSavingSignature && <SavingInfo />}
 
-      {!isSavingSignature && (
-        <div className="flex flex-row w-full pb-6 pt-2 justify-between">
+      {!isSavingSignature && contentEdit.subEdit !== 'edit-color' && (
+        <div className="flex flex-row w-full pb-6 pt-8 pt-2 justify-between">
           <Button variant="outline" onClick={closeSettings}>
             Cancel
           </Button>

@@ -279,6 +279,7 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
 
       <EditColor
         initColor={editTextColor}
+        label="Text color"
         onChange={(color) => {
           setEditTextColor(color);
           onChangeContent({ color });

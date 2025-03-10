@@ -5,7 +5,6 @@ export const signature_a = {
   rows: [
     {
       id: "gp91",
-      style: { backgroundColor: "rgb(128,0,128)" },
       columns: [
         {
           id: "2j9b",
@@ -17,13 +16,11 @@ export const signature_a = {
         {
           id: "gg6r",
           style: {
-            backgroundColor: "rgb(255,255,0)",
             verticalAlign: "top",
             padding: "10px 10px 10px 10px",
           },
           rows: [{
             id: "ex3p",
-            style: { backgroundColor: "rgb(255,0,0)" },
             content: {
               type: "text",
               components: [
