@@ -68,7 +68,6 @@ export const ContentEdit = (props: any) => {
     ? content?.components[0]?.cropImagePreview
     : true;
 
-  // TODO - odzkoušet
   const closeContent = () => {
     const closeEdit = () => {
       setContent(path, iniContent);

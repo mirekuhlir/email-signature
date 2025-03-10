@@ -11,19 +11,20 @@ import { SavingInfo } from '../content-edit/content-edit';
 export const ColumnSettings = (props: any) => {
   const { columnPathToEdit, signatureId, isSignedIn, templateSlug } = props;
 
-  const [isSavingSignature, setIsSavingSignature] = useState(false);
-
   const { rows, setContent, saveSignatureContentRow } = useSignatureStore();
   const { setContentEdit } = useContentEditStore();
   const wrapperRef = useRef<HTMLDivElement>(null);
 
-  const path = `${columnPathToEdit}.style`;
-  const originalStyle = useMemo(() => get(rows, path) || {}, [rows, path]);
+  const [initContent, setInitContent] = useState<any>(null);
+  const [isSavingSignature, setIsSavingSignature] = useState(false);
 
   const [paddingTop, setPaddingTop] = useState('10');
   const [paddingRight, setPaddingRight] = useState('10');
   const [paddingBottom, setPaddingBottom] = useState('10');
   const [paddingLeft, setPaddingLeft] = useState('10');
+
+  const path = `${columnPathToEdit}.style`;
+  const originalStyle = useMemo(() => get(rows, path) || {}, [rows, path]);
 
   useEffect(() => {
     if (originalStyle.padding) {
@@ -35,6 +36,10 @@ export const ColumnSettings = (props: any) => {
       setPaddingRight(paddingValues[1]);
       setPaddingBottom(paddingValues[2]);
       setPaddingLeft(paddingValues[3]);
+
+      if (!initContent) {
+        setInitContent(originalStyle);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -69,6 +74,7 @@ export const ColumnSettings = (props: any) => {
   };
 
   const closeSettings = () => {
+    setContent(path, initContent);
     setContentEdit({
       columnPath: null,
     });
