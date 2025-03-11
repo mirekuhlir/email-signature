@@ -34,36 +34,40 @@ export const EmailTemplateEdit = (props: any) => {
         </div>
 
         {contentEdit.addPath !== rowPath && contentEdit.columnPath === null && (
-          <div className="flex justify-between p-1">
-            <Button
-              variant="blue"
-              size="sm"
-              onClick={() => {
-                setContentEdit({
-                  columnPath: path,
-                  editPath: null,
-                  addPath: null,
-                });
-              }}
-            >
-              Settings
-            </Button>
-            <Button
-              size="sm"
-              variant="orange"
-              onClick={() => {
-                const numberOfRows = column.rows.length;
-                const nextEditRowPath = `${rowPath}[${numberOfRows}]`;
+          <div className="flex flex-col items-end">
+            <div className="pb-1">
+              <Button
+                variant="blue"
+                size="sm"
+                onClick={() => {
+                  setContentEdit({
+                    columnPath: path,
+                    editPath: null,
+                    addPath: null,
+                  });
+                }}
+              >
+                Settings
+              </Button>
+            </div>
+            <div>
+              <Button
+                size="sm"
+                variant="orange"
+                onClick={() => {
+                  const numberOfRows = column.rows.length;
+                  const nextEditRowPath = `${rowPath}[${numberOfRows}]`;
 
-                setContentEdit({
-                  editPath: null,
-                  addPath: rowPath,
-                  nextEditPath: nextEditRowPath,
-                });
-              }}
-            >
-              Add
-            </Button>
+                  setContentEdit({
+                    editPath: null,
+                    addPath: rowPath,
+                    nextEditPath: nextEditRowPath,
+                  });
+                }}
+              >
+                Add
+              </Button>
+            </div>
           </div>
         )}
       </div>
