@@ -169,9 +169,7 @@ export const EmailTemplateEdit = (props: any) => {
     });
   };
 
-  //TODO - kam dát upravu barvy celého sloupce? nebo řádku? do editu?
-  // TODO - table mx-auto je ěnkdy navíc
-
+  // TODO - table mx-auto je navíc?
   return (
     <>
       <div className="table mx-auto">

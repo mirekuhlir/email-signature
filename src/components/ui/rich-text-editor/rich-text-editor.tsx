@@ -66,12 +66,10 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
   );
 
   const [editTextColor, setEditTextColor] = useState(
-    // TODO barva, použit rgba a bude to tady
-    content?.color ?? '#000000',
+    content?.color ?? 'rgb(0, 0, 0)',
   );
   const [editBackgroundColor, setEditBackgroundColor] = useState(
-    // TODO barva
-    content?.backgroundColor ?? 'rgba(0, 0, 0, 0)',
+    content?.backgroundColor ?? 'rgb(0, 0, 0)',
   );
   const [editTextDecoration, setEditTextDecoration] = useState(
     content?.textDecoration ?? 'none',
