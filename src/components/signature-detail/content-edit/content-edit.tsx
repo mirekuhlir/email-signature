@@ -7,6 +7,7 @@ import { Button } from '@/src/components/ui/button';
 import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
 import { RichTextEditor } from '@/src/components/ui/rich-text-editor/rich-text-editor';
 import { EmailEditContent } from './email-edit-content';
+import { PhoneEditContent } from './phone-edit-content';
 import { ImageEditContent } from './image-edit-content';
 import Modal from '@/src/components/ui/modal';
 import { Typography } from '@/src/components/ui/typography';
@@ -226,6 +227,15 @@ const getContentType = (
     case ContentType.EMAIL:
       return (
         <EmailEditContent
+          contentType={type}
+          components={components}
+          contentPathToEdit={contentPathToEdit}
+        />
+      );
+
+    case ContentType.PHONE:
+      return (
+        <PhoneEditContent
           contentType={type}
           components={components}
           contentPathToEdit={contentPathToEdit}

@@ -10,6 +10,8 @@ export const getContentAdd = (type: ContentType) => {
             return getImage();
         case ContentType.EMAIL:
             return getEmail();
+        case ContentType.PHONE:
+            return getPhone();
         default:
             return getText();
     }
@@ -37,7 +39,6 @@ export const getImage = () => {
 const getEmail = () => {
     return {
         id: generateRandomId(),
-        style: { backgroundColor: "green" },
         content: {
             type: ContentType.EMAIL,
             components: [
@@ -51,6 +52,29 @@ const getEmail = () => {
                     id: generateRandomId(),
                     text: "mirek.uhlir@gmail.com",
                     type: ContentType.EMAIL_LINK,
+                    fontSize: "14",
+                },
+            ],
+        },
+    };
+};
+
+const getPhone = () => {
+    return {
+        id: generateRandomId(),
+        content: {
+            type: ContentType.PHONE,
+            components: [
+                {
+                    id: generateRandomId(),
+                    text: "tel: ",
+                    fontSize: "14",
+                    type: ContentType.TEXT,
+                },
+                {
+                    id: generateRandomId(),
+                    text: "+420 123 456 789",
+                    type: ContentType.PHONE_LINK,
                     fontSize: "14",
                 },
             ],

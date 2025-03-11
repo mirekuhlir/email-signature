@@ -1,5 +1,5 @@
 import { ContentType } from "@/src/const/content";
-import { getExampleText, getImage } from "./utils";
+import { getExampleText } from "./utils";
 
 export const CONTENT_TYPES = [
   {
@@ -16,5 +16,10 @@ export const CONTENT_TYPES = [
     name: "E-mail",
     content: "example@email.com",
     type: ContentType.EMAIL,
+  },
+  {
+    name: "Phone",
+    content: "+420 123 456 789",
+    type: ContentType.PHONE,
   },
 ];

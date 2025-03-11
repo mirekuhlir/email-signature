@@ -3,6 +3,8 @@ export enum ContentType {
     IMAGE = "image",
     EMAIL = "email",
     EMAIL_LINK = "emailLink",
+    PHONE = "phone",
+    PHONE_LINK = "phoneLink",
 }
 
 // tel, mob, email, address, website, social,
