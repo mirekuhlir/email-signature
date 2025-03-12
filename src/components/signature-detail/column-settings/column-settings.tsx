@@ -23,6 +23,8 @@ export const ColumnSettings = (props: any) => {
   const [paddingRight, setPaddingRight] = useState('10');
   const [paddingBottom, setPaddingBottom] = useState('10');
   const [paddingLeft, setPaddingLeft] = useState('10');
+  const [rightBorderWidth, setRightBorderWidth] = useState('0');
+  const [rightBorderColor, setRightBorderColor] = useState('rgb(0, 0, 0)');
 
   const path = `${columnPathToEdit}.style`;
   const originalStyle = useMemo(() => get(rows, path) || {}, [rows, path]);
@@ -42,6 +44,14 @@ export const ColumnSettings = (props: any) => {
         setInitContent(originalStyle);
       }
     }
+
+    if (originalStyle.borderRightWidth) {
+      setRightBorderWidth(originalStyle.borderRightWidth.replace('px', ''));
+    }
+
+    if (originalStyle.borderRightColor) {
+      setRightBorderColor(originalStyle.borderRightColor);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -58,6 +68,17 @@ export const ColumnSettings = (props: any) => {
     }
   };
 
+  const updateBorder = () => {
+    const currentStyle = get(rows, path) || {};
+
+    setContent(path, {
+      ...currentStyle,
+      borderRightWidth: `${rightBorderWidth}px`,
+      borderRightColor: rightBorderColor,
+      borderRightStyle: rightBorderWidth === '0' ? 'none' : 'solid',
+    });
+  };
+
   useEffect(() => {
     if (paddingTop && paddingRight && paddingBottom && paddingLeft) {
       updatePadding();
@@ -65,12 +86,20 @@ export const ColumnSettings = (props: any) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paddingTop, paddingRight, paddingBottom, paddingLeft]);
 
+  useEffect(() => {
+    updateBorder();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rightBorderWidth, rightBorderColor]);
+
   const saveChanges = () => {
     const paddingValue = `${paddingTop}px ${paddingRight}px ${paddingBottom}px ${paddingLeft}px`;
 
     setContent(path, {
       ...originalStyle,
       padding: paddingValue,
+      borderRightWidth: `${rightBorderWidth}px`,
+      borderRightColor: rightBorderColor,
+      borderRightStyle: rightBorderWidth === '0' ? 'none' : 'solid',
     });
   };
 
@@ -147,16 +176,50 @@ export const ColumnSettings = (props: any) => {
                 />
               </div>
             </div>
+
+            <hr className="border-t border-gray-400 mt-6 mb-6" />
+
+            <div>
+              <Typography variant="labelBase" className="mb-2">
+                Right border width : {rightBorderWidth}px
+              </Typography>
+              <Slider
+                min={0}
+                max={10}
+                step={1}
+                value={Number(rightBorderWidth)}
+                onChange={(value: number) => {
+                  setRightBorderWidth(value.toString());
+                }}
+              />
+            </div>
+
+            {rightBorderWidth !== '0' && (
+              <EditColor
+                initColor={rightBorderColor}
+                label="Right border color"
+                onChange={(color) => {
+                  if (color) {
+                    setRightBorderColor(color);
+                  }
+                }}
+              />
+            )}
+
+            <hr className="border-t border-gray-400 mt-6 mb-6" />
+
+            <EditColor
+              initColor={originalStyle.backgroundColor}
+              label="Background color"
+              onChange={(color) => {
+                setContent(path, {
+                  ...originalStyle,
+                  backgroundColor: color,
+                });
+              }}
+            />
           </div>
         )}
-
-        <EditColor
-          initColor={originalStyle.backgroundColor}
-          label="Background color"
-          onChange={(color) => {
-            setContent(path, { ...originalStyle, backgroundColor: color });
-          }}
-        />
       </div>
 
       {isSavingSignature && <SavingInfo />}
