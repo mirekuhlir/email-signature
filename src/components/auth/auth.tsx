@@ -11,6 +11,7 @@ type FormValues = {
 };
 
 export const Auth = () => {
+  const [isEmailSending, setIsEmailSending] = useState(false);
   const [isEmailSent, setIsEmailSent] = useState(false);
 
   const {
@@ -23,6 +24,8 @@ export const Auth = () => {
     const { email } = data;
 
     const supabase = await createClient();
+
+    setIsEmailSending(true);
 
     const { error } = await supabase.auth.signInWithOtp({
       email,
@@ -38,12 +41,14 @@ export const Auth = () => {
     } else {
       setIsEmailSent(true);
     }
+
+    setIsEmailSending(false);
   };
 
   if (isEmailSent) {
     return (
       <div className="flex flex-col p-4">
-        <Typography variant="lead">Email sent</Typography>
+        <Typography variant="h4">Email sent</Typography>
         <Typography variant="body">
           Please check your e-mail for a verification link. Use this link to
           sign in.
@@ -70,7 +75,9 @@ export const Auth = () => {
           placeholder="email@example.com"
         />
 
-        <Button type="submit">Send</Button>
+        <Button loading={isEmailSending} type="submit">
+          {isEmailSending ? 'Sending...' : 'Send'}
+        </Button>
       </form>
     </div>
   );

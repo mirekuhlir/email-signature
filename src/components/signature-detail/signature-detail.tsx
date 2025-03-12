@@ -47,19 +47,22 @@ export const SignatureDetail = (props: any) => {
           <>
             <EmailTemplateView rows={rows} />
             {!contentEdit.editPath && (
-              <>
+              <div className="mt-8 flex items-center">
                 <Button size="lg" onClick={() => setIsEdit(true)}>
                   Edit
                 </Button>
-                <Button
-                  size="lg"
-                  onClick={() => {
-                    handleCopy('email-signature');
-                  }}
-                >
-                  Copy Signature
-                </Button>
-              </>
+                {/*    TODO - tady vymyslet, aby při prvním zobrazení uživatel neviděl tlačítko Copy signature, ale pouze edit */}
+                <div className="ml-8">
+                  <Button
+                    size="lg"
+                    onClick={() => {
+                      handleCopy('email-signature');
+                    }}
+                  >
+                    Copy Signature
+                  </Button>
+                </div>
+              </div>
             )}
             <div className="mt-5"></div>
           </>
