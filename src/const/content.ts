@@ -7,6 +7,7 @@ export enum ContentType {
     PHONE_LINK = "phoneLink",
     WEBSITE = "website",
     WEBSITE_LINK = "websiteLink",
+    CUSTOM_VALUE = "customValue",
 }
 
 // tel, mob, email, address, website, social,

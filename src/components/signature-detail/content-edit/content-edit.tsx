@@ -9,9 +9,10 @@ import { RichTextEditor } from '@/src/components/ui/rich-text-editor/rich-text-e
 import { EmailEditContent } from './email-edit-content';
 import { PhoneEditContent } from './phone-edit-content';
 import { ImageEditContent } from './image-edit-content';
+import { WebsiteEditContent } from './website-edit-content';
+import { CustomValueEditContent } from './custom-value-edit-content';
 import Modal from '@/src/components/ui/modal';
 import { Typography } from '@/src/components/ui/typography';
-import { WebsiteEditContent } from './website-edit-content';
 
 export const SavingInfo = () => {
   return (
@@ -246,6 +247,15 @@ const getContentType = (
     case ContentType.WEBSITE:
       return (
         <WebsiteEditContent
+          contentType={type}
+          components={components}
+          contentPathToEdit={contentPathToEdit}
+        />
+      );
+
+    case ContentType.CUSTOM_VALUE:
+      return (
+        <CustomValueEditContent
           contentType={type}
           components={components}
           contentPathToEdit={contentPathToEdit}

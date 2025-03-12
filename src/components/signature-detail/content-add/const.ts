@@ -27,4 +27,9 @@ export const CONTENT_TYPES = [
     content: "www.example.com",
     type: ContentType.WEBSITE,
   },
+  {
+    name: "Custom Value",
+    content: "Custom value with prefix",
+    type: ContentType.CUSTOM_VALUE,
+  },
 ];

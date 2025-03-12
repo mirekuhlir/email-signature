@@ -14,6 +14,8 @@ export const getContentAdd = (type: ContentType) => {
             return getPhone();
         case ContentType.WEBSITE:
             return getWebsite();
+        case ContentType.CUSTOM_VALUE:
+            return getCustomValue();
         default:
             return getText();
     }
@@ -101,6 +103,29 @@ const getWebsite = () => {
                     text: "www.example.com",
                     type: ContentType.WEBSITE_LINK,
                     fontSize: "14",
+                },
+            ],
+        },
+    };
+};
+
+const getCustomValue = () => {
+    return {
+        id: generateRandomId(),
+        content: {
+            type: ContentType.CUSTOM_VALUE,
+            components: [
+                {
+                    id: generateRandomId(),
+                    text: "prefix: ",
+                    fontSize: "14",
+                    type: ContentType.TEXT,
+                },
+                {
+                    id: generateRandomId(),
+                    text: "custom value",
+                    fontSize: "14",
+                    type: ContentType.TEXT,
                 },
             ],
         },
