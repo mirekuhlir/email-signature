@@ -131,7 +131,7 @@ export const EmailTemplateEdit = (props: any) => {
             {contentEdit.editPath !== currentPath &&
               contentEdit.columnPath === null && (
                 <>
-                  <div className="mt-1 mb-4 flex justify-end p-1">
+                  <div className="flex justify-end mb-2">
                     <Button
                       size="sm"
                       variant="blue"
