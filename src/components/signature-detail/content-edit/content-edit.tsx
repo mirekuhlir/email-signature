@@ -11,6 +11,7 @@ import { PhoneEditContent } from './phone-edit-content';
 import { ImageEditContent } from './image-edit-content';
 import Modal from '@/src/components/ui/modal';
 import { Typography } from '@/src/components/ui/typography';
+import { WebsiteEditContent } from './website-edit-content';
 
 export const SavingInfo = () => {
   return (
@@ -241,6 +242,16 @@ const getContentType = (
           contentPathToEdit={contentPathToEdit}
         />
       );
+
+    case ContentType.WEBSITE:
+      return (
+        <WebsiteEditContent
+          contentType={type}
+          components={components}
+          contentPathToEdit={contentPathToEdit}
+        />
+      );
+
     default:
       return null;
   }

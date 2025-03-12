@@ -188,5 +188,70 @@ export const getContentView = (content?: any) => {
     );
   }
 
+  if (content?.type === ContentType.WEBSITE) {
+    const { components } = content;
+
+    const textAlign = components[1].textAlign;
+
+    return (
+      <span style={{ width: '100%', display: 'inline-block', textAlign }}>
+        {components.map((component: any) => {
+          const {
+            id,
+            text,
+            fontSize,
+            color,
+            letterSpacing,
+            backgroundColor,
+            fontFamily,
+            fontStyle,
+            fontWeight,
+            lineHeight,
+            textAlign,
+            textDecoration,
+          } = component;
+
+          const style = {
+            width: '100%',
+            fontSize: `${fontSize}px`,
+            color,
+            letterSpacing: `${letterSpacing}px`,
+            backgroundColor,
+            fontFamily,
+            fontStyle,
+            fontWeight,
+            lineHeight,
+            textAlign,
+            textDecoration,
+          };
+
+          if (!text) {
+            return null;
+          }
+
+          if (component.type === ContentType.WEBSITE_LINK) {
+            return (
+              <a
+                key={id}
+                href={text.startsWith('http') ? text : `https://${text}`}
+                target="_blank"
+                style={style}
+                rel="noreferrer"
+              >
+                {text}
+              </a>
+            );
+          }
+
+          return (
+            <span key={id} style={style}>
+              {text}
+            </span>
+          );
+        })}
+      </span>
+    );
+  }
+
   return null;
 };

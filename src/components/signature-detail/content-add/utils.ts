@@ -12,6 +12,8 @@ export const getContentAdd = (type: ContentType) => {
             return getEmail();
         case ContentType.PHONE:
             return getPhone();
+        case ContentType.WEBSITE:
+            return getWebsite();
         default:
             return getText();
     }
@@ -75,6 +77,29 @@ const getPhone = () => {
                     id: generateRandomId(),
                     text: "+420 123 456 789",
                     type: ContentType.PHONE_LINK,
+                    fontSize: "14",
+                },
+            ],
+        },
+    };
+};
+
+const getWebsite = () => {
+    return {
+        id: generateRandomId(),
+        content: {
+            type: ContentType.WEBSITE,
+            components: [
+                {
+                    id: generateRandomId(),
+                    text: "web: ",
+                    fontSize: "14",
+                    type: ContentType.TEXT,
+                },
+                {
+                    id: generateRandomId(),
+                    text: "www.example.com",
+                    type: ContentType.WEBSITE_LINK,
                     fontSize: "14",
                 },
             ],

@@ -19,7 +19,12 @@ export const CONTENT_TYPES = [
   },
   {
     name: "Phone",
-    content: "+420 123 456 789",
+    content: "+1 212 555 4567",
     type: ContentType.PHONE,
+  },
+  {
+    name: "Website",
+    content: "www.example.com",
+    type: ContentType.WEBSITE,
   },
 ];
