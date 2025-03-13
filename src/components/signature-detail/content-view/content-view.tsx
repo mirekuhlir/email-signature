@@ -32,6 +32,7 @@ export const getContentView = (content?: any) => {
         lineHeight,
         textAlign,
         textDecoration,
+        padding,
       } = component;
 
       return (
@@ -50,6 +51,7 @@ export const getContentView = (content?: any) => {
             lineHeight,
             textAlign,
             textDecoration,
+            padding,
           }}
         >
           {text}
@@ -62,9 +64,12 @@ export const getContentView = (content?: any) => {
     const { components } = content;
 
     const textAlign = components[1].textAlign;
+    const padding = components[0].padding;
 
     return (
-      <span style={{ width: '100%', display: 'inline-block', textAlign }}>
+      <span
+        style={{ width: '100%', display: 'inline-block', textAlign, padding }}
+      >
         {components.map((component: any) => {
           const {
             id,
@@ -127,9 +132,12 @@ export const getContentView = (content?: any) => {
     const { components } = content;
 
     const textAlign = components[1].textAlign;
+    const padding = components[0].padding;
 
     return (
-      <span style={{ width: '100%', display: 'inline-block', textAlign }}>
+      <span
+        style={{ width: '100%', display: 'inline-block', textAlign, padding }}
+      >
         {components.map((component: any) => {
           const {
             id,
@@ -192,9 +200,12 @@ export const getContentView = (content?: any) => {
     const { components } = content;
 
     const textAlign = components[1].textAlign;
+    const padding = components[0].padding;
 
     return (
-      <span style={{ width: '100%', display: 'inline-block', textAlign }}>
+      <span
+        style={{ width: '100%', display: 'inline-block', textAlign, padding }}
+      >
         {components.map((component: any) => {
           const {
             id,
@@ -257,9 +268,12 @@ export const getContentView = (content?: any) => {
     const { components } = content;
 
     const textAlign = components[1].textAlign;
+    const padding = components[0].padding;
 
     return (
-      <span style={{ width: '100%', display: 'inline-block', textAlign }}>
+      <span
+        style={{ width: '100%', display: 'inline-block', textAlign, padding }}
+      >
         {components.map((component: any) => {
           const {
             id,

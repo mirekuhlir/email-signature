@@ -13,6 +13,7 @@ import { WebsiteEditContent } from './website-edit-content';
 import { CustomValueEditContent } from './custom-value-edit-content';
 import Modal from '@/src/components/ui/modal';
 import { Typography } from '@/src/components/ui/typography';
+import Slider from '@/src/components/ui/slider';
 
 export const SavingInfo = () => {
   return (
@@ -34,8 +35,47 @@ export const ContentEdit = (props: any) => {
   const { setContentEdit, contentEdit } = useContentEditStore();
   const wrapperRef = useRef<HTMLDivElement>(null);
 
+  const [paddingTop, setPaddingTop] = useState('0');
+  const [paddingRight, setPaddingRight] = useState('0');
+  const [paddingBottom, setPaddingBottom] = useState('0');
+  const [paddingLeft, setPaddingLeft] = useState('0');
+
   const path = `${contentPathToEdit}.content`;
   const content = useMemo(() => get(rows, path), [rows, path]);
+
+  useEffect(() => {
+    if (content?.components[0].padding) {
+      const paddingValues = content.components[0].padding
+        .split(' ')
+        .map((val: string) => val.replace('px', ''));
+
+      setPaddingTop(paddingValues[0]);
+      setPaddingRight(paddingValues[1]);
+      setPaddingBottom(paddingValues[2]);
+      setPaddingLeft(paddingValues[3]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const updatePadding = () => {
+    const paddingValue = `${paddingTop}px ${paddingRight}px ${paddingBottom}px ${paddingLeft}px`;
+    const stylePath = `${path}.components[0]`;
+    const currentStyle = content?.components[0] || {};
+
+    if (currentStyle.padding !== paddingValue) {
+      setContent(stylePath, {
+        ...currentStyle,
+        padding: paddingValue,
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (paddingTop && paddingRight && paddingBottom && paddingLeft) {
+      updatePadding();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [paddingTop, paddingRight, paddingBottom, paddingLeft]);
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
@@ -73,6 +113,7 @@ export const ContentEdit = (props: any) => {
 
   const closeContent = () => {
     const closeEdit = () => {
+      console.warn('iniContent', iniContent);
       setContent(path, iniContent);
       setContentEdit({
         editPath: null,
@@ -97,9 +138,75 @@ export const ContentEdit = (props: any) => {
     <div key={path}>
       <div ref={wrapperRef}>
         {!isSavingSignature && (
-          <div className="pb-8">
-            {getContentType(content, path, isSignedIn)}
-          </div>
+          <>
+            <div className="pb-8">
+              {getContentType(content, path, isSignedIn)}
+            </div>
+
+            <div className="mt-6">
+              <div className="grid grid-cols-1 gap-6">
+                <div>
+                  <Typography variant="labelBase" className="mb-2">
+                    Top padding : {paddingTop}px
+                  </Typography>
+                  <Slider
+                    min={0}
+                    max={50}
+                    step={1}
+                    value={Number(paddingTop)}
+                    onChange={(value: number) => {
+                      setPaddingTop(value.toString());
+                    }}
+                  />
+                </div>
+
+                <div>
+                  <Typography variant="labelBase" className="mb-2">
+                    Right padding : {paddingRight}px
+                  </Typography>
+                  <Slider
+                    min={0}
+                    max={50}
+                    step={1}
+                    value={Number(paddingRight)}
+                    onChange={(value: number) => {
+                      setPaddingRight(value.toString());
+                    }}
+                  />
+                </div>
+
+                <div>
+                  <Typography variant="labelBase" className="mb-2">
+                    Bottom padding : {paddingBottom}px
+                  </Typography>
+                  <Slider
+                    min={0}
+                    max={50}
+                    step={1}
+                    value={Number(paddingBottom)}
+                    onChange={(value: number) => {
+                      setPaddingBottom(value.toString());
+                    }}
+                  />
+                </div>
+
+                <div>
+                  <Typography variant="labelBase" className="mb-2">
+                    Left padding : {paddingLeft}px
+                  </Typography>
+                  <Slider
+                    min={0}
+                    max={50}
+                    step={1}
+                    value={Number(paddingLeft)}
+                    onChange={(value: number) => {
+                      setPaddingLeft(value.toString());
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          </>
         )}
       </div>
 
