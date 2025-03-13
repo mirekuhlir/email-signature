@@ -10,10 +10,11 @@ interface Props {
   initColor: string;
   onChange: (color: string | undefined) => void;
   label: string;
+  isResetToTransparent?: boolean;
 }
 
 export const EditColor = (props: Props) => {
-  const { initColor, onChange, label } = props;
+  const { initColor, onChange, label, isResetToTransparent } = props;
   const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
   const [currentColor, setCurrentColor] = useState<string>(
     initColor || DEFAULT_COLOR,
@@ -66,36 +67,57 @@ export const EditColor = (props: Props) => {
             }}
           />
 
-          <div className="flex justify-between p-6">
-            <Button
-              variant="outline"
-              onClick={() => {
-                setContentEdit({
-                  subEdit: null,
-                });
+          <div className="p-6">
+            <div className="mb-6">
+              {isResetToTransparent && (
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setContentEdit({
+                      subEdit: null,
+                    });
+                    setCurrentColor('transparent');
+                    onChange('transparent');
+                    setIsColorPickerOpen(false);
+                  }}
+                >
+                  Reset to transparent
+                </Button>
+              )}
+            </div>
+            <div className="flex justify-between">
+              <div className="flex">
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setContentEdit({
+                      subEdit: null,
+                    });
 
-                if (localInitColor) {
-                  setCurrentColor(localInitColor);
-                  onChange(localInitColor);
-                }
+                    if (localInitColor) {
+                      setCurrentColor(localInitColor);
+                      onChange(localInitColor);
+                    }
 
-                setIsColorPickerOpen(false);
-              }}
-            >
-              Close
-            </Button>
-            <Button
-              variant="blue"
-              onClick={() => {
-                setContentEdit({
-                  subEdit: null,
-                });
+                    setIsColorPickerOpen(false);
+                  }}
+                >
+                  Close
+                </Button>
+              </div>
+              <Button
+                variant="blue"
+                onClick={() => {
+                  setContentEdit({
+                    subEdit: null,
+                  });
 
-                setIsColorPickerOpen(false);
-              }}
-            >
-              Save
-            </Button>
+                  setIsColorPickerOpen(false);
+                }}
+              >
+                Save
+              </Button>
+            </div>
           </div>
         </div>
       )}

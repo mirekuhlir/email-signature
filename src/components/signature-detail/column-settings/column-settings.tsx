@@ -211,6 +211,7 @@ export const ColumnSettings = (props: any) => {
             <EditColor
               initColor={originalStyle.backgroundColor}
               label="Background color"
+              isResetToTransparent
               onChange={(color) => {
                 setContent(path, {
                   ...originalStyle,
