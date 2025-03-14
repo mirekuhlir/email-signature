@@ -5,6 +5,7 @@ import SelectBase from '../select-base';
 import { FONTS, FONT_SIZES, LINE_HEIGHTS, LETTER_SPACINGS } from './fonts';
 import { EditColor } from '../edit-color';
 import { Typography } from '../typography';
+import { IconSelector } from './icon-selector';
 
 export enum LayoutType {
   TEXT = 'text',
@@ -80,6 +81,8 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
   const [editLetterSpacing, setEditLetterSpacing] = useState(
     content?.letterSpacing ?? '0',
   );
+  const [showIconSelector, setShowIconSelector] = useState(false);
+  const [inputRef, setInputRef] = useState<HTMLInputElement | null>(null);
 
   useEffect(() => {
     if (content) {
@@ -118,6 +121,34 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
     });
   };
 
+  const handleInsertIcon = (icon: string) => {
+    if (inputRef) {
+      const cursorPosition = inputRef.selectionStart || 0;
+      const textBeforeCursor = editText.substring(0, cursorPosition);
+      const textAfterCursor = editText.substring(cursorPosition);
+
+      const newText = textBeforeCursor + icon + textAfterCursor;
+      setEditText(newText);
+      onChangeContent({ text: newText });
+
+      // Set cursor position after the inserted icon
+      setTimeout(() => {
+        if (inputRef) {
+          inputRef.focus();
+          inputRef.setSelectionRange(
+            cursorPosition + icon.length,
+            cursorPosition + icon.length,
+          );
+        }
+      }, 0);
+    } else {
+      // If no cursor position, just append to the end
+      const newText = editText + icon;
+      setEditText(newText);
+      onChangeContent({ text: newText });
+    }
+  };
+
   const fontsOptions = React.useMemo(
     () =>
       FONTS.map((font) => ({
@@ -153,6 +184,7 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
           role="textbox"
           aria-label="Text editor"
           value={editText}
+          ref={setInputRef}
         />
         {errorMessage && (
           <p className="text-red-500 mt-2 text-sm">{errorMessage}</p>
@@ -234,6 +266,13 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
           >
             Underline
           </ButtonSquare>
+
+          <ButtonSquare
+            onClick={() => setShowIconSelector(true)}
+            className="bg-blue-50"
+          >
+            Icons
+          </ButtonSquare>
         </div>
       </div>
 
@@ -282,6 +321,12 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
           setEditTextColor(color);
           onChangeContent({ color });
         }}
+      />
+
+      <IconSelector
+        isOpen={showIconSelector}
+        onSelectIcon={handleInsertIcon}
+        onClose={() => setShowIconSelector(false)}
       />
 
       {/*     <div className="flex flex-wrap gap-2 items-center p-2">
