@@ -92,9 +92,11 @@ interface TableRow {
 
 // Signature template structure
 export interface SignatureTemplate {
-    templateName: string;
-    templateSlug: string;
-    version: string;
+    info: {
+        templateName: string;
+        templateSlug: string;
+        version: string;
+    };
     colors: string[];
     rows: TableRow[];
 }

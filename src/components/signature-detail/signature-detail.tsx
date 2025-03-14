@@ -11,7 +11,7 @@ import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
 export const SignatureDetail = (props: any) => {
   const { signatureDetail, isSignedIn, templateSlug } = props;
 
-  const { rows, initRows, initColors } = useSignatureStore();
+  const { rows, initSignature } = useSignatureStore();
   const { contentEdit } = useContentEditStore();
   const [isEdit, setIsEdit] = useState(false);
 
@@ -27,15 +27,17 @@ export const SignatureDetail = (props: any) => {
     if (savedData) {
       try {
         const parsedData = JSON.parse(savedData);
-        initRows(parsedData);
+        initSignature(parsedData);
         localStorage.removeItem(templateSlug);
       } catch (error) {
         console.error('Error parsing local data:', error);
       }
     } else {
-      // Initialize with rows and colors if available
-      initRows(signatureDetail.rows);
-      initColors(signatureDetail.colors);
+      initSignature({
+        rows: signatureDetail.rows,
+        colors: signatureDetail.colors,
+        info: signatureDetail.info,
+      });
     }
     isInitialized.current = true;
 
