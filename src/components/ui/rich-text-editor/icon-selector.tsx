@@ -421,7 +421,7 @@ const IconButton = ({
   return (
     <button
       onClick={onClick}
-      className="text-2xl p-2 border border-gray-200 rounded-md hover:bg-gray-100 transition-colors w-full h-full flex items-center justify-center"
+      className="text-2xl p-2 border border-gray-200 rounded-md hover:bg-gray-100 transition-colors flex items-center justify-center w-[48px] h-[48px] aspect-square"
     >
       {icon}
     </button>
@@ -446,7 +446,7 @@ export const IconSelector: React.FC<IconSelectorProps> = ({
             <Typography variant="h5" className="mb-2">
               {category.name}
             </Typography>
-            <div className="grid grid-cols-10 gap-2">
+            <div className="flex flex-wrap gap-2">
               {category.icons.map((icon) => (
                 <IconButton
                   key={icon}
