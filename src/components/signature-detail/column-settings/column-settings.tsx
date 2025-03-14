@@ -111,7 +111,7 @@ export const ColumnSettings = (props: any) => {
   };
 
   return (
-    <div key={`settings-${columnPathToEdit}`} className="mt-6 p-6">
+    <div key={`settings-${columnPathToEdit}`} className="mt-6">
       <div ref={wrapperRef}>
         {!isSavingSignature && (
           <div className="pb-2">

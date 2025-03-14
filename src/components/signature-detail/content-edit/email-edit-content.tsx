@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from 'react';
+import React, { Fragment } from 'react';
 import { useSignatureStore } from '@/src/store/content-edit-add-store';
 import useValidate from '@/src/hooks/useValidate';
 import { ContentType } from '@/src/const/content';
@@ -8,6 +8,7 @@ import {
   LayoutType,
   RichTextEditor,
 } from '@/src/components/ui/rich-text-editor/rich-text-editor';
+import { CollapsibleSection } from '../../ui/collapsible-section';
 
 export const EmailEditContent = (props: any) => {
   const { components, contentPathToEdit, contentType } = props;
@@ -58,16 +59,21 @@ export const EmailEditContent = (props: any) => {
       const layoutType = getLayoutType();
 
       return (
-        <div key={component.id} className="pt-6 border-b border-gray-300 pb-4">
-          <RichTextEditor
-            label={labeText}
-            content={component}
-            onChange={onChange}
-            contentType={contentType}
-            errorMessage={errors[component.id]}
-            layoutType={layoutType}
-          />
-        </div>
+        <Fragment key={component.id}>
+          <CollapsibleSection>
+            <div className="mb-4">
+              <RichTextEditor
+                label={labeText}
+                content={component}
+                onChange={onChange}
+                contentType={contentType}
+                errorMessage={errors[component.id]}
+                layoutType={layoutType}
+              />
+            </div>
+          </CollapsibleSection>
+          <hr className="border-gray-300" />
+        </Fragment>
       );
     });
 };

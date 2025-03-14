@@ -5,7 +5,6 @@ import { useSignatureStore } from '@/src/store/content-edit-add-store';
 import { ContentType } from '@/src/const/content';
 import { Button } from '@/src/components/ui/button';
 import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
-import { RichTextEditor } from '@/src/components/ui/rich-text-editor/rich-text-editor';
 import { EmailEditContent } from './email-edit-content';
 import { PhoneEditContent } from './phone-edit-content';
 import { ImageEditContent } from './image-edit-content';
@@ -14,6 +13,8 @@ import { CustomValueEditContent } from './custom-value-edit-content';
 import Modal from '@/src/components/ui/modal';
 import { Typography } from '@/src/components/ui/typography';
 import Slider from '@/src/components/ui/slider';
+import { CollapsibleSection } from '@/src/components/ui/collapsible-section';
+import { TextEditContent } from './text-edit-content';
 
 export const SavingInfo = () => {
   return (
@@ -139,72 +140,74 @@ export const ContentEdit = (props: any) => {
       <div ref={wrapperRef}>
         {!isSavingSignature && (
           <>
-            <div className="pb-8">
-              {getContentType(content, path, isSignedIn)}
-            </div>
+            {getContentType(content, path, isSignedIn)}
 
-            <div className="mt-6">
-              <div className="grid grid-cols-1 gap-6">
-                <div>
-                  <Typography variant="labelBase" className="mb-2">
-                    Top padding : {paddingTop}px
-                  </Typography>
-                  <Slider
-                    min={0}
-                    max={50}
-                    step={1}
-                    value={Number(paddingTop)}
-                    onChange={(value: number) => {
-                      setPaddingTop(value.toString());
-                    }}
-                  />
-                </div>
+            <div className="mt-0">
+              <CollapsibleSection>
+                <div className="px-0">
+                  <div className="grid grid-cols-1 gap-6">
+                    <div>
+                      <Typography variant="labelBase" className="mb-2">
+                        Top padding : {paddingTop}px
+                      </Typography>
+                      <Slider
+                        min={0}
+                        max={50}
+                        step={1}
+                        value={Number(paddingTop)}
+                        onChange={(value: number) => {
+                          setPaddingTop(value.toString());
+                        }}
+                      />
+                    </div>
 
-                <div>
-                  <Typography variant="labelBase" className="mb-2">
-                    Right padding : {paddingRight}px
-                  </Typography>
-                  <Slider
-                    min={0}
-                    max={50}
-                    step={1}
-                    value={Number(paddingRight)}
-                    onChange={(value: number) => {
-                      setPaddingRight(value.toString());
-                    }}
-                  />
-                </div>
+                    <div>
+                      <Typography variant="labelBase" className="mb-2">
+                        Right padding : {paddingRight}px
+                      </Typography>
+                      <Slider
+                        min={0}
+                        max={50}
+                        step={1}
+                        value={Number(paddingRight)}
+                        onChange={(value: number) => {
+                          setPaddingRight(value.toString());
+                        }}
+                      />
+                    </div>
 
-                <div>
-                  <Typography variant="labelBase" className="mb-2">
-                    Bottom padding : {paddingBottom}px
-                  </Typography>
-                  <Slider
-                    min={0}
-                    max={50}
-                    step={1}
-                    value={Number(paddingBottom)}
-                    onChange={(value: number) => {
-                      setPaddingBottom(value.toString());
-                    }}
-                  />
-                </div>
+                    <div>
+                      <Typography variant="labelBase" className="mb-2">
+                        Bottom padding : {paddingBottom}px
+                      </Typography>
+                      <Slider
+                        min={0}
+                        max={50}
+                        step={1}
+                        value={Number(paddingBottom)}
+                        onChange={(value: number) => {
+                          setPaddingBottom(value.toString());
+                        }}
+                      />
+                    </div>
 
-                <div>
-                  <Typography variant="labelBase" className="mb-2">
-                    Left padding : {paddingLeft}px
-                  </Typography>
-                  <Slider
-                    min={0}
-                    max={50}
-                    step={1}
-                    value={Number(paddingLeft)}
-                    onChange={(value: number) => {
-                      setPaddingLeft(value.toString());
-                    }}
-                  />
+                    <div>
+                      <Typography variant="labelBase" className="mb-2">
+                        Left padding : {paddingLeft}px
+                      </Typography>
+                      <Slider
+                        min={0}
+                        max={50}
+                        step={1}
+                        value={Number(paddingLeft)}
+                        onChange={(value: number) => {
+                          setPaddingLeft(value.toString());
+                        }}
+                      />
+                    </div>
+                  </div>
                 </div>
-              </div>
+              </CollapsibleSection>
             </div>
           </>
         )}
@@ -218,7 +221,8 @@ export const ContentEdit = (props: any) => {
           <>
             {canDisplayDeleteButton && (
               <>
-                <div>
+                <hr className="border-gray-300" />
+                <div className="mt-4">
                   <Button
                     variant="red"
                     onClick={() => {
@@ -228,7 +232,7 @@ export const ContentEdit = (props: any) => {
                     Delete
                   </Button>
                 </div>
-                <hr className="border-t border-gray-200 my-4" />
+                <hr className="border-t border-gray-300 my-4" />
               </>
             )}
 
@@ -372,27 +376,4 @@ const getContentType = (
     default:
       return null;
   }
-};
-
-const TextEditContent = (props: any) => {
-  const { components, contentPathToEdit, contentType } = props;
-  const { setContent } = useSignatureStore();
-
-  return components.map((component: any, index: number) => {
-    const path = `${contentPathToEdit}.components[${index}]`;
-
-    const onChange = (editContent: any) => {
-      setContent(path, editContent);
-    };
-
-    return (
-      <div key={index}>
-        <RichTextEditor
-          content={component}
-          onChange={onChange}
-          contentType={contentType}
-        />
-      </div>
-    );
-  });
 };

@@ -65,7 +65,12 @@ const Slider: React.FC<SliderProps> = (props) => {
     (clientX: number) => {
       if (sliderRef.current) {
         const rect = sliderRef.current.getBoundingClientRect();
-        const percent = (clientX - rect.left) / rect.width;
+        const padding = 16; // 1rem = 16px
+        const width = rect.width - padding * 2;
+        const percent = Math.max(
+          0,
+          Math.min(1, (clientX - (rect.left + padding)) / width),
+        );
         let newValue: number;
         if (isUsingSteps) {
           const index = Math.round(percent * (steps!.length - 1));
@@ -137,7 +142,7 @@ const Slider: React.FC<SliderProps> = (props) => {
       <div
         id={id}
         ref={sliderRef}
-        className="relative w-full h-4 select-none"
+        className="relative w-full h-4 select-none px-4"
         style={{ touchAction: 'none' }}
         onPointerDown={(e) => sliderRef.current?.setPointerCapture(e.pointerId)}
         onPointerMove={(e) => {
@@ -150,7 +155,7 @@ const Slider: React.FC<SliderProps> = (props) => {
         aria-valuemax={isUsingSteps ? steps![steps!.length - 1].value : max}
         aria-valuenow={currentValue}
       >
-        <div className="absolute left-0 w-full h-2 bg-gray-300 rounded-full transform -translate-y-1/2">
+        <div className="absolute left-4 right-4 h-2 bg-gray-300 rounded-full transform -translate-y-1/2">
           <div
             className="absolute top-0 left-0 h-full bg-blue-500 rounded-full"
             style={{ width: `${percentValue}%` }}
@@ -158,7 +163,7 @@ const Slider: React.FC<SliderProps> = (props) => {
         </div>
         <div
           className="absolute w-8 h-8 bg-white border-2 border-blue-500 rounded-full shadow-sm transform -translate-y-1/2 -translate-x-1/2 cursor-pointer"
-          style={{ left: `${percentValue}%` }}
+          style={{ left: `calc(16px + (100% - 32px) * ${percentValue / 100})` }}
         />
         <div className="absolute top-full left-0 w-full flex justify-between mt-2 text-xs text-gray-600">
           {isUsingSteps && steps
