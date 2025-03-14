@@ -1,5 +1,5 @@
-"use client";
-import React, { useState, useEffect } from "react";
+'use client';
+import React, { useState, useEffect } from 'react';
 
 /* const rgbToHex = (r: number, g: number, b: number): string => {
   const toHex = (n: number) => {
@@ -66,10 +66,11 @@ const rgbToHsv = (rgb: string): { h: number; s: number; v: number } => {
 interface Props {
   onChange: (color: string) => void;
   initColor: string;
+  usedColors?: string[];
 }
 
 const AdvancedColorPicker = (props: Props) => {
-  const { onChange, initColor } = props;
+  const { onChange, initColor, usedColors = [] } = props;
   const [hsv, setHsv] = useState<HSV>(rgbToHsv(initColor));
   const [isDraggingField, setIsDraggingField] = useState(false);
   const [isDraggingHue, setIsDraggingHue] = useState(false);
@@ -128,8 +129,8 @@ const AdvancedColorPicker = (props: Props) => {
     isField: boolean,
   ) => {
     const rect = e.currentTarget.getBoundingClientRect();
-    const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
-    const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
 
     if (isField) {
       const x = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
@@ -173,18 +174,18 @@ const AdvancedColorPicker = (props: Props) => {
       }
     };
 
-    document.addEventListener("mouseup", handleMouseUp);
-    document.addEventListener("touchend", handleMouseUp);
-    document.addEventListener("mousemove", handleGlobalMouseMove);
-    document.addEventListener("touchmove", handleGlobalMouseMove, {
+    document.addEventListener('mouseup', handleMouseUp);
+    document.addEventListener('touchend', handleMouseUp);
+    document.addEventListener('mousemove', handleGlobalMouseMove);
+    document.addEventListener('touchmove', handleGlobalMouseMove, {
       passive: false,
     });
 
     return () => {
-      document.removeEventListener("mouseup", handleMouseUp);
-      document.removeEventListener("touchend", handleMouseUp);
-      document.removeEventListener("mousemove", handleGlobalMouseMove);
-      document.removeEventListener("touchmove", handleGlobalMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+      document.removeEventListener('touchend', handleMouseUp);
+      document.removeEventListener('mousemove', handleGlobalMouseMove);
+      document.removeEventListener('touchmove', handleGlobalMouseMove);
     };
   }, [isDraggingField, isDraggingHue]);
 
@@ -205,7 +206,7 @@ const AdvancedColorPicker = (props: Props) => {
           style={{
             background: `linear-gradient(to right, white, ${hueColor}), 
                         linear-gradient(to bottom, transparent, black)`,
-            backgroundBlendMode: "multiply",
+            backgroundBlendMode: 'multiply',
           }}
           onClick={handleFieldInteraction}
           onMouseDown={(e) => {
@@ -234,7 +235,7 @@ const AdvancedColorPicker = (props: Props) => {
           className="relative w-full h-16 rounded-lg cursor-pointer shadow-inner"
           style={{
             background:
-              "linear-gradient(to right, #ff0000 0%, #ffff00 17%, #00ff00 33%, #00ffff 50%, #0000ff 67%, #ff00ff 83%, #ff0000 100%)",
+              'linear-gradient(to right, #ff0000 0%, #ffff00 17%, #00ff00 33%, #00ffff 50%, #0000ff 67%, #ff00ff 83%, #ff0000 100%)',
           }}
           onClick={handleHueInteraction}
           onMouseDown={(e) => {
@@ -255,11 +256,39 @@ const AdvancedColorPicker = (props: Props) => {
             }}
           />
         </div>
-        <div
-          className="w-full h-16 rounded-lg shadow-inner"
-          style={{ backgroundColor: currentColor }}
-        />
-        <p className="font-mono text-gray-600">{currentColor}</p>
+
+        {usedColors.length > 0 && (
+          <div className="mt-4">
+            <p className="text-sm font-medium text-gray-700 mb-2">
+              Used colors
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {usedColors.map((color, index) => (
+                <div
+                  key={index}
+                  className="w-9 h-9 rounded-md cursor-pointer shadow-md hover:shadow-lg transition-shadow"
+                  style={{ backgroundColor: color }}
+                  onClick={() => {
+                    const newHsv = rgbToHsv(color);
+                    setHsv(newHsv);
+                    onChange(color);
+                  }}
+                  title={color}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div>
+          <div
+            className="w-full h-16 rounded-lg shadow-inner"
+            style={{ backgroundColor: currentColor }}
+          />
+          <div className="mt-2 font-mono text-gray-600 text-md text-center">
+            {currentColor}
+          </div>
+        </div>
       </div>
     </div>
   );

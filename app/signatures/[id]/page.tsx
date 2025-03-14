@@ -48,7 +48,7 @@ export default async function Signature(props: Props) {
             <Container>
               <SignatureDetail
                 signatureDetail={{
-                  rows: template?.rows,
+                  ...template,
                 }}
                 isSignedIn={isSignedIn}
                 templateSlug={templateSlug}
@@ -72,6 +72,7 @@ export default async function Signature(props: Props) {
 
     // TODO - taky ještě domylset, co se stane, když uživatel nemá signature, ale j příhlášen je na example?template=signature-a
     const rows = data?.signature_content?.rows || [];
+    const colors = data?.signature_content?.colors || [];
 
     return (
       <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100">
@@ -82,7 +83,9 @@ export default async function Signature(props: Props) {
               <SignatureDetail
                 isSignedIn={isSignedIn}
                 signatureDetail={{
+                  ...data?.signature_content,
                   rows,
+                  colors,
                 }}
               />
             </Container>

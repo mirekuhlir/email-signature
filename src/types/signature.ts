@@ -95,5 +95,6 @@ export interface SignatureTemplate {
     templateName: string;
     templateSlug: string;
     version: string;
+    colors: string[];
     rows: TableRow[];
 }

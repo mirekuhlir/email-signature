@@ -11,7 +11,7 @@ import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
 export const SignatureDetail = (props: any) => {
   const { signatureDetail, isSignedIn, templateSlug } = props;
 
-  const { rows, initRows } = useSignatureStore();
+  const { rows, initRows, initColors } = useSignatureStore();
   const { contentEdit } = useContentEditStore();
   const [isEdit, setIsEdit] = useState(false);
 
@@ -33,7 +33,9 @@ export const SignatureDetail = (props: any) => {
         console.error('Error parsing local data:', error);
       }
     } else {
+      // Initialize with rows and colors if available
       initRows(signatureDetail.rows);
+      initColors(signatureDetail.colors);
     }
     isInitialized.current = true;
 

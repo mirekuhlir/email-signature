@@ -4,6 +4,9 @@ export const signature_a: SignatureTemplate = {
   templateName: "signature_a",
   templateSlug: "signature-a",
   version: "0.1",
+  colors: [
+    "rgb(0,148,47)",
+  ],
   rows: [
     {
       id: "gp91",

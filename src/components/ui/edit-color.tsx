@@ -3,6 +3,7 @@ import { Button } from '@/src/components/ui/button';
 import AdvancedColorPicker from './advanced-color-picker';
 import { Typography } from './typography';
 import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
+import { useSignatureStore } from '@/src/store/content-edit-add-store';
 
 const DEFAULT_COLOR = 'rgb(128,128,128)';
 
@@ -20,6 +21,7 @@ export const EditColor = (props: Props) => {
     initColor || DEFAULT_COLOR,
   );
   const { setContentEdit } = useContentEditStore();
+  const { getColors, addColor } = useSignatureStore();
 
   const [localInitColor, setLocalInitColor] = useState<string | undefined>(
     undefined,
@@ -31,6 +33,8 @@ export const EditColor = (props: Props) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initColor]);
+
+  const usedColors = getColors();
 
   return (
     <div>
@@ -65,6 +69,7 @@ export const EditColor = (props: Props) => {
               onChange(color);
               setCurrentColor(color);
             }}
+            usedColors={usedColors}
           />
 
           <div className="p-6">
@@ -111,6 +116,10 @@ export const EditColor = (props: Props) => {
                   setContentEdit({
                     subEdit: null,
                   });
+
+                  if (currentColor && currentColor !== 'transparent') {
+                    addColor(currentColor);
+                  }
 
                   setIsColorPickerOpen(false);
                 }}

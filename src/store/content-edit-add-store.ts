@@ -13,7 +13,9 @@ const supabase = createClient();
 
 export interface StoreState {
   rows: any[];
-  initRows: (rows: any) => void;
+  initRows: (rows: any, colors?: string[]) => void;
+  colors: string[];
+  initColors: (colors: string[]) => void;
   addRow: (path: string, type: ContentType) => void;
   addRowTable: (position: "start" | "end", type: ContentType) => void;
   removeRow: (
@@ -26,14 +28,21 @@ export interface StoreState {
     signatureId: string,
     contentPathToEdit: string,
   ) => Promise<void>;
+  addColor: (color: string) => void;
+  getColors: () => string[];
 }
 
 // barvy - rgba nebo hex?
 
 export const useSignatureStore = create<StoreState>((set, get) => ({
   rows: [],
-  initRows: (rows: any) => {
-    set({ rows });
+
+  initRows: (rows: any, colors: string[] = []) => {
+    set({ rows, colors });
+  },
+  colors: [],
+  initColors: (colors: string[]) => {
+    set({ colors });
   },
 
   addRow: (path: string, type: ContentType) =>
@@ -99,7 +108,10 @@ export const useSignatureStore = create<StoreState>((set, get) => ({
         method: "PATCH",
         body: {
           signatureId,
-          signatureContent: { rows: cloneRows },
+          signatureContent: {
+            rows: cloneRows,
+            colors: get().colors,
+          },
         },
       });
 
@@ -132,11 +144,20 @@ export const useSignatureStore = create<StoreState>((set, get) => ({
       return { rows: cloneRows };
     }),
 
+  addColor: (color: string) =>
+    set((state) => {
+      if (!color || color === "transparent") return state;
+      if (state.colors.includes(color)) return state;
+      return { colors: [...state.colors, color] };
+    }),
+
+  getColors: () => get().colors,
+
   saveSignatureContentRow: async (
     signatureId: string,
     contentPathToEdit: string,
   ) => {
-    const { rows, setContent } = get();
+    const { rows, colors, setContent } = get();
 
     const content = lGet(rows, contentPathToEdit);
 
@@ -211,7 +232,10 @@ export const useSignatureStore = create<StoreState>((set, get) => ({
             method: "PATCH",
             body: {
               signatureId,
-              signatureContent: { rows: deepCopyRows },
+              signatureContent: {
+                rows: deepCopyRows,
+                colors,
+              },
             },
           },
         );
@@ -227,7 +251,10 @@ export const useSignatureStore = create<StoreState>((set, get) => ({
           method: "PATCH",
           body: {
             signatureId,
-            signatureContent: { rows },
+            signatureContent: {
+              rows,
+              colors,
+            },
           },
         },
       );
