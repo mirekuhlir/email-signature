@@ -116,7 +116,10 @@ serve(async (req: Request) => {
     );
   }
 
-  const srcImages = extractImageSrc(existingSignature.signature_content.rows);
+  const srcImages = extractImageSrc(existingSignature.signature_content.rows)
+    .filter(
+      (src) => !src.includes("example"),
+    );
 
   const { error: deleteError } = await supabase
     .from("signatures")

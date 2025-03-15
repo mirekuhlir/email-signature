@@ -142,73 +142,75 @@ export const ContentEdit = (props: any) => {
           <>
             {getContentType(content, path, isSignedIn)}
 
-            <div className="mt-0">
-              <CollapsibleSection>
-                <div className="px-0">
-                  <div className="grid grid-cols-1 gap-6">
-                    <div>
-                      <Typography variant="labelBase" className="mb-2">
-                        Top padding : {paddingTop}px
-                      </Typography>
-                      <Slider
-                        min={0}
-                        max={50}
-                        step={1}
-                        value={Number(paddingTop)}
-                        onChange={(value: number) => {
-                          setPaddingTop(value.toString());
-                        }}
-                      />
-                    </div>
+            {content.type !== ContentType.IMAGE && (
+              <div className="mt-0">
+                <CollapsibleSection>
+                  <div className="px-0">
+                    <div className="grid grid-cols-1 gap-6">
+                      <div>
+                        <Typography variant="labelBase" className="mb-2">
+                          Top padding : {paddingTop}px
+                        </Typography>
+                        <Slider
+                          min={0}
+                          max={50}
+                          step={1}
+                          value={Number(paddingTop)}
+                          onChange={(value: number) => {
+                            setPaddingTop(value.toString());
+                          }}
+                        />
+                      </div>
 
-                    <div>
-                      <Typography variant="labelBase" className="mb-2">
-                        Right padding : {paddingRight}px
-                      </Typography>
-                      <Slider
-                        min={0}
-                        max={50}
-                        step={1}
-                        value={Number(paddingRight)}
-                        onChange={(value: number) => {
-                          setPaddingRight(value.toString());
-                        }}
-                      />
-                    </div>
+                      <div>
+                        <Typography variant="labelBase" className="mb-2">
+                          Right padding : {paddingRight}px
+                        </Typography>
+                        <Slider
+                          min={0}
+                          max={50}
+                          step={1}
+                          value={Number(paddingRight)}
+                          onChange={(value: number) => {
+                            setPaddingRight(value.toString());
+                          }}
+                        />
+                      </div>
 
-                    <div>
-                      <Typography variant="labelBase" className="mb-2">
-                        Bottom padding : {paddingBottom}px
-                      </Typography>
-                      <Slider
-                        min={0}
-                        max={50}
-                        step={1}
-                        value={Number(paddingBottom)}
-                        onChange={(value: number) => {
-                          setPaddingBottom(value.toString());
-                        }}
-                      />
-                    </div>
+                      <div>
+                        <Typography variant="labelBase" className="mb-2">
+                          Bottom padding : {paddingBottom}px
+                        </Typography>
+                        <Slider
+                          min={0}
+                          max={50}
+                          step={1}
+                          value={Number(paddingBottom)}
+                          onChange={(value: number) => {
+                            setPaddingBottom(value.toString());
+                          }}
+                        />
+                      </div>
 
-                    <div>
-                      <Typography variant="labelBase" className="mb-2">
-                        Left padding : {paddingLeft}px
-                      </Typography>
-                      <Slider
-                        min={0}
-                        max={50}
-                        step={1}
-                        value={Number(paddingLeft)}
-                        onChange={(value: number) => {
-                          setPaddingLeft(value.toString());
-                        }}
-                      />
+                      <div>
+                        <Typography variant="labelBase" className="mb-2">
+                          Left padding : {paddingLeft}px
+                        </Typography>
+                        <Slider
+                          min={0}
+                          max={50}
+                          step={1}
+                          value={Number(paddingLeft)}
+                          onChange={(value: number) => {
+                            setPaddingLeft(value.toString());
+                          }}
+                        />
+                      </div>
                     </div>
                   </div>
-                </div>
-              </CollapsibleSection>
-            </div>
+                </CollapsibleSection>
+              </div>
+            )}
           </>
         )}
       </div>

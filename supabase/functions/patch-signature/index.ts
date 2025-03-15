@@ -149,6 +149,8 @@ serve(async (req: Request) => {
 
   const srcImagesToDelete = existingSrcImages.filter(
     (src) => !currentSrcImages.includes(src),
+  ).filter(
+    (src) => !src.includes("example"),
   );
 
   try {

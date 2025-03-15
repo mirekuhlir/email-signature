@@ -8,125 +8,72 @@ export const signature_a: SignatureTemplate = {
   colors: [
     "rgb(0,148,47)",
   ],
-  rows: [
+  "rows": [
     {
-      id: "gp91",
-      columns: [
+      "id": "gp91",
+      "columns": [
         {
-          id: "2j9b",
-          style: {
-            padding: "10px 10px 10px 10px",
-          },
-          rows: [],
+          "id": "2j9b",
+          "rows": [
+            {
+              "id": "muj6la5",
+              "style": {
+                "margin": "0 auto",
+                "display": "table",
+              },
+              "content": {
+                "type": "image",
+                "components": [
+                  {
+                    "id": "s3y0rg5",
+                    "src":
+                      "https://signatures-photos.s3.us-east-1.amazonaws.com/example/signature-a/1742027516885-s3y0rg5.png",
+                    "padding": "0px 0px 0px 0px",
+                    "originalSrc":
+                      "https://signatures-photos.s3.us-east-1.amazonaws.com/example/signature-a/s3y0rg5-IMG_3682.png",
+                  },
+                ],
+              },
+            },
+          ],
         },
         {
-          id: "gg6r",
-          style: {
-            verticalAlign: "top",
-            padding: "10px 10px 10px 10px",
+          "id": "gg6r",
+          "rows": [
+            {
+              "id": "ex3p",
+              "content": {
+                "type": "text",
+                "components": [
+                  {
+                    "id": "2j9ba1",
+                    "text": "Miroslav Uhlíř",
+                    "fontSize": "32",
+                  },
+                ],
+              },
+            },
+            {
+              "id": "7jn3",
+              "content": {
+                "type": "text",
+                "components": [
+                  {
+                    "id": "2j9ba2",
+                    "text": "javascript developer2",
+                    "color": "rgb(0,148,47)",
+                    "fontSize": "16",
+                  },
+                ],
+              },
+            },
+          ],
+          "style": {
+            "padding": "10px 10px 10px 10px",
+            "verticalAlign": "top",
           },
-          rows: [{
-            id: "ex3p",
-            content: {
-              type: "text",
-              components: [
-                {
-                  id: "2j9ba1",
-                  text: "Miroslav Uhlíř",
-                  fontSize: "32",
-                },
-              ],
-            },
-          }, {
-            id: "7jn3",
-            content: {
-              type: "text",
-              components: [
-                {
-                  id: "2j9ba2",
-                  text: "javascript developer2",
-                  fontSize: "16",
-                  color: "rgb(0,148,47)",
-                },
-              ],
-            },
-          }],
         },
       ],
     },
-    /*   {
-    id: "gp91",
-    style: { backgroundColor: "purple" },
-    columns: [
-      {
-        id: "2j9b",
-        style: {
-          verticalAlign: "top",
-        },
-        rows: [{
-          id: "2j9c",
-          content: {
-            text: "A",
-          },
-        }],
-      },
-      {
-        id: "gg6r",
-        rows: [{
-          id: "ex3p",
-          style: { backgroundColor: "red" },
-          content: {
-            text: "123",
-          },
-        }, {
-          id: "7jn3",
-          content: {
-            text: "124",
-          },
-        }],
-      },
-    ],
-  }, */
-    /*   {
-    id: "n9n8",
-    style: { backgroundColor: "red" },
-    columns: [
-      {
-        id: "xogy",
-        style: { backgroundColor: "red", verticalAlign: "bottom" },
-        rows: [
-          {
-            id: "692i",
-            type: SignaturePart.TEXT,
-            content: { text: "A" },
-            style: { backgroundColor: "green" },
-          },
-        ],
-      },
-      {
-        id: "50v9",
-        rows: [
-          {
-            id: "juh3",
-            type: SignaturePart.TEXT,
-            content: { text: "B" },
-            style: { backgroundColor: "green" },
-          },
-          {
-            id: "yfau",
-            type: SignaturePart.TEXT,
-            content: { text: "C" },
-            style: { backgroundColor: "blue" },
-          },
-          {
-            id: "asnv",
-            type: SignaturePart.TEXT,
-            content: { text: "D" },
-            style: { backgroundColor: "orange" },
-          },
-        ],
-      },
-    ],
-  }, */
   ],
 } as SignatureTemplate;
