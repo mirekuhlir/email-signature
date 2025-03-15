@@ -236,7 +236,7 @@ export const ContentEdit = (props: any) => {
               </>
             )}
 
-            <Modal size="large" isOpen={isDeleteModalOpen}>
+            <Modal size="small" isOpen={isDeleteModalOpen}>
               <div className="p-2">
                 <Typography variant="h3">Delete content</Typography>
                 <Typography variant="body">
