@@ -30,6 +30,10 @@ export const ColumnSettings = (props: any) => {
   const originalStyle = useMemo(() => get(rows, path) || {}, [rows, path]);
 
   useEffect(() => {
+    if (!initContent) {
+      setInitContent(originalStyle);
+    }
+
     if (originalStyle.padding) {
       const paddingValues = originalStyle.padding
         .split(' ')
@@ -39,10 +43,6 @@ export const ColumnSettings = (props: any) => {
       setPaddingRight(paddingValues[1]);
       setPaddingBottom(paddingValues[2]);
       setPaddingLeft(paddingValues[3]);
-
-      if (!initContent) {
-        setInitContent(originalStyle);
-      }
     }
 
     if (originalStyle.borderRightWidth) {
