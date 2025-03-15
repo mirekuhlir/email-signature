@@ -113,14 +113,6 @@ export const ContentEdit = (props: any) => {
     : true;
 
   const closeContent = () => {
-    const closeEdit = () => {
-      console.warn('iniContent', iniContent);
-      setContent(path, iniContent);
-      setContentEdit({
-        editPath: null,
-      });
-    };
-
     // image was not loaded from client so we can delete row
     const image = content?.components[0];
     if (
@@ -131,7 +123,10 @@ export const ContentEdit = (props: any) => {
       removeRow(contentPathToEdit, signatureId, isSignedIn);
       setContentEdit({ editPath: null });
     } else {
-      closeEdit();
+      setContent(path, iniContent);
+      setContentEdit({
+        editPath: null,
+      });
     }
   };
 
