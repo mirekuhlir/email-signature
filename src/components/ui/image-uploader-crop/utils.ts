@@ -1,11 +1,11 @@
 import { type Crop } from "react-image-crop";
 
 export const cropDefault: Crop = {
-  unit: "px",
-  width: 100,
-  height: 100,
-  x: 0,
-  y: 0,
+  unit: "%",
+  width: 80,
+  height: 80,
+  x: 10,
+  y: 10,
 };
 
 export const imageWidthDefault = 150;
@@ -15,24 +15,34 @@ export function getDefaultCrop(
   imgWidth: number,
   imgHeight: number,
 ): Crop {
-  const maxCropWidth = imgWidth * 0.8;
-  const maxCropHeight = imgHeight * 0.8;
+  // Calculate relative dimensions based on the aspect ratio
+  // but using percentages instead of pixels
+  let cropWidthPercent: number, cropHeightPercent: number;
 
-  let cropWidth: number, cropHeight: number;
-  if (maxCropWidth / aspect <= maxCropHeight) {
-    cropWidth = Math.round(maxCropWidth);
-    cropHeight = Math.round(maxCropWidth / aspect);
+  if (imgWidth / aspect <= imgHeight) {
+    // Width constrained
+    cropWidthPercent = 80; // Use 80% of the width
+    cropHeightPercent = (cropWidthPercent / aspect) * (imgWidth / imgHeight);
   } else {
-    cropHeight = Math.round(maxCropHeight);
-    cropWidth = Math.round(maxCropHeight * aspect);
+    // Height constrained
+    cropHeightPercent = 80; // Use 80% of the height
+    cropWidthPercent = (cropHeightPercent * aspect) * (imgHeight / imgWidth);
   }
 
+  // Ensure the crop stays within bounds (0-100%)
+  cropWidthPercent = Math.min(cropWidthPercent, 100);
+  cropHeightPercent = Math.min(cropHeightPercent, 100);
+
+  // Center the crop
+  const xPercent = (100 - cropWidthPercent) / 2;
+  const yPercent = (100 - cropHeightPercent) / 2;
+
   return {
-    unit: "px",
-    width: cropWidth,
-    height: cropHeight,
-    x: Math.floor((imgWidth - cropWidth) / 2),
-    y: Math.floor((imgHeight - cropHeight) / 2),
+    unit: "%",
+    width: cropWidthPercent,
+    height: cropHeightPercent,
+    x: xPercent,
+    y: yPercent,
   };
 }
 

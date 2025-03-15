@@ -81,7 +81,13 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     if (!imgRef.current) return undefined;
     const { width: imgWidth, height: imgHeight } =
       imgRef.current.getBoundingClientRect();
-    return getDefaultCrop(aspectRatio, imgWidth, imgHeight);
+    const defaultCrop = getDefaultCrop(aspectRatio, imgWidth, imgHeight);
+
+    // Explicitně zajistíme, že výchozí crop používá procentuální jednotky
+    return {
+      ...defaultCrop,
+      unit: '%' as const,
+    };
   }, []);
 
   const onSelectFile = useCallback(
@@ -171,24 +177,44 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
       originalImagePreview
     ) {
       const image = imgRef.current;
-      const scaleX = image.naturalWidth / image.width;
-      const scaleY = image.naturalHeight / image.height;
+      const imageWidth = image.width;
+      const imageHeight = image.height;
+      const scaleX = image.naturalWidth / imageWidth;
+      const scaleY = image.naturalHeight / imageHeight;
 
       // Ensure we have valid dimensions
       if (
         image.naturalWidth === 0 ||
         image.naturalHeight === 0 ||
-        image.width === 0 ||
-        image.height === 0
+        imageWidth === 0 ||
+        imageHeight === 0
       ) {
         console.error('Image dimensions are invalid');
         return null;
       }
 
-      const cropWidthOrig = Math.max(1, crop.width * scaleX);
-      const cropHeightOrig = Math.max(1, crop.height * scaleY);
-      const xOrig = crop.x * scaleX;
-      const yOrig = crop.y * scaleY;
+      // Convert percentage to pixels
+      let cropX, cropY, cropWidth, cropHeight;
+
+      if (crop.unit === '%') {
+        // Convert percentages to actual pixels
+        cropWidth = (crop.width / 100) * imageWidth;
+        cropHeight = (crop.height / 100) * imageHeight;
+        cropX = (crop.x / 100) * imageWidth;
+        cropY = (crop.y / 100) * imageHeight;
+      } else {
+        // Already in pixels
+        cropWidth = crop.width;
+        cropHeight = crop.height;
+        cropX = crop.x;
+        cropY = crop.y;
+      }
+
+      // Scale to the actual image dimensions
+      const cropWidthOrig = Math.max(1, cropWidth * scaleX);
+      const cropHeightOrig = Math.max(1, cropHeight * scaleY);
+      const xOrig = cropX * scaleX;
+      const yOrig = cropY * scaleY;
 
       const tempCanvas = document.createElement('canvas');
       tempCanvas.width = Math.max(1, cropWidthOrig);
@@ -312,14 +338,22 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         setAspect(1);
         const newCrop = getDefaultCropForCurrentImage(1);
         if (newCrop) {
-          setCrop(newCrop);
+          // Ensure the unit is preserved as percentage
+          setCrop({
+            ...newCrop,
+            unit: '%',
+          });
         }
       } else {
         setIsCircular(false);
         setAspect(newAspect);
         const newCrop = getDefaultCropForCurrentImage(newAspect);
         if (newCrop) {
-          setCrop(newCrop);
+          // Ensure the unit is preserved as percentage
+          setCrop({
+            ...newCrop,
+            unit: '%',
+          });
         }
       }
     },
@@ -336,11 +370,19 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
 
   useEffect(() => {
     if (!crop?.width) {
-      setCrop(imageSettings?.crop || getDefaultCropForCurrentImage(1));
+      if (imageSettings?.crop) {
+        // Ensure the loaded crop settings use percentage units
+        setCrop({
+          ...imageSettings.crop,
+          unit: '%' as const,
+        });
+      } else {
+        setCrop(getDefaultCropForCurrentImage(1));
+      }
       setAspect(imageSettings?.aspect || 1);
       setIsCircular(imageSettings?.isCircular || false);
     }
-  }, [imageSettings, crop?.width]);
+  }, [imageSettings, crop?.width, getDefaultCropForCurrentImage]);
 
   useEffect(() => {
     if (!previewWidth) {
@@ -437,7 +479,16 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
           <div className="overflow-hidden bg-black/5 max-w-[90%] mx-0 md:mx-auto">
             <ReactCrop
               crop={crop}
-              onChange={(c) => setCrop(c)}
+              onChange={(c, percentCrop) => {
+                if (percentCrop) {
+                  setCrop(percentCrop);
+                } else {
+                  setCrop({
+                    ...c,
+                    unit: crop?.unit || '%',
+                  });
+                }
+              }}
               aspect={aspect}
               circularCrop={isCircular}
             >
@@ -450,7 +501,10 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
                     const { width: imgWidth, height: imgHeight } =
                       imgRef.current.getBoundingClientRect();
                     const defaultCrop = getDefaultCrop(1, imgWidth, imgHeight);
-                    setCrop(defaultCrop);
+                    setCrop({
+                      ...defaultCrop,
+                      unit: '%' as const,
+                    });
                   }
                 }}
                 className="max-h-[600px] w-full object-contain"
