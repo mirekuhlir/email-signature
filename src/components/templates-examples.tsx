@@ -34,7 +34,11 @@ export const TemplatesExamples = (props: TemplatesExamplesProps) => {
                       {
                         method: 'POST',
                         body: {
-                          signatureContent: template,
+                          signatureContent: {
+                            rows: template.rows,
+                            colors: template.colors,
+                          },
+                          info: template.info,
                         },
                       },
                     );
@@ -42,7 +46,7 @@ export const TemplatesExamples = (props: TemplatesExamplesProps) => {
                     router.push(`/signatures/${data.signatureId}`);
                   } else {
                     router.push(
-                      `/signatures/example/?template=${template.templateSlug}`,
+                      `/signatures/example/?template=${template.info?.templateSlug}`,
                     );
                   }
                 }}

@@ -90,13 +90,14 @@ interface TableRow {
     columns: Column[];
 }
 
+interface SignatureInfo {
+    templateSlug: string;
+    version: string;
+}
+
 // Signature template structure
 export interface SignatureTemplate {
-    info: {
-        templateName: string;
-        templateSlug: string;
-        version: string;
-    };
+    info?: SignatureInfo;
     colors: string[];
     rows: TableRow[];
 }

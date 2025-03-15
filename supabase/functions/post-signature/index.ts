@@ -72,7 +72,7 @@ serve(async (req: Request) => {
       },
     );
   }
-  const { signatureContent } = body;
+  const { signatureContent, info } = body;
 
   if (!signatureContent || typeof signatureContent !== "object") {
     return new Response(
@@ -115,6 +115,8 @@ serve(async (req: Request) => {
       signature_content: signatureContent,
       user_id: userId,
       updated_at: new Date(),
+      template_slug: info?.templateSlug,
+      version: info?.version,
     }])
     .select()
     .single();

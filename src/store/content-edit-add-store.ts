@@ -14,19 +14,9 @@ const supabase = createClient();
 export interface StoreState {
   rows: any[];
   colors: string[];
-  info: {
-    templateName: string;
-    templateSlug: string;
-    version: string;
-  };
   initSignature: (signature: {
     rows: any;
     colors?: string[];
-    info?: {
-      templateName: string;
-      templateSlug: string;
-      version: string;
-    };
   }) => void;
   addRow: (path: string, type: ContentType) => void;
   addRowTable: (position: "start" | "end", type: ContentType) => void;
@@ -49,31 +39,15 @@ export interface StoreState {
 export const useSignatureStore = create<StoreState>((set, get) => ({
   rows: [],
   colors: [],
-  info: {
-    templateName: "",
-    templateSlug: "",
-    version: "",
-  },
-
   initSignature: (signature: {
     rows: any;
     colors?: string[];
-    info?: {
-      templateName: string;
-      templateSlug: string;
-      version: string;
-    };
   }) => {
     const {
       rows,
       colors = [],
-      info = {
-        templateName: "",
-        templateSlug: "",
-        version: "",
-      },
     } = signature;
-    set({ rows, colors, info });
+    set({ rows, colors });
   },
 
   addRow: (path: string, type: ContentType) =>
@@ -115,7 +89,7 @@ export const useSignatureStore = create<StoreState>((set, get) => ({
     isSignedIn: boolean,
   ) => {
     const cloneRows = cloneDeep(get().rows);
-    const { colors, info } = get();
+    const { colors } = get();
     const tableIndex = parseInt(path.split(".")[0].replace(/[[\]]/g, ""));
 
     const columnIndex = parseInt(path.split("columns[")[1].split("]")[0]);
@@ -143,7 +117,6 @@ export const useSignatureStore = create<StoreState>((set, get) => ({
           signatureContent: {
             rows: cloneRows,
             colors,
-            info,
           },
         },
       });
@@ -190,7 +163,7 @@ export const useSignatureStore = create<StoreState>((set, get) => ({
     signatureId: string,
     contentPathToEdit: string,
   ) => {
-    const { rows, colors, info, setContent } = get();
+    const { rows, colors, setContent } = get();
 
     const content = lGet(rows, contentPathToEdit);
 
@@ -268,7 +241,6 @@ export const useSignatureStore = create<StoreState>((set, get) => ({
               signatureContent: {
                 rows: deepCopyRows,
                 colors,
-                info,
               },
             },
           },
@@ -288,7 +260,6 @@ export const useSignatureStore = create<StoreState>((set, get) => ({
             signatureContent: {
               rows,
               colors,
-              info,
             },
           },
         },

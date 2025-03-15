@@ -15,7 +15,7 @@ export default async function Signatures() {
     return redirect('/sign-in');
   }
 
-  let { data } = await supabase
+  const { data } = await supabase
     .from('signatures')
     .select('*')
     .eq('user_id', user.id);

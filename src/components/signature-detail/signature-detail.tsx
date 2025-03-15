@@ -36,7 +36,6 @@ export const SignatureDetail = (props: any) => {
       initSignature({
         rows: signatureDetail.rows,
         colors: signatureDetail.colors,
-        info: signatureDetail.info,
       });
     }
     isInitialized.current = true;

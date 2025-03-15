@@ -2,7 +2,6 @@ import { SignatureTemplate } from "../types/signature";
 
 export const signature_a: SignatureTemplate = {
   info: {
-    templateName: "signature_a",
     templateSlug: "signature-a",
     version: "0.1",
   },
