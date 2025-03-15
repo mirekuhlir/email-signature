@@ -31,6 +31,17 @@ export const signature_a: SignatureTemplate = {
                     "padding": "0px 0px 0px 0px",
                     "originalSrc":
                       "https://signatures-photos.s3.us-east-1.amazonaws.com/example/signature-a/s3y0rg5-IMG_3682.png",
+                    "imageSettings": {
+                      "crop": {
+                        "x": 37.4712342261509,
+                        "y": 6.967136707034535,
+                        "unit": "%",
+                        "width": 35.21833946114049,
+                        "height": 27.409568121154535,
+                      },
+                      "aspect": 1,
+                      "isCircular": true,
+                    },
                   },
                 ],
               },
