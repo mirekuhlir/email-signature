@@ -42,12 +42,14 @@ export const SignaturesList = (props: any) => {
                     {new Date(signature.created_at).toLocaleString('cs-CZ')}
                   </Typography>
                 </div>
-                <div className="flex gap-2">
-                  <Typography>Updated at:</Typography>
-                  <Typography className="text-gray-500">
-                    {new Date(signature.updated_at).toLocaleString('cs-CZ')}
-                  </Typography>
-                </div>
+                {signature.updated_at && (
+                  <div className="flex gap-2">
+                    <Typography>Updated at:</Typography>
+                    <Typography className="text-gray-500">
+                      {new Date(signature.updated_at).toLocaleString('cs-CZ')}
+                    </Typography>
+                  </div>
+                )}
               </div>
               <div className="flex items-center gap-2 mt-3">
                 <StyledLink
@@ -95,7 +97,11 @@ export const SignaturesList = (props: any) => {
             {t('Are you sure you want to delete this signature?')}
           </Typography>
           <div className="mt-4 flex justify-between">
-            <Button variant="gray" onClick={() => setIsDeleteModalOpen(false)}>
+            <Button
+              variant="gray"
+              disabled={isDeleteLoading}
+              onClick={() => setIsDeleteModalOpen(false)}
+            >
               {t('Cancel')}
             </Button>
             <Button
@@ -119,7 +125,7 @@ export const SignaturesList = (props: any) => {
                 }
               }}
             >
-              {t('Delete')}
+              {isDeleteLoading ? 'Deleting...' : t('Delete')}
             </Button>
           </div>
         </div>

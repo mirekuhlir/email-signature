@@ -114,7 +114,6 @@ serve(async (req: Request) => {
     .insert([{
       signature_content: signatureContent,
       user_id: userId,
-      updated_at: new Date(),
       template_slug: info?.templateSlug,
       version: info?.version,
     }])

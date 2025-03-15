@@ -4,7 +4,7 @@ import { templates } from '@/src/templates';
 import { createClient } from '../utils/supabase/client';
 import { Button } from './ui/button';
 import { useRouter } from 'next/navigation';
-
+import { useState } from 'react';
 type TemplatesExamplesProps = {
   isSignedIn: boolean;
 };
@@ -13,6 +13,7 @@ export const TemplatesExamples = (props: TemplatesExamplesProps) => {
   const { isSignedIn } = props;
   const router = useRouter();
   const supabase = createClient();
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <div className="w-full">
@@ -27,9 +28,11 @@ export const TemplatesExamples = (props: TemplatesExamplesProps) => {
             </div>
             <div className="flex justify-center mt-4">
               <Button
+                loading={isLoading}
                 onClick={async () => {
                   if (isSignedIn) {
-                    const { data } = await supabase.functions.invoke(
+                    setIsLoading(true);
+                    const { data, error } = await supabase.functions.invoke(
                       'post-signature',
                       {
                         method: 'POST',
@@ -43,7 +46,16 @@ export const TemplatesExamples = (props: TemplatesExamplesProps) => {
                       },
                     );
 
-                    router.push(`/signatures/${data.signatureId}`);
+                    if (error) {
+                      setIsLoading(false);
+                      console.error(error);
+                      // TODO - toast error
+                    }
+                    setIsLoading(false);
+
+                    if (data.signatureId) {
+                      router.push(`/signatures/${data.signatureId}`);
+                    }
                   } else {
                     router.push(
                       `/signatures/example/?template=${template.info?.templateSlug}`,
@@ -51,7 +63,7 @@ export const TemplatesExamples = (props: TemplatesExamplesProps) => {
                   }
                 }}
               >
-                Select
+                {isLoading ? 'Loading...' : 'Select'}
               </Button>
             </div>
           </div>
