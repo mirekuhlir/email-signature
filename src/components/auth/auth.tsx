@@ -47,8 +47,10 @@ export const Auth = () => {
 
   if (isEmailSent) {
     return (
-      <div className="flex flex-col p-4">
-        <Typography variant="h4">Email sent</Typography>
+      <div className="flex flex-col py-4">
+        <Typography variant="h4" className="leading-loose">
+          Email sent
+        </Typography>
         <Typography variant="body">
           Please check your e-mail for a verification link. Use this link to
           sign in.
