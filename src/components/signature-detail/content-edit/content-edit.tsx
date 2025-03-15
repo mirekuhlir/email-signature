@@ -154,7 +154,6 @@ export const ContentEdit = (props: any) => {
                         <Slider
                           min={0}
                           max={50}
-                          step={1}
                           value={Number(paddingTop)}
                           onChange={(value: number) => {
                             setPaddingTop(value.toString());
@@ -169,7 +168,6 @@ export const ContentEdit = (props: any) => {
                         <Slider
                           min={0}
                           max={50}
-                          step={1}
                           value={Number(paddingRight)}
                           onChange={(value: number) => {
                             setPaddingRight(value.toString());
@@ -184,7 +182,6 @@ export const ContentEdit = (props: any) => {
                         <Slider
                           min={0}
                           max={50}
-                          step={1}
                           value={Number(paddingBottom)}
                           onChange={(value: number) => {
                             setPaddingBottom(value.toString());
@@ -199,7 +196,6 @@ export const ContentEdit = (props: any) => {
                         <Slider
                           min={0}
                           max={50}
-                          step={1}
                           value={Number(paddingLeft)}
                           onChange={(value: number) => {
                             setPaddingLeft(value.toString());

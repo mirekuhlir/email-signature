@@ -19,10 +19,10 @@ export const ColumnSettings = (props: any) => {
   const [initContent, setInitContent] = useState<any>(null);
   const [isSavingSignature, setIsSavingSignature] = useState(false);
 
-  const [paddingTop, setPaddingTop] = useState('10');
-  const [paddingRight, setPaddingRight] = useState('10');
-  const [paddingBottom, setPaddingBottom] = useState('10');
-  const [paddingLeft, setPaddingLeft] = useState('10');
+  const [paddingTop, setPaddingTop] = useState('0');
+  const [paddingRight, setPaddingRight] = useState('0');
+  const [paddingBottom, setPaddingBottom] = useState('0');
+  const [paddingLeft, setPaddingLeft] = useState('0');
   const [rightBorderWidth, setRightBorderWidth] = useState('0');
   const [rightBorderColor, setRightBorderColor] = useState('rgb(0, 0, 0)');
 
@@ -123,7 +123,6 @@ export const ColumnSettings = (props: any) => {
                 <Slider
                   min={0}
                   max={50}
-                  step={1}
                   value={Number(paddingTop)}
                   onChange={(value: number) => {
                     setPaddingTop(value.toString());
@@ -138,7 +137,6 @@ export const ColumnSettings = (props: any) => {
                 <Slider
                   min={0}
                   max={50}
-                  step={1}
                   value={Number(paddingRight)}
                   onChange={(value: number) => {
                     setPaddingRight(value.toString());
@@ -153,7 +151,6 @@ export const ColumnSettings = (props: any) => {
                 <Slider
                   min={0}
                   max={50}
-                  step={1}
                   value={Number(paddingBottom)}
                   onChange={(value: number) => {
                     setPaddingBottom(value.toString());
@@ -168,7 +165,6 @@ export const ColumnSettings = (props: any) => {
                 <Slider
                   min={0}
                   max={50}
-                  step={1}
                   value={Number(paddingLeft)}
                   onChange={(value: number) => {
                     setPaddingLeft(value.toString());
@@ -186,7 +182,6 @@ export const ColumnSettings = (props: any) => {
               <Slider
                 min={0}
                 max={10}
-                step={1}
                 value={Number(rightBorderWidth)}
                 onChange={(value: number) => {
                   setRightBorderWidth(value.toString());

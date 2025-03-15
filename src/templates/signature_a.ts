@@ -80,7 +80,7 @@ export const signature_a: SignatureTemplate = {
             },
           ],
           "style": {
-            "padding": "10px 10px 10px 10px",
+            "padding": "0px 0px 0px 10px",
             "verticalAlign": "top",
           },
         },
