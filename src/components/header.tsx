@@ -57,6 +57,10 @@ export const Header = (props: any) => {
                     <StyledLink variant="button-ghost" href="/signatures">
                       My signatures
                     </StyledLink>
+                    <StyledLink variant="button-ghost" href="/account">
+                      Account
+                    </StyledLink>
+                    <hr className="w-full border-gray-200" />
                     <Button type="submit" variant="ghost">
                       Sign out
                     </Button>
