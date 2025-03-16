@@ -19,10 +19,22 @@ type SignaturesPreviewsProps = {
   updatedAt?: string;
   onDelete: () => void;
   onEdit: () => void;
+  isLoading: boolean;
+  isFromTemp: boolean;
 };
 
-const SignaturesPreviews = (props: SignaturesPreviewsProps) => {
-  const { rows, createdAt, updatedAt, onDelete, onEdit } = props;
+const SignaturesPreview = (props: SignaturesPreviewsProps) => {
+  const {
+    rows,
+    createdAt,
+    updatedAt,
+    onDelete,
+    onEdit,
+    isLoading,
+    isFromTemp,
+  } = props;
+
+  const editButtonText = isFromTemp ? 'Continue' : 'Edit';
 
   return (
     <div>
@@ -50,14 +62,16 @@ const SignaturesPreviews = (props: SignaturesPreviewsProps) => {
           <>
             <Button
               variant="blue"
+              loading={isLoading}
               onClick={() => {
                 onEdit();
               }}
             >
-              {t('Edit')}
+              {isLoading ? 'Creating...' : editButtonText}
             </Button>
             <Button
               variant="red"
+              disabled={isLoading}
               onClick={() => {
                 onDelete();
               }}
@@ -73,29 +87,30 @@ const SignaturesPreviews = (props: SignaturesPreviewsProps) => {
 
 export const SignaturesList = (props: any) => {
   const { signatures: signaturesData } = props;
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [signatureToDelete, setSignatureToDelete] = useState<any>(null);
-  const [isDeleteLoading, setIsDeleteLoading] = useState(false);
+  const router = useRouter();
   const supabase = createClient();
   const isMobile = useMediaQuery(MEDIA_QUERIES.MOBILE);
 
-  const [signatures, setSignatures] = useState<any[]>(signaturesData);
-  const [wipSignatures, setWipSignatures] = useState<any>(null);
-
-  const router = useRouter();
+  const [isDeleteLoading, setIsDeleteLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
+  const [signatureToDelete, setSignatureToDelete] = useState<any>(null);
+
+  const [signatures, setSignatures] = useState<any[]>(signaturesData);
+  const [tempSignature, setTempSignature] = useState<any>(null);
 
   useEffect(() => {
     const savedData = localStorage.getItem(TEMP_SIGNATURE);
 
     if (savedData) {
-      setWipSignatures([JSON.parse(savedData)]);
+      setTempSignature(JSON.parse(savedData));
     }
   }, []);
 
-  // TODO  - uložit obrázek
-  const createSignature = async (template: any) => {
+  const createSignature = async (template: any, isTemp: boolean = false) => {
     setIsLoading(true);
     const { data, error } = await supabase.functions.invoke('post-signature', {
       method: 'POST',
@@ -113,61 +128,68 @@ export const SignaturesList = (props: any) => {
       console.error(error);
       // TODO - toast error
     }
+
+    if (isTemp) {
+      setTempSignature(null);
+      localStorage.removeItem(TEMP_SIGNATURE);
+    }
+
     setIsLoading(false);
 
-    if (data.signatureId) {
+    if (data?.signatureId) {
       router.push(`/signatures/${data.signatureId}`);
     }
   };
 
-  // TODO - wipSignatures kontrola pole
-
   return (
     <div className="w-full pt-6">
-      {signatures && signatures.length > 0 && (
-        <>
-          <Typography variant="h3">My signatures</Typography>
-          {wipSignatures?.map((wipSignature: any, index: number) => (
-            <SignaturesPreviews
-              key={index}
-              rows={wipSignature.rows}
-              createdAt={wipSignature.createdAt}
-              onDelete={() => {
-                // TODO - smazat z localStorage
-              }}
+      <>
+        <Typography variant="h3">My signatures</Typography>
+        {tempSignature?.rows && (
+          <SignaturesPreview
+            rows={tempSignature.rows}
+            isLoading={isLoading}
+            isFromTemp={true}
+            createdAt={tempSignature.createdAt}
+            onDelete={() => {
+              setTempSignature(null);
+              localStorage.removeItem(TEMP_SIGNATURE);
+            }}
+            onEdit={() => {
+              createSignature(tempSignature, true);
+            }}
+          />
+        )}
+        {signatures
+          ?.sort(
+            (a, b) =>
+              new Date(b.created_at).getTime() -
+              new Date(a.created_at).getTime(),
+          )
+          .map((signature: any) => (
+            <SignaturesPreview
+              key={signature.id}
+              rows={signature.signature_content.rows}
+              createdAt={signature.created_at}
+              updatedAt={signature.updated_at}
+              isLoading={isLoading}
+              isFromTemp={false}
               onEdit={() => {
-                createSignature(wipSignature);
+                router.push(`/signatures/${signature.id}`);
+              }}
+              onDelete={() => {
+                setSignatureToDelete(signature);
+                setIsDeleteModalOpen(true);
               }}
             />
           ))}
-          {signatures
-            ?.sort(
-              (a, b) =>
-                new Date(b.created_at).getTime() -
-                new Date(a.created_at).getTime(),
-            )
-            .map((signature: any) => (
-              <SignaturesPreviews
-                key={signature.id}
-                rows={signature.signature_content.rows}
-                createdAt={signature.created_at}
-                updatedAt={signature.updated_at}
-                onEdit={() => {
-                  router.push(`/signatures/${signature.id}`);
-                }}
-                onDelete={() => {
-                  setSignatureToDelete(signature);
-                  setIsDeleteModalOpen(true);
-                }}
-              />
-            ))}
-          <div className="flex pt-8 pb-8 justify-end">
-            <Button size="lg" onClick={() => setIsModalOpen(true)}>
-              Create signature
-            </Button>
-          </div>
-        </>
-      )}
+        <div className="flex pt-8 pb-8 justify-end">
+          <Button size="lg" onClick={() => setIsModalOpen(true)}>
+            Create new signature
+          </Button>
+        </div>
+      </>
+
       <Modal
         size={isMobile ? 'fullscreen' : 'xlarge'}
         isOpen={isModalOpen}
