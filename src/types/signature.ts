@@ -1,5 +1,19 @@
 import { ContentType } from "../const/content";
 
+// Image settings for crop and display
+interface ImageSettings {
+    crop: {
+        x: number;
+        y: number;
+        width: number;
+        height: number;
+        unit: string;
+    };
+    aspect?: number | string;
+    isCircular: boolean;
+    borderRadius?: number; // 0-100, kde 0 je bez zaoblení a 100 je maximální zaoblení
+}
+
 // Base component properties that are common across different content types
 interface BaseComponent {
     id: string;
@@ -27,6 +41,8 @@ interface ImageComponent extends BaseComponent {
     cropImagePreview?: string;
     originalSrc?: string;
     originalImageFile?: File;
+    previewWidth?: number;
+    imageSettings?: ImageSettings;
 }
 
 // Email component structure

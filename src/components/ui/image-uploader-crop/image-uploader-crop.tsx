@@ -19,6 +19,7 @@ interface ImageSettings {
   crop: Crop;
   aspect?: number | string;
   isCircular: boolean;
+  borderRadius?: number; // 0-100, kde 0 je bez zaoblení a 100 je maximální zaoblení
 }
 
 interface ImageUploaderProps {
@@ -59,6 +60,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   const [crop, setCrop] = useState<Crop | undefined>(undefined);
   const [aspect, setAspect] = useState<number | undefined>(undefined);
   const [isCircular, setIsCircular] = useState(false);
+  const [borderRadius, setBorderRadius] = useState(0);
   const [croppedImageData, setCroppedImageData] = useState<string | null>(null);
   const [previewWidth, setPreviewWidth] = useState<number | undefined>(
     undefined,
@@ -296,12 +298,41 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
           Math.PI * 2,
         );
         ctx.fill();
+      } else if (borderRadius > 0) {
+        const radius =
+          ((borderRadius / 100) *
+            Math.min(finalCanvas.width, finalCanvas.height)) /
+          2;
+        ctx.globalCompositeOperation = 'destination-in';
+        ctx.beginPath();
+
+        ctx.moveTo(radius, 0);
+        ctx.lineTo(finalCanvas.width - radius, 0);
+        ctx.quadraticCurveTo(finalCanvas.width, 0, finalCanvas.width, radius);
+        ctx.lineTo(finalCanvas.width, finalCanvas.height - radius);
+        ctx.quadraticCurveTo(
+          finalCanvas.width,
+          finalCanvas.height,
+          finalCanvas.width - radius,
+          finalCanvas.height,
+        );
+        ctx.lineTo(radius, finalCanvas.height);
+        ctx.quadraticCurveTo(
+          0,
+          finalCanvas.height,
+          0,
+          finalCanvas.height - radius,
+        );
+        ctx.lineTo(0, radius);
+        ctx.quadraticCurveTo(0, 0, radius, 0);
+        ctx.closePath();
+        ctx.fill();
       }
 
       return finalCanvas.toDataURL('image/png', 1.0);
     }
     return null;
-  }, [crop, previewWidth, originalImagePreview, isCircular]);
+  }, [crop, previewWidth, originalImagePreview, isCircular, borderRadius]);
 
   const handleCrop = useCallback(() => {
     const croppedImageDataUrl = generateCroppedImage();
@@ -312,6 +343,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         crop: crop!,
         aspect: aspect === undefined ? 'free' : aspect,
         isCircular,
+        borderRadius,
       });
     }
   }, [
@@ -320,6 +352,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     crop,
     aspect,
     isCircular,
+    borderRadius,
     generateCroppedImage,
   ]);
 
@@ -385,6 +418,10 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     [onSetPreviewWidth],
   );
 
+  const handleBorderRadiusChange = useCallback((value: number) => {
+    setBorderRadius(value);
+  }, []);
+
   useEffect(() => {
     if (!crop?.width) {
       if (imageSettings?.crop) {
@@ -412,6 +449,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         setAspect(1);
       }
       setIsCircular(imageSettings?.isCircular || false);
+      setBorderRadius(imageSettings?.borderRadius || 0);
     }
   }, [imageSettings, crop?.width, getDefaultCropForCurrentImage]);
 
@@ -520,7 +558,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
             <div className="space-y-2">
               <Typography variant="labelBase">
                 {`Width of image: ${
-                  croppedImageData ? `${previewWidth}px` : ''
+                  croppedImageData ? `${previewWidth} px` : ''
                 }`}
               </Typography>
               <div className="pb-3">
@@ -533,6 +571,23 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
                   id="slider"
                 />
               </div>
+
+              {!isCircular && (
+                <div className="space-y-2">
+                  <Typography variant="labelBase">
+                    {`Border radius: ${borderRadius} %`}
+                  </Typography>
+
+                  <Slider
+                    min={0}
+                    max={100}
+                    units="%"
+                    value={borderRadius}
+                    onChange={handleBorderRadiusChange}
+                    id="border-radius-slider"
+                  />
+                </div>
+              )}
             </div>
           )}
 
