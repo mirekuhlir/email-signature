@@ -10,6 +10,8 @@ export enum ContentType {
     CUSTOM_VALUE = "customValue",
 }
 
+export const TEMP_SIGNATURE = "temp-signature";
+
 // tel, mob, email, address, website, social,
 // social networks komponenta, dke je uživatel vyplní
 // link

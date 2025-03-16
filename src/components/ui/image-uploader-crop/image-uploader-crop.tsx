@@ -13,13 +13,6 @@ import { debounce } from 'lodash';
 import { getDefaultCrop, imageWidthDefault } from './utils';
 import { Typography } from '../typography';
 import { useModal } from '../modal-system';
-
-// TODO - promyslet kolik obrázků jak velký, podívat se na limity aodkoušet, co se stane, když uživatel uloží větší obrázek ne limit
-// N2Jaký flag dokud obrázek není nahrát a pak ho podle toho mazat?
-// Max number is two images, but adding flow add image component before upload image
-const MAX_IMAGE_COUNT = 3;
-const MAX_IMAGE_SIZE = 1;
-
 interface ImageSettings {
   crop: Crop;
   aspect?: number;
@@ -36,10 +29,10 @@ interface ImageUploaderProps {
   imageSettings?: ImageSettings;
   previewWidthInit?: number;
   onInit?: () => void;
-  srcOriginalImage?: string;
   originalSrc?: string;
   isSignedIn?: boolean;
   imageCount?: number;
+  originalImageFile?: File;
 }
 
 export default function ImageUploadCrop(props: ImageUploaderProps) {
@@ -51,11 +44,11 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     previewWidthInit,
     onSetPreviewWidth,
     onInit,
-    srcOriginalImage,
     originalSrc,
     onLoadingChange,
     isSignedIn,
     imageCount,
+    originalImageFile,
   } = props;
 
   const { modal } = useModal();
@@ -95,38 +88,6 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
       const files = e.target.files;
       if (files && files.length > 0) {
         const file = files[0];
-        const fileSize = file.size / (1024 * 1024);
-
-        // TODO - odkázat tady uživatele na registraci
-        // TODO - onConfirm onCancel
-        // Přidat tlačítko Sign up a close.
-        if (!isSignedIn) {
-          if (!isReplacing && imageCount && imageCount >= MAX_IMAGE_COUNT) {
-            modal({
-              title: 'Image Limit Reached',
-              size: 'medium',
-              content: (
-                <Typography>
-                  {`You have reached the maximum number of images allowed.
-                  Unregistered users can upload up to ${MAX_IMAGE_COUNT - 1} images.
-                  To upload more images and access additional features, please
-                  Sign up.`}
-                </Typography>
-              ),
-            });
-            return;
-          } else if (fileSize > MAX_IMAGE_SIZE) {
-            modal({
-              title: 'Image Size Limit Exceeded',
-              content: (
-                <Typography>
-                  {`Your image exceeds the maximum allowed size. Unregistered users can upload images up to ${MAX_IMAGE_SIZE}MB. To upload larger images, please Sign up.`}
-                </Typography>
-              ),
-            });
-            return;
-          }
-        }
 
         const fileUrl = URL.createObjectURL(file);
         setOriginalImagePreview(fileUrl);
@@ -163,10 +124,12 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   );
 
   useEffect(() => {
-    if (srcOriginalImage) {
-      loadOriginalImage(srcOriginalImage);
+    if (originalSrc) {
+      loadOriginalImage(originalSrc);
+    } else if (originalImageFile?.name) {
+      loadOriginalImage(URL.createObjectURL(originalImageFile));
     }
-  }, [srcOriginalImage]);
+  }, [originalSrc, originalImageFile]);
 
   const generateCroppedImage = useCallback((): string | null => {
     if (

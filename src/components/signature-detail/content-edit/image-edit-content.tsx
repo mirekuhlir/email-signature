@@ -89,7 +89,8 @@ export const ImageEditContent = (props: any) => {
       previewWidthInit={imageComponent.previewWidth}
       onSetPreviewWidth={handlePreviewWidth}
       onInit={onInit}
-      srcOriginalImage={imageComponent.originalSrc}
+      originalSrc={imageComponent.originalSrc}
+      originalImageFile={imageComponent.originalImageFile}
       onSetOriginalImage={handleOriginalImage}
       onLoadingChange={handleImageLoadingChange}
       isSignedIn={isSignedIn}

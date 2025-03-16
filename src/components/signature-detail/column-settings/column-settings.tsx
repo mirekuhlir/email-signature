@@ -233,7 +233,6 @@ export const ColumnSettings = (props: any) => {
               saveChanges();
 
               if (!isSignedIn) {
-                localStorage.setItem(templateSlug, JSON.stringify(rows));
                 setContentEdit({
                   columnPath: null,
                 });

@@ -1,19 +1,19 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 import { EmailTemplateView } from './signature-detail/content-view/signature-view';
 import { templates } from '@/src/templates';
-import { createClient } from '../utils/supabase/client';
 import { Button } from './ui/button';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+
 type TemplatesExamplesProps = {
   isSignedIn: boolean;
+  createSignature: (template: any) => void;
+  isLoading: boolean;
 };
 
 export const TemplatesExamples = (props: TemplatesExamplesProps) => {
-  const { isSignedIn } = props;
+  const { isLoading, createSignature, isSignedIn } = props;
   const router = useRouter();
-  const supabase = createClient();
-  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <div className="w-full">
@@ -31,31 +31,7 @@ export const TemplatesExamples = (props: TemplatesExamplesProps) => {
                 loading={isLoading}
                 onClick={async () => {
                   if (isSignedIn) {
-                    setIsLoading(true);
-                    const { data, error } = await supabase.functions.invoke(
-                      'post-signature',
-                      {
-                        method: 'POST',
-                        body: {
-                          signatureContent: {
-                            rows: template.rows,
-                            colors: template.colors,
-                          },
-                          info: template.info,
-                        },
-                      },
-                    );
-
-                    if (error) {
-                      setIsLoading(false);
-                      console.error(error);
-                      // TODO - toast error
-                    }
-                    setIsLoading(false);
-
-                    if (data.signatureId) {
-                      router.push(`/signatures/${data.signatureId}`);
-                    }
+                    createSignature(template);
                   } else {
                     router.push(
                       `/signatures/example/?template=${template.info?.templateSlug}`,

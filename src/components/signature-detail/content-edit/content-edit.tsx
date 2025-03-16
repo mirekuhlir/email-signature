@@ -2,7 +2,7 @@
 import { useRef, useCallback, useState, useEffect, useMemo } from 'react';
 import { get } from 'lodash';
 import { useSignatureStore } from '@/src/store/content-edit-add-store';
-import { ContentType } from '@/src/const/content';
+import { ContentType, TEMP_SIGNATURE } from '@/src/const/content';
 import { Button } from '@/src/components/ui/button';
 import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
 import { EmailEditContent } from './email-edit-content';
@@ -15,6 +15,7 @@ import { Typography } from '@/src/components/ui/typography';
 import Slider from '@/src/components/ui/slider';
 import { CollapsibleSection } from '@/src/components/ui/collapsible-section';
 import { TextEditContent } from './text-edit-content';
+import { getTemplateBySlug } from '@/src/templates';
 
 export const SavingInfo = () => {
   return (
@@ -30,7 +31,7 @@ export const ContentEdit = (props: any) => {
   const [iniContent, setIniContent] = useState<any>(null);
   const [isSavingSignature, setIsSavingSignature] = useState(false);
 
-  const { rows, setContent, removeRow, saveSignatureContentRow } =
+  const { rows, setContent, removeRow, saveSignatureContentRow, colors } =
     useSignatureStore();
 
   const { setContentEdit, contentEdit } = useContentEditStore();
@@ -268,7 +269,15 @@ export const ContentEdit = (props: any) => {
                   size="md"
                   onClick={async () => {
                     if (!isSignedIn) {
-                      localStorage.setItem(templateSlug, JSON.stringify(rows));
+                      localStorage.setItem(
+                        TEMP_SIGNATURE,
+                        JSON.stringify({
+                          rows,
+                          colors,
+                          createdAt: new Date().toISOString(),
+                          info: getTemplateBySlug(templateSlug)?.info,
+                        }),
+                      );
                       setContentEdit({
                         editPath: null,
                       });
