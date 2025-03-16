@@ -137,7 +137,6 @@ export const getExampleText = () => t("exampleText");
 const getText = () => {
     return {
         id: generateRandomId(),
-        style: { backgroundColor: "purple" },
         content: {
             type: ContentType.TEXT,
             components: [
@@ -153,7 +152,6 @@ const getText = () => {
 export const getRowTable = (type: ContentType) => {
     return ({
         id: generateRandomId(),
-        style: { backgroundColor: "purple" },
         columns: [
             {
                 id: generateRandomId(),
