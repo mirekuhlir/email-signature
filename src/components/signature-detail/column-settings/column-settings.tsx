@@ -25,6 +25,7 @@ export const ColumnSettings = (props: any) => {
   const [paddingLeft, setPaddingLeft] = useState('0');
   const [rightBorderWidth, setRightBorderWidth] = useState('0');
   const [rightBorderColor, setRightBorderColor] = useState('rgb(0, 0, 0)');
+  const [borderRadius, setBorderRadius] = useState('0');
 
   const path = `${columnPathToEdit}.style`;
   const originalStyle = useMemo(() => get(rows, path) || {}, [rows, path]);
@@ -51,6 +52,10 @@ export const ColumnSettings = (props: any) => {
 
     if (originalStyle.borderRightColor) {
       setRightBorderColor(originalStyle.borderRightColor);
+    }
+
+    if (originalStyle.borderRadius) {
+      setBorderRadius(originalStyle.borderRadius.replace('px', ''));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -79,6 +84,15 @@ export const ColumnSettings = (props: any) => {
     });
   };
 
+  const updateBorderRadius = () => {
+    const currentStyle = get(rows, path) || {};
+
+    setContent(path, {
+      ...currentStyle,
+      borderRadius: `${borderRadius}px`,
+    });
+  };
+
   useEffect(() => {
     if (paddingTop && paddingRight && paddingBottom && paddingLeft) {
       updatePadding();
@@ -91,6 +105,11 @@ export const ColumnSettings = (props: any) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rightBorderWidth, rightBorderColor]);
 
+  useEffect(() => {
+    updateBorderRadius();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [borderRadius]);
+
   const saveChanges = () => {
     const paddingValue = `${paddingTop}px ${paddingRight}px ${paddingBottom}px ${paddingLeft}px`;
 
@@ -100,6 +119,7 @@ export const ColumnSettings = (props: any) => {
       borderRightWidth: `${rightBorderWidth}px`,
       borderRightColor: rightBorderColor,
       borderRightStyle: rightBorderWidth === '0' ? 'none' : 'solid',
+      borderRadius: `${borderRadius}px`,
     });
   };
 
@@ -200,6 +220,22 @@ export const ColumnSettings = (props: any) => {
                 }}
               />
             )}
+
+            <hr className="border-t border-gray-400 mt-6 mb-6" />
+
+            <div>
+              <Typography variant="labelBase" className="mb-2">
+                Border radius : {borderRadius}px
+              </Typography>
+              <Slider
+                min={0}
+                max={20}
+                value={Number(borderRadius)}
+                onChange={(value: number) => {
+                  setBorderRadius(value.toString());
+                }}
+              />
+            </div>
 
             <hr className="border-t border-gray-400 mt-6 mb-6" />
 
