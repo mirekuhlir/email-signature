@@ -38,7 +38,7 @@ const SignaturesPreview = (props: SignaturesPreviewsProps) => {
 
   return (
     <div>
-      <div className="flex flex-col items-start w-full p-4 my-4">
+      <div className="flex flex-col items-start w-full my-4">
         <EmailTemplateView rows={rows} />
         <div className="flex flex-col mt-3 w-full">
           {createdAt && (
@@ -58,7 +58,7 @@ const SignaturesPreview = (props: SignaturesPreviewsProps) => {
             </div>
           )}
         </div>
-        <div className="flex items-center gap-2 mt-3">
+        <div className="flex items-center gap-4 mt-3">
           <>
             <Button
               variant="blue"

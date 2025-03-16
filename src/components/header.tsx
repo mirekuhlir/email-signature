@@ -53,7 +53,7 @@ export const Header = (props: any) => {
                 label={getInitialsFromEmail(user.email)}
               >
                 <form action={signOutAction}>
-                  <div className="p-2 flex flex-col gap-2 whitespace-nowrap items-start">
+                  <div className="pt-2 pb-0 px-2 flex flex-col gap-2 whitespace-nowrap items-start">
                     <StyledLink variant="button-ghost" href="/signatures">
                       My signatures
                     </StyledLink>

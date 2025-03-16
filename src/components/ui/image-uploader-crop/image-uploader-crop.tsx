@@ -13,6 +13,8 @@ import { debounce } from 'lodash';
 import { getDefaultCrop, imageWidthDefault } from './utils';
 import { Typography } from '../typography';
 import { useModal } from '../modal-system';
+import { useMediaQuery } from '@/src/hooks/useMediaQuery';
+
 interface ImageSettings {
   crop: Crop;
   aspect?: number | string;
@@ -52,6 +54,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   } = props;
 
   const { modal } = useModal();
+  const isDesktop = useMediaQuery('(min-width: 768px)');
 
   const [crop, setCrop] = useState<Crop | undefined>(undefined);
   const [aspect, setAspect] = useState<number | undefined>(undefined);
@@ -60,6 +63,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   const [previewWidth, setPreviewWidth] = useState<number | undefined>(
     undefined,
   );
+  const [isDragging, setIsDragging] = useState(false);
 
   const [originalImagePreview, setOriginalImagePreview] = useState<
     string | undefined
@@ -98,6 +102,56 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
       }
     },
     [isSignedIn, onSetOriginalImage, modal, isReplacing, imageCount],
+  );
+
+  const handleFileDrop = useCallback(
+    (file: File) => {
+      if (file.type.startsWith('image/')) {
+        const fileUrl = URL.createObjectURL(file);
+        setOriginalImagePreview(fileUrl);
+        setIsReplacing(false);
+        setCroppedImageData(null);
+        onSetOriginalImage?.(file);
+      }
+    },
+    [onSetOriginalImage],
+  );
+
+  const handleDragEnter = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  }, []);
+
+  const handleDragLeave = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.currentTarget === e.target) {
+      setIsDragging(false);
+    }
+  }, []);
+
+  const handleDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  }, []);
+
+  const handleDrop = useCallback(
+    (e: React.DragEvent<HTMLDivElement>) => {
+      e.preventDefault();
+      e.stopPropagation();
+      setIsDragging(false);
+
+      const files = e.dataTransfer.files;
+      if (files && files.length > 0) {
+        const file = files[0];
+        if (file.type.startsWith('image/')) {
+          handleFileDrop(file);
+        }
+      }
+    },
+    [handleFileDrop],
   );
 
   const loadOriginalImage = useCallback(
@@ -416,20 +470,49 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   return (
     <div className="w-full pt-8">
       {!originalImagePreview && !originalSrc ? (
-        <div className="grid place-items-center p-4 border border-dashed border-gray-300 rounded min-h-[200px] w-[80%] md:w-[400px] mx-auto">
-          <input
-            id="file-upload"
-            type="file"
-            accept="image/*"
-            onChange={onSelectFile}
-            className="hidden"
-          />
-          <label
-            htmlFor="file-upload"
-            className={`${baseStyles} ${variants.orange} ${sizes.md} cursor-pointer`}
-          >
-            Select image
-          </label>
+        <div
+          className={`grid place-items-center p-4 border border-dashed ${isDragging ? 'border-orange-500 bg-orange-50' : 'border-gray-300'} rounded min-h-[200px] w-[80%] md:w-[400px] mx-auto transition-colors duration-200`}
+          onDragEnter={isDesktop ? handleDragEnter : undefined}
+          onDragOver={isDesktop ? handleDragOver : undefined}
+          onDragLeave={isDesktop ? handleDragLeave : undefined}
+          onDrop={isDesktop ? handleDrop : undefined}
+        >
+          <div className="flex flex-col items-center space-y-4">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-12 w-12 text-gray-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+              />
+            </svg>
+            <Typography variant="body" className="text-center">
+              {isDesktop
+                ? isDragging
+                  ? 'Drop image here'
+                  : 'Drag and drop an image here, or'
+                : 'Select an image to upload'}
+            </Typography>
+            <input
+              id="file-upload"
+              type="file"
+              accept="image/*"
+              onChange={onSelectFile}
+              className="hidden"
+            />
+            <label
+              htmlFor="file-upload"
+              className={`${baseStyles} ${variants.orange} ${sizes.md} cursor-pointer`}
+            >
+              Select image
+            </label>
+          </div>
         </div>
       ) : (
         <div className="space-y-4">
