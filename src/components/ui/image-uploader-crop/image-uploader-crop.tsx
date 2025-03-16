@@ -15,7 +15,7 @@ import { Typography } from '../typography';
 import { useModal } from '../modal-system';
 interface ImageSettings {
   crop: Crop;
-  aspect?: number;
+  aspect?: number | string;
   isCircular: boolean;
 }
 
@@ -256,7 +256,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
       setCroppedImageData(croppedImageDataUrl);
       onSetImageSettings?.({
         crop: crop!,
-        aspect,
+        aspect: aspect === undefined ? 'free' : aspect,
         isCircular,
       });
     }
@@ -342,7 +342,21 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
       } else {
         setCrop(getDefaultCropForCurrentImage(1));
       }
-      setAspect(imageSettings?.aspect || 1);
+
+      // Check if aspect is "free" string or undefined in imageSettings
+      // or use the saved aspect, or default to 1 if nothing is saved
+      if (
+        typeof imageSettings?.aspect === 'string' &&
+        imageSettings.aspect === 'free'
+      ) {
+        setAspect(undefined);
+      } else if (typeof imageSettings?.aspect === 'number') {
+        setAspect(imageSettings.aspect);
+      } else if (imageSettings?.aspect === undefined) {
+        setAspect(undefined);
+      } else {
+        setAspect(1);
+      }
       setIsCircular(imageSettings?.isCircular || false);
     }
   }, [imageSettings, crop?.width, getDefaultCropForCurrentImage]);
@@ -476,7 +490,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
           </div>
 
           <Typography variant="labelBase">Choose the aspect ratio</Typography>
-          <div className="flex items-center justify-between">
+          <div className="flex flex-wrap gap-y-4 gap-x-8">
             <Button
               size="md"
               variant="outline"
@@ -516,6 +530,23 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
               selected={isCircular}
             >
               Circular
+            </Button>
+            <Button
+              size="md"
+              variant="outline"
+              onClick={() => {
+                setIsCircular(false);
+                setAspect(undefined);
+                if (crop) {
+                  setCrop({
+                    ...crop,
+                    unit: '%',
+                  });
+                }
+              }}
+              selected={!isCircular && aspect === undefined}
+            >
+              Free
             </Button>
           </div>
 
