@@ -16,7 +16,6 @@ import Slider from '@/src/components/ui/slider';
 import { CollapsibleSection } from '@/src/components/ui/collapsible-section';
 import { TextEditContent } from './text-edit-content';
 import { getTemplateBySlug } from '@/src/templates';
-import { ButtonEditContent } from './button-edit-content';
 import { EditColor } from '@/src/components/ui/edit-color';
 
 export const SavingInfo = () => {
@@ -425,15 +424,6 @@ const getContentType = (
     case ContentType.CUSTOM_VALUE:
       return (
         <CustomValueEditContent
-          contentType={type}
-          components={components}
-          contentPathToEdit={contentPathToEdit}
-        />
-      );
-
-    case ContentType.BUTTON:
-      return (
-        <ButtonEditContent
           contentType={type}
           components={components}
           contentPathToEdit={contentPathToEdit}

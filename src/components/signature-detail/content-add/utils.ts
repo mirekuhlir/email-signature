@@ -16,8 +16,6 @@ export const getContentAdd = (type: ContentType) => {
             return getWebsite();
         case ContentType.CUSTOM_VALUE:
             return getCustomValue();
-        case ContentType.BUTTON:
-            return getButton();
         default:
             return getText();
     }
@@ -128,29 +126,6 @@ const getCustomValue = () => {
                     text: "custom value",
                     fontSize: "14",
                     type: ContentType.TEXT,
-                },
-            ],
-        },
-    };
-};
-
-const getButton = () => {
-    return {
-        id: generateRandomId(),
-        content: {
-            type: ContentType.BUTTON,
-            components: [
-                {
-                    id: generateRandomId(),
-                    text: "Click Here",
-                    fontSize: "14",
-                    type: ContentType.TEXT,
-                    color: "#FFFFFF",
-                    backgroundColor: "rgb(0, 0, 0)",
-                    padding: "8px 16px 8px 16px",
-                    textAlign: "center",
-                    borderRadius: "4px",
-                    url: "https://example.com",
                 },
             ],
         },
