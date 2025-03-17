@@ -33,6 +33,7 @@ export const getContentView = (content?: any) => {
         textAlign,
         textDecoration,
         padding,
+        borderRadius,
       } = component;
 
       return (
@@ -52,6 +53,7 @@ export const getContentView = (content?: any) => {
             textAlign,
             textDecoration,
             padding,
+            borderRadius,
           }}
         >
           {text}
@@ -65,10 +67,19 @@ export const getContentView = (content?: any) => {
 
     const textAlign = components[1].textAlign;
     const padding = components[0].padding;
+    const backgroundColor = components[0].backgroundColor;
+    const borderRadius = components[0].borderRadius;
 
     return (
       <span
-        style={{ width: '100%', display: 'inline-block', textAlign, padding }}
+        style={{
+          width: '100%',
+          display: 'inline-block',
+          textAlign,
+          padding,
+          backgroundColor,
+          borderRadius,
+        }}
       >
         {components.map((component: any) => {
           const {
@@ -77,7 +88,7 @@ export const getContentView = (content?: any) => {
             fontSize,
             color,
             letterSpacing,
-            backgroundColor,
+
             fontFamily,
             fontStyle,
             fontWeight,
@@ -91,7 +102,7 @@ export const getContentView = (content?: any) => {
             fontSize: `${fontSize}px`,
             color,
             letterSpacing: `${letterSpacing}px`,
-            backgroundColor,
+
             fontFamily,
             fontStyle,
             fontWeight,
@@ -133,10 +144,19 @@ export const getContentView = (content?: any) => {
 
     const textAlign = components[1].textAlign;
     const padding = components[0].padding;
+    const borderRadius = components[0].borderRadius;
+    const backgroundColor = components[0].backgroundColor;
 
     return (
       <span
-        style={{ width: '100%', display: 'inline-block', textAlign, padding }}
+        style={{
+          width: '100%',
+          display: 'inline-block',
+          textAlign,
+          padding,
+          borderRadius,
+          backgroundColor,
+        }}
       >
         {components.map((component: any) => {
           const {
@@ -145,7 +165,6 @@ export const getContentView = (content?: any) => {
             fontSize,
             color,
             letterSpacing,
-            backgroundColor,
             fontFamily,
             fontStyle,
             fontWeight,
@@ -159,7 +178,6 @@ export const getContentView = (content?: any) => {
             fontSize: `${fontSize}px`,
             color,
             letterSpacing: `${letterSpacing}px`,
-            backgroundColor,
             fontFamily,
             fontStyle,
             fontWeight,
@@ -201,10 +219,19 @@ export const getContentView = (content?: any) => {
 
     const textAlign = components[1].textAlign;
     const padding = components[0].padding;
+    const borderRadius = components[0].borderRadius;
+    const backgroundColor = components[0].backgroundColor;
 
     return (
       <span
-        style={{ width: '100%', display: 'inline-block', textAlign, padding }}
+        style={{
+          width: '100%',
+          display: 'inline-block',
+          textAlign,
+          padding,
+          borderRadius,
+          backgroundColor,
+        }}
       >
         {components.map((component: any) => {
           const {
@@ -213,7 +240,6 @@ export const getContentView = (content?: any) => {
             fontSize,
             color,
             letterSpacing,
-            backgroundColor,
             fontFamily,
             fontStyle,
             fontWeight,
@@ -227,7 +253,6 @@ export const getContentView = (content?: any) => {
             fontSize: `${fontSize}px`,
             color,
             letterSpacing: `${letterSpacing}px`,
-            backgroundColor,
             fontFamily,
             fontStyle,
             fontWeight,
@@ -269,10 +294,19 @@ export const getContentView = (content?: any) => {
 
     const textAlign = components[1].textAlign;
     const padding = components[0].padding;
+    const borderRadius = components[0].borderRadius;
+    const backgroundColor = components[0].backgroundColor;
 
     return (
       <span
-        style={{ width: '100%', display: 'inline-block', textAlign, padding }}
+        style={{
+          width: '100%',
+          display: 'inline-block',
+          textAlign,
+          padding,
+          borderRadius,
+          backgroundColor,
+        }}
       >
         {components.map((component: any) => {
           const {
@@ -281,7 +315,6 @@ export const getContentView = (content?: any) => {
             fontSize,
             color,
             letterSpacing,
-            backgroundColor,
             fontFamily,
             fontStyle,
             fontWeight,
@@ -295,7 +328,6 @@ export const getContentView = (content?: any) => {
             fontSize: `${fontSize}px`,
             color,
             letterSpacing: `${letterSpacing}px`,
-            backgroundColor,
             fontFamily,
             fontStyle,
             fontWeight,

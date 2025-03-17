@@ -17,6 +17,7 @@ import { CollapsibleSection } from '@/src/components/ui/collapsible-section';
 import { TextEditContent } from './text-edit-content';
 import { getTemplateBySlug } from '@/src/templates';
 import { ButtonEditContent } from './button-edit-content';
+import { EditColor } from '@/src/components/ui/edit-color';
 
 export const SavingInfo = () => {
   return (
@@ -42,6 +43,7 @@ export const ContentEdit = (props: any) => {
   const [paddingRight, setPaddingRight] = useState('0');
   const [paddingBottom, setPaddingBottom] = useState('0');
   const [paddingLeft, setPaddingLeft] = useState('0');
+  const [borderRadius, setBorderRadius] = useState('0');
 
   const path = `${contentPathToEdit}.content`;
   const content = useMemo(() => get(rows, path), [rows, path]);
@@ -56,6 +58,10 @@ export const ContentEdit = (props: any) => {
       setPaddingRight(paddingValues[1]);
       setPaddingBottom(paddingValues[2]);
       setPaddingLeft(paddingValues[3]);
+    }
+
+    if (content?.components[0].borderRadius) {
+      setBorderRadius(content.components[0].borderRadius.replace('px', ''));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -73,12 +79,27 @@ export const ContentEdit = (props: any) => {
     }
   };
 
+  const updateBorderRadius = () => {
+    const stylePath = `${path}.components[0]`;
+    const currentStyle = content?.components[0] || {};
+
+    setContent(stylePath, {
+      ...currentStyle,
+      borderRadius: `${borderRadius}px`,
+    });
+  };
+
   useEffect(() => {
     if (paddingTop && paddingRight && paddingBottom && paddingLeft) {
       updatePadding();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paddingTop, paddingRight, paddingBottom, paddingLeft]);
+
+  useEffect(() => {
+    updateBorderRadius();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [borderRadius]);
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
@@ -199,6 +220,40 @@ export const ContentEdit = (props: any) => {
                           }}
                         />
                       </div>
+                    </div>
+
+                    <hr className="border-t border-gray-400 mt-6 mb-6" />
+
+                    <div>
+                      <Typography variant="labelBase" className="mb-2">
+                        Border radius : {borderRadius}px
+                      </Typography>
+                      <Slider
+                        min={0}
+                        max={20}
+                        value={Number(borderRadius)}
+                        onChange={(value: number) => {
+                          setBorderRadius(value.toString());
+                        }}
+                      />
+                    </div>
+
+                    <hr className="border-t border-gray-400 mt-4 mb-6" />
+
+                    <div className="mb-4">
+                      <EditColor
+                        initColor={content?.components[0]?.backgroundColor}
+                        label="Background color"
+                        isResetToTransparent
+                        onChange={(color) => {
+                          const stylePath = `${path}.components[0]`;
+                          const currentStyle = content?.components[0] || {};
+                          setContent(stylePath, {
+                            ...currentStyle,
+                            backgroundColor: color,
+                          });
+                        }}
+                      />
                     </div>
                   </div>
                 </CollapsibleSection>
