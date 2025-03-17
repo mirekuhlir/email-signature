@@ -32,4 +32,9 @@ export const CONTENT_TYPES = [
     content: "Custom value with prefix",
     type: ContentType.CUSTOM_VALUE,
   },
+  {
+    name: "Button",
+    content: "Click Here",
+    type: ContentType.BUTTON,
+  },
 ];

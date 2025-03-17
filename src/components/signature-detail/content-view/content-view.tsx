@@ -318,5 +318,62 @@ export const getContentView = (content?: any) => {
     );
   }
 
+  if (content?.type === ContentType.BUTTON) {
+    const { components } = content;
+
+    return components.map((component: any) => {
+      const {
+        id,
+        text,
+        fontSize,
+        color,
+        letterSpacing,
+        backgroundColor,
+        fontFamily,
+        fontStyle,
+        fontWeight,
+        lineHeight,
+        textAlign,
+        textDecoration,
+        padding,
+        borderRadius,
+        url,
+      } = component;
+
+      const style = {
+        display: 'inline-block',
+        fontSize: `${fontSize}px`,
+        color: color || 'rgb(255, 255, 255)',
+        letterSpacing: `${letterSpacing}px`,
+        backgroundColor: backgroundColor || 'rgb(0, 0, 0)',
+        fontFamily,
+        fontStyle,
+        fontWeight,
+        lineHeight,
+        textAlign: textAlign || 'center',
+        textDecoration: textDecoration || 'none',
+        padding: padding || '8px 16px',
+        borderRadius: borderRadius || '4px',
+        cursor: 'pointer',
+      };
+
+      if (!text) {
+        return null;
+      }
+
+      return (
+        <a
+          key={id}
+          href={url?.startsWith('http') ? url : `https://${url || ''}`}
+          target="_blank"
+          style={style}
+          rel="noreferrer"
+        >
+          {text}
+        </a>
+      );
+    });
+  }
+
   return null;
 };
