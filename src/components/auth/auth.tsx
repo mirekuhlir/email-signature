@@ -31,8 +31,9 @@ export const Auth = () => {
       email,
       options: {
         shouldCreateUser: true,
+        // TODO
+        /*         emailRedirectTo: 'https://localhost:3000/signatures', */
         // email template redirectTo={{ .RedirectTo}}
-        /*    emailRedirectTo: '', */
       },
     });
 

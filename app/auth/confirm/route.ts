@@ -20,6 +20,8 @@ export async function GET(request: Request) {
     });
     if (!error) {
       // redirect user to specified redirect URL or root of app
+      // TODO - nebude potřeba možná emailRedirectTo
+      /*  redirect("/signatures"); */
       redirect(next);
     }
   }
