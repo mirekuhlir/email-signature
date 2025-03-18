@@ -7,6 +7,7 @@ import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
 import { ContentAdd } from '@/src/components/signature-detail/content-add/content-add';
 import { ColumnSettings } from '@/src/components/signature-detail/column-settings/column-settings';
 import { useParams } from 'next/navigation';
+import { Hr } from '../ui/hr';
 
 export const EmailTemplateEdit = (props: any) => {
   const { rows, isSignedIn, templateSlug } = props;
@@ -35,6 +36,7 @@ export const EmailTemplateEdit = (props: any) => {
 
         {contentEdit.addPath !== rowPath && contentEdit.columnPath === null && (
           <div className="flex flex-col items-end">
+            <Hr className="mb-2" />
             <div className="pb-1">
               <Button
                 variant="blue"

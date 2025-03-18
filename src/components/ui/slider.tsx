@@ -137,7 +137,7 @@ const Slider: React.FC<SliderProps> = (props) => {
   }, [handleTouchMove]);
 
   return (
-    <div className="pb-6 pt-3">
+    <div className="pt-3">
       {label && <Typography variant="labelBase">{label}</Typography>}
       <div
         id={id}

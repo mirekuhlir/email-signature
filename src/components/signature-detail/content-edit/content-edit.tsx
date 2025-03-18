@@ -17,6 +17,7 @@ import { CollapsibleSection } from '@/src/components/ui/collapsible-section';
 import { TextEditContent } from './text-edit-content';
 import { getTemplateBySlug } from '@/src/templates';
 import { EditColor } from '@/src/components/ui/edit-color';
+import { Hr } from '../../ui/hr';
 
 export const SavingInfo = () => {
   return (
@@ -221,7 +222,7 @@ export const ContentEdit = (props: any) => {
                       </div>
                     </div>
 
-                    <hr className="border-t border-gray-400 mt-6 mb-6" />
+                    <Hr className="mt-4 mb-4" />
 
                     <div>
                       <Typography variant="labelBase" className="mb-2">
@@ -236,8 +237,6 @@ export const ContentEdit = (props: any) => {
                         }}
                       />
                     </div>
-
-                    <hr className="border-t border-gray-400 mt-4 mb-6" />
 
                     <div className="mb-4">
                       <EditColor
@@ -270,18 +269,18 @@ export const ContentEdit = (props: any) => {
           <>
             {canDisplayDeleteButton && (
               <>
-                <hr className="border-gray-300" />
-                <div className="mt-4">
-                  <Button
-                    variant="red"
-                    onClick={() => {
-                      setIsDeleteModalOpen(true);
-                    }}
-                  >
-                    Delete
-                  </Button>
-                </div>
-                <hr className="border-t border-gray-300 my-4" />
+                <Hr className="mb-4" />
+
+                <Button
+                  variant="red"
+                  onClick={() => {
+                    setIsDeleteModalOpen(true);
+                  }}
+                >
+                  Delete
+                </Button>
+
+                <Hr className="mt-4 mb-4" />
               </>
             )}
 

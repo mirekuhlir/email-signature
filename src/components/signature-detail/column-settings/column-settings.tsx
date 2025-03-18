@@ -8,6 +8,7 @@ import { Typography } from '@/src/components/ui/typography';
 import Slider from '@/src/components/ui/slider';
 import { SavingInfo } from '../content-edit/content-edit';
 import { EditColor } from '../../ui/edit-color';
+import { Hr } from '../../ui/hr';
 
 export const ColumnSettings = (props: any) => {
   const { columnPathToEdit, signatureId, isSignedIn } = props;
@@ -260,7 +261,7 @@ export const ColumnSettings = (props: any) => {
               </div>
             </div>
 
-            <hr className="border-t border-gray-400 mt-6 mb-6" />
+            <Hr className="mt-5 mb-5" />
 
             <div>
               <Typography variant="labelBase" className="mb-2">
@@ -366,7 +367,7 @@ export const ColumnSettings = (props: any) => {
               />
             )}
 
-            <hr className="border-t border-gray-400 mt-6 mb-6" />
+            <Hr className="mt-5 mb-5" />
 
             <div>
               <Typography variant="labelBase" className="mb-2">
@@ -382,7 +383,7 @@ export const ColumnSettings = (props: any) => {
               />
             </div>
 
-            <hr className="border-t border-gray-400 mt-6 mb-6" />
+            <Hr className="mt-5 mb-5" />
 
             <EditColor
               initColor={originalStyle.backgroundColor}

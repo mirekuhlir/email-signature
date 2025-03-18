@@ -7,7 +7,7 @@ import {
   RichTextEditor,
 } from '@/src/components/ui/rich-text-editor/rich-text-editor';
 import { CollapsibleSection } from '@/src/components/ui/collapsible-section';
-
+import { Hr } from '@/src/components/ui/hr';
 export const WebsiteEditContent = (props: any) => {
   const { components, contentPathToEdit, contentType } = props;
   const { setContent } = useSignatureStore();
@@ -60,7 +60,7 @@ export const WebsiteEditContent = (props: any) => {
               />
             </div>
           </CollapsibleSection>
-          <hr className="border-gray-300" />
+          <Hr />
         </Fragment>
       );
     });

@@ -3,6 +3,7 @@ import { Fragment } from 'react';
 import { useSignatureStore } from '@/src/store/content-edit-add-store';
 import { CollapsibleSection } from '@/src/components/ui/collapsible-section';
 import { RichTextEditor } from '../../ui/rich-text-editor/rich-text-editor';
+import { Hr } from '../../ui/hr';
 
 export const TextEditContent = (props: any) => {
   const { components, contentPathToEdit, contentType } = props;
@@ -26,7 +27,7 @@ export const TextEditContent = (props: any) => {
             />
           </div>
         </CollapsibleSection>
-        <hr className="border-gray-300" />
+        <Hr />
       </Fragment>
     );
   });
