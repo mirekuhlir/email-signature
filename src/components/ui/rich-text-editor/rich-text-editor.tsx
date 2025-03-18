@@ -92,8 +92,8 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
       setEditFontWeight(content.fontWeight ?? 'normal');
       setEditFontStyle(content.fontStyle ?? 'normal');
       setEditTextAlign(content.textAlign ?? 'left');
-      setEditTextColor(content.color ?? '#000000');
-      setEditBackgroundColor(content.backgroundColor ?? 'rgba(0, 0, 0, 0)');
+      setEditTextColor(content.color ?? 'rgb(0, 0, 0)');
+      setEditBackgroundColor(content.backgroundColor ?? 'rgb(0, 0, 0)');
       setEditTextDecoration(content.textDecoration ?? 'none');
       setEditFontFamily(content.fontFamily ?? 'Arial');
       setEditLetterSpacing(content.letterSpacing ?? '0');
