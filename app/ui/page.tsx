@@ -16,6 +16,7 @@ import Slider from '@/src/components/ui/slider';
 import { ContextMenu } from '@/src/components/ui/context-menu';
 import { useToast } from '@/src/components/ui/toast';
 import { useModal } from '@/src/components/ui/modal-system';
+import { Loading } from '@/src/components/ui/loading';
 
 const TypographyExample = () => {
   return (
@@ -744,6 +745,10 @@ const ModalSystemExample = () => {
   );
 };
 
+const LoadingExample = () => {
+  return <Loading size="lg" />;
+};
+
 export default function DesignSystem() {
   return (
     <div className="w-full pb-10">
@@ -765,6 +770,7 @@ export default function DesignSystem() {
       <ContentMenuExample />
       <ToastExample />
       <ModalSystemExample />
+      <LoadingExample />
     </div>
   );
 }
