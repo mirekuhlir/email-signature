@@ -15,11 +15,14 @@ import { Typography } from '../typography';
 import { useModal } from '../modal-system';
 import { useMediaQuery } from '@/src/hooks/useMediaQuery';
 
+const MIN_IMAGE_WIDTH = 50;
+const MAX_IMAGE_WIDTH = 200;
+
 interface ImageSettings {
   crop: Crop;
   aspect?: number | string;
   isCircular: boolean;
-  borderRadius?: number; // 0-100, kde 0 je bez zaoblení a 100 je maximální zaoblení
+  borderRadius?: number;
 }
 
 interface ImageUploaderProps {
@@ -299,10 +302,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         );
         ctx.fill();
       } else if (borderRadius > 0) {
-        const radius =
-          ((borderRadius / 100) *
-            Math.min(finalCanvas.width, finalCanvas.height)) /
-          2;
+        const radius = borderRadius;
         ctx.globalCompositeOperation = 'destination-in';
         ctx.beginPath();
 
@@ -563,8 +563,8 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
               </Typography>
               <div className="pb-3">
                 <Slider
-                  min={50}
-                  max={200}
+                  min={MIN_IMAGE_WIDTH}
+                  max={MAX_IMAGE_WIDTH}
                   units="pixels"
                   defaultValue={previewWidth}
                   onChange={handlePreviewWidthChange}
@@ -575,13 +575,13 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
               {!isCircular && (
                 <div className="space-y-2">
                   <Typography variant="labelBase">
-                    {`Border radius: ${borderRadius} %`}
+                    {`Border radius: ${borderRadius} px`}
                   </Typography>
 
                   <Slider
                     min={0}
-                    max={100}
-                    units="%"
+                    max={MAX_IMAGE_WIDTH / 2}
+                    units="px"
                     value={borderRadius}
                     onChange={handleBorderRadiusChange}
                     id="border-radius-slider"
