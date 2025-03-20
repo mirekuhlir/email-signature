@@ -7,6 +7,7 @@ import {
   multiParser,
 } from "https://deno.land/x/multiparser@0.114.0/mod.ts";
 import { PutObjectCommand, S3Client } from "npm:@aws-sdk/client-s3";
+import { countImagesInS3 } from "../_shared/utils.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -70,9 +71,20 @@ serve(async (req: Request) => {
 
   const signatureId = form.fields.signatureId;
 
+  if (!bucketName) {
+    return new Response(
+      JSON.stringify({ error: "S3 bucket name is not configured" }),
+      {
+        status: 500,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      },
+    );
+  }
+
+  // Get the signature to verify ownership
   const { data: existingSignature, error: fetchError } = await supabase
     .from("signatures")
-    .select("id, user_id")
+    .select("id")
     .eq("id", signatureId)
     .eq("user_id", userId)
     .single();
@@ -82,6 +94,23 @@ serve(async (req: Request) => {
       JSON.stringify({ error: "Signature not found or not authorized" }),
       {
         status: 403,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      },
+    );
+  }
+
+  // Count existing images in S3
+  const imageCount = await countImagesInS3(userId, signatureId, s3, bucketName);
+
+  console.warn("imageCount", imageCount);
+
+  if (imageCount >= 10) {
+    return new Response(
+      JSON.stringify({
+        error: "Maximum number of images (10) reached for this signature",
+      }),
+      {
+        status: 400,
         headers: { "Content-Type": "application/json", ...corsHeaders },
       },
     );
