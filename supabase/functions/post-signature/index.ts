@@ -273,6 +273,7 @@ serve(async (req: Request) => {
       );
     }
 
+    // Max signatures limit
     if ((count ?? 0) >= 10) {
       return new Response(
         JSON.stringify({ error: "Signature limit reached" }),
