@@ -3,6 +3,7 @@ import { serve } from "https://deno.land/std@0.114.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { generateRandomId } from "../_shared/utils.ts";
 import { PutObjectCommand, S3Client } from "npm:@aws-sdk/client-s3";
+import { validateSignature } from "../_shared/validation.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -251,6 +252,21 @@ serve(async (req: Request) => {
     if (!signatureContent || typeof signatureContent !== "object") {
       return new Response(
         JSON.stringify({ error: "Missing signature object in body" }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        },
+      );
+    }
+
+    // Validate signature content
+    const validationResult = validateSignature(signatureContent);
+    if (!validationResult.success) {
+      return new Response(
+        JSON.stringify({
+          error: "Invalid signature data",
+          details: validationResult.error,
+        }),
         {
           status: 400,
           headers: { "Content-Type": "application/json", ...corsHeaders },

@@ -7,6 +7,7 @@ import {
   S3Client,
   waitUntilObjectNotExists,
 } from "npm:@aws-sdk/client-s3";
+import { validateSignature } from "../_shared/validation.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -101,6 +102,21 @@ serve(async (req: Request) => {
   if (!signatureId) {
     return new Response(
       JSON.stringify({ error: "Missing signatureId in body" }),
+      {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      },
+    );
+  }
+
+  // Validate signature content
+  const validationResult = validateSignature(signatureContent);
+  if (!validationResult.success) {
+    return new Response(
+      JSON.stringify({
+        error: "Invalid signature data",
+        details: validationResult.error,
+      }),
       {
         status: 400,
         headers: { "Content-Type": "application/json", ...corsHeaders },
