@@ -36,8 +36,7 @@ export const EmailTemplateEdit = (props: any) => {
 
         {contentEdit.addPath !== rowPath && contentEdit.columnPath === null && (
           <div className="flex flex-col items-end">
-            <Hr className="mb-2" />
-            <div className="pb-1">
+            <div className="mb-2">
               <Button
                 variant="blue"
                 size="sm"
@@ -133,7 +132,7 @@ export const EmailTemplateEdit = (props: any) => {
             {contentEdit.editPath !== currentPath &&
               contentEdit.columnPath === null && (
                 <>
-                  <div className="flex justify-end mb-2">
+                  <div className="flex justify-end mb-2 mt-1">
                     <Button
                       size="sm"
                       variant="blue"
@@ -147,6 +146,7 @@ export const EmailTemplateEdit = (props: any) => {
                       Edit
                     </Button>
                   </div>
+                  <Hr className="mb-2" />
                 </>
               )}
           </Fragment>
