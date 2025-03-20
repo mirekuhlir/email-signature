@@ -106,8 +106,6 @@ serve(async (req: Request) => {
   // Count existing images in S3
   const imageCount = await countImagesInS3(userId, signatureId, s3, bucketName);
 
-  console.warn("imageCount", imageCount);
-
   if (imageCount >= 10) {
     return new Response(
       JSON.stringify({
