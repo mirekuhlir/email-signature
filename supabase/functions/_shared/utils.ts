@@ -6,6 +6,15 @@ export function transformUrlToKey(urlString: string): string {
   return parts.length > 1 ? parts[1] : urlString;
 }
 
+/**
+ * Shortens a UUID to the first 8 characters for privacy while maintaining uniqueness
+ * @param uuid The full UUID string to shorten
+ * @returns The first 8 characters of the UUID
+ */
+export function shortenUuid(uuid: string): string {
+  return uuid.substring(0, 8);
+}
+
 export function extractImageSrc(data: unknown): string[] {
   const srcArr: string[] = [];
 
@@ -51,7 +60,10 @@ export async function countImagesInS3(
   bucketName: string,
 ): Promise<number> {
   try {
-    const prefix = `${userId}/${signatureId}/`;
+    // Use only first 8 characters of userId and signatureId for privacy
+    const shortUserId = shortenUuid(userId);
+    const shortSignatureId = shortenUuid(signatureId);
+    const prefix = `${shortUserId}/${shortSignatureId}/`;
     let imageCount = 0;
     let continuationToken: string | undefined;
 

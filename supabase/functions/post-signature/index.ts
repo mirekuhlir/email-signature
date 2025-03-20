@@ -1,7 +1,7 @@
 // deno-lint-ignore-file no-explicit-any
 import { serve } from "https://deno.land/std@0.114.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-import { generateRandomId } from "../_shared/utils.ts";
+import { generateRandomId, shortenUuid } from "../_shared/utils.ts";
 import { PutObjectCommand, S3Client } from "npm:@aws-sdk/client-s3";
 import { validateSignature } from "../_shared/validation.ts";
 
@@ -67,7 +67,10 @@ async function uploadToStorage(
 ): Promise<string> {
   try {
     const bucketName = Deno.env.get("AWS_S3_BUCKET_NAME");
-    const filePath = `${userId}/${signatureId}/${filename}`;
+    // Use only first 8 characters of userId and signatureId for privacy
+    const shortUserId = shortenUuid(userId);
+    const shortSignatureId = shortenUuid(signatureId);
+    const filePath = `${shortUserId}/${shortSignatureId}/${filename}`;
 
     // Upload to S3
     await s3.send(

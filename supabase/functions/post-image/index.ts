@@ -7,7 +7,7 @@ import {
   multiParser,
 } from "https://deno.land/x/multiparser@0.114.0/mod.ts";
 import { PutObjectCommand, S3Client } from "npm:@aws-sdk/client-s3";
-import { countImagesInS3 } from "../_shared/utils.ts";
+import { countImagesInS3, shortenUuid } from "../_shared/utils.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -142,8 +142,12 @@ serve(async (req: Request) => {
     );
   }
 
+  // Use only first 8 characters of userId and signatureId for privacy
+  const shortUserId = shortenUuid(userId);
+  const shortSignatureId = shortenUuid(signatureId);
+
   const imagePreviewUploadKey = imagePreviewFile
-    ? `${userId}/${signatureId}/${imagePreviewFile.filename}`
+    ? `${shortUserId}/${shortSignatureId}/${imagePreviewFile.filename}`
     : "";
 
   const originalImageFile = form.files.originalImageFile &&
@@ -160,7 +164,7 @@ serve(async (req: Request) => {
   }
 
   const originalImageKey = originalImageFile?.filename &&
-    `${userId}/${signatureId}/${originalImageFile?.filename}`;
+    `${shortUserId}/${shortSignatureId}/${originalImageFile?.filename}`;
 
   try {
     const uploadTasks = [];
