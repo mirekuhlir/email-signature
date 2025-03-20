@@ -16,6 +16,10 @@ const corsHeaders = {
   "Access-Control-Allow-Methods": "OPTIONS, POST",
 };
 
+const isValidPngFile = (filename: string): boolean => {
+  return filename.toLowerCase().endsWith(".png");
+};
+
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL") || "";
 const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ||
   "";
@@ -127,12 +131,33 @@ serve(async (req: Request) => {
   }
 
   const imagePreviewFile: FormFile = form.files.imagePreviewFile as FormFile;
+
+  if (!isValidPngFile(imagePreviewFile.filename)) {
+    return new Response(
+      JSON.stringify({ error: "Only PNG files are allowed" }),
+      {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      },
+    );
+  }
+
   const imagePreviewUploadKey = imagePreviewFile
     ? `${userId}/${signatureId}/${imagePreviewFile.filename}`
     : "";
 
   const originalImageFile = form.files.originalImageFile &&
     form.files.originalImageFile as FormFile;
+
+  if (originalImageFile && !isValidPngFile(originalImageFile.filename)) {
+    return new Response(
+      JSON.stringify({ error: "Only PNG files are allowed" }),
+      {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      },
+    );
+  }
 
   const originalImageKey = originalImageFile?.filename &&
     `${userId}/${signatureId}/${originalImageFile?.filename}`;
