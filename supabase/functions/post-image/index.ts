@@ -20,6 +20,13 @@ const isValidPngFile = (filename: string): boolean => {
   return filename.toLowerCase().endsWith(".png");
 };
 
+// Maximum file size
+const MAX_FILE_SIZE_BYTES = 70 * 1024 * 1024;
+
+const isValidFileSize = (fileSize: number): boolean => {
+  return fileSize <= MAX_FILE_SIZE_BYTES;
+};
+
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL") || "";
 const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ||
   "";
@@ -140,6 +147,19 @@ serve(async (req: Request) => {
     );
   }
 
+  // Check image preview file size
+  if (!isValidFileSize(imagePreviewFile.content.length)) {
+    return new Response(
+      JSON.stringify({
+        error: "File size exceeds the maximum limit",
+      }),
+      {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      },
+    );
+  }
+
   // Use only first 8 characters of userId and signatureId for privacy
   const shortUserId = shortenUuid(userId);
   const shortSignatureId = shortenUuid(signatureId);
@@ -154,6 +174,19 @@ serve(async (req: Request) => {
   if (originalImageFile && !isValidPngFile(originalImageFile.filename)) {
     return new Response(
       JSON.stringify({ error: "Only PNG files are allowed" }),
+      {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      },
+    );
+  }
+
+  // Check original image file size if it exists
+  if (originalImageFile && !isValidFileSize(originalImageFile.content.length)) {
+    return new Response(
+      JSON.stringify({
+        error: "File size exceeds the maximum limit",
+      }),
       {
         status: 400,
         headers: { "Content-Type": "application/json", ...corsHeaders },
