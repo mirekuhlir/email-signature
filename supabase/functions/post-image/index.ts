@@ -34,8 +34,7 @@ const s3 = new S3Client({
 
 // TODO - nějaké omození, kolik obrázků může uložit
 
-// TODO z env
-const bucketName = "signatures-photos";
+const bucketName = Deno.env.get("AWS_S3_BUCKET_NAME");
 
 serve(async (req: Request) => {
   const { method } = req;

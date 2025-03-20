@@ -65,8 +65,7 @@ async function uploadToStorage(
   contentType: string,
 ): Promise<string> {
   try {
-    // TODO - z ENV
-    const bucketName = "signatures-photos";
+    const bucketName = Deno.env.get("AWS_S3_BUCKET_NAME");
     const filePath = `${userId}/${signatureId}/${filename}`;
 
     // Upload to S3

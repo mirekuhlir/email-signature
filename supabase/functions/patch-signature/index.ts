@@ -31,8 +31,7 @@ const s3 = new S3Client({
   },
 });
 
-// TODO z env
-const bucketName = "signatures-photos";
+const bucketName = Deno.env.get("AWS_S3_BUCKET_NAME");
 
 // // TODO - validate input json
 
