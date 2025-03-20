@@ -9,9 +9,11 @@ import Slider from '@/src/components/ui/slider';
 import { SavingInfo } from '../content-edit/content-edit';
 import { EditColor } from '../../ui/edit-color';
 import { Hr } from '../../ui/hr';
+import { useToast } from '@/src/components/ui/toast';
 
 export const ColumnSettings = (props: any) => {
   const { columnPathToEdit, signatureId, isSignedIn } = props;
+  const { toast } = useToast();
 
   const { rows, setContent, saveSignatureContentRow } = useSignatureStore();
   const { setContentEdit, contentEdit } = useContentEditStore();
@@ -428,6 +430,13 @@ export const ColumnSettings = (props: any) => {
                   });
                 } catch (error) {
                   console.error(error);
+                  toast({
+                    title: 'Error',
+                    description:
+                      'Failed to save column settings. Please try again.',
+                    variant: 'error',
+                    duration: 5000,
+                  });
                 } finally {
                   setIsSavingSignature(false);
                 }

@@ -1,9 +1,12 @@
+import { useToastStore } from "@/src/components/ui/toast";
+
 export const handleCopy = async (signatureId: string) => {
   const signatureElement = document.getElementById(signatureId);
   if (!signatureElement) return;
 
   const textContent = signatureElement.innerText;
   const htmlContent = signatureElement.outerHTML;
+  const { addToast } = useToastStore.getState();
 
   if (navigator.clipboard && window.ClipboardItem) {
     try {
@@ -46,6 +49,14 @@ export const handleCopy = async (signatureId: string) => {
     }
   } catch (err) {
     console.error("Fallback copying failed:", err);
+
+    // Error toast when all methods fail
+    addToast({
+      title: "Error",
+      description: "Failed to copy signature to clipboard",
+      variant: "error",
+      duration: 5000,
+    });
   }
 };
 

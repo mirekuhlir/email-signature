@@ -14,6 +14,7 @@ import { getDefaultCrop, imageWidthDefault } from './utils';
 import { Typography } from '../typography';
 import { useModal } from '../modal-system';
 import { useMediaQuery } from '@/src/hooks/useMediaQuery';
+import { useToast } from '@/src/components/ui/toast';
 
 const MIN_IMAGE_WIDTH = 50;
 const MAX_IMAGE_WIDTH = 200;
@@ -59,6 +60,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
 
   const { modal } = useModal();
   const isDesktop = useMediaQuery('(min-width: 768px)');
+  const { toast } = useToast();
 
   const [crop, setCrop] = useState<Crop | undefined>(undefined);
   const [aspect, setAspect] = useState<number | undefined>(undefined);
@@ -161,9 +163,9 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
 
   const loadOriginalImage = useCallback(
     async (url: string) => {
+      setIsLoadingOriginalImage(true);
+      onLoadingChange?.(true);
       try {
-        setIsLoadingOriginalImage(true);
-        onLoadingChange?.(true);
         const response = await fetch(url, { mode: 'cors' });
         if (!response.ok) {
           throw new Error('Failed to fetch image');
@@ -174,12 +176,18 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         setCroppedImageData(null);
       } catch (error) {
         console.error('Error fetching image from URL:', error);
+        toast({
+          title: 'Error',
+          description: 'Failed to load image. Please try again.',
+          variant: 'error',
+          duration: 5000,
+        });
       } finally {
         setIsLoadingOriginalImage(false);
         onLoadingChange?.(false);
       }
     },
-    [onLoadingChange],
+    [onLoadingChange, toast],
   );
 
   useEffect(() => {
@@ -258,6 +266,12 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         );
       } catch (error) {
         console.error('Error drawing on temp canvas:', error);
+        toast({
+          title: 'Error',
+          description: 'Failed to process image. Please try another image.',
+          variant: 'error',
+          duration: 5000,
+        });
         return null;
       }
 
@@ -287,6 +301,12 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         );
       } catch (error) {
         console.error('Error drawing on final canvas:', error);
+        toast({
+          title: 'Error',
+          description: 'Failed to create preview. Please try again.',
+          variant: 'error',
+          duration: 5000,
+        });
         return null;
       }
 

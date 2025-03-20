@@ -7,9 +7,11 @@ import { handleCopy } from './content-view/utils';
 import { EmailTemplateView } from './content-view/signature-view';
 import { EmailTemplateEdit } from './signature-edit-add';
 import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
+import { useToast } from '@/src/components/ui/toast';
 
 export const SignatureDetail = (props: any) => {
   const { signatureDetail, isSignedIn, templateSlug } = props;
+  const { toast } = useToast();
 
   const { rows, initSignature } = useSignatureStore();
   const { contentEdit } = useContentEditStore();
@@ -31,6 +33,12 @@ export const SignatureDetail = (props: any) => {
         localStorage.removeItem(templateSlug);
       } catch (error) {
         console.error('Error parsing local data:', error);
+        toast({
+          title: 'Error',
+          description: 'Failed to load saved signature data.',
+          variant: 'error',
+          duration: 5000,
+        });
       }
     } else {
       initSignature({

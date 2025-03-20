@@ -12,6 +12,7 @@ import { MEDIA_QUERIES } from '@/src/constants/mediaQueries';
 import { EmailTemplateView } from './signature-detail/content-view/signature-view';
 import { useRouter } from 'next/navigation';
 import { TEMP_SIGNATURE } from '../const/content';
+import { useToast } from '@/src/components/ui/toast';
 
 type SignaturesPreviewsProps = {
   rows: any;
@@ -90,6 +91,7 @@ export const SignaturesList = (props: any) => {
   const router = useRouter();
   const supabase = createClient();
   const isMobile = useMediaQuery(MEDIA_QUERIES.MOBILE);
+  const { toast } = useToast();
 
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -112,6 +114,7 @@ export const SignaturesList = (props: any) => {
 
   const createSignature = async (template: any, isTemp: boolean = false) => {
     setIsLoading(true);
+
     const { data, error } = await supabase.functions.invoke('post-signature', {
       method: 'POST',
       body: {
@@ -126,7 +129,12 @@ export const SignaturesList = (props: any) => {
     if (error) {
       setIsLoading(false);
       console.error(error);
-      // TODO - toast error
+      toast({
+        title: 'Error',
+        description: 'Failed to create signature. Please try again.',
+        variant: 'error',
+        duration: 5000,
+      });
     }
 
     if (isTemp) {

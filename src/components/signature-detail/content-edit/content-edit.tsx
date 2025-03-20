@@ -18,6 +18,7 @@ import { TextEditContent } from './text-edit-content';
 import { getTemplateBySlug } from '@/src/templates';
 import { EditColor } from '@/src/components/ui/edit-color';
 import { Hr } from '../../ui/hr';
+import { useToast } from '@/src/components/ui/toast';
 
 export const SavingInfo = () => {
   return (
@@ -29,6 +30,7 @@ export const SavingInfo = () => {
 
 export const ContentEdit = (props: any) => {
   const { contentPathToEdit, signatureId, isSignedIn, templateSlug } = props;
+  const { toast } = useToast();
 
   const [iniContent, setIniContent] = useState<any>(null);
   const [isSavingSignature, setIsSavingSignature] = useState(false);
@@ -110,13 +112,24 @@ export const ContentEdit = (props: any) => {
     try {
       await removeRow(contentPathToEdit, signatureId, isSignedIn);
     } catch (error) {
-      // TODO toast error
+      toast({
+        description: 'Failed to delete row. Please try again.',
+        variant: 'error',
+        duration: 5000,
+      });
       console.error(error);
     } finally {
       setIsSavingSignature(false);
       setContentEdit({ editPath: null });
     }
-  }, [contentPathToEdit, isSignedIn, removeRow, setContentEdit, signatureId]);
+  }, [
+    contentPathToEdit,
+    isSignedIn,
+    removeRow,
+    setContentEdit,
+    signatureId,
+    toast,
+  ]);
 
   useEffect(() => {
     if (!iniContent) {
@@ -347,7 +360,13 @@ export const ContentEdit = (props: any) => {
                           editPath: null,
                         });
                       } catch (error) {
-                        // TODO toast error
+                        toast({
+                          title: 'Error',
+                          description:
+                            'Failed to save content. Please try again.',
+                          variant: 'error',
+                          duration: 5000,
+                        });
                         console.error(error);
                       } finally {
                         setIsSavingSignature(false);
