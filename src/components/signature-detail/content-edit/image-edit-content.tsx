@@ -42,7 +42,7 @@ export const ImageEditContent = (props: any) => {
   const handleOriginalImage = useCallback(
     (originalImage: File | null) => {
       if (originalImage instanceof File) {
-        const newFileName = `${imageComponent.id}-${originalImage.name}`;
+        const newFileName = `${imageComponent.id}-original.png`;
         const modifiedFile = new File([originalImage], newFileName, {
           type: originalImage.type,
           lastModified: Date.now(),
