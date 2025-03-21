@@ -1,52 +1,25 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useSignatureStore } from '@/src/store/content-edit-add-store';
 import { Button } from '@/src/components/ui/button';
 import { handleCopy } from './content-view/utils';
 import { EmailTemplateView } from './content-view/signature-view';
 import { EmailTemplateEdit } from './signature-edit-add';
 import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
-import { useToast } from '@/src/components/ui/toast';
 
 export const SignatureDetail = (props: any) => {
   const { signatureDetail, isSignedIn, templateSlug } = props;
-  const { toast } = useToast();
 
   const { rows, initSignature } = useSignatureStore();
   const { contentEdit } = useContentEditStore();
   const [isEdit, setIsEdit] = useState(false);
 
-  // TODO - zmizit
-  const isInitialized = useRef(false);
-
   useEffect(() => {
-    if (isInitialized.current) return;
-
-    // TODO - bude asi někde jinde, o krok dřív a na detail se uživatel už dostane s vytvořenou signature
-    const savedData = localStorage.getItem(templateSlug);
-
-    if (savedData) {
-      try {
-        const parsedData = JSON.parse(savedData);
-        initSignature(parsedData);
-        localStorage.removeItem(templateSlug);
-      } catch (error) {
-        console.error('Error parsing local data:', error);
-        toast({
-          title: 'Error',
-          description: 'Failed to load saved signature data.',
-          variant: 'error',
-          duration: 5000,
-        });
-      }
-    } else {
-      initSignature({
-        rows: signatureDetail.rows,
-        colors: signatureDetail.colors,
-      });
-    }
-    isInitialized.current = true;
+    initSignature({
+      rows: signatureDetail.rows,
+      colors: signatureDetail.colors,
+    });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
