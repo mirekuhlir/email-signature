@@ -175,10 +175,9 @@ export const useSignatureStore = create<StoreState>((set, get) => ({
       const cropImagePreviewBase64 = content.components[0].cropImagePreview;
       const componentId = content.components[0].id;
 
-      const time = new Date().getTime();
       const imagePreviewFile = base64ToFile(
         cropImagePreviewBase64,
-        `${time}-${componentId}.png`,
+        `${componentId}.png`,
       );
 
       const formData = new FormData();
