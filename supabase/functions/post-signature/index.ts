@@ -19,7 +19,7 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
 const AWS_ACCESS_KEY_ID = Deno.env.get("AWS_ACCESS_KEY_ID");
 const AWS_SECRET_ACCESS_KEY = Deno.env.get("AWS_SECRET_ACCESS_KEY");
-const AWS_REGION = Deno.env.get("AWS_REGION") || "us-east-1";
+const AWS_REGION = Deno.env.get("AWS_REGION");
 
 const s3 = new S3Client({
   region: AWS_REGION,
