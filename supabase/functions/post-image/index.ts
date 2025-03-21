@@ -8,7 +8,7 @@ import {
 } from "https://deno.land/x/multiparser@0.114.0/mod.ts";
 import { PutObjectCommand, S3Client } from "npm:@aws-sdk/client-s3";
 import { countImagesInS3, shortenUuid } from "../_shared/utils.ts";
-
+import { MAX_FILE_SIZE_BYTES, MAX_IMAGES } from "../_shared/conts.ts";
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
@@ -19,9 +19,6 @@ const corsHeaders = {
 const isValidPngFile = (filename: string): boolean => {
   return filename.toLowerCase().endsWith(".png");
 };
-
-// Maximum file size
-const MAX_FILE_SIZE_BYTES = 70 * 1024 * 1024;
 
 const isValidFileSize = (fileSize: number): boolean => {
   return fileSize <= MAX_FILE_SIZE_BYTES;
@@ -43,8 +40,6 @@ const s3 = new S3Client({
     secretAccessKey: AWS_SECRET_ACCESS_KEY,
   },
 });
-
-// TODO - nějaké omození, kolik obrázků může uložit
 
 const bucketName = Deno.env.get("AWS_S3_BUCKET_NAME");
 
@@ -113,10 +108,11 @@ serve(async (req: Request) => {
   // Count existing images in S3
   const imageCount = await countImagesInS3(userId, signatureId, s3, bucketName);
 
-  if (imageCount >= 10) {
+  if (imageCount >= MAX_IMAGES) {
     return new Response(
       JSON.stringify({
-        error: "Maximum number of images (10) reached for this signature",
+        error:
+          `Maximum number of images reached for this signature: ${MAX_IMAGES}`,
       }),
       {
         status: 400,
@@ -160,9 +156,8 @@ serve(async (req: Request) => {
     );
   }
 
-  // Use only first 8 characters of userId and signatureId for privacy
-  const shortUserId = shortenUuid(userId);
-  const shortSignatureId = shortenUuid(signatureId);
+  const shortUserId = shortenUuid(userId, 23);
+  const shortSignatureId = shortenUuid(signatureId, 8);
 
   const imagePreviewUploadKey = imagePreviewFile
     ? `${shortUserId}/${shortSignatureId}/${imagePreviewFile.filename}`

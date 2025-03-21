@@ -36,43 +36,72 @@ const textComponentSchema = baseComponentSchema.extend({
 });
 
 const imageComponentSchema = baseComponentSchema.extend({
-    type: z.literal("image").optional(),
     src: z.string().max(1000),
     cropImagePreview: z.string().max(1000000).optional(), // Base64 image can be large
     originalSrc: z.string().max(1000).optional(),
     originalImageFile: z.any().optional(), // File type
     previewWidth: z.number().min(1).max(10000).optional(),
     imageSettings: imageSettingsSchema.optional(),
+    padding: z.string().max(50).optional(),
 });
 
 const emailComponentSchema = baseComponentSchema.extend({
-    type: z.literal("emailLink"),
     text: z.string().max(255), // Standard email length limit
 });
 
 const phoneComponentSchema = baseComponentSchema.extend({
-    type: z.literal("phoneLink"),
     text: z.string().max(50), // Phone numbers are typically shorter
 });
 
 const websiteComponentSchema = baseComponentSchema.extend({
-    type: z.literal("websiteLink"),
     text: z.string().max(2000), // URLs can be longer
 });
 
-// Content schema
-const baseContentSchema = z.object({
-    type: z.enum(["text", "image", "email", "phone", "website", "customValue"]),
-    components: z.array(
-        z.union([
-            textComponentSchema,
-            imageComponentSchema,
-            emailComponentSchema,
-            phoneComponentSchema,
-            websiteComponentSchema,
-        ]),
-    ).max(30), // Limit to 30 components
+// Content schema for text type
+const textContentSchema = z.object({
+    type: z.literal("text"),
+    components: z.array(textComponentSchema).max(30),
 });
+
+// Content schema for image type
+const imageContentSchema = z.object({
+    type: z.literal("image"),
+    components: z.array(imageComponentSchema).max(30),
+});
+
+// Content schema for email type
+const emailContentSchema = z.object({
+    type: z.literal("emailLink"),
+    components: z.array(emailComponentSchema).max(30),
+});
+
+// Content schema for phone type
+const phoneContentSchema = z.object({
+    type: z.literal("phoneLink"),
+    components: z.array(phoneComponentSchema).max(30),
+});
+
+// Content schema for website type
+const websiteContentSchema = z.object({
+    type: z.literal("websiteLink"),
+    components: z.array(websiteComponentSchema).max(30),
+});
+
+// Content schema for custom type
+const customValueContentSchema = z.object({
+    type: z.literal("customValue"),
+    components: z.array(baseComponentSchema).max(30),
+});
+
+// Combined content schema
+const baseContentSchema = z.discriminatedUnion("type", [
+    textContentSchema,
+    imageContentSchema,
+    emailContentSchema,
+    phoneContentSchema,
+    websiteContentSchema,
+    customValueContentSchema,
+]);
 
 // Row schema
 const rowSchema = z.object({
@@ -113,8 +142,8 @@ export const validateSignature = (data: unknown) => {
     try {
         const validatedData = signatureTemplateSchema.parse(data);
         return { success: true, data: validatedData };
-    } catch (error: unknown) {
-        // Log detailed error to console
+        // deno-lint-ignore no-explicit-any
+    } catch (error: any) {
         console.error(
             "Validation error:",
             error instanceof z.ZodError ? error.errors : error,
@@ -122,7 +151,9 @@ export const validateSignature = (data: unknown) => {
 
         return {
             success: false,
-            error: "Invalid signature data",
+            error: error instanceof z.ZodError
+                ? error.errors
+                : "Invalid signature data",
         };
     }
 };

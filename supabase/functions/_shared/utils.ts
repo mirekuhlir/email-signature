@@ -11,8 +11,8 @@ export function transformUrlToKey(urlString: string): string {
  * @param uuid The full UUID string to shorten
  * @returns The first 8 characters of the UUID
  */
-export function shortenUuid(uuid: string): string {
-  return uuid.substring(0, 8);
+export function shortenUuid(uuid: string, length: number = 16): string {
+  return uuid.substring(0, length);
 }
 
 export function extractImageSrc(data: unknown): string[] {
@@ -61,8 +61,8 @@ export async function countImagesInS3(
 ): Promise<number> {
   try {
     // Use only first 8 characters of userId and signatureId for privacy
-    const shortUserId = shortenUuid(userId);
-    const shortSignatureId = shortenUuid(signatureId);
+    const shortUserId = shortenUuid(userId, 23);
+    const shortSignatureId = shortenUuid(signatureId, 8);
     const prefix = `${shortUserId}/${shortSignatureId}/`;
     let imageCount = 0;
     let continuationToken: string | undefined;

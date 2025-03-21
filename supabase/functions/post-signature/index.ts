@@ -68,8 +68,8 @@ async function uploadToStorage(
   try {
     const bucketName = Deno.env.get("AWS_S3_BUCKET_NAME");
     // Use only first 8 characters of userId and signatureId for privacy
-    const shortUserId = shortenUuid(userId);
-    const shortSignatureId = shortenUuid(signatureId);
+    const shortUserId = shortenUuid(userId, 23);
+    const shortSignatureId = shortenUuid(signatureId, 8);
     const filePath = `${shortUserId}/${shortSignatureId}/${filename}`;
 
     // Upload to S3
