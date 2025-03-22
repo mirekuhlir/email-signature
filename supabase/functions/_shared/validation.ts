@@ -114,19 +114,19 @@ const imageContentSchema = z.object({
 
 // Content schema for email type
 const emailContentSchema = z.object({
-    type: z.literal("emailLink"),
+    type: z.literal("email"),
     components: z.array(emailComponentSchema).max(MAX_COMPONENTS),
 });
 
 // Content schema for phone type
 const phoneContentSchema = z.object({
-    type: z.literal("phoneLink"),
+    type: z.literal("phone"),
     components: z.array(phoneComponentSchema).max(MAX_COMPONENTS),
 });
 
 // Content schema for website type
 const websiteContentSchema = z.object({
-    type: z.literal("websiteLink"),
+    type: z.literal("website"),
     components: z.array(websiteComponentSchema).max(MAX_COMPONENTS),
 });
 
@@ -183,20 +183,39 @@ export const signatureTemplateSchema = z.object({
 // Validation function
 export const validateSignature = (data: unknown) => {
     try {
+        // First, validate that data has the expected structure
+        if (!data || typeof data !== 'object') {
+            console.error("Invalid input: not an object");
+            return { success: false, error: "Invalid input: not an object" };
+        }
+
+        // Perform the validation
         const validatedData = signatureTemplateSchema.parse(data);
         return { success: true, data: validatedData };
-        // deno-lint-ignore no-explicit-any
-    } catch (error: any) {
-        console.error(
-            "Validation error:",
-            error instanceof z.ZodError ? error.errors : error,
-        );
-
+    } catch (error) {
+        // Enhanced error reporting
+        if (error instanceof z.ZodError) {
+            console.error("Zod validation error:", 
+                JSON.stringify(error.errors, null, 2)
+            );
+            
+            // Extract the specific error for more targeted debugging
+            const fieldErrors = error.errors.map(err => ({
+                path: err.path.join('.'),
+                code: err.code,
+                message: err.message
+            }));
+            
+            return {
+                success: false,
+                error: fieldErrors
+            };
+        }
+        
+        console.error("Unexpected validation error:", error);
         return {
             success: false,
-            error: error instanceof z.ZodError
-                ? error.errors
-                : "Invalid signature data",
+            error: "Invalid signature data"
         };
     }
 };
