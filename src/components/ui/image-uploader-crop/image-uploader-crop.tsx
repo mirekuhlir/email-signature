@@ -406,6 +406,11 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
 
     setCrop(undefined);
     setIsCircular(false);
+
+    // Clean up the object URL before setting to undefined to prevent memory leaks
+    if (originalImagePreview) {
+      URL.revokeObjectURL(originalImagePreview);
+    }
     setOriginalImagePreview(undefined);
   }, [
     onSetCropImagePreview,
@@ -415,6 +420,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     aspect,
     isCircular,
     borderRadius,
+    originalImagePreview,
   ]);
 
   const handleAspectChange = useCallback(
@@ -542,7 +548,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   }
 
   return (
-    <div className="w-full pt-8">
+    <div className="w-full pt-6 pb-8">
       {!originalImagePreview && !originalSrc ? (
         <div
           className={`grid place-items-center p-4 border border-dashed ${isDragging ? 'border-orange-500 bg-orange-50' : 'border-gray-300'} rounded min-h-[200px] w-[80%] md:w-[400px] mx-auto transition-colors duration-200`}
