@@ -6,6 +6,7 @@ import { useSignatureStore } from '@/src/store/content-edit-add-store';
 import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
 import { Typography } from '@/src/components/ui/typography';
 import Slider from '@/src/components/ui/slider';
+import SelectBase from '@/src/components/ui/select-base';
 import { LoadingInfo } from '../content-edit/content-edit';
 import { EditColor } from '../../ui/edit-color';
 import { Hr } from '../../ui/hr';
@@ -26,6 +27,7 @@ export const ColumnSettings = (props: any) => {
   const [paddingRight, setPaddingRight] = useState('0');
   const [paddingBottom, setPaddingBottom] = useState('0');
   const [paddingLeft, setPaddingLeft] = useState('0');
+  const [verticalAlign, setVerticalAlign] = useState('middle');
 
   const [topBorderWidth, setTopBorderWidth] = useState('0');
   const [topBorderColor, setTopBorderColor] = useState('rgb(0, 0, 0)');
@@ -55,6 +57,10 @@ export const ColumnSettings = (props: any) => {
       setPaddingRight(paddingValues[1]);
       setPaddingBottom(paddingValues[2]);
       setPaddingLeft(paddingValues[3]);
+    }
+
+    if (originalStyle.verticalAlign) {
+      setVerticalAlign(originalStyle.verticalAlign);
     }
 
     if (originalStyle.borderTopWidth) {
@@ -108,6 +114,14 @@ export const ColumnSettings = (props: any) => {
     }
   };
 
+  const updateVerticalAlign = (value: string) => {
+    const currentStyle = get(rows, path) || {};
+    setContent(path, {
+      ...currentStyle,
+      verticalAlign: value,
+    });
+  };
+
   const updateBorders = () => {
     const currentStyle = get(rows, path) || {};
 
@@ -148,6 +162,13 @@ export const ColumnSettings = (props: any) => {
   }, [paddingTop, paddingRight, paddingBottom, paddingLeft]);
 
   useEffect(() => {
+    if (verticalAlign) {
+      updateVerticalAlign(verticalAlign);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [verticalAlign]);
+
+  useEffect(() => {
     updateBorders();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
@@ -169,9 +190,11 @@ export const ColumnSettings = (props: any) => {
   const saveChanges = () => {
     const paddingValue = `${paddingTop}px ${paddingRight}px ${paddingBottom}px ${paddingLeft}px`;
 
-    setContent(path, {
+    // Create the style object explicitly
+    const newStyle = {
       ...originalStyle,
       padding: paddingValue,
+      verticalAlign: verticalAlign,
 
       borderTopWidth: `${topBorderWidth}px`,
       borderTopColor: topBorderColor,
@@ -190,7 +213,9 @@ export const ColumnSettings = (props: any) => {
       borderLeftStyle: leftBorderWidth === '0' ? 'none' : 'solid',
 
       borderRadius: `${borderRadius}px`,
-    });
+    };
+
+    setContent(path, newStyle);
   };
 
   const closeSettings = () => {
@@ -258,6 +283,24 @@ export const ColumnSettings = (props: any) => {
                   value={Number(paddingLeft)}
                   onChange={(value: number) => {
                     setPaddingLeft(value.toString());
+                  }}
+                />
+              </div>
+
+              <div>
+                <Typography variant="labelBase" className="mb-2">
+                  Vertical alignment
+                </Typography>
+                <SelectBase
+                  options={[
+                    { value: 'top', label: 'Top' },
+                    { value: 'middle', label: 'Middle' },
+                    { value: 'bottom', label: 'Bottom' },
+                  ]}
+                  value={verticalAlign}
+                  onChange={(value: string) => {
+                    console.log('Changed verticalAlign to:', value);
+                    setVerticalAlign(value);
                   }}
                 />
               </div>

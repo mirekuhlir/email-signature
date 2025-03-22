@@ -50,12 +50,15 @@ const getEmail = () => {
                     id: generateRandomId(),
                     text: "email: ",
                     fontSize: "14",
+                    textDecoration: "none",
                     type: ContentType.TEXT,
+
                 },
                 {
                     id: generateRandomId(),
                     text: "mirek.uhlir@gmail.com",
                     type: ContentType.EMAIL_LINK,
+                    textDecoration: "none",
                     fontSize: "14",
                 },
             ],
