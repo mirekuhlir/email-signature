@@ -1,6 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Img } from '@/src/components/ui/img';
 import { ContentType } from '@/src/const/content';
+import { Fragment } from 'react';
+
+// Reusable function for formatting text with line breaks
+const formatTextWithLineBreaks = (text?: string) => {
+  return text
+
+    ?.replace(/\r\n|\r/g, '\n')
+    .split('\n')
+    .map((line: string, index: number, array: string[]) => (
+      <Fragment key={index}>
+        {line}
+        {index < array.length - 1 && <br />}
+      </Fragment>
+    ));
+};
 
 export const getContentView = (content?: any) => {
   if (content?.type == ContentType.IMAGE) {
@@ -47,6 +62,8 @@ export const getContentView = (content?: any) => {
         borderRadius,
       } = component;
 
+      const formattedText = formatTextWithLineBreaks(text);
+
       return (
         <span
           key={id}
@@ -67,7 +84,7 @@ export const getContentView = (content?: any) => {
             borderRadius,
           }}
         >
-          {text}
+          {formattedText}
         </span>
       );
     });
@@ -142,7 +159,7 @@ export const getContentView = (content?: any) => {
 
           return (
             <span key={id} style={style}>
-              {text}
+              {formatTextWithLineBreaks(text)}
             </span>
           );
         })}
@@ -217,7 +234,7 @@ export const getContentView = (content?: any) => {
 
           return (
             <span key={id} style={style}>
-              {text}
+              {formatTextWithLineBreaks(text)}
             </span>
           );
         })}
@@ -277,10 +294,16 @@ export const getContentView = (content?: any) => {
           }
 
           if (component.type === ContentType.WEBSITE_LINK) {
+            let href = text;
+
+            if (!/^https?:\/\//i.test(href)) {
+              href = `https://${href}`;
+            }
+
             return (
               <a
                 key={id}
-                href={text.startsWith('http') ? text : `https://${text}`}
+                href={href}
                 target="_blank"
                 style={style}
                 rel="noreferrer"
@@ -292,7 +315,7 @@ export const getContentView = (content?: any) => {
 
           return (
             <span key={id} style={style}>
-              {text}
+              {formatTextWithLineBreaks(text)}
             </span>
           );
         })}
@@ -353,7 +376,7 @@ export const getContentView = (content?: any) => {
 
           return (
             <span key={id} style={style}>
-              {text}
+              {formatTextWithLineBreaks(text)}
             </span>
           );
         })}

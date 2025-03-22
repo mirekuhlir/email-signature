@@ -82,7 +82,9 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
     content?.letterSpacing ?? '0',
   );
   const [showIconSelector, setShowIconSelector] = useState(false);
-  const [inputRef, setInputRef] = useState<HTMLInputElement | null>(null);
+  const [textareaRef, setTextareaRef] = useState<HTMLTextAreaElement | null>(
+    null,
+  );
 
   useEffect(() => {
     if (content) {
@@ -122,8 +124,8 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
   };
 
   const handleInsertIcon = (icon: string) => {
-    if (inputRef) {
-      const cursorPosition = inputRef.selectionStart || 0;
+    if (textareaRef) {
+      const cursorPosition = textareaRef.selectionStart || 0;
       const textBeforeCursor = editText.substring(0, cursorPosition);
       const textAfterCursor = editText.substring(cursorPosition);
 
@@ -133,9 +135,9 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
 
       // Set cursor position after the inserted icon
       setTimeout(() => {
-        if (inputRef) {
-          inputRef.focus();
-          inputRef.setSelectionRange(
+        if (textareaRef) {
+          textareaRef.focus();
+          textareaRef.setSelectionRange(
             cursorPosition + icon.length,
             cursorPosition + icon.length,
           );
@@ -162,7 +164,7 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
     <div className="w-full max-w-4xl mx-auto space-y-4 ">
       <div>
         {label && <Typography variant="labelBase">{label}</Typography>}
-        <input
+        <textarea
           className="w-full p-4 border rounded focus:outline-hidden focus:ring-2 focus:ring-blue-500 bg-white border-gray-300 rounded-md shadow-xs"
           style={{
             fontSize: `${editFontSize}px`,
@@ -174,6 +176,8 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
             textDecoration: editTextDecoration,
             fontFamily: editFontFamily,
             letterSpacing: `${editLetterSpacing}px`,
+            resize: 'vertical',
+            minHeight: '100px',
           }}
           onChange={(e) => {
             setEditText(e.target.value);
@@ -184,7 +188,7 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
           role="textbox"
           aria-label="Text editor"
           value={editText}
-          ref={setInputRef}
+          ref={setTextareaRef}
         />
         {errorMessage && (
           <p className="text-red-500 mt-2 text-sm">{errorMessage}</p>
