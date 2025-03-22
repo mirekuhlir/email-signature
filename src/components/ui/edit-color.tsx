@@ -43,7 +43,7 @@ export const EditColor = (props: Props) => {
       {!isColorPickerOpen && (
         <div className="flex gap-2 items-end">
           <div
-            className="shadow-md w-10 h-10 rounded-md"
+            className="shadow-md w-10 h-10 rounded-md border border-gray-300"
             style={{
               backgroundColor: currentColor,
             }}
