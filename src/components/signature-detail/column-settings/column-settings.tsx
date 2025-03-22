@@ -6,7 +6,7 @@ import { useSignatureStore } from '@/src/store/content-edit-add-store';
 import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
 import { Typography } from '@/src/components/ui/typography';
 import Slider from '@/src/components/ui/slider';
-import { SavingInfo } from '../content-edit/content-edit';
+import { LoadingInfo } from '../content-edit/content-edit';
 import { EditColor } from '../../ui/edit-color';
 import { Hr } from '../../ui/hr';
 import { useToast } from '@/src/components/ui/toast';
@@ -402,7 +402,7 @@ export const ColumnSettings = (props: any) => {
         )}
       </div>
 
-      {isSavingSignature && <SavingInfo />}
+      {isSavingSignature && <LoadingInfo />}
 
       {!isSavingSignature && contentEdit.subEdit !== 'edit-color' && (
         <div className="flex flex-row w-full pb-6 pt-8 pt-2 justify-between">

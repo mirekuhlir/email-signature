@@ -19,11 +19,23 @@ import { getTemplateBySlug } from '@/src/templates';
 import { EditColor } from '@/src/components/ui/edit-color';
 import { Hr } from '../../ui/hr';
 import { useToast } from '@/src/components/ui/toast';
+import { Loading } from '../../ui/loading';
 
-export const SavingInfo = () => {
+export const LoadingInfo = ({
+  text = 'Saving. Please wait.',
+}: {
+  text?: string;
+}) => {
   return (
     <div className="flex  w-full pb-6 pt-6 justify-center">
-      <Typography variant="large">Saving... Please wait</Typography>
+      <div className="flex flex-col items-center">
+        <div className="mb-2">
+          <Loading />
+        </div>
+        <Typography className="text-gray-600" variant="body">
+          {text}
+        </Typography>
+      </div>
     </div>
   );
 };
@@ -276,7 +288,7 @@ export const ContentEdit = (props: any) => {
         )}
       </div>
 
-      {isSavingSignature && <SavingInfo />}
+      {isSavingSignature && <LoadingInfo />}
 
       {!isSavingSignature &&
         !contentEdit.subEdit &&

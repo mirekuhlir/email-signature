@@ -15,6 +15,7 @@ import { Typography } from '../typography';
 import { useModal } from '../modal-system';
 import { useMediaQuery } from '@/src/hooks/useMediaQuery';
 import { useToast } from '@/src/components/ui/toast';
+import { LoadingInfo } from '../../signature-detail/content-edit/content-edit';
 
 const MIN_IMAGE_WIDTH = 50;
 const MAX_IMAGE_WIDTH = 200;
@@ -542,7 +543,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   if (isLoadingOriginalImage) {
     return (
       <div className="flex items-center justify-center w-full h-[70px]">
-        <Typography variant="large">Loading image...</Typography>
+        <LoadingInfo text="Loading. Please wait." />
       </div>
     );
   }
