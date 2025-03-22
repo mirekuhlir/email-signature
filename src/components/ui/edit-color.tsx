@@ -5,7 +5,7 @@ import { Typography } from './typography';
 import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
 import { useSignatureStore } from '@/src/store/content-edit-add-store';
 
-const DEFAULT_COLOR = 'rgb(128,128,128)';
+const DEFAULT_COLOR = 'rgb(255,255,255)';
 
 interface Props {
   initColor: string;

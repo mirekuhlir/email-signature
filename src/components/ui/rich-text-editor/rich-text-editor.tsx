@@ -70,7 +70,7 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
     content?.color ?? 'rgb(0, 0, 0)',
   );
   const [editBackgroundColor, setEditBackgroundColor] = useState(
-    content?.backgroundColor ?? 'rgb(0, 0, 0)',
+    content?.backgroundColor,
   );
   const [editTextDecoration, setEditTextDecoration] = useState(
     content?.textDecoration ?? 'none',
@@ -93,7 +93,7 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
       setEditFontStyle(content.fontStyle ?? 'normal');
       setEditTextAlign(content.textAlign ?? 'left');
       setEditTextColor(content.color ?? 'rgb(0, 0, 0)');
-      setEditBackgroundColor(content.backgroundColor ?? 'rgb(0, 0, 0)');
+      setEditBackgroundColor(content.backgroundColor);
       setEditTextDecoration(content.textDecoration ?? 'none');
       setEditFontFamily(content.fontFamily ?? 'Arial');
       setEditLetterSpacing(content.letterSpacing ?? '0');

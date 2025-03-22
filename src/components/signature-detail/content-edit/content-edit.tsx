@@ -251,6 +251,8 @@ export const ContentEdit = (props: any) => {
                       />
                     </div>
 
+                    <Hr className="mt-4 mb-4" />
+
                     <div className="mb-4">
                       <EditColor
                         initColor={content?.components[0]?.backgroundColor}
