@@ -395,11 +395,27 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     onSetCropImagePreview?.('');
     setCroppedImageData?.(null);
     onSetOriginalImage?.(null);
-    onSetImageSettings?.('');
+
+    // Keep the border radius during image replacement
+    onSetImageSettings?.({
+      crop: crop || getDefaultCrop(1, 100, 100),
+      aspect: aspect === undefined ? 'free' : aspect,
+      isCircular,
+      borderRadius: borderRadius, // Preserve the border radius
+    });
+
     setCrop(undefined);
     setIsCircular(false);
     setOriginalImagePreview(undefined);
-  }, [onSetCropImagePreview, onSetImageSettings, onSetOriginalImage]);
+  }, [
+    onSetCropImagePreview,
+    onSetOriginalImage,
+    onSetImageSettings,
+    crop,
+    aspect,
+    isCircular,
+    borderRadius,
+  ]);
 
   const handleAspectChange = useCallback(
     (newAspect: number, circular: boolean = false) => {
@@ -647,7 +663,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
             </ReactCrop>
           </div>
 
-          <Typography variant="labelBase">Choose the aspect ratio</Typography>
+          <Typography variant="labelBase">Aspect ratio</Typography>
           <div className="flex flex-wrap gap-y-4 gap-x-8">
             <Button
               size="md"
