@@ -7,6 +7,15 @@ export function transformUrlToKey(urlString: string): string {
 }
 
 /**
+ * Removes query parameters from a URL string
+ * @param url The URL string that might contain query parameters
+ * @returns The URL string without query parameters
+ */
+export function removeQueryParameters(url: string): string {
+  return url.split('?')[0];
+}
+
+/**
  * Shortens a UUID to the first 8 characters for privacy while maintaining uniqueness
  * @param uuid The full UUID string to shorten
  * @returns The first 8 characters of the UUID
@@ -26,11 +35,13 @@ export function extractImageSrc(data: unknown): string[] {
     const obj = data as Record<string, unknown>;
 
     if (typeof obj.src === "string") {
-      srcArr.push(transformUrlToKey(obj.src));
+      const cleanUrl = removeQueryParameters(obj.src);
+      srcArr.push(transformUrlToKey(cleanUrl));
     }
 
     if (typeof obj.originalSrc === "string") {
-      srcArr.push(transformUrlToKey(obj.originalSrc));
+      const cleanUrl = removeQueryParameters(obj.originalSrc);
+      srcArr.push(transformUrlToKey(cleanUrl));
     }
 
     Object.values(obj).forEach((value) => {
