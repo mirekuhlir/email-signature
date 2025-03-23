@@ -22,7 +22,7 @@ import { useToast } from '@/src/components/ui/toast';
 import { Loading } from '../../ui/loading';
 
 export const LoadingInfo = ({
-  text = 'Saving. Please wait.',
+  text = 'Saving. Please wait...',
 }: {
   text?: string;
 }) => {

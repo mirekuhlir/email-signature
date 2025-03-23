@@ -14,6 +14,7 @@ import { useRouter } from 'next/navigation';
 import { TEMP_SIGNATURE } from '../const/content';
 import { useToast } from '@/src/components/ui/toast';
 import { Hr } from './ui/hr';
+import { LoadingInfo } from './signature-detail/content-edit/content-edit';
 
 type SignaturesPreviewsProps = {
   rows: any;
@@ -117,6 +118,8 @@ export const SignaturesList = (props: any) => {
   const createSignature = async (template: any, isTemp: boolean = false) => {
     setIsLoading(true);
 
+    setIsModalOpen(false);
+
     const { data, error } = await supabase.functions.invoke('post-signature', {
       method: 'POST',
       body: {
@@ -151,13 +154,29 @@ export const SignaturesList = (props: any) => {
     }
   };
 
+  if (isLoading) {
+    return (
+      <div className="w-full pt-6">
+        <div className="flex justify-center items-center">
+          <LoadingInfo text="Creating signature. Please wait..." />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full pt-6">
       <>
-        <Typography className="pb-4" variant="h3">
-          My signatures
-        </Typography>
-        <Hr className="pb-4" />
+        <div className="flex justify-between items-end">
+          <Typography className="leading-none" variant="h3">
+            My signatures
+          </Typography>
+          <Button size="lg" onClick={() => setIsModalOpen(true)}>
+            Create new signature
+          </Button>
+        </div>
+
+        <Hr className="pb-4 mt-4" />
         {tempSignature?.rows && (
           <SignaturesPreview
             rows={tempSignature.rows}
@@ -212,10 +231,10 @@ export const SignaturesList = (props: any) => {
           <div className="mb-6">
             <Typography variant="h3">Select signature</Typography>
           </div>
+
           <TemplatesExamples
             isSignedIn={true}
             createSignature={createSignature}
-            isLoading={isLoading}
           />
         </div>
       </Modal>

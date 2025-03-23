@@ -536,7 +536,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   if (isLoadingOriginalImage) {
     return (
       <div className="flex items-center justify-center w-full h-[70px]">
-        <LoadingInfo text="Loading. Please wait." />
+        <LoadingInfo text="Loading image. Please wait..." />
       </div>
     );
   }

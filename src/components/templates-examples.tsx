@@ -8,11 +8,10 @@ import { useRouter } from 'next/navigation';
 type TemplatesExamplesProps = {
   isSignedIn: boolean;
   createSignature: (template: any) => void;
-  isLoading: boolean;
 };
 
 export const TemplatesExamples = (props: TemplatesExamplesProps) => {
-  const { isLoading, createSignature, isSignedIn } = props;
+  const { createSignature, isSignedIn } = props;
   const router = useRouter();
 
   return (
@@ -28,7 +27,6 @@ export const TemplatesExamples = (props: TemplatesExamplesProps) => {
             </div>
             <div className="flex justify-center mt-4">
               <Button
-                loading={isLoading}
                 onClick={async () => {
                   if (isSignedIn) {
                     createSignature(template);
@@ -39,7 +37,7 @@ export const TemplatesExamples = (props: TemplatesExamplesProps) => {
                   }
                 }}
               >
-                {isLoading ? 'Loading...' : 'Select'}
+                {'Select'}
               </Button>
             </div>
           </div>
