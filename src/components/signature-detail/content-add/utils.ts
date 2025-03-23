@@ -24,10 +24,11 @@ export const getContentAdd = (type: ContentType) => {
 export const getImage = () => {
     return {
         id: generateRandomId(),
-        style: {
+        // TODO - možná není potřeba, buď vrátit a nebo smazat
+  /*       style: {
             display: "table",
             margin: "0 auto",
-        },
+        }, */
         content: {
             type: ContentType.IMAGE,
             components: [

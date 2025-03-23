@@ -26,12 +26,12 @@ export const SignatureDetail = (props: any) => {
 
   return (
     <>
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col">
         {(!isEdit || contentEdit.editPath) && (
           <>
             <EmailTemplateView rows={rows} />
             {!contentEdit.editPath && (
-              <div className="mt-8 flex items-center">
+              <div className="mt-8 flex">
                 <Button size="lg" onClick={() => setIsEdit(true)}>
                   Edit
                 </Button>
