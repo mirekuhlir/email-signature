@@ -397,13 +397,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     setCroppedImageData?.(null);
     onSetOriginalImage?.(null);
 
-    // Keep the border radius during image replacement
-    onSetImageSettings?.({
-      crop: crop || getDefaultCrop(1, 100, 100),
-      aspect: aspect === undefined ? 'free' : aspect,
-      isCircular,
-      borderRadius: borderRadius, // Preserve the border radius
-    });
+    onSetImageSettings?.('');
 
     setCrop(undefined);
     setIsCircular(false);
@@ -417,10 +411,6 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     onSetCropImagePreview,
     onSetOriginalImage,
     onSetImageSettings,
-    crop,
-    aspect,
-    isCircular,
-    borderRadius,
     originalImagePreview,
   ]);
 
@@ -492,9 +482,17 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         setAspect(1);
       }
       setIsCircular(imageSettings?.isCircular || false);
-      setBorderRadius(imageSettings?.borderRadius || 0);
+      if (!borderRadius && !isCircular) {
+        setBorderRadius(imageSettings?.borderRadius || 0);
+      }
     }
-  }, [imageSettings, crop?.width, getDefaultCropForCurrentImage]);
+  }, [
+    imageSettings,
+    crop?.width,
+    getDefaultCropForCurrentImage,
+    borderRadius,
+    isCircular,
+  ]);
 
   useEffect(() => {
     if (!previewWidth) {
@@ -649,6 +647,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
               }}
               aspect={aspect}
               circularCrop={isCircular}
+              style={{ width: '100%' }}
             >
               <img
                 ref={imgRef}
