@@ -13,6 +13,7 @@ import { EmailTemplateView } from './signature-detail/content-view/signature-vie
 import { useRouter } from 'next/navigation';
 import { TEMP_SIGNATURE } from '../const/content';
 import { useToast } from '@/src/components/ui/toast';
+import { Hr } from './ui/hr';
 
 type SignaturesPreviewsProps = {
   rows: any;
@@ -82,6 +83,7 @@ const SignaturesPreview = (props: SignaturesPreviewsProps) => {
           </>
         </div>
       </div>
+      <Hr />
     </div>
   );
 };
@@ -152,7 +154,10 @@ export const SignaturesList = (props: any) => {
   return (
     <div className="w-full pt-6">
       <>
-        <Typography variant="h3">My signatures</Typography>
+        <Typography className="pb-4" variant="h3">
+          My signatures
+        </Typography>
+        <Hr className="pb-4" />
         {tempSignature?.rows && (
           <SignaturesPreview
             rows={tempSignature.rows}
