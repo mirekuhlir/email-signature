@@ -399,9 +399,6 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
 
     onSetImageSettings?.('');
 
-    setCrop(undefined);
-    setIsCircular(false);
-
     // Clean up the object URL before setting to undefined to prevent memory leaks
     if (originalImagePreview) {
       URL.revokeObjectURL(originalImagePreview);
@@ -482,9 +479,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         setAspect(1);
       }
       setIsCircular(imageSettings?.isCircular || false);
-      if (!borderRadius && !isCircular) {
-        setBorderRadius(imageSettings?.borderRadius || 0);
-      }
+      setBorderRadius(imageSettings?.borderRadius || 0);
     }
   }, [
     imageSettings,
