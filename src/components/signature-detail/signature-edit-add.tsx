@@ -89,7 +89,6 @@ export const EmailTemplateEdit = (props: any) => {
             key={`table-${row.id}`}
             style={{
               display: 'table',
-              width: '100%',
             }}
           >
             <div
@@ -132,7 +131,7 @@ export const EmailTemplateEdit = (props: any) => {
             {contentEdit.editPath !== currentPath &&
               contentEdit.columnPath === null && (
                 <>
-                  <div className="flex justify-end mb-2 mt-1">
+                  <div className="flex justify-start mb-2 mt-1">
                     <Button
                       size="sm"
                       variant="blue"
@@ -171,10 +170,9 @@ export const EmailTemplateEdit = (props: any) => {
     });
   };
 
-  // TODO - table mx-auto je navíc?
   return (
     <>
-      <div className="table mx-auto">
+      <div>
         {!contentEdit.editPath &&
           !contentEdit.addPath &&
           !contentEdit.columnPath && (

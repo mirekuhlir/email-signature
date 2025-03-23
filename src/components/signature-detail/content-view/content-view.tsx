@@ -3,7 +3,6 @@ import { Img } from '@/src/components/ui/img';
 import { ContentType } from '@/src/const/content';
 import { Fragment } from 'react';
 
-// Reusable function for formatting text with line breaks
 const formatTextWithLineBreaks = (text?: string) => {
   return text
 
