@@ -7,6 +7,7 @@ import { handleCopy } from './content-view/utils';
 import { EmailTemplateView } from './content-view/signature-view';
 import { EmailTemplateEdit } from './signature-edit-add';
 import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
+import StyledLink from '../ui/styled-link';
 
 export const SignatureDetail = (props: any) => {
   const { signatureDetail, isSignedIn, templateSlug } = props;
@@ -54,21 +55,28 @@ export const SignatureDetail = (props: any) => {
       </div>
 
       {isEdit && (
-        <div>
-          <EmailTemplateEdit
-            isSignedIn={isSignedIn}
-            templateSlug={templateSlug}
-            rows={rows}
-          />
-          {!contentEdit.editPath &&
-            !contentEdit.addPath &&
-            !contentEdit.columnPath && (
-              <div className="flex justify-end pt-4 pb-8 border-t border-gray-300">
-                <Button size="lg" onClick={() => setIsEdit(false)}>
-                  View
-                </Button>
-              </div>
-            )}
+        <>
+          <div>
+            <EmailTemplateEdit
+              isSignedIn={isSignedIn}
+              templateSlug={templateSlug}
+              rows={rows}
+            />
+            {!contentEdit.editPath &&
+              !contentEdit.addPath &&
+              !contentEdit.columnPath && (
+                <div className="flex justify-end pt-4 pb-8 border-t border-gray-300">
+                  <Button size="lg" onClick={() => setIsEdit(false)}>
+                    View
+                  </Button>
+                </div>
+              )}
+          </div>
+        </>
+      )}
+      {!contentEdit.editPath && (
+        <div className="mt-8">
+          <StyledLink href="/signatures">{`< Back to My signatures`}</StyledLink>
         </div>
       )}
     </>
