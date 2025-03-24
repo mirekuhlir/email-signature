@@ -84,7 +84,9 @@ const SignaturesPreview = (props: SignaturesPreviewsProps) => {
           </>
         </div>
       </div>
-      <Hr />
+      <div className="mt-8 mb-8">
+        <Hr />
+      </div>
     </div>
   );
 };
@@ -163,18 +165,12 @@ export const SignaturesList = (props: any) => {
       </div>
     );
   }
-
   return (
     <div className="w-full pt-6">
-      <>
-        <div className="flex justify-between items-end">
-          <Typography className="leading-none" variant="h3">
-            My signatures
-          </Typography>
-          <Button size="lg" onClick={() => setIsModalOpen(true)}>
-            Create new signature
-          </Button>
-        </div>
+      <div>
+        <Typography className="leading-none" variant="h3">
+          My signatures
+        </Typography>
 
         <Hr className="pb-4 mt-4" />
         {tempSignature?.rows && (
@@ -215,12 +211,12 @@ export const SignaturesList = (props: any) => {
               }}
             />
           ))}
-        <div className="flex pt-8 pb-8 justify-end">
+        <div className="flex justify-end pt-8 pb-8">
           <Button size="lg" onClick={() => setIsModalOpen(true)}>
             Create new signature
           </Button>
         </div>
-      </>
+      </div>
 
       <Modal
         size={isMobile ? 'fullscreen' : 'xlarge'}
