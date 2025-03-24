@@ -1,50 +1,50 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from 'react';
 
 const RichTextEditor2 = () => {
   const [lines, setLines] = useState([
     {
-      id: "1",
-      text: "",
-      fontSize: "16",
-      lineHeight: "1.5",
-      fontWeight: "normal",
-      fontStyle: "normal",
-      textAlign: "left",
-      textColor: "#000000",
-      backgroundColor: "transparent",
-      textDecoration: "none",
-      fontFamily: "Arial",
-      letterSpacing: "0",
-      textTransform: "none",
-      textShadow: "none",
+      id: '1',
+      text: '',
+      fontSize: '16',
+      lineHeight: '1.5',
+      fontWeight: 'normal',
+      fontStyle: 'normal',
+      textAlign: 'left',
+      textColor: '#000000',
+      backgroundColor: 'transparent',
+      textDecoration: 'none',
+      fontFamily: 'Arial',
+      letterSpacing: '0',
+      textTransform: 'none',
+      textShadow: 'none',
       opacity: 100,
     },
   ]);
 
-  const [selectedLineId, setSelectedLineId] = useState("1");
+  const [selectedLineId, setSelectedLineId] = useState('1');
   const inputRefs = useRef({});
 
   const fontSizes = [
-    "12",
-    "14",
-    "16",
-    "18",
-    "20",
-    "24",
-    "28",
-    "32",
-    "40",
-    "48",
+    '12',
+    '14',
+    '16',
+    '18',
+    '20',
+    '24',
+    '28',
+    '32',
+    '40',
+    '48',
   ];
-  const lineHeights = ["1", "1.25", "1.5", "1.75", "2", "2.5"];
-  const letterSpacingOptions = ["0", "1", "2", "4", "8"];
+  const lineHeights = ['1', '1.25', '1.5', '1.75', '2', '2.5'];
+  const letterSpacingOptions = ['0', '1', '2', '4', '8'];
   const fonts = [
-    "Arial",
-    "Times New Roman",
-    "Courier New",
-    "Georgia",
-    "Verdana",
-    "Helvetica",
+    'Arial',
+    'Times New Roman',
+    'Courier New',
+    'Georgia',
+    'Verdana',
+    'Helvetica',
   ];
 
   useEffect(() => {
@@ -72,26 +72,26 @@ const RichTextEditor2 = () => {
   const toggleTextDecoration = (decoration: any) => {
     const selectedLine = lines.find((line) => line.id === selectedLineId);
     updateLineProperty(
-      "textDecoration",
-      selectedLine?.textDecoration === decoration ? "none" : decoration,
+      'textDecoration',
+      selectedLine?.textDecoration === decoration ? 'none' : decoration,
     );
   };
 
   const toggleTextTransform = (transform: any) => {
     const selectedLine = lines.find((line) => line.id === selectedLineId);
     updateLineProperty(
-      "textTransform",
-      selectedLine?.textTransform === transform ? "none" : transform,
+      'textTransform',
+      selectedLine?.textTransform === transform ? 'none' : transform,
     );
   };
 
   const toggleTextShadow = () => {
     const selectedLine = lines.find((line) => line.id === selectedLineId);
     updateLineProperty(
-      "textShadow",
-      selectedLine?.textShadow === "none"
-        ? "2px 2px 4px rgba(0,0,0,0.3)"
-        : "none",
+      'textShadow',
+      selectedLine?.textShadow === 'none'
+        ? '2px 2px 4px rgba(0,0,0,0.3)'
+        : 'none',
     );
   };
 
@@ -100,7 +100,7 @@ const RichTextEditor2 = () => {
   };
 
   const handleKeyDown = (e: any, lineIndex: any) => {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       e.preventDefault();
       const newId = Date.now().toString();
       const currentLine = lines[lineIndex];
@@ -110,15 +110,15 @@ const RichTextEditor2 = () => {
         {
           ...currentLine,
           id: newId,
-          text: "",
+          text: '',
         },
         ...prevLines.slice(lineIndex + 1),
       ]);
 
       setSelectedLineId(newId);
     } else if (
-      e.key === "Backspace" &&
-      lines[lineIndex].text === "" &&
+      e.key === 'Backspace' &&
+      lines[lineIndex].text === '' &&
       lines.length > 1
     ) {
       e.preventDefault();
@@ -143,11 +143,11 @@ const RichTextEditor2 = () => {
   return (
     <div className="w-full max-w-4xl mx-auto p-2 md:p-4 space-y-4">
       <div className="grid grid-cols-1 gap-2 bg-gray-100 p-2 rounded">
-        {/* Základní formátování */}
+        {/* Basic formatting */}
         <div className="flex flex-wrap gap-2 items-center p-2 border-b border-gray-200">
           <select
             value={selectedLine.fontFamily}
-            onChange={(e) => updateLineProperty("fontFamily", e.target.value)}
+            onChange={(e) => updateLineProperty('fontFamily', e.target.value)}
             className="p-2 rounded border bg-white min-w-[120px]"
           >
             {fonts.map((font) => (
@@ -159,7 +159,7 @@ const RichTextEditor2 = () => {
 
           <select
             value={selectedLine.fontSize}
-            onChange={(e) => updateLineProperty("fontSize", e.target.value)}
+            onChange={(e) => updateLineProperty('fontSize', e.target.value)}
             className="p-2 rounded border bg-white min-w-[80px]"
           >
             {fontSizes.map((size) => (
@@ -171,7 +171,7 @@ const RichTextEditor2 = () => {
 
           <select
             value={selectedLine.lineHeight}
-            onChange={(e) => updateLineProperty("lineHeight", e.target.value)}
+            onChange={(e) => updateLineProperty('lineHeight', e.target.value)}
             className="p-2 rounded border bg-white min-w-[80px]"
           >
             {lineHeights.map((height) => (
@@ -182,22 +182,22 @@ const RichTextEditor2 = () => {
           </select>
 
           <button
-            onClick={() => toggleTextDecoration("underline")}
+            onClick={() => toggleTextDecoration('underline')}
             className={`p-2 rounded w-10 h-10 flex items-center justify-center ${
-              selectedLine.textDecoration === "underline"
-                ? "bg-blue-200"
-                : "bg-white"
+              selectedLine.textDecoration === 'underline'
+                ? 'bg-blue-200'
+                : 'bg-white'
             }`}
           >
             U
           </button>
 
           <button
-            onClick={() => toggleTextDecoration("line-through")}
+            onClick={() => toggleTextDecoration('line-through')}
             className={`p-2 rounded w-10 h-10 flex items-center justify-center ${
-              selectedLine.textDecoration === "line-through"
-                ? "bg-blue-200"
-                : "bg-white"
+              selectedLine.textDecoration === 'line-through'
+                ? 'bg-blue-200'
+                : 'bg-white'
             }`}
           >
             S
@@ -208,35 +208,35 @@ const RichTextEditor2 = () => {
         <div className="flex flex-wrap gap-2 items-center p-2 border-b border-gray-200">
           <div className="flex gap-1">
             <button
-              onClick={() => updateLineProperty("textAlign", "left")}
+              onClick={() => updateLineProperty('textAlign', 'left')}
               className={`p-2 rounded w-10 h-10 flex items-center justify-center ${
-                selectedLine.textAlign === "left" ? "bg-blue-200" : "bg-white"
+                selectedLine.textAlign === 'left' ? 'bg-blue-200' : 'bg-white'
               }`}
             >
               ←
             </button>
             <button
-              onClick={() => updateLineProperty("textAlign", "center")}
+              onClick={() => updateLineProperty('textAlign', 'center')}
               className={`p-2 rounded w-10 h-10 flex items-center justify-center ${
-                selectedLine.textAlign === "center" ? "bg-blue-200" : "bg-white"
+                selectedLine.textAlign === 'center' ? 'bg-blue-200' : 'bg-white'
               }`}
             >
               ↔
             </button>
             <button
-              onClick={() => updateLineProperty("textAlign", "right")}
+              onClick={() => updateLineProperty('textAlign', 'right')}
               className={`p-2 rounded w-10 h-10 flex items-center justify-center ${
-                selectedLine.textAlign === "right" ? "bg-blue-200" : "bg-white"
+                selectedLine.textAlign === 'right' ? 'bg-blue-200' : 'bg-white'
               }`}
             >
               →
             </button>
             <button
-              onClick={() => updateLineProperty("textAlign", "justify")}
+              onClick={() => updateLineProperty('textAlign', 'justify')}
               className={`p-2 rounded w-10 h-10 flex items-center justify-center ${
-                selectedLine.textAlign === "justify"
-                  ? "bg-blue-200"
-                  : "bg-white"
+                selectedLine.textAlign === 'justify'
+                  ? 'bg-blue-200'
+                  : 'bg-white'
               }`}
             >
               ⇔
@@ -245,31 +245,31 @@ const RichTextEditor2 = () => {
 
           <div className="flex gap-1">
             <button
-              onClick={() => toggleTextTransform("uppercase")}
+              onClick={() => toggleTextTransform('uppercase')}
               className={`p-2 rounded w-10 h-10 flex items-center justify-center ${
-                selectedLine.textTransform === "uppercase"
-                  ? "bg-blue-200"
-                  : "bg-white"
+                selectedLine.textTransform === 'uppercase'
+                  ? 'bg-blue-200'
+                  : 'bg-white'
               }`}
             >
               AA
             </button>
             <button
-              onClick={() => toggleTextTransform("lowercase")}
+              onClick={() => toggleTextTransform('lowercase')}
               className={`p-2 rounded w-10 h-10 flex items-center justify-center ${
-                selectedLine.textTransform === "lowercase"
-                  ? "bg-blue-200"
-                  : "bg-white"
+                selectedLine.textTransform === 'lowercase'
+                  ? 'bg-blue-200'
+                  : 'bg-white'
               }`}
             >
               aa
             </button>
             <button
-              onClick={() => toggleTextTransform("capitalize")}
+              onClick={() => toggleTextTransform('capitalize')}
               className={`p-2 rounded w-10 h-10 flex items-center justify-center ${
-                selectedLine.textTransform === "capitalize"
-                  ? "bg-blue-200"
-                  : "bg-white"
+                selectedLine.textTransform === 'capitalize'
+                  ? 'bg-blue-200'
+                  : 'bg-white'
               }`}
             >
               Aa
@@ -282,7 +282,7 @@ const RichTextEditor2 = () => {
           <select
             value={selectedLine.letterSpacing}
             onChange={(e) =>
-              updateLineProperty("letterSpacing", e.target.value)
+              updateLineProperty('letterSpacing', e.target.value)
             }
             className="p-2 rounded border bg-white min-w-[100px]"
           >
@@ -296,7 +296,7 @@ const RichTextEditor2 = () => {
           <button
             onClick={toggleTextShadow}
             className={`p-2 rounded flex items-center justify-center ${
-              selectedLine.textShadow !== "none" ? "bg-blue-200" : "bg-white"
+              selectedLine.textShadow !== 'none' ? 'bg-blue-200' : 'bg-white'
             }`}
           >
             Stín
@@ -308,7 +308,7 @@ const RichTextEditor2 = () => {
             max="100"
             value={selectedLine.opacity}
             onChange={(e) =>
-              updateLineProperty("opacity", Number(e.target.value))
+              updateLineProperty('opacity', Number(e.target.value))
             }
             className="w-24"
           />
@@ -322,7 +322,7 @@ const RichTextEditor2 = () => {
             <input
               type="color"
               value={selectedLine.textColor}
-              onChange={(e) => updateLineProperty("textColor", e.target.value)}
+              onChange={(e) => updateLineProperty('textColor', e.target.value)}
               className="w-10 h-10 rounded cursor-pointer"
             />
           </div>
@@ -331,12 +331,12 @@ const RichTextEditor2 = () => {
             <input
               type="color"
               value={
-                selectedLine.backgroundColor === "transparent"
-                  ? "#ffffff"
+                selectedLine.backgroundColor === 'transparent'
+                  ? '#ffffff'
                   : selectedLine.backgroundColor
               }
               onChange={(e) =>
-                updateLineProperty("backgroundColor", e.target.value)
+                updateLineProperty('backgroundColor', e.target.value)
               }
               className="w-10 h-10 rounded cursor-pointer"
             />

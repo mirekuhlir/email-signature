@@ -36,7 +36,7 @@ export const SignatureDetail = (props: any) => {
                 <Button size="lg" onClick={() => setIsEdit(true)}>
                   Edit
                 </Button>
-                {/*    TODO - tady vymyslet, aby při prvním zobrazení uživatel neviděl tlačítko Copy signature, ale pouze edit */}
+                {/*    TODO - design so that on first view user doesn't see Copy signature button, but only edit */}
                 <div className="ml-8">
                   <Button
                     size="lg"

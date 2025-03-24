@@ -342,7 +342,7 @@ export const ContentEdit = (props: any) => {
               >
                 Close
               </Button>
-              {/*   TODO - modál pro nepřihlášené uživatele "Ukládat mohou pouze registrovaní uživatelé" */}
+              {/*   TODO - modal for non-logged users "Only registered users can save" */}
 
               {canDisplaySave && (
                 <Button

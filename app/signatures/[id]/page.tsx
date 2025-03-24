@@ -70,7 +70,7 @@ export default async function Signature(props: Props) {
       .eq('user_id', user.id)
       .single();
 
-    // TODO - taky ještě domylset, co se stane, když uživatel nemá signature, ale j příhlášen je na example?template=signature-a
+    // TODO - also think about what happens when user doesn't have signature but is logged in on example?template=signature-a
     const rows = data?.signature_content?.rows || [];
     const colors = data?.signature_content?.colors || [];
 
