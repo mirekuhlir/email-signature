@@ -5,6 +5,7 @@ import { useSignatureStore } from '@/src/store/content-edit-add-store';
 import ImageUploadCrop from '@/src/components/ui/image-uploader-crop/image-uploader-crop';
 import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
 import { countImageComponents } from '@/src/utils/content';
+import { generateRandomId } from '@/src/utils/generateRandomId';
 
 export const ImageEditContent = (props: any) => {
   const { components, contentPathToEdit, isSignedIn } = props;
@@ -42,7 +43,7 @@ export const ImageEditContent = (props: any) => {
   const handleOriginalImage = useCallback(
     (originalImage: File | null) => {
       if (originalImage instanceof File) {
-        const newFileName = `${imageComponent.id}-original.png`;
+        const newFileName = `${imageComponent.id}-${generateRandomId(4)}.png`;
         const modifiedFile = new File([originalImage], newFileName, {
           type: originalImage.type,
           lastModified: Date.now(),
