@@ -43,47 +43,52 @@ const SignaturesPreview = (props: SignaturesPreviewsProps) => {
     <div>
       <div className="flex flex-col items-start w-full my-4">
         <EmailTemplateView rows={rows} />
-        <div className="flex flex-col mt-3 w-full">
-          {createdAt && (
-            <div className="flex gap-2">
-              <Typography>Created at:</Typography>
-              <Typography className="text-gray-500">
-                {new Date(createdAt).toLocaleString('cs-CZ')}
-              </Typography>
+        <div className="w-full bg-gray-200 mt-3 p-3 rounded-md">
+          <div className="flex justify-end">
+            <div className="flex flex-col">
+              {createdAt && (
+                <div className="flex gap-2">
+                  <Typography>Created at:</Typography>
+                  <Typography className="text-gray-500">
+                    {new Date(createdAt).toLocaleString('cs-CZ')}
+                  </Typography>
+                </div>
+              )}
+              {updatedAt && (
+                <div className="flex gap-2">
+                  <Typography>Updated at:</Typography>
+                  <Typography className="text-gray-500">
+                    {new Date(updatedAt).toLocaleString('cs-CZ')}
+                  </Typography>
+                </div>
+              )}
             </div>
-          )}
-          {updatedAt && (
-            <div className="flex gap-2">
-              <Typography>Updated at:</Typography>
-              <Typography className="text-gray-500">
-                {new Date(updatedAt).toLocaleString('cs-CZ')}
-              </Typography>
-            </div>
-          )}
-        </div>
-        <div className="flex items-center gap-4 mt-3">
-          <>
-            <Button
-              variant="blue"
-              loading={isLoading}
-              onClick={() => {
-                onEdit();
-              }}
-            >
-              {isLoading ? 'Creating...' : editButtonText}
-            </Button>
-            <Button
-              variant="red"
-              disabled={isLoading}
-              onClick={() => {
-                onDelete();
-              }}
-            >
-              {t('Delete')}
-            </Button>
-          </>
+          </div>
+          <div className="flex gap-4 mt-3 justify-end w-full">
+            <>
+              <Button
+                variant="red"
+                disabled={isLoading}
+                onClick={() => {
+                  onDelete();
+                }}
+              >
+                {t('Delete')}
+              </Button>
+              <Button
+                variant="blue"
+                loading={isLoading}
+                onClick={() => {
+                  onEdit();
+                }}
+              >
+                {isLoading ? 'Creating...' : editButtonText}
+              </Button>
+            </>
+          </div>
         </div>
       </div>
+      <div />
       <div className="mt-8 mb-8">
         <Hr />
       </div>
