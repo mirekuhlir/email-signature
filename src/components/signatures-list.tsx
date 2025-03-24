@@ -43,7 +43,7 @@ const SignaturesPreview = (props: SignaturesPreviewsProps) => {
     <div>
       <div className="flex flex-col items-start w-full my-4">
         <EmailTemplateView rows={rows} />
-        <div className="w-full bg-gray-200 mt-3 p-3 rounded-md">
+        <div className="w-full bg-gray-200 mt-3 mb-14 p-3 rounded-md">
           <div className="flex justify-end">
             <div className="flex flex-col">
               {createdAt && (
@@ -89,9 +89,6 @@ const SignaturesPreview = (props: SignaturesPreviewsProps) => {
         </div>
       </div>
       <div />
-      <div className="mt-8 mb-8">
-        <Hr />
-      </div>
     </div>
   );
 };
