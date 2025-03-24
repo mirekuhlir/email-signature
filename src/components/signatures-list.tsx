@@ -64,7 +64,7 @@ const SignaturesPreview = (props: SignaturesPreviewsProps) => {
               )}
             </div>
           </div>
-          <div className="flex gap-4 mt-3 justify-end w-full">
+          <div className="flex gap-5 mt-3 justify-end w-full">
             <>
               <Button
                 variant="red"
