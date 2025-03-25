@@ -182,11 +182,16 @@ export const SignaturesList = (props: any) => {
             Create new signature
           </Button>
         </div>
-        <Typography className="leading-none" variant="h3">
-          My signatures
-        </Typography>
 
-        <Hr className="pb-4 mt-4" />
+        {tempSignature?.rows ||
+          (signatures?.length > 0 && (
+            <>
+              <Typography className="leading-none" variant="h3">
+                My signatures
+              </Typography>
+              <Hr className="pb-4 mt-4" />
+            </>
+          ))}
 
         {tempSignature?.rows && (
           <SignaturesPreview
