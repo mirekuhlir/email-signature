@@ -15,6 +15,7 @@ import { TEMP_SIGNATURE } from '../const/content';
 import { useToast } from '@/src/components/ui/toast';
 import { Hr } from './ui/hr';
 import { LoadingInfo } from './signature-detail/content-edit/content-edit';
+import { ContextMenu } from './ui/context-menu';
 
 type SignaturesPreviewsProps = {
   rows: any;
@@ -41,40 +42,46 @@ const SignaturesPreview = (props: SignaturesPreviewsProps) => {
 
   return (
     <div>
-      <div className="flex flex-col items-start w-full my-4">
+      <div className="flex flex-col w-full my-4">
         <EmailTemplateView rows={rows} />
-        <div className="w-full bg-gray-200 mt-3 mb-14 p-3 rounded-md">
-          <div className="flex justify-end">
-            <div className="flex flex-col">
-              {createdAt && (
-                <div className="flex gap-2">
-                  <Typography>Created at:</Typography>
-                  <Typography className="text-gray-500">
-                    {new Date(createdAt).toLocaleString('cs-CZ')}
-                  </Typography>
-                </div>
-              )}
-              {updatedAt && (
-                <div className="flex gap-2">
-                  <Typography>Updated at:</Typography>
-                  <Typography className="text-gray-500">
-                    {new Date(updatedAt).toLocaleString('cs-CZ')}
-                  </Typography>
-                </div>
-              )}
-            </div>
+        <div className="flex justify-between w-full bg-gray-200 mb-14 p-3 rounded-md mt-4">
+          <div className="flex flex-col justify-end">
+            {createdAt && (
+              <div className="mb-2 md:mb-0">
+                <Typography className="text-sm md:text-base block md:inline">
+                  Created at:
+                </Typography>
+                <Typography className="text-gray-500 text-sm md:text-base block md:inline md:ml-1">
+                  {new Date(createdAt).toLocaleString('cs-CZ')}
+                </Typography>
+              </div>
+            )}
+            {updatedAt && (
+              <div>
+                <Typography className="text-sm md:text-base block md:inline">
+                  Updated at:
+                </Typography>
+                <Typography className="text-gray-500 text-sm md:text-base block md:inline md:ml-1">
+                  {new Date(updatedAt).toLocaleString('cs-CZ')}
+                </Typography>
+              </div>
+            )}
           </div>
-          <div className="flex gap-5 mt-3 justify-end w-full">
+          <div className="flex gap-3 self-end">
             <>
-              <Button
-                variant="red"
-                disabled={isLoading}
-                onClick={() => {
-                  onDelete();
-                }}
-              >
-                {t('Delete')}
-              </Button>
+              <ContextMenu>
+                <div className="pt-2 pb-0 px-2 flex flex-col gap-2 whitespace-nowrap items-start">
+                  <Button
+                    variant="ghost"
+                    disabled={isLoading}
+                    onClick={() => {
+                      onDelete();
+                    }}
+                  >
+                    {t('Delete')}
+                  </Button>
+                </div>
+              </ContextMenu>
               <Button
                 variant="blue"
                 loading={isLoading}
@@ -170,11 +177,17 @@ export const SignaturesList = (props: any) => {
   return (
     <div className="w-full pt-6">
       <div>
+        <div className="flex justify-center md:justify-end pt-2 pb-6 w-full">
+          <Button size="lg" onClick={() => setIsModalOpen(true)}>
+            Create new signature
+          </Button>
+        </div>
         <Typography className="leading-none" variant="h3">
           My signatures
         </Typography>
 
         <Hr className="pb-4 mt-4" />
+
         {tempSignature?.rows && (
           <SignaturesPreview
             rows={tempSignature.rows}
@@ -213,11 +226,6 @@ export const SignaturesList = (props: any) => {
               }}
             />
           ))}
-        <div className="flex justify-end pt-8 pb-8">
-          <Button size="lg" onClick={() => setIsModalOpen(true)}>
-            Create new signature
-          </Button>
-        </div>
       </div>
 
       <Modal

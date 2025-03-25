@@ -47,7 +47,7 @@ export const variants = {
   red: 'bg-red-600 hover:bg-red-700 text-white',
   black: 'bg-black hover:bg-gray-900 text-white',
   gray: 'bg-gray-600 hover:bg-gray-700 text-white',
-  outline: 'border-2 border-current bg-transparent hover:bg-gray-100',
+  outline: 'border-1 border-current bg-transparent hover:bg-gray-100',
   ghost: 'bg-transparent hover:bg-gray-100',
   link: 'bg-transparent underline-offset-4 hover:underline p-0',
 };
