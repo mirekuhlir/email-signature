@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Img } from '@/src/components/ui/img';
 import { ContentType } from '@/src/const/content';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment } from 'react';
 
 const formatTextWithLineBreaks = (text?: string) => {
   return text
+
     ?.replace(/\r\n|\r/g, '\n')
     .split('\n')
     .map((line: string, index: number, array: string[]) => (
@@ -23,9 +24,19 @@ export const getContentView = (content?: any) => {
       const { id, src, cropImagePreview } = component;
 
       const image = cropImagePreview || src;
-      const imageSrc = image;
+      let imageSrc = image;
 
-      return <ClientSideImage key={id} src={imageSrc} />;
+      if (
+        imageSrc &&
+        typeof imageSrc === 'string' &&
+        imageSrc.trim() !== '' &&
+        imageSrc.toLowerCase().endsWith('.png')
+      ) {
+        // cache busting for reload image when image filename is the same
+        imageSrc = `${imageSrc}?t=${Date.now()}`;
+      }
+
+      return <Img key={id} src={imageSrc} />;
     });
   }
 
@@ -373,24 +384,4 @@ export const getContentView = (content?: any) => {
   }
 
   return null;
-};
-
-// New component that handles cache busting on the client side only
-const ClientSideImage = ({ src }: { src: string }) => {
-  const [imageSrc, setImageSrc] = useState(src);
-
-  useEffect(() => {
-    // Only append timestamp in the browser after hydration
-    if (
-      typeof window !== 'undefined' &&
-      src &&
-      typeof src === 'string' &&
-      src.trim() !== '' &&
-      src.toLowerCase().endsWith('.png')
-    ) {
-      setImageSrc(`${src}?t=${Date.now()}`);
-    }
-  }, [src]);
-
-  return <Img src={imageSrc} />;
 };
