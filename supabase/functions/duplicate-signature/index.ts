@@ -130,8 +130,30 @@ async function duplicateSignatureImages(
                 )[1];
                 if (!sourceKey) return;
 
-                // Create a new filename with a random ID - always use png extension
-                const newFilename = `${generateRandomId()}.png`;
+                // Extract the filename from the key (last part of the path)
+                const pathParts = sourceKey.split("/");
+                const originalFilename = pathParts[pathParts.length - 1];
+
+                // Analyze the original filename pattern
+                const filenameWithoutExt = originalFilename.replace(
+                    /\.png$/,
+                    "",
+                );
+                let newFilename;
+
+                // Check if the original has a hyphen pattern like "id-suffix"
+                if (filenameWithoutExt.includes("-")) {
+                    const [baseId, suffix] = filenameWithoutExt.split("-");
+                    // Generate same length IDs for each part
+                    newFilename = `${generateRandomId(baseId.length)}-${
+                        generateRandomId(suffix.length)
+                    }.png`;
+                } else {
+                    // Simple ID pattern
+                    newFilename = `${
+                        generateRandomId(filenameWithoutExt.length)
+                    }.png`;
+                }
 
                 // Create an upload task
                 const uploadTask = getS3Object(sourceKey)
@@ -164,8 +186,30 @@ async function duplicateSignatureImages(
                 )[1];
                 if (!sourceKey) return;
 
-                // Always use png extension
-                const newFilename = `${generateRandomId()}.png`;
+                // Extract the filename from the key (last part of the path)
+                const pathParts = sourceKey.split("/");
+                const originalFilename = pathParts[pathParts.length - 1];
+
+                // Analyze the original filename pattern
+                const filenameWithoutExt = originalFilename.replace(
+                    /\.png$/,
+                    "",
+                );
+                let newFilename;
+
+                // Check if the original has a hyphen pattern like "id-suffix"
+                if (filenameWithoutExt.includes("-")) {
+                    const [baseId, suffix] = filenameWithoutExt.split("-");
+                    // Generate same length IDs for each part
+                    newFilename = `${generateRandomId(baseId.length)}-${
+                        generateRandomId(suffix.length)
+                    }.png`;
+                } else {
+                    // Simple ID pattern
+                    newFilename = `${
+                        generateRandomId(filenameWithoutExt.length)
+                    }.png`;
+                }
 
                 const uploadTask = getS3Object(sourceKey)
                     .then((imageData) => {
