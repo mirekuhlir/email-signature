@@ -25,6 +25,8 @@ type SignaturesPreviewsProps = {
   onEdit: () => void;
   isLoading: boolean;
   isFromTemp: boolean;
+  duplicateSignature?: (signatureId: string) => Promise<void>;
+  signatureId?: string;
 };
 
 const SignaturesPreview = (props: SignaturesPreviewsProps) => {
@@ -36,6 +38,8 @@ const SignaturesPreview = (props: SignaturesPreviewsProps) => {
     onEdit,
     isLoading,
     isFromTemp,
+    duplicateSignature,
+    signatureId,
   } = props;
 
   const editButtonText = isFromTemp ? 'Continue' : 'Edit';
@@ -70,7 +74,7 @@ const SignaturesPreview = (props: SignaturesPreviewsProps) => {
           <div className="flex gap-3 self-end">
             <>
               <ContextMenu>
-                <div className="pt-2 pb-0 px-2 flex flex-col gap-2 whitespace-nowrap items-start">
+                <div className="pt-2 pb-2 px-2 flex flex-col gap-1 whitespace-nowrap items-start">
                   <Button
                     variant="ghost"
                     disabled={isLoading}
@@ -79,6 +83,17 @@ const SignaturesPreview = (props: SignaturesPreviewsProps) => {
                     }}
                   >
                     {t('Delete')}
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    disabled={isLoading}
+                    onClick={() => {
+                      if (signatureId && duplicateSignature) {
+                        duplicateSignature(signatureId);
+                      }
+                    }}
+                  >
+                    {t('Duplicate')}
                   </Button>
                 </div>
               </ContextMenu>
@@ -125,6 +140,38 @@ export const SignaturesList = (props: any) => {
       setTempSignature(JSON.parse(savedData));
     }
   }, []);
+
+  const duplicateSignature = async (signatureId: string) => {
+    setIsLoading(true);
+
+    const { data, error } = await supabase.functions.invoke(
+      'duplicate-signature',
+      {
+        method: 'POST',
+        body: {
+          signatureId: signatureId,
+        },
+      },
+    );
+
+    if (error) {
+      setIsLoading(false);
+      console.error(error);
+      toast({
+        title: 'Error',
+        description: 'Failed to duplicate signature. Please try again.',
+        variant: 'error',
+        duration: 5000,
+      });
+      return;
+    }
+
+    setIsLoading(false);
+
+    if (data?.signatureId) {
+      router.push(`/signatures/${data.signatureId}`);
+    }
+  };
 
   const createSignature = async (template: any, isTemp: boolean = false) => {
     setIsLoading(true);
@@ -229,6 +276,8 @@ export const SignaturesList = (props: any) => {
                 setSignatureToDelete(signature);
                 setIsDeleteModalOpen(true);
               }}
+              duplicateSignature={duplicateSignature}
+              signatureId={signature.id}
             />
           ))}
       </div>
