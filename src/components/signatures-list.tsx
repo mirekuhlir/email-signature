@@ -233,7 +233,11 @@ export const SignaturesList = (props: any) => {
         {tempSignature?.rows ||
           (signatures?.length > 0 && (
             <>
-              <Typography className="leading-none" variant="h3">
+              <Typography
+                className="leading-none"
+                variant="h3"
+                textColor="text-gray-700"
+              >
                 My signatures
               </Typography>
               <Hr className="pb-4 mt-4" />

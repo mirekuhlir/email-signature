@@ -25,6 +25,17 @@ export const SignatureDetail = (props: any) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const BackButton = () => {
+    return (
+      <div className="pb-8">
+        <StyledLink
+          variant="default"
+          href="/signatures"
+        >{`< Back to My signatures`}</StyledLink>
+      </div>
+    );
+  };
+
   return (
     <>
       <div className="flex flex-col">
@@ -74,11 +85,7 @@ export const SignatureDetail = (props: any) => {
           </div>
         </>
       )}
-      {!contentEdit.editPath && (
-        <div className="mt-8">
-          <StyledLink href="/signatures">{`< Back to My signatures`}</StyledLink>
-        </div>
-      )}
+      {!contentEdit.editPath && <BackButton />}
     </>
   );
 };
