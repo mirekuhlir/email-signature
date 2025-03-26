@@ -9,33 +9,33 @@ import {
 
 export const CONTENT_TYPES = [
   {
-    name: "Text",
+    name: "text",
     content: getExampleText(),
     type: ContentType.TEXT,
   },
   {
-    name: "Image",
+    name: "image",
     content: "Image",
     type: ContentType.IMAGE,
   },
   {
-    name: "E-mail",
+    name: "e-mail",
     content: `${getEmailTextExample().prefix}${getEmailTextExample().email}`,
     type: ContentType.EMAIL,
   },
   {
-    name: "Phone",
+    name: "phone",
     content: `${getPhoneTextExample().prefix}${getPhoneTextExample().phone}`,
     type: ContentType.PHONE,
   },
   {
-    name: "Website",
+    name: "website",
     content:
       `${getWebsiteTextExample().prefix}${getWebsiteTextExample().website}`,
     type: ContentType.WEBSITE,
   },
   {
-    name: "Custom Value",
+    name: "custom Value",
     content:
       `${getCustomValueTextExample().prefix}${getCustomValueTextExample().value}`,
     type: ContentType.CUSTOM_VALUE,
