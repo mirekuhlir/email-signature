@@ -49,7 +49,7 @@ const SignaturesPreview = (props: SignaturesPreviewsProps) => {
       <div className="flex flex-col w-full py-4">
         <EmailTemplateView rows={rows} />
         <div className="flex justify-between w-full bg-gray-200 mb-14 p-3 rounded-md mt-4">
-          <div className="flex flex-col justify-end">
+          <div className="flex flex-col justify-center">
             {createdAt && (
               <div className="mb-2 md:mb-0">
                 <Typography className="text-sm md:text-base block md:inline">
@@ -71,7 +71,7 @@ const SignaturesPreview = (props: SignaturesPreviewsProps) => {
               </div>
             )}
           </div>
-          <div className="flex gap-3 self-end">
+          <div className="flex gap-3 items-center">
             <>
               <ContextMenu>
                 <div className="pt-2 pb-2 px-2 flex flex-col gap-1 whitespace-nowrap items-start">
