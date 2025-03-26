@@ -85,7 +85,7 @@ export const SignatureDetail = (props: any) => {
           </div>
         </>
       )}
-      {!contentEdit.editPath && <BackButton />}
+      {!contentEdit.editPath && !contentEdit.columnPath && <BackButton />}
     </>
   );
 };
