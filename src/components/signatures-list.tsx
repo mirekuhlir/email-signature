@@ -52,20 +52,20 @@ const SignaturesPreview = (props: SignaturesPreviewsProps) => {
           <div className="flex flex-col justify-center">
             {createdAt && (
               <div className="mb-2 md:mb-0">
-                <Typography className="text-sm md:text-base block md:inline">
+                <Typography className="text-gray-500 text-sm md:text-base block md:inline">
                   Created at:
                 </Typography>
-                <Typography className="text-gray-500 text-sm md:text-base block md:inline md:ml-1">
+                <Typography className="text-sm md:text-base block md:inline md:ml-1">
                   {new Date(createdAt).toLocaleString('cs-CZ')}
                 </Typography>
               </div>
             )}
             {updatedAt && (
               <div>
-                <Typography className="text-sm md:text-base block md:inline">
+                <Typography className="text-gray-500 text-sm md:text-base block md:inline">
                   Updated at:
                 </Typography>
-                <Typography className="text-gray-500 text-sm md:text-base block md:inline md:ml-1">
+                <Typography className="text-sm md:text-base block md:inline md:ml-1">
                   {new Date(updatedAt).toLocaleString('cs-CZ')}
                 </Typography>
               </div>
