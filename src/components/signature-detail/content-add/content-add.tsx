@@ -42,7 +42,10 @@ export const ContentAdd = (props: ContentAddProps) => {
   return (
     <div className="pt-6">
       {CONTENT_TYPES.map((typeItem, index) => (
-        <div key={index} className="mb-4 border-b border-gray-300 pb-4">
+        <div
+          key={index}
+          className="flex gap-4 mb-4 border-b border-gray-300 items-end pb-4"
+        >
           <Typography>{typeItem.content}</Typography>
           <Button
             onClick={() => onAdd(typeItem.type)}

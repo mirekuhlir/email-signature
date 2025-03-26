@@ -1,5 +1,11 @@
 import { ContentType } from "@/src/const/content";
-import { getExampleText } from "./utils";
+import {
+  getCustomValueTextExample,
+  getEmailTextExample,
+  getExampleText,
+  getPhoneTextExample,
+  getWebsiteTextExample,
+} from "./utils";
 
 export const CONTENT_TYPES = [
   {
@@ -14,22 +20,24 @@ export const CONTENT_TYPES = [
   },
   {
     name: "E-mail",
-    content: "example@email.com",
+    content: `${getEmailTextExample().prefix}${getEmailTextExample().email}`,
     type: ContentType.EMAIL,
   },
   {
     name: "Phone",
-    content: "+1 212 555 4567",
+    content: `${getPhoneTextExample().prefix}${getPhoneTextExample().phone}`,
     type: ContentType.PHONE,
   },
   {
     name: "Website",
-    content: "www.example.com",
+    content:
+      `${getWebsiteTextExample().prefix}${getWebsiteTextExample().website}`,
     type: ContentType.WEBSITE,
   },
   {
     name: "Custom Value",
-    content: "Custom value with prefix",
+    content:
+      `${getCustomValueTextExample().prefix}${getCustomValueTextExample().value}`,
     type: ContentType.CUSTOM_VALUE,
   },
 ];
