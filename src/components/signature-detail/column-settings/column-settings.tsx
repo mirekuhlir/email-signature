@@ -11,6 +11,7 @@ import { LoadingInfo } from '../content-edit/content-edit';
 import { EditColor } from '../../ui/edit-color';
 import { Hr } from '../../ui/hr';
 import { useToast } from '@/src/components/ui/toast';
+import { CollapsibleSection } from '@/src/components/ui/collapsible-section';
 
 export const ColumnSettings = (props: any) => {
   const { columnPathToEdit, signatureId, isSignedIn } = props;
@@ -230,217 +231,228 @@ export const ColumnSettings = (props: any) => {
       <div ref={wrapperRef}>
         {!isSavingSignature && (
           <div className="pb-2">
-            <div className="grid grid-cols-1 gap-6">
+            <CollapsibleSection>
+              <div className="grid grid-cols-1 gap-6">
+                <div className="pb-4">
+                  <Typography variant="labelBase" className="mb-2">
+                    Vertical alignment
+                  </Typography>
+                  <SelectBase
+                    options={[
+                      { value: 'top', label: 'Top' },
+                      { value: 'middle', label: 'Middle' },
+                      { value: 'bottom', label: 'Bottom' },
+                    ]}
+                    value={verticalAlign}
+                    onChange={(value: string) => {
+                      setVerticalAlign(value);
+                    }}
+                  />
+                </div>
+              </div>
+            </CollapsibleSection>
+
+            <Hr />
+
+            <CollapsibleSection>
+              <div className="grid grid-cols-1 gap-6">
+                <div>
+                  <Typography variant="labelBase" className="mb-2">
+                    Top padding : {paddingTop}px
+                  </Typography>
+                  <Slider
+                    min={0}
+                    max={50}
+                    value={Number(paddingTop)}
+                    onChange={(value: number) => {
+                      setPaddingTop(value.toString());
+                    }}
+                  />
+                </div>
+
+                <div>
+                  <Typography variant="labelBase" className="mb-2">
+                    Right padding : {paddingRight}px
+                  </Typography>
+                  <Slider
+                    min={0}
+                    max={50}
+                    value={Number(paddingRight)}
+                    onChange={(value: number) => {
+                      setPaddingRight(value.toString());
+                    }}
+                  />
+                </div>
+
+                <div>
+                  <Typography variant="labelBase" className="mb-2">
+                    Bottom padding : {paddingBottom}px
+                  </Typography>
+                  <Slider
+                    min={0}
+                    max={50}
+                    value={Number(paddingBottom)}
+                    onChange={(value: number) => {
+                      setPaddingBottom(value.toString());
+                    }}
+                  />
+                </div>
+
+                <div className="pb-4">
+                  <Typography variant="labelBase" className="mb-2">
+                    Left padding : {paddingLeft}px
+                  </Typography>
+                  <Slider
+                    min={0}
+                    max={50}
+                    value={Number(paddingLeft)}
+                    onChange={(value: number) => {
+                      setPaddingLeft(value.toString());
+                    }}
+                  />
+                </div>
+              </div>
+            </CollapsibleSection>
+
+            <Hr />
+
+            <CollapsibleSection>
               <div>
                 <Typography variant="labelBase" className="mb-2">
-                  Top padding : {paddingTop}px
+                  Top border width : {topBorderWidth}px
                 </Typography>
                 <Slider
                   min={0}
-                  max={50}
-                  value={Number(paddingTop)}
+                  max={10}
+                  value={Number(topBorderWidth)}
                   onChange={(value: number) => {
-                    setPaddingTop(value.toString());
+                    setTopBorderWidth(value.toString());
                   }}
                 />
               </div>
 
-              <div>
+              {topBorderWidth !== '0' && (
+                <EditColor
+                  initColor={topBorderColor}
+                  label="Top border color"
+                  onChange={(color) => {
+                    if (color) {
+                      setTopBorderColor(color);
+                    }
+                  }}
+                />
+              )}
+
+              <div className="mt-4">
                 <Typography variant="labelBase" className="mb-2">
-                  Right padding : {paddingRight}px
+                  Right border width : {rightBorderWidth}px
                 </Typography>
                 <Slider
                   min={0}
-                  max={50}
-                  value={Number(paddingRight)}
+                  max={10}
+                  value={Number(rightBorderWidth)}
                   onChange={(value: number) => {
-                    setPaddingRight(value.toString());
+                    setRightBorderWidth(value.toString());
                   }}
                 />
               </div>
 
-              <div>
+              {rightBorderWidth !== '0' && (
+                <EditColor
+                  initColor={rightBorderColor}
+                  label="Right border color"
+                  onChange={(color) => {
+                    if (color) {
+                      setRightBorderColor(color);
+                    }
+                  }}
+                />
+              )}
+
+              <div className="mt-4">
                 <Typography variant="labelBase" className="mb-2">
-                  Bottom padding : {paddingBottom}px
+                  Bottom border width : {bottomBorderWidth}px
                 </Typography>
                 <Slider
                   min={0}
-                  max={50}
-                  value={Number(paddingBottom)}
+                  max={10}
+                  value={Number(bottomBorderWidth)}
                   onChange={(value: number) => {
-                    setPaddingBottom(value.toString());
+                    setBottomBorderWidth(value.toString());
                   }}
                 />
               </div>
 
-              <div>
+              {bottomBorderWidth !== '0' && (
+                <EditColor
+                  initColor={bottomBorderColor}
+                  label="Bottom border color"
+                  onChange={(color) => {
+                    if (color) {
+                      setBottomBorderColor(color);
+                    }
+                  }}
+                />
+              )}
+
+              <div className="mt-4">
                 <Typography variant="labelBase" className="mb-2">
-                  Left padding : {paddingLeft}px
+                  Left border width : {leftBorderWidth}px
                 </Typography>
                 <Slider
                   min={0}
-                  max={50}
-                  value={Number(paddingLeft)}
+                  max={10}
+                  value={Number(leftBorderWidth)}
                   onChange={(value: number) => {
-                    setPaddingLeft(value.toString());
+                    setLeftBorderWidth(value.toString());
                   }}
                 />
               </div>
 
-              <div>
+              {leftBorderWidth !== '0' && (
+                <EditColor
+                  initColor={leftBorderColor}
+                  label="Left border color"
+                  onChange={(color) => {
+                    if (color) {
+                      setLeftBorderColor(color);
+                    }
+                  }}
+                />
+              )}
+
+              <Hr className="mt-4 mb-4" />
+
+              <div className="pb-4">
                 <Typography variant="labelBase" className="mb-2">
-                  Vertical alignment
+                  Border radius : {borderRadius}px
                 </Typography>
-                <SelectBase
-                  options={[
-                    { value: 'top', label: 'Top' },
-                    { value: 'middle', label: 'Middle' },
-                    { value: 'bottom', label: 'Bottom' },
-                  ]}
-                  value={verticalAlign}
-                  onChange={(value: string) => {
-                    console.log('Changed verticalAlign to:', value);
-                    setVerticalAlign(value);
+                <Slider
+                  min={0}
+                  max={20}
+                  value={Number(borderRadius)}
+                  onChange={(value: number) => {
+                    setBorderRadius(value.toString());
                   }}
                 />
               </div>
-            </div>
+            </CollapsibleSection>
 
-            <Hr className="mt-5 mb-5" />
+            <Hr />
 
-            <div>
-              <Typography variant="labelBase" className="mb-2">
-                Top border width : {topBorderWidth}px
-              </Typography>
-              <Slider
-                min={0}
-                max={10}
-                value={Number(topBorderWidth)}
-                onChange={(value: number) => {
-                  setTopBorderWidth(value.toString());
-                }}
-              />
-            </div>
-
-            {topBorderWidth !== '0' && (
+            <CollapsibleSection>
               <EditColor
-                initColor={topBorderColor}
-                label="Top border color"
+                initColor={originalStyle.backgroundColor}
+                label="Background color"
+                isResetToTransparent
                 onChange={(color) => {
-                  if (color) {
-                    setTopBorderColor(color);
-                  }
+                  setContent(path, {
+                    ...originalStyle,
+                    backgroundColor: color,
+                  });
                 }}
               />
-            )}
-
-            <div className="mt-4">
-              <Typography variant="labelBase" className="mb-2">
-                Right border width : {rightBorderWidth}px
-              </Typography>
-              <Slider
-                min={0}
-                max={10}
-                value={Number(rightBorderWidth)}
-                onChange={(value: number) => {
-                  setRightBorderWidth(value.toString());
-                }}
-              />
-            </div>
-
-            {rightBorderWidth !== '0' && (
-              <EditColor
-                initColor={rightBorderColor}
-                label="Right border color"
-                onChange={(color) => {
-                  if (color) {
-                    setRightBorderColor(color);
-                  }
-                }}
-              />
-            )}
-
-            <div className="mt-4">
-              <Typography variant="labelBase" className="mb-2">
-                Bottom border width : {bottomBorderWidth}px
-              </Typography>
-              <Slider
-                min={0}
-                max={10}
-                value={Number(bottomBorderWidth)}
-                onChange={(value: number) => {
-                  setBottomBorderWidth(value.toString());
-                }}
-              />
-            </div>
-
-            {bottomBorderWidth !== '0' && (
-              <EditColor
-                initColor={bottomBorderColor}
-                label="Bottom border color"
-                onChange={(color) => {
-                  if (color) {
-                    setBottomBorderColor(color);
-                  }
-                }}
-              />
-            )}
-
-            <div className="mt-4">
-              <Typography variant="labelBase" className="mb-2">
-                Left border width : {leftBorderWidth}px
-              </Typography>
-              <Slider
-                min={0}
-                max={10}
-                value={Number(leftBorderWidth)}
-                onChange={(value: number) => {
-                  setLeftBorderWidth(value.toString());
-                }}
-              />
-            </div>
-
-            {leftBorderWidth !== '0' && (
-              <EditColor
-                initColor={leftBorderColor}
-                label="Left border color"
-                onChange={(color) => {
-                  if (color) {
-                    setLeftBorderColor(color);
-                  }
-                }}
-              />
-            )}
-
-            <Hr className="mt-5 mb-5" />
-
-            <div>
-              <Typography variant="labelBase" className="mb-2">
-                Border radius : {borderRadius}px
-              </Typography>
-              <Slider
-                min={0}
-                max={20}
-                value={Number(borderRadius)}
-                onChange={(value: number) => {
-                  setBorderRadius(value.toString());
-                }}
-              />
-            </div>
-
-            <Hr className="mt-5 mb-5" />
-
-            <EditColor
-              initColor={originalStyle.backgroundColor}
-              label="Background color"
-              isResetToTransparent
-              onChange={(color) => {
-                setContent(path, {
-                  ...originalStyle,
-                  backgroundColor: color,
-                });
-              }}
-            />
+            </CollapsibleSection>
           </div>
         )}
       </div>
