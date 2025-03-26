@@ -7,6 +7,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     | 'red'
     | 'black'
     | 'gray'
+    | 'white'
     | 'outline'
     | 'ghost'
     | 'link';
@@ -50,6 +51,7 @@ export const variants = {
   outline: 'border-1 border-current bg-transparent hover:bg-gray-100',
   ghost: 'bg-transparent hover:bg-gray-100',
   link: 'bg-transparent underline-offset-4 hover:underline p-0',
+  white: 'bg-white hover:bg-gray-300',
 };
 
 export const selectedStyles = {

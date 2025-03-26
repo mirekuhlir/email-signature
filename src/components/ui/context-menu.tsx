@@ -66,7 +66,7 @@ export const ContextMenu: React.FC<ContextMenuProps> = ({
       <Button
         className={buttonClassName}
         size="md"
-        variant="outline"
+        variant="white"
         ref={buttonRef}
         onClick={() => setIsOpen(!isOpen)}
       >
