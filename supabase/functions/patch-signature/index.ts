@@ -6,7 +6,7 @@ import {
   DeleteObjectsCommand,
   S3Client,
   waitUntilObjectNotExists,
-} from "npm:@aws-sdk/client-s3";
+} from "@aws-sdk/client-s3";
 import { validateSignature } from "../_shared/validation.ts";
 
 const corsHeaders = {
@@ -21,10 +21,9 @@ const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ||
   "";
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
-const AWS_ACCESS_KEY_ID = Deno.env.get("AWS_ACCESS_KEY_ID");
-const AWS_SECRET_ACCESS_KEY = Deno.env.get("AWS_SECRET_ACCESS_KEY");
-
-const AWS_REGION = Deno.env.get("AWS_REGION");
+const AWS_ACCESS_KEY_ID = Deno.env.get("AWS_ACCESS_KEY_ID") || "";
+const AWS_SECRET_ACCESS_KEY = Deno.env.get("AWS_SECRET_ACCESS_KEY") || "";
+const AWS_REGION = Deno.env.get("AWS_REGION") || "";
 
 const s3 = new S3Client({
   region: AWS_REGION,
@@ -34,7 +33,7 @@ const s3 = new S3Client({
   },
 });
 
-const bucketName = Deno.env.get("AWS_S3_BUCKET_NAME");
+const bucketName = Deno.env.get("AWS_S3_BUCKET_NAME") || "";
 
 serve(async (req: Request) => {
   const { method } = req;

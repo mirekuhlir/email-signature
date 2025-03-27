@@ -1,8 +1,12 @@
 // deno-lint-ignore-file no-explicit-any
 import { serve } from "https://deno.land/std@0.114.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-import { generateRandomId, shortenUuid, removeQueryParameters } from "../_shared/utils.ts";
-import { PutObjectCommand, S3Client } from "npm:@aws-sdk/client-s3";
+import {
+  generateRandomId,
+  removeQueryParameters,
+  shortenUuid,
+} from "../_shared/utils.ts";
+import { PutObjectCommand, S3Client } from "npm:@aws-sdk/client-s3@3.777.0";
 import { validateSignature } from "../_shared/validation.ts";
 
 const corsHeaders = {
@@ -17,9 +21,9 @@ const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ||
   "";
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
-const AWS_ACCESS_KEY_ID = Deno.env.get("AWS_ACCESS_KEY_ID");
-const AWS_SECRET_ACCESS_KEY = Deno.env.get("AWS_SECRET_ACCESS_KEY");
-const AWS_REGION = Deno.env.get("AWS_REGION");
+const AWS_ACCESS_KEY_ID = Deno.env.get("AWS_ACCESS_KEY_ID") || "";
+const AWS_SECRET_ACCESS_KEY = Deno.env.get("AWS_SECRET_ACCESS_KEY") || "";
+const AWS_REGION = Deno.env.get("AWS_REGION") || "";
 
 const s3 = new S3Client({
   region: AWS_REGION,
@@ -28,6 +32,8 @@ const s3 = new S3Client({
     secretAccessKey: AWS_SECRET_ACCESS_KEY,
   },
 });
+
+const bucketName = Deno.env.get("AWS_S3_BUCKET_NAME") || "";
 
 // Function to convert base64 to Uint8Array
 function base64ToUint8Array(base64String: string): Uint8Array {
@@ -66,7 +72,6 @@ async function uploadToStorage(
   contentType: string,
 ): Promise<string> {
   try {
-    const bucketName = Deno.env.get("AWS_S3_BUCKET_NAME");
     // Use only first 8 characters of userId and signatureId for privacy
     const shortUserId = shortenUuid(userId, 23);
     const shortSignatureId = shortenUuid(signatureId, 8);

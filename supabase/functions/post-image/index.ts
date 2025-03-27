@@ -6,8 +6,12 @@ import {
   FormFile,
   multiParser,
 } from "https://deno.land/x/multiparser@0.114.0/mod.ts";
-import { PutObjectCommand, S3Client } from "npm:@aws-sdk/client-s3";
-import { countImagesInS3, shortenUuid, removeQueryParameters } from "../_shared/utils.ts";
+import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import {
+  countImagesInS3,
+  removeQueryParameters,
+  shortenUuid,
+} from "../_shared/utils.ts";
 import { MAX_FILE_SIZE_BYTES, MAX_IMAGES } from "../_shared/conts.ts";
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -232,17 +236,22 @@ serve(async (req: Request) => {
   const imagePreviewPublicUrl =
     `https://${bucketName}.s3.${AWS_REGION}.amazonaws.com/${imagePreviewUploadKey}`;
 
-  const originalImagePublicUrl = originalImageKey ?
-    `https://${bucketName}.s3.${AWS_REGION}.amazonaws.com/${originalImageKey}` : '';
+  const originalImagePublicUrl = originalImageKey
+    ? `https://${bucketName}.s3.${AWS_REGION}.amazonaws.com/${originalImageKey}`
+    : "";
 
   const responseImageUrl: any = {};
 
   if (imagePreviewUploadKey) {
-    responseImageUrl["imagePreviewPublicUrl"] = removeQueryParameters(imagePreviewPublicUrl);
+    responseImageUrl["imagePreviewPublicUrl"] = removeQueryParameters(
+      imagePreviewPublicUrl,
+    );
   }
 
   if (originalImageKey) {
-    responseImageUrl["originalImagePublicUrl"] = removeQueryParameters(originalImagePublicUrl);
+    responseImageUrl["originalImagePublicUrl"] = removeQueryParameters(
+      originalImagePublicUrl,
+    );
   }
 
   return new Response(JSON.stringify(responseImageUrl), {

@@ -4,7 +4,7 @@ import {
   DeleteObjectsCommand,
   S3Client,
   waitUntilObjectNotExists,
-} from "npm:@aws-sdk/client-s3";
+} from "@aws-sdk/client-s3";
 import { extractImageSrc } from "../_shared/utils.ts";
 
 const corsHeaders = {

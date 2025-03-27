@@ -10,7 +10,7 @@ import {
     GetObjectCommand,
     PutObjectCommand,
     S3Client,
-} from "npm:@aws-sdk/client-s3";
+} from "@aws-sdk/client-s3";
 
 import { validateSignature } from "../_shared/validation.ts";
 
@@ -54,8 +54,8 @@ async function getS3Object(key: string): Promise<Uint8Array> {
             throw new Error("No body in S3 response");
         }
 
-        // Using AWS SDK specific methods that should be available
-        return new Uint8Array(await response.Body.transformToByteArray());
+        // In AWS SDK v3, transformToByteArray is the standard method
+        return await response.Body.transformToByteArray();
     } catch (error) {
         console.error("Error getting S3 object:", error);
         throw error;

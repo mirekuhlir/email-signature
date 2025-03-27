@@ -1,4 +1,4 @@
-import { ListObjectsV2Command, S3Client } from "npm:@aws-sdk/client-s3";
+import { ListObjectsV2Command, S3Client } from "@aws-sdk/client-s3";
 
 export function transformUrlToKey(urlString: string): string {
   const marker = "amazonaws.com/";
@@ -12,7 +12,7 @@ export function transformUrlToKey(urlString: string): string {
  * @returns The URL string without query parameters
  */
 export function removeQueryParameters(url: string): string {
-  return url.split('?')[0];
+  return url.split("?")[0];
 }
 
 /**
