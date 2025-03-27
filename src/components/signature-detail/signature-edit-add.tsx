@@ -54,7 +54,7 @@ export const EmailTemplateEdit = (props: any) => {
             <div>
               <Button
                 size="sm"
-                variant="orange"
+                variant="gray"
                 onClick={() => {
                   const numberOfRows = column.rows.length;
                   const nextEditRowPath = `${rowPath}[${numberOfRows}]`;
