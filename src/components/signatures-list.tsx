@@ -42,7 +42,7 @@ const SignaturesPreview = (props: SignaturesPreviewsProps) => {
     signatureId,
   } = props;
 
-  const editButtonText = isFromTemp ? 'Continue' : 'Edit';
+  const editButtonText = isFromTemp ? 'Continue' : 'View';
 
   return (
     <div>

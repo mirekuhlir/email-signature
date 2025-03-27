@@ -27,7 +27,7 @@ export const SignatureDetail = (props: any) => {
 
   const BackButton = () => {
     return (
-      <div className="pb-8">
+      <div className="pb-8 pt-4">
         <StyledLink
           variant="default"
           href="/signatures"
@@ -87,7 +87,8 @@ export const SignatureDetail = (props: any) => {
       )}
       {!contentEdit.editPath &&
         !contentEdit.columnPath &&
-        !contentEdit.addPath && <BackButton />}
+        !contentEdit.addPath &&
+        !isEdit && <BackButton />}
     </>
   );
 };

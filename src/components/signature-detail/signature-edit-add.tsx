@@ -190,6 +190,7 @@ export const EmailTemplateEdit = (props: any) => {
               >
                 Add
               </Button>
+              <Hr className="my-4" />
             </div>
           )}
         <>
@@ -201,6 +202,7 @@ export const EmailTemplateEdit = (props: any) => {
           !contentEdit.addPath &&
           !contentEdit.columnPath && (
             <div className="mt-5 mb-5">
+              <Hr className="my-4" />
               <Button
                 onClick={() => {
                   setContentEdit({

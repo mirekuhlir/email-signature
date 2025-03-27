@@ -41,11 +41,11 @@ const StyledLink: FC<StyledLinkProps> = ({
     'button-outline': buttonVariants.outline,
     'button-ghost': buttonVariants.ghost,
     'button-link': buttonVariants.link,
-    default: 'text-gray-700 hover:text-gray-900 text-lg',
+    default: 'text-gray-900 hover:text-gray-600 text-lg font-medium',
     primary: 'text-blue-600 hover:text-blue-800 font-medium',
     secondary: 'text-gray-500 hover:text-gray-700 text-sm',
     underline:
-      'text-gray-700 hover:text-gray-900 border-b-1 border-gray-500 hover:border-gray-900',
+      'text-gray-700 hover:text-gray-900 border-b-1 border-gray-600 hover:border-gray-900',
     none: '',
   };
 
