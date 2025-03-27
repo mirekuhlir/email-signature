@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { create } from "zustand";
 import { ContentType } from "@/src/const/content";
-import { cloneDeep, get as lGet, set as lSet } from "lodash";
+import { cloneDeep, get as lGet, set as lSet, unset as lUnset } from "lodash";
 import {
   getContentAdd,
   getRowTable,
@@ -140,9 +140,35 @@ export const useSignatureStore = create<StoreState>((set, get) => ({
       } else if (typeof content === "string") {
         lSet(cloneRows, path, content);
       } else if (typeof content === "object") {
+        // remove color properties if they are transparent or undefined
+        const cleanedContent = cloneDeep(content);
+        const colorProperties = [
+          "backgroundColor",
+          "textColor",
+          "color",
+          "borderColor",
+          "leftBorderColor",
+          "rightBorderColor",
+          "topBorderColor",
+          "bottomBorderColor",
+        ];
+
+        for (const prop of colorProperties) {
+          if (
+            cleanedContent[prop] === "transparent" ||
+            cleanedContent[prop] === undefined
+          ) {
+            lUnset(cleanedContent, prop);
+
+            if (currentContent && currentContent[prop]) {
+              lUnset(cloneRows, `${path}.${prop}`);
+            }
+          }
+        }
+
         lSet(cloneRows, path, {
           ...currentContent,
-          ...content,
+          ...cleanedContent,
         });
       } else {
         lSet(cloneRows, path, content);
