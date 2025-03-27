@@ -1,5 +1,5 @@
-import React from "react";
-import { UseFormRegister, FieldErrors } from "react-hook-form";
+import React from 'react';
+import { UseFormRegister, FieldErrors } from 'react-hook-form';
 
 interface TextInputProps {
   label?: string;
@@ -25,9 +25,12 @@ const TextInput: React.FC<TextInputProps> = ({
   return (
     <div className="mb-4">
       {label && (
-        <label htmlFor={name} className="block text-gray-700 font-bold mb-2">
+        <label
+          htmlFor={name}
+          className="block text-base font-medium text-gray-600"
+        >
           {label}
-          {validation?.required && " *"}
+          {validation?.required && ' *'}
         </label>
       )}
       <input
@@ -35,7 +38,7 @@ const TextInput: React.FC<TextInputProps> = ({
         {...register(name, { ...validation })}
         placeholder={placeholder}
         className={`appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:border-teal-500 focus:outline-hidden ${
-          errors && errors[name] ? "border-red-500" : ""
+          errors && errors[name] ? 'border-red-500' : ''
         }`}
       />
       {errors && errors[name] && (

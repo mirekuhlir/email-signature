@@ -298,6 +298,10 @@ export const ContentEdit = (props: any) => {
               <>
                 <Hr className="mb-4" />
 
+                <Typography variant="labelBase" className="mb-2">
+                  Delete content
+                </Typography>
+
                 <Button
                   variant="red"
                   onClick={() => {
