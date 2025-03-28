@@ -199,7 +199,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     }
   }, [originalSrc, originalImageFile]);
 
-  const generateCroppedImage = useCallback((): string | null => {
+  const generateCroppedImage = useCallback((): Promise<string | null> => {
     if (
       imgRef.current &&
       crop?.width &&
@@ -207,156 +207,213 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
       previewWidth &&
       originalImagePreview
     ) {
-      const image = imgRef.current;
-      const imageWidth = image.width;
-      const imageHeight = image.height;
-      const scaleX = image.naturalWidth / imageWidth;
-      const scaleY = image.naturalHeight / imageHeight;
-
-      // Ensure we have valid dimensions
-      if (
-        image.naturalWidth === 0 ||
-        image.naturalHeight === 0 ||
-        imageWidth === 0 ||
-        imageHeight === 0
-      ) {
-        console.error('Image dimensions are invalid');
-        return null;
-      }
-
-      // Convert percentage to pixels
-      let cropX, cropY, cropWidth, cropHeight;
-
-      if (crop.unit === '%') {
-        // Convert percentages to actual pixels
-        cropWidth = (crop.width / 100) * imageWidth;
-        cropHeight = (crop.height / 100) * imageHeight;
-        cropX = (crop.x / 100) * imageWidth;
-        cropY = (crop.y / 100) * imageHeight;
-      } else {
-        // Already in pixels
-        cropWidth = crop.width;
-        cropHeight = crop.height;
-        cropX = crop.x;
-        cropY = crop.y;
-      }
-
-      // Scale to the actual image dimensions
-      const cropWidthOrig = Math.max(1, cropWidth * scaleX);
-      const cropHeightOrig = Math.max(1, cropHeight * scaleY);
-      const xOrig = cropX * scaleX;
-      const yOrig = cropY * scaleY;
-
-      const tempCanvas = document.createElement('canvas');
-      tempCanvas.width = Math.max(1, cropWidthOrig);
-      tempCanvas.height = Math.max(1, cropHeightOrig);
-      const tempCtx = tempCanvas.getContext('2d');
-      if (!tempCtx) return null;
-
       try {
-        tempCtx.drawImage(
-          image,
-          xOrig,
-          yOrig,
-          cropWidthOrig,
-          cropHeightOrig,
-          0,
-          0,
-          cropWidthOrig,
-          cropHeightOrig,
-        );
+        // Get the image and its dimensions
+        const image = imgRef.current;
+        const imageWidth = image.naturalWidth;
+        const imageHeight = image.naturalHeight;
+
+        // Convert crop to absolute pixels (based on actual image dimensions)
+        let cropX, cropY, cropWidth, cropHeight;
+
+        if (crop.unit === '%') {
+          cropWidth = (crop.width / 100) * image.width;
+          cropHeight = (crop.height / 100) * image.height;
+          cropX = (crop.x / 100) * image.width;
+          cropY = (crop.y / 100) * image.height;
+        } else {
+          cropWidth = crop.width;
+          cropHeight = crop.height;
+          cropX = crop.x;
+          cropY = crop.y;
+        }
+
+        // Calculate scaling factors
+        const displayToNaturalRatioX = imageWidth / image.width;
+        const displayToNaturalRatioY = imageHeight / image.height;
+
+        // Convert crop to natural image coordinates
+        const cropNaturalX = cropX * displayToNaturalRatioX;
+        const cropNaturalY = cropY * displayToNaturalRatioY;
+        const cropNaturalWidth = cropWidth * displayToNaturalRatioX;
+        const cropNaturalHeight = cropHeight * displayToNaturalRatioY;
+
+        // Get device pixel ratio for high-DPI displays
+        const pixelRatio = window.devicePixelRatio || 1;
+
+        // Create a new Image object to load the original image at full resolution
+        const originalImg = new Image();
+        originalImg.crossOrigin = 'anonymous';
+
+        // Return a promise that resolves with the final image URL
+        return new Promise<string | null>((resolve, reject) => {
+          originalImg.onload = () => {
+            try {
+              // Calculate output dimensions
+              const outputWidth = previewWidth * pixelRatio;
+              const outputHeight = Math.round(
+                (cropNaturalHeight / cropNaturalWidth) * outputWidth,
+              );
+
+              // Create canvas for direct cropping at full resolution
+              const directCanvas = document.createElement('canvas');
+              directCanvas.width = outputWidth;
+              directCanvas.height = outputHeight;
+
+              const ctx = directCanvas.getContext('2d', {
+                alpha: true,
+                willReadFrequently: false,
+              });
+
+              if (!ctx) {
+                reject("Couldn't get canvas context");
+                return null;
+              }
+
+              // Apply high-quality settings
+              ctx.imageSmoothingEnabled = true;
+              ctx.imageSmoothingQuality = 'high';
+
+              // Direct draw from the original image to the output size
+              ctx.drawImage(
+                originalImg,
+                cropNaturalX,
+                cropNaturalY,
+                cropNaturalWidth,
+                cropNaturalHeight,
+                0,
+                0,
+                outputWidth,
+                outputHeight,
+              );
+
+              // Apply circular mask if needed
+              if (isCircular) {
+                ctx.globalCompositeOperation = 'destination-in';
+                ctx.beginPath();
+                ctx.arc(
+                  outputWidth / 2,
+                  outputHeight / 2,
+                  Math.min(outputWidth, outputHeight) / 2,
+                  0,
+                  Math.PI * 2,
+                );
+                ctx.fill();
+              }
+              // Apply border radius if needed
+              else if (borderRadius > 0) {
+                const scaledRadius = Math.min(
+                  borderRadius * pixelRatio,
+                  outputWidth / 2,
+                  outputHeight / 2,
+                );
+
+                ctx.globalCompositeOperation = 'destination-in';
+                ctx.beginPath();
+
+                // Draw rounded rectangle
+                ctx.moveTo(scaledRadius, 0);
+                ctx.lineTo(outputWidth - scaledRadius, 0);
+                ctx.quadraticCurveTo(outputWidth, 0, outputWidth, scaledRadius);
+                ctx.lineTo(outputWidth, outputHeight - scaledRadius);
+                ctx.quadraticCurveTo(
+                  outputWidth,
+                  outputHeight,
+                  outputWidth - scaledRadius,
+                  outputHeight,
+                );
+                ctx.lineTo(scaledRadius, outputHeight);
+                ctx.quadraticCurveTo(
+                  0,
+                  outputHeight,
+                  0,
+                  outputHeight - scaledRadius,
+                );
+                ctx.lineTo(0, scaledRadius);
+                ctx.quadraticCurveTo(0, 0, scaledRadius, 0);
+                ctx.closePath();
+                ctx.fill();
+              }
+
+              // Create display canvas with proper CSS dimensions
+              const displayCanvas = document.createElement('canvas');
+              displayCanvas.width = outputWidth;
+              displayCanvas.height = outputHeight;
+              displayCanvas.style.width = `${previewWidth}px`;
+              displayCanvas.style.height = `${outputHeight / pixelRatio}px`;
+
+              // Copy from direct canvas to display canvas
+              const displayCtx = displayCanvas.getContext('2d', {
+                alpha: true,
+              });
+              if (displayCtx) {
+                displayCtx.drawImage(directCanvas, 0, 0);
+              }
+
+              // Convert to image data URL with high quality
+              // Try WebP first for better quality at smaller size if supported
+              let imageDataUrl;
+              try {
+                imageDataUrl = displayCanvas.toDataURL('image/webp', 0.95);
+                // If WebP encoding returns an invalid or empty data URL, fall back to PNG
+                if (
+                  !imageDataUrl ||
+                  imageDataUrl === 'data:,' ||
+                  imageDataUrl.length < 100
+                ) {
+                  throw new Error(
+                    'WebP encoding failed or resulted in invalid data',
+                  );
+                }
+              } catch {
+                // Fallback to PNG if WebP is not supported
+                imageDataUrl = displayCanvas.toDataURL('image/png', 1.0);
+              }
+
+              resolve(imageDataUrl);
+            } catch (error) {
+              console.error('Error processing image:', error);
+              reject(error);
+              return null;
+            }
+          };
+
+          originalImg.onerror = () => {
+            console.error('Failed to load original image for processing');
+            reject('Failed to load original image');
+            return null;
+          };
+
+          // Start loading the original high-resolution image
+          originalImg.src = originalImagePreview;
+        })
+          .then((dataUrl) => dataUrl)
+          .catch((error) => {
+            console.error('Error in image processing promise:', error);
+            toast({
+              title: 'Error',
+              description: 'Failed to process image. Please try again.',
+              variant: 'error',
+              duration: 5000,
+            });
+            return null;
+          });
       } catch (error) {
-        console.error('Error drawing on temp canvas:', error);
+        console.error('Error in crop operation:', error);
         toast({
           title: 'Error',
-          description: 'Failed to process image. Please try another image.',
+          description: 'Failed to process image. Please try again.',
           variant: 'error',
           duration: 5000,
         });
-        return null;
+        return Promise.resolve(null);
       }
-
-      const finalCanvas = document.createElement('canvas');
-      finalCanvas.width = Math.max(1, previewWidth);
-      finalCanvas.height = Math.max(
-        1,
-        Math.round(previewWidth * (cropHeightOrig / cropWidthOrig)),
-      );
-      const ctx = finalCanvas.getContext('2d');
-      if (!ctx) return null;
-
-      ctx.imageSmoothingEnabled = true;
-      ctx.imageSmoothingQuality = 'high';
-
-      try {
-        ctx.drawImage(
-          tempCanvas,
-          0,
-          0,
-          cropWidthOrig,
-          cropHeightOrig,
-          0,
-          0,
-          finalCanvas.width,
-          finalCanvas.height,
-        );
-      } catch (error) {
-        console.error('Error drawing on final canvas:', error);
-        toast({
-          title: 'Error',
-          description: 'Failed to create preview. Please try again.',
-          variant: 'error',
-          duration: 5000,
-        });
-        return null;
-      }
-
-      if (isCircular) {
-        ctx.globalCompositeOperation = 'destination-in';
-        ctx.beginPath();
-        ctx.arc(
-          finalCanvas.width / 2,
-          finalCanvas.height / 2,
-          Math.min(finalCanvas.width, finalCanvas.height) / 2,
-          0,
-          Math.PI * 2,
-        );
-        ctx.fill();
-      } else if (borderRadius > 0) {
-        const radius = borderRadius;
-        ctx.globalCompositeOperation = 'destination-in';
-        ctx.beginPath();
-
-        ctx.moveTo(radius, 0);
-        ctx.lineTo(finalCanvas.width - radius, 0);
-        ctx.quadraticCurveTo(finalCanvas.width, 0, finalCanvas.width, radius);
-        ctx.lineTo(finalCanvas.width, finalCanvas.height - radius);
-        ctx.quadraticCurveTo(
-          finalCanvas.width,
-          finalCanvas.height,
-          finalCanvas.width - radius,
-          finalCanvas.height,
-        );
-        ctx.lineTo(radius, finalCanvas.height);
-        ctx.quadraticCurveTo(
-          0,
-          finalCanvas.height,
-          0,
-          finalCanvas.height - radius,
-        );
-        ctx.lineTo(0, radius);
-        ctx.quadraticCurveTo(0, 0, radius, 0);
-        ctx.closePath();
-        ctx.fill();
-      }
-
-      return finalCanvas.toDataURL('image/png', 1.0);
     }
-    return null;
+    return Promise.resolve(null);
   }, [crop, previewWidth, originalImagePreview, isCircular, borderRadius]);
 
-  const handleCrop = useCallback(() => {
-    const croppedImageDataUrl = generateCroppedImage();
+  const handleCrop = useCallback(async () => {
+    const croppedImageDataUrl = await generateCroppedImage();
     if (croppedImageDataUrl) {
       onSetCropImagePreview?.(croppedImageDataUrl);
       setCroppedImageData(croppedImageDataUrl);
@@ -378,7 +435,12 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   ]);
 
   const debouncedHandleCrop = useMemo(
-    () => debounce(handleCrop, 200),
+    () =>
+      debounce(() => {
+        handleCrop().catch((err) => {
+          console.error('Error in debounced crop handler:', err);
+        });
+      }, 200),
     [handleCrop],
   );
 
@@ -387,7 +449,59 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     return () => {
       debouncedHandleCrop.cancel();
     };
-  }, [previewWidth, debouncedHandleCrop, croppedImageData]);
+  }, [previewWidth, debouncedHandleCrop, crop, isCircular, borderRadius]);
+
+  // Update the second useEffect to also work with promises
+  useEffect(() => {
+    if (croppedImageData) {
+      const img = new Image();
+      img.onload = () => {
+        if (!previewCanvasRef.current || !previewWidth) return;
+
+        // Get device pixel ratio
+        const pixelRatio = window.devicePixelRatio || 1;
+        const scale = previewWidth / img.width;
+
+        // Set the canvas dimensions accounting for device pixel ratio
+        const scaledWidth = previewWidth * pixelRatio;
+        const scaledHeight = img.height * scale * pixelRatio;
+
+        previewCanvasRef.current.width = scaledWidth;
+        previewCanvasRef.current.height = scaledHeight;
+        previewCanvasRef.current.style.width = `${previewWidth}px`;
+        previewCanvasRef.current.style.height = `${img.height * scale}px`;
+
+        const ctx = previewCanvasRef.current.getContext('2d', { alpha: true });
+        if (!ctx) return;
+
+        // Scale the context according to the device pixel ratio
+        ctx.scale(pixelRatio, pixelRatio);
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+
+        ctx.clearRect(0, 0, previewWidth, img.height * scale);
+        ctx.drawImage(img, 0, 0, previewWidth, img.height * scale);
+
+        // Try WebP first for better quality, fall back to PNG
+        let newDataUrl;
+        try {
+          newDataUrl = previewCanvasRef.current.toDataURL('image/webp', 0.95);
+          if (
+            !newDataUrl ||
+            newDataUrl === 'data:,' ||
+            newDataUrl.length < 100
+          ) {
+            throw new Error('WebP encoding failed');
+          }
+        } catch {
+          newDataUrl = previewCanvasRef.current.toDataURL('image/png', 1.0);
+        }
+
+        onSetCropImagePreview?.(newDataUrl);
+      };
+      img.src = croppedImageData;
+    }
+  }, [croppedImageData, previewWidth, onSetCropImagePreview]);
 
   const handleDeleteImage = useCallback(() => {
     setIsReplacing(true);
@@ -503,35 +617,6 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
       onInit?.();
     }
   }, [croppedImageData]);
-
-  useEffect(() => {
-    if (croppedImageData) {
-      const img = new Image();
-      img.onload = () => {
-        if (!previewCanvasRef.current || !previewWidth) return;
-        const scale = previewWidth / img.width;
-        previewCanvasRef.current.width = previewWidth;
-        previewCanvasRef.current.height = img.height * scale;
-        const ctx = previewCanvasRef.current.getContext('2d');
-        ctx?.clearRect(
-          0,
-          0,
-          previewCanvasRef.current.width,
-          previewCanvasRef.current.height,
-        );
-        ctx?.drawImage(
-          img,
-          0,
-          0,
-          previewCanvasRef.current.width,
-          previewCanvasRef.current.height,
-        );
-        const newDataUrl = previewCanvasRef.current.toDataURL('image/png');
-        onSetCropImagePreview?.(newDataUrl);
-      };
-      img.src = croppedImageData;
-    }
-  }, [croppedImageData, previewWidth, onSetCropImagePreview]);
 
   if (isLoadingOriginalImage) {
     return (
