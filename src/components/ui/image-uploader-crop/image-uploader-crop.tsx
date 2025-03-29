@@ -270,6 +270,9 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
                 return null;
               }
 
+              // Clear canvas first to ensure transparency
+              ctx.clearRect(0, 0, outputWidth, outputHeight);
+
               // Apply high-quality settings
               ctx.imageSmoothingEnabled = true;
               ctx.imageSmoothingQuality = 'high';
@@ -347,29 +350,13 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
                 alpha: true,
               });
               if (displayCtx) {
+                // Clear canvas first to ensure transparency
+                displayCtx.clearRect(0, 0, outputWidth, outputHeight);
                 displayCtx.drawImage(directCanvas, 0, 0);
               }
 
-              // Convert to image data URL with high quality
-              // Try WebP first for better quality at smaller size if supported
-              let imageDataUrl;
-              try {
-                imageDataUrl = displayCanvas.toDataURL('image/webp', 0.95);
-                // If WebP encoding returns an invalid or empty data URL, fall back to PNG
-                if (
-                  !imageDataUrl ||
-                  imageDataUrl === 'data:,' ||
-                  imageDataUrl.length < 100
-                ) {
-                  throw new Error(
-                    'WebP encoding failed or resulted in invalid data',
-                  );
-                }
-              } catch {
-                // Fallback to PNG if WebP is not supported
-                imageDataUrl = displayCanvas.toDataURL('image/png', 1.0);
-              }
-
+              // Always use PNG format with maximum quality to ensure transparency
+              const imageDataUrl = displayCanvas.toDataURL('image/png', 1.0);
               resolve(imageDataUrl);
             } catch (error) {
               console.error('Error processing image:', error);
@@ -479,24 +466,12 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         ctx.imageSmoothingEnabled = true;
         ctx.imageSmoothingQuality = 'high';
 
+        // Clear the canvas to ensure transparency
         ctx.clearRect(0, 0, previewWidth, img.height * scale);
         ctx.drawImage(img, 0, 0, previewWidth, img.height * scale);
 
-        // Try WebP first for better quality, fall back to PNG
-        let newDataUrl;
-        try {
-          newDataUrl = previewCanvasRef.current.toDataURL('image/webp', 0.95);
-          if (
-            !newDataUrl ||
-            newDataUrl === 'data:,' ||
-            newDataUrl.length < 100
-          ) {
-            throw new Error('WebP encoding failed');
-          }
-        } catch {
-          newDataUrl = previewCanvasRef.current.toDataURL('image/png', 1.0);
-        }
-
+        // Always use PNG format with maximum quality to ensure transparency
+        const newDataUrl = previewCanvasRef.current.toDataURL('image/png', 1.0);
         onSetCropImagePreview?.(newDataUrl);
       };
       img.src = croppedImageData;
