@@ -1,4 +1,5 @@
 import { SignatureTemplate } from "../types/signature";
+import { generateRandomId } from "../utils/generateRandomId";
 
 export const signature_a: SignatureTemplate = {
   info: {
@@ -10,10 +11,10 @@ export const signature_a: SignatureTemplate = {
   ],
   rows: [
     {
-      "id": "5ya57p5",
+      "id": generateRandomId(),
       "columns": [
         {
-          "id": "o36fhly",
+          "id": generateRandomId(),
           "rows": [
             {
               "id": "c1vn98v",
@@ -21,7 +22,7 @@ export const signature_a: SignatureTemplate = {
                 "type": "text",
                 "components": [
                   {
-                    "id": "h5mpuft",
+                    "id": generateRandomId(),
                     "text": "Dobrý den všem",
                     "color": "rgb(0, 0, 0)",
                     "padding": "0px 0px 0px 0px",
@@ -33,36 +34,38 @@ export const signature_a: SignatureTemplate = {
                     "lineHeight": "2.5",
                     "borderRadius": "0px",
                     "letterSpacing": "0",
-                    "textDecoration": "none"
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      ]
+                    "textDecoration": "none",
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      ],
     },
     {
-      "id": "gp91",
+      "id": generateRandomId(),
       "columns": [
         {
-          "id": "2j9b",
+          "id": generateRandomId(),
           "rows": [
             {
-              "id": "muj6la5",
+              "id": generateRandomId(),
               // TODO - možná není potřeba, buď vrátit a nebo smazat
-/*               "style": {
+              /*               "style": {
                 "margin": "0 auto",
-                "display": "table"   
+                "display": "table"
               }, */
               "content": {
                 "type": "image",
                 "components": [
                   {
                     "id": "s3y0rg5",
-                    "src": "https://signatures-photos.s3.us-east-1.amazonaws.com/23d9b5f8-9eb2-4f3b-9d0e/c750a17f/s3y0rg5.png",
+                    "src":
+                      "https://signatures-photos.s3.us-east-1.amazonaws.com/23d9b5f8-9eb2-4f3b-9d0e/c750a17f/s3y0rg5.png",
                     "padding": "0px 0px 0px 0px",
-                    "originalSrc": "https://signatures-photos.s3.us-east-1.amazonaws.com/example/signature-a/s3y0rg5-IMG_3682.png",
+                    "originalSrc":
+                      "https://signatures-photos.s3.us-east-1.amazonaws.com/example/signature-a/s3y0rg5-IMG_3682.png",
                     "borderRadius": "0px",
                     "previewWidth": 114,
                     "imageSettings": {
@@ -71,23 +74,23 @@ export const signature_a: SignatureTemplate = {
                         "y": 53.31372744629604,
                         "unit": "%",
                         "width": 35.21833946114049,
-                        "height": 27.409568121154535
+                        "height": 27.409568121154535,
                       },
                       "aspect": 1,
                       "isCircular": true,
-                      "borderRadius": 0
-                    }
-                  }
-                ]
-              }
+                      "borderRadius": 0,
+                    },
+                  },
+                ],
+              },
             },
             {
-              "id": "wp2juf0",
+              "id": generateRandomId(),
               "content": {
                 "type": "text",
                 "components": [
                   {
-                    "id": "2bzw6pn",
+                    "id": generateRandomId(),
                     "text": "Example text",
                     "color": "rgb(0, 0, 0)",
                     "padding": "15px 0px 0px 0px",
@@ -99,18 +102,18 @@ export const signature_a: SignatureTemplate = {
                     "lineHeight": "1",
                     "borderRadius": "0px",
                     "letterSpacing": "0",
-                    "textDecoration": "none"
-                  }
-                ]
-              }
+                    "textDecoration": "none",
+                  },
+                ],
+              },
             },
             {
-              "id": "d0s3nye",
+              "id": generateRandomId(),
               "content": {
                 "type": "text",
                 "components": [
                   {
-                    "id": "xd9sjny",
+                    "id": generateRandomId(),
                     "text": "Example text",
                     "color": "rgb(0, 0, 0)",
                     "padding": "0px 0px 0px 0px",
@@ -122,11 +125,11 @@ export const signature_a: SignatureTemplate = {
                     "lineHeight": "1.75",
                     "borderRadius": "0px",
                     "letterSpacing": "0",
-                    "textDecoration": "none"
-                  }
-                ]
-              }
-            }
+                    "textDecoration": "none",
+                  },
+                ],
+              },
+            },
           ],
           "style": {
             "padding": "0px 16px 0px 0px",
@@ -143,19 +146,19 @@ export const signature_a: SignatureTemplate = {
             "borderRightWidth": "0px",
             "borderBottomColor": "rgb(0, 0, 0)",
             "borderBottomStyle": "none",
-            "borderBottomWidth": "0px"
-          }
+            "borderBottomWidth": "0px",
+          },
         },
         {
-          "id": "gg6r",
+          "id": generateRandomId(),
           "rows": [
             {
-              "id": "ex3p",
+              "id": generateRandomId(),
               "content": {
                 "type": "text",
                 "components": [
                   {
-                    "id": "2j9ba1",
+                    "id": generateRandomId(),
                     "text": "Miroslav Uhlíř",
                     "color": "rgb(0, 0, 0)",
                     "padding": "0px 0px 0px 0px",
@@ -167,56 +170,56 @@ export const signature_a: SignatureTemplate = {
                     "lineHeight": "1",
                     "borderRadius": "0px",
                     "letterSpacing": "0",
-                    "textDecoration": "none"
-                  }
-                ]
-              }
+                    "textDecoration": "none",
+                  },
+                ],
+              },
             },
             {
-              "id": "7jn3",
+              "id": generateRandomId(),
               "content": {
                 "type": "text",
                 "components": [
                   {
-                    "id": "2j9ba2",
+                    "id": generateRandomId(),
                     "text": "javascript developer2",
                     "color": "rgb(0,148,47)",
-                    "fontSize": "16"
-                  }
-                ]
-              }
+                    "fontSize": "16",
+                  },
+                ],
+              },
             },
             {
-              "id": "exbbvvr",
+              "id": generateRandomId(),
               "content": {
                 "type": "website",
                 "components": [
                   {
-                    "id": "w0ikwd8",
+                    "id": generateRandomId(),
                     "text": "web: ",
                     "type": "text",
                     "color": "rgb(0, 0, 0)",
                     "fontSize": "14",
-                    "textDecoration": "none"
+                    "textDecoration": "none",
                   },
                   {
-                    "id": "imm5el3",
+                    "id": generateRandomId(),
                     "text": "www.example.com",
                     "type": "websiteLink",
                     "color": "rgb(0, 0, 0)",
                     "fontSize": "14",
-                    "textDecoration": "none"
-                  }
-                ]
-              }
+                    "textDecoration": "none",
+                  },
+                ],
+              },
             },
             {
-              "id": "n9hm3eh",
+              "id": generateRandomId(),
               "content": {
                 "type": "email",
                 "components": [
                   {
-                    "id": "50fzbt9",
+                    "id": generateRandomId(),
                     "text": "email: ",
                     "type": "text",
                     "color": "rgb(101, 170, 219)",
@@ -229,10 +232,10 @@ export const signature_a: SignatureTemplate = {
                     "lineHeight": "1",
                     "borderRadius": "0px",
                     "letterSpacing": "0",
-                    "textDecoration": "none"
+                    "textDecoration": "none",
                   },
                   {
-                    "id": "19u67gj",
+                    "id": generateRandomId(),
                     "text": "mirek.uhlir@gmail.com",
                     "type": "emailLink",
                     "color": "rgb(0, 0, 0)",
@@ -243,11 +246,11 @@ export const signature_a: SignatureTemplate = {
                     "fontWeight": "normal",
                     "lineHeight": "1",
                     "letterSpacing": "0",
-                    "textDecoration": "none"
-                  }
-                ]
-              }
-            }
+                    "textDecoration": "none",
+                  },
+                ],
+              },
+            },
           ],
           "style": {
             "padding": "0px 0px 0px 21px",
@@ -264,25 +267,26 @@ export const signature_a: SignatureTemplate = {
             "borderRightWidth": "0px",
             "borderBottomColor": "rgb(0, 0, 0)",
             "borderBottomStyle": "none",
-            "borderBottomWidth": "0px"
-          }
-        }
-      ]
+            "borderBottomWidth": "0px",
+          },
+        },
+      ],
     },
     {
-      "id": "4guwirm",
+      "id": generateRandomId(),
       "columns": [
         {
-          "id": "1inuj66",
+          "id": generateRandomId(),
           "rows": [
             {
-              "id": "72s76n8",
+              "id": generateRandomId(),
               "content": {
                 "type": "text",
                 "components": [
                   {
-                    "id": "mzusi5y",
-                    "text": " when an unknown printe when an unknown  when an unknown printe when an unknown printe when an unknown printe when an unknown printe\nprinte when \nan unknown printe when an unknown printe when an \nunknown printe when an unknown printe",
+                    "id": generateRandomId(),
+                    "text":
+                      " when an unknown printe when an unknown  when an unknown printe when an unknown printe when an unknown printe when an unknown printe\nprinte when \nan unknown printe when an unknown printe when an \nunknown printe when an unknown printe",
                     "color": "rgb(135, 135, 135)",
                     "padding": "20px 0px 0px 0px",
                     "fontSize": "14",
@@ -293,14 +297,14 @@ export const signature_a: SignatureTemplate = {
                     "lineHeight": "1",
                     "borderRadius": "0px",
                     "letterSpacing": "0",
-                    "textDecoration": "none"
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      ]
-    }
-  ]
+                    "textDecoration": "none",
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      ],
+    },
+  ],
 } as SignatureTemplate;

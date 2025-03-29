@@ -140,7 +140,9 @@ async function processSignatureContent(
         const cropImagePreview = objNode.cropImagePreview as string;
         const fileExtension = cropImagePreview.split(";")[0].split("/")[1] ||
           "png";
-        const filename = `${generateRandomId()}.${fileExtension}`;
+        const filename = `${objNode.id}-${
+          generateRandomId(4)
+        }.${fileExtension}`;
 
         const imageData = base64ToUint8Array(cropImagePreview);
 

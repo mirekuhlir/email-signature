@@ -23,18 +23,7 @@ export const getContentView = (content?: any) => {
     return components.map((component: any) => {
       const { id, src, cropImagePreview, link } = component;
 
-      const image = cropImagePreview || src;
-      let imageSrc = image;
-
-      if (
-        imageSrc &&
-        typeof imageSrc === 'string' &&
-        imageSrc.trim() !== '' &&
-        imageSrc.toLowerCase().endsWith('.png')
-      ) {
-        // cache busting for reload image when image filename is the same
-        imageSrc = `${imageSrc}?t=${Date.now()}`;
-      }
+      const imageSrc = cropImagePreview || src;
 
       const imgElement = <Img key={id} src={imageSrc} />;
 
