@@ -8,6 +8,8 @@ import { EmailTemplateView } from './content-view/signature-view';
 import { EmailTemplateEdit } from './signature-edit-add';
 import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
 import StyledLink from '../ui/styled-link';
+import { useModal } from '@/src/components/ui/modal-system';
+import { Typography } from '@/src/components/ui/typography';
 
 export const SignatureDetail = (props: any) => {
   const { signatureDetail, isSignedIn, templateSlug } = props;
@@ -15,6 +17,7 @@ export const SignatureDetail = (props: any) => {
   const { rows, initSignature } = useSignatureStore();
   const { contentEdit } = useContentEditStore();
   const [isEdit, setIsEdit] = useState(false);
+  const { modal } = useModal();
 
   useEffect(() => {
     initSignature({
@@ -36,6 +39,71 @@ export const SignatureDetail = (props: any) => {
     );
   };
 
+  const showCopyInstructionsModal = () => {
+    modal({
+      title: 'Email Signature Instructions',
+      content: (
+        <div className="py-4 space-y-4">
+          <Typography variant="large" weight="bold">
+            Your signature has been copied to clipboard! Here&apos;s what to do
+            next:
+          </Typography>
+
+          <div className="space-y-2">
+            <Typography variant="body" weight="bold">
+              Gmail:
+            </Typography>
+            <Typography variant="body">
+              1. Open Gmail and go to Settings (gear icon) → See all settings
+            </Typography>
+            <Typography variant="body">
+              2. In the &quot;General&quot; tab, scroll to the
+              &quot;Signature&quot; section
+            </Typography>
+            <Typography variant="body">
+              3. Create a new signature or edit an existing one
+            </Typography>
+            <Typography variant="body">
+              4. Paste your signature and click &quot;Save Changes&quot; at the
+              bottom
+            </Typography>
+          </div>
+
+          <div className="space-y-2">
+            <Typography variant="body" weight="bold">
+              Outlook:
+            </Typography>
+            <Typography variant="body">
+              1. Open Outlook and go to File → Options → Mail → Signatures
+            </Typography>
+            <Typography variant="body">
+              2. Select &quot;New&quot; or edit an existing signature
+            </Typography>
+            <Typography variant="body">
+              3. Paste your signature and click &quot;OK&quot;
+            </Typography>
+          </div>
+
+          <div className="space-y-2">
+            <Typography variant="body" weight="bold">
+              Apple Mail:
+            </Typography>
+            <Typography variant="body">
+              1. Open Mail and go to Mail → Settings → Signatures
+            </Typography>
+            <Typography variant="body">
+              2. Create a new signature or select an existing one
+            </Typography>
+            <Typography variant="body">
+              3. Paste your signature and close the preferences window
+            </Typography>
+          </div>
+        </div>
+      ),
+      size: 'medium',
+    });
+  };
+
   return (
     <>
       <div className="flex flex-col">
@@ -53,6 +121,7 @@ export const SignatureDetail = (props: any) => {
                     size="lg"
                     onClick={() => {
                       handleCopy('email-signature');
+                      showCopyInstructionsModal();
                     }}
                   >
                     Copy Signature
