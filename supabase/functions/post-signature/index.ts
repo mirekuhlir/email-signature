@@ -134,7 +134,7 @@ async function processSignatureContent(
 
         // Generate a unique filename
         const cropImagePreview = objNode.cropImagePreview as string;
-        const fileExtension = ".png";
+        const fileExtension = "png";
 
         const filename = `${objNode.id}.${fileExtension}`;
 
