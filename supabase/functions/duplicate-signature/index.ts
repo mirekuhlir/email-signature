@@ -2,8 +2,8 @@
 import { serve } from "https://deno.land/std@0.114.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import {
+    deleteQueryParameters,
     generateRandomId,
-    removeQueryParameters,
     shortenUuid,
 } from "../_shared/utils.ts";
 import {
@@ -149,7 +149,7 @@ async function duplicateSignatureImages(
                     })
                     .then((publicUrl) => {
                         // Update the image source to the new URL
-                        objNode.src = removeQueryParameters(publicUrl);
+                        objNode.src = deleteQueryParameters(publicUrl);
                         return { filename: newFilename, url: objNode.src };
                     });
 
@@ -186,7 +186,7 @@ async function duplicateSignatureImages(
                         );
                     })
                     .then((publicUrl) => {
-                        objNode.originalSrc = removeQueryParameters(publicUrl);
+                        objNode.originalSrc = deleteQueryParameters(publicUrl);
                         return {
                             filename: newFilename,
                             url: objNode.originalSrc,

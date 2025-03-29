@@ -66,7 +66,7 @@ export const ContentEdit = (props: any) => {
   const [iniContent, setIniContent] = useState<any>(null);
   const [isSavingSignature, setIsSavingSignature] = useState(false);
 
-  const { rows, setContent, removeRow, saveSignatureContentRow, colors } =
+  const { rows, setContent, deleteRow, saveSignatureContentRow, colors } =
     useSignatureStore();
 
   const { setContentEdit, contentEdit } = useContentEditStore();
@@ -136,12 +136,12 @@ export const ContentEdit = (props: any) => {
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
-  const deleteRow = useCallback(async () => {
+  const handleDeleteRow = useCallback(async () => {
     setIsDeleteModalOpen(false);
     setIsSavingSignature(true);
 
     try {
-      await removeRow(contentPathToEdit, signatureId, isSignedIn);
+      await deleteRow(contentPathToEdit, signatureId, isSignedIn);
     } catch (error) {
       toast({
         description: 'Failed to delete row. Please try again.',
@@ -156,7 +156,7 @@ export const ContentEdit = (props: any) => {
   }, [
     contentPathToEdit,
     isSignedIn,
-    removeRow,
+    deleteRow,
     setContentEdit,
     signatureId,
     toast,
@@ -187,7 +187,7 @@ export const ContentEdit = (props: any) => {
       !image.src &&
       !image.cropImagePreview
     ) {
-      removeRow(contentPathToEdit, signatureId, isSignedIn);
+      deleteRow(contentPathToEdit, signatureId, isSignedIn);
       setContentEdit({ editPath: null });
     } else {
       setContent(path, iniContent);
@@ -352,7 +352,7 @@ export const ContentEdit = (props: any) => {
                   >
                     Cancel
                   </Button>
-                  <Button variant="red" onClick={async () => deleteRow()}>
+                  <Button variant="red" onClick={async () => handleDeleteRow()}>
                     Delete
                   </Button>
                 </div>

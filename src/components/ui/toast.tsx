@@ -24,7 +24,7 @@ export interface ToastMessage {
 interface ToastStore {
   toasts: ToastMessage[];
   addToast: (toast: Omit<ToastMessage, 'id'>) => void;
-  removeToast: (id: string) => void;
+  deleteToast: (id: string) => void;
 }
 
 export const useToastStore = create<ToastStore>((set) => ({
@@ -45,7 +45,7 @@ export const useToastStore = create<ToastStore>((set) => ({
       }, duration);
     }
   },
-  removeToast: (id) => {
+  deleteToast: (id) => {
     set((state) => ({
       toasts: state.toasts.filter((toast) => toast.id !== id),
     }));
@@ -54,12 +54,12 @@ export const useToastStore = create<ToastStore>((set) => ({
 
 // HELPER HOOK
 export const useToast = () => {
-  const { toasts, addToast, removeToast } = useToastStore();
+  const { toasts, addToast, deleteToast } = useToastStore();
 
   return {
     toasts,
     toast: (props: Omit<ToastMessage, 'id'>) => addToast(props),
-    removeToast,
+    deleteToast,
   };
 };
 
@@ -119,7 +119,7 @@ Toast.displayName = 'Toast';
 
 // TOAST CONTAINER COMPONENT
 export const ToastContainer: React.FC = () => {
-  const { toasts, removeToast } = useToastStore();
+  const { toasts, deleteToast } = useToastStore();
 
   return (
     <div className="fixed top-0 right-0 z-50 flex flex-col items-end p-4 space-y-4">
@@ -129,7 +129,7 @@ export const ToastContainer: React.FC = () => {
           variant={toast.variant}
           title={toast.title}
           description={toast.description}
-          onClose={() => removeToast(toast.id)}
+          onClose={() => deleteToast(toast.id)}
           className="w-full md:w-96 transition-all duration-300 ease-in-out"
         />
       ))}

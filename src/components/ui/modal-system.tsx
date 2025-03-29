@@ -20,7 +20,7 @@ export interface ModalMessage {
 interface ModalStore {
   modals: ModalMessage[];
   addModal: (modal: Omit<ModalMessage, 'id'>) => string;
-  removeModal: (id: string) => void;
+  deleteModal: (id: string) => void;
 }
 
 export const useModalStore = create<ModalStore>((set) => ({
@@ -34,7 +34,7 @@ export const useModalStore = create<ModalStore>((set) => ({
 
     return id;
   },
-  removeModal: (id) => {
+  deleteModal: (id) => {
     set((state) => ({
       modals: state.modals.filter((modal) => modal.id !== id),
     }));
@@ -43,17 +43,17 @@ export const useModalStore = create<ModalStore>((set) => ({
 
 // HELPER HOOK
 export const useModal = () => {
-  const { modals, addModal, removeModal } = useModalStore();
+  const { modals, addModal, deleteModal } = useModalStore();
 
   return {
     modals,
     modal: (props: Omit<ModalMessage, 'id'>) => addModal(props),
-    removeModal,
+    deleteModal,
   };
 };
 
 export const ModalContainer: React.FC = () => {
-  const { modals, removeModal } = useModalStore();
+  const { modals, deleteModal } = useModalStore();
 
   return (
     <>
@@ -65,7 +65,7 @@ export const ModalContainer: React.FC = () => {
           size={modal.size || 'medium'}
           onClose={
             modal.showCloseButton !== false
-              ? () => removeModal(modal.id)
+              ? () => deleteModal(modal.id)
               : undefined
           }
         >
@@ -79,7 +79,7 @@ export const ModalContainer: React.FC = () => {
                     variant="outline"
                     onClick={() => {
                       modal.onCancel?.();
-                      removeModal(modal.id);
+                      deleteModal(modal.id);
                     }}
                   >
                     Cancel
@@ -89,7 +89,7 @@ export const ModalContainer: React.FC = () => {
                   <Button
                     onClick={() => {
                       modal.onConfirm?.();
-                      removeModal(modal.id);
+                      deleteModal(modal.id);
                     }}
                   >
                     Confirm

@@ -1,7 +1,7 @@
 // deno-lint-ignore-file no-explicit-any
 import { serve } from "https://deno.land/std@0.114.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-import { removeQueryParameters, shortenUuid } from "../_shared/utils.ts";
+import { deleteQueryParameters, shortenUuid } from "../_shared/utils.ts";
 import { PutObjectCommand, S3Client } from "npm:@aws-sdk/client-s3@3.777.0";
 import { validateSignature } from "../_shared/validation.ts";
 
@@ -149,7 +149,7 @@ async function processSignatureContent(
           `image/${fileExtension}`,
         ).then((publicUrl) => {
           // Store clean URL without query parameters
-          objNode.src = removeQueryParameters(publicUrl);
+          objNode.src = deleteQueryParameters(publicUrl);
           // Remove base64
           objNode.cropImagePreview = "";
 

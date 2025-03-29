@@ -9,7 +9,7 @@ import {
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import {
   countImagesInS3,
-  removeQueryParameters,
+  deleteQueryParameters,
   shortenUuid,
 } from "../_shared/utils.ts";
 import { MAX_FILE_SIZE_BYTES, MAX_IMAGES } from "../_shared/conts.ts";
@@ -242,13 +242,13 @@ serve(async (req: Request) => {
   const responseImageUrl: any = {};
 
   if (imagePreviewUploadKey) {
-    responseImageUrl["imagePreviewPublicUrl"] = removeQueryParameters(
+    responseImageUrl["imagePreviewPublicUrl"] = deleteQueryParameters(
       imagePreviewPublicUrl,
     );
   }
 
   if (originalImageKey) {
-    responseImageUrl["originalImagePublicUrl"] = removeQueryParameters(
+    responseImageUrl["originalImagePublicUrl"] = deleteQueryParameters(
       originalImagePublicUrl,
     );
   }

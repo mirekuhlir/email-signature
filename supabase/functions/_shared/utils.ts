@@ -11,7 +11,7 @@ export function transformUrlToKey(urlString: string): string {
  * @param url The URL string that might contain query parameters
  * @returns The URL string without query parameters
  */
-export function removeQueryParameters(url: string): string {
+export function deleteQueryParameters(url: string): string {
   return url.split("?")[0];
 }
 
@@ -35,12 +35,12 @@ export function extractImageSrc(data: unknown): string[] {
     const obj = data as Record<string, unknown>;
 
     if (typeof obj.src === "string") {
-      const cleanUrl = removeQueryParameters(obj.src);
+      const cleanUrl = deleteQueryParameters(obj.src);
       srcArr.push(transformUrlToKey(cleanUrl));
     }
 
     if (typeof obj.originalSrc === "string") {
-      const cleanUrl = removeQueryParameters(obj.originalSrc);
+      const cleanUrl = deleteQueryParameters(obj.originalSrc);
       srcArr.push(transformUrlToKey(cleanUrl));
     }
 

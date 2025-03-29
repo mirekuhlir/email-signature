@@ -20,7 +20,7 @@ export interface StoreState {
   }) => void;
   addRow: (path: string, type: ContentType) => void;
   addRowTable: (position: "start" | "end", type: ContentType) => void;
-  removeRow: (
+  deleteRow: (
     path: string,
     signatureId: string,
     isSignedIn: boolean,
@@ -83,7 +83,7 @@ export const useSignatureStore = create<StoreState>((set, get) => ({
       return { rows: clonesRows };
     }),
 
-  removeRow: async (
+  deleteRow: async (
     path: string,
     signatureId: string,
     isSignedIn: boolean,
