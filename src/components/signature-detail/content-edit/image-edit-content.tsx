@@ -10,7 +10,6 @@ import { Button } from '@/src/components/ui/button';
 import TextInput from '@/src/components/ui/text-input';
 import { useForm } from 'react-hook-form';
 import { Typography } from '@/src/components/ui/typography';
-import Modal from '@/src/components/ui/modal';
 import { Hr } from '../../ui/hr';
 
 export const ImageEditContent = (props: any) => {
@@ -19,13 +18,14 @@ export const ImageEditContent = (props: any) => {
   const { setContentEdit, contentEdit } = useContentEditStore();
   const imageComponent = components[0];
   const [showLinkInput, setShowLinkInput] = useState(false);
-  const [showRemoveModal, setShowRemoveModal] = useState(false);
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    mode: 'onSubmit',
+  });
 
   useEffect(() => {
     if (showLinkInput && imageComponent.link) {
@@ -102,7 +102,18 @@ export const ImageEditContent = (props: any) => {
   }, [isSignedIn, rows]);
 
   const onSubmitLink = (data: any) => {
-    let href = data.link;
+    const trimmedLink = data.link.trim();
+    if (!trimmedLink) {
+      // If input is empty, remove the link
+      setContent(`${contentPathToEdit}.components[0].link`, '');
+      setContentEdit({
+        subEdit: null,
+      });
+      setShowLinkInput(false);
+      return;
+    }
+
+    let href = trimmedLink;
     if (!/^https?:\/\//i.test(href)) {
       href = `https://${href}`;
     }
@@ -111,15 +122,6 @@ export const ImageEditContent = (props: any) => {
       subEdit: null,
     });
     setShowLinkInput(false);
-  };
-
-  const handleRemoveLink = () => {
-    setContent(`${contentPathToEdit}.components[0].link`, '');
-    setShowRemoveModal(false);
-    setShowLinkInput(false);
-    setContentEdit({
-      subEdit: null,
-    });
   };
 
   return (
@@ -145,7 +147,11 @@ export const ImageEditContent = (props: any) => {
           <Hr className="mb-6" />
 
           <div className="pb-6">
-            <div className="bg-white p-4 shadow-md rounded-md">
+            <div
+              className={
+                showLinkInput ? 'bg-white p-4 shadow-md rounded-md' : ''
+              }
+            >
               {!showLinkInput && (
                 <div className="pb-1">
                   <Typography variant="labelBase">Image Link</Typography>
@@ -190,7 +196,6 @@ export const ImageEditContent = (props: any) => {
                           errors={errors}
                           placeholder="Enter URL (e.g. https://example.com)"
                           validation={{
-                            required: 'URL is required',
                             pattern: {
                               value:
                                 /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/,
@@ -200,11 +205,16 @@ export const ImageEditContent = (props: any) => {
                         />
                         <div className="flex justify-between">
                           <Button
+                            variant="outline"
                             type="button"
-                            variant="red"
-                            onClick={() => setShowRemoveModal(true)}
+                            onClick={() => {
+                              setShowLinkInput(false);
+                              setContentEdit({
+                                subEdit: null,
+                              });
+                            }}
                           >
-                            Delete
+                            Close
                           </Button>
                           <Button variant="blue" type="submit">
                             Save
@@ -238,7 +248,6 @@ export const ImageEditContent = (props: any) => {
                           errors={errors}
                           placeholder="Enter URL (e.g. https://example.com)"
                           validation={{
-                            required: 'URL is required',
                             pattern: {
                               value:
                                 /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/,
@@ -246,7 +255,19 @@ export const ImageEditContent = (props: any) => {
                             },
                           }}
                         />
-                        <div className="flex justify-end">
+                        <div className="flex justify-between">
+                          <Button
+                            variant="outline"
+                            type="button"
+                            onClick={() => {
+                              setShowLinkInput(false);
+                              setContentEdit({
+                                subEdit: null,
+                              });
+                            }}
+                          >
+                            Close
+                          </Button>
                           <Button type="submit" variant="blue">
                             Save Link
                           </Button>
@@ -257,41 +278,6 @@ export const ImageEditContent = (props: any) => {
                 </>
               )}
             </div>
-
-            {showLinkInput && (
-              <div className="pb-1 pt-6 w-full flex justify-end">
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    setShowLinkInput(false);
-                    setContentEdit({
-                      subEdit: null,
-                    });
-                  }}
-                >
-                  Close
-                </Button>
-              </div>
-            )}
-
-            <Modal isOpen={showRemoveModal} title="Remove Link" size="small">
-              <div className="space-y-4">
-                <Typography variant="body">
-                  Are you sure you want to remove the link from this image?
-                </Typography>
-                <div className="flex justify-between">
-                  <Button
-                    variant="outline"
-                    onClick={() => setShowRemoveModal(false)}
-                  >
-                    Cancel
-                  </Button>
-                  <Button variant="red" onClick={handleRemoveLink}>
-                    Remove
-                  </Button>
-                </div>
-              </div>
-            </Modal>
           </div>
         </>
       )}
