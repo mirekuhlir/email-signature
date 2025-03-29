@@ -481,11 +481,9 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   const handleDeleteImage = useCallback(() => {
     setIsReplacing(true);
 
-    // TODO - sjednotit - null undefined prázdný string
     onSetCropImagePreview?.('');
     setCroppedImageData?.(null);
     onSetOriginalImage?.(null);
-
     onSetImageSettings?.('');
 
     // Clean up the object URL before setting to undefined to prevent memory leaks

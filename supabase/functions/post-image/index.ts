@@ -232,7 +232,6 @@ serve(async (req: Request) => {
     );
   }
 
-  // TODO - nějaká funkce a region do env
   const imagePreviewPublicUrl =
     `https://${bucketName}.s3.${AWS_REGION}.amazonaws.com/${imagePreviewUploadKey}`;
 
