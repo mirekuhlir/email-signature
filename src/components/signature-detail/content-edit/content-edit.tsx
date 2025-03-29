@@ -40,6 +40,25 @@ export const LoadingInfo = ({
   );
 };
 
+const getContentTypeName = (type: ContentType): string => {
+  switch (type) {
+    case ContentType.TEXT:
+      return 'text';
+    case ContentType.IMAGE:
+      return 'image';
+    case ContentType.EMAIL:
+      return 'email';
+    case ContentType.PHONE:
+      return 'phone';
+    case ContentType.WEBSITE:
+      return 'website';
+    case ContentType.CUSTOM_VALUE:
+      return 'custom element';
+    default:
+      return 'element';
+  }
+};
+
 export const ContentEdit = (props: any) => {
   const { contentPathToEdit, signatureId, isSignedIn, templateSlug } = props;
   const { toast } = useToast();
@@ -299,7 +318,7 @@ export const ContentEdit = (props: any) => {
                 <Hr className="mb-4" />
 
                 <Typography variant="labelBase" className="mb-2">
-                  Delete content
+                  Delete {getContentTypeName(content.type)} from signature
                 </Typography>
 
                 <Button
@@ -317,9 +336,12 @@ export const ContentEdit = (props: any) => {
 
             <Modal size="small" isOpen={isDeleteModalOpen}>
               <div className="p-2">
-                <Typography variant="h3">Delete content</Typography>
+                <Typography variant="h3">
+                  Delete {getContentTypeName(content.type)}
+                </Typography>
                 <Typography variant="body">
-                  Are you sure you want to delete this content?
+                  Are you sure you want to delete this{' '}
+                  {getContentTypeName(content.type)}?
                 </Typography>
                 <div className="mt-8 flex justify-between">
                   <Button
