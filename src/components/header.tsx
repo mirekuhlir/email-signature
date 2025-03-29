@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
-import { Button } from '@/src/components/ui/button';
+import { Button } from './ui/button';
 import { signOutAction } from '@/app/actions';
 import { Container } from './ui/container';
-import { useModal } from './ui/modal-system';
-import { Auth } from './auth/auth';
+import { useAuthModal } from '@/src/hooks/use-auth-modal';
 import { ContextMenu } from './ui/context-menu';
 import StyledLink from './ui/styled-link';
 
@@ -26,14 +25,7 @@ const getInitialsFromEmail = (email: string): string => {
 export const Header = (props: any) => {
   const { user } = props;
 
-  const { modal } = useModal();
-
-  const showAuthModal = () => {
-    modal({
-      content: <Auth />,
-      size: 'small',
-    });
-  };
+  const { showAuthModal } = useAuthModal();
 
   return (
     <header className="fixed top-0 w-full bg-white/80 backdrop-blur-lg border-b border-gray-200 shadow-lg z-50">
@@ -69,7 +61,11 @@ export const Header = (props: any) => {
               </ContextMenu>
             </div>
           ) : (
-            <Button onClick={showAuthModal}>Sign in</Button>
+            <Button
+              onClick={() => showAuthModal('Sign in to access your account')}
+            >
+              Sign in
+            </Button>
           )}
         </div>
       </Container>

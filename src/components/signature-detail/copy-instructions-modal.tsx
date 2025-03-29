@@ -1,8 +1,12 @@
 import { Typography } from '@/src/components/ui/typography';
 
+// TODO - kopírovat mohou jen uživatele s premium účtem
 export const CopyInstructionsModalContent = () => {
   return (
     <div className="py-4 space-y-6">
+      <Typography variant="h4" textColor="text-gray-700">
+        Email Signature Instructions
+      </Typography>
       <div className="space-y-1">
         <Typography variant="large" textColor="text-gray-700">
           Your signature has been copied to clipboard!

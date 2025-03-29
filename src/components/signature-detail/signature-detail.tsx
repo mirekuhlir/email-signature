@@ -10,6 +10,7 @@ import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
 import StyledLink from '../ui/styled-link';
 import { useModal } from '@/src/components/ui/modal-system';
 import CopyInstructionsModalContent from './copy-instructions-modal';
+import { useAuthModal } from '@/src/hooks/use-auth-modal';
 
 export const SignatureDetail = (props: any) => {
   const { signatureDetail, isSignedIn, templateSlug } = props;
@@ -18,6 +19,7 @@ export const SignatureDetail = (props: any) => {
   const { contentEdit } = useContentEditStore();
   const [isEdit, setIsEdit] = useState(false);
   const { modal } = useModal();
+  const { showAuthModal } = useAuthModal();
 
   useEffect(() => {
     initSignature({
@@ -41,7 +43,6 @@ export const SignatureDetail = (props: any) => {
 
   const showCopyInstructionsModal = () => {
     modal({
-      title: 'Email Signature Instructions',
       content: <CopyInstructionsModalContent />,
       size: 'medium',
     });
@@ -63,8 +64,12 @@ export const SignatureDetail = (props: any) => {
                   <Button
                     size="lg"
                     onClick={() => {
-                      handleCopy('email-signature');
-                      showCopyInstructionsModal();
+                      if (isSignedIn) {
+                        handleCopy('email-signature');
+                        showCopyInstructionsModal();
+                      } else {
+                        showAuthModal('Sign in to copy your signature');
+                      }
                     }}
                   >
                     Copy Signature
@@ -100,7 +105,8 @@ export const SignatureDetail = (props: any) => {
       {!contentEdit.editPath &&
         !contentEdit.columnPath &&
         !contentEdit.addPath &&
-        !isEdit && <BackButton />}
+        !isEdit &&
+        isSignedIn && <BackButton />}
     </>
   );
 };

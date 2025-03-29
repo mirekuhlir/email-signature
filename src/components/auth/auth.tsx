@@ -10,7 +10,11 @@ type FormValues = {
   email: string;
 };
 
-export const Auth = () => {
+type AuthProps = {
+  text?: string;
+};
+
+export const Auth = ({ text }: AuthProps) => {
   const [isEmailSending, setIsEmailSending] = useState(false);
   const [isEmailSent, setIsEmailSent] = useState(false);
 
@@ -61,8 +65,13 @@ export const Auth = () => {
   }
 
   return (
-    <div className="flex flex-col">
-      <form onSubmit={handleSubmit(onSubmit)} className="bg-white p-6">
+    <div className="flex flex-col bg-white p-4 pt-6">
+      {text && (
+        <Typography variant="h4" className="mb-4">
+          {text}
+        </Typography>
+      )}
+      <form onSubmit={handleSubmit(onSubmit)} className="bg-white">
         <TextInput
           label="Enter your e-mail"
           name="email"
@@ -78,9 +87,11 @@ export const Auth = () => {
           placeholder="email@example.com"
         />
 
-        <Button loading={isEmailSending} type="submit">
-          {isEmailSending ? 'Sending...' : 'Send'}
-        </Button>
+        <div className="w-full flex justify-end">
+          <Button loading={isEmailSending} size="lg" type="submit">
+            {isEmailSending ? 'Sending...' : 'Send'}
+          </Button>
+        </div>
       </form>
     </div>
   );

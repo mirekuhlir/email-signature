@@ -5,7 +5,7 @@ export default async function Signin() {
     <>
       <h1 className="text-2xl font-medium">Sign in</h1>
       <div className="flex flex-col gap-2 [&>input]:mb-3 mt-8">
-        <Auth />
+        <Auth text="Please enter your email address to sign in or create an account" />
       </div>
     </>
   );
