@@ -10,7 +10,7 @@ import {
     GetObjectCommand,
     PutObjectCommand,
     S3Client,
-} from "@aws-sdk/client-s3";
+} from "npm:@aws-sdk/client-s3@3.777.0";
 
 import { validateSignature } from "../_shared/validation.ts";
 
@@ -130,30 +130,11 @@ async function duplicateSignatureImages(
                 )[1];
                 if (!sourceKey) return;
 
-                // Extract the filename from the key (last part of the path)
-                const pathParts = sourceKey.split("/");
-                const originalFilename = pathParts[pathParts.length - 1];
-
-                // Analyze the original filename pattern
-                const filenameWithoutExt = originalFilename.replace(
-                    /\.png$/,
-                    "",
-                );
-                let newFilename;
-
-                // Check if the original has a hyphen pattern like "id-suffix"
-                if (filenameWithoutExt.includes("-")) {
-                    const [baseId, suffix] = filenameWithoutExt.split("-");
-                    // Generate same length IDs for each part
-                    newFilename = `${generateRandomId(baseId.length)}-${
-                        generateRandomId(suffix.length)
-                    }.png`;
-                } else {
-                    // Simple ID pattern
-                    newFilename = `${
-                        generateRandomId(filenameWithoutExt.length)
-                    }.png`;
-                }
+                // Extract component ID from the path
+                const componentId = objNode.id?.toString() ||
+                    generateRandomId();
+                // Create a filename with timestamp similar to image-edit-content.tsx
+                const newFilename = `${componentId}.png`;
 
                 // Create an upload task
                 const uploadTask = getS3Object(sourceKey)
@@ -186,30 +167,13 @@ async function duplicateSignatureImages(
                 )[1];
                 if (!sourceKey) return;
 
-                // Extract the filename from the key (last part of the path)
-                const pathParts = sourceKey.split("/");
-                const originalFilename = pathParts[pathParts.length - 1];
-
-                // Analyze the original filename pattern
-                const filenameWithoutExt = originalFilename.replace(
-                    /\.png$/,
-                    "",
-                );
-                let newFilename;
-
-                // Check if the original has a hyphen pattern like "id-suffix"
-                if (filenameWithoutExt.includes("-")) {
-                    const [baseId, suffix] = filenameWithoutExt.split("-");
-                    // Generate same length IDs for each part
-                    newFilename = `${generateRandomId(baseId.length)}-${
-                        generateRandomId(suffix.length)
-                    }.png`;
-                } else {
-                    // Simple ID pattern
-                    newFilename = `${
-                        generateRandomId(filenameWithoutExt.length)
-                    }.png`;
-                }
+                // Extract component ID from the path
+                const componentId = objNode.id?.toString() ||
+                    generateRandomId();
+                // Create a filename with timestamp similar to image-edit-content.tsx
+                const newFilename = `${componentId}-${
+                    new Date().getTime().toString()
+                }.png`;
 
                 const uploadTask = getS3Object(sourceKey)
                     .then((imageData) => {
