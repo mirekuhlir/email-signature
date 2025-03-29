@@ -8,7 +8,6 @@ import {
 } from "@/src/components/signature-detail/content-add/utils";
 import { createClient } from "../utils/supabase/client";
 import { base64ToFile } from "../utils/base64ToFile";
-import { generateRandomId } from "../utils/generateRandomId";
 
 const supabase = createClient();
 
@@ -204,7 +203,7 @@ export const useSignatureStore = create<StoreState>((set, get) => ({
 
       const imagePreviewFile = base64ToFile(
         cropImagePreviewBase64,
-        `${componentId}-${generateRandomId(4)}.png`,
+        `${componentId}.png`,
       );
 
       const formData = new FormData();

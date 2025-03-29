@@ -5,7 +5,10 @@ export const handleCopy = async (signatureId: string) => {
   if (!signatureElement) return;
 
   const textContent = signatureElement.innerText;
-  const htmlContent = signatureElement.outerHTML;
+  let htmlContent = signatureElement.outerHTML;
+
+  // Remove cache busting parameter from PNG images
+  htmlContent = htmlContent.replace(/\.png\?t=\d+/g, ".png");
 
   const { addToast } = useToastStore.getState();
 
