@@ -311,7 +311,7 @@ export const ContentEdit = (props: any) => {
                   Delete
                 </Button>
 
-                <Hr className="mt-4 mb-4" />
+                <Hr className="mt-6 mb-4" />
               </>
             )}
 

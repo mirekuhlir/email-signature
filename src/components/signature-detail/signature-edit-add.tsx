@@ -31,6 +31,7 @@ export const EmailTemplateEdit = (props: any) => {
             width: '100%',
           }}
         >
+          <Hr className="mt-2 mb-2" />
           {column.rows && renderRows(column.rows, false, `${rowPath}`)}
         </div>
 
@@ -176,7 +177,7 @@ export const EmailTemplateEdit = (props: any) => {
         {!contentEdit.editPath &&
           !contentEdit.addPath &&
           !contentEdit.columnPath && (
-            <div className="mb-5">
+            <div className="mb-4">
               <Button
                 onClick={() => {
                   setContentEdit({
@@ -190,7 +191,6 @@ export const EmailTemplateEdit = (props: any) => {
               >
                 Add
               </Button>
-              <Hr className="my-4" />
             </div>
           )}
         <>

@@ -144,7 +144,7 @@ export const ImageEditContent = (props: any) => {
 
       {!contentEdit.isImageLoading && (
         <>
-          <Hr className="mb-6" />
+          <Hr className="mb-4" />
 
           <div className="pb-6">
             <div
@@ -160,7 +160,7 @@ export const ImageEditContent = (props: any) => {
               {imageComponent.link ? (
                 <>
                   {!showLinkInput && (
-                    <div className="pb-6">
+                    <>
                       <div className="py-2">
                         <Typography
                           variant="large"
@@ -180,7 +180,7 @@ export const ImageEditContent = (props: any) => {
                       >
                         {'Edit Link'}
                       </Button>
-                    </div>
+                    </>
                   )}
 
                   {showLinkInput && (
