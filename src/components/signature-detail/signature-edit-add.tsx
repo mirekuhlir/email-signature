@@ -8,10 +8,13 @@ import { ContentAdd } from '@/src/components/signature-detail/content-add/conten
 import { ColumnSettings } from '@/src/components/signature-detail/column-settings/column-settings';
 import { useParams } from 'next/navigation';
 import { Hr } from '../ui/hr';
+import { ContextMenu } from '../ui/context-menu';
+import { useSignatureStore } from '@/src/store/content-edit-add-store';
 
 export const EmailTemplateEdit = (props: any) => {
   const { rows, isSignedIn, templateSlug } = props;
   const { setContentEdit, contentEdit } = useContentEditStore();
+  const { moveRowUp, moveRowDown } = useSignatureStore();
   const { id: signatureId } = useParams();
 
   const renderColumn = (column: any, path: string) => {
@@ -83,6 +86,30 @@ export const EmailTemplateEdit = (props: any) => {
         return null;
       }
 
+      // Parse path to get tableIndex and columnIndex
+      let tableIndex = -1;
+      let columnIndex = -1;
+
+      if (path) {
+        const pathParts = path.split('.');
+        if (pathParts[0]) {
+          tableIndex = parseInt(pathParts[0].replace(/[[\]]/g, ''));
+        }
+        if (pathParts[1]) {
+          const colMatch = pathParts[1].match(/columns\[(\d+)\]/);
+          if (colMatch && colMatch[1]) {
+            columnIndex = parseInt(colMatch[1]);
+          }
+        }
+      }
+
+      // Check if table and column indices are valid
+      const isValid = tableIndex >= 0 && columnIndex >= 0;
+      // Get total rows in this column if indices are valid
+      const totalRowsInColumn = isValid && rows ? rows.length : 0;
+      // Show context menu only if there's more than one row in the column
+      const showContextMenu = totalRowsInColumn > 1;
+
       if (isFirstRow) {
         return (
           <div
@@ -131,7 +158,7 @@ export const EmailTemplateEdit = (props: any) => {
             {contentEdit.editPath !== currentPath &&
               contentEdit.columnPath === null && (
                 <>
-                  <div className="flex justify-start mb-2 mt-1">
+                  <div className="flex justify-start items-center gap-2 mb-2 mt-1">
                     <Button
                       size="sm"
                       variant="blue"
@@ -144,6 +171,28 @@ export const EmailTemplateEdit = (props: any) => {
                     >
                       Edit
                     </Button>
+                    {showContextMenu && (
+                      <ContextMenu size="sm" placement="right">
+                        <div className="pt-2 pb-2 px-2 flex flex-col gap-1 whitespace-nowrap items-start">
+                          <Button
+                            variant="ghost"
+                            onClick={() => {
+                              moveRowUp(currentPath, signatureId as string);
+                            }}
+                          >
+                            Move up
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            onClick={() => {
+                              moveRowDown(currentPath, signatureId as string);
+                            }}
+                          >
+                            Move down
+                          </Button>
+                        </div>
+                      </ContextMenu>
+                    )}
                   </div>
                   <Hr className="mb-2" />
                 </>

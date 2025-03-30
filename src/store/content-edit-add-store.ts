@@ -32,9 +32,9 @@ export interface StoreState {
   ) => Promise<void>;
   addColor: (color: string) => void;
   getColors: () => string[];
+  moveRowUp: (path: string, signatureId: string) => Promise<void>;
+  moveRowDown: (path: string, signatureId: string) => Promise<void>;
 }
-
-// barvy - rgba nebo hex?
 
 export const useSignatureStore = create<StoreState>((set, get) => ({
   rows: [],
@@ -127,6 +127,80 @@ export const useSignatureStore = create<StoreState>((set, get) => ({
     }
 
     set({ rows: cloneRows });
+  },
+
+  moveRowUp: async (path: string, signatureId: string) => {
+    const state = get();
+    const cloneRows = cloneDeep(state.rows);
+    const tableIndex = parseInt(path.split(".")[0].replace(/[[\]]/g, ""));
+    const columnIndex = parseInt(path.split("columns[")[1].split("]")[0]);
+    const rowIndex = parseInt(path.split("rows[")[1].split("]")[0]);
+
+    if (rowIndex === 0) {
+      return;
+    }
+
+    const rows = cloneRows[tableIndex].columns[columnIndex].rows;
+    const temp = rows[rowIndex];
+    rows[rowIndex] = rows[rowIndex - 1];
+    rows[rowIndex - 1] = temp;
+
+    set({ rows: cloneRows });
+
+    // Save changes to the database
+    try {
+      if (signatureId) {
+        await supabase.functions.invoke("patch-signature", {
+          method: "PATCH",
+          body: {
+            signatureId,
+            signatureContent: {
+              rows: cloneRows,
+              colors: state.colors,
+            },
+          },
+        });
+      }
+    } catch (error) {
+      console.error("Error saving signature:", error);
+    }
+  },
+
+  moveRowDown: async (path: string, signatureId: string) => {
+    const state = get();
+    const cloneRows = cloneDeep(state.rows);
+    const tableIndex = parseInt(path.split(".")[0].replace(/[[\]]/g, ""));
+    const columnIndex = parseInt(path.split("columns[")[1].split("]")[0]);
+    const rowIndex = parseInt(path.split("rows[")[1].split("]")[0]);
+
+    const rows = cloneRows[tableIndex].columns[columnIndex].rows;
+    if (rowIndex === rows.length - 1) {
+      return;
+    }
+
+    const temp = rows[rowIndex];
+    rows[rowIndex] = rows[rowIndex + 1];
+    rows[rowIndex + 1] = temp;
+
+    set({ rows: cloneRows });
+
+    // Save changes to the database
+    try {
+      if (signatureId) {
+        await supabase.functions.invoke("patch-signature", {
+          method: "PATCH",
+          body: {
+            signatureId,
+            signatureContent: {
+              rows: cloneRows,
+              colors: state.colors,
+            },
+          },
+        });
+      }
+    } catch (error) {
+      console.error("Error saving signature:", error);
+    }
   },
 
   setContent: (path: string, content: any) =>

@@ -13,6 +13,7 @@ interface ContextMenuProps {
   children?: React.ReactNode;
   el?: React.ElementType;
   buttonClassName?: string;
+  size?: 'sm' | 'md' | 'lg';
 }
 
 export const ContextMenu: React.FC<ContextMenuProps> = ({
@@ -22,6 +23,7 @@ export const ContextMenu: React.FC<ContextMenuProps> = ({
   children,
   el,
   buttonClassName,
+  size = 'md',
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [direction, setDirection] = useState<'down' | 'up'>('down');
@@ -65,7 +67,7 @@ export const ContextMenu: React.FC<ContextMenuProps> = ({
     <div className="relative inline-block" ref={menuRef}>
       <Button
         className={buttonClassName}
-        size="md"
+        size={size}
         variant="white"
         ref={buttonRef}
         onClick={() => setIsOpen(!isOpen)}
