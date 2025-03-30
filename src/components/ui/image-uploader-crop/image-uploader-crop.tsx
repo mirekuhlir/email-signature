@@ -600,7 +600,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   }
 
   return (
-    <div className="w-full pt-6 pb-2">
+    <div className="w-full pt-6 pb-10">
       {!originalImagePreview && !originalSrc ? (
         <div
           className={`grid place-items-center p-4 border border-dashed ${isDragging ? 'border-orange-500 bg-orange-50' : 'border-gray-300'} rounded min-h-[200px] w-[80%] md:w-[400px] mx-auto transition-colors duration-200`}

@@ -224,8 +224,8 @@ export const SignaturesList = (props: any) => {
   return (
     <div className="w-full pt-6">
       <div>
-        <div className="flex justify-center md:justify-end pt-2 pb-6 w-full">
-          <Button size="lg" onClick={() => setIsModalOpen(true)}>
+        <div className="flex justify-center md:justify-end pt-8 pb-10 w-full">
+          <Button size="xl" onClick={() => setIsModalOpen(true)}>
             Create new signature
           </Button>
         </div>
