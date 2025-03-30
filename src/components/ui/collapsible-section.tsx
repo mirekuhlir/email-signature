@@ -18,7 +18,7 @@ export const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
 
   return (
     <div className={className}>
-      {contentEdit.subEdit !== 'edit-color' && (
+      {!contentEdit.subEdit && (
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="w-full py-2 flex justify-between items-center"

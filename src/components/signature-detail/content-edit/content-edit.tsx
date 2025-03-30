@@ -174,10 +174,6 @@ export const ContentEdit = (props: any) => {
 
   const isImage = content?.type === ContentType.IMAGE;
 
-  const canDisplaySave = isImage
-    ? Boolean(content?.components[0]?.cropImagePreview)
-    : true;
-
   const canDisplayDeleteButton = isImage
     ? content?.components[0]?.cropImagePreview
     : true;
@@ -403,11 +399,11 @@ export const ContentEdit = (props: any) => {
             </>
           )}
         <PreviewActionPanel
-          visible={true}
+          visible={!isSavingSignature}
           onClose={closeContent}
           onSave={handleSave}
           isSignedIn={isSignedIn}
-          isVisibleOnlyPreview={contentEdit.subEdit === 'edit-color'}
+          isVisibleOnlyPreview={Boolean(contentEdit.subEdit)}
         />
       </div>
     </div>

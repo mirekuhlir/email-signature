@@ -493,7 +493,7 @@ export const ColumnSettings = (props: any) => {
         onClose={closeSettings}
         onSave={handleSave}
         isSignedIn={isSignedIn}
-        isVisibleOnlyPreview={contentEdit.subEdit === 'edit-color'}
+        isVisibleOnlyPreview={Boolean(contentEdit.subEdit)}
       />
     </div>
   );
