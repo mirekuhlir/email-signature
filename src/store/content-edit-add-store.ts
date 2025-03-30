@@ -2,16 +2,7 @@
 import { create } from "zustand";
 import { ContentType } from "@/src/const/content";
 
-// Configuration
-const DEBOUNCE_DELAY = 1000; // in milliseconds
-
-import {
-  cloneDeep,
-  debounce,
-  get as lGet,
-  set as lSet,
-  unset as lUnset,
-} from "lodash";
+import { cloneDeep, get as lGet, set as lSet, unset as lUnset } from "lodash";
 import {
   getContentAdd,
   getRowTable,
@@ -47,29 +38,6 @@ export interface StoreState {
 }
 
 export const useSignatureStore = create<StoreState>((set, get) => {
-  // Create a debounced save function outside the store methods
-  const debouncedSaveSignature = debounce(
-    async (signatureId: string, rows: any[], colors: string[]) => {
-      if (!signatureId) return;
-
-      try {
-        await supabase.functions.invoke("patch-signature", {
-          method: "PATCH",
-          body: {
-            signatureId,
-            signatureContent: {
-              rows,
-              colors,
-            },
-          },
-        });
-      } catch (error) {
-        console.error("Error saving signature:", error);
-      }
-    },
-    DEBOUNCE_DELAY,
-  );
-
   return {
     rows: [],
     colors: [],
@@ -181,9 +149,22 @@ export const useSignatureStore = create<StoreState>((set, get) => {
 
       set({ rows: cloneRows });
 
-      // Save changes to the database with debounce
-      if (signatureId) {
-        debouncedSaveSignature(signatureId, cloneRows, state.colors);
+      // Save changes to the database
+      try {
+        if (signatureId) {
+          await supabase.functions.invoke("patch-signature", {
+            method: "PATCH",
+            body: {
+              signatureId,
+              signatureContent: {
+                rows: cloneRows,
+                colors: state.colors,
+              },
+            },
+          });
+        }
+      } catch (error) {
+        console.error("Error saving signature:", error);
       }
     },
 
@@ -205,9 +186,22 @@ export const useSignatureStore = create<StoreState>((set, get) => {
 
       set({ rows: cloneRows });
 
-      // Save changes to the database with debounce
-      if (signatureId) {
-        debouncedSaveSignature(signatureId, cloneRows, state.colors);
+      // Save changes to the database
+      try {
+        if (signatureId) {
+          await supabase.functions.invoke("patch-signature", {
+            method: "PATCH",
+            body: {
+              signatureId,
+              signatureContent: {
+                rows: cloneRows,
+                colors: state.colors,
+              },
+            },
+          });
+        }
+      } catch (error) {
+        console.error("Error saving signature:", error);
       }
     },
 
