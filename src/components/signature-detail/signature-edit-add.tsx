@@ -10,6 +10,8 @@ import { useParams } from 'next/navigation';
 import { Hr } from '../ui/hr';
 import { ContextMenu } from '../ui/context-menu';
 import { useSignatureStore } from '@/src/store/content-edit-add-store';
+import { get } from 'lodash';
+import { ContentType } from '@/src/const/content';
 
 export const EmailTemplateEdit = (props: any) => {
   const { rows, isSignedIn, templateSlug } = props;
@@ -167,6 +169,11 @@ export const EmailTemplateEdit = (props: any) => {
                           editPath: currentPath,
                           addPath: null,
                         });
+
+                        const rowContent = get(rows, `${currentPath}.content`);
+                        if (rowContent?.type !== ContentType.IMAGE) {
+                          window.scrollTo(0, 0);
+                        }
                       }}
                     >
                       Edit

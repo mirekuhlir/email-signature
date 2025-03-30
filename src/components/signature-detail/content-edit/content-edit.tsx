@@ -32,9 +32,11 @@ export const LoadingInfo = ({
         <div className="mb-2">
           <Loading />
         </div>
-        <Typography className="text-gray-600" variant="body">
-          {text}
-        </Typography>
+        <div className="mt-2">
+          <Typography className="text-gray-600" variant="body">
+            {text}
+          </Typography>
+        </div>
       </div>
     </div>
   );
