@@ -20,6 +20,7 @@ import { EditColor } from '@/src/components/ui/edit-color';
 import { Hr } from '../../ui/hr';
 import { useToast } from '@/src/components/ui/toast';
 import { Loading } from '../../ui/loading';
+import PreviewActionPanel from '../preview-action-panel';
 
 export const LoadingInfo = ({
   text = 'Saving. Please wait...',
@@ -199,227 +200,216 @@ export const ContentEdit = (props: any) => {
     }
   };
 
+  const handleSave = async () => {
+    if (!isSignedIn) {
+      localStorage.setItem(
+        TEMP_SIGNATURE,
+        JSON.stringify({
+          rows,
+          colors,
+          createdAt: new Date().toISOString(),
+          info: getTemplateBySlug(templateSlug)?.info,
+        }),
+      );
+      setContentEdit({
+        editPath: null,
+      });
+    } else {
+      setIsSavingSignature(true);
+
+      try {
+        await saveSignatureContentRow(
+          signatureId,
+          `${contentPathToEdit}.content`,
+        );
+        setContentEdit({
+          editPath: null,
+        });
+      } catch (error) {
+        toast({
+          title: 'Error',
+          description: 'Failed to save content. Please try again.',
+          variant: 'error',
+          duration: 5000,
+        });
+        console.error(error);
+      } finally {
+        setIsSavingSignature(false);
+      }
+    }
+  };
+
   return (
     <div key={path}>
-      <div ref={wrapperRef}>
-        {!isSavingSignature && (
-          <>
-            {getContentType(content, path, isSignedIn)}
+      <div className="pb-24">
+        <div ref={wrapperRef}>
+          {!isSavingSignature && (
+            <>
+              {getContentType(content, path, isSignedIn)}
 
-            {content.type !== ContentType.IMAGE && (
-              <div className="mt-0">
-                <CollapsibleSection>
-                  <div className="px-0">
-                    <div className="mb-4">
-                      <EditColor
-                        initColor={content?.components[0]?.backgroundColor}
-                        label="Background color"
-                        isResetToTransparent
-                        onChange={(color) => {
-                          const stylePath = `${path}.components[0]`;
-                          const currentStyle = content?.components[0] || {};
-                          setContent(stylePath, {
-                            ...currentStyle,
-                            backgroundColor: color,
-                          });
-                        }}
-                      />
+              {content.type !== ContentType.IMAGE && (
+                <div className="mt-0">
+                  <CollapsibleSection>
+                    <div className="px-0">
+                      <div className="mb-4">
+                        <EditColor
+                          initColor={content?.components[0]?.backgroundColor}
+                          label="Background color"
+                          isResetToTransparent
+                          onChange={(color) => {
+                            const stylePath = `${path}.components[0]`;
+                            const currentStyle = content?.components[0] || {};
+                            setContent(stylePath, {
+                              ...currentStyle,
+                              backgroundColor: color,
+                            });
+                          }}
+                        />
+                      </div>
+                      <Hr className="mt-4 mb-4" />
+                      <div className="grid grid-cols-1 gap-6">
+                        <div>
+                          <Typography variant="labelBase" className="mb-2">
+                            Top padding : {paddingTop}px
+                          </Typography>
+                          <Slider
+                            min={0}
+                            max={50}
+                            value={Number(paddingTop)}
+                            onChange={(value: number) => {
+                              setPaddingTop(value.toString());
+                            }}
+                          />
+                        </div>
+
+                        <div>
+                          <Typography variant="labelBase" className="mb-2">
+                            Right padding : {paddingRight}px
+                          </Typography>
+                          <Slider
+                            min={0}
+                            max={50}
+                            value={Number(paddingRight)}
+                            onChange={(value: number) => {
+                              setPaddingRight(value.toString());
+                            }}
+                          />
+                        </div>
+
+                        <div>
+                          <Typography variant="labelBase" className="mb-2">
+                            Bottom padding : {paddingBottom}px
+                          </Typography>
+                          <Slider
+                            min={0}
+                            max={50}
+                            value={Number(paddingBottom)}
+                            onChange={(value: number) => {
+                              setPaddingBottom(value.toString());
+                            }}
+                          />
+                        </div>
+
+                        <div>
+                          <Typography variant="labelBase" className="mb-2">
+                            Left padding : {paddingLeft}px
+                          </Typography>
+                          <Slider
+                            min={0}
+                            max={50}
+                            value={Number(paddingLeft)}
+                            onChange={(value: number) => {
+                              setPaddingLeft(value.toString());
+                            }}
+                          />
+                        </div>
+                      </div>
+
+                      <Hr className="mt-4 mb-4" />
+
+                      <div className="mb-4">
+                        <Typography variant="labelBase" className="mb-2">
+                          Border radius : {borderRadius}px
+                        </Typography>
+                        <Slider
+                          min={0}
+                          max={20}
+                          value={Number(borderRadius)}
+                          onChange={(value: number) => {
+                            setBorderRadius(value.toString());
+                          }}
+                        />
+                      </div>
                     </div>
-                    <Hr className="mt-4 mb-4" />
-                    <div className="grid grid-cols-1 gap-6">
-                      <div>
-                        <Typography variant="labelBase" className="mb-2">
-                          Top padding : {paddingTop}px
-                        </Typography>
-                        <Slider
-                          min={0}
-                          max={50}
-                          value={Number(paddingTop)}
-                          onChange={(value: number) => {
-                            setPaddingTop(value.toString());
-                          }}
-                        />
-                      </div>
+                  </CollapsibleSection>
+                </div>
+              )}
+            </>
+          )}
+        </div>
 
-                      <div>
-                        <Typography variant="labelBase" className="mb-2">
-                          Right padding : {paddingRight}px
-                        </Typography>
-                        <Slider
-                          min={0}
-                          max={50}
-                          value={Number(paddingRight)}
-                          onChange={(value: number) => {
-                            setPaddingRight(value.toString());
-                          }}
-                        />
-                      </div>
+        {isSavingSignature && <LoadingInfo />}
 
-                      <div>
-                        <Typography variant="labelBase" className="mb-2">
-                          Bottom padding : {paddingBottom}px
-                        </Typography>
-                        <Slider
-                          min={0}
-                          max={50}
-                          value={Number(paddingBottom)}
-                          onChange={(value: number) => {
-                            setPaddingBottom(value.toString());
-                          }}
-                        />
-                      </div>
+        {!isSavingSignature &&
+          !contentEdit.subEdit &&
+          !contentEdit.isImageLoading && (
+            <>
+              {canDisplayDeleteButton && (
+                <>
+                  <Hr className="mb-4" />
 
-                      <div>
-                        <Typography variant="labelBase" className="mb-2">
-                          Left padding : {paddingLeft}px
-                        </Typography>
-                        <Slider
-                          min={0}
-                          max={50}
-                          value={Number(paddingLeft)}
-                          onChange={(value: number) => {
-                            setPaddingLeft(value.toString());
-                          }}
-                        />
-                      </div>
-                    </div>
+                  <Typography variant="labelBase" className="mb-2">
+                    Delete {getContentTypeName(content.type)} from signature
+                  </Typography>
 
-                    <Hr className="mt-4 mb-4" />
-
-                    <div className="mb-4">
-                      <Typography variant="labelBase" className="mb-2">
-                        Border radius : {borderRadius}px
-                      </Typography>
-                      <Slider
-                        min={0}
-                        max={20}
-                        value={Number(borderRadius)}
-                        onChange={(value: number) => {
-                          setBorderRadius(value.toString());
-                        }}
-                      />
-                    </div>
-                  </div>
-                </CollapsibleSection>
-              </div>
-            )}
-          </>
-        )}
-      </div>
-
-      {isSavingSignature && <LoadingInfo />}
-
-      {!isSavingSignature &&
-        !contentEdit.subEdit &&
-        !contentEdit.isImageLoading &&
-        !contentEdit.subEdit && (
-          <>
-            {canDisplayDeleteButton && (
-              <>
-                <Hr className="mb-4" />
-
-                <Typography variant="labelBase" className="mb-2">
-                  Delete {getContentTypeName(content.type)} from signature
-                </Typography>
-
-                <Button
-                  variant="red"
-                  onClick={() => {
-                    setIsDeleteModalOpen(true);
-                  }}
-                >
-                  Delete
-                </Button>
-
-                <Hr className="mt-6 mb-4" />
-              </>
-            )}
-
-            <Modal size="small" isOpen={isDeleteModalOpen}>
-              <div className="p-2">
-                <Typography variant="h3">
-                  Delete {getContentTypeName(content.type)}
-                </Typography>
-                <Typography variant="body">
-                  Are you sure you want to delete this{' '}
-                  {getContentTypeName(content.type)}?
-                </Typography>
-                <div className="mt-8 flex justify-between">
                   <Button
-                    variant="outline"
+                    variant="red"
                     onClick={() => {
-                      setIsDeleteModalOpen(false);
+                      setIsDeleteModalOpen(true);
                     }}
                   >
-                    Cancel
-                  </Button>
-                  <Button variant="red" onClick={async () => handleDeleteRow()}>
                     Delete
                   </Button>
-                </div>
-              </div>
-            </Modal>
-
-            <div className="flex flex-row w-full pb-6 pt-2 justify-between">
-              <Button
-                variant="outline"
-                onClick={() => {
-                  closeContent();
-                }}
-              >
-                Close
-              </Button>
-
-              {canDisplaySave && (
-                <Button
-                  variant="blue"
-                  size="md"
-                  onClick={async () => {
-                    if (!isSignedIn) {
-                      localStorage.setItem(
-                        TEMP_SIGNATURE,
-                        JSON.stringify({
-                          rows,
-                          colors,
-                          createdAt: new Date().toISOString(),
-                          info: getTemplateBySlug(templateSlug)?.info,
-                        }),
-                      );
-                      setContentEdit({
-                        editPath: null,
-                      });
-                    } else {
-                      setIsSavingSignature(true);
-
-                      try {
-                        await saveSignatureContentRow(
-                          signatureId,
-                          `${contentPathToEdit}.content`,
-                        );
-                        setContentEdit({
-                          editPath: null,
-                        });
-                      } catch (error) {
-                        toast({
-                          title: 'Error',
-                          description:
-                            'Failed to save content. Please try again.',
-                          variant: 'error',
-                          duration: 5000,
-                        });
-                        console.error(error);
-                      } finally {
-                        setIsSavingSignature(false);
-                      }
-                    }
-                  }}
-                >
-                  Save
-                </Button>
+                </>
               )}
-            </div>
-          </>
-        )}
+
+              <Modal size="small" isOpen={isDeleteModalOpen}>
+                <div className="p-2">
+                  <Typography variant="h3">
+                    Delete {getContentTypeName(content.type)}
+                  </Typography>
+                  <Typography variant="body">
+                    Are you sure you want to delete this{' '}
+                    {getContentTypeName(content.type)}?
+                  </Typography>
+                  <div className="mt-8 flex justify-between">
+                    <Button
+                      variant="outline"
+                      onClick={() => {
+                        setIsDeleteModalOpen(false);
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      variant="red"
+                      onClick={async () => handleDeleteRow()}
+                    >
+                      Delete
+                    </Button>
+                  </div>
+                </div>
+              </Modal>
+            </>
+          )}
+        <PreviewActionPanel
+          visible={true}
+          onClose={closeContent}
+          onSave={handleSave}
+          isSignedIn={isSignedIn}
+          isVisibleOnlyPreview={contentEdit.subEdit === 'edit-color'}
+        />
+      </div>
     </div>
   );
 };

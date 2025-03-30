@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useRef, useEffect, useMemo } from 'react';
 import { get } from 'lodash';
-import { Button } from '@/src/components/ui/button';
 import { useSignatureStore } from '@/src/store/content-edit-add-store';
 import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
 import { Typography } from '@/src/components/ui/typography';
 import Slider from '@/src/components/ui/slider';
 import SelectBase from '@/src/components/ui/select-base';
-import { LoadingInfo } from '../content-edit/content-edit';
 import { EditColor } from '../../ui/edit-color';
 import { Hr } from '../../ui/hr';
 import { useToast } from '@/src/components/ui/toast';
 import { CollapsibleSection } from '@/src/components/ui/collapsible-section';
+import PreviewActionPanel from '../preview-action-panel';
+import { LoadingInfo } from '../content-edit/content-edit';
 
 export const ColumnSettings = (props: any) => {
   const { columnPathToEdit, signatureId, isSignedIn } = props;
@@ -226,8 +226,37 @@ export const ColumnSettings = (props: any) => {
     });
   };
 
+  const handleSave = async () => {
+    saveChanges();
+
+    if (!isSignedIn) {
+      setContentEdit({
+        columnPath: null,
+      });
+    } else {
+      setIsSavingSignature(true);
+
+      try {
+        await saveSignatureContentRow(signatureId, columnPathToEdit);
+        setContentEdit({
+          columnPath: null,
+        });
+      } catch (error) {
+        console.error(error);
+        toast({
+          title: 'Error',
+          description: 'Failed to save column settings. Please try again.',
+          variant: 'error',
+          duration: 5000,
+        });
+      } finally {
+        setIsSavingSignature(false);
+      }
+    }
+  };
+
   return (
-    <div key={`settings-${columnPathToEdit}`} className="mt-6">
+    <div key={`settings-${columnPathToEdit}`} className="mt-6 pb-24">
       <div ref={wrapperRef}>
         {!isSavingSignature && (
           <div className="pb-2">
@@ -459,49 +488,13 @@ export const ColumnSettings = (props: any) => {
 
       {isSavingSignature && <LoadingInfo />}
 
-      {!isSavingSignature && contentEdit.subEdit !== 'edit-color' && (
-        <div className="flex flex-row w-full pb-6 pt-8 pt-2 justify-between">
-          <Button variant="outline" onClick={closeSettings}>
-            Cancel
-          </Button>
-
-          <Button
-            variant="blue"
-            size="md"
-            onClick={async () => {
-              saveChanges();
-
-              if (!isSignedIn) {
-                setContentEdit({
-                  columnPath: null,
-                });
-              } else {
-                setIsSavingSignature(true);
-
-                try {
-                  await saveSignatureContentRow(signatureId, columnPathToEdit);
-                  setContentEdit({
-                    columnPath: null,
-                  });
-                } catch (error) {
-                  console.error(error);
-                  toast({
-                    title: 'Error',
-                    description:
-                      'Failed to save column settings. Please try again.',
-                    variant: 'error',
-                    duration: 5000,
-                  });
-                } finally {
-                  setIsSavingSignature(false);
-                }
-              }
-            }}
-          >
-            Save
-          </Button>
-        </div>
-      )}
+      <PreviewActionPanel
+        visible={!isSavingSignature}
+        onClose={closeSettings}
+        onSave={handleSave}
+        isSignedIn={isSignedIn}
+        isVisibleOnlyPreview={contentEdit.subEdit === 'edit-color'}
+      />
     </div>
   );
 };
