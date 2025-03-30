@@ -149,7 +149,7 @@ export const ImageEditContent = (props: any) => {
           <div className="pb-6">
             <div
               className={
-                showLinkInput ? 'bg-white p-4 shadow-md rounded-md' : ''
+                showLinkInput ? 'bg-white p-4 shadow-md rounded-md mb-8' : ''
               }
             >
               {!showLinkInput && (
@@ -182,54 +182,18 @@ export const ImageEditContent = (props: any) => {
                       </Button>
                     </>
                   )}
-
-                  {showLinkInput && (
-                    <div className="mt-2">
-                      <form
-                        onSubmit={handleSubmit(onSubmitLink)}
-                        className="space-y-4"
-                      >
-                        <TextInput
-                          label="Link URL"
-                          name="link"
-                          register={register}
-                          errors={errors}
-                          placeholder="Enter URL (e.g. https://example.com)"
-                          validation={{
-                            pattern: {
-                              value:
-                                /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/,
-                              message: 'Please enter a valid URL',
-                            },
-                          }}
-                        />
-                        <div className="flex justify-between">
-                          <Button
-                            variant="outline"
-                            type="button"
-                            onClick={() => {
-                              setShowLinkInput(false);
-                              setContentEdit({
-                                subEdit: null,
-                              });
-                            }}
-                          >
-                            Close
-                          </Button>
-                          <Button variant="blue" type="submit">
-                            Save
-                          </Button>
-                        </div>
-                      </form>
-                    </div>
-                  )}
                 </>
               ) : (
                 <>
                   {!showLinkInput && (
                     <Button
                       variant="blue"
-                      onClick={() => setShowLinkInput(!showLinkInput)}
+                      onClick={() => {
+                        setShowLinkInput(!showLinkInput);
+                        setContentEdit({
+                          subEdit: 'edit-link',
+                        });
+                      }}
                     >
                       Add Link
                     </Button>
@@ -269,7 +233,7 @@ export const ImageEditContent = (props: any) => {
                             Close
                           </Button>
                           <Button type="submit" variant="blue">
-                            Save Link
+                            Save
                           </Button>
                         </div>
                       </form>

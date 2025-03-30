@@ -31,12 +31,11 @@ export const EmailTemplateEdit = (props: any) => {
             width: '100%',
           }}
         >
-          <Hr className="mt-2 mb-2" />
           {column.rows && renderRows(column.rows, false, `${rowPath}`)}
         </div>
 
         {contentEdit.addPath !== rowPath && contentEdit.columnPath === null && (
-          <div className="flex flex-col items-end">
+          <div className="flex flex-col items-end mb-2">
             <div className="mb-2">
               <Button
                 variant="blue"

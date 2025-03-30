@@ -309,7 +309,8 @@ export const ContentEdit = (props: any) => {
 
       {!isSavingSignature &&
         !contentEdit.subEdit &&
-        !contentEdit.isImageLoading && (
+        !contentEdit.isImageLoading &&
+        !contentEdit.subEdit && (
           <>
             {canDisplayDeleteButton && (
               <>
