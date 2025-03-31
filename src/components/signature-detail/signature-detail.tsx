@@ -11,6 +11,8 @@ import StyledLink from '../ui/styled-link';
 import { useModal } from '@/src/components/ui/modal-system';
 import CopyInstructionsModalContent from './copy-instructions-modal';
 import { useAuthModal } from '@/src/hooks/use-auth-modal';
+import { Hr } from '../ui/hr';
+import { ChevronLeft, Edit2, Copy, Eye } from 'lucide-react';
 
 export const SignatureDetail = (props: any) => {
   const { signatureDetail, isSignedIn, templateSlug } = props;
@@ -30,17 +32,6 @@ export const SignatureDetail = (props: any) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const BackButton = () => {
-    return (
-      <div className="pb-8 pt-4">
-        <StyledLink
-          variant="default"
-          href="/signatures"
-        >{`< Back to My signatures`}</StyledLink>
-      </div>
-    );
-  };
-
   const showCopyInstructionsModal = () => {
     modal({
       content: <CopyInstructionsModalContent />,
@@ -50,6 +41,23 @@ export const SignatureDetail = (props: any) => {
 
   return (
     <>
+      {!contentEdit.editPath &&
+        !contentEdit.columnPath &&
+        !contentEdit.addPath &&
+        !isEdit &&
+        isSignedIn && (
+          <>
+            <StyledLink
+              variant="default"
+              href="/signatures"
+              className="flex items-center gap-1"
+            >
+              <ChevronLeft size={23} />
+              Back to My signatures
+            </StyledLink>
+            <Hr className="mt-1 mb-4" />
+          </>
+        )}
       <div className="flex flex-col">
         {(!isEdit || contentEdit.editPath) && (
           <>
@@ -57,7 +65,7 @@ export const SignatureDetail = (props: any) => {
             {!contentEdit.editPath && (
               <div className="mt-8 flex">
                 <Button size="lg" onClick={() => setIsEdit(true)}>
-                  Edit
+                  <Edit2 size={18} className="mr-2" /> Edit
                 </Button>
                 {/*    TODO - design so that on first view user doesn't see Copy signature button, but only edit */}
                 <div className="ml-8">
@@ -72,7 +80,7 @@ export const SignatureDetail = (props: any) => {
                       }
                     }}
                   >
-                    Copy Signature
+                    <Copy size={18} className="mr-2" /> Copy Signature
                   </Button>
                 </div>
               </div>
@@ -95,18 +103,13 @@ export const SignatureDetail = (props: any) => {
               !contentEdit.columnPath && (
                 <div className="flex justify-end pt-4 pb-8 border-t border-gray-300">
                   <Button size="lg" onClick={() => setIsEdit(false)}>
-                    View
+                    <Eye size={18} className="mr-2" /> View
                   </Button>
                 </div>
               )}
           </div>
         </>
       )}
-      {!contentEdit.editPath &&
-        !contentEdit.columnPath &&
-        !contentEdit.addPath &&
-        !isEdit &&
-        isSignedIn && <BackButton />}
     </>
   );
 };
