@@ -87,7 +87,11 @@ const PreviewActionPanel: React.FC<PreviewActionPanelProps> = ({
 
   const showPreview = () => {
     modal({
-      content: <EmailTemplateView rows={rows} />,
+      content: (
+        <div className="py-4">
+          <EmailTemplateView rows={rows} />
+        </div>
+      ),
       size: 'large',
     });
   };
