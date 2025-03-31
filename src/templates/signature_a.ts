@@ -5,6 +5,7 @@ export const signature_a: SignatureTemplate = {
   info: {
     templateSlug: "signature-a",
     version: "0.1",
+    name: "Signature A",
   },
   colors: [
     "rgb(0,148,47)",

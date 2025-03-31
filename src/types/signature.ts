@@ -109,6 +109,7 @@ interface TableRow {
 interface SignatureInfo {
     templateSlug: string;
     version: string;
+    name: string;
 }
 
 // Signature template structure

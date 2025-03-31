@@ -4,6 +4,7 @@ import { EmailTemplateView } from './signature-detail/content-view/signature-vie
 import { templates } from '@/src/templates';
 import { Button } from './ui/button';
 import { useRouter } from 'next/navigation';
+import { Typography } from './ui/typography';
 
 type TemplatesExamplesProps = {
   isSignedIn: boolean;
@@ -23,6 +24,7 @@ export const TemplatesExamples = (props: TemplatesExamplesProps) => {
             className="flex flex-col items-center justify-center p-4"
           >
             <div className="w-full max-w-md mx-auto">
+              <Typography variant="labelBase">{template.info?.name}</Typography>
               <EmailTemplateView rows={template.rows} />
             </div>
             <div className="flex justify-center mt-4">
