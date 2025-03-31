@@ -16,6 +16,7 @@ import { useModal } from '../modal-system';
 import { useMediaQuery } from '@/src/hooks/useMediaQuery';
 import { useToast } from '@/src/components/ui/toast';
 import { LoadingInfo } from '../../signature-detail/content-edit/content-edit';
+import pica from 'pica';
 
 const MIN_IMAGE_WIDTH = 50;
 const MAX_IMAGE_WIDTH = 200;
@@ -81,6 +82,9 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
 
   const imgRef = useRef<HTMLImageElement>(null);
   const previewCanvasRef = useRef<HTMLCanvasElement>(null);
+
+  // Použití useRef místo useMemo zaručí stabilní referenci napříč rendery
+  const picaInstanceRef = useRef(pica());
 
   const getDefaultCropForCurrentImage = useCallback((aspectRatio: number) => {
     if (!imgRef.current) return undefined;
@@ -244,7 +248,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
 
         // Return a promise that resolves with the final image URL
         return new Promise<string | null>((resolve, reject) => {
-          originalImg.onload = () => {
+          originalImg.onload = async () => {
             try {
               // Calculate output dimensions
               const outputWidth = previewWidth;
@@ -252,30 +256,16 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
                 (cropNaturalHeight / cropNaturalWidth) * outputWidth,
               );
 
-              // Create canvas for direct cropping at full resolution
-              const directCanvas = document.createElement('canvas');
-              directCanvas.width = outputWidth;
-              directCanvas.height = outputHeight;
-
-              const ctx = directCanvas.getContext('2d', {
-                alpha: true,
-                willReadFrequently: false,
-              });
-
-              if (!ctx) {
-                reject("Couldn't get canvas context");
-                return null;
+              // Create source canvas for the cropped area at full resolution
+              const sourceCanvas = document.createElement('canvas');
+              sourceCanvas.width = cropNaturalWidth;
+              sourceCanvas.height = cropNaturalHeight;
+              const sourceCtx = sourceCanvas.getContext('2d');
+              if (!sourceCtx) {
+                reject("Couldn't get source canvas context");
+                return;
               }
-
-              // Clear canvas first to ensure transparency
-              ctx.clearRect(0, 0, outputWidth, outputHeight);
-
-              // Apply high-quality settings
-              ctx.imageSmoothingEnabled = true;
-              ctx.imageSmoothingQuality = 'high';
-
-              // Direct draw from the original image to the output size
-              ctx.drawImage(
+              sourceCtx.drawImage(
                 originalImg,
                 cropNaturalX,
                 cropNaturalY,
@@ -283,24 +273,45 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
                 cropNaturalHeight,
                 0,
                 0,
-                outputWidth,
-                outputHeight,
+                cropNaturalWidth,
+                cropNaturalHeight,
               );
 
-              // Apply circular mask if needed
+              // Create target canvas for the final resized image
+              const targetCanvas = document.createElement('canvas');
+              targetCanvas.width = outputWidth;
+              targetCanvas.height = outputHeight;
+
+              // Use pica to resize from sourceCanvas to targetCanvas
+              await picaInstanceRef.current.resize(sourceCanvas, targetCanvas, {
+                // quality: 3, // Optional: Higher quality, slower
+              });
+
+              // Get context of the target canvas to apply masking
+              const targetCtx = targetCanvas.getContext('2d', {
+                alpha: true, // Ensure context supports transparency
+              });
+
+              if (!targetCtx) {
+                reject("Couldn't get target canvas context");
+                return;
+              }
+
+              // Apply circular mask if needed (AFTER resizing)
               if (isCircular) {
-                ctx.globalCompositeOperation = 'destination-in';
-                ctx.beginPath();
-                ctx.arc(
+                targetCtx.globalCompositeOperation = 'destination-in';
+                targetCtx.beginPath();
+                targetCtx.arc(
                   outputWidth / 2,
                   outputHeight / 2,
                   Math.min(outputWidth, outputHeight) / 2,
                   0,
                   Math.PI * 2,
                 );
-                ctx.fill();
+                targetCtx.fill();
+                targetCtx.globalCompositeOperation = 'source-over'; // Reset composite operation
               }
-              // Apply border radius if needed
+              // Apply border radius if needed (AFTER resizing)
               else if (borderRadius > 0) {
                 const scaledRadius = Math.min(
                   borderRadius,
@@ -308,38 +319,42 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
                   outputHeight / 2,
                 );
 
-                ctx.globalCompositeOperation = 'destination-in';
-                ctx.beginPath();
-
-                // Draw rounded rectangle
-                ctx.moveTo(scaledRadius, 0);
-                ctx.lineTo(outputWidth - scaledRadius, 0);
-                ctx.quadraticCurveTo(outputWidth, 0, outputWidth, scaledRadius);
-                ctx.lineTo(outputWidth, outputHeight - scaledRadius);
-                ctx.quadraticCurveTo(
+                targetCtx.globalCompositeOperation = 'destination-in';
+                targetCtx.beginPath();
+                targetCtx.moveTo(scaledRadius, 0);
+                targetCtx.lineTo(outputWidth - scaledRadius, 0);
+                targetCtx.quadraticCurveTo(
+                  outputWidth,
+                  0,
+                  outputWidth,
+                  scaledRadius,
+                );
+                targetCtx.lineTo(outputWidth, outputHeight - scaledRadius);
+                targetCtx.quadraticCurveTo(
                   outputWidth,
                   outputHeight,
                   outputWidth - scaledRadius,
                   outputHeight,
                 );
-                ctx.lineTo(scaledRadius, outputHeight);
-                ctx.quadraticCurveTo(
+                targetCtx.lineTo(scaledRadius, outputHeight);
+                targetCtx.quadraticCurveTo(
                   0,
                   outputHeight,
                   0,
                   outputHeight - scaledRadius,
                 );
-                ctx.lineTo(0, scaledRadius);
-                ctx.quadraticCurveTo(0, 0, scaledRadius, 0);
-                ctx.closePath();
-                ctx.fill();
+                targetCtx.lineTo(0, scaledRadius);
+                targetCtx.quadraticCurveTo(0, 0, scaledRadius, 0);
+                targetCtx.closePath();
+                targetCtx.fill();
+                targetCtx.globalCompositeOperation = 'source-over'; // Reset composite operation
               }
 
               // Always use PNG format with maximum quality to ensure transparency
-              const imageDataUrl = directCanvas.toDataURL('image/png', 1.0);
+              const imageDataUrl = targetCanvas.toDataURL('image/png', 1.0);
               resolve(imageDataUrl);
             } catch (error) {
-              console.error('Error processing image:', error);
+              console.error('Error processing image with pica:', error);
               reject(error);
               return null;
             }
@@ -407,7 +422,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         handleCrop().catch((err) => {
           console.error('Error in debounced crop handler:', err);
         });
-      }, 200),
+      }, 1000),
     [handleCrop],
   );
 
