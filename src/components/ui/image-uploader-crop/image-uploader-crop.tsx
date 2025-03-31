@@ -79,6 +79,8 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   >(undefined);
   const [isLoadingOriginalImage, setIsLoadingOriginalImage] = useState(false);
   const [isReplacing, setIsReplacing] = useState(false);
+  const [isResizing, setIsResizing] = useState(false);
+  const [initResizing, setInitResizing] = useState(true);
 
   const imgRef = useRef<HTMLImageElement>(null);
   const previewCanvasRef = useRef<HTMLCanvasElement>(null);
@@ -418,11 +420,19 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
 
   const debouncedHandleCrop = useMemo(
     () =>
+      // First debounce with 400ms, then call handleCrop after 100ms delay
       debounce(() => {
-        handleCrop().catch((err) => {
-          console.error('Error in debounced crop handler:', err);
-        });
-      }, 1000),
+        setIsResizing(true);
+        setTimeout(() => {
+          handleCrop()
+            .catch((err) => {
+              console.error('Error in debounced crop handler:', err);
+            })
+            .finally(() => {
+              setIsResizing(false);
+            });
+        }, 100);
+      }, 600),
     [handleCrop],
   );
 
@@ -579,8 +589,9 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     if (croppedImageData && !initCalledRef.current) {
       initCalledRef.current = true;
       onInit?.();
+      setInitResizing(false);
     }
-  }, [croppedImageData]);
+  }, [croppedImageData, onInit]);
 
   if (isLoadingOriginalImage) {
     return (
@@ -591,200 +602,215 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   }
 
   return (
-    <div className="w-full pt-6 pb-10">
-      {!originalImagePreview && !originalSrc ? (
-        <div
-          className={`grid place-items-center p-4 border border-dashed ${isDragging ? 'border-orange-500 bg-orange-50' : 'border-gray-300'} rounded min-h-[200px] w-[80%] md:w-[400px] mx-auto transition-colors duration-200`}
-          onDragEnter={isDesktop ? handleDragEnter : undefined}
-          onDragOver={isDesktop ? handleDragOver : undefined}
-          onDragLeave={isDesktop ? handleDragLeave : undefined}
-          onDrop={isDesktop ? handleDrop : undefined}
-        >
-          <div className="flex flex-col items-center space-y-4">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-12 w-12 text-gray-400"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-              />
-            </svg>
-            <Typography variant="body" className="text-center">
-              {isDesktop
-                ? isDragging
-                  ? 'Drop image here'
-                  : 'Drag and drop an image here, or'
-                : 'Select an image to upload'}
-            </Typography>
-            <input
-              id="file-upload"
-              type="file"
-              accept="image/*"
-              onChange={onSelectFile}
-              className="hidden"
-            />
-            <label
-              htmlFor="file-upload"
-              className={`${baseStyles} ${variants.orange} ${sizes.md} cursor-pointer`}
-            >
-              Select image
-            </label>
-          </div>
-        </div>
-      ) : (
-        <div className="space-y-4">
-          {croppedImageData && (
-            <div className="space-y-2">
-              <Typography variant="labelBase">
-                {`Width of image: ${
-                  croppedImageData ? `${previewWidth} px` : ''
-                }`}
-              </Typography>
-              <div className="pb-3">
-                <Slider
-                  min={MIN_IMAGE_WIDTH}
-                  max={MAX_IMAGE_WIDTH}
-                  units="pixels"
-                  defaultValue={previewWidth}
-                  onChange={handlePreviewWidthChange}
-                  id="slider"
+    <>
+      <div className="w-full pt-6 pb-10">
+        {!originalImagePreview && !originalSrc ? (
+          <div
+            className={`grid place-items-center p-4 border border-dashed ${isDragging ? 'border-orange-500 bg-orange-50' : 'border-gray-300'} rounded min-h-[200px] w-[80%] md:w-[400px] mx-auto transition-colors duration-200`}
+            onDragEnter={isDesktop ? handleDragEnter : undefined}
+            onDragOver={isDesktop ? handleDragOver : undefined}
+            onDragLeave={isDesktop ? handleDragLeave : undefined}
+            onDrop={isDesktop ? handleDrop : undefined}
+          >
+            <div className="flex flex-col items-center space-y-4">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-12 w-12 text-gray-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
                 />
-              </div>
-
-              {!isCircular && (
-                <div className="space-y-2">
-                  <Typography variant="labelBase">
-                    {`Border radius: ${borderRadius} px`}
-                  </Typography>
-
-                  <Slider
-                    min={0}
-                    max={MAX_IMAGE_WIDTH / 2}
-                    units="px"
-                    value={borderRadius}
-                    onChange={handleBorderRadiusChange}
-                    id="border-radius-slider"
-                  />
-                </div>
-              )}
+              </svg>
+              <Typography variant="body" className="text-center">
+                {isDesktop
+                  ? isDragging
+                    ? 'Drop image here'
+                    : 'Drag and drop an image here, or'
+                  : 'Select an image to upload'}
+              </Typography>
+              <input
+                id="file-upload"
+                type="file"
+                accept="image/*"
+                onChange={onSelectFile}
+                className="hidden"
+              />
+              <label
+                htmlFor="file-upload"
+                className={`${baseStyles} ${variants.orange} ${sizes.md} cursor-pointer`}
+              >
+                Select image
+              </label>
             </div>
-          )}
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {croppedImageData && (
+              <div className="space-y-2">
+                {(isResizing || initResizing) && (
+                  <Typography variant="labelBase" className="text-center">
+                    Resizing..
+                  </Typography>
+                )}
+                {!isResizing && (
+                  <>
+                    <Typography variant="labelBase">
+                      {`Width of image: ${
+                        croppedImageData ? `${previewWidth} px` : ''
+                      }`}
+                    </Typography>
+                    <div className="pb-3">
+                      <Slider
+                        min={MIN_IMAGE_WIDTH}
+                        max={MAX_IMAGE_WIDTH}
+                        units="pixels"
+                        defaultValue={previewWidth}
+                        onChange={handlePreviewWidthChange}
+                        id="slider"
+                      />
+                    </div>
+                  </>
+                )}
 
-          <div className="overflow-hidden bg-black/5 max-w-[90%] mx-0 md:mx-auto">
-            <ReactCrop
-              crop={crop}
-              onChange={(c, percentCrop) => {
-                if (percentCrop) {
-                  setCrop(percentCrop);
-                } else {
-                  setCrop({
-                    ...c,
-                    unit: crop?.unit || '%',
-                  });
-                }
-              }}
-              aspect={aspect}
-              circularCrop={isCircular}
-              style={{ width: '100%' }}
-            >
-              <img
-                ref={imgRef}
-                alt="Crop me"
-                src={originalImagePreview}
-                onLoad={() => {
-                  if (imgRef.current && !imageSettings?.crop?.width) {
-                    const { width: imgWidth, height: imgHeight } =
-                      imgRef.current.getBoundingClientRect();
-                    const defaultCrop = getDefaultCrop(1, imgWidth, imgHeight);
+                {!isCircular && (
+                  <div className="space-y-2">
+                    <Typography variant="labelBase">
+                      {`Border radius: ${borderRadius} px`}
+                    </Typography>
+
+                    <Slider
+                      min={0}
+                      max={MAX_IMAGE_WIDTH / 2}
+                      units="px"
+                      value={borderRadius}
+                      onChange={handleBorderRadiusChange}
+                      id="border-radius-slider"
+                    />
+                  </div>
+                )}
+              </div>
+            )}
+
+            <div className="overflow-hidden bg-black/5 max-w-[90%] mx-0 md:mx-auto">
+              <ReactCrop
+                crop={crop}
+                onChange={(c, percentCrop) => {
+                  if (percentCrop) {
+                    setCrop(percentCrop);
+                  } else {
                     setCrop({
-                      ...defaultCrop,
-                      unit: '%' as const,
+                      ...c,
+                      unit: crop?.unit || '%',
                     });
                   }
                 }}
-                className="max-h-[600px] w-full object-contain"
-              />
-            </ReactCrop>
-          </div>
+                aspect={aspect}
+                circularCrop={isCircular}
+                style={{ width: '100%' }}
+              >
+                <img
+                  ref={imgRef}
+                  alt="Crop me"
+                  src={originalImagePreview}
+                  onLoad={() => {
+                    if (imgRef.current && !imageSettings?.crop?.width) {
+                      const { width: imgWidth, height: imgHeight } =
+                        imgRef.current.getBoundingClientRect();
+                      const defaultCrop = getDefaultCrop(
+                        1,
+                        imgWidth,
+                        imgHeight,
+                      );
+                      setCrop({
+                        ...defaultCrop,
+                        unit: '%' as const,
+                      });
+                    }
+                  }}
+                  className="max-h-[600px] w-full object-contain"
+                />
+              </ReactCrop>
+            </div>
 
-          <Typography variant="labelBase">Aspect ratio</Typography>
-          <div className="flex flex-wrap gap-y-4 gap-x-8">
-            <Button
-              size="md"
-              variant="outline"
-              onClick={() => {
-                handleAspectChange(1, false);
-              }}
-              selected={!isCircular && aspect === 1}
-            >
-              1:1
-            </Button>
-            <Button
-              size="md"
-              variant="outline"
-              onClick={() => {
-                handleAspectChange(3 / 2, false);
-              }}
-              selected={!isCircular && aspect === 3 / 2}
-            >
-              3:2
-            </Button>
-            <Button
-              size="md"
-              variant="outline"
-              onClick={() => {
-                handleAspectChange(2 / 3, false);
-              }}
-              selected={!isCircular && aspect === 2 / 3}
-            >
-              2:3
-            </Button>
-            <Button
-              size="md"
-              variant="outline"
-              onClick={() => {
-                handleAspectChange(1, true);
-              }}
-              selected={isCircular}
-            >
-              Circular
-            </Button>
-            <Button
-              size="md"
-              variant="outline"
-              onClick={() => {
-                setIsCircular(false);
-                setAspect(undefined);
-                if (crop) {
-                  setCrop({
-                    ...crop,
-                    unit: '%',
-                  });
-                }
-              }}
-              selected={!isCircular && aspect === undefined}
-            >
-              Free
-            </Button>
-          </div>
-
-          <div>
-            <div className="mt-10 flex justify-center">
-              <Button variant="orange" size="md" onClick={handleDeleteImage}>
-                Change image
+            <Typography variant="labelBase">Aspect ratio</Typography>
+            <div className="flex flex-wrap gap-y-4 gap-x-8">
+              <Button
+                size="md"
+                variant="outline"
+                onClick={() => {
+                  handleAspectChange(1, false);
+                }}
+                selected={!isCircular && aspect === 1}
+              >
+                1:1
+              </Button>
+              <Button
+                size="md"
+                variant="outline"
+                onClick={() => {
+                  handleAspectChange(3 / 2, false);
+                }}
+                selected={!isCircular && aspect === 3 / 2}
+              >
+                3:2
+              </Button>
+              <Button
+                size="md"
+                variant="outline"
+                onClick={() => {
+                  handleAspectChange(2 / 3, false);
+                }}
+                selected={!isCircular && aspect === 2 / 3}
+              >
+                2:3
+              </Button>
+              <Button
+                size="md"
+                variant="outline"
+                onClick={() => {
+                  handleAspectChange(1, true);
+                }}
+                selected={isCircular}
+              >
+                Circular
+              </Button>
+              <Button
+                size="md"
+                variant="outline"
+                onClick={() => {
+                  setIsCircular(false);
+                  setAspect(undefined);
+                  if (crop) {
+                    setCrop({
+                      ...crop,
+                      unit: '%',
+                    });
+                  }
+                }}
+                selected={!isCircular && aspect === undefined}
+              >
+                Free
               </Button>
             </div>
-          </div>
 
-          <canvas ref={previewCanvasRef} className="hidden" />
-        </div>
-      )}
-    </div>
+            <div>
+              <div className="mt-10 flex justify-center">
+                <Button variant="orange" size="md" onClick={handleDeleteImage}>
+                  Change image
+                </Button>
+              </div>
+            </div>
+
+            <canvas ref={previewCanvasRef} className="hidden" />
+          </div>
+        )}
+      </div>
+    </>
   );
 }
