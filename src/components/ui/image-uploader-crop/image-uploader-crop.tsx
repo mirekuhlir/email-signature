@@ -238,9 +238,6 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         const cropNaturalWidth = cropWidth * displayToNaturalRatioX;
         const cropNaturalHeight = cropHeight * displayToNaturalRatioY;
 
-        // Get device pixel ratio for high-DPI displays
-        const pixelRatio = window.devicePixelRatio || 1;
-
         // Create a new Image object to load the original image at full resolution
         const originalImg = new Image();
         originalImg.crossOrigin = 'anonymous';
@@ -250,7 +247,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
           originalImg.onload = () => {
             try {
               // Calculate output dimensions
-              const outputWidth = previewWidth * pixelRatio;
+              const outputWidth = previewWidth;
               const outputHeight = Math.round(
                 (cropNaturalHeight / cropNaturalWidth) * outputWidth,
               );
@@ -306,7 +303,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
               // Apply border radius if needed
               else if (borderRadius > 0) {
                 const scaledRadius = Math.min(
-                  borderRadius * pixelRatio,
+                  borderRadius,
                   outputWidth / 2,
                   outputHeight / 2,
                 );
@@ -338,25 +335,8 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
                 ctx.fill();
               }
 
-              // Create display canvas with proper CSS dimensions
-              const displayCanvas = document.createElement('canvas');
-              displayCanvas.width = outputWidth;
-              displayCanvas.height = outputHeight;
-              displayCanvas.style.width = `${previewWidth}px`;
-              displayCanvas.style.height = `${outputHeight / pixelRatio}px`;
-
-              // Copy from direct canvas to display canvas
-              const displayCtx = displayCanvas.getContext('2d', {
-                alpha: true,
-              });
-              if (displayCtx) {
-                // Clear canvas first to ensure transparency
-                displayCtx.clearRect(0, 0, outputWidth, outputHeight);
-                displayCtx.drawImage(directCanvas, 0, 0);
-              }
-
               // Always use PNG format with maximum quality to ensure transparency
-              const imageDataUrl = displayCanvas.toDataURL('image/png', 1.0);
+              const imageDataUrl = directCanvas.toDataURL('image/png', 1.0);
               resolve(imageDataUrl);
             } catch (error) {
               console.error('Error processing image:', error);
@@ -445,30 +425,26 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
       img.onload = () => {
         if (!previewCanvasRef.current || !previewWidth) return;
 
-        // Get device pixel ratio
-        const pixelRatio = window.devicePixelRatio || 1;
+        // Calculate simple scale without pixel ratio multiplication
         const scale = previewWidth / img.width;
+        const scaledHeight = img.height * scale;
 
-        // Set the canvas dimensions accounting for device pixel ratio
-        const scaledWidth = previewWidth * pixelRatio;
-        const scaledHeight = img.height * scale * pixelRatio;
-
-        previewCanvasRef.current.width = scaledWidth;
+        // Set canvas dimensions directly to the display size
+        previewCanvasRef.current.width = previewWidth;
         previewCanvasRef.current.height = scaledHeight;
         previewCanvasRef.current.style.width = `${previewWidth}px`;
-        previewCanvasRef.current.style.height = `${img.height * scale}px`;
+        previewCanvasRef.current.style.height = `${scaledHeight}px`;
 
         const ctx = previewCanvasRef.current.getContext('2d', { alpha: true });
         if (!ctx) return;
 
-        // Scale the context according to the device pixel ratio
-        ctx.scale(pixelRatio, pixelRatio);
+        // Apply high-quality settings without pixel ratio scaling
         ctx.imageSmoothingEnabled = true;
         ctx.imageSmoothingQuality = 'high';
 
         // Clear the canvas to ensure transparency
-        ctx.clearRect(0, 0, previewWidth, img.height * scale);
-        ctx.drawImage(img, 0, 0, previewWidth, img.height * scale);
+        ctx.clearRect(0, 0, previewWidth, scaledHeight);
+        ctx.drawImage(img, 0, 0, previewWidth, scaledHeight);
 
         // Always use PNG format with maximum quality to ensure transparency
         const newDataUrl = previewCanvasRef.current.toDataURL('image/png', 1.0);

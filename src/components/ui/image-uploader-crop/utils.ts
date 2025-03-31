@@ -8,7 +8,7 @@ export const cropDefault: Crop = {
   y: 10,
 };
 
-export const imageWidthDefault = 150;
+export const imageWidthDefault = 120;
 
 export function getDefaultCrop(
   aspect: number,
