@@ -431,8 +431,9 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
             .finally(() => {
               setIsResizing(false);
             });
+          // display resizing text
         }, 100);
-      }, 600),
+      }, 1000),
     [handleCrop],
   );
 
@@ -530,10 +531,13 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
 
   const handlePreviewWidthChange = useCallback(
     (value: number) => {
+      if (!isResizing) {
+        setIsResizing(true);
+      }
       setPreviewWidth(value);
       onSetPreviewWidth?.(value);
     },
-    [onSetPreviewWidth],
+    [onSetPreviewWidth, isResizing],
   );
 
   const handleBorderRadiusChange = useCallback((value: number) => {
@@ -653,30 +657,28 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
           <div className="space-y-4">
             {croppedImageData && (
               <div className="space-y-2">
-                {(isResizing || initResizing) && (
-                  <Typography variant="labelBase" className="text-center">
-                    Resizing..
-                  </Typography>
-                )}
-                {!isResizing && (
-                  <>
-                    <Typography variant="labelBase">
-                      {`Width of image: ${
-                        croppedImageData ? `${previewWidth} px` : ''
-                      }`}
+                <>
+                  {(isResizing || initResizing) && (
+                    <Typography variant="labelBase" className="text-center">
+                      Resizing...
                     </Typography>
-                    <div className="pb-3">
-                      <Slider
-                        min={MIN_IMAGE_WIDTH}
-                        max={MAX_IMAGE_WIDTH}
-                        units="pixels"
-                        defaultValue={previewWidth}
-                        onChange={handlePreviewWidthChange}
-                        id="slider"
-                      />
-                    </div>
-                  </>
-                )}
+                  )}
+                  <Typography variant="labelBase">
+                    {`Width of image: ${
+                      croppedImageData ? `${previewWidth} px` : ''
+                    }`}
+                  </Typography>
+                  <div className="pb-3">
+                    <Slider
+                      min={MIN_IMAGE_WIDTH}
+                      max={MAX_IMAGE_WIDTH}
+                      units="pixels"
+                      defaultValue={previewWidth}
+                      onChange={handlePreviewWidthChange}
+                      id="slider"
+                    />
+                  </div>
+                </>
 
                 {!isCircular && (
                   <div className="space-y-2">

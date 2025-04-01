@@ -33,7 +33,7 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({
           {isVisibleOnlyPreview && (
             <div className="flex justify-end">
               <Button variant="outline" onClick={onPreview}>
-                Preview
+                View
               </Button>
             </div>
           )}
@@ -48,7 +48,7 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({
               <div className="flex space-x-2">
                 {onPreview && (
                   <Button variant="outline" onClick={onPreview}>
-                    Preview
+                    View
                   </Button>
                 )}
                 {onSave && !isSaving && !isVisibleOnlyPreview && (

@@ -5,7 +5,6 @@ import { useSignatureStore } from '@/src/store/content-edit-add-store';
 import ImageUploadCrop from '@/src/components/ui/image-uploader-crop/image-uploader-crop';
 import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
 import { countImageComponents } from '@/src/utils/content';
-import { generateRandomId } from '@/src/utils/generateRandomId';
 import { Button } from '@/src/components/ui/button';
 import TextInput from '@/src/components/ui/text-input';
 import { useForm } from 'react-hook-form';
@@ -83,7 +82,8 @@ export const ImageEditContent = (props: any) => {
   );
 
   const onInit = useCallback(() => {
-    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    // TODO - asi smazat
+    /* window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }) */
   }, []);
 
   const handleImageLoadingChange = useCallback(
@@ -144,7 +144,7 @@ export const ImageEditContent = (props: any) => {
 
       {!contentEdit.isImageLoading && (
         <>
-          <Hr className="mb-4" />
+          {imageComponent.src && <Hr className="mb-4" />}
 
           <div className="pb-6">
             <div
@@ -152,11 +152,12 @@ export const ImageEditContent = (props: any) => {
                 showLinkInput ? 'bg-white p-4 shadow-md rounded-md mb-8' : ''
               }
             >
-              {!showLinkInput && (
-                <div className="pb-1">
-                  <Typography variant="labelBase">Image Link</Typography>
-                </div>
-              )}
+              {!showLinkInput &&
+                (imageComponent.src || imageComponent.cropImagePreview) && (
+                  <div className="pb-1">
+                    <Typography variant="labelBase">Image Link</Typography>
+                  </div>
+                )}
               {imageComponent.link ? (
                 <>
                   {!showLinkInput && (
@@ -185,19 +186,20 @@ export const ImageEditContent = (props: any) => {
                 </>
               ) : (
                 <>
-                  {!showLinkInput && (
-                    <Button
-                      variant="blue"
-                      onClick={() => {
-                        setShowLinkInput(!showLinkInput);
-                        setContentEdit({
-                          subEdit: 'edit-link',
-                        });
-                      }}
-                    >
-                      Add Link
-                    </Button>
-                  )}
+                  {!showLinkInput &&
+                    (imageComponent.src || imageComponent.cropImagePreview) && (
+                      <Button
+                        variant="blue"
+                        onClick={() => {
+                          setShowLinkInput(!showLinkInput);
+                          setContentEdit({
+                            subEdit: 'edit-link',
+                          });
+                        }}
+                      >
+                        Add Link
+                      </Button>
+                    )}
 
                   {showLinkInput && (
                     <div className="mt-2 p-3">
