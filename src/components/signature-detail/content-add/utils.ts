@@ -121,6 +121,7 @@ const getPhone = () => {
                     id: generateRandomId(),
                     text: getPhoneTextExample().prefix,
                     fontSize: "14",
+                    textDecoration: "none",
                     type: ContentType.TEXT,
                 },
                 {
@@ -128,6 +129,7 @@ const getPhone = () => {
                     text: getPhoneTextExample().phone,
                     type: ContentType.PHONE_LINK,
                     fontSize: "14",
+                    textDecoration: "none",
                 },
             ],
         },

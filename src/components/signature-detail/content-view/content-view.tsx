@@ -134,7 +134,6 @@ export const getContentView = (content?: any) => {
             fontSize,
             color,
             letterSpacing,
-
             fontFamily,
             fontStyle,
             fontWeight,
@@ -148,7 +147,6 @@ export const getContentView = (content?: any) => {
             fontSize: `${fontSize}px`,
             color,
             letterSpacing: `${letterSpacing}px`,
-
             fontFamily,
             fontStyle,
             fontWeight,

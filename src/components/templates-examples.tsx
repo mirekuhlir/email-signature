@@ -21,7 +21,7 @@ export const TemplatesExamples = (props: TemplatesExamplesProps) => {
         {templates.map((template, index) => (
           <div
             key={index}
-            className="flex flex-col items-center justify-center p-4"
+            className="flex flex-col items-center justify-center"
           >
             <div className="w-full max-w-md mx-auto">
               <Typography variant="labelBase">{template.info?.name}</Typography>
