@@ -246,6 +246,7 @@ export const EmailTemplateEdit = (props: any) => {
               >
                 Add
               </Button>
+              <Hr className="my-4" />
             </div>
           )}
         <>
