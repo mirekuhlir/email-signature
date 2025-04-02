@@ -115,6 +115,8 @@ async function duplicateSignatureImages(
             return;
         }
 
+        const newComponentId = generateRandomId(7);
+
         if (typeof node === "object" && node !== null) {
             const objNode = node as Record<string, unknown>;
 
@@ -130,11 +132,9 @@ async function duplicateSignatureImages(
                 )[1];
                 if (!sourceKey) return;
 
-                // Extract component ID from the path
-                const componentId = objNode.id?.toString() ||
-                    generateRandomId();
                 // Create a filename with timestamp similar to image-edit-content.tsx
-                const newFilename = `${componentId}.png`;
+                const newFilename = `${newComponentId}.png`;
+                objNode.id = newComponentId;
 
                 // Create an upload task
                 const uploadTask = getS3Object(sourceKey)
@@ -167,13 +167,12 @@ async function duplicateSignatureImages(
                 )[1];
                 if (!sourceKey) return;
 
-                // Extract component ID from the path
-                const componentId = objNode.id?.toString() ||
-                    generateRandomId();
                 // Create a filename with timestamp similar to image-edit-content.tsx
-                const newFilename = `${componentId}-${
+                const newFilename = `${newComponentId}-${
                     new Date().getTime().toString()
                 }.png`;
+
+                objNode.id = newComponentId;
 
                 const uploadTask = getS3Object(sourceKey)
                     .then((imageData) => {
