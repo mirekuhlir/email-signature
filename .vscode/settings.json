@@ -6,6 +6,5 @@
   "editor.formatOnSave": true,
   "[typescript]": {
     "editor.defaultFormatter": "denoland.vscode-deno"
-  },
-  "i18n-ally.localesPaths": ["app/i18n", "app/i18n/locales"]
+  }
 }
