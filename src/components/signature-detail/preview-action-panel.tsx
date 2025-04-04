@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSignatureStore } from '@/src/store/content-edit-add-store';
 import { EmailTemplateView } from './content-view/signature-view';
 import { useModal } from '@/src/components/ui/modal-system';
 import { Container } from '@/src/components/ui/container';
 import { Button } from '@/src/components/ui/button';
+import { TitleSwitch } from '../ui/title-switch';
+import { Smartphone, Monitor } from 'lucide-react';
+import { useMediaQuery } from '@/src/hooks/useMediaQuery';
+import { MEDIA_QUERIES } from '@/src/constants/mediaQueries';
 
 interface ActionPanelProps {
   visible: boolean;
@@ -86,12 +90,49 @@ const PreviewActionPanel: React.FC<PreviewActionPanelProps> = ({
   if (!visible) return null;
 
   const showPreview = () => {
-    modal({
-      content: (
-        <div className="py-4">
-          <EmailTemplateView rows={rows} />
+    const ModalContent = () => {
+      const [isMobilePreview, setIsMobilePreview] = useState(false);
+      const isDesktopScreen = useMediaQuery(MEDIA_QUERIES.MD);
+
+      return (
+        <div className="py-4 flex flex-col items-center">
+          {isDesktopScreen && (
+            <div className="flex items-center space-x-4 mb-8 w-full justify-center">
+              <TitleSwitch
+                checked={isMobilePreview}
+                onCheckedChange={setIsMobilePreview}
+                leftContent={
+                  <div className="flex items-center">
+                    <Monitor size={16} className="mr-1" />
+                    Desktop
+                  </div>
+                }
+                rightContent={
+                  <div className="flex items-center">
+                    <Smartphone size={16} className="mr-1" />
+                    Mobil
+                  </div>
+                }
+                aria-label="Switch between desktop and mobile view"
+              />
+            </div>
+          )}
+
+          <div className="w-full rounded flex justify-center">
+            <div
+              className={`px-4 transition-all duration-300 ease-in-out rounded overflow-hidden ${
+                isMobilePreview ? 'w-[375px] shadow-lg' : 'w-full'
+              }`}
+            >
+              <EmailTemplateView rows={rows} />
+            </div>
+          </div>
         </div>
-      ),
+      );
+    };
+
+    modal({
+      content: <ModalContent />,
       size: 'large',
     });
   };
