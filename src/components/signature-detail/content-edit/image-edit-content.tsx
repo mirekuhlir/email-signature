@@ -10,6 +10,7 @@ import TextInput from '@/src/components/ui/text-input';
 import { useForm } from 'react-hook-form';
 import { Typography } from '@/src/components/ui/typography';
 import { Hr } from '../../ui/hr';
+import { generateRandomId } from '@/src/utils/generateRandomId';
 
 export const ImageEditContent = (props: any) => {
   const { components, contentPathToEdit, isSignedIn } = props;
@@ -62,7 +63,7 @@ export const ImageEditContent = (props: any) => {
   const handleOriginalImage = useCallback(
     (originalImage: File | null) => {
       if (originalImage instanceof File) {
-        const newFileName = `${imageComponent.id}-${new Date().getTime().toString()}.png`;
+        const newFileName = `${imageComponent.id}-${generateRandomId(4)}.png`;
         const modifiedFile = new File([originalImage], newFileName, {
           type: originalImage.type,
           lastModified: Date.now(),
