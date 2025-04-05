@@ -4,12 +4,12 @@ import { useState, useEffect } from 'react';
 import { useSignatureStore } from '@/src/store/content-edit-add-store';
 import { Button } from '@/src/components/ui/button';
 import { handleCopy } from './content-view/utils';
-import { EmailTemplateView } from './content-view/signature-view';
 import { EmailTemplateEdit } from './signature-edit-add';
 import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
 import StyledLink from '../ui/styled-link';
 import { useModal } from '@/src/components/ui/modal-system';
 import CopyInstructionsModalContent from './copy-instructions-modal';
+import SignaturePreview from './signature-preview';
 import { useAuthModal } from '@/src/hooks/use-auth-modal';
 import { Hr } from '../ui/hr';
 import { ChevronLeft, Edit2, Copy, Eye } from 'lucide-react';
@@ -61,13 +61,12 @@ export const SignatureDetail = (props: any) => {
       <div className="flex flex-col">
         {(!isEdit || contentEdit.editPath) && (
           <>
-            <EmailTemplateView rows={rows} />
+            <SignaturePreview />
             {!contentEdit.editPath && (
               <div className="mt-8 flex">
                 <Button size="lg" onClick={() => setIsEdit(true)}>
                   <Edit2 size={18} className="mr-2" /> Edit
                 </Button>
-                {/*    TODO - design so that on first view user doesn't see Copy signature button, but only edit */}
                 <div className="ml-8">
                   <Button
                     size="lg"
