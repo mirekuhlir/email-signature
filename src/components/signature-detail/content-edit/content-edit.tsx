@@ -178,6 +178,12 @@ export const ContentEdit = (props: any) => {
     ? content?.components[0]?.cropImagePreview
     : true;
 
+  const isVisibleOnlyClose =
+    isImage &&
+    !content?.components[0]?.cropImagePreview &&
+    !content?.components[0]?.originalSrc &&
+    !content?.components[0]?.imageSettings;
+
   const closeContent = () => {
     // image was not loaded from client so we can delete row
     const image = content?.components[0];
@@ -404,6 +410,7 @@ export const ContentEdit = (props: any) => {
           onSave={handleSave}
           isSignedIn={isSignedIn}
           isVisibleOnlyPreview={Boolean(contentEdit.subEdit)}
+          isVisibleOnlyClose={isVisibleOnlyClose}
         />
       </div>
     </div>

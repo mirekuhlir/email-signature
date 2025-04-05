@@ -125,6 +125,11 @@ export const ImageEditContent = (props: any) => {
     setShowLinkInput(false);
   };
 
+  const isShowAddLinkToImage =
+    !showLinkInput &&
+    (imageComponent.src || imageComponent.cropImagePreview) &&
+    imageComponent.imageSettings;
+
   return (
     <>
       <ImageUploadCrop
@@ -145,7 +150,7 @@ export const ImageEditContent = (props: any) => {
 
       {!contentEdit.isImageLoading && (
         <>
-          {imageComponent.src && <Hr className="mb-4" />}
+          {isShowAddLinkToImage && <Hr className="mb-4" />}
 
           <div className="pb-6">
             <div
@@ -153,12 +158,11 @@ export const ImageEditContent = (props: any) => {
                 showLinkInput ? 'bg-white p-4 shadow-md rounded-md mb-8' : ''
               }
             >
-              {!showLinkInput &&
-                (imageComponent.src || imageComponent.cropImagePreview) && (
-                  <div className="pb-1">
-                    <Typography variant="labelBase">Image Link</Typography>
-                  </div>
-                )}
+              {isShowAddLinkToImage && (
+                <div className="pb-1">
+                  <Typography variant="labelBase">Add link to image</Typography>
+                </div>
+              )}
               {imageComponent.link ? (
                 <>
                   {!showLinkInput && (
@@ -187,20 +191,19 @@ export const ImageEditContent = (props: any) => {
                 </>
               ) : (
                 <>
-                  {!showLinkInput &&
-                    (imageComponent.src || imageComponent.cropImagePreview) && (
-                      <Button
-                        variant="blue"
-                        onClick={() => {
-                          setShowLinkInput(!showLinkInput);
-                          setContentEdit({
-                            subEdit: 'edit-link',
-                          });
-                        }}
-                      >
-                        Add Link
-                      </Button>
-                    )}
+                  {isShowAddLinkToImage && (
+                    <Button
+                      variant="blue"
+                      onClick={() => {
+                        setShowLinkInput(!showLinkInput);
+                        setContentEdit({
+                          subEdit: 'edit-link',
+                        });
+                      }}
+                    >
+                      Add Link
+                    </Button>
+                  )}
 
                   {showLinkInput && (
                     <div className="mt-2 p-3">
