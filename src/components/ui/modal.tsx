@@ -41,14 +41,18 @@ const Modal: React.FC<ModalProps> = ({
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800/70 bg-opacity-30 z-50">
       <div
-        className={`bg-white rounded-lg shadow-lg ${sizeClasses[size]} ${size === 'fullscreen' ? 'h-full' : ''}`}
+        className={`bg-white rounded-lg shadow-lg ${sizeClasses[size]} ${size === 'fullscreen' ? 'h-full flex flex-col' : ''}`}
       >
         {title && (
-          <div className="flex justify-between items-center p-4">
+          <div className="flex justify-between items-center p-4 border-b">
             <Typography variant="h4">{title}</Typography>
           </div>
         )}
-        <div className="px-4 pb-4 overflow-auto max-h-[80vh]">{children}</div>
+        <div
+          className={`px-4 py-4 overflow-auto ${size === 'fullscreen' ? 'flex-grow' : 'max-h-[80vh]'}`}
+        >
+          {children}
+        </div>
         {onClose && (
           <div className="flex justify-end p-4">
             <Button variant="ghost" onClick={onClose}>
