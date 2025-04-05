@@ -1,12 +1,11 @@
 export const signature_b = {
     info: {
-        templateSlug: "signature-empty",
+        templateSlug: "signature-b",
         version: "0.1",
         name: "Signature b",
     },
 
     colors: [
-        "rgb(0,148,47)",
         "rgb(58, 135, 176)",
     ],
     rows: [
@@ -23,11 +22,11 @@ export const signature_b = {
                                 components: [
                                     {
                                         id: "7xxr92r",
-                                        src: "https://signatures-photos-dev.s3.us-east-1.amazonaws.com/192ebc69-7ff7-4336-b1fc/8122d959/7xxr92r.png",
+                                        src: "https://signatures-photos-dev.s3.us-east-1.amazonaws.com/examples/signature_b_preview.png",
                                         padding: "0px 0px 0px 0px",
                                         originalSrc:
-                                            "https://signatures-photos-dev.s3.us-east-1.amazonaws.com/192ebc69-7ff7-4336-b1fc/8122d959/7xxr92r-1743442910877.png",
-                                        borderRadius: "0px",
+                                            "https://signatures-photos-dev.s3.us-east-1.amazonaws.com/examples/signature_b_original.png",
+                                        borderRadius: "0",
                                         previewWidth: 120,
                                         "imageSettings": {
                                             "crop": {
@@ -66,7 +65,7 @@ export const signature_b = {
                                         fontFamily: "Verdana",
                                         fontWeight: "normal",
                                         lineHeight: "1",
-                                        borderRadius: "0px",
+                                        borderRadius: "0",
                                         letterSpacing: "0",
                                         textDecoration: "none",
                                     },
@@ -89,7 +88,7 @@ export const signature_b = {
                                         fontFamily: "Verdana",
                                         fontWeight: "normal",
                                         lineHeight: "1",
-                                        borderRadius: "0px",
+                                        borderRadius: "0",
                                         letterSpacing: "0",
                                         textDecoration: "none",
                                     },
@@ -113,7 +112,7 @@ export const signature_b = {
                                         fontFamily: "Verdana",
                                         fontWeight: "normal",
                                         lineHeight: "1",
-                                        borderRadius: "0px",
+                                        borderRadius: "0",
                                         letterSpacing: "0",
                                         textDecoration: "none",
                                     },
@@ -145,7 +144,7 @@ export const signature_b = {
                                         fontFamily: "Verdana",
                                         fontWeight: "normal",
                                         lineHeight: "1",
-                                        borderRadius: "0px",
+                                        borderRadius: "0",
                                         letterSpacing: "0",
                                         textDecoration: "none",
                                     },
@@ -183,7 +182,7 @@ export const signature_b = {
                                         fontFamily: "Verdana",
                                         fontWeight: "normal",
                                         lineHeight: "1",
-                                        borderRadius: "0px",
+                                        borderRadius: "0",
                                         letterSpacing: "0",
                                         textDecoration: "none",
                                     },
@@ -207,7 +206,7 @@ export const signature_b = {
                     ],
                     style: {
                         padding: "0px 0px 0px 10px",
-                        borderRadius: "0px",
+                        borderRadius: "0",
                         verticalAlign: "middle",
                         borderTopColor: "rgb(0, 0, 0)",
                         borderTopStyle: "none",

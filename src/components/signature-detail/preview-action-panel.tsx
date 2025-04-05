@@ -138,7 +138,7 @@ const PreviewActionPanel: React.FC<PreviewActionPanelProps> = ({
 
           <div className="w-full rounded flex justify-center">
             <div
-              className={`px-4 transition-all duration-300 ease-in-out rounded overflow-hidden ${
+              className={`px-4 py-4 transition-all duration-300 ease-in-out rounded overflow-hidden ${
                 isMobilePreview ? 'w-[375px] shadow-lg' : 'w-full'
               }`}
             >
