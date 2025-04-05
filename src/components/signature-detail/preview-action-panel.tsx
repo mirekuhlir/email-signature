@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useSignatureStore } from '@/src/store/content-edit-add-store';
 import { EmailTemplateView } from './content-view/signature-view';
 import { useModal } from '@/src/components/ui/modal-system';
@@ -8,6 +8,7 @@ import { TitleSwitch } from '../ui/title-switch';
 import { Smartphone, Monitor, Sun, Moon } from 'lucide-react';
 import { useMediaQuery } from '@/src/hooks/useMediaQuery';
 import { MEDIA_QUERIES } from '@/src/constants/mediaQueries';
+import { getInvertedSignatureRows } from '@/src/utils/colorUtils';
 
 interface ActionPanelProps {
   visible: boolean;
@@ -102,7 +103,6 @@ const PreviewActionPanel: React.FC<PreviewActionPanelProps> = ({
   isVisibleOnlyPreview = false,
   isVisibleOnlyClose = false,
 }) => {
-  const { rows } = useSignatureStore();
   const { modal } = useModal();
 
   if (!visible) return null;
@@ -112,12 +112,18 @@ const PreviewActionPanel: React.FC<PreviewActionPanelProps> = ({
       const [isMobilePreview, setIsMobilePreview] = useState(false);
       const isDesktopScreen = useMediaQuery(MEDIA_QUERIES.MD);
 
-      const { isDarkMode, toggleDarkMode } = useSignatureStore();
+      const { rows, isDarkMode, toggleDarkMode } = useSignatureStore();
+
+      const invertedRows = useMemo(() => {
+        return getInvertedSignatureRows(rows);
+      }, [rows]);
+
+      const rowsToDisplay = isDarkMode ? invertedRows : rows;
 
       return (
         <div
           className={`p-4 flex flex-col items-center ${
-            isDarkMode ? 'bg-gray-900' : 'bg-white'
+            isDarkMode ? 'bg-gray-900 text-white' : 'bg-white'
           }`}
         >
           <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-8 mb-8 w-full justify-center">
@@ -167,7 +173,7 @@ const PreviewActionPanel: React.FC<PreviewActionPanelProps> = ({
                   : 'w-full'
               }`}
             >
-              <EmailTemplateView rows={rows} />
+              <EmailTemplateView rows={rowsToDisplay} />
             </div>
           </div>
         </div>
