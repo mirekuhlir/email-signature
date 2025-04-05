@@ -1,7 +1,9 @@
 import { useToastStore } from "@/src/components/ui/toast";
 
-export const handleCopy = async (signatureId: string) => {
-  const signatureElement = document.getElementById(signatureId);
+export const handleCopy = async (/*signatureId: string*/) => {
+  const signatureElement = document.getElementById(
+    "email-signature-light-for-copy",
+  );
   if (!signatureElement) return;
 
   const textContent = signatureElement.innerText;
@@ -28,6 +30,8 @@ export const handleCopy = async (signatureId: string) => {
   // Fallback fot Safari iOS or older browsers
   try {
     const tempElement = document.createElement("div");
+    tempElement.style.backgroundColor = "white";
+    tempElement.style.color = "black";
     tempElement.innerHTML = htmlContent;
     tempElement.style.position = "fixed";
     tempElement.style.left = "-9999px";
@@ -63,40 +67,3 @@ export const handleCopy = async (signatureId: string) => {
     });
   }
 };
-
-function adjustColorForDarkMode(hex: string): string {
-  // Odstraní hash z hex kódu, pokud existuje
-  hex = hex.replace("#", "");
-
-  // Pokud je to tříznakový hex kód, rozšiř na šesti znakový
-  if (hex.length === 3) {
-    hex = hex
-      .split("")
-      .map((char) => char + char)
-      .join("");
-  }
-
-  // Převést hex na decimální hodnoty
-  const r = parseInt(hex.substring(0, 2), 16);
-  const g = parseInt(hex.substring(2, 4), 16);
-  const b = parseInt(hex.substring(4, 6), 16);
-
-  // Heuristika pro rozhodnutí, jak barvu upravit
-  // Tmavé pozadí -> světlé; světlé pozadí -> tmavé
-  if ((r + g + b) / 3 > 200) {
-    // Pokud je barva velmi světlá, použij jemnou tmavší šedou
-    return "#333333"; // tmavě šedá pro světlé pozadí
-  } else if ((r + g + b) / 3 < 55) {
-    // Pokud je barva velmi tmavá, použij jemnou světlou šedou
-    return "#CCCCCC"; // světle šedá pro tmavý text
-  } else {
-    // Lehce upravit barvy, aby odpovídaly tmavému režimu
-    const newR = Math.floor(r * 0.8);
-    const newG = Math.floor(g * 0.8);
-    const newB = Math.floor(b * 0.8);
-    return `#${
-      ((1 << 24) + (newR << 16) + (newG << 8) + newB).toString(16).slice(1)
-        .toUpperCase()
-    }`;
-  }
-}

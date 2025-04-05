@@ -78,7 +78,7 @@ export const SignatureDetail = (props: any) => {
                     size="lg"
                     onClick={() => {
                       if (isSignedIn) {
-                        handleCopy('email-signature');
+                        handleCopy();
                         showCopyInstructionsModal();
                       } else {
                         showAuthModal('Sign in to copy your signature');
