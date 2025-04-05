@@ -5,7 +5,7 @@ import { useModal } from '@/src/components/ui/modal-system';
 import { Container } from '@/src/components/ui/container';
 import { Button } from '@/src/components/ui/button';
 import { TitleSwitch } from '../ui/title-switch';
-import { Smartphone, Monitor } from 'lucide-react';
+import { Smartphone, Monitor, Sun, Moon } from 'lucide-react';
 import { useMediaQuery } from '@/src/hooks/useMediaQuery';
 import { MEDIA_QUERIES } from '@/src/constants/mediaQueries';
 
@@ -112,10 +112,16 @@ const PreviewActionPanel: React.FC<PreviewActionPanelProps> = ({
       const [isMobilePreview, setIsMobilePreview] = useState(false);
       const isDesktopScreen = useMediaQuery(MEDIA_QUERIES.MD);
 
+      const { isDarkMode, toggleDarkMode } = useSignatureStore();
+
       return (
-        <div className="py-4 flex flex-col items-center">
-          {isDesktopScreen && (
-            <div className="flex items-center space-x-4 mb-8 w-full justify-center">
+        <div
+          className={`p-4 flex flex-col items-center ${
+            isDarkMode ? 'bg-gray-900' : 'bg-white'
+          }`}
+        >
+          <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-8 mb-8 w-full justify-center">
+            {isDesktopScreen && (
               <TitleSwitch
                 checked={isMobilePreview}
                 onCheckedChange={setIsMobilePreview}
@@ -133,13 +139,32 @@ const PreviewActionPanel: React.FC<PreviewActionPanelProps> = ({
                 }
                 aria-label="Switch between desktop and mobile view"
               />
-            </div>
-          )}
+            )}
+            <TitleSwitch
+              checked={isDarkMode}
+              onCheckedChange={toggleDarkMode}
+              leftContent={
+                <div className="flex items-center">
+                  <Sun size={16} className="mr-1" />
+                  Light
+                </div>
+              }
+              rightContent={
+                <div className="flex items-center">
+                  <Moon size={16} className="mr-1" />
+                  Dark
+                </div>
+              }
+              aria-label="Switch between light and dark mode"
+            />
+          </div>
 
           <div className="w-full rounded flex justify-center">
             <div
-              className={`px-4 py-4 transition-all duration-300 ease-in-out rounded overflow-hidden ${
-                isMobilePreview ? 'w-[375px] shadow-lg' : 'w-full'
+              className={`py-4 ${isDesktopScreen ? 'px-4' : ''} rounded overflow-hidden ${
+                isMobilePreview
+                  ? 'w-[375px] shadow-lg shadow-gray-100'
+                  : 'w-full'
               }`}
             >
               <EmailTemplateView rows={rows} />
@@ -151,6 +176,7 @@ const PreviewActionPanel: React.FC<PreviewActionPanelProps> = ({
 
     modal({
       content: <ModalContent />,
+      isZeroPadding: true,
       size: 'large',
     });
   };

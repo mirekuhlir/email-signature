@@ -14,6 +14,7 @@ export interface ModalMessage {
   onConfirm?: () => void;
   onCancel?: () => void;
   showCloseButton?: boolean;
+  isZeroPadding?: boolean;
 }
 
 // ZUSTAND STORE
@@ -68,6 +69,7 @@ export const ModalContainer: React.FC = () => {
               ? () => deleteModal(modal.id)
               : undefined
           }
+          isZeroPadding={modal.isZeroPadding}
         >
           <div className="flex flex-col space-y-4">
             <div>{modal.content}</div>

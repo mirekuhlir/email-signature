@@ -15,6 +15,7 @@ const supabase = createClient();
 export interface StoreState {
   rows: any[];
   colors: string[];
+  isDarkMode: boolean;
   initSignature: (signature: {
     rows: any;
     colors?: string[];
@@ -35,12 +36,14 @@ export interface StoreState {
   getColors: () => string[];
   moveRowUp: (path: string, signatureId: string) => Promise<void>;
   moveRowDown: (path: string, signatureId: string) => Promise<void>;
+  toggleDarkMode: () => void;
 }
 
 export const useSignatureStore = create<StoreState>((set, get) => {
   return {
     rows: [],
     colors: [],
+    isDarkMode: false,
     initSignature: (signature: {
       rows: any;
       colors?: string[];
@@ -375,5 +378,10 @@ export const useSignatureStore = create<StoreState>((set, get) => {
         }
       }
     },
+
+    toggleDarkMode: () =>
+      set((state) => ({
+        isDarkMode: !state.isDarkMode,
+      })),
   };
 });

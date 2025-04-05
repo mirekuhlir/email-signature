@@ -8,6 +8,7 @@ interface ModalProps {
   title?: string;
   children: React.ReactNode;
   size?: 'small' | 'medium' | 'large' | 'xlarge' | 'fullscreen';
+  isZeroPadding?: boolean;
 }
 
 const Modal: React.FC<ModalProps> = ({
@@ -16,6 +17,7 @@ const Modal: React.FC<ModalProps> = ({
   title,
   children,
   size = 'medium',
+  isZeroPadding = false,
 }) => {
   useEffect(() => {
     if (isOpen) {
@@ -49,7 +51,7 @@ const Modal: React.FC<ModalProps> = ({
           </div>
         )}
         <div
-          className={`px-4 py-4 overflow-auto ${size === 'fullscreen' ? 'flex-grow' : 'max-h-[80vh]'}`}
+          className={`overflow-auto ${size === 'fullscreen' ? 'flex-grow' : 'max-h-[80vh]'} ${isZeroPadding ? 'p-0' : 'p-4'}`}
         >
           {children}
         </div>
