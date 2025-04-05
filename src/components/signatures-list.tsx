@@ -288,7 +288,7 @@ export const SignaturesList = (props: any) => {
 
       <Modal size="fullscreen" isOpen={isModalOpen}>
         <div className="pt-4">
-          <Container>
+          <Container isZeroPadding={true}>
             <div className="mb-6">
               <Typography variant="h3">Select signature</Typography>
             </div>
