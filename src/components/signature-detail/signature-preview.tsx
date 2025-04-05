@@ -66,9 +66,9 @@ export const SignaturePreview: React.FC = () => {
 
       <div className="w-full rounded flex justify-center">
         <div
-          className={`py-4 ${isDesktopScreen ? 'px-4' : ''} rounded overflow-hidden ${
+          className={`pb-4 pt-15 ${isDesktopScreen ? 'px-4' : ''} ${
             isDesktopScreen && isMobilePreview
-              ? `border-x ${isDarkMode ? 'border-gray-700' : 'border-gray-200'}`
+              ? `border-x border-b rounded-b-lg ${isDarkMode ? 'border-gray-500' : 'border-gray-400'}`
               : ''
           } ${isMobilePreview ? 'w-[375px]' : 'w-full'}`}
         >
