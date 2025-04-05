@@ -16,6 +16,7 @@ import { useToast } from '@/src/components/ui/toast';
 import { Hr } from './ui/hr';
 import { LoadingInfo } from './signature-detail/content-edit/content-edit';
 import { ContextMenu } from './ui/context-menu';
+import { Container } from './ui/container';
 
 type SignaturesPreviewsProps = {
   rows: any;
@@ -285,20 +286,23 @@ export const SignaturesList = (props: any) => {
           ))}
       </div>
 
-      <Modal
-        size={isMobile ? 'fullscreen' : 'xlarge'}
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      >
+      <Modal size="fullscreen" isOpen={isModalOpen}>
         <div className="pt-4">
-          <div className="mb-6">
-            <Typography variant="h3">Select signature</Typography>
-          </div>
+          <Container>
+            <div className="mb-6">
+              <Typography variant="h3">Select signature</Typography>
+            </div>
 
-          <TemplatesExamples
-            isSignedIn={true}
-            createSignature={createSignature}
-          />
+            <TemplatesExamples
+              isSignedIn={true}
+              createSignature={createSignature}
+            />
+            <div className="flex justify-end mt-6">
+              <Button variant="outline" onClick={() => setIsModalOpen(false)}>
+                Close
+              </Button>
+            </div>
+          </Container>
         </div>
       </Modal>
       <Modal size="small" isOpen={isDeleteModalOpen}>
