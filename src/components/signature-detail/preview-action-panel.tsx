@@ -122,7 +122,7 @@ const PreviewActionPanel: React.FC<PreviewActionPanelProps> = ({
 
       return (
         <div
-          className={`p-4 flex flex-col items-center ${
+          className={`px-4 py-8 flex flex-col items-center ${
             isDarkMode ? 'bg-gray-900 text-white' : 'bg-white'
           }`}
         >
@@ -168,10 +168,10 @@ const PreviewActionPanel: React.FC<PreviewActionPanelProps> = ({
           <div className="w-full rounded flex justify-center">
             <div
               className={`py-4 ${isDesktopScreen ? 'px-4' : ''} rounded overflow-hidden ${
-                isMobilePreview
-                  ? 'w-[375px] shadow-lg shadow-gray-100'
-                  : 'w-full'
-              }`}
+                isDesktopScreen && isMobilePreview
+                  ? `border-x ${isDarkMode ? 'border-gray-700' : 'border-gray-200'}`
+                  : ''
+              } ${isMobilePreview ? 'w-[375px]' : 'w-full'}`}
             >
               <EmailTemplateView rows={rowsToDisplay} />
             </div>
