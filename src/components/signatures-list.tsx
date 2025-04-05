@@ -7,8 +7,6 @@ import Modal from './ui/modal';
 import { Button } from '@/src/components/ui/button';
 import { createClient } from '@/src/utils/supabase/client';
 import { TemplatesExamples } from './templates-examples';
-import { useMediaQuery } from '@/src/hooks/useMediaQuery';
-import { MEDIA_QUERIES } from '@/src/constants/mediaQueries';
 import { EmailTemplateView } from './signature-detail/content-view/signature-view';
 import { useRouter } from 'next/navigation';
 import { TEMP_SIGNATURE } from '../const/content';
@@ -120,7 +118,6 @@ export const SignaturesList = (props: any) => {
   const { signatures: signaturesData } = props;
   const router = useRouter();
   const supabase = createClient();
-  const isMobile = useMediaQuery(MEDIA_QUERIES.MOBILE);
   const { toast } = useToast();
 
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
@@ -287,22 +284,28 @@ export const SignaturesList = (props: any) => {
       </div>
 
       <Modal size="fullscreen" isOpen={isModalOpen}>
-        <div className="pt-4">
-          <Container isZeroPadding={true}>
-            <div className="mb-6">
-              <Typography variant="h3">Select signature</Typography>
-            </div>
+        <div className="relative h-full">
+          <div className="overflow-y-auto h-[calc(100%-theme(spacing.20))] p-4">
+            <Container isZeroPadding={true}>
+              <div className="mb-6">
+                <Typography variant="h3">Select signature</Typography>
+              </div>
 
-            <TemplatesExamples
-              isSignedIn={true}
-              createSignature={createSignature}
-            />
-            <div className="flex justify-end mt-6">
-              <Button variant="outline" onClick={() => setIsModalOpen(false)}>
-                Close
-              </Button>
-            </div>
-          </Container>
+              <TemplatesExamples
+                isSignedIn={true}
+                createSignature={createSignature}
+              />
+            </Container>
+          </div>
+          <div className="absolute bottom-0 left-0 w-full p-4 bg-white border-t border-gray-200 flex justify-end z-10">
+            <Container>
+              <div className="flex justify-end">
+                <Button variant="outline" onClick={() => setIsModalOpen(false)}>
+                  Close
+                </Button>
+              </div>
+            </Container>
+          </div>
         </div>
       </Modal>
       <Modal size="small" isOpen={isDeleteModalOpen}>
