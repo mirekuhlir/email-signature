@@ -197,23 +197,23 @@ export const ColumnSettings = (props: any) => {
       padding: paddingValue,
       verticalAlign: verticalAlign,
 
-      borderTopWidth: `${topBorderWidth}px`,
+      borderTopWidth: topBorderWidth,
       borderTopColor: topBorderColor,
       borderTopStyle: topBorderWidth === '0' ? 'none' : 'solid',
 
-      borderRightWidth: `${rightBorderWidth}px`,
+      borderRightWidth: rightBorderWidth,
       borderRightColor: rightBorderColor,
       borderRightStyle: rightBorderWidth === '0' ? 'none' : 'solid',
 
-      borderBottomWidth: `${bottomBorderWidth}px`,
+      borderBottomWidth: bottomBorderWidth,
       borderBottomColor: bottomBorderColor,
       borderBottomStyle: bottomBorderWidth === '0' ? 'none' : 'solid',
 
-      borderLeftWidth: `${leftBorderWidth}px`,
+      borderLeftWidth: leftBorderWidth,
       borderLeftColor: leftBorderColor,
       borderLeftStyle: leftBorderWidth === '0' ? 'none' : 'solid',
 
-      borderRadius: `${borderRadius}px`,
+      borderRadius: borderRadius,
     };
 
     setContent(path, newStyle);

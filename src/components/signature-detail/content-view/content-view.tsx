@@ -99,7 +99,7 @@ export const getContentView = (content?: any) => {
             textAlign,
             textDecoration,
             padding,
-            borderRadius,
+            borderRadius: `${borderRadius}px`,
           }}
         >
           {formattedText}
@@ -124,7 +124,7 @@ export const getContentView = (content?: any) => {
           textAlign,
           padding,
           backgroundColor,
-          borderRadius,
+          borderRadius: `${borderRadius}px`,
         }}
       >
         {components.map((component: any) => {
@@ -153,6 +153,8 @@ export const getContentView = (content?: any) => {
             lineHeight,
             textAlign,
             textDecoration,
+            padding,
+            borderRadius: `${borderRadius}px`,
           };
 
           if (!text) {
@@ -198,7 +200,7 @@ export const getContentView = (content?: any) => {
           display: 'inline-block',
           textAlign,
           padding,
-          borderRadius,
+          borderRadius: `${borderRadius}px`,
           backgroundColor,
         }}
       >
@@ -228,6 +230,8 @@ export const getContentView = (content?: any) => {
             lineHeight,
             textAlign,
             textDecoration,
+            padding,
+            borderRadius: `${borderRadius}px`,
           };
 
           if (!text) {
@@ -273,7 +277,7 @@ export const getContentView = (content?: any) => {
           display: 'inline-block',
           textAlign,
           padding,
-          borderRadius,
+          borderRadius: `${borderRadius}px`,
           backgroundColor,
         }}
       >
@@ -303,6 +307,8 @@ export const getContentView = (content?: any) => {
             lineHeight,
             textAlign,
             textDecoration,
+            padding,
+            borderRadius: `${borderRadius}px`,
           };
 
           if (!text) {
@@ -354,7 +360,7 @@ export const getContentView = (content?: any) => {
           display: 'inline-block',
           textAlign,
           padding,
-          borderRadius,
+          borderRadius: `${borderRadius}px`,
           backgroundColor,
         }}
       >
@@ -384,6 +390,8 @@ export const getContentView = (content?: any) => {
             lineHeight,
             textAlign,
             textDecoration,
+            padding,
+            borderRadius: `${borderRadius}px`,
           };
 
           if (!text) {

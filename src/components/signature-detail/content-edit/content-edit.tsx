@@ -121,7 +121,7 @@ export const ContentEdit = (props: any) => {
 
     setContent(stylePath, {
       ...currentStyle,
-      borderRadius: `${borderRadius}px`,
+      borderRadius: borderRadius,
     });
   };
 
