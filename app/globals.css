@@ -1,1 +1,6 @@
 @import 'tailwindcss';
+
+img {
+  max-width: none;
+  max-height: none;
+}
