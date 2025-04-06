@@ -19,6 +19,39 @@ export const SignaturePreview: React.FC = () => {
 
   const rowsToDisplay = isDarkMode ? invertedRows : rows;
 
+  const outerDivClasses = 'py-2 flex justify-center';
+
+  const wrapperDivClasses = [
+    'rounded',
+    !isDesktopScreen || isMobilePreview ? 'inline-flex' : '',
+
+    isDarkMode ? 'bg-gray-900' : '',
+    !isDesktopScreen ? 'w-full' : '',
+
+    isDesktopScreen && !isMobilePreview ? 'w-full' : '',
+
+    isDesktopScreen && isMobilePreview ? 'pb-4' : '',
+    isDesktopScreen && isMobilePreview && isDarkMode ? 'px-4' : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
+
+  const containerDivClasses = [
+    isDesktopScreen ? 'pt-4 pb-4' : '',
+    isDesktopScreen ? 'px-4' : '',
+    !isDesktopScreen ? 'py-4' : '',
+
+    isMobilePreview || !isDesktopScreen ? 'max-w-[375px]' : '',
+
+    isMobilePreview && isDesktopScreen
+      ? `border-x border-b rounded-b-lg ${
+          isDarkMode ? 'border-gray-500' : 'border-gray-400'
+        }`
+      : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
+
   return (
     <>
       <div
@@ -29,11 +62,7 @@ export const SignaturePreview: React.FC = () => {
         <EmailTemplateView rows={rows} />
       </div>
 
-      <div
-        className={`py-8 flex flex-col items-center ${
-          isDarkMode ? 'bg-gray-900 text-white' : 'bg-transparent'
-        }`}
-      >
+      <div className={`py-4`}>
         <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-8 mb-8 w-full justify-center">
           {isDesktopScreen && (
             <TitleSwitch
@@ -73,15 +102,11 @@ export const SignaturePreview: React.FC = () => {
           />
         </div>
 
-        <div className="w-full rounded flex justify-center">
-          <div
-            className={`pb-4 pt-8 ${isDesktopScreen ? 'px-4' : ''} ${
-              isDesktopScreen && isMobilePreview
-                ? `border-x border-b rounded-b-lg ${isDarkMode ? 'border-gray-500' : 'border-gray-400'}`
-                : ''
-            } ${isMobilePreview ? 'max-w-[375px]' : 'w-full'}`}
-          >
-            <EmailTemplateView id="email-signature" rows={rowsToDisplay} />
+        <div className={outerDivClasses}>
+          <div className={wrapperDivClasses}>
+            <div className={containerDivClasses}>
+              <EmailTemplateView id="email-signature" rows={rowsToDisplay} />
+            </div>
           </div>
         </div>
       </div>
