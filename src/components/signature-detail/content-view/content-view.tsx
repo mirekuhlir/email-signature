@@ -100,6 +100,7 @@ export const getContentView = (content?: any) => {
             textDecoration,
             padding,
             borderRadius: `${borderRadius}px`,
+            wordBreak: 'break-all',
           }}
         >
           {formattedText}
@@ -155,6 +156,7 @@ export const getContentView = (content?: any) => {
             textDecoration,
             padding,
             borderRadius: `${borderRadius}px`,
+            /*       wordBreak: 'break-all' as React.CSSProperties['wordBreak'], */
           };
 
           if (!text) {
@@ -167,7 +169,10 @@ export const getContentView = (content?: any) => {
                 key={id}
                 href={`mailto:${text}`}
                 target="_blank"
-                style={style}
+                style={{
+                  ...style,
+                  wordBreak: 'break-all',
+                }}
                 rel="noreferrer"
               >
                 {text}
@@ -244,7 +249,10 @@ export const getContentView = (content?: any) => {
                 key={id}
                 href={`tel:${text.replace(/\s+/g, '')}`}
                 target="_blank"
-                style={style}
+                style={{
+                  ...style,
+                  wordBreak: 'break-all',
+                }}
                 rel="noreferrer"
               >
                 {text}
@@ -327,7 +335,10 @@ export const getContentView = (content?: any) => {
                 key={id}
                 href={href}
                 target="_blank"
-                style={style}
+                style={{
+                  ...style,
+                  wordBreak: 'break-all',
+                }}
                 rel="noreferrer"
               >
                 {text}
@@ -392,6 +403,7 @@ export const getContentView = (content?: any) => {
             textDecoration,
             padding,
             borderRadius: `${borderRadius}px`,
+            wordBreak: 'break-all',
           };
 
           if (!text) {
