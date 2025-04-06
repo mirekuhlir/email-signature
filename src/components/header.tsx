@@ -30,7 +30,7 @@ export const Header = (props: any) => {
   return (
     <header className="fixed top-0 w-full bg-white/80 backdrop-blur-lg border-b border-gray-200 shadow-lg z-50">
       <Container>
-        <div className="mx-auto px-4 sm:px-6 lg:px-0 h-16 flex items-center justify-between">
+        <div className="mx-auto lg:px-0 h-16 flex items-center justify-between">
           <div className="flex items-center">
             <StyledLink variant="none" href="/">
               <span className="text-xl sm:text-2xl font-bold bg-linear-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
