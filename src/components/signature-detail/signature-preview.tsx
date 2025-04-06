@@ -63,7 +63,7 @@ export const SignaturePreview: React.FC = () => {
       </div>
 
       <div className={`py-4`}>
-        <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-8 mb-8 w-full justify-center">
+        <div className="flex flex-col sm:flex-row items-center w-full justify-center sm:justify-start mb-0 sm:mb-8 space-y-4 sm:space-y-0 sm:space-x-8">
           {isDesktopScreen && (
             <TitleSwitch
               checked={isMobilePreview}

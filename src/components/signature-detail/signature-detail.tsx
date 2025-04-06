@@ -56,7 +56,7 @@ export const SignatureDetail = (props: any) => {
               <ChevronLeft size={23} />
               Back to My signatures
             </StyledLink>
-            <Hr className="mt-8 mb-10" />
+            <Hr className="mt-4 mb-2 sm:mb-8 sm:mt-8" />
           </>
         )}
       <div className="flex flex-col">
@@ -69,7 +69,7 @@ export const SignatureDetail = (props: any) => {
           <>
             <SignaturePreview />
             {!contentEdit.editPath && (
-              <div className="mt-8 flex justify-end">
+              <div className="mt-0 sm:mt-4 flex justify-end sm:justify-start">
                 <Button
                   size="lg"
                   onClick={() => {
