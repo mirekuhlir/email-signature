@@ -49,16 +49,6 @@ const SignaturesPreview = (props: SignaturesPreviewsProps) => {
         <EmailTemplateView rows={rows} />
         <div className="flex justify-between w-full bg-gray-200 mb-14 p-3 rounded-md mt-4">
           <div className="flex flex-col justify-center">
-            {createdAt && (
-              <div className="mb-2 md:mb-0">
-                <Typography className="text-gray-500 text-sm md:text-base block md:inline">
-                  Created at:
-                </Typography>
-                <Typography className="text-sm md:text-base block md:inline md:ml-1">
-                  {new Date(createdAt).toLocaleString('cs-CZ')}
-                </Typography>
-              </div>
-            )}
             {updatedAt && (
               <div>
                 <Typography className="text-gray-500 text-sm md:text-base block md:inline">
@@ -66,6 +56,16 @@ const SignaturesPreview = (props: SignaturesPreviewsProps) => {
                 </Typography>
                 <Typography className="text-sm md:text-base block md:inline md:ml-1">
                   {new Date(updatedAt).toLocaleString('cs-CZ')}
+                </Typography>
+              </div>
+            )}
+            {createdAt && (
+              <div className="mb-2 md:mb-0">
+                <Typography className="text-gray-500 text-sm md:text-base block md:inline">
+                  Created at:
+                </Typography>
+                <Typography className="text-sm md:text-base block md:inline md:ml-1">
+                  {new Date(createdAt).toLocaleString('cs-CZ')}
                 </Typography>
               </div>
             )}

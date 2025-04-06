@@ -69,23 +69,23 @@ export const SignatureDetail = (props: any) => {
           <>
             <SignaturePreview />
             {!contentEdit.editPath && (
-              <div className="mt-8 flex">
-                <Button size="lg" onClick={() => setIsEdit(true)}>
-                  <Edit2 size={18} className="mr-2" /> Edit
+              <div className="mt-8 flex justify-end">
+                <Button
+                  size="lg"
+                  onClick={() => {
+                    if (isSignedIn) {
+                      handleCopy();
+                      showCopyInstructionsModal();
+                    } else {
+                      showAuthModal('Sign in to copy your signature');
+                    }
+                  }}
+                >
+                  <Copy size={18} className="mr-2" /> Copy Signature
                 </Button>
-                <div className="ml-8">
-                  <Button
-                    size="lg"
-                    onClick={() => {
-                      if (isSignedIn) {
-                        handleCopy();
-                        showCopyInstructionsModal();
-                      } else {
-                        showAuthModal('Sign in to copy your signature');
-                      }
-                    }}
-                  >
-                    <Copy size={18} className="mr-2" /> Copy Signature
+                <div className="ml-6">
+                  <Button size="lg" onClick={() => setIsEdit(true)}>
+                    <Edit2 size={18} className="mr-2" /> Edit
                   </Button>
                 </div>
               </div>
