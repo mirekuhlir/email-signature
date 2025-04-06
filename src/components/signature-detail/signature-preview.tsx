@@ -75,11 +75,11 @@ export const SignaturePreview: React.FC = () => {
 
         <div className="w-full rounded flex justify-center">
           <div
-            className={`pb-4 pt-15 ${isDesktopScreen ? 'px-4' : ''} ${
+            className={`pb-4 pt-8 ${isDesktopScreen ? 'px-4' : ''} ${
               isDesktopScreen && isMobilePreview
                 ? `border-x border-b rounded-b-lg ${isDarkMode ? 'border-gray-500' : 'border-gray-400'}`
                 : ''
-            } ${isMobilePreview ? 'w-[375px]' : 'w-full'}`}
+            } ${isMobilePreview ? 'max-w-[375px]' : 'w-full'}`}
           >
             <EmailTemplateView id="email-signature" rows={rowsToDisplay} />
           </div>
