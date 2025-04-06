@@ -82,7 +82,6 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({
 
 interface PreviewActionPanelProps {
   visible: boolean;
-  isSignedIn: boolean;
   onClose?: () => void;
   onSave?: () => void;
   isVisibleOnlyPreview?: boolean;
@@ -93,7 +92,6 @@ const PreviewActionPanel: React.FC<PreviewActionPanelProps> = ({
   visible,
   onClose,
   onSave,
-  isSignedIn,
   isVisibleOnlyPreview = false,
   isVisibleOnlyClose = false,
 }) => {
@@ -103,7 +101,11 @@ const PreviewActionPanel: React.FC<PreviewActionPanelProps> = ({
 
   const showPreview = () => {
     modal({
-      content: <SignaturePreview />,
+      content: (
+        <div className="px-4 pt-6">
+          <SignaturePreview />
+        </div>
+      ),
       isZeroPadding: true,
       size: 'large',
     });
@@ -114,7 +116,7 @@ const PreviewActionPanel: React.FC<PreviewActionPanelProps> = ({
       <ActionPanel
         visible={visible}
         onPreview={showPreview}
-        onSave={isSignedIn ? onSave : undefined}
+        onSave={onSave}
         onClose={onClose}
         isVisibleOnlyPreview={isVisibleOnlyPreview}
         isVisibleOnlyClose={isVisibleOnlyClose}
