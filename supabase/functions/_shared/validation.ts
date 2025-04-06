@@ -1,6 +1,12 @@
 import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
 
 // Constants for validation limits
+
+const MAX_COMPONENTS = 30;
+const MAX_ROWS = 30;
+const MAX_COLUMNS = 30;
+const MAX_COLORS = 30;
+
 const MAX_STRING_ID = 100;
 const MAX_STRING_LENGTH = 10000;
 const MAX_COLOR_LENGTH = 50;
@@ -13,15 +19,11 @@ const MAX_LINE_HEIGHT = 50;
 const MAX_TEXT_ALIGN = 50;
 const MAX_TEXT_DECORATION = 50;
 const MAX_PADDING = 50;
-const MAX_IMAGE_SRC = 1000;
+const MAX_IMAGE_SRC = 200;
 const MAX_IMAGE_PREVIEW = 1000000;
 const MAX_EMAIL_LENGTH = 255;
 const MAX_PHONE_LENGTH = 50;
 const MAX_URL_LENGTH = 2000;
-const MAX_COMPONENTS = 30;
-const MAX_ROWS = 30;
-const MAX_COLUMNS = 30;
-const MAX_COLORS = 30;
 
 // Crop limits
 const MIN_CROP_POSITION = 0;
@@ -38,6 +40,14 @@ const MAX_ASPECT_STRING = 10;
 // Border limits
 const MIN_BORDER_RADIUS = 0;
 const MAX_BORDER_RADIUS = 100;
+
+// Image source schema
+const imageSrcSchema = z.string()
+    .max(MAX_IMAGE_SRC)
+    .url("Invalid URL format")
+    .refine((val) => val.endsWith(".png"), {
+        message: "URL must end with .png",
+    });
 
 // Base component schema
 const baseComponentSchema = z.object({
@@ -79,9 +89,9 @@ const textComponentSchema = baseComponentSchema.extend({
 });
 
 const imageComponentSchema = baseComponentSchema.extend({
-    src: z.string().max(MAX_IMAGE_SRC),
+    src: imageSrcSchema,
     cropImagePreview: z.string().max(MAX_IMAGE_PREVIEW).optional(), // Base64 image can be large
-    originalSrc: z.string().max(MAX_IMAGE_SRC).optional(),
+    originalSrc: imageSrcSchema.optional(),
     originalImageFile: z.any().optional(), // File type
     previewWidth: z.number().min(MIN_CROP_SIZE).max(MAX_CROP_SIZE).optional(),
     imageSettings: imageSettingsSchema.optional(),
@@ -184,7 +194,7 @@ export const signatureTemplateSchema = z.object({
 export const validateSignature = (data: unknown) => {
     try {
         // First, validate that data has the expected structure
-        if (!data || typeof data !== 'object') {
+        if (!data || typeof data !== "object") {
             console.error("Invalid input: not an object");
             return { success: false, error: "Invalid input: not an object" };
         }
@@ -195,27 +205,28 @@ export const validateSignature = (data: unknown) => {
     } catch (error) {
         // Enhanced error reporting
         if (error instanceof z.ZodError) {
-            console.error("Zod validation error:", 
-                JSON.stringify(error.errors, null, 2)
+            console.error(
+                "Zod validation error:",
+                JSON.stringify(error.errors, null, 2),
             );
-            
+
             // Extract the specific error for more targeted debugging
-            const fieldErrors = error.errors.map(err => ({
-                path: err.path.join('.'),
+            const fieldErrors = error.errors.map((err) => ({
+                path: err.path.join("."),
                 code: err.code,
-                message: err.message
+                message: err.message,
             }));
-            
+
             return {
                 success: false,
-                error: fieldErrors
+                error: fieldErrors,
             };
         }
-        
+
         console.error("Unexpected validation error:", error);
         return {
             success: false,
-            error: "Invalid signature data"
+            error: "Invalid signature data",
         };
     }
 };
