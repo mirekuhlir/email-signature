@@ -20,12 +20,30 @@ const corsHeaders = {
   "Access-Control-Allow-Methods": "OPTIONS, POST",
 };
 
-const isValidPngFile = (filename: string): boolean => {
-  return filename.toLowerCase().endsWith(".png");
-};
-
 const isValidFileSize = (fileSize: number): boolean => {
   return fileSize <= MAX_FILE_SIZE_BYTES;
+};
+
+// New validation function for preview image filename
+const isValidPreviewImageFilename = (filename: string): boolean => {
+  // Check if filename ends with .png (case-insensitive)
+  if (!filename.toLowerCase().endsWith(".png")) {
+    return false;
+  }
+  // Check if the part before .png has exactly 7 alphanumeric characters
+  const namePart = filename.slice(0, -4); // Remove .png
+  return /^[a-zA-Z0-9]{7}$/.test(namePart);
+};
+
+// New validation function for original image filename
+const isValidOriginalImageFilename = (filename: string): boolean => {
+  // Check if filename ends with .png (case-insensitive)
+  if (!filename.toLowerCase().endsWith(".png")) {
+    return false;
+  }
+  // Check the format: 7 alphanumeric chars + '-' + 4 alphanumeric chars + '.png'
+  const namePart = filename.slice(0, -4); // Remove .png
+  return /^[a-zA-Z0-9]{7}-[a-zA-Z0-9]{4}$/.test(namePart);
 };
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL") || "";
@@ -139,9 +157,10 @@ serve(async (req: Request) => {
 
   const imagePreviewFile: FormFile = form.files.imagePreviewFile as FormFile;
 
-  if (!isValidPngFile(imagePreviewFile.filename)) {
+  // Use the new validation function for preview image filename
+  if (!isValidPreviewImageFilename(imagePreviewFile.filename)) {
     return new Response(
-      JSON.stringify({ error: "Only PNG files are allowed" }),
+      JSON.stringify({ error: "Invalid preview image filename format" }),
       {
         status: 400,
         headers: { "Content-Type": "application/json", ...corsHeaders },
@@ -172,9 +191,13 @@ serve(async (req: Request) => {
   const originalImageFile = form.files.originalImageFile &&
     form.files.originalImageFile as FormFile;
 
-  if (originalImageFile && !isValidPngFile(originalImageFile.filename)) {
+  // Use the new validation function for original image filename if it exists
+  if (
+    originalImageFile &&
+    !isValidOriginalImageFilename(originalImageFile.filename)
+  ) {
     return new Response(
-      JSON.stringify({ error: "Only PNG files are allowed" }),
+      JSON.stringify({ error: "Invalid original image filename format" }),
       {
         status: 400,
         headers: { "Content-Type": "application/json", ...corsHeaders },
