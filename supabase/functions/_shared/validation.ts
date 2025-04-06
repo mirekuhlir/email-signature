@@ -1,7 +1,6 @@
 import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
 
 // Constants for validation limits
-
 const MAX_COMPONENTS = 30;
 const MAX_ROWS = 30;
 const MAX_COLUMNS = 30;
@@ -41,27 +40,48 @@ const MAX_ASPECT_STRING = 10;
 const MIN_BORDER_RADIUS = 0;
 const MAX_BORDER_RADIUS = 100;
 
+// Helper function for HTML escaping
+const sanitizeString = (val: string) =>
+    val.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+// Helper schema for basic string sanitization
+const sanitizedString = (maxLength: number) =>
+    z.string().max(maxLength).transform(sanitizeString);
+
+// Helper schema for safe URLs
+const safeUrlSchema = (maxLength: number) =>
+    z.string()
+        .max(maxLength)
+        .url("Invalid URL format")
+        .refine((val) => /^https?:/.test(val), {
+            message: "URL must start with http: or https:",
+        })
+        .transform(sanitizeString); // Sanitize just in case
+
+// Helper schema for valid CSS property names
+const cssPropertyNameSchema = z.string().regex(/^[a-zA-Z-]+$/, {
+    message: "Invalid CSS property name format",
+});
+
 // Image source schema
-const imageSrcSchema = z.string()
-    .max(MAX_IMAGE_SRC)
-    .url("Invalid URL format")
+const imageSrcSchema = safeUrlSchema(MAX_IMAGE_SRC)
     .refine((val) => val.endsWith(".png"), {
         message: "URL must end with .png",
     });
 
 // Base component schema
 const baseComponentSchema = z.object({
-    id: z.string().max(MAX_STRING_ID),
-    fontSize: z.string().max(MAX_FONT_SIZE).optional(),
-    color: z.string().max(MAX_COLOR_LENGTH).optional(),
-    letterSpacing: z.string().max(MAX_LETTER_SPACING).optional(),
-    backgroundColor: z.string().max(MAX_COLOR_LENGTH).optional(),
-    fontFamily: z.string().max(MAX_FONT_FAMILY).optional(),
-    fontStyle: z.string().max(MAX_FONT_STYLE).optional(),
-    fontWeight: z.string().max(MAX_FONT_WEIGHT).optional(),
-    lineHeight: z.string().max(MAX_LINE_HEIGHT).optional(),
-    textAlign: z.string().max(MAX_TEXT_ALIGN).optional(),
-    textDecoration: z.string().max(MAX_TEXT_DECORATION).optional(),
+    id: sanitizedString(MAX_STRING_ID),
+    fontSize: sanitizedString(MAX_FONT_SIZE).optional(),
+    color: sanitizedString(MAX_COLOR_LENGTH).optional(),
+    letterSpacing: sanitizedString(MAX_LETTER_SPACING).optional(),
+    backgroundColor: sanitizedString(MAX_COLOR_LENGTH).optional(),
+    fontFamily: sanitizedString(MAX_FONT_FAMILY).optional(), // Basic check, complex fonts might need more
+    fontStyle: sanitizedString(MAX_FONT_STYLE).optional(),
+    fontWeight: sanitizedString(MAX_FONT_WEIGHT).optional(),
+    lineHeight: sanitizedString(MAX_LINE_HEIGHT).optional(),
+    textAlign: sanitizedString(MAX_TEXT_ALIGN).optional(), // Consider enums for stricter validation: z.enum(["left", "center", "right", "justify"])
+    textDecoration: sanitizedString(MAX_TEXT_DECORATION).optional(), // Consider enums: z.enum(["none", "underline", "overline", "line-through"])
 });
 
 // Image settings schema
@@ -85,29 +105,31 @@ const imageSettingsSchema = z.object({
 
 // Component schemas
 const textComponentSchema = baseComponentSchema.extend({
-    text: z.string().max(MAX_STRING_LENGTH),
+    text: sanitizedString(MAX_STRING_LENGTH),
 });
 
 const imageComponentSchema = baseComponentSchema.extend({
     src: imageSrcSchema,
-    cropImagePreview: z.string().max(MAX_IMAGE_PREVIEW).optional(), // Base64 image can be large
+    cropImagePreview: z.string().max(MAX_IMAGE_PREVIEW).optional(), // Base64 image can be large - consider stricter validation if needed
     originalSrc: imageSrcSchema.optional(),
-    originalImageFile: z.any().optional(), // File type
+    originalImageFile: z.any().optional(), // File type - ensure server-side handling is secure
     previewWidth: z.number().min(MIN_CROP_SIZE).max(MAX_CROP_SIZE).optional(),
     imageSettings: imageSettingsSchema.optional(),
-    padding: z.string().max(MAX_PADDING).optional(),
+    padding: sanitizedString(MAX_PADDING).optional(),
 });
 
 const emailComponentSchema = baseComponentSchema.extend({
-    text: z.string().max(MAX_EMAIL_LENGTH), // Standard email length limit
+    text: z.string().max(MAX_EMAIL_LENGTH).transform(sanitizeString),
 });
 
 const phoneComponentSchema = baseComponentSchema.extend({
-    text: z.string().max(MAX_PHONE_LENGTH), // Phone numbers are typically shorter
+    // Basic sanitization, consider regex for specific phone formats if needed
+    text: sanitizedString(MAX_PHONE_LENGTH),
 });
 
 const websiteComponentSchema = baseComponentSchema.extend({
-    text: z.string().max(MAX_URL_LENGTH), // URLs can be longer
+    // Sanitize
+    text: sanitizedString(MAX_URL_LENGTH),
 });
 
 // Content schema for text type
@@ -158,35 +180,40 @@ const baseContentSchema = z.discriminatedUnion("type", [
 
 // Row schema
 const rowSchema = z.object({
-    id: z.string().max(MAX_STRING_ID),
-    style: z.record(z.string().max(MAX_STRING_ID)).optional(),
+    id: sanitizedString(MAX_STRING_ID),
+    // Validate both style property names and values
+    style: z.record(cssPropertyNameSchema, sanitizedString(MAX_STRING_ID))
+        .optional(),
     content: baseContentSchema.optional(),
 });
 
 // Column schema
 const columnSchema = z.object({
-    id: z.string().max(MAX_STRING_ID),
+    id: sanitizedString(MAX_STRING_ID),
     style: z.object({
         verticalAlign: z.enum(["top", "middle", "bottom"]).optional(),
-        padding: z.string().max(MAX_PADDING).optional(),
+        padding: sanitizedString(MAX_PADDING).optional(),
     }).optional(),
     rows: z.array(rowSchema).max(MAX_ROWS), // Limit to 30 rows
 });
 
 // Table row schema
 const tableRowSchema = z.object({
-    id: z.string().max(MAX_STRING_ID),
-    style: z.record(z.string().max(MAX_STRING_ID)).optional(),
+    id: sanitizedString(MAX_STRING_ID),
+    // Validate both style property names and values
+    style: z.record(cssPropertyNameSchema, sanitizedString(MAX_STRING_ID))
+        .optional(),
     columns: z.array(columnSchema).max(MAX_COLUMNS), // Limit to 30 columns
 });
 
 // Signature template schema
 export const signatureTemplateSchema = z.object({
     info: z.object({
-        templateSlug: z.string().max(MAX_STRING_ID),
-        version: z.string().max(MAX_FONT_SIZE),
+        templateSlug: sanitizedString(MAX_STRING_ID),
+        version: sanitizedString(MAX_FONT_SIZE),
     }).optional(),
-    colors: z.array(z.string().max(MAX_COLOR_LENGTH)).max(MAX_COLORS), // Limit to 30 colors
+    // Ensure colors are sanitized
+    colors: z.array(sanitizedString(MAX_COLOR_LENGTH)).max(MAX_COLORS),
     rows: z.array(tableRowSchema).max(MAX_ROWS), // Limit to 30 rows
 });
 
