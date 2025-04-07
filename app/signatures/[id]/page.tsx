@@ -42,7 +42,7 @@ export default async function Signature(props: Props) {
 
     return (
       <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100">
-        {/*       <Header user={user} /> */}
+        <Header user={user} />
         <main>
           <div className="pt-24">
             <Container>

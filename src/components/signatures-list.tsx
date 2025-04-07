@@ -26,6 +26,7 @@ type SignaturesPreviewsProps = {
   isFromTemp: boolean;
   duplicateSignature?: (signatureId: string) => Promise<void>;
   signatureId?: string;
+  isTempSignature?: boolean;
 };
 
 const SignaturesPreview = (props: SignaturesPreviewsProps) => {
@@ -39,6 +40,7 @@ const SignaturesPreview = (props: SignaturesPreviewsProps) => {
     isFromTemp,
     duplicateSignature,
     signatureId,
+    isTempSignature,
   } = props;
 
   const editButtonText = isFromTemp ? 'Continue' : 'View';
@@ -55,7 +57,7 @@ const SignaturesPreview = (props: SignaturesPreviewsProps) => {
                   Updated at:
                 </Typography>
                 <Typography className="text-sm md:text-base block md:inline md:ml-1">
-                  {new Date(updatedAt).toLocaleString('cs-CZ')}
+                  {new Date(updatedAt).toLocaleString()}
                 </Typography>
               </div>
             )}
@@ -65,7 +67,7 @@ const SignaturesPreview = (props: SignaturesPreviewsProps) => {
                   Created at:
                 </Typography>
                 <Typography className="text-sm md:text-base block md:inline md:ml-1">
-                  {new Date(createdAt).toLocaleString('cs-CZ')}
+                  {new Date(createdAt).toLocaleString()}
                 </Typography>
               </div>
             )}
@@ -83,17 +85,19 @@ const SignaturesPreview = (props: SignaturesPreviewsProps) => {
                   >
                     {t('Delete')}
                   </Button>
-                  <Button
-                    variant="ghost"
-                    disabled={isLoading}
-                    onClick={() => {
-                      if (signatureId && duplicateSignature) {
-                        duplicateSignature(signatureId);
-                      }
-                    }}
-                  >
-                    {t('Duplicate')}
-                  </Button>
+                  {!isTempSignature && (
+                    <Button
+                      variant="ghost"
+                      disabled={isLoading}
+                      onClick={() => {
+                        if (signatureId && duplicateSignature) {
+                          duplicateSignature(signatureId);
+                        }
+                      }}
+                    >
+                      {t('Duplicate')}
+                    </Button>
+                  )}
                 </div>
               </ContextMenu>
               <Button
@@ -254,6 +258,7 @@ export const SignaturesList = (props: any) => {
             onEdit={() => {
               createSignature(tempSignature, true);
             }}
+            isTempSignature={true}
           />
         )}
         {signatures
