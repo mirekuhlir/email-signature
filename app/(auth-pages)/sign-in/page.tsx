@@ -1,12 +1,20 @@
 import { Auth } from '@/src/components/auth/auth';
+import { Header } from '@/src/components/header';
+import { Container } from '@/src/components/ui/container';
 
 export default async function Signin() {
   return (
-    <>
-      <h1 className="text-2xl font-medium">Sign in</h1>
-      <div className="flex flex-col gap-2 [&>input]:mb-3 mt-8">
-        <Auth text="Please enter your email address to sign in or create an account" />
-      </div>
-    </>
+    <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100">
+      <Header />
+      <main>
+        <div className="pt-24">
+          <Container>
+            <div className="flex flex-col gap-2 mt-8">
+              <Auth text="Please enter your email address to sign in" />
+            </div>
+          </Container>
+        </div>
+      </main>
+    </div>
   );
 }
