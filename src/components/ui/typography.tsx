@@ -55,7 +55,6 @@ type TypographyProps = {
   id?: string;
   variant?: VariantType;
   weight?: WeightType;
-  textColor?: string;
   italic?: boolean;
   underline?: boolean;
   linethrough?: boolean;
@@ -70,7 +69,6 @@ export const Typography = ({
   id,
   variant = 'body',
   weight,
-  textColor = 'text-black',
   italic = false,
   underline = false,
   linethrough = false,
@@ -93,7 +91,6 @@ export const Typography = ({
   const classes = joinClasses(
     variantStyles[variant],
     weight && weightStyles[weight],
-    textColor,
     italic && 'italic',
     underline && 'underline',
     linethrough && 'line-through',
