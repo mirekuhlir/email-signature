@@ -8,7 +8,7 @@ import { Typography } from './ui/typography';
 
 type TemplatesExamplesProps = {
   isSignedIn: boolean;
-  createSignature: (template: any) => void;
+  createSignature?: (template: any) => void;
 };
 
 export const TemplatesExamples = (props: TemplatesExamplesProps) => {
