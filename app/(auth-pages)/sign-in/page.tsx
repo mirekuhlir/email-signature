@@ -1,6 +1,8 @@
 import { Auth } from '@/src/components/auth/auth';
 import { Header } from '@/src/components/header';
 import { Container } from '@/src/components/ui/container';
+import StyledLink from '@/src/components/ui/styled-link';
+import { ChevronLeft } from 'lucide-react';
 
 export default async function Signin() {
   return (
@@ -11,6 +13,16 @@ export default async function Signin() {
           <Container>
             <div className="flex flex-col gap-2 mt-8 max-w-2xl mx-auto">
               <Auth text="Please enter your e-mail address to sign in" />
+              <div className="mt-4 mb-2 sm:mb-8 sm:mt-8">
+                <StyledLink
+                  variant="default"
+                  href="/"
+                  className="flex items-center gap-1"
+                >
+                  <ChevronLeft size={23} />
+                  Back
+                </StyledLink>
+              </div>
             </div>
           </Container>
         </div>
