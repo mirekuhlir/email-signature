@@ -168,8 +168,6 @@ export const SignaturesList = (props: any) => {
       return;
     }
 
-    setIsLoading(false);
-
     if (data?.signatureId) {
       router.push(`/signatures/${data.signatureId}`);
     }
