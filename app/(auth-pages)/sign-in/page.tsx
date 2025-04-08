@@ -9,8 +9,8 @@ export default async function Signin() {
       <main>
         <div className="pt-24">
           <Container>
-            <div className="flex flex-col gap-2 mt-8">
-              <Auth text="Please enter your email address to sign in" />
+            <div className="flex flex-col gap-2 mt-8 max-w-2xl mx-auto">
+              <Auth text="Please enter your e-mail address to sign in" />
             </div>
           </Container>
         </div>
