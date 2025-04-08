@@ -47,9 +47,9 @@ const SignaturesPreview = (props: SignaturesPreviewsProps) => {
 
   return (
     <div>
-      <div className="flex flex-col w-full py-4">
+      <div className="flex flex-col py-4">
         <EmailTemplateView rows={rows} />
-        <div className="flex justify-between w-full bg-gray-200 mb-14 p-3 rounded-md mt-4">
+        <div className="flex justify-between bg-gray-200 mb-14 p-3 rounded-md mt-4 w-full sm:w-1/2">
           <div className="flex flex-col justify-center">
             {updatedAt && (
               <div>
@@ -238,11 +238,7 @@ export const SignaturesList = (props: any) => {
 
         {(tempSignature?.rows || signatures?.length > 0) && (
           <>
-            <Typography
-              className="leading-none"
-              variant="h3"
-              textColor="text-gray-700"
-            >
+            <Typography className="leading-none" variant="h3">
               My signatures
             </Typography>
             <Hr className="pb-4 mt-4" />
