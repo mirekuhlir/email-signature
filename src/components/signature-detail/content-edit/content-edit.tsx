@@ -24,14 +24,16 @@ import PreviewActionPanel from '../preview-action-panel';
 
 export const LoadingInfo = ({
   text = 'Saving. Please wait...',
+  size = 'lg',
 }: {
   text?: string;
+  size?: 'sm' | 'md' | 'lg' | 'xl';
 }) => {
   return (
     <div className="flex  w-full pb-6 pt-6 justify-center">
       <div className="flex flex-col items-center">
         <div className="mb-2">
-          <Loading />
+          <Loading size={size} />
         </div>
         <div className="mt-2">
           <Typography className="text-gray-600" variant="body">
