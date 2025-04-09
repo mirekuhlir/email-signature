@@ -403,7 +403,7 @@ export const getContentView = (content?: any) => {
             textDecoration,
             padding,
             borderRadius: `${borderRadius}px`,
-            wordBreak: 'break-all',
+            wordBreak: 'break-all' as React.CSSProperties['wordBreak'],
           };
 
           if (!text) {
