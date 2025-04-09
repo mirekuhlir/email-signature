@@ -41,7 +41,7 @@ export const SignaturePreview: React.FC = () => {
     isDesktopScreen ? 'px-4' : '',
     !isDesktopScreen ? 'py-4' : '',
 
-    isMobilePreview || !isDesktopScreen ? 'max-w-[375px]' : '',
+    isMobilePreview || !isDesktopScreen ? 'w-[375px]' : '',
 
     isMobilePreview && isDesktopScreen
       ? `border-x border-b rounded-b-lg ${
