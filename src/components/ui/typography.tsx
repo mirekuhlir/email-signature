@@ -62,6 +62,7 @@ type TypographyProps = {
   lowercase?: boolean;
   capitalize?: boolean;
   children: React.ReactNode;
+  textColor?: string;
   className?: string;
 };
 
@@ -77,6 +78,7 @@ export const Typography = ({
   capitalize = false,
   className,
   children,
+  textColor,
 }: TypographyProps) => {
   let Component: React.ElementType;
 
@@ -98,6 +100,7 @@ export const Typography = ({
     lowercase && 'lowercase',
     capitalize && 'capitalize',
     className,
+    textColor,
   );
 
   return (

@@ -4,7 +4,7 @@ import { create } from 'zustand';
 import Modal from './modal';
 import { Button } from './button';
 
-export type ModalSize = 'small' | 'medium' | 'large' | 'fullscreen';
+export type ModalSize = 'small' | 'medium' | 'large' | 'xlarge' | 'fullscreen';
 
 export interface ModalMessage {
   id: string;
