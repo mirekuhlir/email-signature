@@ -102,7 +102,7 @@ const PreviewActionPanel: React.FC<PreviewActionPanelProps> = ({
   const showPreview = () => {
     modal({
       content: (
-        <div className="px-4 pt-6">
+        <div className="pt-6">
           <SignaturePreview />
         </div>
       ),
