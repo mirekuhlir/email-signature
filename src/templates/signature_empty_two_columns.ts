@@ -1,3 +1,5 @@
+import { generateRandomId } from "@/src/utils/generateRandomId";
+
 export const signature_empty_two_columns = {
     info: {
         templateSlug: "signature-empty-two-columns",
@@ -9,14 +11,14 @@ export const signature_empty_two_columns = {
     ],
     rows: [
         {
-            "id": "qvz6jx4",
+            "id": generateRandomId(),
             "columns": [
                 {
-                    "id": "2g94egx",
+                    "id": generateRandomId(),
                     "rows": [],
                 },
                 {
-                    "id": "vd9awmu",
+                    "id": generateRandomId(),
                     "rows": [],
                 },
             ],
