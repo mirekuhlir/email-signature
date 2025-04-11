@@ -30,14 +30,18 @@ export const ColumnSettings = (props: any) => {
   const [paddingLeft, setPaddingLeft] = useState('0');
   const [verticalAlign, setVerticalAlign] = useState('middle');
 
-  const [topBorderWidth, setTopBorderWidth] = useState('0');
-  const [topBorderColor, setTopBorderColor] = useState('rgb(0, 0, 0)');
-  const [rightBorderWidth, setRightBorderWidth] = useState('0');
-  const [rightBorderColor, setRightBorderColor] = useState('rgb(0, 0, 0)');
-  const [bottomBorderWidth, setBottomBorderWidth] = useState('0');
-  const [bottomBorderColor, setBottomBorderColor] = useState('rgb(0, 0, 0)');
-  const [leftBorderWidth, setLeftBorderWidth] = useState('0');
-  const [leftBorderColor, setLeftBorderColor] = useState('rgb(0, 0, 0)');
+  const [borderWidths, setBorderWidths] = useState({
+    top: '0',
+    right: '0',
+    bottom: '0',
+    left: '0',
+  });
+  const [borderColors, setBorderColors] = useState({
+    top: 'rgb(0, 0, 0)',
+    right: 'rgb(0, 0, 0)',
+    bottom: 'rgb(0, 0, 0)',
+    left: 'rgb(0, 0, 0)',
+  });
 
   const [borderRadius, setBorderRadius] = useState('0');
 
@@ -64,37 +68,21 @@ export const ColumnSettings = (props: any) => {
       setVerticalAlign(originalStyle.verticalAlign);
     }
 
-    if (originalStyle.borderTopWidth) {
-      setTopBorderWidth(originalStyle.borderTopWidth.replace('px', ''));
-    }
+    // Initialize border widths
+    setBorderWidths({
+      top: (originalStyle.borderTopWidth || '0px').replace('px', ''),
+      right: (originalStyle.borderRightWidth || '0px').replace('px', ''),
+      bottom: (originalStyle.borderBottomWidth || '0px').replace('px', ''),
+      left: (originalStyle.borderLeftWidth || '0px').replace('px', ''),
+    });
 
-    if (originalStyle.borderTopColor) {
-      setTopBorderColor(originalStyle.borderTopColor);
-    }
-
-    if (originalStyle.borderRightWidth) {
-      setRightBorderWidth(originalStyle.borderRightWidth.replace('px', ''));
-    }
-
-    if (originalStyle.borderRightColor) {
-      setRightBorderColor(originalStyle.borderRightColor);
-    }
-
-    if (originalStyle.borderBottomWidth) {
-      setBottomBorderWidth(originalStyle.borderBottomWidth.replace('px', ''));
-    }
-
-    if (originalStyle.borderBottomColor) {
-      setBottomBorderColor(originalStyle.borderBottomColor);
-    }
-
-    if (originalStyle.borderLeftWidth) {
-      setLeftBorderWidth(originalStyle.borderLeftWidth.replace('px', ''));
-    }
-
-    if (originalStyle.borderLeftColor) {
-      setLeftBorderColor(originalStyle.borderLeftColor);
-    }
+    // Initialize border colors
+    setBorderColors({
+      top: originalStyle.borderTopColor || 'rgb(0, 0, 0)',
+      right: originalStyle.borderRightColor || 'rgb(0, 0, 0)',
+      bottom: originalStyle.borderBottomColor || 'rgb(0, 0, 0)',
+      left: originalStyle.borderLeftColor || 'rgb(0, 0, 0)',
+    });
 
     if (originalStyle.borderRadius) {
       setBorderRadius(originalStyle.borderRadius.replace('px', ''));
@@ -128,21 +116,21 @@ export const ColumnSettings = (props: any) => {
 
     setContent(path, {
       ...currentStyle,
-      borderTopWidth: `${topBorderWidth}px`,
-      borderTopColor: topBorderColor,
-      borderTopStyle: topBorderWidth === '0' ? 'none' : 'solid',
+      borderTopWidth: `${borderWidths.top}px`,
+      borderTopColor: borderColors.top,
+      borderTopStyle: borderWidths.top === '0' ? 'none' : 'solid',
 
-      borderRightWidth: `${rightBorderWidth}px`,
-      borderRightColor: rightBorderColor,
-      borderRightStyle: rightBorderWidth === '0' ? 'none' : 'solid',
+      borderRightWidth: `${borderWidths.right}px`,
+      borderRightColor: borderColors.right,
+      borderRightStyle: borderWidths.right === '0' ? 'none' : 'solid',
 
-      borderBottomWidth: `${bottomBorderWidth}px`,
-      borderBottomColor: bottomBorderColor,
-      borderBottomStyle: bottomBorderWidth === '0' ? 'none' : 'solid',
+      borderBottomWidth: `${borderWidths.bottom}px`,
+      borderBottomColor: borderColors.bottom,
+      borderBottomStyle: borderWidths.bottom === '0' ? 'none' : 'solid',
 
-      borderLeftWidth: `${leftBorderWidth}px`,
-      borderLeftColor: leftBorderColor,
-      borderLeftStyle: leftBorderWidth === '0' ? 'none' : 'solid',
+      borderLeftWidth: `${borderWidths.left}px`,
+      borderLeftColor: borderColors.left,
+      borderLeftStyle: borderWidths.left === '0' ? 'none' : 'solid',
     });
   };
 
@@ -172,52 +160,12 @@ export const ColumnSettings = (props: any) => {
   useEffect(() => {
     updateBorders();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    topBorderWidth,
-    topBorderColor,
-    rightBorderWidth,
-    rightBorderColor,
-    bottomBorderWidth,
-    bottomBorderColor,
-    leftBorderWidth,
-    leftBorderColor,
-  ]);
+  }, [borderWidths, borderColors]);
 
   useEffect(() => {
     updateBorderRadius();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [borderRadius]);
-
-  const saveChanges = () => {
-    const paddingValue = `${paddingTop}px ${paddingRight}px ${paddingBottom}px ${paddingLeft}px`;
-
-    // Create the style object explicitly
-    const newStyle = {
-      ...originalStyle,
-      padding: paddingValue,
-      verticalAlign: verticalAlign,
-
-      borderTopWidth: topBorderWidth,
-      borderTopColor: topBorderColor,
-      borderTopStyle: topBorderWidth === '0' ? 'none' : 'solid',
-
-      borderRightWidth: rightBorderWidth,
-      borderRightColor: rightBorderColor,
-      borderRightStyle: rightBorderWidth === '0' ? 'none' : 'solid',
-
-      borderBottomWidth: bottomBorderWidth,
-      borderBottomColor: bottomBorderColor,
-      borderBottomStyle: bottomBorderWidth === '0' ? 'none' : 'solid',
-
-      borderLeftWidth: leftBorderWidth,
-      borderLeftColor: leftBorderColor,
-      borderLeftStyle: leftBorderWidth === '0' ? 'none' : 'solid',
-
-      borderRadius: borderRadius,
-    };
-
-    setContent(path, newStyle);
-  };
 
   const closeSettings = () => {
     setContent(path, initContent);
@@ -227,8 +175,6 @@ export const ColumnSettings = (props: any) => {
   };
 
   const handleSave = async () => {
-    saveChanges();
-
     if (!isSignedIn) {
       setContentEdit({
         columnPath: null,
@@ -348,25 +294,28 @@ export const ColumnSettings = (props: any) => {
             <CollapsibleSection>
               <div>
                 <Typography variant="labelBase" className="mb-2">
-                  Top border width : {topBorderWidth}px
+                  Top border width : {borderWidths.top}px
                 </Typography>
                 <Slider
                   min={0}
                   max={10}
-                  value={Number(topBorderWidth)}
+                  value={Number(borderWidths.top)}
                   onChange={(value: number) => {
-                    setTopBorderWidth(value.toString());
+                    setBorderWidths((prev) => ({
+                      ...prev,
+                      top: value.toString(),
+                    }));
                   }}
                 />
               </div>
 
-              {topBorderWidth !== '0' && (
+              {borderWidths.top !== '0' && (
                 <EditColor
-                  initColor={topBorderColor}
+                  initColor={borderColors.top}
                   label="Top border color"
                   onChange={(color) => {
                     if (color) {
-                      setTopBorderColor(color);
+                      setBorderColors((prev) => ({ ...prev, top: color }));
                     }
                   }}
                 />
@@ -374,25 +323,28 @@ export const ColumnSettings = (props: any) => {
 
               <div className="mt-4">
                 <Typography variant="labelBase" className="mb-2">
-                  Right border width : {rightBorderWidth}px
+                  Right border width : {borderWidths.right}px
                 </Typography>
                 <Slider
                   min={0}
                   max={10}
-                  value={Number(rightBorderWidth)}
+                  value={Number(borderWidths.right)}
                   onChange={(value: number) => {
-                    setRightBorderWidth(value.toString());
+                    setBorderWidths((prev) => ({
+                      ...prev,
+                      right: value.toString(),
+                    }));
                   }}
                 />
               </div>
 
-              {rightBorderWidth !== '0' && (
+              {borderWidths.right !== '0' && (
                 <EditColor
-                  initColor={rightBorderColor}
+                  initColor={borderColors.right}
                   label="Right border color"
                   onChange={(color) => {
                     if (color) {
-                      setRightBorderColor(color);
+                      setBorderColors((prev) => ({ ...prev, right: color }));
                     }
                   }}
                 />
@@ -400,25 +352,28 @@ export const ColumnSettings = (props: any) => {
 
               <div className="mt-4">
                 <Typography variant="labelBase" className="mb-2">
-                  Bottom border width : {bottomBorderWidth}px
+                  Bottom border width : {borderWidths.bottom}px
                 </Typography>
                 <Slider
                   min={0}
                   max={10}
-                  value={Number(bottomBorderWidth)}
+                  value={Number(borderWidths.bottom)}
                   onChange={(value: number) => {
-                    setBottomBorderWidth(value.toString());
+                    setBorderWidths((prev) => ({
+                      ...prev,
+                      bottom: value.toString(),
+                    }));
                   }}
                 />
               </div>
 
-              {bottomBorderWidth !== '0' && (
+              {borderWidths.bottom !== '0' && (
                 <EditColor
-                  initColor={bottomBorderColor}
+                  initColor={borderColors.bottom}
                   label="Bottom border color"
                   onChange={(color) => {
                     if (color) {
-                      setBottomBorderColor(color);
+                      setBorderColors((prev) => ({ ...prev, bottom: color }));
                     }
                   }}
                 />
@@ -426,25 +381,28 @@ export const ColumnSettings = (props: any) => {
 
               <div className="mt-4">
                 <Typography variant="labelBase" className="mb-2">
-                  Left border width : {leftBorderWidth}px
+                  Left border width : {borderWidths.left}px
                 </Typography>
                 <Slider
                   min={0}
                   max={10}
-                  value={Number(leftBorderWidth)}
+                  value={Number(borderWidths.left)}
                   onChange={(value: number) => {
-                    setLeftBorderWidth(value.toString());
+                    setBorderWidths((prev) => ({
+                      ...prev,
+                      left: value.toString(),
+                    }));
                   }}
                 />
               </div>
 
-              {leftBorderWidth !== '0' && (
+              {borderWidths.left !== '0' && (
                 <EditColor
-                  initColor={leftBorderColor}
+                  initColor={borderColors.left}
                   label="Left border color"
                   onChange={(color) => {
                     if (color) {
-                      setLeftBorderColor(color);
+                      setBorderColors((prev) => ({ ...prev, left: color }));
                     }
                   }}
                 />
