@@ -6,7 +6,7 @@ import { Smartphone, Monitor, Sun, Moon } from 'lucide-react';
 import { useMediaQuery } from '@/src/hooks/useMediaQuery';
 import { MEDIA_QUERIES } from '@/src/constants/mediaQueries';
 import { getInvertedSignatureRows } from '@/src/utils/colorUtils';
-
+import { Container } from '../ui/container';
 export const SignaturePreview: React.FC = () => {
   const [isMobilePreview, setIsMobilePreview] = useState(false);
   const isDesktopScreen = useMediaQuery(MEDIA_QUERIES.MD);
@@ -22,16 +22,18 @@ export const SignaturePreview: React.FC = () => {
   const outerDivClasses = 'py-2 flex justify-center';
 
   const wrapperDivClasses = [
-    'rounded',
     !isDesktopScreen || isMobilePreview ? 'inline-flex' : '',
 
     isDarkMode ? 'bg-gray-900' : '',
-    !isDesktopScreen ? 'w-full' : '',
+    !isDesktopScreen ? 'w-full px-4' : '',
 
     isDesktopScreen && !isMobilePreview ? 'w-full' : '',
 
-    isDesktopScreen && isMobilePreview ? 'pb-4' : '',
-    isDesktopScreen && isMobilePreview && isDarkMode ? 'px-4' : '',
+    isMobilePreview && isDesktopScreen
+      ? `border-x border-b rounded-b-lg ${
+          isDarkMode ? 'border-gray-500' : 'border-gray-400'
+        }`
+      : '',
   ]
     .filter(Boolean)
     .join(' ');
@@ -42,12 +44,6 @@ export const SignaturePreview: React.FC = () => {
     !isDesktopScreen ? 'py-4' : '',
 
     isMobilePreview || !isDesktopScreen ? 'w-[375px]' : '',
-
-    isMobilePreview && isDesktopScreen
-      ? `border-x border-b rounded-b-lg ${
-          isDarkMode ? 'border-gray-500' : 'border-gray-400'
-        }`
-      : '',
   ]
     .filter(Boolean)
     .join(' ');
@@ -63,47 +59,49 @@ export const SignaturePreview: React.FC = () => {
       </div>
 
       <div className={`py-4`}>
-        <div className="flex flex-col sm:flex-row items-center w-full justify-center sm:justify-start mb-0 sm:mb-8 space-y-4 sm:space-y-0 sm:space-x-8">
-          {isDesktopScreen && (
+        <Container>
+          <div className="flex flex-col sm:flex-row items-center w-full justify-center sm:justify-start mb-0 sm:mb-8 space-y-4 sm:space-y-0 sm:space-x-8">
+            {isDesktopScreen && (
+              <TitleSwitch
+                checked={isMobilePreview}
+                onCheckedChange={setIsMobilePreview}
+                leftContent={
+                  <div className="flex items-center">
+                    <Monitor size={16} className="mr-1" />
+                    Desktop
+                  </div>
+                }
+                rightContent={
+                  <div className="flex items-center">
+                    <Smartphone size={16} className="mr-1" />
+                    Mobile
+                  </div>
+                }
+                aria-label="Switch between desktop and mobile view"
+              />
+            )}
             <TitleSwitch
-              checked={isMobilePreview}
-              onCheckedChange={setIsMobilePreview}
+              checked={isDarkMode}
+              onCheckedChange={toggleDarkMode}
               leftContent={
                 <div className="flex items-center">
-                  <Monitor size={16} className="mr-1" />
-                  Desktop
+                  <Sun size={16} className="mr-1" />
+                  Light
                 </div>
               }
               rightContent={
                 <div className="flex items-center">
-                  <Smartphone size={16} className="mr-1" />
-                  Mobile
+                  <Moon size={16} className="mr-1" />
+                  Dark
                 </div>
               }
-              aria-label="Switch between desktop and mobile view"
+              aria-label="Switch between light and dark mode"
             />
-          )}
-          <TitleSwitch
-            checked={isDarkMode}
-            onCheckedChange={toggleDarkMode}
-            leftContent={
-              <div className="flex items-center">
-                <Sun size={16} className="mr-1" />
-                Light
-              </div>
-            }
-            rightContent={
-              <div className="flex items-center">
-                <Moon size={16} className="mr-1" />
-                Dark
-              </div>
-            }
-            aria-label="Switch between light and dark mode"
-          />
-        </div>
+          </div>
+        </Container>
 
-        <div className={outerDivClasses}>
-          <div className={wrapperDivClasses}>
+        <div className={`${outerDivClasses} w-full max-w-6xl mx-auto`}>
+          <div className={`${wrapperDivClasses}`}>
             <div className={containerDivClasses}>
               <EmailTemplateView id="email-signature" rows={rowsToDisplay} />
             </div>

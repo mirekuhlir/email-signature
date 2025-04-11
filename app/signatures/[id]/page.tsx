@@ -45,15 +45,13 @@ export default async function Signature(props: Props) {
         <Header user={user} />
         <main>
           <div className="pt-24">
-            <Container>
-              <SignatureDetail
-                signatureDetail={{
-                  ...template,
-                }}
-                isSignedIn={isSignedIn}
-                templateSlug={templateSlug}
-              />
-            </Container>
+            <SignatureDetail
+              signatureDetail={{
+                ...template,
+              }}
+              isSignedIn={isSignedIn}
+              templateSlug={templateSlug}
+            />
           </div>
         </main>
       </div>
@@ -78,16 +76,14 @@ export default async function Signature(props: Props) {
         <Header user={user} />
         <main>
           <div className="pt-24">
-            <Container>
-              <SignatureDetail
-                isSignedIn={isSignedIn}
-                signatureDetail={{
-                  ...data?.signature_content,
-                  rows,
-                  colors,
-                }}
-              />
-            </Container>
+            <SignatureDetail
+              isSignedIn={isSignedIn}
+              signatureDetail={{
+                ...data?.signature_content,
+                rows,
+                colors,
+              }}
+            />
           </div>
         </main>
       </div>

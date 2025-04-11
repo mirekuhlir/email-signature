@@ -14,6 +14,7 @@ import { useAuthModal } from '@/src/hooks/use-auth-modal';
 import { Hr } from '../ui/hr';
 import { ChevronLeft, Edit2, Copy, Eye } from 'lucide-react';
 import { EmailTemplateView } from './content-view/signature-view';
+import { Container } from '../ui/container';
 
 export const SignatureDetail = (props: any) => {
   const { signatureDetail, isSignedIn, templateSlug } = props;
@@ -42,32 +43,37 @@ export const SignatureDetail = (props: any) => {
 
   return (
     <>
-      {!contentEdit.editPath &&
-        !contentEdit.columnPath &&
-        !contentEdit.addPath &&
-        !isEdit &&
-        isSignedIn && (
-          <>
-            <StyledLink
-              variant="default"
-              href="/signatures"
-              className="flex items-center gap-1"
-            >
-              <ChevronLeft size={23} />
-              Back to My signatures
-            </StyledLink>
-            <Hr className="mt-4 mb-2 sm:mb-8 sm:mt-8" />
-          </>
-        )}
+      <Container>
+        {!contentEdit.editPath &&
+          !contentEdit.columnPath &&
+          !contentEdit.addPath &&
+          !isEdit &&
+          isSignedIn && (
+            <>
+              <StyledLink
+                variant="default"
+                href="/signatures"
+                className="flex items-center gap-1"
+              >
+                <ChevronLeft size={23} />
+                Back to My signatures
+              </StyledLink>
+              <Hr className="mt-4 mb-2 sm:mb-8 sm:mt-8" />
+            </>
+          )}
+      </Container>
+
       <div className="flex flex-col">
         {contentEdit.editPath && (
-          <>
+          <Container>
             <EmailTemplateView rows={rows} />
-          </>
+          </Container>
         )}
-        {!isEdit && (
-          <>
-            <SignaturePreview />
+      </div>
+      {!isEdit && (
+        <>
+          <SignaturePreview />
+          <Container>
             {!contentEdit.editPath && (
               <div className="mt-0 sm:mt-4 flex justify-end sm:justify-start">
                 <Button
@@ -90,13 +96,13 @@ export const SignatureDetail = (props: any) => {
                 </div>
               </div>
             )}
-            <div className="mt-5"></div>
-          </>
-        )}
-      </div>
+          </Container>
+          <div className="mt-5"></div>
+        </>
+      )}
 
       {isEdit && (
-        <>
+        <Container>
           <div>
             <EmailTemplateEdit
               isSignedIn={isSignedIn}
@@ -113,7 +119,7 @@ export const SignatureDetail = (props: any) => {
                 </div>
               )}
           </div>
-        </>
+        </Container>
       )}
     </>
   );
