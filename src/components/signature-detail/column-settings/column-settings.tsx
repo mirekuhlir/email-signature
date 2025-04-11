@@ -85,7 +85,7 @@ export const ColumnSettings = (props: any) => {
     });
 
     if (originalStyle.borderRadius) {
-      setBorderRadius(originalStyle.borderRadius.replace('px', ''));
+      setBorderRadius(originalStyle.borderRadius);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -139,7 +139,7 @@ export const ColumnSettings = (props: any) => {
 
     setContent(path, {
       ...currentStyle,
-      borderRadius: `${borderRadius}px`,
+      borderRadius: borderRadius,
     });
   };
 
@@ -412,14 +412,14 @@ export const ColumnSettings = (props: any) => {
 
               <div className="pb-4">
                 <Typography variant="labelBase" className="mb-2">
-                  Border radius : {borderRadius}px
+                  Border radius : {borderRadius}
                 </Typography>
                 <Slider
                   min={0}
                   max={20}
-                  value={Number(borderRadius)}
+                  value={Number(borderRadius.replace('px', ''))}
                   onChange={(value: number) => {
-                    setBorderRadius(value.toString());
+                    setBorderRadius(`${value}px`);
                   }}
                 />
               </div>

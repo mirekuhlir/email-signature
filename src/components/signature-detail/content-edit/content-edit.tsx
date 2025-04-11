@@ -99,7 +99,7 @@ export const ContentEdit = (props: any) => {
     }
 
     if (content?.components[0].borderRadius) {
-      setBorderRadius(content.components[0].borderRadius.replace('px', ''));
+      setBorderRadius(content.components[0].borderRadius);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -271,6 +271,20 @@ export const ContentEdit = (props: any) => {
                         />
                       </div>
                       <Hr className="mt-4 mb-4" />
+                      <div className="mb-4">
+                        <Typography variant="labelBase" className="mb-2">
+                          Border radius : {borderRadius}
+                        </Typography>
+                        <Slider
+                          min={0}
+                          max={20}
+                          value={Number(borderRadius.replace('px', ''))}
+                          onChange={(value: number) => {
+                            setBorderRadius(`${value}px`);
+                          }}
+                        />
+                      </div>
+                      <Hr className="mt-4 mb-4" />
                       <div className="grid grid-cols-1 gap-6">
                         <div>
                           <Typography variant="labelBase" className="mb-2">
@@ -327,22 +341,6 @@ export const ContentEdit = (props: any) => {
                             }}
                           />
                         </div>
-                      </div>
-
-                      <Hr className="mt-4 mb-4" />
-
-                      <div className="mb-4">
-                        <Typography variant="labelBase" className="mb-2">
-                          Border radius : {borderRadius}px
-                        </Typography>
-                        <Slider
-                          min={0}
-                          max={20}
-                          value={Number(borderRadius)}
-                          onChange={(value: number) => {
-                            setBorderRadius(value.toString());
-                          }}
-                        />
                       </div>
                     </div>
                   </CollapsibleSection>

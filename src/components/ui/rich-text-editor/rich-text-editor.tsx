@@ -52,7 +52,7 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
   } = props;
 
   const [editText, setEditText] = useState(content?.text ?? '');
-  const [editFontSize, setEditFontSize] = useState(content?.fontSize ?? '16');
+  const [editFontSize, setEditFontSize] = useState(content?.fontSize ?? '16px');
   const [editLineHeight, setEditLineHeight] = useState(
     content?.lineHeight ?? '1',
   );
@@ -79,7 +79,7 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
     content?.fontFamily ?? 'Arial',
   );
   const [editLetterSpacing, setEditLetterSpacing] = useState(
-    content?.letterSpacing ?? '0',
+    content?.letterSpacing ?? '0px',
   );
   const [showIconSelector, setShowIconSelector] = useState(false);
   const [textareaRef, setTextareaRef] = useState<HTMLTextAreaElement | null>(
@@ -89,7 +89,7 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
   useEffect(() => {
     if (content) {
       setEditText(content.text ?? '');
-      setEditFontSize(content.fontSize ?? '16');
+      setEditFontSize(content.fontSize ?? '16px');
       setEditLineHeight(content.lineHeight ?? '1');
       setEditFontWeight(content.fontWeight ?? 'normal');
       setEditFontStyle(content.fontStyle ?? 'normal');
@@ -98,7 +98,7 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
       setEditBackgroundColor(content.backgroundColor);
       setEditTextDecoration(content.textDecoration ?? 'none');
       setEditFontFamily(content.fontFamily ?? 'Arial');
-      setEditLetterSpacing(content.letterSpacing ?? '0');
+      setEditLetterSpacing(content.letterSpacing ?? '0px');
     }
   }, [content]);
 
@@ -167,7 +167,7 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
         <textarea
           className="w-full p-4 border rounded focus:outline-hidden focus:ring-2 focus:ring-blue-500 bg-white border-gray-300 rounded-md shadow-xs"
           style={{
-            fontSize: `${editFontSize}px`,
+            fontSize: editFontSize,
             lineHeight: editLineHeight,
             fontWeight: editFontWeight,
             fontStyle: editFontStyle,
@@ -175,7 +175,7 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
             color: editTextColor,
             textDecoration: editTextDecoration,
             fontFamily: editFontFamily,
-            letterSpacing: `${editLetterSpacing}px`,
+            letterSpacing: editLetterSpacing,
             resize: 'vertical',
             minHeight: '100px',
           }}

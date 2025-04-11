@@ -88,9 +88,9 @@ export const getContentView = (content?: any) => {
           style={{
             display: 'inline-block',
             width: '100%',
-            fontSize: `${fontSize}px`,
+            fontSize: fontSize,
             color,
-            letterSpacing: `${letterSpacing}px`,
+            letterSpacing: letterSpacing,
             backgroundColor,
             fontFamily,
             fontStyle,
@@ -99,7 +99,7 @@ export const getContentView = (content?: any) => {
             textAlign,
             textDecoration,
             padding,
-            borderRadius: `${borderRadius}px`,
+            borderRadius: borderRadius,
             wordBreak: 'break-all',
           }}
         >
@@ -125,7 +125,7 @@ export const getContentView = (content?: any) => {
           textAlign,
           padding,
           backgroundColor,
-          borderRadius: `${borderRadius}px`,
+          borderRadius: borderRadius,
         }}
       >
         {components.map((component: any) => {
@@ -145,9 +145,9 @@ export const getContentView = (content?: any) => {
 
           const style = {
             width: '100%',
-            fontSize: `${fontSize}px`,
+            fontSize: fontSize,
             color,
-            letterSpacing: `${letterSpacing}px`,
+            letterSpacing: letterSpacing,
             fontFamily,
             fontStyle,
             fontWeight,
@@ -155,7 +155,7 @@ export const getContentView = (content?: any) => {
             textAlign,
             textDecoration,
             padding,
-            borderRadius: `${borderRadius}px`,
+            borderRadius: borderRadius,
             /*       wordBreak: 'break-all' as React.CSSProperties['wordBreak'], */
           };
 
@@ -205,7 +205,7 @@ export const getContentView = (content?: any) => {
           display: 'inline-block',
           textAlign,
           padding,
-          borderRadius: `${borderRadius}px`,
+          borderRadius: borderRadius,
           backgroundColor,
         }}
       >
@@ -226,9 +226,9 @@ export const getContentView = (content?: any) => {
 
           const style = {
             width: '100%',
-            fontSize: `${fontSize}px`,
+            fontSize: fontSize,
             color,
-            letterSpacing: `${letterSpacing}px`,
+            letterSpacing: letterSpacing,
             fontFamily,
             fontStyle,
             fontWeight,
@@ -236,7 +236,7 @@ export const getContentView = (content?: any) => {
             textAlign,
             textDecoration,
             padding,
-            borderRadius: `${borderRadius}px`,
+            borderRadius: borderRadius,
           };
 
           if (!text) {
@@ -285,7 +285,7 @@ export const getContentView = (content?: any) => {
           display: 'inline-block',
           textAlign,
           padding,
-          borderRadius: `${borderRadius}px`,
+          borderRadius: borderRadius,
           backgroundColor,
         }}
       >
@@ -306,9 +306,9 @@ export const getContentView = (content?: any) => {
 
           const style = {
             width: '100%',
-            fontSize: `${fontSize}px`,
+            fontSize: fontSize,
             color,
-            letterSpacing: `${letterSpacing}px`,
+            letterSpacing: letterSpacing,
             fontFamily,
             fontStyle,
             fontWeight,
@@ -316,7 +316,7 @@ export const getContentView = (content?: any) => {
             textAlign,
             textDecoration,
             padding,
-            borderRadius: `${borderRadius}px`,
+            borderRadius: borderRadius,
           };
 
           if (!text) {
@@ -371,7 +371,7 @@ export const getContentView = (content?: any) => {
           display: 'inline-block',
           textAlign,
           padding,
-          borderRadius: `${borderRadius}px`,
+          borderRadius: borderRadius,
           backgroundColor,
         }}
       >
@@ -392,9 +392,9 @@ export const getContentView = (content?: any) => {
 
           const style = {
             width: '100%',
-            fontSize: `${fontSize}px`,
+            fontSize: fontSize,
             color,
-            letterSpacing: `${letterSpacing}px`,
+            letterSpacing: letterSpacing,
             fontFamily,
             fontStyle,
             fontWeight,
@@ -402,7 +402,7 @@ export const getContentView = (content?: any) => {
             textAlign,
             textDecoration,
             padding,
-            borderRadius: `${borderRadius}px`,
+            borderRadius: borderRadius,
             wordBreak: 'break-all' as React.CSSProperties['wordBreak'],
           };
 

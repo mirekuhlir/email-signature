@@ -31,172 +31,172 @@ export const FONTS = [
 
 export const FONT_SIZES = [
     {
-        value: "8",
+        value: "8px",
         label: "8px",
     },
     {
-        value: "9",
+        value: "9px",
         label: "9px",
     },
     {
-        value: "10",
+        value: "10px",
         label: "10px",
     },
     {
-        value: "11",
+        value: "11px",
         label: "11px",
     },
     {
-        value: "12",
+        value: "12px",
         label: "12px",
     },
     {
-        value: "13",
+        value: "13px",
         label: "13px",
     },
     {
-        value: "14",
+        value: "14px",
         label: "14px",
     },
     {
-        value: "15",
+        value: "15px",
         label: "15px",
     },
     {
-        value: "16",
+        value: "16px",
         label: "16px",
     },
     {
-        value: "17",
+        value: "17px",
         label: "17px",
     },
     {
-        value: "18",
+        value: "18px",
         label: "18px",
     },
     {
-        value: "19",
+        value: "19px",
         label: "19px",
     },
     {
-        value: "20",
+        value: "20px",
         label: "20px",
     },
     {
-        value: "21",
+        value: "21px",
         label: "21px",
     },
     {
-        value: "22",
+        value: "22px",
         label: "22px",
     },
     {
-        value: "23",
+        value: "23px",
         label: "23px",
     },
     {
-        value: "24",
+        value: "24px",
         label: "24px",
     },
     {
-        value: "25",
+        value: "25px",
         label: "25px",
     },
     {
-        value: "26",
+        value: "26px",
         label: "26px",
     },
     {
-        value: "27",
+        value: "27px",
         label: "27px",
     },
     {
-        value: "28",
+        value: "28px",
         label: "28px",
     },
     {
-        value: "30",
+        value: "30px",
         label: "30px",
     },
     {
-        value: "31",
+        value: "31px",
         label: "31px",
     },
 
     {
-        value: "32",
+        value: "32px",
         label: "32px",
     },
     {
-        value: "33",
+        value: "33px",
         label: "33px",
     },
     {
-        value: "34",
+        value: "34px",
         label: "34px",
     },
     {
-        value: "35",
+        value: "35px",
         label: "35px",
     },
     {
-        value: "36",
+        value: "36px",
         label: "36px",
     },
     {
-        value: "37",
+        value: "37px",
         label: "37px",
     },
     {
-        value: "38",
+        value: "38px",
         label: "38px",
     },
     {
-        value: "39",
+        value: "39px",
         label: "39px",
     },
     {
-        value: "40",
+        value: "40px",
         label: "40px",
     },
     {
-        value: "41",
+        value: "41px",
         label: "41px",
     },
     {
-        value: "42",
+        value: "42px",
         label: "42px",
     },
     {
-        value: "43",
+        value: "43px",
         label: "43px",
     },
     {
-        value: "44",
+        value: "44px",
         label: "44px",
     },
     {
-        value: "45",
+        value: "45px",
         label: "45px",
     },
     {
-        value: "46",
+        value: "46px",
         label: "46px",
     },
     {
-        value: "47",
+        value: "47px",
         label: "47px",
     },
     {
-        value: "48",
+        value: "48px",
         label: "48px",
     },
     {
-        value: "49",
+        value: "49px",
         label: "49px",
     },
     {
-        value: "50",
+        value: "50px",
         label: "50px",
     },
 ];
@@ -230,23 +230,23 @@ export const LINE_HEIGHTS = [
 
 export const LETTER_SPACINGS = [
     {
-        value: "0",
+        value: "0px",
         label: "0px",
     },
     {
-        value: "1",
+        value: "1px",
         label: "1px",
     },
     {
-        value: "2",
+        value: "2px",
         label: "2px",
     },
     {
-        value: "4",
+        value: "4px",
         label: "4px",
     },
     {
-        value: "8",
+        value: "8px",
         label: "8px",
     },
 ];
