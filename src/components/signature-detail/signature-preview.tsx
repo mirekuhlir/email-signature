@@ -7,6 +7,7 @@ import { useMediaQuery } from '@/src/hooks/useMediaQuery';
 import { MEDIA_QUERIES } from '@/src/constants/mediaQueries';
 import { getInvertedSignatureRows } from '@/src/utils/colorUtils';
 import { Container } from '../ui/container';
+
 export const SignaturePreview: React.FC = () => {
   const [isMobilePreview, setIsMobilePreview] = useState(false);
   const isDesktopScreen = useMediaQuery(MEDIA_QUERIES.MD);
@@ -58,7 +59,7 @@ export const SignaturePreview: React.FC = () => {
         <EmailTemplateView rows={rows} />
       </div>
 
-      <div className={`py-4`}>
+      <div className={`py-4 sm:px-0 lg:px-4`}>
         <Container>
           <div className="flex flex-col sm:flex-row items-center w-full justify-center sm:justify-start mb-0 sm:mb-8 space-y-4 sm:space-y-0 sm:space-x-8">
             {isDesktopScreen && (
