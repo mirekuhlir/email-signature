@@ -42,7 +42,7 @@ export const SignatureDetail = (props: any) => {
   };
 
   return (
-    <>
+    <div className="pb-8">
       <Container>
         {!contentEdit.editPath &&
           !contentEdit.columnPath &&
@@ -97,30 +97,27 @@ export const SignatureDetail = (props: any) => {
               </div>
             )}
           </Container>
-          <div className="mt-5"></div>
         </>
       )}
 
       {isEdit && (
         <Container>
-          <div>
-            <EmailTemplateEdit
-              isSignedIn={isSignedIn}
-              templateSlug={templateSlug}
-              rows={rows}
-            />
-            {!contentEdit.editPath &&
-              !contentEdit.addPath &&
-              !contentEdit.columnPath && (
-                <div className="flex justify-end pt-4 pb-8 border-t border-gray-300">
-                  <Button size="lg" onClick={() => setIsEdit(false)}>
-                    <Eye size={20} className="mr-2" /> View
-                  </Button>
-                </div>
-              )}
-          </div>
+          <EmailTemplateEdit
+            isSignedIn={isSignedIn}
+            templateSlug={templateSlug}
+            rows={rows}
+          />
+          {!contentEdit.editPath &&
+            !contentEdit.addPath &&
+            !contentEdit.columnPath && (
+              <div className="flex justify-end pt-4 border-t border-gray-300">
+                <Button size="lg" onClick={() => setIsEdit(false)}>
+                  <Eye size={20} className="mr-2" /> View
+                </Button>
+              </div>
+            )}
         </Container>
       )}
-    </>
+    </div>
   );
 };

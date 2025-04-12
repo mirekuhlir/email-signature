@@ -358,7 +358,7 @@ export const ContentEdit = (props: any) => {
             <>
               {canDisplayDeleteButton && (
                 <>
-                  <Hr className="mb-4" />
+                  <Hr className="mb-4 mt-4" />
 
                   <Typography variant="labelBase" className="mb-2">
                     Delete {getContentTypeName(content.type)} from signature

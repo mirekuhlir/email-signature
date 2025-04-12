@@ -161,7 +161,7 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
   );
 
   return (
-    <div className="w-full max-w-4xl mx-auto space-y-4 ">
+    <div className="w-full max-w-4xl space-y-4 ">
       <div>
         {label && <Typography variant="labelBase">{label}</Typography>}
         <textarea
