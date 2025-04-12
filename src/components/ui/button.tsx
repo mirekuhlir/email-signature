@@ -10,8 +10,9 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     | 'white'
     | 'outline'
     | 'ghost'
-    | 'link';
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+    | 'link'
+    | 'modalTab';
+  size?: 'sm' | 'md' | 'lg' | 'xl' | 'modalTab';
   loading?: boolean;
   selected?: boolean;
 }
@@ -52,6 +53,7 @@ export const variants = {
   ghost: 'bg-transparent hover:bg-gray-100',
   link: 'bg-transparent underline-offset-4 hover:underline p-0',
   white: 'bg-white hover:bg-gray-300',
+  modalTab: 'bg-gray-100 text-gray-600 hover:bg-gray-200',
 };
 
 export const selectedStyles = {
@@ -63,6 +65,8 @@ export const selectedStyles = {
   outline: 'border-2 border-blue-500 bg-blue-50 hover:bg-blue-50',
   ghost: 'bg-gray-50 hover:bg-gray-50',
   link: 'bg-transparent underline-offset-4 hover:underline p-0',
+  white: 'bg-gray-200 hover:bg-gray-200',
+  modalTab: 'bg-blue-600 text-white hover:bg-blue-700',
 };
 
 export const sizes = {
@@ -70,6 +74,7 @@ export const sizes = {
   md: 'h-10 px-4 text-base',
   lg: 'h-12 px-6 text-lg',
   xl: 'h-14 px-8 text-xl',
+  modalTab: 'w-40',
 };
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
