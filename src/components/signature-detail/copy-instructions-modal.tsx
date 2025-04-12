@@ -68,6 +68,7 @@ export const CopyInstructionsModalContent = () => {
               selected={selectedClient === clientKey}
               onClick={() => setSelectedClient(clientKey)}
               size="modalTab"
+              buttonClassName="justify-start"
             >
               <div className="flex items-center p-2">
                 <div className="mr-1">{instructions[clientKey].icon}</div>

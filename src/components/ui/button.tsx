@@ -15,6 +15,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   size?: 'sm' | 'md' | 'lg' | 'xl' | 'modalTab';
   loading?: boolean;
   selected?: boolean;
+  buttonClassName?: string;
 }
 
 const LoadingSpinner = () => (
@@ -87,13 +88,14 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       disabled,
       selected = false,
       children,
+      buttonClassName = '',
       ...props
     },
     ref,
   ) => {
     const variantClass = selected ? selectedStyles[variant] : variants[variant];
 
-    const buttonClasses = `${baseStyles} ${variantClass} ${sizes[size]}`;
+    const buttonClasses = `${baseStyles} ${variantClass} ${sizes[size]} ${buttonClassName}`;
 
     return (
       <button
