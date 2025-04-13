@@ -5,7 +5,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { createClient } from '@/src/utils/supabase/client';
 import { Button } from '../ui/button';
 import { Typography } from '../ui/typography';
-
+import { useToast } from '../ui/toast';
 type FormValues = {
   email: string;
 };
@@ -17,6 +17,8 @@ type AuthProps = {
 export const Auth = ({ text }: AuthProps) => {
   const [isEmailSending, setIsEmailSending] = useState(false);
   const [isEmailSent, setIsEmailSent] = useState(false);
+
+  const { toast } = useToast();
 
   const {
     register,
@@ -42,7 +44,12 @@ export const Auth = ({ text }: AuthProps) => {
     });
 
     if (error) {
-      console.error(error);
+      toast({
+        title: 'Error',
+        description: 'Failed to send email. Please try again.',
+        variant: 'error',
+        duration: 5000,
+      });
     } else {
       setIsEmailSent(true);
     }

@@ -191,13 +191,13 @@ export const SignaturesList = (props: any) => {
 
     if (error) {
       setIsLoading(false);
-      console.error(error);
       toast({
         title: 'Error',
         description: 'Failed to create signature. Please try again.',
         variant: 'error',
         duration: 5000,
       });
+      return;
     }
 
     if (isTemp) {
