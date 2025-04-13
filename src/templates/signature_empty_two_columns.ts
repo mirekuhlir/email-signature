@@ -12,14 +12,64 @@ export const signature_empty_two_columns = {
     rows: [
         {
             "id": generateRandomId(),
-            "columns": [
+            columns: [
                 {
-                    "id": generateRandomId(),
-                    "rows": [],
+                    id: generateRandomId(),
+                    rows: [
+                        {
+                            id: generateRandomId(),
+                            content: {
+                                type: "text",
+                                components: [
+                                    {
+                                        id: generateRandomId(),
+                                        text: "First column",
+                                        type: "text",
+                                        color: "rgb(0, 0, 0)",
+                                        padding: "0px 0px 0px 0px",
+                                        fontSize: "14px",
+                                        fontStyle: "normal",
+                                        textAlign: "left",
+                                        fontFamily: "Arial",
+                                        fontWeight: "normal",
+                                        lineHeight: "1",
+                                        borderRadius: "0",
+                                        letterSpacing: "0px",
+                                        textDecoration: "none",
+                                    },
+                                ],
+                            },
+                        },
+                    ],
                 },
                 {
-                    "id": generateRandomId(),
-                    "rows": [],
+                    id: generateRandomId(),
+                    rows: [
+                        {
+                            id: generateRandomId(),
+                            content: {
+                                type: "text",
+                                components: [
+                                    {
+                                        id: generateRandomId(),
+                                        text: "Second column",
+                                        type: "text",
+                                        color: "rgb(0, 0, 0)",
+                                        padding: "0px 0px 0px 0px",
+                                        fontSize: "14px",
+                                        fontStyle: "normal",
+                                        textAlign: "left",
+                                        fontFamily: "Arial",
+                                        fontWeight: "normal",
+                                        lineHeight: "1",
+                                        borderRadius: "0",
+                                        letterSpacing: "0px",
+                                        textDecoration: "none",
+                                    },
+                                ],
+                            },
+                        },
+                    ],
                 },
             ],
         },

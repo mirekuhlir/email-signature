@@ -6,16 +6,39 @@ export const signature_empty_one_columns = {
     version: "0.1",
     name: "Empty Signature One Column",
   },
-  colors: [
-    "rgb(0,148,47)",
-  ],
+  colors: [],
   rows: [
     {
       id: generateRandomId(),
       columns: [
         {
           id: generateRandomId(),
-          rows: [],
+          rows: [
+            {
+              id: generateRandomId(),
+              content: {
+                type: "text",
+                components: [
+                  {
+                    id: generateRandomId(),
+                    text: "First column",
+                    type: "text",
+                    color: "rgb(0, 0, 0)",
+                    padding: "0px 0px 0px 0px",
+                    fontSize: "14px",
+                    fontStyle: "normal",
+                    textAlign: "left",
+                    fontFamily: "Arial",
+                    fontWeight: "normal",
+                    lineHeight: "1",
+                    borderRadius: "0",
+                    letterSpacing: "0px",
+                    textDecoration: "none",
+                  },
+                ],
+              },
+            },
+          ],
         },
       ],
     },
