@@ -21,7 +21,7 @@ export const signature_empty_one_columns = {
                 components: [
                   {
                     id: generateRandomId(),
-                    text: "First column",
+                    text: "Empty signature with one column.",
                     type: "text",
                     color: "rgb(0, 0, 0)",
                     padding: "0px 0px 0px 0px",

@@ -4,7 +4,6 @@ import { EmailTemplateView } from './signature-detail/content-view/signature-vie
 import { templates } from '@/src/templates';
 import { Button } from './ui/button';
 import { useRouter } from 'next/navigation';
-import { Typography } from './ui/typography';
 
 type TemplatesExamplesProps = {
   isSignedIn: boolean;
@@ -19,12 +18,7 @@ export const TemplatesExamples = (props: TemplatesExamplesProps) => {
     <>
       {templates.map((template, index) => (
         <div key={index} className="flex flex-col mt-4 mb-20">
-          <div className="">
-            <div className="mb-4">
-              <Typography variant="labelBase">{template.info?.name}</Typography>
-            </div>
-            <EmailTemplateView rows={template.rows} />
-          </div>
+          <EmailTemplateView rows={template.rows} />
           <div className="flex mt-4 justify-end sm:justify-start">
             <Button
               onClick={async () => {
