@@ -9,6 +9,7 @@ import {
 } from "@/src/components/signature-detail/content-add/utils";
 import { createClient } from "../utils/supabase/client";
 import { base64ToFile } from "../utils/base64ToFile";
+import { useToastStore } from "../components/ui/toast";
 
 const supabase = createClient();
 
@@ -93,6 +94,7 @@ export const useSignatureStore = create<StoreState>((set, get) => {
       signatureId: string,
       isSignedIn: boolean,
     ) => {
+      const { addToast } = useToastStore.getState();
       const cloneRows = cloneDeep(get().rows);
       const { colors } = get();
       const tableIndex = parseInt(path.split(".")[0].replace(/[[\]]/g, ""));
@@ -127,7 +129,11 @@ export const useSignatureStore = create<StoreState>((set, get) => {
         });
 
         if (error) {
-          throw error;
+          addToast({
+            title: "Error",
+            description: "Failed to delete row. Please try again.",
+            variant: "error",
+          });
         }
       }
 
@@ -135,6 +141,7 @@ export const useSignatureStore = create<StoreState>((set, get) => {
     },
 
     moveRowUp: async (path: string, signatureId: string) => {
+      const { addToast } = useToastStore.getState();
       const state = get();
       const cloneRows = cloneDeep(state.rows);
       const tableIndex = parseInt(path.split(".")[0].replace(/[[\]]/g, ""));
@@ -153,25 +160,30 @@ export const useSignatureStore = create<StoreState>((set, get) => {
       set({ rows: cloneRows });
 
       // Save changes to the database
-      try {
-        if (signatureId) {
-          await supabase.functions.invoke("patch-signature", {
-            method: "PATCH",
-            body: {
-              signatureId,
-              signatureContent: {
-                rows: cloneRows,
-                colors: state.colors,
-              },
+
+      if (signatureId) {
+        const { error } = await supabase.functions.invoke("patch-signature", {
+          method: "PATCH",
+          body: {
+            signatureId,
+            signatureContent: {
+              rows: cloneRows,
+              colors: state.colors,
             },
+          },
+        });
+        if (error) {
+          addToast({
+            title: "Error",
+            description: "Failed to move row up. Please try again.",
+            variant: "error",
           });
         }
-      } catch (error) {
-        console.error("Error saving signature:", error);
       }
     },
 
     moveRowDown: async (path: string, signatureId: string) => {
+      const { addToast } = useToastStore.getState();
       const state = get();
       const cloneRows = cloneDeep(state.rows);
       const tableIndex = parseInt(path.split(".")[0].replace(/[[\]]/g, ""));
@@ -190,21 +202,25 @@ export const useSignatureStore = create<StoreState>((set, get) => {
       set({ rows: cloneRows });
 
       // Save changes to the database
-      try {
-        if (signatureId) {
-          await supabase.functions.invoke("patch-signature", {
-            method: "PATCH",
-            body: {
-              signatureId,
-              signatureContent: {
-                rows: cloneRows,
-                colors: state.colors,
-              },
+      if (signatureId) {
+        const { error } = await supabase.functions.invoke("patch-signature", {
+          method: "PATCH",
+          body: {
+            signatureId,
+            signatureContent: {
+              rows: cloneRows,
+              colors: state.colors,
             },
+          },
+        });
+
+        if (error) {
+          addToast({
+            title: "Error",
+            description: "Failed to move row down. Please try again.",
+            variant: "error",
           });
         }
-      } catch (error) {
-        console.error("Error saving signature:", error);
       }
     },
 
@@ -269,6 +285,7 @@ export const useSignatureStore = create<StoreState>((set, get) => {
       contentPathToEdit: string,
     ) => {
       const { rows, colors, setContent } = get();
+      const { addToast } = useToastStore.getState();
 
       const content = lGet(rows, contentPathToEdit);
 
@@ -304,7 +321,11 @@ export const useSignatureStore = create<StoreState>((set, get) => {
           );
 
         if (imageError) {
-          throw imageError;
+          addToast({
+            title: "Error",
+            description: "Failed to save signature. Please try again.",
+            variant: "error",
+          });
         }
 
         if (imageData?.imagePreviewPublicUrl) {
@@ -355,7 +376,11 @@ export const useSignatureStore = create<StoreState>((set, get) => {
           );
 
           if (patchError) {
-            throw patchError;
+            addToast({
+              title: "Error",
+              description: "Failed to save signature. Please try again.",
+              variant: "error",
+            });
           }
         }
       } else {
@@ -374,7 +399,11 @@ export const useSignatureStore = create<StoreState>((set, get) => {
         );
 
         if (patchError) {
-          throw patchError;
+          addToast({
+            title: "Error",
+            description: "Failed to save signature. Please try again.",
+            variant: "error",
+          });
         }
       }
     },
