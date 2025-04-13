@@ -127,7 +127,7 @@ export const ImageEditContent = (props: any) => {
 
   const isShowAddLinkToImage =
     !showLinkInput &&
-    (imageComponent.src || imageComponent.cropImagePreview) &&
+    (imageComponent.originalSrc || imageComponent.cropImagePreview) &&
     imageComponent.imageSettings;
 
   return (

@@ -109,7 +109,7 @@ const textComponentSchema = baseComponentSchema.extend({
 });
 
 const imageComponentSchema = baseComponentSchema.extend({
-    src: imageSrcSchema,
+    src: z.union([imageSrcSchema, z.literal("")]),
     cropImagePreview: z.string().max(MAX_IMAGE_PREVIEW).optional(), // Base64 image can be large - consider stricter validation if needed
     originalSrc: z.union([imageSrcSchema, z.literal("")]).optional(),
     originalImageFile: z.any().optional(), // File type - ensure server-side handling is secure
