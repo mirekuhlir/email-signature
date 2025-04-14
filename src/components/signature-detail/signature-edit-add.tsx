@@ -16,7 +16,7 @@ import { ContentType } from '@/src/const/content';
 export const EmailTemplateEdit = (props: any) => {
   const { rows, isSignedIn, templateSlug } = props;
   const { setContentEdit, contentEdit } = useContentEditStore();
-  const { moveRowUp, moveRowDown } = useSignatureStore();
+  const { moveRowUp, moveRowDown, isSavingOrder } = useSignatureStore();
   const { id: signatureId } = useParams();
 
   const renderColumn = (column: any, path: string) => {
@@ -179,7 +179,11 @@ export const EmailTemplateEdit = (props: any) => {
                       Edit
                     </Button>
                     {showContextMenu && (
-                      <ContextMenu size="sm" placement="right">
+                      <ContextMenu
+                        size="sm"
+                        placement="right"
+                        isLoading={isSavingOrder}
+                      >
                         <div className="pt-2 pb-2 px-2 flex flex-col gap-1 whitespace-nowrap items-start">
                           <Button
                             variant="ghost"

@@ -17,6 +17,7 @@ export interface StoreState {
   rows: any[];
   colors: string[];
   isDarkMode: boolean;
+  isSavingOrder: boolean;
   initSignature: (signature: {
     rows: any;
     colors?: string[];
@@ -45,6 +46,7 @@ export const useSignatureStore = create<StoreState>((set, get) => {
     rows: [],
     colors: [],
     isDarkMode: false,
+    isSavingOrder: false,
     initSignature: (signature: {
       rows: any;
       colors?: string[];
@@ -162,6 +164,8 @@ export const useSignatureStore = create<StoreState>((set, get) => {
       // Save changes to the database
 
       if (signatureId) {
+        set({ isSavingOrder: true }); // Set loading true
+
         const { error } = await supabase.functions.invoke("patch-signature", {
           method: "PATCH",
           body: {
@@ -179,6 +183,8 @@ export const useSignatureStore = create<StoreState>((set, get) => {
             variant: "error",
           });
         }
+
+        set({ isSavingOrder: false });
       }
     },
 
@@ -203,6 +209,8 @@ export const useSignatureStore = create<StoreState>((set, get) => {
 
       // Save changes to the database
       if (signatureId) {
+        set({ isSavingOrder: true });
+
         const { error } = await supabase.functions.invoke("patch-signature", {
           method: "PATCH",
           body: {
@@ -221,6 +229,8 @@ export const useSignatureStore = create<StoreState>((set, get) => {
             variant: "error",
           });
         }
+
+        set({ isSavingOrder: false });
       }
     },
 

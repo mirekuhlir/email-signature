@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Button } from './button';
+import { Loader2 } from 'lucide-react';
 
 interface MenuItem {
   label: string;
@@ -14,6 +15,7 @@ interface ContextMenuProps {
   el?: React.ElementType;
   buttonClassName?: string;
   size?: 'sm' | 'md' | 'lg';
+  isLoading?: boolean;
 }
 
 export const ContextMenu: React.FC<ContextMenuProps> = ({
@@ -24,6 +26,7 @@ export const ContextMenu: React.FC<ContextMenuProps> = ({
   el,
   buttonClassName,
   size = 'md',
+  isLoading = false,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [direction, setDirection] = useState<'down' | 'up'>('down');
@@ -63,6 +66,15 @@ export const ContextMenu: React.FC<ContextMenuProps> = ({
     ...(placement === 'left' ? { right: 0 } : { left: 0 }),
   };
 
+  let buttonContent: React.ReactNode;
+  if (isLoading) {
+    buttonContent = <Loader2 className="h-4 w-4 animate-spin" />;
+  } else if (label) {
+    buttonContent = label;
+  } else {
+    buttonContent = '•••';
+  }
+
   return (
     <div className="relative inline-block" ref={menuRef}>
       <Button
@@ -72,7 +84,7 @@ export const ContextMenu: React.FC<ContextMenuProps> = ({
         ref={buttonRef}
         onClick={() => setIsOpen(!isOpen)}
       >
-        {label ? label : '•••'}
+        {buttonContent}
       </Button>
 
       {isOpen && (
