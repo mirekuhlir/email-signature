@@ -288,7 +288,7 @@ export const ContentEdit = (props: any) => {
                       <div className="grid grid-cols-1 gap-6">
                         <div>
                           <Typography variant="labelBase" className="mb-2">
-                            Top padding : {paddingTop}px
+                            Top inner space: {paddingTop}px
                           </Typography>
                           <Slider
                             min={0}
@@ -302,7 +302,7 @@ export const ContentEdit = (props: any) => {
 
                         <div>
                           <Typography variant="labelBase" className="mb-2">
-                            Right padding : {paddingRight}px
+                            Right inner space: {paddingRight}px
                           </Typography>
                           <Slider
                             min={0}
@@ -316,7 +316,7 @@ export const ContentEdit = (props: any) => {
 
                         <div>
                           <Typography variant="labelBase" className="mb-2">
-                            Bottom padding : {paddingBottom}px
+                            Bottom inner space: {paddingBottom}px
                           </Typography>
                           <Slider
                             min={0}
@@ -330,7 +330,7 @@ export const ContentEdit = (props: any) => {
 
                         <div>
                           <Typography variant="labelBase" className="mb-2">
-                            Left padding : {paddingLeft}px
+                            Left inner space: {paddingLeft}px
                           </Typography>
                           <Slider
                             min={0}
