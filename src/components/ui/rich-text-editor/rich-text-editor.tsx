@@ -19,6 +19,7 @@ interface RichTextEditorProps {
   errorMessage?: string;
   label?: string;
   layoutType?: LayoutType;
+  backgroundColor?: string;
 }
 
 const ButtonSquare = ({
@@ -49,6 +50,7 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
     errorMessage,
     label,
     layoutType = LayoutType.TEXT,
+    backgroundColor,
   } = props;
 
   const [editText, setEditText] = useState(content?.text ?? '');
@@ -178,6 +180,7 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
             letterSpacing: editLetterSpacing,
             resize: 'vertical',
             minHeight: '100px',
+            backgroundColor,
           }}
           onChange={(e) => {
             setEditText(e.target.value);

@@ -68,7 +68,7 @@ export const EmailTemplateView = (props: any) => {
 
       return (
         <tr key={`tr-${row.id}`} style={row?.style}>
-          {row.columns.map((column: any) => (
+          {row.columns?.map((column: any) => (
             <Fragment key={`td-${column?.id}`}>{renderColumn(column)}</Fragment>
           ))}
         </tr>

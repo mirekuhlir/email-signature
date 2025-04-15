@@ -6,11 +6,13 @@ import { RichTextEditor } from '../../ui/rich-text-editor/rich-text-editor';
 import { Hr } from '../../ui/hr';
 
 export const TextEditContent = (props: any) => {
-  const { components, contentPathToEdit, contentType } = props;
+  const { components, contentPathToEdit, contentType, columnColor } = props;
   const { setContent } = useSignatureStore();
 
   return components.map((component: any, index: number) => {
     const path = `${contentPathToEdit}.components[${index}]`;
+
+    const rowBackgroundColor = component.backgroundColor;
 
     const onChange = (editContent: any) => {
       setContent(path, editContent);
@@ -24,6 +26,7 @@ export const TextEditContent = (props: any) => {
               content={component}
               onChange={onChange}
               contentType={contentType}
+              backgroundColor={rowBackgroundColor || columnColor}
             />
           </div>
         </CollapsibleSection>

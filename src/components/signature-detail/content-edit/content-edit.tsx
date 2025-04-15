@@ -68,11 +68,17 @@ export const ContentEdit = (props: any) => {
   const { contentPathToEdit, signatureId, isSignedIn, templateSlug } = props;
   const { toast } = useToast();
 
-  const [iniContent, setIniContent] = useState<any>(null);
-  const [isSavingSignature, setIsSavingSignature] = useState(false);
-
   const { rows, setContent, deleteRow, saveSignatureContentRow, colors } =
     useSignatureStore();
+
+  const columnPath = contentPathToEdit.substring(
+    0,
+    contentPathToEdit.lastIndexOf('.rows['),
+  );
+  const columnColor = get(rows, `${columnPath}.style.backgroundColor`);
+
+  const [iniContent, setIniContent] = useState<any>(null);
+  const [isSavingSignature, setIsSavingSignature] = useState(false);
 
   const { setContentEdit, contentEdit } = useContentEditStore();
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -249,7 +255,7 @@ export const ContentEdit = (props: any) => {
         <div ref={wrapperRef}>
           {!isSavingSignature && (
             <>
-              {getContentType(content, path, isSignedIn)}
+              {getContentType(content, path, isSignedIn, columnColor)}
 
               {content.type !== ContentType.IMAGE && (
                 <div className="mt-0">
@@ -420,6 +426,7 @@ const getContentType = (
   content: any,
   contentPathToEdit: any,
   isSignedIn: boolean,
+  columnColor: string,
 ) => {
   const type: ContentType = content?.type;
   const components = content?.components;
@@ -431,6 +438,7 @@ const getContentType = (
           contentType={type}
           components={components}
           contentPathToEdit={contentPathToEdit}
+          columnColor={columnColor}
         />
       );
 
