@@ -21,7 +21,7 @@ export const TextEditContent = (props: any) => {
     return (
       <Fragment key={component.id}>
         <CollapsibleSection>
-          <div className="mb-4">
+          <div className="mb-4 mt-1">
             <RichTextEditor
               content={component}
               onChange={onChange}

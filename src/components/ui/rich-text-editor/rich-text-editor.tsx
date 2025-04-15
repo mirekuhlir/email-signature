@@ -167,7 +167,7 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
       <div>
         {label && <Typography variant="labelBase">{label}</Typography>}
         <textarea
-          className="w-full p-4 border rounded focus:outline-hidden focus:ring-2 focus:ring-blue-500 bg-white border-gray-300 rounded-md shadow-xs"
+          className="w-full p-3 border rounded focus:outline-hidden focus:ring-2 focus:ring-blue-500 bg-white border-gray-300 rounded-md shadow-xs"
           style={{
             fontSize: editFontSize,
             lineHeight: editLineHeight,
