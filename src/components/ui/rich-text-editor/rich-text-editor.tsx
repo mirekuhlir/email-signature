@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ContentType } from '@/src/const/content';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import SelectBase from '../select-base';
 import { FONTS, FONT_SIZES, LINE_HEIGHTS, LETTER_SPACINGS } from './fonts';
 import { EditColor } from '../edit-color';
@@ -84,9 +84,7 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
     content?.letterSpacing ?? '0px',
   );
   const [showIconSelector, setShowIconSelector] = useState(false);
-  const [textareaRef, setTextareaRef] = useState<HTMLTextAreaElement | null>(
-    null,
-  );
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   useEffect(() => {
     if (content) {
@@ -103,6 +101,14 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
       setEditLetterSpacing(content.letterSpacing ?? '0px');
     }
   }, [content]);
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.focus();
+      const length = textareaRef.current.value.length;
+      textareaRef.current.setSelectionRange(length, length);
+    }
+  }, []);
 
   const onChangeContent = (updated: any) => {
     const editContent = {
@@ -126,8 +132,8 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
   };
 
   const handleInsertIcon = (icon: string) => {
-    if (textareaRef) {
-      const cursorPosition = textareaRef.selectionStart || 0;
+    if (textareaRef.current) {
+      const cursorPosition = textareaRef.current.selectionStart || 0;
       const textBeforeCursor = editText.substring(0, cursorPosition);
       const textAfterCursor = editText.substring(cursorPosition);
 
@@ -135,11 +141,10 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
       setEditText(newText);
       onChangeContent({ text: newText });
 
-      // Set cursor position after the inserted icon
       setTimeout(() => {
-        if (textareaRef) {
-          textareaRef.focus();
-          textareaRef.setSelectionRange(
+        if (textareaRef.current) {
+          textareaRef.current.focus();
+          textareaRef.current.setSelectionRange(
             cursorPosition + icon.length,
             cursorPosition + icon.length,
           );
@@ -191,7 +196,7 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
           role="textbox"
           aria-label="Text editor"
           value={editText}
-          ref={setTextareaRef}
+          ref={textareaRef}
         />
         {errorMessage && (
           <p className="text-red-500 mt-2 text-sm">{errorMessage}</p>
