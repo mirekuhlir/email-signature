@@ -325,37 +325,37 @@ export const ContentEdit = (props: any) => {
               {content.type !== ContentType.IMAGE && (
                 <div className="mt-0">
                   <CollapsibleSection>
+                    <div className="mb-4">
+                      <EditColor
+                        initColor={content?.components[0]?.backgroundColor}
+                        label="Background color"
+                        isResetToTransparent
+                        onChange={(color) => {
+                          const stylePath = `${path}.components[0]`;
+                          const currentStyle = content?.components[0] || {};
+                          setContent(stylePath, {
+                            ...currentStyle,
+                            backgroundColor: color,
+                          });
+                        }}
+                      />
+                    </div>
+                    <div className="mb-4">
+                      <Typography variant="labelBase" className="mb-2">
+                        Border radius : {borderRadius}
+                      </Typography>
+                      <Slider
+                        min={0}
+                        max={20}
+                        value={Number(borderRadius.replace('px', ''))}
+                        onChange={(value: number) => {
+                          setBorderRadius(`${value}px`);
+                        }}
+                      />
+                    </div>
+                  </CollapsibleSection>
+                  <CollapsibleSection>
                     <div className="px-0">
-                      <div className="mb-4">
-                        <EditColor
-                          initColor={content?.components[0]?.backgroundColor}
-                          label="Background color"
-                          isResetToTransparent
-                          onChange={(color) => {
-                            const stylePath = `${path}.components[0]`;
-                            const currentStyle = content?.components[0] || {};
-                            setContent(stylePath, {
-                              ...currentStyle,
-                              backgroundColor: color,
-                            });
-                          }}
-                        />
-                      </div>
-                      <Hr className="mt-4 mb-4" />
-                      <div className="mb-4">
-                        <Typography variant="labelBase" className="mb-2">
-                          Border radius : {borderRadius}
-                        </Typography>
-                        <Slider
-                          min={0}
-                          max={20}
-                          value={Number(borderRadius.replace('px', ''))}
-                          onChange={(value: number) => {
-                            setBorderRadius(`${value}px`);
-                          }}
-                        />
-                      </div>
-                      <Hr className="mt-4 mb-4" />
                       <div className="grid grid-cols-1 gap-6">
                         <div>
                           <Typography variant="labelBase" className="mb-2">

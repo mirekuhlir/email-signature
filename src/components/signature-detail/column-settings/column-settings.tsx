@@ -207,25 +207,24 @@ export const ColumnSettings = (props: any) => {
         {!isSavingSignature && (
           <div className="pb-2">
             <CollapsibleSection>
-              <div className="grid grid-cols-1 gap-6">
-                <div className="pb-1">
-                  <Typography variant="labelBase" className="mb-2">
-                    Vertical alignment
-                  </Typography>
-                  <SelectBase
-                    options={[
-                      { value: 'top', label: 'Top' },
-                      { value: 'middle', label: 'Middle' },
-                      { value: 'bottom', label: 'Bottom' },
-                    ]}
-                    value={verticalAlign}
-                    onChange={(value: string) => {
-                      setVerticalAlign(value);
-                    }}
-                  />
-                </div>
+              <div className="pb-4">
+                <Typography variant="labelBase" className="mb-2">
+                  Vertical alignment
+                </Typography>
+                <SelectBase
+                  options={[
+                    { value: 'top', label: 'Top' },
+                    { value: 'middle', label: 'Middle' },
+                    { value: 'bottom', label: 'Bottom' },
+                  ]}
+                  value={verticalAlign}
+                  onChange={(value: string) => {
+                    setVerticalAlign(value);
+                  }}
+                />
+              </div>
+              <div>
                 <div className="pb-4">
-                  <Hr className="mb-4" />
                   <EditColor
                     initColor={originalStyle.backgroundColor}
                     label="Background color"
@@ -235,6 +234,20 @@ export const ColumnSettings = (props: any) => {
                         ...originalStyle,
                         backgroundColor: color,
                       });
+                    }}
+                  />
+                </div>
+
+                <div className="pb-4">
+                  <Typography variant="labelBase" className="mb-2">
+                    Border radius : {borderRadius}
+                  </Typography>
+                  <Slider
+                    min={0}
+                    max={20}
+                    value={Number(borderRadius.replace('px', ''))}
+                    onChange={(value: number) => {
+                      setBorderRadius(`${value}px`);
                     }}
                   />
                 </div>
@@ -417,22 +430,6 @@ export const ColumnSettings = (props: any) => {
                   }}
                 />
               )}
-
-              <Hr className="mt-4 mb-4" />
-
-              <div className="pb-4">
-                <Typography variant="labelBase" className="mb-2">
-                  Border radius : {borderRadius}
-                </Typography>
-                <Slider
-                  min={0}
-                  max={20}
-                  value={Number(borderRadius.replace('px', ''))}
-                  onChange={(value: number) => {
-                    setBorderRadius(`${value}px`);
-                  }}
-                />
-              </div>
             </CollapsibleSection>
           </div>
         )}
