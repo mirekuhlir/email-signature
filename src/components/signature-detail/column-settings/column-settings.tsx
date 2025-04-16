@@ -208,7 +208,7 @@ export const ColumnSettings = (props: any) => {
           <div className="pb-2">
             <CollapsibleSection>
               <div className="grid grid-cols-1 gap-6">
-                <div className="pb-4">
+                <div className="pb-1">
                   <Typography variant="labelBase" className="mb-2">
                     Vertical alignment
                   </Typography>
@@ -224,10 +224,22 @@ export const ColumnSettings = (props: any) => {
                     }}
                   />
                 </div>
+                <div className="pb-4">
+                  <Hr className="mb-4" />
+                  <EditColor
+                    initColor={originalStyle.backgroundColor}
+                    label="Background color"
+                    isResetToTransparent
+                    onChange={(color) => {
+                      setContent(path, {
+                        ...originalStyle,
+                        backgroundColor: color,
+                      });
+                    }}
+                  />
+                </div>
               </div>
             </CollapsibleSection>
-
-            <Hr />
 
             <CollapsibleSection>
               <div className="grid grid-cols-1 gap-6">
@@ -288,8 +300,6 @@ export const ColumnSettings = (props: any) => {
                 </div>
               </div>
             </CollapsibleSection>
-
-            <Hr />
 
             <CollapsibleSection>
               <div>
@@ -423,22 +433,6 @@ export const ColumnSettings = (props: any) => {
                   }}
                 />
               </div>
-            </CollapsibleSection>
-
-            <Hr />
-
-            <CollapsibleSection>
-              <EditColor
-                initColor={originalStyle.backgroundColor}
-                label="Background color"
-                isResetToTransparent
-                onChange={(color) => {
-                  setContent(path, {
-                    ...originalStyle,
-                    backgroundColor: color,
-                  });
-                }}
-              />
             </CollapsibleSection>
           </div>
         )}

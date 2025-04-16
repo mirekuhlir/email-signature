@@ -78,6 +78,18 @@ export const getContentView = (content?: any) => {
         textDecoration,
         padding,
         borderRadius,
+        borderTopWidth,
+        borderTopColor,
+        borderTopStyle,
+        borderRightWidth,
+        borderRightColor,
+        borderRightStyle,
+        borderBottomWidth,
+        borderBottomColor,
+        borderBottomStyle,
+        borderLeftWidth,
+        borderLeftColor,
+        borderLeftStyle,
       } = component;
 
       const formattedText = formatTextWithLineBreaks(text);
@@ -100,6 +112,18 @@ export const getContentView = (content?: any) => {
             textDecoration,
             padding,
             borderRadius: borderRadius,
+            borderTopWidth: borderTopWidth,
+            borderTopColor: borderTopColor,
+            borderTopStyle: borderTopStyle,
+            borderRightWidth: borderRightWidth,
+            borderRightColor: borderRightColor,
+            borderRightStyle: borderRightStyle,
+            borderBottomWidth: borderBottomWidth,
+            borderBottomColor: borderBottomColor,
+            borderBottomStyle: borderBottomStyle,
+            borderLeftWidth: borderLeftWidth,
+            borderLeftColor: borderLeftColor,
+            borderLeftStyle: borderLeftStyle,
             wordBreak: 'break-all',
           }}
         >
@@ -116,6 +140,18 @@ export const getContentView = (content?: any) => {
     const padding = components[0].padding;
     const backgroundColor = components[0].backgroundColor;
     const borderRadius = components[0].borderRadius;
+    const borderTopWidth = components[0].borderTopWidth;
+    const borderTopColor = components[0].borderTopColor;
+    const borderTopStyle = components[0].borderTopStyle;
+    const borderRightWidth = components[0].borderRightWidth;
+    const borderRightColor = components[0].borderRightColor;
+    const borderRightStyle = components[0].borderRightStyle;
+    const borderBottomWidth = components[0].borderBottomWidth;
+    const borderBottomColor = components[0].borderBottomColor;
+    const borderBottomStyle = components[0].borderBottomStyle;
+    const borderLeftWidth = components[0].borderLeftWidth;
+    const borderLeftColor = components[0].borderLeftColor;
+    const borderLeftStyle = components[0].borderLeftStyle;
 
     return (
       <span
@@ -126,6 +162,18 @@ export const getContentView = (content?: any) => {
           padding,
           backgroundColor,
           borderRadius: borderRadius,
+          borderTopWidth: borderTopWidth,
+          borderTopColor: borderTopColor,
+          borderTopStyle: borderTopStyle,
+          borderRightWidth: borderRightWidth,
+          borderRightColor: borderRightColor,
+          borderRightStyle: borderRightStyle,
+          borderBottomWidth: borderBottomWidth,
+          borderBottomColor: borderBottomColor,
+          borderBottomStyle: borderBottomStyle,
+          borderLeftWidth: borderLeftWidth,
+          borderLeftColor: borderLeftColor,
+          borderLeftStyle: borderLeftStyle,
         }}
       >
         {components.map((component: any) => {
@@ -156,7 +204,18 @@ export const getContentView = (content?: any) => {
             textDecoration,
             padding,
             borderRadius: borderRadius,
-            /*       wordBreak: 'break-all' as React.CSSProperties['wordBreak'], */
+            borderTopWidth: component.borderTopWidth,
+            borderTopColor: component.borderTopColor,
+            borderTopStyle: component.borderTopStyle,
+            borderRightWidth: component.borderRightWidth,
+            borderRightColor: component.borderRightColor,
+            borderRightStyle: component.borderRightStyle,
+            borderBottomWidth: component.borderBottomWidth,
+            borderBottomColor: component.borderBottomColor,
+            borderBottomStyle: component.borderBottomStyle,
+            borderLeftWidth: component.borderLeftWidth,
+            borderLeftColor: component.borderLeftColor,
+            borderLeftStyle: component.borderLeftStyle,
           };
 
           if (!text) {
@@ -197,6 +256,18 @@ export const getContentView = (content?: any) => {
     const padding = components[0].padding;
     const borderRadius = components[0].borderRadius;
     const backgroundColor = components[0].backgroundColor;
+    const borderTopWidth = components[0].borderTopWidth;
+    const borderTopColor = components[0].borderTopColor;
+    const borderTopStyle = components[0].borderTopStyle;
+    const borderRightWidth = components[0].borderRightWidth;
+    const borderRightColor = components[0].borderRightColor;
+    const borderRightStyle = components[0].borderRightStyle;
+    const borderBottomWidth = components[0].borderBottomWidth;
+    const borderBottomColor = components[0].borderBottomColor;
+    const borderBottomStyle = components[0].borderBottomStyle;
+    const borderLeftWidth = components[0].borderLeftWidth;
+    const borderLeftColor = components[0].borderLeftColor;
+    const borderLeftStyle = components[0].borderLeftStyle;
 
     return (
       <span
@@ -207,6 +278,18 @@ export const getContentView = (content?: any) => {
           padding,
           borderRadius: borderRadius,
           backgroundColor,
+          borderTopWidth: borderTopWidth,
+          borderTopColor: borderTopColor,
+          borderTopStyle: borderTopStyle,
+          borderRightWidth: borderRightWidth,
+          borderRightColor: borderRightColor,
+          borderRightStyle: borderRightStyle,
+          borderBottomWidth: borderBottomWidth,
+          borderBottomColor: borderBottomColor,
+          borderBottomStyle: borderBottomStyle,
+          borderLeftWidth: borderLeftWidth,
+          borderLeftColor: borderLeftColor,
+          borderLeftStyle: borderLeftStyle,
         }}
       >
         {components.map((component: any) => {
@@ -277,6 +360,18 @@ export const getContentView = (content?: any) => {
     const padding = components[0].padding;
     const borderRadius = components[0].borderRadius;
     const backgroundColor = components[0].backgroundColor;
+    const borderTopWidth = components[0].borderTopWidth;
+    const borderTopColor = components[0].borderTopColor;
+    const borderTopStyle = components[0].borderTopStyle;
+    const borderRightWidth = components[0].borderRightWidth;
+    const borderRightColor = components[0].borderRightColor;
+    const borderRightStyle = components[0].borderRightStyle;
+    const borderBottomWidth = components[0].borderBottomWidth;
+    const borderBottomColor = components[0].borderBottomColor;
+    const borderBottomStyle = components[0].borderBottomStyle;
+    const borderLeftWidth = components[0].borderLeftWidth;
+    const borderLeftColor = components[0].borderLeftColor;
+    const borderLeftStyle = components[0].borderLeftStyle;
 
     return (
       <span
@@ -287,6 +382,18 @@ export const getContentView = (content?: any) => {
           padding,
           borderRadius: borderRadius,
           backgroundColor,
+          borderTopWidth: borderTopWidth,
+          borderTopColor: borderTopColor,
+          borderTopStyle: borderTopStyle,
+          borderRightWidth: borderRightWidth,
+          borderRightColor: borderRightColor,
+          borderRightStyle: borderRightStyle,
+          borderBottomWidth: borderBottomWidth,
+          borderBottomColor: borderBottomColor,
+          borderBottomStyle: borderBottomStyle,
+          borderLeftWidth: borderLeftWidth,
+          borderLeftColor: borderLeftColor,
+          borderLeftStyle: borderLeftStyle,
         }}
       >
         {components.map((component: any) => {
@@ -363,6 +470,18 @@ export const getContentView = (content?: any) => {
     const padding = components[0].padding;
     const borderRadius = components[0].borderRadius;
     const backgroundColor = components[0].backgroundColor;
+    const borderTopWidth = components[0].borderTopWidth;
+    const borderTopColor = components[0].borderTopColor;
+    const borderTopStyle = components[0].borderTopStyle;
+    const borderRightWidth = components[0].borderRightWidth;
+    const borderRightColor = components[0].borderRightColor;
+    const borderRightStyle = components[0].borderRightStyle;
+    const borderBottomWidth = components[0].borderBottomWidth;
+    const borderBottomColor = components[0].borderBottomColor;
+    const borderBottomStyle = components[0].borderBottomStyle;
+    const borderLeftWidth = components[0].borderLeftWidth;
+    const borderLeftColor = components[0].borderLeftColor;
+    const borderLeftStyle = components[0].borderLeftStyle;
 
     return (
       <span
@@ -373,6 +492,18 @@ export const getContentView = (content?: any) => {
           padding,
           borderRadius: borderRadius,
           backgroundColor,
+          borderTopWidth: borderTopWidth,
+          borderTopColor: borderTopColor,
+          borderTopStyle: borderTopStyle,
+          borderRightWidth: borderRightWidth,
+          borderRightColor: borderRightColor,
+          borderRightStyle: borderRightStyle,
+          borderBottomWidth: borderBottomWidth,
+          borderBottomColor: borderBottomColor,
+          borderBottomStyle: borderBottomStyle,
+          borderLeftWidth: borderLeftWidth,
+          borderLeftColor: borderLeftColor,
+          borderLeftStyle: borderLeftStyle,
         }}
       >
         {components.map((component: any) => {

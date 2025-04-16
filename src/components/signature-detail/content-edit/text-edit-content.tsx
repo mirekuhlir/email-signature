@@ -30,7 +30,6 @@ export const TextEditContent = (props: any) => {
             />
           </div>
         </CollapsibleSection>
-        <Hr />
       </Fragment>
     );
   });

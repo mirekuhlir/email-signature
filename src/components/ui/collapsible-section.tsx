@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Typography } from './typography';
 import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
-
+import { Hr } from './hr';
 interface CollapsibleSectionProps {
   children: React.ReactNode;
   defaultOpen?: boolean;
@@ -44,6 +44,7 @@ export const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
           </div>
         </button>
       )}
+      {isOpen && <Hr className="mb-4" />}
       <div>{isOpen ? children : null}</div>
     </div>
   );

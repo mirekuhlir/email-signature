@@ -89,6 +89,19 @@ export const ContentEdit = (props: any) => {
   const [paddingLeft, setPaddingLeft] = useState('0');
   const [borderRadius, setBorderRadius] = useState('0');
 
+  const [borderWidths, setBorderWidths] = useState({
+    top: '0',
+    right: '0',
+    bottom: '0',
+    left: '0',
+  });
+  const [borderColors, setBorderColors] = useState({
+    top: 'rgb(0, 0, 0)',
+    right: 'rgb(0, 0, 0)',
+    bottom: 'rgb(0, 0, 0)',
+    left: 'rgb(0, 0, 0)',
+  });
+
   const path = `${contentPathToEdit}.content`;
   const content = useMemo(() => get(rows, path), [rows, path]);
 
@@ -107,6 +120,29 @@ export const ContentEdit = (props: any) => {
     if (content?.components[0].borderRadius) {
       setBorderRadius(content.components[0].borderRadius);
     }
+
+    // Initialize border widths
+    setBorderWidths({
+      top: (content?.components[0].borderTopWidth || '0px').replace('px', ''),
+      right: (content?.components[0].borderRightWidth || '0px').replace(
+        'px',
+        '',
+      ),
+      bottom: (content?.components[0].borderBottomWidth || '0px').replace(
+        'px',
+        '',
+      ),
+      left: (content?.components[0].borderLeftWidth || '0px').replace('px', ''),
+    });
+
+    // Initialize border colors
+    setBorderColors({
+      top: content?.components[0].borderTopColor || 'rgb(0, 0, 0)',
+      right: content?.components[0].borderRightColor || 'rgb(0, 0, 0)',
+      bottom: content?.components[0].borderBottomColor || 'rgb(0, 0, 0)',
+      left: content?.components[0].borderLeftColor || 'rgb(0, 0, 0)',
+    });
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -133,6 +169,30 @@ export const ContentEdit = (props: any) => {
     });
   };
 
+  const updateBorders = () => {
+    const stylePath = `${path}.components[0]`;
+    const currentStyle = content?.components[0] || {};
+
+    setContent(stylePath, {
+      ...currentStyle,
+      borderTopWidth: `${borderWidths.top}px`,
+      borderTopColor: borderColors.top,
+      borderTopStyle: borderWidths.top === '0' ? 'none' : 'solid',
+
+      borderRightWidth: `${borderWidths.right}px`,
+      borderRightColor: borderColors.right,
+      borderRightStyle: borderWidths.right === '0' ? 'none' : 'solid',
+
+      borderBottomWidth: `${borderWidths.bottom}px`,
+      borderBottomColor: borderColors.bottom,
+      borderBottomStyle: borderWidths.bottom === '0' ? 'none' : 'solid',
+
+      borderLeftWidth: `${borderWidths.left}px`,
+      borderLeftColor: borderColors.left,
+      borderLeftStyle: borderWidths.left === '0' ? 'none' : 'solid',
+    });
+  };
+
   useEffect(() => {
     if (paddingTop && paddingRight && paddingBottom && paddingLeft) {
       updatePadding();
@@ -144,6 +204,11 @@ export const ContentEdit = (props: any) => {
     updateBorderRadius();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [borderRadius]);
+
+  useEffect(() => {
+    updateBorders();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [borderWidths, borderColors]);
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
@@ -349,6 +414,135 @@ export const ContentEdit = (props: any) => {
                         </div>
                       </div>
                     </div>
+                  </CollapsibleSection>
+                  <CollapsibleSection>
+                    <div className="mb-4">
+                      <Typography variant="labelBase" className="mb-2">
+                        Top border width : {borderWidths.top}px
+                      </Typography>
+                      <Slider
+                        min={0}
+                        max={10}
+                        value={Number(borderWidths.top)}
+                        onChange={(value: number) => {
+                          setBorderWidths((prev) => ({
+                            ...prev,
+                            top: value.toString(),
+                          }));
+                        }}
+                      />
+                    </div>
+
+                    {borderWidths.top !== '0' && (
+                      <EditColor
+                        initColor={borderColors.top}
+                        label="Top border color"
+                        onChange={(color) => {
+                          if (color) {
+                            setBorderColors((prev) => ({
+                              ...prev,
+                              top: color,
+                            }));
+                          }
+                        }}
+                      />
+                    )}
+
+                    <div className="mt-4">
+                      <Typography variant="labelBase" className="mb-2">
+                        Right border width : {borderWidths.right}px
+                      </Typography>
+                      <Slider
+                        min={0}
+                        max={10}
+                        value={Number(borderWidths.right)}
+                        onChange={(value: number) => {
+                          setBorderWidths((prev) => ({
+                            ...prev,
+                            right: value.toString(),
+                          }));
+                        }}
+                      />
+                    </div>
+
+                    {borderWidths.right !== '0' && (
+                      <EditColor
+                        initColor={borderColors.right}
+                        label="Right border color"
+                        onChange={(color) => {
+                          if (color) {
+                            setBorderColors((prev) => ({
+                              ...prev,
+                              right: color,
+                            }));
+                          }
+                        }}
+                      />
+                    )}
+
+                    <div className="mt-4">
+                      <Typography variant="labelBase" className="mb-2">
+                        Bottom border width : {borderWidths.bottom}px
+                      </Typography>
+                      <Slider
+                        min={0}
+                        max={10}
+                        value={Number(borderWidths.bottom)}
+                        onChange={(value: number) => {
+                          setBorderWidths((prev) => ({
+                            ...prev,
+                            bottom: value.toString(),
+                          }));
+                        }}
+                      />
+                    </div>
+
+                    {borderWidths.bottom !== '0' && (
+                      <EditColor
+                        initColor={borderColors.bottom}
+                        label="Bottom border color"
+                        onChange={(color) => {
+                          if (color) {
+                            setBorderColors((prev) => ({
+                              ...prev,
+                              bottom: color,
+                            }));
+                          }
+                        }}
+                      />
+                    )}
+
+                    <div className="mt-4">
+                      <Typography variant="labelBase" className="mb-2">
+                        Left border width : {borderWidths.left}px
+                      </Typography>
+                      <Slider
+                        min={0}
+                        max={10}
+                        value={Number(borderWidths.left)}
+                        onChange={(value: number) => {
+                          setBorderWidths((prev) => ({
+                            ...prev,
+                            left: value.toString(),
+                          }));
+                        }}
+                      />
+                    </div>
+
+                    {borderWidths.left !== '0' && (
+                      <EditColor
+                        initColor={borderColors.left}
+                        label="Left border color"
+                        onChange={(color) => {
+                          if (color) {
+                            setBorderColors((prev) => ({
+                              ...prev,
+                              left: color,
+                            }));
+                          }
+                        }}
+                      />
+                    )}
                   </CollapsibleSection>
                 </div>
               )}
