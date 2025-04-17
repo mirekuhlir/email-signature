@@ -561,7 +561,7 @@ export const ContentEdit = (props: any) => {
                   <Hr className="mb-4 mt-4" />
 
                   <Typography variant="labelBase" className="mb-2">
-                    Delete {getContentTypeName(content.type)} from signature
+                    Delete {getContentTypeName(content.type)}
                   </Typography>
 
                   <Button
