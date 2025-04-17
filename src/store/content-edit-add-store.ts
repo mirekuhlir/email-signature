@@ -61,11 +61,68 @@ export const useSignatureStore = create<StoreState>((set, get) => {
     addRow: (path: string, type: ContentType) =>
       set((state) => {
         const cloneRows = cloneDeep(state.rows);
+        const currentRowsInColumn = lGet(cloneRows, path, []);
 
-        lSet(cloneRows, path, [
-          ...lGet(cloneRows, path),
-          getContentAdd(type),
-        ]);
+        const newRowContent = getContentAdd(type);
+
+        const applyToTypesMoreComponents = [
+          ContentType.EMAIL,
+          ContentType.PHONE,
+          ContentType.WEBSITE,
+          ContentType.CUSTOM_VALUE,
+        ];
+
+        const applyToTypes = [
+          ContentType.TEXT,
+          ...applyToTypesMoreComponents,
+        ];
+
+        if (
+          applyToTypes.includes(type) &&
+          currentRowsInColumn.length > 0
+        ) {
+          const previousRow =
+            currentRowsInColumn[currentRowsInColumn.length - 1];
+          const previousContentType = lGet(previousRow, "content.type");
+
+          if (applyToTypes.includes(previousContentType)) {
+            const previousComponents = lGet(
+              previousRow,
+              "content.components",
+              [],
+            );
+            const newComponents = lGet(newRowContent, "content.components", []);
+            const maxComponents = Math.min(
+              previousComponents.length,
+              newComponents?.length ?? 0,
+            );
+
+            for (let i = 0; i < maxComponents; i++) {
+              const previousComponent = previousComponents[i];
+              if (previousComponent && typeof previousComponent === "object") {
+                const fontFamily = lGet(previousComponent, "fontFamily");
+                const color = lGet(previousComponent, "color");
+                const fontSize = lGet(previousComponent, "fontSize");
+
+                const fontFamilyPath = `content.components[${i}].fontFamily`;
+                const colorPath = `content.components[${i}].color`;
+                const fontSizePath = `content.components[${i}].fontSize`;
+
+                if (fontFamily) {
+                  lSet(newRowContent, fontFamilyPath, fontFamily);
+                }
+                if (color) {
+                  lSet(newRowContent, colorPath, color);
+                }
+                if (fontSize) {
+                  lSet(newRowContent, fontSizePath, fontSize);
+                }
+              }
+            }
+          }
+        }
+
+        lSet(cloneRows, path, [...currentRowsInColumn, newRowContent]);
 
         return { rows: cloneRows };
       }),

@@ -7,7 +7,7 @@ import {
   RichTextEditor,
 } from '@/src/components/ui/rich-text-editor/rich-text-editor';
 import { CollapsibleSection } from '@/src/components/ui/collapsible-section';
-import { Hr } from '@react-email/components';
+import { Hr } from '@/src/components/ui/hr';
 
 export const CustomValueEditContent = (props: any) => {
   const { components, contentPathToEdit, contentType, columnColor } = props;
@@ -57,7 +57,6 @@ export const CustomValueEditContent = (props: any) => {
               />
             </div>
           </CollapsibleSection>
-          <Hr />
         </Fragment>
       );
     });

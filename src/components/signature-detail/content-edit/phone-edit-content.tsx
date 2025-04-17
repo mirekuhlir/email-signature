@@ -7,7 +7,7 @@ import {
   RichTextEditor,
 } from '@/src/components/ui/rich-text-editor/rich-text-editor';
 import { CollapsibleSection } from '@/src/components/ui/collapsible-section';
-import { Hr } from '@react-email/components';
+import { Hr } from '@/src/components/ui/hr';
 export const PhoneEditContent = (props: any) => {
   const { components, contentPathToEdit, contentType, columnColor } = props;
   const { setContent } = useSignatureStore();
