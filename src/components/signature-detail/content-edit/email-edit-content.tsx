@@ -12,7 +12,7 @@ import { CollapsibleSection } from '../../ui/collapsible-section';
 import { Hr } from '../../ui/hr';
 
 export const EmailEditContent = (props: any) => {
-  const { components, contentPathToEdit, contentType } = props;
+  const { components, contentPathToEdit, contentType, columnColor } = props;
   const { setContent } = useSignatureStore();
   const { validate, errors } = useValidate();
 
@@ -70,6 +70,8 @@ export const EmailEditContent = (props: any) => {
                 contentType={contentType}
                 errorMessage={errors[component.id]}
                 layoutType={layoutType}
+                isAutoFocus={index === 0}
+                backgroundColor={columnColor}
               />
             </div>
           </CollapsibleSection>

@@ -260,13 +260,13 @@ const AdvancedColorPicker = (props: Props) => {
         {usedColors.length > 0 && (
           <div className="mt-4">
             <p className="text-sm font-medium text-gray-700 mb-2">
-              Used colors
+              Select color
             </p>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-4">
               {usedColors.map((color, index) => (
                 <div
                   key={index}
-                  className="w-9 h-9 rounded-md cursor-pointer shadow-md hover:shadow-lg transition-shadow"
+                  className="w-12 h-12 rounded-md cursor-pointer shadow-md hover:shadow-lg transition-shadow"
                   style={{ backgroundColor: color }}
                   onClick={() => {
                     const newHsv = rgbToHsv(color);

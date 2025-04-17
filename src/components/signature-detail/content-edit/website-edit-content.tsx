@@ -9,7 +9,7 @@ import {
 import { CollapsibleSection } from '@/src/components/ui/collapsible-section';
 import { Hr } from '@/src/components/ui/hr';
 export const WebsiteEditContent = (props: any) => {
-  const { components, contentPathToEdit, contentType } = props;
+  const { components, contentPathToEdit, contentType, columnColor } = props;
   const { setContent } = useSignatureStore();
 
   return components
@@ -57,6 +57,8 @@ export const WebsiteEditContent = (props: any) => {
                 onChange={onChange}
                 contentType={contentType}
                 layoutType={layoutType}
+                isAutoFocus={index === 0}
+                backgroundColor={columnColor}
               />
             </div>
           </CollapsibleSection>

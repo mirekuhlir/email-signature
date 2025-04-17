@@ -652,6 +652,7 @@ const getContentType = (
           contentType={type}
           components={components}
           contentPathToEdit={contentPathToEdit}
+          columnColor={columnColor}
         />
       );
 
@@ -661,6 +662,7 @@ const getContentType = (
           contentType={type}
           components={components}
           contentPathToEdit={contentPathToEdit}
+          columnColor={columnColor}
         />
       );
 
@@ -670,6 +672,7 @@ const getContentType = (
           contentType={type}
           components={components}
           contentPathToEdit={contentPathToEdit}
+          columnColor={columnColor}
         />
       );
 
@@ -679,6 +682,7 @@ const getContentType = (
           contentType={type}
           components={components}
           contentPathToEdit={contentPathToEdit}
+          columnColor={columnColor}
         />
       );
 

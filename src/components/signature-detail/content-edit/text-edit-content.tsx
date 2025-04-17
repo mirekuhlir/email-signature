@@ -3,7 +3,6 @@ import { Fragment } from 'react';
 import { useSignatureStore } from '@/src/store/content-edit-add-store';
 import { CollapsibleSection } from '@/src/components/ui/collapsible-section';
 import { RichTextEditor } from '../../ui/rich-text-editor/rich-text-editor';
-import { Hr } from '../../ui/hr';
 
 export const TextEditContent = (props: any) => {
   const { components, contentPathToEdit, contentType, columnColor } = props;
@@ -27,6 +26,7 @@ export const TextEditContent = (props: any) => {
               onChange={onChange}
               contentType={contentType}
               backgroundColor={rowBackgroundColor || columnColor}
+              isAutoFocus={index === 0}
             />
           </div>
         </CollapsibleSection>

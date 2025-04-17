@@ -28,7 +28,7 @@ export const ColumnSettings = (props: any) => {
   const [paddingRight, setPaddingRight] = useState('0');
   const [paddingBottom, setPaddingBottom] = useState('0');
   const [paddingLeft, setPaddingLeft] = useState('0');
-  const [verticalAlign, setVerticalAlign] = useState('middle');
+  const [verticalAlign, setVerticalAlign] = useState('top');
 
   const [borderWidths, setBorderWidths] = useState({
     top: '0',

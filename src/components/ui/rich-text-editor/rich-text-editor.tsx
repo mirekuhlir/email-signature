@@ -20,6 +20,7 @@ interface RichTextEditorProps {
   label?: string;
   layoutType?: LayoutType;
   backgroundColor?: string;
+  isAutoFocus?: boolean;
 }
 
 const ButtonSquare = ({
@@ -51,6 +52,7 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
     label,
     layoutType = LayoutType.TEXT,
     backgroundColor,
+    isAutoFocus = false,
   } = props;
 
   const [editText, setEditText] = useState(content?.text ?? '');
@@ -103,12 +105,12 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
   }, [content]);
 
   useEffect(() => {
-    if (textareaRef.current) {
+    if (textareaRef.current && isAutoFocus) {
       textareaRef.current.focus();
       const length = textareaRef.current.value.length;
       textareaRef.current.setSelectionRange(length, length);
     }
-  }, []);
+  }, [isAutoFocus]);
 
   const onChangeContent = (updated: any) => {
     const editContent = {

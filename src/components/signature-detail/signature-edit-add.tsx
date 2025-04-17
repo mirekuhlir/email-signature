@@ -43,21 +43,6 @@ export const EmailTemplateEdit = (props: any) => {
           <div className="flex flex-col items-end mb-2">
             <div className="mb-2">
               <Button
-                variant="blue"
-                size="sm"
-                onClick={() => {
-                  setContentEdit({
-                    columnPath: path,
-                    editPath: null,
-                    addPath: null,
-                  });
-                }}
-              >
-                Settings
-              </Button>
-            </div>
-            <div>
-              <Button
                 size="sm"
                 variant="gray"
                 onClick={() => {
@@ -72,6 +57,21 @@ export const EmailTemplateEdit = (props: any) => {
                 }}
               >
                 Add
+              </Button>
+            </div>
+            <div>
+              <Button
+                variant="blue"
+                size="sm"
+                onClick={() => {
+                  setContentEdit({
+                    columnPath: path,
+                    editPath: null,
+                    addPath: null,
+                  });
+                }}
+              >
+                Settings
               </Button>
             </div>
           </div>
