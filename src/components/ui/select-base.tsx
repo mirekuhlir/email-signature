@@ -21,6 +21,8 @@ const SelectBase: React.FC<CustomSelectProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const selectRef = useRef<HTMLDivElement>(null);
+  const listRef = useRef<HTMLUListElement>(null);
+  const selectedOptionRef = useRef<HTMLLIElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -37,6 +39,19 @@ const SelectBase: React.FC<CustomSelectProps> = ({
     };
   }, []);
 
+  useEffect(() => {
+    if (isOpen && selectedOptionRef.current) {
+      if (
+        listRef.current &&
+        listRef.current.scrollHeight > listRef.current.clientHeight
+      ) {
+        selectedOptionRef.current.scrollIntoView({
+          block: 'nearest',
+        });
+      }
+    }
+  }, [isOpen]);
+
   const handleOptionClick = (option: Option) => {
     onChange(option.value);
     setIsOpen(false);
@@ -52,6 +67,8 @@ const SelectBase: React.FC<CustomSelectProps> = ({
           type="button"
           onClick={() => setIsOpen((prev) => !prev)}
           className="w-full bg-white border border-gray-300 rounded-md shadow-xs pl-3 pr-10 py-2 text-left cursor-pointer focus:outline-hidden focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+          aria-haspopup="listbox"
+          aria-expanded={isOpen}
         >
           <span className="block truncate">
             {selectedOption ? selectedOption.label : 'Select an option'}
@@ -89,16 +106,24 @@ const SelectBase: React.FC<CustomSelectProps> = ({
           </span>
         </button>
         {isOpen && (
-          <ul className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-hidden">
+          <ul
+            ref={listRef}
+            className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-hidden"
+            role="listbox"
+            tabIndex={-1}
+          >
             {options.map((option) => (
               <li
                 key={option.value}
+                ref={option.value === value ? selectedOptionRef : null}
                 className={`cursor-pointer select-none relative py-2 pl-3 pr-9 ${
                   option.value === value
                     ? 'text-white bg-blue-600'
                     : 'text-gray-900 hover:bg-blue-100'
                 }`}
                 onClick={() => handleOptionClick(option)}
+                role="option"
+                aria-selected={option.value === value}
               >
                 <span
                   className={`block truncate ${option.value === value ? 'font-semibold' : 'font-normal'}`}
