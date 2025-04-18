@@ -49,7 +49,6 @@ export function TextEditor() {
   const handleInput = () => {
     if (editorRef.current) {
       const html = editorRef.current.innerHTML;
-      setContent(html);
       setJsonContent(JSON.stringify(formatHtmlToJson(html), null, 2));
     }
   };
