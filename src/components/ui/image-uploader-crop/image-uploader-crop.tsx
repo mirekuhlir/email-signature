@@ -12,7 +12,6 @@ import Slider from '../slider';
 import { debounce } from 'lodash';
 import { getDefaultCrop, imageWidthDefault } from './utils';
 import { Typography } from '../typography';
-import { useModal } from '../modal-system';
 import { useMediaQuery } from '@/src/hooks/useMediaQuery';
 import { useToast } from '@/src/components/ui/toast';
 import { LoadingInfo } from '../../signature-detail/content-edit/content-edit';
@@ -55,12 +54,9 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     onInit,
     originalSrc,
     onLoadingChange,
-    isSignedIn,
-    imageCount,
     originalImageFile,
   } = props;
 
-  const { modal } = useModal();
   const isDesktop = useMediaQuery('(min-width: 768px)');
   const { toast } = useToast();
 
@@ -115,7 +111,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         onSetOriginalImage?.(file);
       }
     },
-    [isSignedIn, onSetOriginalImage, modal, isReplacing, imageCount],
+    [onSetOriginalImage],
   );
 
   const handleFileDrop = useCallback(
@@ -203,6 +199,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     } else if (originalImageFile?.name) {
       loadOriginalImage(URL.createObjectURL(originalImageFile));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [originalSrc, originalImageFile]);
 
   const generateCroppedImage = useCallback((): Promise<string | null> => {
@@ -394,6 +391,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
       }
     }
     return Promise.resolve(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [crop, previewWidth, originalImagePreview, isCircular, borderRadius]);
 
   const handleCrop = useCallback(async () => {
@@ -585,6 +583,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     if (!previewWidth) {
       setPreviewWidth(previewWidthInit || imageWidthDefault);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [previewWidthInit]);
 
   const initCalledRef = useRef(false);
@@ -661,7 +660,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
                   <Typography
                     variant="labelBase"
                     className={`text-center ${
-                      isResizing || initResizing
+                      isResizing || initResizing || isReplacing
                         ? 'text-gray-800'
                         : 'text-transparent'
                     }`}

@@ -4,7 +4,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "check": "tsc --noEmit"
+    "check": "tsc --noEmit",
+    "lint": "eslint src --ext .ts,.tsx"
   },
   "dependencies": {
     "@react-email/components": "^0.0.32",

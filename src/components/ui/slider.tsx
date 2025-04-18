@@ -90,7 +90,7 @@ const Slider: React.FC<SliderProps> = (props) => {
         }
       }
     },
-    [isUsingSteps, props],
+    [isUsingSteps, max, min, onChange, step, steps, value],
   );
 
   const handleTouchMove = useCallback(

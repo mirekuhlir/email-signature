@@ -1,7 +1,7 @@
-import React, { useState, useRef, useCallback } from "react";
-import { Toolbar } from "./toolbar";
-import { ColorPicker } from "./color-picker";
-import { formatHtmlToJson } from "./utils";
+import React, { useState, useRef, useCallback } from 'react';
+import { Toolbar } from './toolbar';
+import { ColorPicker } from './color-picker';
+import { formatHtmlToJson } from './utils';
 
 interface Position {
   x: number;
@@ -9,34 +9,30 @@ interface Position {
 }
 
 export function TextEditor() {
-  const [content, setContent] = useState<string>("");
-  const [jsonContent, setJsonContent] = useState<string>("");
+  const [jsonContent, setJsonContent] = useState<string>('');
   const [showColorPicker, setShowColorPicker] = useState<boolean>(false);
   const [position, setPosition] = useState<Position>({ x: 0, y: 0 });
   const editorRef = useRef<HTMLDivElement>(null);
 
   const fonts = [
-    { value: "Arial", label: "Arial" },
-    { value: "Times New Roman", label: "Times New Roman" },
-    { value: "Helvetica", label: "Helvetica" },
-    { value: "Georgia", label: "Georgia" },
-    { value: "Verdana", label: "Verdana" },
-    { value: "Courier New", label: "Courier New" },
+    { value: 'Arial', label: 'Arial' },
+    { value: 'Times New Roman', label: 'Times New Roman' },
+    { value: 'Helvetica', label: 'Helvetica' },
+    { value: 'Georgia', label: 'Georgia' },
+    { value: 'Verdana', label: 'Verdana' },
+    { value: 'Courier New', label: 'Courier New' },
   ];
 
   const handleFormat = useCallback((command: string, value?: string) => {
-    if (command === "fontName" && value) {
-      document.execCommand("fontName", false, value);
+    if (command === 'fontName' && value) {
+      document.execCommand('fontName', false, value);
     } else {
       document.execCommand(command, false, value);
-    }
-    if (editorRef.current) {
-      setContent(editorRef.current.innerHTML);
     }
   }, []);
 
   const handleColorChange = (color: string) => {
-    handleFormat("foreColor", color);
+    handleFormat('foreColor', color);
     setShowColorPicker(false);
   };
 
@@ -47,7 +43,7 @@ export function TextEditor() {
   };
 
   const handleFontChange = (font: string) => {
-    handleFormat("fontName", font);
+    handleFormat('fontName', font);
   };
 
   const handleInput = () => {
