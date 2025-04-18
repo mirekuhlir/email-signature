@@ -1,26 +1,24 @@
-
-
-import en from "./en.json" assert { type: "json" }
+import en from "./en.json" assert { type: "json" };
 
 type TranslationType = {
-    [key: string]: string
-}
+    [key: string]: string;
+};
 
 const allTranslations: Record<string, TranslationType> = {
     en,
-}
+};
 
-let currentLanguage = "en"
+const currentLanguage = "en";
 
 const t = (key: string) => {
-    const currentTranslation = allTranslations[currentLanguage]
-    const targetKey = key as keyof typeof currentTranslation
+    const currentTranslation = allTranslations[currentLanguage];
+    const targetKey = key as keyof typeof currentTranslation;
 
     if (!currentTranslation[targetKey]) {
-        return key
+        return key;
     }
 
-    return currentTranslation[targetKey]
-}
+    return currentTranslation[targetKey];
+};
 
-export default t
+export default t;
