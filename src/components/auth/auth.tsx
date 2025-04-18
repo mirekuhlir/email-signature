@@ -64,8 +64,7 @@ export const Auth = ({ text }: AuthProps) => {
           Email sent
         </Typography>
         <Typography variant="body">
-          Please check your e-mail for a verification link. Use this link to
-          sign in.
+          Please check your e-mail for a verification link.
         </Typography>
       </div>
     );
@@ -74,7 +73,7 @@ export const Auth = ({ text }: AuthProps) => {
   return (
     <div className="flex flex-col bg-white p-4 pt-6">
       {text && (
-        <Typography variant="h4" className="mb-4">
+        <Typography variant="h5" className="mb-4">
           {text}
         </Typography>
       )}
