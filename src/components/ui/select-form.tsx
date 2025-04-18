@@ -1,5 +1,5 @@
-import React from "react";
-import { UseFormRegister, FieldValues, FieldErrors } from "react-hook-form";
+import React from 'react';
+import { UseFormRegister, FieldValues, FieldErrors } from 'react-hook-form';
 
 interface SelectProps<TFormValues extends FieldValues> {
   options: { value: string; label: string }[];
@@ -11,7 +11,7 @@ interface SelectProps<TFormValues extends FieldValues> {
   className?: string;
 }
 
-const Select = <TFormValues extends FieldValues>({
+const SelectForm = <TFormValues extends FieldValues>({
   options,
   name,
   label,
@@ -33,8 +33,8 @@ const Select = <TFormValues extends FieldValues>({
           defaultValue={defaultValue}
           className={`block appearance-none w-full bg-white border ${
             errors?.[name]
-              ? "border-red-500 focus:ring-red-500"
-              : "border-gray-300 focus:ring-blue-500"
+              ? 'border-red-500 focus:ring-red-500'
+              : 'border-gray-300 focus:ring-blue-500'
           } hover:border-gray-400 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-hidden focus:ring-1 ${className}`}
         >
           {options.map((option) => (
@@ -66,4 +66,4 @@ const Select = <TFormValues extends FieldValues>({
   );
 };
 
-export default Select;
+export default SelectForm;

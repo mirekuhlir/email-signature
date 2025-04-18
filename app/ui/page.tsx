@@ -7,7 +7,7 @@ import Modal from '@/src/components/ui/modal';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import TextInput from '@/src/components/ui/text-input';
 import { RichTextEditor } from '@/src/components/ui/rich-text-editor/rich-text-editor';
-import Select from '@/src/components/ui/select';
+import Select from '@/src/components/ui/select-form';
 import { TextEditor } from '@/src/components/ui/text-editor-full/text-editor';
 import StyledLink from '@/src/components/ui/styled-link';
 import SelectBase from '@/src/components/ui/select-base';
