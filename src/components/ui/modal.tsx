@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { Typography } from './typography';
 import { Button } from './button';
+import { Container } from './container';
+import { Hr } from './hr';
 
 interface ModalProps {
   isOpen: boolean;
@@ -55,12 +57,28 @@ const Modal: React.FC<ModalProps> = ({
         >
           {children}
         </div>
-        {onClose && (
-          <div className="flex justify-end p-4">
-            <Button variant="ghost" onClick={onClose}>
-              Close
-            </Button>
-          </div>
+        <></>
+        {onClose && size !== 'fullscreen' && (
+          <>
+            <Hr />
+            <div className="flex justify-end p-4">
+              <Button variant="outline" onClick={onClose}>
+                Close
+              </Button>
+            </div>
+          </>
+        )}
+        {onClose && size === 'fullscreen' && (
+          <Container isZeroPadding={true}>
+            <>
+              <Hr />
+              <div className="flex justify-end p-4">
+                <Button variant="outline" onClick={onClose}>
+                  Close
+                </Button>
+              </div>
+            </>
+          </Container>
         )}
       </div>
     </div>
