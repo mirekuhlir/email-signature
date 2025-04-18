@@ -1,19 +1,20 @@
 import React, { useState } from 'react';
 import { Typography } from './typography';
 import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
-import { Hr } from './hr';
 interface CollapsibleSectionProps {
   children: React.ReactNode;
-  defaultOpen?: boolean;
   className?: string;
+  title?: string;
+  isInitOpen?: boolean;
 }
 
 export const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
   children,
-  defaultOpen = true,
   className = '',
+  title = '',
+  isInitOpen = false,
 }) => {
-  const [isOpen, setIsOpen] = useState(defaultOpen);
+  const [isOpen, setIsOpen] = useState(isInitOpen);
   const { contentEdit } = useContentEditStore();
 
   return (
@@ -21,11 +22,11 @@ export const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
       {!contentEdit.subEdit && (
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full py-2 flex justify-between items-center"
+          className="w-full py-2 px-2 flex justify-between items-center mt-4 mb-4 bg-gray-200 rounded-md"
         >
           <div className="flex items-center gap-2">
             <svg
-              className={`w-5 h-5 transform transition-transform duration-200 ${
+              className={`w-6 h-6 transform transition-transform duration-200 ${
                 isOpen ? 'rotate-180' : ''
               }`}
               fill="none"
@@ -40,11 +41,12 @@ export const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
                 d="M19 9l-7 7-7-7"
               />
             </svg>
-            <Typography variant="body">{isOpen ? 'Close' : 'Open'}</Typography>
+            <Typography variant="body">{`${isOpen ? 'Close' : 'Open'} ${
+              title ? ` - ${title}` : ''
+            }`}</Typography>
           </div>
         </button>
       )}
-      {isOpen && <Hr className="mb-4" />}
       <div>{isOpen ? children : null}</div>
     </div>
   );

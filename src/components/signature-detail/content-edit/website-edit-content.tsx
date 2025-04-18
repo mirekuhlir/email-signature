@@ -7,7 +7,6 @@ import {
   RichTextEditor,
 } from '@/src/components/ui/rich-text-editor/rich-text-editor';
 import { CollapsibleSection } from '@/src/components/ui/collapsible-section';
-import { Hr } from '@/src/components/ui/hr';
 export const WebsiteEditContent = (props: any) => {
   const { components, contentPathToEdit, contentType, columnColor } = props;
   const { setContent } = useSignatureStore();
@@ -47,9 +46,11 @@ export const WebsiteEditContent = (props: any) => {
 
       const layoutType = getLayoutType();
 
+      const title = `${labelText} text and color`;
+
       return (
         <Fragment key={component.id}>
-          <CollapsibleSection>
+          <CollapsibleSection isInitOpen={true} title={title}>
             <div className="mb-4">
               <RichTextEditor
                 label={labelText}
@@ -62,7 +63,6 @@ export const WebsiteEditContent = (props: any) => {
               />
             </div>
           </CollapsibleSection>
-          <Hr />
         </Fragment>
       );
     });

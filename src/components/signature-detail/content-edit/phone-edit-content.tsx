@@ -35,7 +35,7 @@ export const PhoneEditContent = (props: any) => {
         return '';
       };
 
-      const labeText = getLabelText();
+      const labelText = getLabelText();
 
       const getLayoutType = () => {
         if (component.type === ContentType.TEXT) {
@@ -47,12 +47,14 @@ export const PhoneEditContent = (props: any) => {
 
       const layoutType = getLayoutType();
 
+      const title = `${labelText} text and color`;
+
       return (
         <Fragment key={component.id}>
-          <CollapsibleSection>
+          <CollapsibleSection isInitOpen={true} title={title}>
             <div className="mb-4">
               <RichTextEditor
-                label={labeText}
+                label={labelText}
                 content={component}
                 onChange={onChange}
                 contentType={contentType}
@@ -62,7 +64,6 @@ export const PhoneEditContent = (props: any) => {
               />
             </div>
           </CollapsibleSection>
-          <Hr />
         </Fragment>
       );
     });

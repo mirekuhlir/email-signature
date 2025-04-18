@@ -324,7 +324,7 @@ export const ContentEdit = (props: any) => {
 
               {content.type !== ContentType.IMAGE && (
                 <div className="mt-0">
-                  <CollapsibleSection>
+                  <CollapsibleSection title="Background">
                     <div className="mb-4">
                       <EditColor
                         initColor={content?.components[0]?.backgroundColor}
@@ -354,7 +354,7 @@ export const ContentEdit = (props: any) => {
                       />
                     </div>
                   </CollapsibleSection>
-                  <CollapsibleSection>
+                  <CollapsibleSection title="Inner space">
                     <div className="px-0">
                       <div className="grid grid-cols-1 gap-6">
                         <div>
@@ -415,7 +415,7 @@ export const ContentEdit = (props: any) => {
                       </div>
                     </div>
                   </CollapsibleSection>
-                  <CollapsibleSection>
+                  <CollapsibleSection title="Borders">
                     <div className="mb-4">
                       <Typography variant="labelBase" className="mb-2">
                         Top border width : {borderWidths.top}px

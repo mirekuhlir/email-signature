@@ -206,7 +206,7 @@ export const ColumnSettings = (props: any) => {
       <div ref={wrapperRef}>
         {!isSavingSignature && (
           <div className="pb-2">
-            <CollapsibleSection>
+            <CollapsibleSection title="Alignment and background">
               <div className="pb-4">
                 <Typography variant="labelBase" className="mb-2">
                   Vertical alignment
@@ -254,7 +254,7 @@ export const ColumnSettings = (props: any) => {
               </div>
             </CollapsibleSection>
 
-            <CollapsibleSection>
+            <CollapsibleSection title="Inner space">
               <div className="grid grid-cols-1 gap-6">
                 <div>
                   <Typography variant="labelBase" className="mb-2">
@@ -314,7 +314,7 @@ export const ColumnSettings = (props: any) => {
               </div>
             </CollapsibleSection>
 
-            <CollapsibleSection>
+            <CollapsibleSection title="Borders">
               <div>
                 <Typography variant="labelBase" className="mb-2">
                   Top border width : {borderWidths.top}px

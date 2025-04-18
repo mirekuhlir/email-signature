@@ -42,9 +42,11 @@ export const CustomValueEditContent = (props: any) => {
 
       const layoutType = getLayoutType();
 
+      const title = `Text and color ${labelText}`;
+
       return (
         <Fragment key={component.id}>
-          <CollapsibleSection>
+          <CollapsibleSection isInitOpen={true} title={title}>
             <div className="mb-4">
               <RichTextEditor
                 label={labelText}
