@@ -15,6 +15,7 @@ import { Hr } from '../ui/hr';
 import { ChevronLeft, Edit2, Copy, Eye } from 'lucide-react';
 import { EmailTemplateView } from './content-view/signature-view';
 import { Container } from '../ui/container';
+import { TEMP_SIGNATURE } from '@/src/const/content';
 
 export const SignatureDetail = (props: any) => {
   const { signatureDetail, isSignedIn, templateSlug } = props;
@@ -26,10 +27,22 @@ export const SignatureDetail = (props: any) => {
   const { showAuthModal } = useAuthModal();
 
   useEffect(() => {
-    initSignature({
-      rows: signatureDetail.rows,
-      colors: signatureDetail.colors,
-    });
+    const tempSignature = JSON.parse(
+      localStorage.getItem(TEMP_SIGNATURE) || '{}',
+    );
+
+    // Load signature if template slug from url matches the template slug from local storage
+    if (tempSignature && tempSignature.info.templateSlug === templateSlug) {
+      initSignature({
+        rows: tempSignature.rows,
+        colors: tempSignature.colors,
+      });
+    } else {
+      initSignature({
+        rows: signatureDetail.rows,
+        colors: signatureDetail.colors,
+      });
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -83,11 +96,11 @@ export const SignatureDetail = (props: any) => {
                       handleCopy();
                       showCopyInstructionsModal();
                     } else {
-                      showAuthModal('Sign in to copy your signature');
+                      showAuthModal('Sign in to use your signature');
                     }
                   }}
                 >
-                  <Copy size={18} className="mr-2" /> Copy Signature
+                  <Copy size={18} className="mr-2" /> Use signature
                 </Button>
                 <div className="ml-6">
                   <Button size="lg" onClick={() => setIsEdit(true)}>

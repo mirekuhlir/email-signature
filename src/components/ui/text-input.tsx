@@ -10,6 +10,7 @@ interface TextInputProps {
   errors?: FieldErrors;
   placeholder?: string;
   validation?: any;
+  isAutoFocus?: boolean;
 }
 
 const TextInput: React.FC<TextInputProps> = ({
@@ -19,6 +20,7 @@ const TextInput: React.FC<TextInputProps> = ({
   errors,
   placeholder,
   validation,
+  isAutoFocus,
 }) => {
   const errorMessage =
     errors && errors[name] && (errors[name].message as string);
@@ -31,14 +33,14 @@ const TextInput: React.FC<TextInputProps> = ({
           className="block text-base font-medium text-gray-600"
         >
           {label}
-          {validation?.required && ' *'}
         </label>
       )}
       <input
         id={name}
+        autoFocus={isAutoFocus}
         {...register(name, { ...validation })}
         placeholder={placeholder}
-        className={`appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:border-teal-500 focus:outline-hidden ${
+        className={`appearance-none border rounded w-full py-3 px-4 text-gray-400 leading-tight focus:border-teal-500 focus:outline-hidden ${
           errors && errors[name] ? 'border-red-500' : ''
         }`}
       />

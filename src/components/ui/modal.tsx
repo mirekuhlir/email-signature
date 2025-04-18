@@ -53,15 +53,17 @@ const Modal: React.FC<ModalProps> = ({
           </div>
         )}
         <div
-          className={`overflow-auto ${size === 'fullscreen' ? 'flex-grow' : 'max-h-[80vh]'} ${isZeroPadding ? 'p-0' : 'p-4'}`}
+          className={`overflow-auto ${size === 'fullscreen' ? 'flex-grow' : 'max-h-[80vh]'} ${isZeroPadding ? 'p-0' : 'p-4 sm:p-6'}`}
         >
           {children}
         </div>
-        <></>
         {onClose && size !== 'fullscreen' && (
           <>
-            <Hr />
-            <div className="flex justify-end p-4">
+            <div className="px-4 sm:px-6">
+              <Hr />
+            </div>
+
+            <div className="flex justify-end p-4 sm:p-6">
               <Button variant="outline" onClick={onClose}>
                 Close
               </Button>
@@ -71,9 +73,11 @@ const Modal: React.FC<ModalProps> = ({
         {onClose && size === 'fullscreen' && (
           <Container isZeroPadding={true}>
             <>
-              <Hr />
-              <div className="flex justify-end p-4">
-                <Button variant="outline" onClick={onClose}>
+              <div className="px-4 sm:px-6">
+                <Hr />
+              </div>
+              <div className="flex justify-end p-4 sm:p-6">
+                <Button variant="outline" size="sm" onClick={onClose}>
                   Close
                 </Button>
               </div>

@@ -71,34 +71,37 @@ export const Auth = ({ text }: AuthProps) => {
   }
 
   return (
-    <div className="flex flex-col bg-white p-4 pt-6">
+    <div className="flex flex-col bg-white pt-4">
       {text && (
         <Typography variant="h5" className="mb-4">
           {text}
         </Typography>
       )}
-      <form onSubmit={handleSubmit(onSubmit)} className="bg-white">
-        <TextInput
-          label="Enter your e-mail"
-          name="email"
-          register={register}
-          errors={formErrors}
-          validation={{
-            required: 'This field is required',
-            pattern: {
-              value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-              message: 'Invalid email',
-            },
-          }}
-          placeholder="email@example.com"
-        />
+      <div className="mb-10">
+        <form onSubmit={handleSubmit(onSubmit)} className="bg-white">
+          <TextInput
+            isAutoFocus={true}
+            label="Enter your e-mail"
+            name="email"
+            register={register}
+            errors={formErrors}
+            validation={{
+              required: 'This field is required',
+              pattern: {
+                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                message: 'Invalid email',
+              },
+            }}
+            placeholder="email@example.com"
+          />
 
-        <div className="w-full flex justify-end">
-          <Button loading={isEmailSending} size="lg" type="submit">
-            {isEmailSending ? 'Sending...' : 'Send'}
-          </Button>
-        </div>
-      </form>
+          <div className="w-full flex justify-end">
+            <Button loading={isEmailSending} size="lg" type="submit">
+              {isEmailSending ? 'Sending...' : 'Send'}
+            </Button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
