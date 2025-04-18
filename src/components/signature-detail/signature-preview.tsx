@@ -26,7 +26,7 @@ export const SignaturePreview: React.FC = () => {
   const wrapperDivClasses = [
     !isDesktopScreen || isMobilePreview ? 'inline-flex' : '',
 
-    isDarkMode ? 'bg-neutral-900' : '',
+    isDarkMode ? 'bg-neutral-800' : '',
     !isDesktopScreen ? 'w-full px-4' : '',
 
     isDesktopScreen && !isMobilePreview ? 'w-full' : '',
