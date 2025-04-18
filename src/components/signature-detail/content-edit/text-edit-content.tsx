@@ -1,32 +1,92 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Fragment } from 'react';
+import React, { Fragment } from 'react';
 import { useSignatureStore } from '@/src/store/content-edit-add-store';
+import { ContentType } from '@/src/const/content';
+import {
+  LayoutType,
+  RichTextEditor,
+} from '@/src/components/ui/rich-text-editor/rich-text-editor';
 import { CollapsibleSection } from '@/src/components/ui/collapsible-section';
-import { RichTextEditor } from '../../ui/rich-text-editor/rich-text-editor';
 
-export const TextEditContent = (props: any) => {
-  const { components, contentPathToEdit, contentType, columnColor } = props;
+interface GenericEditContentProps {
+  components: any[];
+  contentPathToEdit: string;
+  contentType: ContentType;
+  columnColor?: string;
+  getLabel: (component: any, index: number, originalIndex: number) => string;
+  getLayoutType: (
+    component: any,
+    index: number,
+    originalIndex: number,
+  ) => LayoutType;
+  getTitle: (
+    labelText: string,
+    component: any,
+    index: number,
+    originalIndex: number,
+  ) => string;
+  onValueChange?: (editContent: any, component: any, path: string) => void;
+  reverseComponents?: boolean;
+  useComponentBackgroundColor?: boolean;
+  errors?: Record<string, string | null>;
+}
+
+export const GenericEditContent = (props: GenericEditContentProps) => {
+  const {
+    components,
+    contentPathToEdit,
+    contentType,
+    columnColor,
+    getLabel,
+    getLayoutType,
+    getTitle,
+    onValueChange,
+    reverseComponents = true,
+    useComponentBackgroundColor = false,
+    errors,
+  } = props;
   const { setContent } = useSignatureStore();
 
-  return components.map((component: any, index: number) => {
-    const path = `${contentPathToEdit}.components[${index}]`;
+  const processedComponents = reverseComponents
+    ? components.slice().reverse()
+    : components;
 
-    const rowBackgroundColor = component.backgroundColor;
+  return processedComponents.map((component: any, index: number) => {
+    const originalIndex = reverseComponents
+      ? components.length - 1 - index
+      : index;
+    const path = `${contentPathToEdit}.components[${originalIndex}]`;
 
-    const onChange = (editContent: any) => {
-      setContent(path, editContent);
+    const handleOnChange = (editContent: any) => {
+      if (onValueChange) {
+        onValueChange(editContent, component, path);
+      } else {
+        // Default behavior
+        setContent(path, editContent);
+      }
     };
+
+    const labelText = getLabel(component, index, originalIndex);
+    const layoutType = getLayoutType(component, index, originalIndex);
+    const title = getTitle(labelText, component, index, originalIndex);
+    const rowBackgroundColor = useComponentBackgroundColor
+      ? component.backgroundColor
+      : undefined;
+    const finalBackgroundColor = rowBackgroundColor || columnColor;
 
     return (
       <Fragment key={component.id}>
-        <CollapsibleSection isInitOpen={true} title="Text and color">
-          <div className="mb-4 mt-1">
+        <CollapsibleSection isInitOpen={true} title={title}>
+          <div className={`mb-4 ${!reverseComponents ? 'mt-1' : ''}`}>
             <RichTextEditor
+              label={labelText || undefined}
               content={component}
-              onChange={onChange}
+              onChange={handleOnChange}
               contentType={contentType}
-              backgroundColor={rowBackgroundColor || columnColor}
+              layoutType={layoutType}
               isAutoFocus={index === 0}
+              backgroundColor={finalBackgroundColor}
+              errorMessage={errors?.[component.id] || undefined}
             />
           </div>
         </CollapsibleSection>

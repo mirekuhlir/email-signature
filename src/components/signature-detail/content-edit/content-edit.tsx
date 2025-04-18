@@ -5,22 +5,21 @@ import { useSignatureStore } from '@/src/store/content-edit-add-store';
 import { ContentType, TEMP_SIGNATURE } from '@/src/const/content';
 import { Button } from '@/src/components/ui/button';
 import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
-import { EmailEditContent } from './email-edit-content';
-import { PhoneEditContent } from './phone-edit-content';
 import { ImageEditContent } from './image-edit-content';
-import { WebsiteEditContent } from './website-edit-content';
-import { CustomValueEditContent } from './custom-value-edit-content';
 import Modal from '@/src/components/ui/modal';
 import { Typography } from '@/src/components/ui/typography';
 import Slider from '@/src/components/ui/slider';
 import { CollapsibleSection } from '@/src/components/ui/collapsible-section';
-import { TextEditContent } from './text-edit-content';
 import { getTemplateBySlug } from '@/src/templates';
 import { EditColor } from '@/src/components/ui/edit-color';
 import { Hr } from '../../ui/hr';
 import { useToast } from '@/src/components/ui/toast';
 import { Loading } from '../../ui/loading';
 import PreviewActionPanel from '../preview-action-panel';
+import { GenericEditContent } from './text-edit-content';
+import { LayoutType } from '@/src/components/ui/rich-text-editor/rich-text-editor';
+import useValidate from '@/src/hooks/useValidate';
+import { validateEmail } from '@/src/hooks/validations';
 
 export const LoadingInfo = ({
   text = 'Saving. Please wait...',
@@ -67,6 +66,7 @@ const getContentTypeName = (type: ContentType): string => {
 export const ContentEdit = (props: any) => {
   const { contentPathToEdit, signatureId, isSignedIn, templateSlug } = props;
   const { toast } = useToast();
+  const { validate, errors } = useValidate();
 
   const { rows, setContent, deleteRow, saveSignatureContentRow, colors } =
     useSignatureStore();
@@ -320,7 +320,16 @@ export const ContentEdit = (props: any) => {
         <div ref={wrapperRef}>
           {!isSavingSignature && (
             <>
-              {getContentType(content, path, isSignedIn, columnColor)}
+              {content &&
+                getContentType(
+                  content,
+                  path,
+                  isSignedIn,
+                  columnColor,
+                  validate,
+                  errors,
+                  setContent,
+                )}
 
               {content.type !== ContentType.IMAGE && (
                 <div className="mt-0">
@@ -621,18 +630,35 @@ const getContentType = (
   contentPathToEdit: any,
   isSignedIn: boolean,
   columnColor: string,
+  validate: (validationData: {
+    text: string;
+    componentId: string;
+    validation: (value: string) => { message: string };
+  }) => void,
+  errors: Record<string, string | null>,
+  setContent: (path: string, value: any) => void,
 ) => {
   const type: ContentType = content?.type;
   const components = content?.components;
 
+  const commonProps = {
+    components,
+    contentPathToEdit,
+    columnColor,
+    contentType: type,
+    errors,
+  };
+
   switch (type) {
     case ContentType.TEXT:
       return (
-        <TextEditContent
-          contentType={type}
-          components={components}
-          contentPathToEdit={contentPathToEdit}
-          columnColor={columnColor}
+        <GenericEditContent
+          {...commonProps}
+          reverseComponents={false}
+          useComponentBackgroundColor={true}
+          getLabel={() => ''}
+          getLayoutType={() => LayoutType.TEXT}
+          getTitle={() => 'Text and color'}
         />
       );
 
@@ -646,45 +672,112 @@ const getContentType = (
         />
       );
 
-    case ContentType.EMAIL:
-      return (
-        <EmailEditContent
-          contentType={type}
-          components={components}
-          contentPathToEdit={contentPathToEdit}
-          columnColor={columnColor}
-        />
-      );
+    case ContentType.EMAIL: {
+      const getLabel = (component: any) => {
+        if (component.type === ContentType.TEXT) return 'Prefix';
+        if (component.type === ContentType.EMAIL_LINK) return 'Email';
+        return '';
+      };
+      const getLayoutType = (component: any) => {
+        if (component.type === ContentType.TEXT) return LayoutType.PREFIX;
+        return LayoutType.TEXT;
+      };
+      const onValueChange = (
+        editContent: any,
+        component: any,
+        path: string,
+      ) => {
+        if (component.type === ContentType.EMAIL_LINK && editContent.text) {
+          validate({
+            text: editContent.text,
+            componentId: component.id,
+            validation: validateEmail,
+          });
+        }
+        setContent(path, editContent);
+      };
 
-    case ContentType.PHONE:
       return (
-        <PhoneEditContent
-          contentType={type}
-          components={components}
-          contentPathToEdit={contentPathToEdit}
-          columnColor={columnColor}
+        <GenericEditContent
+          {...commonProps}
+          getLabel={getLabel}
+          getLayoutType={getLayoutType}
+          getTitle={(labelText: string) => `${labelText} text and color`}
+          onValueChange={onValueChange}
         />
       );
+    }
 
-    case ContentType.WEBSITE:
+    case ContentType.PHONE: {
+      const getLabel = (component: any) => {
+        if (component.type === ContentType.TEXT) return 'Prefix';
+        if (component.type === ContentType.PHONE_LINK) return 'Phone';
+        return '';
+      };
+      const getLayoutType = (component: any) => {
+        if (component.type === ContentType.TEXT) return LayoutType.PREFIX;
+        return LayoutType.TEXT;
+      };
       return (
-        <WebsiteEditContent
-          contentType={type}
-          components={components}
-          contentPathToEdit={contentPathToEdit}
-          columnColor={columnColor}
+        <GenericEditContent
+          {...commonProps}
+          getLabel={getLabel}
+          getLayoutType={getLayoutType}
+          getTitle={(labelText: string) => `${labelText} text and color`}
         />
       );
+    }
 
-    case ContentType.CUSTOM_VALUE:
+    case ContentType.WEBSITE: {
+      const getLabel = (component: any) => {
+        if (component.type === ContentType.TEXT) return 'Prefix';
+        if (component.type === ContentType.WEBSITE_LINK) return 'Website';
+        return '';
+      };
+      const getLayoutType = (component: any) => {
+        if (component.type === ContentType.TEXT) return LayoutType.PREFIX;
+        return LayoutType.TEXT;
+      };
       return (
-        <CustomValueEditContent
-          contentType={type}
-          components={components}
-          contentPathToEdit={contentPathToEdit}
-          columnColor={columnColor}
+        <GenericEditContent
+          {...commonProps}
+          getLabel={getLabel}
+          getLayoutType={getLayoutType}
+          getTitle={(labelText: string) => `${labelText} text and color`}
         />
       );
+    }
+
+    case ContentType.CUSTOM_VALUE: {
+      const getLabel = (
+        component: any,
+        index: number,
+        originalIndex: number,
+      ) => {
+        if (component.type === ContentType.TEXT) {
+          return originalIndex === 1 ? 'Prefix' : 'Value';
+        }
+        return '';
+      };
+      const getLayoutType = (
+        component: any,
+        index: number,
+        originalIndex: number,
+      ) => {
+        if (component.type === ContentType.TEXT && originalIndex === 1) {
+          return LayoutType.PREFIX;
+        }
+        return LayoutType.TEXT;
+      };
+      return (
+        <GenericEditContent
+          {...commonProps}
+          getLabel={getLabel}
+          getLayoutType={getLayoutType}
+          getTitle={(labelText: string) => `Text and color ${labelText}`}
+        />
+      );
+    }
 
     default:
       return null;
