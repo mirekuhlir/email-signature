@@ -32,7 +32,7 @@ export const SignatureDetail = (props: any) => {
     );
 
     // Load signature if template slug from url matches the template slug from local storage
-    if (tempSignature && tempSignature.info.templateSlug === templateSlug) {
+    if (templateSlug && tempSignature?.info?.templateSlug === templateSlug) {
       initSignature({
         rows: tempSignature.rows,
         colors: tempSignature.colors,
