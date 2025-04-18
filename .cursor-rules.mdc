@@ -1,0 +1,25 @@
+# General Project Info
+# primary language: typescript, javascript
+# framework: nextjs
+
+# Core Source Code Directories
+# These directories contain the main application logic.
+# path: src/
+# path: app/
+# path: supabase/
+
+# Key Configuration Files
+# These files define project settings, dependencies, and build configurations.
+# path: next.config.ts
+# path: tsconfig.json
+# path: package.json
+# path: deno.json
+# path: supabase/config.toml
+
+# Important Files
+# These files play a crucial role in the application's functionality.
+# path: middleware.ts
+# path: supabase/seed.sql
+
+# Documentation
+# path: README.md 
