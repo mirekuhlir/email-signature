@@ -7,7 +7,6 @@ import { Typography } from '@/src/components/ui/typography';
 import Slider from '@/src/components/ui/slider';
 import SelectBase from '@/src/components/ui/select-base';
 import { EditColor } from '../../ui/edit-color';
-import { Hr } from '../../ui/hr';
 import { useToast } from '@/src/components/ui/toast';
 import { CollapsibleSection } from '@/src/components/ui/collapsible-section';
 import PreviewActionPanel from '../preview-action-panel';
