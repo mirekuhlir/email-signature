@@ -23,8 +23,7 @@ export const signature_empty_two_columns = {
                                 components: [
                                     {
                                         id: generateRandomId(),
-                                        text:
-                                            "Empty signature with two columns",
+                                        text: "Empty with two columns",
                                         type: "text",
                                         color: "rgb(0, 0, 0)",
                                         padding: "0px 0px 0px 0px",

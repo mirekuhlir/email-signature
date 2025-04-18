@@ -17,7 +17,7 @@ export const TemplatesExamples = (props: TemplatesExamplesProps) => {
   return (
     <>
       {templates.map((template, index) => (
-        <div key={index} className="flex flex-col mt-4 mb-20">
+        <div key={index} className="flex flex-col mt-4 pb-20">
           <EmailTemplateView rows={template.rows} />
           <div className="flex mt-4 justify-end sm:justify-start">
             <Button
