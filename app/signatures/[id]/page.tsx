@@ -1,6 +1,5 @@
 import { SignatureDetail } from '@/src/components/signature-detail/signature-detail';
 import { Header } from '@/src/components/header';
-import { Container } from '@/src/components/ui/container';
 import { createClient } from '@/src/utils/supabase/server';
 import { redirect } from 'next/navigation';
 import { getTemplateBySlug } from '@/src/templates';

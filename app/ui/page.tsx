@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 'use client';
 import { useState } from 'react';
 import AdvancedColorPicker from '@/src/components/ui/advanced-color-picker';
