@@ -10,12 +10,16 @@ import { useToast } from '@/src/components/ui/toast';
 import { CollapsibleSection } from '@/src/components/ui/collapsible-section';
 import PreviewActionPanel from '../preview-action-panel';
 import { LoadingInfo } from '../content-edit/content-edit';
+import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
 
 export const ColumnSettings = (props: any) => {
   const { columnPathToEdit, signatureId, isSignedIn } = props;
   const { toast } = useToast();
 
   const { rows, setContent, saveSignatureContentRow } = useSignatureStore();
+
+  const { setContentEdit } = useContentEditStore();
+
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   const [initContent, setInitContent] = useState<any>(null);
