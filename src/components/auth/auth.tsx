@@ -38,18 +38,20 @@ export const Auth = ({ title, description }: AuthProps) => {
       email,
       options: {
         shouldCreateUser: true,
-        // TODO
+        data: {
+          language: 'en',
+        },
         /*         emailRedirectTo: 'https://localhost:3000/signatures', */
-        // email template redirectTo={{ .RedirectTo}}
       },
     });
 
     if (error) {
       toast({
         title: 'Error',
-        description: 'Failed to send email. Please try again.',
+        description:
+          'Failed to send email. Please try again a few minutes later.',
         variant: 'error',
-        duration: 5000,
+        duration: 0,
       });
     } else {
       setIsEmailSent(true);
