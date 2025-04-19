@@ -108,7 +108,7 @@ const SelectBase: React.FC<CustomSelectProps> = ({
         {isOpen && (
           <ul
             ref={listRef}
-            className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-hidden"
+            className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-gray-300 ring-opacity-5 overflow-auto focus:outline-hidden"
             role="listbox"
             tabIndex={-1}
           >
