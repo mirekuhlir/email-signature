@@ -2,7 +2,6 @@
 import { useState, useRef, useEffect, useMemo } from 'react';
 import { get } from 'lodash';
 import { useSignatureStore } from '@/src/store/content-edit-add-store';
-import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
 import { Typography } from '@/src/components/ui/typography';
 import Slider from '@/src/components/ui/slider';
 import SelectBase from '@/src/components/ui/select-base';
