@@ -40,7 +40,7 @@ const TextInput: React.FC<TextInputProps> = ({
         autoFocus={isAutoFocus}
         {...register(name, { ...validation })}
         placeholder={placeholder}
-        className={`appearance-none border rounded w-full py-3 px-4 text-gray-400 leading-tight focus:border-teal-500 focus:outline-hidden ${
+        className={`appearance-none border rounded w-full py-3 px-4 text-gray-400 leading-tight focus:outline-hidden focus:border-blue-400 ${
           errors && errors[name] ? 'border-red-500' : ''
         }`}
       />

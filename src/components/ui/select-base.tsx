@@ -66,7 +66,7 @@ const SelectBase: React.FC<CustomSelectProps> = ({
         <button
           type="button"
           onClick={() => setIsOpen((prev) => !prev)}
-          className="w-full bg-white border border-gray-300 rounded-md shadow-xs pl-3 pr-10 py-2 text-left cursor-pointer focus:outline-hidden focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+          className="w-full bg-white border border-gray-300 rounded-md shadow-xs pl-3 pr-10 py-2 text-left cursor-pointer focus:outline-hidden focus:border-blue-400"
           aria-haspopup="listbox"
           aria-expanded={isOpen}
         >
