@@ -50,11 +50,6 @@ const getText = () => {
 export const getImage = () => {
     return {
         id: generateRandomId(),
-        // TODO - možná není potřeba, buď vrátit a nebo smazat
-        /*       style: {
-            display: "table",
-            margin: "0 auto",
-        }, */
         content: {
             type: ContentType.IMAGE,
             components: [

@@ -82,11 +82,6 @@ export const ImageEditContent = (props: any) => {
     [contentPathToEdit, setContent, imageComponent.id],
   );
 
-  const onInit = useCallback(() => {
-    // TODO - asi smazat
-    /* window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }) */
-  }, []);
-
   const handleImageLoadingChange = useCallback(
     (isLoading: boolean) => {
       setContentEdit({ isImageLoading: isLoading });
@@ -139,7 +134,6 @@ export const ImageEditContent = (props: any) => {
         imageName={imageComponent.id}
         previewWidthInit={imageComponent.previewWidth}
         onSetPreviewWidth={handlePreviewWidth}
-        onInit={onInit}
         originalSrc={imageComponent.originalSrc}
         originalImageFile={imageComponent.originalImageFile}
         onSetOriginalImage={handleOriginalImage}
