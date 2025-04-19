@@ -11,10 +11,11 @@ type FormValues = {
 };
 
 type AuthProps = {
-  text?: string;
+  title?: string;
+  description?: string;
 };
 
-export const Auth = ({ text }: AuthProps) => {
+export const Auth = ({ title, description }: AuthProps) => {
   const [isEmailSending, setIsEmailSending] = useState(false);
   const [isEmailSent, setIsEmailSent] = useState(false);
 
@@ -57,51 +58,61 @@ export const Auth = ({ text }: AuthProps) => {
     setIsEmailSending(false);
   };
 
-  if (isEmailSent) {
-    return (
-      <div className="flex flex-col py-4">
-        <Typography variant="h4" className="leading-loose">
-          Email sent
-        </Typography>
-        <Typography variant="body">
-          Please check your e-mail for a verification link.
-        </Typography>
-      </div>
-    );
-  }
-
   return (
-    <div className="flex flex-col bg-white pt-4">
-      {text && (
-        <Typography variant="h5" className="mb-4">
-          {text}
-        </Typography>
-      )}
-      <div className="mb-10">
-        <form onSubmit={handleSubmit(onSubmit)} className="bg-white">
-          <TextInput
-            isAutoFocus={true}
-            label="Enter your e-mail"
-            name="email"
-            register={register}
-            errors={formErrors}
-            validation={{
-              required: 'This field is required',
-              pattern: {
-                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                message: 'Invalid email',
-              },
-            }}
-            placeholder="email@example.com"
-          />
+    <div className="flex flex-col bg-white pt-4 min-h-[250px]">
+      {isEmailSent ? (
+        <div className="flex flex-col justify-center items-center flex-1">
+          <Typography variant="h4" className="leading-loose">
+            E-mail sent
+          </Typography>
+          <Typography variant="body">
+            Please check your e-mail for a sign in link.
+          </Typography>
+        </div>
+      ) : (
+        <>
+          {title && (
+            <Typography variant="h4" className="leading-loose">
+              {title}
+            </Typography>
+          )}
+          {description && (
+            <Typography variant="body" className="mb-4">
+              {description}
+            </Typography>
+          )}
+          <div className="flex flex-col justify-center  flex-1">
+            {!title && (
+              <Typography variant="h5" className="mb-4">
+                Please enter your e-mail to sign in.
+              </Typography>
+            )}
+            <form onSubmit={handleSubmit(onSubmit)} className="bg-white">
+              <TextInput
+                isAutoFocus={true}
+                label="E-mail"
+                name="email"
+                register={register}
+                errors={formErrors}
+                validation={{
+                  required: 'This field is required',
+                  pattern: {
+                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                    message: 'Invalid email',
+                  },
+                }}
+                placeholder="email@example.com"
+              />
 
-          <div className="w-full flex justify-end">
-            <Button loading={isEmailSending} size="lg" type="submit">
-              {isEmailSending ? 'Sending...' : 'Send'}
-            </Button>
+              <div className="w-full flex justify-end">
+                <Button loading={isEmailSending} size="lg" type="submit">
+                  {isEmailSending ? 'Sending...' : 'Send'}
+                </Button>
+              </div>
+            </form>
           </div>
-        </form>
-      </div>
+        </>
+      )}
     </div>
   );
 };

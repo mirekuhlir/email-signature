@@ -61,7 +61,16 @@ export const Header = (props: any) => {
               </ContextMenu>
             </div>
           ) : (
-            <Button onClick={() => showAuthModal('Sign in')}>Sign in</Button>
+            <Button
+              onClick={() =>
+                showAuthModal({
+                  title: 'Sign in',
+                  description: 'Please enter your e-mail to sign in.',
+                })
+              }
+            >
+              Sign in
+            </Button>
           )}
         </div>
       </Container>

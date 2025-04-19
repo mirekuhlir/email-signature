@@ -96,7 +96,10 @@ export const SignatureDetail = (props: any) => {
                       handleCopy();
                       showCopyInstructionsModal();
                     } else {
-                      showAuthModal('Sign in to use your signature');
+                      showAuthModal({
+                        title: 'Sign in to use your signature',
+                        description: 'Please enter your e-mail to sign in.',
+                      });
                     }
                   }}
                 >

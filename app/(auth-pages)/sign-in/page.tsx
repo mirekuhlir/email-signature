@@ -12,16 +12,21 @@ export default async function Signin() {
         <div className="pt-24">
           <Container>
             <div className="flex flex-col gap-2 mt-8 max-w-2xl mx-auto">
-              <Auth text="Please enter your e-mail address to sign in" />
-              <div className="mt-4 mb-2 sm:mb-8 sm:mt-8">
-                <StyledLink
-                  variant="default"
-                  href="/"
-                  className="flex items-center gap-1"
-                >
-                  <ChevronLeft size={23} />
-                  Back
-                </StyledLink>
+              <div className="p-8 bg-white rounded-sm shadow-md">
+                <Auth
+                  title="Sign in"
+                  description="Please enter your e-mail address to sign in."
+                />
+                <div className="mt-4 mb-2 sm:mb-8 sm:mt-8">
+                  <StyledLink
+                    variant="default"
+                    href="/"
+                    className="flex items-center gap-1"
+                  >
+                    <ChevronLeft size={23} />
+                    Back
+                  </StyledLink>
+                </div>
               </div>
             </div>
           </Container>
