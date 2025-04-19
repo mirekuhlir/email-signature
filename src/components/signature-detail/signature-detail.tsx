@@ -88,7 +88,7 @@ export const SignatureDetail = (props: any) => {
           <SignaturePreview />
           <Container>
             {!contentEdit.editPath && (
-              <div className="mt-0 sm:mt-4 flex justify-end sm:justify-start">
+              <div className="mt-0 sm:mt-4 flex justify-center sm:justify-start">
                 <Button
                   size="lg"
                   onClick={() => {

@@ -658,7 +658,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
               <div className="space-y-2">
                 <>
                   <Typography
-                    variant="labelBase"
+                    variant="lead"
                     className={`text-center ${
                       isResizing || initResizing || isReplacing
                         ? 'text-gray-800'
