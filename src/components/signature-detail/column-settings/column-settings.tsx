@@ -440,7 +440,6 @@ export const ColumnSettings = (props: any) => {
         visible={!isSavingSignature}
         onClose={closeSettings}
         onSave={handleSave}
-        isVisibleOnlyPreview={Boolean(contentEdit.subEdit)}
       />
     </div>
   );

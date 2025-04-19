@@ -617,7 +617,6 @@ export const ContentEdit = (props: any) => {
           visible={!isSavingSignature}
           onClose={closeContent}
           onSave={handleSave}
-          isVisibleOnlyPreview={Boolean(contentEdit.subEdit)}
           isVisibleOnlyClose={isVisibleOnlyClose}
         />
       </div>
