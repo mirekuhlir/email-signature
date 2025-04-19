@@ -17,7 +17,6 @@ export const ColumnSettings = (props: any) => {
   const { toast } = useToast();
 
   const { rows, setContent, saveSignatureContentRow } = useSignatureStore();
-  const { setContentEdit, contentEdit } = useContentEditStore();
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   const [initContent, setInitContent] = useState<any>(null);
