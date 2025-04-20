@@ -26,9 +26,9 @@ export const signature_b = {
                                 "components": [
                                     {
                                       "id": "ngb8b9l",
-                                      "src": "https://signatures-photos-dev.s3.us-east-1.amazonaws.com/5059b16b-4891-444a-80e9/91e24ec7/ngb8b9l.png",
+                                      "src": "https://signatures-photos-dev.s3.us-east-1.amazonaws.com/examples/signature_b_preview.png",
                                       "padding": "0px 0px 0px 0px",
-                                      "originalSrc": "https://signatures-photos-dev.s3.us-east-1.amazonaws.com/5059b16b-4891-444a-80e9/91e24ec7/ngb8b9l-o5ls.png",
+                                      "originalSrc":"https://signatures-photos-dev.s3.us-east-1.amazonaws.com/examples/signature_b_original.png",
                                       "borderRadius": "0",
                                       "previewWidth": 135,
                                       "imageSettings": {
