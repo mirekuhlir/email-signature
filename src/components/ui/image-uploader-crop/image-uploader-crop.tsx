@@ -604,6 +604,8 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     );
   }
 
+  console.warn('originalImagePreview', originalImagePreview);
+
   return (
     <>
       <div className="w-full pt-6 pb-10">
@@ -704,46 +706,48 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
               </div>
             )}
 
-            <div className="overflow-hidden bg-black/5 max-w-[90%] mx-0 md:mx-auto">
-              <ReactCrop
-                crop={crop}
-                onChange={(c, percentCrop) => {
-                  if (percentCrop) {
-                    setCrop(percentCrop);
-                  } else {
-                    setCrop({
-                      ...c,
-                      unit: crop?.unit || '%',
-                    });
-                  }
-                }}
-                aspect={aspect}
-                circularCrop={isCircular}
-                style={{ width: '100%' }}
-              >
-                <img
-                  ref={imgRef}
-                  alt="Crop me"
-                  src={originalImagePreview}
-                  onLoad={() => {
-                    if (imgRef.current && !imageSettings?.crop?.width) {
-                      const { width: imgWidth, height: imgHeight } =
-                        imgRef.current.getBoundingClientRect();
-                      const defaultCrop = getDefaultCrop(
-                        1,
-                        imgWidth,
-                        imgHeight,
-                      );
+            {originalImagePreview && (
+              <div className="overflow-hidden bg-black/5 max-w-[90%] mx-0 md:mx-auto">
+                <ReactCrop
+                  crop={crop}
+                  onChange={(c, percentCrop) => {
+                    if (percentCrop) {
+                      setCrop(percentCrop);
+                    } else {
                       setCrop({
-                        ...defaultCrop,
-                        unit: '%' as const,
+                        ...c,
+                        unit: crop?.unit || '%',
                       });
                     }
                   }}
-                  className="max-h-[600px] w-full object-contain"
-                />
-              </ReactCrop>
-            </div>
+                  aspect={aspect}
+                  circularCrop={isCircular}
+                  style={{ width: '100%' }}
+                >
+                  <img
+                    ref={imgRef}
+                    alt="Crop me"
+                    src={originalImagePreview}
+                    onLoad={() => {
+                      if (imgRef.current && !imageSettings?.crop?.width) {
+                        const { width: imgWidth, height: imgHeight } =
+                          imgRef.current.getBoundingClientRect();
+                        const defaultCrop = getDefaultCrop(
+                          1,
+                          imgWidth,
+                          imgHeight,
+                        );
+                        setCrop({
+                          ...defaultCrop,
+                          unit: '%' as const,
+                        });
+                      }
+                    }}
+                    className="max-h-[600px] w-full object-contain"
+                  />
+                </ReactCrop>
+              </div>
+            )}
 
             <Typography variant="labelBase">Aspect ratio</Typography>
             <div className="flex flex-wrap gap-y-4 gap-x-8">
