@@ -28,10 +28,10 @@ export const signature_c = {
                                     {
                                         "id": "auizuj6",
                                         "src":
-                                            "https://signatures-photos-dev.s3.us-east-1.amazonaws.com/192ebc69-7ff7-4336-b1fc/99669171/auizuj6.png",
+                                            "https://signatures-photos-dev.s3.us-east-1.amazonaws.com/examples/signature_c_preview.png",
                                         "padding": "0px 0px 0px 0px",
                                         "originalSrc":
-                                            "https://signatures-photos-dev.s3.us-east-1.amazonaws.com/192ebc69-7ff7-4336-b1fc/99669171/auizuj6-h6nr.png",
+                                            "https://signatures-photos-dev.s3.us-east-1.amazonaws.com/examples/signature_c_original.png",
                                         "borderRadius": "0",
                                         "previewWidth": 200,
                                         "imageSettings": {
