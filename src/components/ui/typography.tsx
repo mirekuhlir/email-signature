@@ -34,7 +34,7 @@ const variantStyles: Record<VariantType, string> = {
   h6: 'text-lg font-medium',
   lead: 'text-xl font-normal leading-relaxed',
   large: 'text-lg',
-  body: 'text-base',
+  body: 'text-base text-gray-600',
   small: 'text-sm',
   tiny: 'text-xs',
   labelBase: 'block text-base font-medium text-gray-600',

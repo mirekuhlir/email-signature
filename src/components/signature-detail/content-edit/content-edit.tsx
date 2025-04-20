@@ -616,7 +616,7 @@ export const ContentEdit = (props: any) => {
 
               <Modal size="small" isOpen={isDeleteModalOpen}>
                 <div className="p-2">
-                  <Typography variant="h3">
+                  <Typography variant="lead">
                     Delete {getContentTypeName(content.type)}
                   </Typography>
                   <Typography variant="body">

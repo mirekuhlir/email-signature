@@ -18,7 +18,7 @@ import { LoadingInfo } from '../../signature-detail/content-edit/content-edit';
 import pica from 'pica';
 
 const MIN_IMAGE_WIDTH = 50;
-const MAX_IMAGE_WIDTH = 200;
+const MAX_IMAGE_WIDTH = 350;
 
 interface ImageSettings {
   crop: Crop;
