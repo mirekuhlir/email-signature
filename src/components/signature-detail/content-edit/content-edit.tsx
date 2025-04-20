@@ -83,17 +83,17 @@ export const ContentEdit = (props: any) => {
   const { setContentEdit, contentEdit } = useContentEditStore();
   const wrapperRef = useRef<HTMLDivElement>(null);
 
-  const [paddingTop, setPaddingTop] = useState('0');
-  const [paddingRight, setPaddingRight] = useState('0');
-  const [paddingBottom, setPaddingBottom] = useState('0');
-  const [paddingLeft, setPaddingLeft] = useState('0');
-  const [borderRadius, setBorderRadius] = useState('0');
+  const [paddingTop, setPaddingTop] = useState(0);
+  const [paddingRight, setPaddingRight] = useState(0);
+  const [paddingBottom, setPaddingBottom] = useState(0);
+  const [paddingLeft, setPaddingLeft] = useState(0);
+  const [borderRadius, setBorderRadius] = useState(0);
 
   const [borderWidths, setBorderWidths] = useState({
-    top: '0',
-    right: '0',
-    bottom: '0',
-    left: '0',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
   });
   const [borderColors, setBorderColors] = useState({
     top: 'rgb(0, 0, 0)',
@@ -109,30 +109,49 @@ export const ContentEdit = (props: any) => {
     if (content?.components[0].padding) {
       const paddingValues = content.components[0].padding
         .split(' ')
-        .map((val: string) => val.replace('px', ''));
+        .map((val: string) => parseInt(val.replace('px', ''), 10) || 0);
 
       setPaddingTop(paddingValues[0]);
       setPaddingRight(paddingValues[1]);
       setPaddingBottom(paddingValues[2]);
       setPaddingLeft(paddingValues[3]);
+    } else {
+      setPaddingTop(0);
+      setPaddingRight(0);
+      setPaddingBottom(0);
+      setPaddingLeft(0);
     }
 
     if (content?.components[0].borderRadius) {
-      setBorderRadius(content.components[0].borderRadius);
+      setBorderRadius(
+        parseInt(content.components[0].borderRadius.replace('px', ''), 10) || 0,
+      );
+    } else {
+      setBorderRadius(0);
     }
 
     // Initialize border widths
     setBorderWidths({
-      top: (content?.components[0].borderTopWidth || '0px').replace('px', ''),
-      right: (content?.components[0].borderRightWidth || '0px').replace(
-        'px',
-        '',
-      ),
-      bottom: (content?.components[0].borderBottomWidth || '0px').replace(
-        'px',
-        '',
-      ),
-      left: (content?.components[0].borderLeftWidth || '0px').replace('px', ''),
+      top:
+        parseInt(
+          (content?.components[0].borderTopWidth || '0px').replace('px', ''),
+          10,
+        ) || 0,
+      right:
+        parseInt(
+          (content?.components[0].borderRightWidth || '0px').replace('px', ''),
+          10,
+        ) || 0,
+      bottom:
+        parseInt(
+          (content?.components[0].borderBottomWidth || '0px').replace('px', ''),
+          10,
+        ) || 0,
+      left:
+        parseInt(
+          (content?.components[0].borderLeftWidth || '0px').replace('px', ''),
+          10,
+        ) || 0,
     });
 
     // Initialize border colors
@@ -162,11 +181,14 @@ export const ContentEdit = (props: any) => {
   const updateBorderRadius = () => {
     const stylePath = `${path}.components[0]`;
     const currentStyle = content?.components[0] || {};
+    const borderRadiusPx = `${borderRadius}px`;
 
-    setContent(stylePath, {
-      ...currentStyle,
-      borderRadius: borderRadius,
-    });
+    if (currentStyle.borderRadius !== borderRadiusPx) {
+      setContent(stylePath, {
+        ...currentStyle,
+        borderRadius: borderRadiusPx,
+      });
+    }
   };
 
   const updateBorders = () => {
@@ -177,31 +199,39 @@ export const ContentEdit = (props: any) => {
       ...currentStyle,
       borderTopWidth: `${borderWidths.top}px`,
       borderTopColor: borderColors.top,
-      borderTopStyle: borderWidths.top === '0' ? 'none' : 'solid',
+      borderTopStyle: borderWidths.top === 0 ? 'none' : 'solid',
 
       borderRightWidth: `${borderWidths.right}px`,
       borderRightColor: borderColors.right,
-      borderRightStyle: borderWidths.right === '0' ? 'none' : 'solid',
+      borderRightStyle: borderWidths.right === 0 ? 'none' : 'solid',
 
       borderBottomWidth: `${borderWidths.bottom}px`,
       borderBottomColor: borderColors.bottom,
-      borderBottomStyle: borderWidths.bottom === '0' ? 'none' : 'solid',
+      borderBottomStyle: borderWidths.bottom === 0 ? 'none' : 'solid',
 
       borderLeftWidth: `${borderWidths.left}px`,
       borderLeftColor: borderColors.left,
-      borderLeftStyle: borderWidths.left === '0' ? 'none' : 'solid',
+      borderLeftStyle: borderWidths.left === 0 ? 'none' : 'solid',
     });
   };
 
   useEffect(() => {
-    if (paddingTop && paddingRight && paddingBottom && paddingLeft) {
+    // Check if all values are numbers before updating
+    if (
+      typeof paddingTop === 'number' &&
+      typeof paddingRight === 'number' &&
+      typeof paddingBottom === 'number' &&
+      typeof paddingLeft === 'number'
+    ) {
       updatePadding();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paddingTop, paddingRight, paddingBottom, paddingLeft]);
 
   useEffect(() => {
-    updateBorderRadius();
+    if (typeof borderRadius === 'number') {
+      updateBorderRadius();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [borderRadius]);
 
@@ -351,14 +381,14 @@ export const ContentEdit = (props: any) => {
                     </div>
                     <div className="mb-4">
                       <Typography variant="labelBase" className="mb-2">
-                        Border radius : {borderRadius}
+                        Border radius : {borderRadius}px
                       </Typography>
                       <Slider
                         min={0}
                         max={20}
-                        value={Number(borderRadius.replace('px', ''))}
+                        value={borderRadius}
                         onChange={(value: number) => {
-                          setBorderRadius(`${value}px`);
+                          setBorderRadius(value);
                         }}
                       />
                     </div>
@@ -373,9 +403,9 @@ export const ContentEdit = (props: any) => {
                           <Slider
                             min={0}
                             max={50}
-                            value={Number(paddingTop)}
+                            value={paddingTop}
                             onChange={(value: number) => {
-                              setPaddingTop(value.toString());
+                              setPaddingTop(value);
                             }}
                           />
                         </div>
@@ -387,9 +417,9 @@ export const ContentEdit = (props: any) => {
                           <Slider
                             min={0}
                             max={50}
-                            value={Number(paddingRight)}
+                            value={paddingRight}
                             onChange={(value: number) => {
-                              setPaddingRight(value.toString());
+                              setPaddingRight(value);
                             }}
                           />
                         </div>
@@ -401,9 +431,9 @@ export const ContentEdit = (props: any) => {
                           <Slider
                             min={0}
                             max={50}
-                            value={Number(paddingBottom)}
+                            value={paddingBottom}
                             onChange={(value: number) => {
-                              setPaddingBottom(value.toString());
+                              setPaddingBottom(value);
                             }}
                           />
                         </div>
@@ -415,9 +445,9 @@ export const ContentEdit = (props: any) => {
                           <Slider
                             min={0}
                             max={50}
-                            value={Number(paddingLeft)}
+                            value={paddingLeft}
                             onChange={(value: number) => {
-                              setPaddingLeft(value.toString());
+                              setPaddingLeft(value);
                             }}
                           />
                         </div>
@@ -432,17 +462,17 @@ export const ContentEdit = (props: any) => {
                       <Slider
                         min={0}
                         max={10}
-                        value={Number(borderWidths.top)}
+                        value={borderWidths.top}
                         onChange={(value: number) => {
                           setBorderWidths((prev) => ({
                             ...prev,
-                            top: value.toString(),
+                            top: value,
                           }));
                         }}
                       />
                     </div>
 
-                    {borderWidths.top !== '0' && (
+                    {borderWidths.top !== 0 && (
                       <EditColor
                         initColor={borderColors.top}
                         label="Top border color"
@@ -464,17 +494,17 @@ export const ContentEdit = (props: any) => {
                       <Slider
                         min={0}
                         max={10}
-                        value={Number(borderWidths.right)}
+                        value={borderWidths.right}
                         onChange={(value: number) => {
                           setBorderWidths((prev) => ({
                             ...prev,
-                            right: value.toString(),
+                            right: value,
                           }));
                         }}
                       />
                     </div>
 
-                    {borderWidths.right !== '0' && (
+                    {borderWidths.right !== 0 && (
                       <EditColor
                         initColor={borderColors.right}
                         label="Right border color"
@@ -496,17 +526,17 @@ export const ContentEdit = (props: any) => {
                       <Slider
                         min={0}
                         max={10}
-                        value={Number(borderWidths.bottom)}
+                        value={borderWidths.bottom}
                         onChange={(value: number) => {
                           setBorderWidths((prev) => ({
                             ...prev,
-                            bottom: value.toString(),
+                            bottom: value,
                           }));
                         }}
                       />
                     </div>
 
-                    {borderWidths.bottom !== '0' && (
+                    {borderWidths.bottom !== 0 && (
                       <EditColor
                         initColor={borderColors.bottom}
                         label="Bottom border color"
@@ -528,17 +558,17 @@ export const ContentEdit = (props: any) => {
                       <Slider
                         min={0}
                         max={10}
-                        value={Number(borderWidths.left)}
+                        value={borderWidths.left}
                         onChange={(value: number) => {
                           setBorderWidths((prev) => ({
                             ...prev,
-                            left: value.toString(),
+                            left: value,
                           }));
                         }}
                       />
                     </div>
 
-                    {borderWidths.left !== '0' && (
+                    {borderWidths.left !== 0 && (
                       <EditColor
                         initColor={borderColors.left}
                         label="Left border color"
