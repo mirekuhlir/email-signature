@@ -25,28 +25,38 @@ export const signature_b = {
                                 "type": "image",
                                 "components": [
                                     {
-                                        "id": generateRandomId(),
-                                        "src":
-                                            "https://signatures-photos-dev.s3.us-east-1.amazonaws.com/examples/signature_b_preview.png",
-                                        "padding": "0px 0px 0px 0px",
-                                        "originalSrc":
-                                            "https://signatures-photos-dev.s3.us-east-1.amazonaws.com/examples/signature_b_original.png",
-                                        "borderRadius": "0",
-                                        "previewWidth": 120,
-                                        "imageSettings": {
-                                            "crop": {
-                                                "x": 27.195619931183135,
-                                                "y": 0.6912433092844557,
-                                                "unit": "%",
-                                                "width": 45.908577597899594,
-                                                "height": 30.60591607675713,
-                                            },
-                                            "aspect": 1,
-                                            "isCircular": true,
-                                            "borderRadius": 0,
+                                      "id": "ngb8b9l",
+                                      "src": "https://signatures-photos-dev.s3.us-east-1.amazonaws.com/5059b16b-4891-444a-80e9/91e24ec7/ngb8b9l.png",
+                                      "padding": "0px 0px 0px 0px",
+                                      "originalSrc": "https://signatures-photos-dev.s3.us-east-1.amazonaws.com/5059b16b-4891-444a-80e9/91e24ec7/ngb8b9l-o5ls.png",
+                                      "borderRadius": "0",
+                                      "previewWidth": 135,
+                                      "imageSettings": {
+                                        "crop": {
+                                          "x": 27.19579378144996,
+                                          "y": 14.944588768851128,
+                                          "unit": "%",
+                                          "width": 44.81430698778726,
+                                          "height": 67.22486323847572
                                         },
-                                    },
-                                ],
+                                        "aspect": 1,
+                                        "isCircular": true,
+                                        "borderRadius": 0
+                                      },
+                                      "borderTopColor": "rgb(0, 0, 0)",
+                                      "borderTopStyle": "none",
+                                      "borderTopWidth": "0px",
+                                      "borderLeftColor": "rgb(0, 0, 0)",
+                                      "borderLeftStyle": "none",
+                                      "borderLeftWidth": "0px",
+                                      "borderRightColor": "rgb(0, 0, 0)",
+                                      "borderRightStyle": "none",
+                                      "borderRightWidth": "0px",
+                                      "borderBottomColor": "rgb(0, 0, 0)",
+                                      "borderBottomStyle": "none",
+                                      "borderBottomWidth": "0px"
+                                    }
+                                  ]
                             },
                         },
                     ],
@@ -107,7 +117,7 @@ export const signature_b = {
                                 "components": [
                                     {
                                         "id": generateRandomId(),
-                                        "text": "tel: ",
+                                        "text": "phone: ",
                                         "type": "text",
                                         "color": "rgb(58, 135, 176)",
                                         "padding": "0px 0px 0px 0px",
@@ -123,7 +133,7 @@ export const signature_b = {
                                     },
                                     {
                                         "id": generateRandomId(),
-                                        "text": "+1 123 456 7890 ",
+                                        "text": "+1 201-184-1199",
                                         "type": "phoneLink",
                                         "color": "rgb(0, 0, 0)",
                                         "fontSize": "14px",
