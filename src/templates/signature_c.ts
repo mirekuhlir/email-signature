@@ -85,7 +85,7 @@ export const signature_c = {
                                         "type": "text",
                                         "color": "rgb(0, 0, 0)",
                                         "padding": "10px 0px 15px 0px",
-                                        "fontSize": "14px",
+                                        "fontSize": "16px",
                                         "fontStyle": "normal",
                                         "textAlign": "center",
                                         "fontFamily": "Arial",

@@ -16,7 +16,7 @@ export const TemplatesExamples = (props: TemplatesExamplesProps) => {
   const router = useRouter();
 
   return (
-    <>
+    <div className="bg-color-gray-50">
       {templates.map((template, index) => (
         <div key={index} className="flex flex-col">
           <EmailTemplateView rows={template.rows} />
@@ -40,6 +40,6 @@ export const TemplatesExamples = (props: TemplatesExamplesProps) => {
           </div>
         </div>
       ))}
-    </>
+    </div>
   );
 };
