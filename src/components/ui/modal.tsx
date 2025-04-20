@@ -78,10 +78,10 @@ const Modal: React.FC<ModalProps> = ({
         {onClose && size === 'fullscreen' && (
           <Container isZeroPadding={true}>
             <>
-              <div className="px-4 sm:px-6">
+              <div className="px-4 sm:px-0">
                 <Hr />
               </div>
-              <div className="flex justify-end p-4 sm:p-6">
+              <div className="flex justify-end px-4 py-4 sm:py-4 sm:px-0">
                 <Button variant="outline" size="sm" onClick={onClose}>
                   Close
                 </Button>
