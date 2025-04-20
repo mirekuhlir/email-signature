@@ -604,8 +604,6 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     );
   }
 
-  console.warn('originalImagePreview', originalImagePreview);
-
   return (
     <>
       <div className="w-full pt-6 pb-10">
