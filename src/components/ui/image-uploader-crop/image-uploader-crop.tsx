@@ -181,9 +181,9 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         console.error('Error fetching image from URL:', error);
         toast({
           title: 'Error',
-          description: 'Failed to load image. Please try again.',
+          description: 'Failed to load image.',
           variant: 'error',
-          duration: 5000,
+          duration: 0,
         });
       } finally {
         setIsLoadingOriginalImage(false);
@@ -375,7 +375,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
               title: 'Error',
               description: 'Failed to process image. Please try again.',
               variant: 'error',
-              duration: 5000,
+              duration: 0,
             });
             return null;
           });
@@ -385,7 +385,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
           title: 'Error',
           description: 'Failed to process image. Please try again.',
           variant: 'error',
-          duration: 5000,
+          duration: 0,
         });
         return Promise.resolve(null);
       }

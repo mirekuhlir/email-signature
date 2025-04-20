@@ -49,7 +49,7 @@ export const Auth = ({ title, description }: AuthProps) => {
       toast({
         title: 'Error',
         description:
-          'Failed to send email. Please try again a few minutes later.',
+          'Failed to send e-mail. Please try again a few minutes later.',
         variant: 'error',
         duration: 0,
       });

@@ -305,7 +305,7 @@ export const ContentEdit = (props: any) => {
           title: 'Error',
           description: 'Failed to save content. Please try again.',
           variant: 'error',
-          duration: 5000,
+          duration: 0,
         });
         console.error(error);
       } finally {

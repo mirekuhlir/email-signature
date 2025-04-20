@@ -163,7 +163,7 @@ export const SignaturesList = (props: any) => {
         title: 'Error',
         description: 'Failed to duplicate signature. Please try again.',
         variant: 'error',
-        duration: 5000,
+        duration: 0,
       });
       return;
     }
@@ -195,7 +195,7 @@ export const SignaturesList = (props: any) => {
         title: 'Error',
         description: 'Failed to create signature. Please try again.',
         variant: 'error',
-        duration: 5000,
+        duration: 0,
       });
       return;
     }

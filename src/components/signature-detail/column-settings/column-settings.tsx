@@ -194,7 +194,7 @@ export const ColumnSettings = (props: any) => {
           title: 'Error',
           description: 'Failed to save column settings. Please try again.',
           variant: 'error',
-          duration: 5000,
+          duration: 0,
         });
       } finally {
         setIsSavingSignature(false);

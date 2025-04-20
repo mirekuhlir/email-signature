@@ -34,7 +34,7 @@ export default function EmailExamples() {
             title: 'Error',
             description: 'Failed to copy signature to clipboard',
             variant: 'error',
-            duration: 5000,
+            duration: 0,
           });
         }
       }
