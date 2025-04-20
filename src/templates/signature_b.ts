@@ -26,9 +26,11 @@ export const signature_b = {
                     "components": [
                       {
                         "id": generateRandomId(),
-                        "src": "https://signatures-photos-dev.s3.us-east-1.amazonaws.com/5059b16b-4891-444a-80e9/66db17de/ngb8b9l.png",
+                        "src":
+                        "https://signatures-photos-dev.s3.us-east-1.amazonaws.com/examples/signature_b_preview.png",
                         "padding": "0px 0px 0px 0px",
-                        "originalSrc": "https://signatures-photos-dev.s3.us-east-1.amazonaws.com/5059b16b-4891-444a-80e9/66db17de/ngb8b9l-108v.png",
+                        "originalSrc":
+                        "https://signatures-photos-dev.s3.us-east-1.amazonaws.com/examples/signature_b_original.png",
                         "borderRadius": "0px",
                         "previewWidth": 135,
                         "imageSettings": {
@@ -100,73 +102,73 @@ export const signature_b = {
                   }
                 },
                 {
-                  "id": generateRandomId(),
-                  "content": {
-                    "type": "text",
-                    "components": [
-                      {
-                        "id": generateRandomId(),
-                        "text": "Professional Photographer",
-                        "color": "rgb(0, 0, 0)",
-                        "padding": "5px 0px 7px 0px",
-                        "fontSize": "14px",
-                        "fontStyle": "normal",
-                        "textAlign": "left",
-                        "fontFamily": "Verdana",
-                        "fontWeight": "normal",
-                        "lineHeight": "1",
-                        "borderRadius": "0px",
-                        "letterSpacing": "0px",
-                        "borderTopColor": "rgb(0, 0, 0)",
-                        "borderTopStyle": "none",
-                        "borderTopWidth": "0px",
-                        "textDecoration": "none",
-                        "borderLeftColor": "rgb(0, 0, 0)",
-                        "borderLeftStyle": "none",
-                        "borderLeftWidth": "0px",
-                        "borderRightColor": "rgb(0, 0, 0)",
-                        "borderRightStyle": "none",
-                        "borderRightWidth": "0px",
-                        "borderBottomColor": "rgb(0, 0, 0)",
-                        "borderBottomStyle": "none",
-                        "borderBottomWidth": "0px"
-                      }
-                    ]
-                  }
-                },
+                    "id": "915sz6i",
+                    "content": {
+                      "type": "text",
+                      "components": [
+                        {
+                          "id": "w9q7b5z",
+                          "text": "Professional Photographer",
+                          "color": "rgb(0, 0, 0)",
+                          "padding": "5px 0px 5px 0px",
+                          "fontSize": "14px",
+                          "fontStyle": "normal",
+                          "textAlign": "left",
+                          "fontFamily": "Verdana",
+                          "fontWeight": "normal",
+                          "lineHeight": "1",
+                          "borderRadius": "0px",
+                          "letterSpacing": "0px",
+                          "borderTopColor": "rgb(0, 0, 0)",
+                          "borderTopStyle": "none",
+                          "borderTopWidth": "0px",
+                          "textDecoration": "none",
+                          "borderLeftColor": "rgb(0, 0, 0)",
+                          "borderLeftStyle": "none",
+                          "borderLeftWidth": "0px",
+                          "borderRightColor": "rgb(0, 0, 0)",
+                          "borderRightStyle": "none",
+                          "borderRightWidth": "0px",
+                          "borderBottomColor": "rgb(58, 135, 176)",
+                          "borderBottomStyle": "solid",
+                          "borderBottomWidth": "2px"
+                        }
+                      ]
+                    }
+                  },
                 {
                   "id": generateRandomId(),
                   "content": {
                     "type": "phone",
                     "components": [
-                      {
-                        "id": generateRandomId(),
-                        "text": "phone: ",
-                        "type": "text",
-                        "color": "rgb(58, 135, 176)",
-                        "padding": "0px 0px 0px 0px",
-                        "fontSize": "14px",
-                        "fontStyle": "normal",
-                        "textAlign": "left",
-                        "fontFamily": "Verdana",
-                        "fontWeight": "normal",
-                        "lineHeight": "1",
-                        "borderRadius": "0px",
-                        "letterSpacing": "0px",
-                        "borderTopColor": "rgb(0, 0, 0)",
-                        "borderTopStyle": "none",
-                        "borderTopWidth": "0px",
-                        "textDecoration": "none",
-                        "borderLeftColor": "rgb(0, 0, 0)",
-                        "borderLeftStyle": "none",
-                        "borderLeftWidth": "0px",
-                        "borderRightColor": "rgb(0, 0, 0)",
-                        "borderRightStyle": "none",
-                        "borderRightWidth": "0px",
-                        "borderBottomColor": "rgb(0, 0, 0)",
-                        "borderBottomStyle": "none",
-                        "borderBottomWidth": "0px"
-                      },
+                        {
+                            "id": "h4tguv2",
+                            "text": "phone: ",
+                            "type": "text",
+                            "color": "rgb(58, 135, 176)",
+                            "padding": "5px 0px 0px 0px",
+                            "fontSize": "14px",
+                            "fontStyle": "normal",
+                            "textAlign": "left",
+                            "fontFamily": "Verdana",
+                            "fontWeight": "normal",
+                            "lineHeight": "1",
+                            "borderRadius": "0px",
+                            "letterSpacing": "0px",
+                            "borderTopColor": "rgb(0, 0, 0)",
+                            "borderTopStyle": "none",
+                            "borderTopWidth": "0px",
+                            "textDecoration": "none",
+                            "borderLeftColor": "rgb(0, 0, 0)",
+                            "borderLeftStyle": "none",
+                            "borderLeftWidth": "0px",
+                            "borderRightColor": "rgb(0, 0, 0)",
+                            "borderRightStyle": "none",
+                            "borderRightWidth": "0px",
+                            "borderBottomColor": "rgb(0, 0, 0)",
+                            "borderBottomStyle": "none",
+                            "borderBottomWidth": "0px"
+                          },
                       {
                         "id": generateRandomId(),
                         "text": "+1 201-184-1199",
