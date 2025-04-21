@@ -172,7 +172,7 @@ async function duplicateSignatureImages(
                 const componentId = newComponentId || generateRandomId(7);
 
                 // Create a filename with timestamp similar to image-edit-content.tsx
-                const newFilename = `${componentId}-${generateRandomId(4)}.png`;
+                const newFilename = `${componentId}-${generateRandomId(4)}.jpg`;
 
                 objNode.id = componentId;
 
@@ -183,7 +183,7 @@ async function duplicateSignatureImages(
                             newSignatureId,
                             newFilename,
                             imageData,
-                            "image/png",
+                            "image/jpg",
                         );
                     })
                     .then((publicUrl) => {

@@ -98,17 +98,42 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   }, []);
 
   const onSelectFile = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+    async (e: React.ChangeEvent<HTMLInputElement>) => {
       const files = e.target.files;
       if (files && files.length > 0) {
         const file = files[0];
 
         const fileUrl = URL.createObjectURL(file);
         setOriginalImagePreview(fileUrl);
-        setIsReplacing(false); // Reset isReplacing po úspěšném nahrání
 
-        setCroppedImageData(null);
-        onSetOriginalImage?.(file);
+        const img = new Image();
+        img.src = fileUrl;
+
+        const picaInstance = new pica();
+
+        img.onload = async () => {
+          // Create a canvas to draw the image
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          if (ctx) {
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+
+            const blob = await picaInstance.toBlob(canvas, 'image/jpeg', 0.9);
+
+            const jpegFile = new File(
+              [blob],
+              file.name.replace(/\.[^/.]+$/, '') + '.jpg',
+              { type: 'image/jpg' },
+            );
+
+            setIsReplacing(false);
+
+            setCroppedImageData(null);
+            onSetOriginalImage?.(jpegFile); // Pass the File object instead of the data URL
+          }
+        };
       }
     },
     [onSetOriginalImage],
@@ -349,8 +374,10 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
                 targetCtx.globalCompositeOperation = 'source-over'; // Reset composite operation
               }
 
-              // Always use PNG format with maximum quality to ensure transparency
-              const imageDataUrl = targetCanvas.toDataURL('image/png', 1.0);
+              // Use JPEG format with quality 0.9
+              // Note: JPEG does not support transparency.
+              // If circular or rounded corners are used, the background will be solid (usually white).
+              const imageDataUrl = targetCanvas.toDataURL('image/png', 0.9);
               resolve(imageDataUrl);
             } catch (error) {
               console.error('Error processing image with pica:', error);
@@ -471,10 +498,12 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         ctx.drawImage(img, 0, 0, previewWidth, scaledHeight);
 
         // Always use PNG format with maximum quality to ensure transparency
+        // Even though the final output might be JPEG, keep PNG for preview to handle transparency correctly during adjustments.
+        // The final conversion to JPEG happens in generateCroppedImage.
         const newDataUrl = previewCanvasRef.current.toDataURL('image/png', 1.0);
         onSetCropImagePreview?.(newDataUrl);
       };
-      img.src = croppedImageData;
+      img.src = croppedImageData; // This is now potentially a JPEG URL from generateCroppedImage
     }
   }, [croppedImageData, previewWidth, onSetCropImagePreview]);
 

@@ -65,8 +65,8 @@ const cssPropertyNameSchema = z.string().regex(/^[a-zA-Z-]+$/, {
 
 // Image source schema
 const imageSrcSchema = safeUrlSchema(MAX_IMAGE_SRC)
-    .refine((val) => val.endsWith(".png"), {
-        message: "URL must end with .png",
+    .refine((val) => val.endsWith(".png") || val.endsWith(".jpg"), {
+        message: "URL must end with .png or .jpg",
     });
 
 // Base component schema
