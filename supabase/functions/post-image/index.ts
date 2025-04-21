@@ -12,7 +12,7 @@ import {
   deleteQueryParameters,
   shortenUuid,
 } from "../_shared/utils.ts";
-import { MAX_FILE_SIZE_BYTES, MAX_IMAGES } from "../_shared/conts.ts";
+import { MAX_FILE_SIZE_BYTES, MAX_IMAGES } from "../_shared/const.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -133,7 +133,7 @@ serve(async (req: Request) => {
   // Count existing images in S3
   const imageCount = await countImagesInS3(userId, signatureId, s3, bucketName);
 
-  if (imageCount >= MAX_IMAGES) {
+  if (imageCount > MAX_IMAGES) {
     return new Response(
       JSON.stringify({
         error:

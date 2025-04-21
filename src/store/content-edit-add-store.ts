@@ -393,11 +393,7 @@ export const useSignatureStore = create<StoreState>((set, get) => {
           );
 
         if (imageError) {
-          addToast({
-            title: "Error",
-            description: "Failed to save signature. Please try again.",
-            variant: "error",
-          });
+          throw imageError;
         }
 
         if (imageData?.imagePreviewPublicUrl) {
@@ -447,14 +443,10 @@ export const useSignatureStore = create<StoreState>((set, get) => {
             },
           );
 
-          if (patchError) {
-            addToast({
-              title: "Error",
-              description: "Failed to save signature. Please try again.",
-              variant: "error",
-            });
-          }
+        if (patchError) {
+          throw patchError;
         }
+          }
       } else {
         const { error: patchError } = await supabase.functions.invoke(
           "patch-signature",
@@ -471,11 +463,7 @@ export const useSignatureStore = create<StoreState>((set, get) => {
         );
 
         if (patchError) {
-          addToast({
-            title: "Error",
-            description: "Failed to save signature. Please try again.",
-            variant: "error",
-          });
+          throw patchError;
         }
       }
     },

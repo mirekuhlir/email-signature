@@ -337,7 +337,6 @@ export const ContentEdit = (props: any) => {
           variant: 'error',
           duration: 0,
         });
-        console.error(error);
       } finally {
         setIsSavingSignature(false);
       }
