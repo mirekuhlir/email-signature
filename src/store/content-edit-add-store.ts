@@ -10,6 +10,7 @@ import {
 import { createClient } from "../utils/supabase/client";
 import { base64ToFile } from "../utils/base64ToFile";
 import { useToastStore } from "../components/ui/toast";
+import { MAX_COLORS } from "@/supabase/functions/_shared/const";
 
 const supabase = createClient();
 
@@ -342,7 +343,11 @@ export const useSignatureStore = create<StoreState>((set, get) => {
       set((state) => {
         if (!color || color === "transparent") return state;
         if (state.colors.includes(color)) return state;
-        return { colors: [...state.colors, color] };
+        const newColors = [...state.colors, color];
+        if (newColors.length > MAX_COLORS) {
+          return { colors: newColors.slice(-MAX_COLORS) };
+        }
+        return { colors: newColors };
       }),
 
     getColors: () => get().colors,

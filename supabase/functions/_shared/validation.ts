@@ -1,10 +1,11 @@
 import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
 
-// Constants for validation limits
-const MAX_COMPONENTS = 30;
-const MAX_ROWS = 30;
-const MAX_COLUMNS = 30;
-const MAX_COLORS = 30;
+import {
+  MAX_COMPONENTS,
+  MAX_ROWS,
+  MAX_COLUMNS,
+  MAX_COLORS,
+} from "./const.ts";
 
 const MAX_STRING_ID = 100;
 const MAX_STRING_LENGTH = 10000;

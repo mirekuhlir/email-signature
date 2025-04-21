@@ -15,6 +15,7 @@ import { Hr } from './ui/hr';
 import { LoadingInfo } from './signature-detail/content-edit/content-edit';
 import { ContextMenu } from './ui/context-menu';
 import { Container } from './ui/container';
+import { MAX_SIGNATURES } from '@/supabase/functions/_shared/const';
 
 type SignaturesPreviewsProps = {
   rows: any;
@@ -226,11 +227,13 @@ export const SignaturesList = (props: any) => {
   return (
     <div className="w-full pt-6">
       <div>
-        <div className="flex justify-center sm:justify-end pt-8 pb-10 sm:pb-2 w-full">
-          <Button size="xl" onClick={() => setIsModalOpen(true)}>
-            Create new signature
-          </Button>
-        </div>
+        {signatures.length < MAX_SIGNATURES && (
+          <div className="flex justify-center sm:justify-end pt-8 pb-10 sm:pb-2 w-full">
+            <Button size="xl" onClick={() => setIsModalOpen(true)}>
+              Create new signature
+            </Button>
+          </div>
+        )}
 
         {(tempSignature?.rows || signatures?.length > 0) && (
           <>
