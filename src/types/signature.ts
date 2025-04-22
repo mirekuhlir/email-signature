@@ -76,7 +76,7 @@ interface BaseContent {
 }
 
 // Row structure
-interface Row {
+export interface Row {
     id: string;
     style?: {
         backgroundColor?: string;
@@ -86,7 +86,7 @@ interface Row {
 }
 
 // Column structure
-interface Column {
+export interface Column {
     id: string;
     style?: {
         verticalAlign?: "top" | "middle" | "bottom";
@@ -97,7 +97,7 @@ interface Column {
 }
 
 // Table row structure
-interface TableRow {
+export interface TableRow {
     id: string;
     style?: {
         backgroundColor?: string;

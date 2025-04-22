@@ -357,7 +357,6 @@ export const useSignatureStore = create<StoreState>((set, get) => {
       contentPathToEdit: string,
     ) => {
       const { rows, colors, setContent } = get();
-      const { addToast } = useToastStore.getState();
 
       const content = lGet(rows, contentPathToEdit);
 
@@ -443,10 +442,10 @@ export const useSignatureStore = create<StoreState>((set, get) => {
             },
           );
 
-        if (patchError) {
-          throw patchError;
-        }
+          if (patchError) {
+            throw patchError;
           }
+        }
       } else {
         const { error: patchError } = await supabase.functions.invoke(
           "patch-signature",
