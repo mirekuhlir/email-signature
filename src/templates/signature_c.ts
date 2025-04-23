@@ -204,40 +204,41 @@ export const signature_c = {
                         {
                             "id": "omhwcp8",
                             "content": {
-                              "type": "customValue",
-                              "components": [
-                                {
-                                  "id": "1uha5r5",
-                                  "text": "Address: ",
-                                  "type": "text",
-                                  "color": "rgb(48, 52, 112)",
-                                  "padding": "0px 0px 4px 0px",
-                                  "fontSize": "14px",
-                                  "fontStyle": "normal",
-                                  "textAlign": "left",
-                                  "fontFamily": "Arial",
-                                  "fontWeight": "bold",
-                                  "lineHeight": "1",
-                                  "borderRadius": "0",
-                                  "letterSpacing": "0px",
-                                  "textDecoration": "none",
-                                },
-                                {
-                                  "id": "w4wqh9v",
-                                  "text": "2645 Beeghley Street, \nWaco, TX 76701",
-                                  "type": "text",
-                                  "color": "rgb(0, 0, 0)",
-                                  "fontSize": "14px",
-                                  "fontStyle": "normal",
-                                  "fontFamily": "Arial",
-                                  "fontWeight": "normal",
-                                  "lineHeight": "1",
-                                  "letterSpacing": "0px"
-                                }
-                              ]
-                            }
-                          },
-                          {
+                                "type": "customValue",
+                                "components": [
+                                    {
+                                        "id": "1uha5r5",
+                                        "text": "Address: ",
+                                        "type": "text",
+                                        "color": "rgb(48, 52, 112)",
+                                        "padding": "0px 0px 4px 0px",
+                                        "fontSize": "14px",
+                                        "fontStyle": "normal",
+                                        "textAlign": "left",
+                                        "fontFamily": "Arial",
+                                        "fontWeight": "bold",
+                                        "lineHeight": "1",
+                                        "borderRadius": "0",
+                                        "letterSpacing": "0px",
+                                        "textDecoration": "none",
+                                    },
+                                    {
+                                        "id": "w4wqh9v",
+                                        "text":
+                                            "2645 Beeghley Street, \nWaco, TX 76701",
+                                        "type": "text",
+                                        "color": "rgb(0, 0, 0)",
+                                        "fontSize": "14px",
+                                        "fontStyle": "normal",
+                                        "fontFamily": "Arial",
+                                        "fontWeight": "normal",
+                                        "lineHeight": "1",
+                                        "letterSpacing": "0px",
+                                    },
+                                ],
+                            },
+                        },
+                        {
                             "id": generateRandomId(),
                             "content": {
                                 "type": "website",
@@ -247,7 +248,7 @@ export const signature_c = {
                                         "text": "Visit ",
                                         "type": "text",
                                         "color": "rgb(0, 0, 0)",
-                                        "padding": "0px 0px 3px 0px",
+                                        "padding": "0px 0px 0px 0px",
                                         "fontSize": "14px",
                                         "fontStyle": "normal",
                                         "textAlign": "left",
