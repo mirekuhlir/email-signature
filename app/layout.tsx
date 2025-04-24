@@ -3,12 +3,13 @@ import './globals.css';
 import { ToastContainer } from '../src/components/ui/toast';
 import { ModalContainer } from '../src/components/ui/modal-system';
 
-const defaultUrl = process.env.VERCEL_URL
+// TODO
+/* const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
   : 'http://localhost:3000';
-
+ */
 export const metadata = {
-  metadataBase: new URL(defaultUrl),
+  /*   metadataBase: new URL('https://www.email-signature-builder.com'), */
   title: 'Email signature builder',
   description: 'Create and manage your email signatures with ease',
 };
