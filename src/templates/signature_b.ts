@@ -2,310 +2,312 @@
 
 import { generateRandomId } from "../utils/generateRandomId";
 
-export const signature_b = {
-    "info": {
-        "templateSlug": "signature-b",
-        "version": "0.1",
-        "name": "Signature B",
+export const signature_b = () => {
+  return {
+    info: {
+      templateSlug: "signature-b",
+      "version": "0.1",
+      "name": "Signature B",
     },
 
     "colors": [
-        "rgb(58, 135, 176)",
+      "rgb(58, 135, 176)",
     ],
     "rows": [
-        {
-          "id": generateRandomId(),
-          "columns": [
-            {
-              "id": generateRandomId(),
-              "rows": [
-                {
-                  "id": generateRandomId(),
-                  "content": {
-                    "type": "image",
-                    "components": [
-                      {
-                        "id": generateRandomId(),
-                        "src":
+      {
+        "id": generateRandomId(),
+        "columns": [
+          {
+            "id": generateRandomId(),
+            "rows": [
+              {
+                "id": generateRandomId(),
+                "content": {
+                  "type": "image",
+                  "components": [
+                    {
+                      "id": generateRandomId(),
+                      "src":
                         "https://signatures-photos-dev.s3.us-east-1.amazonaws.com/examples/signature_b_preview.png",
-                        "padding": "0px 0px 0px 0px",
-                        "originalSrc":
+                      "padding": "0px 0px 0px 0px",
+                      "originalSrc":
                         "https://signatures-photos-dev.s3.us-east-1.amazonaws.com/examples/signature_b_original.png",
-                        "borderRadius": "0px",
-                        "previewWidth": 135,
-                        "imageSettings": {
-                          "crop": {
-                            "x": 23.3346831342377,
-                            "y": 10,
-                            "unit": "%",
-                            "width": 53.3306337315246,
-                            "height": 80
-                          },
-                          "aspect": 1,
-                          "isCircular": true,
-                          "borderRadius": 0
+                      "borderRadius": "0px",
+                      "previewWidth": 135,
+                      "imageSettings": {
+                        "crop": {
+                          "x": 23.3346831342377,
+                          "y": 10,
+                          "unit": "%",
+                          "width": 53.3306337315246,
+                          "height": 80,
                         },
-                        "borderTopColor": "rgb(0, 0, 0)",
-                        "borderTopStyle": "none",
-                        "borderTopWidth": "0px",
-                        "borderLeftColor": "rgb(0, 0, 0)",
-                        "borderLeftStyle": "none",
-                        "borderLeftWidth": "0px",
-                        "borderRightColor": "rgb(0, 0, 0)",
-                        "borderRightStyle": "none",
-                        "borderRightWidth": "0px",
-                        "borderBottomColor": "rgb(0, 0, 0)",
-                        "borderBottomStyle": "none",
-                        "borderBottomWidth": "0px"
-                      }
-                    ]
-                  }
-                }
-              ]
-            },
-            {
-              "id": generateRandomId(),
-              "rows": [
-                {
-                  "id": generateRandomId(),
-                  "content": {
-                    "type": "text",
-                    "components": [
-                      {
-                        "id": generateRandomId(),
-                        "text": "Madison Brooks",
-                        "color": "rgb(0, 0, 0)",
-                        "padding": "0px 0px 0px 0px",
-                        "fontSize": "17px",
-                        "fontStyle": "normal",
-                        "textAlign": "left",
-                        "fontFamily": "Verdana",
-                        "fontWeight": "normal",
-                        "lineHeight": "1",
-                        "borderRadius": "0px",
-                        "letterSpacing": "0px",
-                        "borderTopColor": "rgb(0, 0, 0)",
-                        "borderTopStyle": "none",
-                        "borderTopWidth": "0px",
-                        "textDecoration": "none",
-                        "borderLeftColor": "rgb(0, 0, 0)",
-                        "borderLeftStyle": "none",
-                        "borderLeftWidth": "0px",
-                        "borderRightColor": "rgb(0, 0, 0)",
-                        "borderRightStyle": "none",
-                        "borderRightWidth": "0px",
-                        "borderBottomColor": "rgb(0, 0, 0)",
-                        "borderBottomStyle": "none",
-                        "borderBottomWidth": "0px"
-                      }
-                    ]
-                  }
+                        "aspect": 1,
+                        "isCircular": true,
+                        "borderRadius": 0,
+                      },
+                      "borderTopColor": "rgb(0, 0, 0)",
+                      "borderTopStyle": "none",
+                      "borderTopWidth": "0px",
+                      "borderLeftColor": "rgb(0, 0, 0)",
+                      "borderLeftStyle": "none",
+                      "borderLeftWidth": "0px",
+                      "borderRightColor": "rgb(0, 0, 0)",
+                      "borderRightStyle": "none",
+                      "borderRightWidth": "0px",
+                      "borderBottomColor": "rgb(0, 0, 0)",
+                      "borderBottomStyle": "none",
+                      "borderBottomWidth": "0px",
+                    },
+                  ],
                 },
-                {
-                    "id": "915sz6i",
-                    "content": {
+              },
+            ],
+          },
+          {
+            "id": generateRandomId(),
+            "rows": [
+              {
+                "id": generateRandomId(),
+                "content": {
+                  "type": "text",
+                  "components": [
+                    {
+                      "id": generateRandomId(),
+                      "text": "Madison Brooks",
+                      "color": "rgb(0, 0, 0)",
+                      "padding": "0px 0px 0px 0px",
+                      "fontSize": "17px",
+                      "fontStyle": "normal",
+                      "textAlign": "left",
+                      "fontFamily": "Verdana",
+                      "fontWeight": "normal",
+                      "lineHeight": "1",
+                      "borderRadius": "0px",
+                      "letterSpacing": "0px",
+                      "borderTopColor": "rgb(0, 0, 0)",
+                      "borderTopStyle": "none",
+                      "borderTopWidth": "0px",
+                      "textDecoration": "none",
+                      "borderLeftColor": "rgb(0, 0, 0)",
+                      "borderLeftStyle": "none",
+                      "borderLeftWidth": "0px",
+                      "borderRightColor": "rgb(0, 0, 0)",
+                      "borderRightStyle": "none",
+                      "borderRightWidth": "0px",
+                      "borderBottomColor": "rgb(0, 0, 0)",
+                      "borderBottomStyle": "none",
+                      "borderBottomWidth": "0px",
+                    },
+                  ],
+                },
+              },
+              {
+                "id": "915sz6i",
+                "content": {
+                  "type": "text",
+                  "components": [
+                    {
+                      "id": "w9q7b5z",
+                      "text": "Professional Photographer",
+                      "color": "rgb(0, 0, 0)",
+                      "padding": "7px 0px 7px 0px",
+                      "fontSize": "14px",
+                      "fontStyle": "normal",
+                      "textAlign": "left",
+                      "fontFamily": "Verdana",
+                      "fontWeight": "normal",
+                      "lineHeight": "1",
+                      "borderRadius": "0px",
+                      "letterSpacing": "0px",
+                      "borderTopColor": "rgb(0, 0, 0)",
+                      "borderTopStyle": "none",
+                      "borderTopWidth": "0px",
+                      "textDecoration": "none",
+                      "borderLeftColor": "rgb(0, 0, 0)",
+                      "borderLeftStyle": "none",
+                      "borderLeftWidth": "0px",
+                      "borderRightColor": "rgb(0, 0, 0)",
+                      "borderRightStyle": "none",
+                      "borderRightWidth": "0px",
+                      "borderBottomColor": "rgb(58, 135, 176)",
+                      "borderBottomStyle": "solid",
+                      "borderBottomWidth": "2px",
+                    },
+                  ],
+                },
+              },
+              {
+                "id": generateRandomId(),
+                "content": {
+                  "type": "phone",
+                  "components": [
+                    {
+                      "id": "h4tguv2",
+                      "text": "phone: ",
                       "type": "text",
-                      "components": [
-                        {
-                          "id": "w9q7b5z",
-                          "text": "Professional Photographer",
-                          "color": "rgb(0, 0, 0)",
-                          "padding": "7px 0px 7px 0px",
-                          "fontSize": "14px",
-                          "fontStyle": "normal",
-                          "textAlign": "left",
-                          "fontFamily": "Verdana",
-                          "fontWeight": "normal",
-                          "lineHeight": "1",
-                          "borderRadius": "0px",
-                          "letterSpacing": "0px",
-                          "borderTopColor": "rgb(0, 0, 0)",
-                          "borderTopStyle": "none",
-                          "borderTopWidth": "0px",
-                          "textDecoration": "none",
-                          "borderLeftColor": "rgb(0, 0, 0)",
-                          "borderLeftStyle": "none",
-                          "borderLeftWidth": "0px",
-                          "borderRightColor": "rgb(0, 0, 0)",
-                          "borderRightStyle": "none",
-                          "borderRightWidth": "0px",
-                          "borderBottomColor": "rgb(58, 135, 176)",
-                          "borderBottomStyle": "solid",
-                          "borderBottomWidth": "2px"
-                        }
-                      ]
-                    }
-                  },
-                {
-                  "id": generateRandomId(),
-                  "content": {
-                    "type": "phone",
-                    "components": [
-                        {
-                            "id": "h4tguv2",
-                            "text": "phone: ",
-                            "type": "text",
-                            "color": "rgb(58, 135, 176)",
-                            "padding": "7px 0px 0px 0px",
-                            "fontSize": "14px",
-                            "fontStyle": "normal",
-                            "textAlign": "left",
-                            "fontFamily": "Verdana",
-                            "fontWeight": "normal",
-                            "lineHeight": "1",
-                            "borderRadius": "0px",
-                            "letterSpacing": "0px",
-                            "borderTopColor": "rgb(0, 0, 0)",
-                            "borderTopStyle": "none",
-                            "borderTopWidth": "0px",
-                            "textDecoration": "none",
-                            "borderLeftColor": "rgb(0, 0, 0)",
-                            "borderLeftStyle": "none",
-                            "borderLeftWidth": "0px",
-                            "borderRightColor": "rgb(0, 0, 0)",
-                            "borderRightStyle": "none",
-                            "borderRightWidth": "0px",
-                            "borderBottomColor": "rgb(0, 0, 0)",
-                            "borderBottomStyle": "none",
-                            "borderBottomWidth": "0px"
-                          },
-                      {
-                        "id": generateRandomId(),
-                        "text": "+1 201-184-1199",
-                        "type": "phoneLink",
-                        "color": "rgb(0, 0, 0)",
-                        "fontSize": "14px",
-                        "fontStyle": "normal",
-                        "textAlign": "left",
-                        "fontFamily": "Verdana",
-                        "fontWeight": "normal",
-                        "lineHeight": "1.25",
-                        "letterSpacing": "0px",
-                        "textDecoration": "none"
-                      }
-                    ]
-                  }
+                      "color": "rgb(58, 135, 176)",
+                      "padding": "7px 0px 0px 0px",
+                      "fontSize": "14px",
+                      "fontStyle": "normal",
+                      "textAlign": "left",
+                      "fontFamily": "Verdana",
+                      "fontWeight": "normal",
+                      "lineHeight": "1",
+                      "borderRadius": "0px",
+                      "letterSpacing": "0px",
+                      "borderTopColor": "rgb(0, 0, 0)",
+                      "borderTopStyle": "none",
+                      "borderTopWidth": "0px",
+                      "textDecoration": "none",
+                      "borderLeftColor": "rgb(0, 0, 0)",
+                      "borderLeftStyle": "none",
+                      "borderLeftWidth": "0px",
+                      "borderRightColor": "rgb(0, 0, 0)",
+                      "borderRightStyle": "none",
+                      "borderRightWidth": "0px",
+                      "borderBottomColor": "rgb(0, 0, 0)",
+                      "borderBottomStyle": "none",
+                      "borderBottomWidth": "0px",
+                    },
+                    {
+                      "id": generateRandomId(),
+                      "text": "+1 201-184-1199",
+                      "type": "phoneLink",
+                      "color": "rgb(0, 0, 0)",
+                      "fontSize": "14px",
+                      "fontStyle": "normal",
+                      "textAlign": "left",
+                      "fontFamily": "Verdana",
+                      "fontWeight": "normal",
+                      "lineHeight": "1.25",
+                      "letterSpacing": "0px",
+                      "textDecoration": "none",
+                    },
+                  ],
                 },
-                {
-                  "id": generateRandomId(),
-                  "content": {
-                    "type": "email",
-                    "components": [
-                      {
-                        "id": generateRandomId(),
-                        "text": "email: ",
-                        "type": "text",
-                        "color": "rgb(58, 135, 176)",
-                        "padding": "0px 0px 0px 0px",
-                        "fontSize": "14px",
-                        "fontStyle": "normal",
-                        "textAlign": "left",
-                        "fontFamily": "Verdana",
-                        "fontWeight": "normal",
-                        "lineHeight": "1",
-                        "borderRadius": "0px",
-                        "letterSpacing": "0px",
-                        "borderTopColor": "rgb(0, 0, 0)",
-                        "borderTopStyle": "none",
-                        "borderTopWidth": "0px",
-                        "textDecoration": "none",
-                        "borderLeftColor": "rgb(0, 0, 0)",
-                        "borderLeftStyle": "none",
-                        "borderLeftWidth": "0px",
-                        "borderRightColor": "rgb(0, 0, 0)",
-                        "borderRightStyle": "none",
-                        "borderRightWidth": "0px",
-                        "borderBottomColor": "rgb(0, 0, 0)",
-                        "borderBottomStyle": "none",
-                        "borderBottomWidth": "0px"
-                      },
-                      {
-                        "id": generateRandomId(),
-                        "text": "example@email.com",
-                        "type": "emailLink",
-                        "color": "rgb(0, 0, 0)",
-                        "fontSize": "14px",
-                        "fontStyle": "normal",
-                        "textAlign": "left",
-                        "fontFamily": "Verdana",
-                        "fontWeight": "normal",
-                        "lineHeight": "1.25",
-                        "letterSpacing": "0px",
-                        "textDecoration": "none"
-                      }
-                    ]
-                  }
+              },
+              {
+                "id": generateRandomId(),
+                "content": {
+                  "type": "email",
+                  "components": [
+                    {
+                      "id": generateRandomId(),
+                      "text": "email: ",
+                      "type": "text",
+                      "color": "rgb(58, 135, 176)",
+                      "padding": "0px 0px 0px 0px",
+                      "fontSize": "14px",
+                      "fontStyle": "normal",
+                      "textAlign": "left",
+                      "fontFamily": "Verdana",
+                      "fontWeight": "normal",
+                      "lineHeight": "1",
+                      "borderRadius": "0px",
+                      "letterSpacing": "0px",
+                      "borderTopColor": "rgb(0, 0, 0)",
+                      "borderTopStyle": "none",
+                      "borderTopWidth": "0px",
+                      "textDecoration": "none",
+                      "borderLeftColor": "rgb(0, 0, 0)",
+                      "borderLeftStyle": "none",
+                      "borderLeftWidth": "0px",
+                      "borderRightColor": "rgb(0, 0, 0)",
+                      "borderRightStyle": "none",
+                      "borderRightWidth": "0px",
+                      "borderBottomColor": "rgb(0, 0, 0)",
+                      "borderBottomStyle": "none",
+                      "borderBottomWidth": "0px",
+                    },
+                    {
+                      "id": generateRandomId(),
+                      "text": "example@email.com",
+                      "type": "emailLink",
+                      "color": "rgb(0, 0, 0)",
+                      "fontSize": "14px",
+                      "fontStyle": "normal",
+                      "textAlign": "left",
+                      "fontFamily": "Verdana",
+                      "fontWeight": "normal",
+                      "lineHeight": "1.25",
+                      "letterSpacing": "0px",
+                      "textDecoration": "none",
+                    },
+                  ],
                 },
-                {
-                  "id": generateRandomId(),
-                  "content": {
-                    "type": "website",
-                    "components": [
-                      {
-                        "id": generateRandomId(),
-                        "text": "web: ",
-                        "type": "text",
-                        "color": "rgb(58, 135, 176)",
-                        "padding": "0px 0px 0px 0px",
-                        "fontSize": "14px",
-                        "fontStyle": "normal",
-                        "textAlign": "left",
-                        "fontFamily": "Verdana",
-                        "fontWeight": "normal",
-                        "lineHeight": "1",
-                        "borderRadius": "0px",
-                        "letterSpacing": "0px",
-                        "borderTopColor": "rgb(0, 0, 0)",
-                        "borderTopStyle": "none",
-                        "borderTopWidth": "0px",
-                        "textDecoration": "none",
-                        "borderLeftColor": "rgb(0, 0, 0)",
-                        "borderLeftStyle": "none",
-                        "borderLeftWidth": "0px",
-                        "borderRightColor": "rgb(0, 0, 0)",
-                        "borderRightStyle": "none",
-                        "borderRightWidth": "0px",
-                        "borderBottomColor": "rgb(0, 0, 0)",
-                        "borderBottomStyle": "none",
-                        "borderBottomWidth": "0px"
-                      },
-                      {
-                        "id": generateRandomId(),
-                        "text": "www.example.com",
-                        "type": "websiteLink",
-                        "color": "rgb(0, 0, 0)",
-                        "fontSize": "14px",
-                        "fontStyle": "normal",
-                        "textAlign": "left",
-                        "fontFamily": "Verdana",
-                        "fontWeight": "normal",
-                        "lineHeight": "1.25",
-                        "letterSpacing": "0px",
-                        "textDecoration": "none"
-                      }
-                    ]
-                  }
-                }
-              ],
-              "style": {
-                "padding": "0px 0px 0px 10px",
-                "borderRadius": "0",
-                "verticalAlign": "middle",
-                "borderTopColor": "rgb(0, 0, 0)",
-                "borderTopStyle": "none",
-                "borderTopWidth": "0px",
-                "borderLeftColor": "rgb(0, 0, 0)",
-                "borderLeftStyle": "none",
-                "borderLeftWidth": "0px",
-                "borderRightColor": "rgb(0, 0, 0)",
-                "borderRightStyle": "none",
-                "borderRightWidth": "0px",
-                "borderBottomColor": "rgb(0, 0, 0)",
-                "borderBottomStyle": "none",
-                "borderBottomWidth": "0px"
-              }
-            }
-          ]
-        }
+              },
+              {
+                "id": generateRandomId(),
+                "content": {
+                  "type": "website",
+                  "components": [
+                    {
+                      "id": generateRandomId(),
+                      "text": "web: ",
+                      "type": "text",
+                      "color": "rgb(58, 135, 176)",
+                      "padding": "0px 0px 0px 0px",
+                      "fontSize": "14px",
+                      "fontStyle": "normal",
+                      "textAlign": "left",
+                      "fontFamily": "Verdana",
+                      "fontWeight": "normal",
+                      "lineHeight": "1",
+                      "borderRadius": "0px",
+                      "letterSpacing": "0px",
+                      "borderTopColor": "rgb(0, 0, 0)",
+                      "borderTopStyle": "none",
+                      "borderTopWidth": "0px",
+                      "textDecoration": "none",
+                      "borderLeftColor": "rgb(0, 0, 0)",
+                      "borderLeftStyle": "none",
+                      "borderLeftWidth": "0px",
+                      "borderRightColor": "rgb(0, 0, 0)",
+                      "borderRightStyle": "none",
+                      "borderRightWidth": "0px",
+                      "borderBottomColor": "rgb(0, 0, 0)",
+                      "borderBottomStyle": "none",
+                      "borderBottomWidth": "0px",
+                    },
+                    {
+                      "id": generateRandomId(),
+                      "text": "www.example.com",
+                      "type": "websiteLink",
+                      "color": "rgb(0, 0, 0)",
+                      "fontSize": "14px",
+                      "fontStyle": "normal",
+                      "textAlign": "left",
+                      "fontFamily": "Verdana",
+                      "fontWeight": "normal",
+                      "lineHeight": "1.25",
+                      "letterSpacing": "0px",
+                      "textDecoration": "none",
+                    },
+                  ],
+                },
+              },
+            ],
+            "style": {
+              "padding": "0px 0px 0px 10px",
+              "borderRadius": "0",
+              "verticalAlign": "middle",
+              "borderTopColor": "rgb(0, 0, 0)",
+              "borderTopStyle": "none",
+              "borderTopWidth": "0px",
+              "borderLeftColor": "rgb(0, 0, 0)",
+              "borderLeftStyle": "none",
+              "borderLeftWidth": "0px",
+              "borderRightColor": "rgb(0, 0, 0)",
+              "borderRightStyle": "none",
+              "borderRightWidth": "0px",
+              "borderBottomColor": "rgb(0, 0, 0)",
+              "borderBottomStyle": "none",
+              "borderBottomWidth": "0px",
+            },
+          },
+        ],
+      },
     ],
+  };
 };
