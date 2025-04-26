@@ -7,6 +7,7 @@ interface CollapsibleSectionProps {
   isInitOpen?: boolean;
 }
 
+// TODO - hover na button
 export const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
   children,
   className = '',
@@ -19,7 +20,7 @@ export const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
     <div className={className}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full py-2 px-2 flex justify-between items-center mt-4 mb-4 bg-gray-200 rounded-md"
+        className="w-full py-2 px-2 flex justify-between items-center mt-4 mb-4 bg-gray-200 rounded-md cursor-pointer"
       >
         <div className="flex items-center gap-2">
           <svg
