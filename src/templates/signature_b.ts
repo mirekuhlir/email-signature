@@ -42,10 +42,10 @@ export const signature_b = () => {
                     {
                       "id": generateRandomId(),
                       "src":
-                        "https://signatures-photos-dev.s3.us-east-1.amazonaws.com/examples/signature_b_preview.png",
+                        `https://${process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/examples/signature_b_preview.png`,
                       "padding": "0px 0px 0px 0px",
                       "originalSrc":
-                        "https://signatures-photos-dev.s3.us-east-1.amazonaws.com/examples/signature_b_original.png",
+                        `https://${process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/examples/signature_b_original.png`,
                       "borderRadius": "0px",
                       "previewWidth": 135,
                       "imageSettings": {
