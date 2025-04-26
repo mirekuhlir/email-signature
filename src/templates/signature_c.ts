@@ -47,7 +47,7 @@ export const signature_c = () => {
                                                 `https://${process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/examples/signature_c_preview.png`,
                                             "padding": "0px 0px 0px 0px",
                                             "originalSrc":
-                                                `https://${process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/examples/signature_c_original.png`,
+                                                `https://${process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/examples/signature_c_original.jpg`,
                                             "borderRadius": "0",
                                             "previewWidth": 200,
                                             "imageSettings": {
