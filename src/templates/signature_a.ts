@@ -85,10 +85,10 @@ export const signature_a = () => {
                     {
                       "id": generateRandomId(),
                       "src":
-                        "https://signatures-photos-dev.s3.us-east-1.amazonaws.com/5059b16b-4891-444a-80e9/560c1ab7/n7qz20v.png",
+                        "https://signatures-photos-dev.s3.us-east-1.amazonaws.com/examples/signature_a_preview.png",
                       "padding": "0px 0px 0px 0px",
                       "originalSrc":
-                        "https://signatures-photos-dev.s3.us-east-1.amazonaws.com/5059b16b-4891-444a-80e9/560c1ab7/n7qz20v-4bmu.jpg",
+                        "https://signatures-photos-dev.s3.us-east-1.amazonaws.com/examples/signature_a_original.png",
                       "borderRadius": "0",
                       "previewWidth": 100,
                       "imageSettings": {
