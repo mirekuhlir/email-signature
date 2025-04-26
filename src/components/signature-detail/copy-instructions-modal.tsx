@@ -52,7 +52,7 @@ export const CopyInstructionsModalContent = () => {
   return (
     <div className="py-4 space-y-6">
       <div className="space-y-4">
-        <Typography variant="h3" textColor="text-gray-700">
+        <Typography variant="h4" textColor="text-gray-700">
           Your signature has been copied to clipboard!
         </Typography>
         <Typography variant="large" textColor="text-gray-700">

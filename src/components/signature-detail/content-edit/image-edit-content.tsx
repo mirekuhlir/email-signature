@@ -63,7 +63,7 @@ export const ImageEditContent = (props: any) => {
   const handleOriginalImage = useCallback(
     (originalImage: File | null) => {
       if (originalImage instanceof File) {
-        const newFileName = `${imageComponent.id}-${generateRandomId(4)}.png`;
+        const newFileName = `${imageComponent.id}-${generateRandomId(4)}.jpg`;
         const modifiedFile = new File([originalImage], newFileName, {
           type: originalImage.type,
           lastModified: Date.now(),
@@ -81,11 +81,6 @@ export const ImageEditContent = (props: any) => {
     },
     [contentPathToEdit, setContent, imageComponent.id],
   );
-
-  const onInit = useCallback(() => {
-    // TODO - asi smazat
-    /* window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }) */
-  }, []);
 
   const handleImageLoadingChange = useCallback(
     (isLoading: boolean) => {
@@ -139,7 +134,6 @@ export const ImageEditContent = (props: any) => {
         imageName={imageComponent.id}
         previewWidthInit={imageComponent.previewWidth}
         onSetPreviewWidth={handlePreviewWidth}
-        onInit={onInit}
         originalSrc={imageComponent.originalSrc}
         originalImageFile={imageComponent.originalImageFile}
         onSetOriginalImage={handleOriginalImage}

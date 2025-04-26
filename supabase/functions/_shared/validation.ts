@@ -1,10 +1,11 @@
 import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
 
-// Constants for validation limits
-const MAX_COMPONENTS = 30;
-const MAX_ROWS = 30;
-const MAX_COLUMNS = 30;
-const MAX_COLORS = 30;
+import {
+  MAX_COMPONENTS,
+  MAX_ROWS,
+  MAX_COLUMNS,
+  MAX_COLORS,
+} from "./const.ts";
 
 const MAX_STRING_ID = 100;
 const MAX_STRING_LENGTH = 10000;
@@ -65,8 +66,8 @@ const cssPropertyNameSchema = z.string().regex(/^[a-zA-Z-]+$/, {
 
 // Image source schema
 const imageSrcSchema = safeUrlSchema(MAX_IMAGE_SRC)
-    .refine((val) => val.endsWith(".png"), {
-        message: "URL must end with .png",
+    .refine((val) => val.endsWith(".png") || val.endsWith(".jpg"), {
+        message: "URL must end with .png or .jpg",
     });
 
 // Base component schema

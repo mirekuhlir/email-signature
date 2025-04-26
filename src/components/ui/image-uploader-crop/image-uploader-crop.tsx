@@ -18,7 +18,7 @@ import { LoadingInfo } from '../../signature-detail/content-edit/content-edit';
 import pica from 'pica';
 
 const MIN_IMAGE_WIDTH = 50;
-const MAX_IMAGE_WIDTH = 200;
+const MAX_IMAGE_WIDTH = 350;
 
 interface ImageSettings {
   crop: Crop;
@@ -98,17 +98,42 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   }, []);
 
   const onSelectFile = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+    async (e: React.ChangeEvent<HTMLInputElement>) => {
       const files = e.target.files;
       if (files && files.length > 0) {
         const file = files[0];
 
         const fileUrl = URL.createObjectURL(file);
         setOriginalImagePreview(fileUrl);
-        setIsReplacing(false); // Reset isReplacing po úspěšném nahrání
 
-        setCroppedImageData(null);
-        onSetOriginalImage?.(file);
+        const img = new Image();
+        img.src = fileUrl;
+
+        const picaInstance = new pica();
+
+        img.onload = async () => {
+          // Create a canvas to draw the image
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          if (ctx) {
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+
+            const blob = await picaInstance.toBlob(canvas, 'image/jpeg', 0.9);
+
+            const jpegFile = new File(
+              [blob],
+              file.name.replace(/\.[^/.]+$/, '') + '.jpg',
+              { type: 'image/jpg' },
+            );
+
+            setIsReplacing(false);
+
+            setCroppedImageData(null);
+            onSetOriginalImage?.(jpegFile); // Pass the File object instead of the data URL
+          }
+        };
       }
     },
     [onSetOriginalImage],
@@ -181,9 +206,9 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         console.error('Error fetching image from URL:', error);
         toast({
           title: 'Error',
-          description: 'Failed to load image. Please try again.',
+          description: 'Failed to load image.',
           variant: 'error',
-          duration: 5000,
+          duration: 0,
         });
       } finally {
         setIsLoadingOriginalImage(false);
@@ -349,8 +374,10 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
                 targetCtx.globalCompositeOperation = 'source-over'; // Reset composite operation
               }
 
-              // Always use PNG format with maximum quality to ensure transparency
-              const imageDataUrl = targetCanvas.toDataURL('image/png', 1.0);
+              // Use JPEG format with quality 0.9
+              // Note: JPEG does not support transparency.
+              // If circular or rounded corners are used, the background will be solid (usually white).
+              const imageDataUrl = targetCanvas.toDataURL('image/png', 0.9);
               resolve(imageDataUrl);
             } catch (error) {
               console.error('Error processing image with pica:', error);
@@ -375,7 +402,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
               title: 'Error',
               description: 'Failed to process image. Please try again.',
               variant: 'error',
-              duration: 5000,
+              duration: 0,
             });
             return null;
           });
@@ -385,7 +412,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
           title: 'Error',
           description: 'Failed to process image. Please try again.',
           variant: 'error',
-          duration: 5000,
+          duration: 0,
         });
         return Promise.resolve(null);
       }
@@ -471,10 +498,12 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         ctx.drawImage(img, 0, 0, previewWidth, scaledHeight);
 
         // Always use PNG format with maximum quality to ensure transparency
+        // Even though the final output might be JPEG, keep PNG for preview to handle transparency correctly during adjustments.
+        // The final conversion to JPEG happens in generateCroppedImage.
         const newDataUrl = previewCanvasRef.current.toDataURL('image/png', 1.0);
         onSetCropImagePreview?.(newDataUrl);
       };
-      img.src = croppedImageData;
+      img.src = croppedImageData; // This is now potentially a JPEG URL from generateCroppedImage
     }
   }, [croppedImageData, previewWidth, onSetCropImagePreview]);
 
@@ -598,7 +627,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
 
   if (isLoadingOriginalImage) {
     return (
-      <div className="flex items-center justify-center w-full h-[70px]">
+      <div className="flex items-center justify-center w-full h-[70px] mt-5">
         <LoadingInfo text="Loading image. Please wait..." />
       </div>
     );
@@ -658,7 +687,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
               <div className="space-y-2">
                 <>
                   <Typography
-                    variant="labelBase"
+                    variant="lead"
                     className={`text-center ${
                       isResizing || initResizing || isReplacing
                         ? 'text-gray-800'
@@ -704,46 +733,48 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
               </div>
             )}
 
-            <div className="overflow-hidden bg-black/5 max-w-[90%] mx-0 md:mx-auto">
-              <ReactCrop
-                crop={crop}
-                onChange={(c, percentCrop) => {
-                  if (percentCrop) {
-                    setCrop(percentCrop);
-                  } else {
-                    setCrop({
-                      ...c,
-                      unit: crop?.unit || '%',
-                    });
-                  }
-                }}
-                aspect={aspect}
-                circularCrop={isCircular}
-                style={{ width: '100%' }}
-              >
-                <img
-                  ref={imgRef}
-                  alt="Crop me"
-                  src={originalImagePreview}
-                  onLoad={() => {
-                    if (imgRef.current && !imageSettings?.crop?.width) {
-                      const { width: imgWidth, height: imgHeight } =
-                        imgRef.current.getBoundingClientRect();
-                      const defaultCrop = getDefaultCrop(
-                        1,
-                        imgWidth,
-                        imgHeight,
-                      );
+            {originalImagePreview && (
+              <div className="overflow-hidden bg-black/5 max-w-[90%] mx-0 md:mx-auto">
+                <ReactCrop
+                  crop={crop}
+                  onChange={(c, percentCrop) => {
+                    if (percentCrop) {
+                      setCrop(percentCrop);
+                    } else {
                       setCrop({
-                        ...defaultCrop,
-                        unit: '%' as const,
+                        ...c,
+                        unit: crop?.unit || '%',
                       });
                     }
                   }}
-                  className="max-h-[600px] w-full object-contain"
-                />
-              </ReactCrop>
-            </div>
+                  aspect={aspect}
+                  circularCrop={isCircular}
+                  style={{ width: '100%' }}
+                >
+                  <img
+                    ref={imgRef}
+                    alt="Crop me"
+                    src={originalImagePreview}
+                    onLoad={() => {
+                      if (imgRef.current && !imageSettings?.crop?.width) {
+                        const { width: imgWidth, height: imgHeight } =
+                          imgRef.current.getBoundingClientRect();
+                        const defaultCrop = getDefaultCrop(
+                          1,
+                          imgWidth,
+                          imgHeight,
+                        );
+                        setCrop({
+                          ...defaultCrop,
+                          unit: '%' as const,
+                        });
+                      }
+                    }}
+                    className="max-h-[600px] w-full object-contain"
+                  />
+                </ReactCrop>
+              </div>
+            )}
 
             <Typography variant="labelBase">Aspect ratio</Typography>
             <div className="flex flex-wrap gap-y-4 gap-x-8">

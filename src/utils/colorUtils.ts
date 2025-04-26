@@ -44,7 +44,7 @@ export function getInvertedSignatureRows(
     originalRows: SignatureRow[],
 ): SignatureRow[] {
     // Create a deep copy so we don't modify the original template
-    const clonedRows = JSON.parse(JSON.stringify(originalRows));
+    const clonedRows = originalRows && JSON.parse(JSON.stringify(originalRows));
 
     // Traverse the copy and invert colors
     traverseAndInvertColors(clonedRows);

@@ -401,11 +401,7 @@ const SelectExample = () => {
     value: string;
   }
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormValues>();
+  const { handleSubmit, control } = useForm<FormValues>();
 
   return (
     <div className="bg-gray-100 p-4">
@@ -419,8 +415,7 @@ const SelectExample = () => {
           name="selectValue"
           label="Select Country"
           options={options}
-          register={register}
-          errors={errors}
+          control={control}
         />
         <Button type="submit">Submit</Button>
       </form>

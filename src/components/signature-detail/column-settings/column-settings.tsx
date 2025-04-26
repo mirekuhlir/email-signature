@@ -2,7 +2,6 @@
 import { useState, useRef, useEffect, useMemo } from 'react';
 import { get } from 'lodash';
 import { useSignatureStore } from '@/src/store/content-edit-add-store';
-import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
 import { Typography } from '@/src/components/ui/typography';
 import Slider from '@/src/components/ui/slider';
 import SelectBase from '@/src/components/ui/select-base';
@@ -11,13 +10,16 @@ import { useToast } from '@/src/components/ui/toast';
 import { CollapsibleSection } from '@/src/components/ui/collapsible-section';
 import PreviewActionPanel from '../preview-action-panel';
 import { LoadingInfo } from '../content-edit/content-edit';
+import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
 
 export const ColumnSettings = (props: any) => {
   const { columnPathToEdit, signatureId, isSignedIn } = props;
   const { toast } = useToast();
 
   const { rows, setContent, saveSignatureContentRow } = useSignatureStore();
-  const { setContentEdit, contentEdit } = useContentEditStore();
+
+  const { setContentEdit } = useContentEditStore();
+
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   const [initContent, setInitContent] = useState<any>(null);
@@ -192,7 +194,7 @@ export const ColumnSettings = (props: any) => {
           title: 'Error',
           description: 'Failed to save column settings. Please try again.',
           variant: 'error',
-          duration: 5000,
+          duration: 0,
         });
       } finally {
         setIsSavingSignature(false);
@@ -440,7 +442,6 @@ export const ColumnSettings = (props: any) => {
         visible={!isSavingSignature}
         onClose={closeSettings}
         onSave={handleSave}
-        isVisibleOnlyPreview={Boolean(contentEdit.subEdit)}
       />
     </div>
   );

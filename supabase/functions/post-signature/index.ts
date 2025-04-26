@@ -4,7 +4,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { deleteQueryParameters, shortenUuid } from "../_shared/utils.ts";
 import { PutObjectCommand, S3Client } from "npm:@aws-sdk/client-s3@3.777.0";
 import { validateSignature } from "../_shared/validation.ts";
-
+import { MAX_SIGNATURES } from "../_shared/const.ts";
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
@@ -295,7 +295,7 @@ serve(async (req: Request) => {
     }
 
     // Max signatures limit
-    if ((count ?? 0) >= 10) {
+    if ((count ?? 0) >= MAX_SIGNATURES) {
       return new Response(
         JSON.stringify({ error: "Signature limit reached" }),
         {

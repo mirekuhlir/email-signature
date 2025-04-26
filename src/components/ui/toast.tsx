@@ -31,7 +31,7 @@ export const useToastStore = create<ToastStore>((set) => ({
   toasts: [],
   addToast: (toast) => {
     const id = Math.random().toString(36).substring(2, 9);
-    const duration = toast.duration || 5000; // Default duration 5 seconds
+    const duration = toast.duration ?? 5000;
 
     set((state) => ({
       toasts: [...state.toasts, { ...toast, id }],
@@ -122,7 +122,7 @@ export const ToastContainer: React.FC = () => {
   const { toasts, deleteToast } = useToastStore();
 
   return (
-    <div className="fixed top-0 right-0 z-50 flex flex-col items-end p-4 space-y-4">
+    <div className="fixed top-0 right-0 z-[9999] flex flex-col items-end p-4 space-y-4">
       {toasts.map((toast: ToastMessage) => (
         <Toast
           key={toast.id}

@@ -48,20 +48,27 @@ const Modal: React.FC<ModalProps> = ({
         className={`bg-white rounded-lg shadow-lg ${sizeClasses[size]} ${size === 'fullscreen' ? 'h-full flex flex-col' : ''}`}
       >
         {title && (
-          <div className="flex justify-between items-center p-4 border-b">
-            <Typography variant="h4">{title}</Typography>
-          </div>
+          <>
+            <div className="flex justify-between items-center pt-4 px-4 sm:px-6">
+              <Typography variant="h4">{title}</Typography>
+            </div>
+            <div className="px-4 sm:px-6 py-2">
+              <Hr />
+            </div>
+          </>
         )}
         <div
-          className={`overflow-auto ${size === 'fullscreen' ? 'flex-grow' : 'max-h-[80vh]'} ${isZeroPadding ? 'p-0' : 'p-4'}`}
+          className={`overflow-auto ${size === 'fullscreen' ? 'flex-grow' : 'max-h-[80vh]'} ${isZeroPadding ? 'p-0' : 'p-4 sm:p-6'}`}
         >
           {children}
         </div>
-        <></>
         {onClose && size !== 'fullscreen' && (
           <>
-            <Hr />
-            <div className="flex justify-end p-4">
+            <div className="px-4 sm:px-6">
+              <Hr />
+            </div>
+
+            <div className="flex justify-end p-4 sm:p-6">
               <Button variant="outline" onClick={onClose}>
                 Close
               </Button>
@@ -71,9 +78,11 @@ const Modal: React.FC<ModalProps> = ({
         {onClose && size === 'fullscreen' && (
           <Container isZeroPadding={true}>
             <>
-              <Hr />
-              <div className="flex justify-end p-4">
-                <Button variant="outline" onClick={onClose}>
+              <div className="px-4 sm:px-0">
+                <Hr />
+              </div>
+              <div className="flex justify-end px-4 py-4 sm:py-4 sm:px-0">
+                <Button variant="outline" size="sm" onClick={onClose}>
                   Close
                 </Button>
               </div>

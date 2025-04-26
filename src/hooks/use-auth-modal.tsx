@@ -5,9 +5,15 @@ import { Auth } from '@/src/components/auth/auth';
 export const useAuthModal = () => {
   const { modal } = useModal();
 
-  const showAuthModal = (text: string = 'Sign in') => {
+  const showAuthModal = ({
+    title,
+    description,
+  }: {
+    title?: string;
+    description?: string;
+  }) => {
     return modal({
-      content: <Auth text={text} />,
+      content: <Auth title={title} description={description} />,
       size: 'medium',
     });
   };

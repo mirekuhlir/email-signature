@@ -13,6 +13,7 @@ import { useSignatureStore } from '@/src/store/content-edit-add-store';
 import { get } from 'lodash';
 import { ContentType } from '@/src/const/content';
 import { useMediaQuery } from '@/src/hooks/useMediaQuery';
+import { MAX_ROWS } from '@/supabase/functions/_shared/const';
 
 export const EmailTemplateEdit = (props: any) => {
   const { rows, isSignedIn, templateSlug } = props;
@@ -43,24 +44,26 @@ export const EmailTemplateEdit = (props: any) => {
 
         {contentEdit.addPath !== rowPath && contentEdit.columnPath === null && (
           <div className="flex flex-col items-end mb-2">
-            <div className="mb-2">
-              <Button
-                size="sm"
-                variant="gray"
-                onClick={() => {
-                  const numberOfRows = column.rows.length;
-                  const nextEditRowPath = `${rowPath}[${numberOfRows}]`;
+            {column.rows.length < MAX_ROWS && (
+              <div className="mb-2">
+                <Button
+                  size="sm"
+                  variant="gray"
+                  onClick={() => {
+                    const numberOfRows = column.rows.length;
+                    const nextEditRowPath = `${rowPath}[${numberOfRows}]`;
 
-                  setContentEdit({
-                    editPath: null,
-                    addPath: rowPath,
-                    nextEditPath: nextEditRowPath,
-                  });
-                }}
-              >
-                Add
-              </Button>
-            </div>
+                    setContentEdit({
+                      editPath: null,
+                      addPath: rowPath,
+                      nextEditPath: nextEditRowPath,
+                    });
+                  }}
+                >
+                  Add
+                </Button>
+              </div>
+            )}
             <div>
               <Button
                 variant="blue"
@@ -237,7 +240,8 @@ export const EmailTemplateEdit = (props: any) => {
       <div>
         {!contentEdit.editPath &&
           !contentEdit.addPath &&
-          !contentEdit.columnPath && (
+          !contentEdit.columnPath &&
+          rows.length < MAX_ROWS && (
             <div className="mb-4">
               <Button
                 onClick={() => {
@@ -262,7 +266,8 @@ export const EmailTemplateEdit = (props: any) => {
         </>
         {!contentEdit.editPath &&
           !contentEdit.addPath &&
-          !contentEdit.columnPath && (
+          !contentEdit.columnPath &&
+          rows.length < MAX_ROWS && (
             <div className="mt-5 mb-5">
               <Hr className="my-4" />
               <Button

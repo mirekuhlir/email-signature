@@ -23,7 +23,7 @@ export const EmailTemplateView = (props: any) => {
   };
 
   const renderRows = (rows: any, isFirstRow?: boolean) => {
-    return rows.map((row: any) => {
+    return rows?.map((row: any) => {
       if (!row?.id) {
         return null;
       }

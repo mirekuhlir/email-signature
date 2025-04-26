@@ -12,7 +12,8 @@ import {
   deleteQueryParameters,
   shortenUuid,
 } from "../_shared/utils.ts";
-import { MAX_FILE_SIZE_BYTES, MAX_IMAGES } from "../_shared/conts.ts";
+import { MAX_FILE_SIZE_BYTES, MAX_IMAGES } from "../_shared/const.ts";
+
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
@@ -37,12 +38,12 @@ const isValidPreviewImageFilename = (filename: string): boolean => {
 
 // New validation function for original image filename
 const isValidOriginalImageFilename = (filename: string): boolean => {
-  // Check if filename ends with .png (case-insensitive)
-  if (!filename.toLowerCase().endsWith(".png")) {
+  // Check if filename ends with .jpg (case-insensitive)
+  if (!filename.toLowerCase().endsWith(".jpg")) {
     return false;
   }
-  // Check the format: 7 alphanumeric chars + '-' + 4 alphanumeric chars + '.png'
-  const namePart = filename.slice(0, -4); // Remove .png
+  // Check the format: 7 alphanumeric chars + '-' + 4 alphanumeric chars + '.jpg'
+  const namePart = filename.slice(0, -4); // Remove .jpg
   return /^[a-zA-Z0-9]{7}-[a-zA-Z0-9]{4}$/.test(namePart);
 };
 
@@ -132,7 +133,7 @@ serve(async (req: Request) => {
   // Count existing images in S3
   const imageCount = await countImagesInS3(userId, signatureId, s3, bucketName);
 
-  if (imageCount >= MAX_IMAGES) {
+  if (imageCount > MAX_IMAGES) {
     return new Response(
       JSON.stringify({
         error:
