@@ -40,21 +40,21 @@ export const signature_b = () => {
                   "type": "image",
                   "components": [
                     {
-                      "id": generateRandomId(),
+                      "id": "hyqqp19",
                       "src":
                         `https://${process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/examples/signature_b_preview.png`,
                       "padding": "0px 0px 0px 0px",
                       "originalSrc":
-                        `https://${process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/examples/signature_b_original.jpg`,
+                        "https://siphpr.s3.us-east-1.amazonaws.com/examples/signature_b_original.jpg",
                       "borderRadius": "0px",
                       "previewWidth": 135,
                       "imageSettings": {
                         "crop": {
-                          "x": 23.3346831342377,
-                          "y": 10,
+                          "x": 27.48190958900645,
+                          "y": 14.928876858897025,
                           "unit": "%",
-                          "width": 53.3306337315246,
-                          "height": 80,
+                          "width": 42.96256759460269,
+                          "height": 64.44385479033214,
                         },
                         "aspect": 1,
                         "isCircular": true,
