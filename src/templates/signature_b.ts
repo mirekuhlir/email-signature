@@ -2,6 +2,19 @@
 
 import { generateRandomId } from "../utils/generateRandomId";
 
+const getLocalizedContent = () => {
+  return {
+    name: "Madison Brooks",
+    title: "Professional Photographer",
+    phonePrefix: "phone: ",
+    phoneValue: "+1 201-184-1199",
+    emailPrefix: "email: ",
+    emailValue: "example@email.com",
+    websitePrefix: "web: ",
+    websiteValue: "www.example.com",
+  };
+};
+
 export const signature_b = () => {
   return {
     info: {
@@ -11,6 +24,7 @@ export const signature_b = () => {
     },
 
     "colors": [
+      "rgb(0, 0, 0)",
       "rgb(58, 135, 176)",
     ],
     "rows": [
@@ -74,7 +88,7 @@ export const signature_b = () => {
                   "components": [
                     {
                       "id": generateRandomId(),
-                      "text": "Madison Brooks",
+                      "text": getLocalizedContent().name,
                       "color": "rgb(0, 0, 0)",
                       "padding": "0px 0px 0px 0px",
                       "fontSize": "17px",
@@ -109,7 +123,7 @@ export const signature_b = () => {
                   "components": [
                     {
                       "id": "w9q7b5z",
-                      "text": "Professional Photographer",
+                      "text": getLocalizedContent().title,
                       "color": "rgb(0, 0, 0)",
                       "padding": "7px 0px 7px 0px",
                       "fontSize": "14px",
@@ -144,7 +158,7 @@ export const signature_b = () => {
                   "components": [
                     {
                       "id": "h4tguv2",
-                      "text": "phone: ",
+                      "text": getLocalizedContent().phonePrefix,
                       "type": "text",
                       "color": "rgb(58, 135, 176)",
                       "padding": "7px 0px 0px 0px",
@@ -172,7 +186,7 @@ export const signature_b = () => {
                     },
                     {
                       "id": generateRandomId(),
-                      "text": "+1 201-184-1199",
+                      "text": getLocalizedContent().phoneValue,
                       "type": "phoneLink",
                       "color": "rgb(0, 0, 0)",
                       "fontSize": "14px",
@@ -194,7 +208,7 @@ export const signature_b = () => {
                   "components": [
                     {
                       "id": generateRandomId(),
-                      "text": "email: ",
+                      "text": getLocalizedContent().emailPrefix,
                       "type": "text",
                       "color": "rgb(58, 135, 176)",
                       "padding": "0px 0px 0px 0px",
@@ -222,7 +236,7 @@ export const signature_b = () => {
                     },
                     {
                       "id": generateRandomId(),
-                      "text": "example@email.com",
+                      "text": getLocalizedContent().emailValue,
                       "type": "emailLink",
                       "color": "rgb(0, 0, 0)",
                       "fontSize": "14px",
@@ -244,7 +258,7 @@ export const signature_b = () => {
                   "components": [
                     {
                       "id": generateRandomId(),
-                      "text": "web: ",
+                      "text": getLocalizedContent().websitePrefix,
                       "type": "text",
                       "color": "rgb(58, 135, 176)",
                       "padding": "0px 0px 0px 0px",
@@ -272,7 +286,7 @@ export const signature_b = () => {
                     },
                     {
                       "id": generateRandomId(),
-                      "text": "www.example.com",
+                      "text": getLocalizedContent().websiteValue,
                       "type": "websiteLink",
                       "color": "rgb(0, 0, 0)",
                       "fontSize": "14px",

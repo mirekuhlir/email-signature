@@ -2,17 +2,17 @@ import { generateRandomId } from "../utils/generateRandomId";
 
 const getLocalizedContent = () => {
   return {
-    "name": "Jason Smith",
-    "title": "Sales consultant",
+    "best_regards": "Best regards,",
+    "name": "Dr. Emily Sullivan",
+    "place": "NewDawn Family Medical Center",
+    "title": "Pediatrician",
     "phone": "+1 123 456 7890",
     "email": "example@email.com",
-    "website": "www.example.com",
+    "address": "987 Willow Street,  Asheville",
   };
 };
 
 export const signature_a = () => {
-  const localizedContent = getLocalizedContent();
-
   return {
     info: {
       templateSlug: "signature-a",
@@ -22,9 +22,55 @@ export const signature_a = () => {
     "colors": [
       "rgb(0, 0, 0)",
       "rgb(255, 255, 255)",
-      "rgb(32, 161, 117)",
+      "rgb(4, 80, 130)",
     ],
     "rows": [
+      {
+        "id": generateRandomId(),
+        "columns": [
+          {
+            "id": generateRandomId(),
+            "rows": [
+              {
+                "id": generateRandomId(),
+                "content": {
+                  "type": "text",
+                  "components": [
+                    {
+                      "id": generateRandomId(),
+                      "text": getLocalizedContent().best_regards,
+                      "type": "text",
+                      "color": "rgb(0, 0, 0)",
+                      "padding": "0px 0px 10px 0px",
+                      "fontSize": "17px",
+                      "fontStyle": "normal",
+                      "textAlign": "left",
+                      "fontFamily": "Arial",
+                      "fontWeight": "normal",
+                      "lineHeight": "1",
+                      "borderRadius": "0px",
+                      "letterSpacing": "0px",
+                      "borderTopColor": "rgb(0, 0, 0)",
+                      "borderTopStyle": "none",
+                      "borderTopWidth": "0px",
+                      "textDecoration": "none",
+                      "borderLeftColor": "rgb(0, 0, 0)",
+                      "borderLeftStyle": "none",
+                      "borderLeftWidth": "0px",
+                      "borderRightColor": "rgb(0, 0, 0)",
+                      "borderRightStyle": "none",
+                      "borderRightWidth": "0px",
+                      "borderBottomColor": "rgb(0, 0, 0)",
+                      "borderBottomStyle": "none",
+                      "borderBottomWidth": "0px",
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        ],
+      },
       {
         "id": generateRandomId(),
         "columns": [
@@ -39,21 +85,21 @@ export const signature_a = () => {
                     {
                       "id": generateRandomId(),
                       "src":
-                        "https://signatures-photos-dev.s3.us-east-1.amazonaws.com/192ebc69-7ff7-4336-b1fc/f1f3f2f0/yyf355b.png",
+                        "https://signatures-photos-dev.s3.us-east-1.amazonaws.com/5059b16b-4891-444a-80e9/560c1ab7/n7qz20v.png",
                       "padding": "0px 0px 0px 0px",
                       "originalSrc":
-                        "https://signatures-photos-dev.s3.us-east-1.amazonaws.com/192ebc69-7ff7-4336-b1fc/f1f3f2f0/yyf355b-x6qx.png",
+                        "https://signatures-photos-dev.s3.us-east-1.amazonaws.com/5059b16b-4891-444a-80e9/560c1ab7/n7qz20v-4bmu.jpg",
                       "borderRadius": "0",
-                      "previewWidth": 140,
+                      "previewWidth": 100,
                       "imageSettings": {
                         "crop": {
-                          "x": 35.43146357659559,
-                          "y": 11.765148336215585,
+                          "x": 25.827403658980735,
+                          "y": 0.06072952668488526,
                           "unit": "%",
-                          "width": 29.672144619847774,
-                          "height": 33.38128846512494,
+                          "width": 44.12388188217417,
+                          "height": 93.71862111557091,
                         },
-                        "aspect": 0.6666666666666666,
+                        "aspect": "free",
                         "isCircular": false,
                         "borderRadius": 10,
                       },
@@ -75,7 +121,7 @@ export const signature_a = () => {
               },
             ],
             "style": {
-              "padding": "0px 10px 0px 0px",
+              "padding": "0px 5px 0px 0px",
               "borderRadius": "0",
               "verticalAlign": "top",
               "borderTopColor": "rgb(0, 0, 0)",
@@ -102,15 +148,15 @@ export const signature_a = () => {
                   "components": [
                     {
                       "id": generateRandomId(),
-                      "text": localizedContent.name,
+                      "text": getLocalizedContent().name,
                       "type": "text",
                       "color": "rgb(255, 255, 255)",
-                      "padding": "0px 0px 0px 0px",
-                      "fontSize": "25px",
+                      "padding": "0px 0px 5px 0px",
+                      "fontSize": "19px",
                       "fontStyle": "normal",
                       "textAlign": "left",
-                      "fontFamily": "Tahoma",
-                      "fontWeight": "normal",
+                      "fontFamily": "Arial",
+                      "fontWeight": "bold",
                       "lineHeight": "1",
                       "borderRadius": "0",
                       "letterSpacing": "0px",
@@ -138,11 +184,47 @@ export const signature_a = () => {
                   "components": [
                     {
                       "id": generateRandomId(),
-                      "text": localizedContent.title,
+                      "text": getLocalizedContent().title,
                       "type": "text",
                       "color": "rgb(255, 255, 255)",
-                      "padding": "5px 0px 15px 0px",
-                      "fontSize": "17px",
+                      "padding": "0px 0px 10px 0px",
+                      "fontSize": "16px",
+                      "fontStyle": "normal",
+                      "textAlign": "left",
+                      "fontFamily": "Arial",
+                      "fontWeight": "bold",
+                      "lineHeight": "1",
+                      "borderRadius": "0px",
+                      "letterSpacing": "0px",
+                      "borderTopColor": "rgb(0, 0, 0)",
+                      "borderTopStyle": "none",
+                      "borderTopWidth": "0px",
+                      "textDecoration": "none",
+                      "borderLeftColor": "rgb(0, 0, 0)",
+                      "borderLeftStyle": "none",
+                      "borderLeftWidth": "0px",
+                      "borderRightColor": "rgb(0, 0, 0)",
+                      "borderRightStyle": "none",
+                      "borderRightWidth": "0px",
+                      "borderBottomColor": "rgb(0, 0, 0)",
+                      "borderBottomStyle": "none",
+                      "borderBottomWidth": "0px",
+                    },
+                  ],
+                },
+              },
+              {
+                "id": generateRandomId(),
+                "content": {
+                  "type": "text",
+                  "components": [
+                    {
+                      "id": generateRandomId(),
+                      "text": getLocalizedContent().place,
+                      "type": "text",
+                      "color": "rgb(255, 255, 255)",
+                      "padding": "0px 0px 10px 0px",
+                      "fontSize": "14px",
                       "fontStyle": "normal",
                       "textAlign": "left",
                       "fontFamily": "Arial",
@@ -174,7 +256,7 @@ export const signature_a = () => {
                   "components": [
                     {
                       "id": generateRandomId(),
-                      "text": "P: ",
+                      "text": "",
                       "type": "text",
                       "color": "rgb(255, 255, 255)",
                       "padding": "0px 0px 5px 0px",
@@ -202,10 +284,10 @@ export const signature_a = () => {
                     },
                     {
                       "id": generateRandomId(),
-                      "text": localizedContent.phone,
+                      "text": "+1 123 456 7890",
                       "type": "phoneLink",
-                      "color": "rgb(255, 255, 255)",
-                      "fontSize": "12px",
+                      "color": "rgb(252, 252, 252)",
+                      "fontSize": "14px",
                       "fontStyle": "normal",
                       "textAlign": "left",
                       "fontFamily": "Arial",
@@ -224,10 +306,10 @@ export const signature_a = () => {
                   "components": [
                     {
                       "id": generateRandomId(),
-                      "text": "E: ",
+                      "text": "",
                       "type": "text",
                       "color": "rgb(255, 255, 255)",
-                      "padding": "0px 0px 0px 0px",
+                      "padding": "0px 0px 5px 0px",
                       "fontSize": "14px",
                       "fontStyle": "normal",
                       "textAlign": "left",
@@ -252,10 +334,10 @@ export const signature_a = () => {
                     },
                     {
                       "id": generateRandomId(),
-                      "text": localizedContent.email,
+                      "text": "example@email.com",
                       "type": "emailLink",
                       "color": "rgb(255, 255, 255)",
-                      "fontSize": "12px",
+                      "fontSize": "14px",
                       "fontStyle": "normal",
                       "textAlign": "left",
                       "fontFamily": "Arial",
@@ -267,15 +349,51 @@ export const signature_a = () => {
                   ],
                 },
               },
+              {
+                "id": generateRandomId(),
+                "content": {
+                  "type": "text",
+                  "components": [
+                    {
+                      "id": generateRandomId(),
+                      "text": getLocalizedContent().address,
+                      "type": "text",
+                      "color": "rgb(255, 255, 255)",
+                      "padding": "0px 0px 0px 0px",
+                      "fontSize": "14px",
+                      "fontStyle": "normal",
+                      "textAlign": "left",
+                      "fontFamily": "Arial",
+                      "fontWeight": "normal",
+                      "lineHeight": "1",
+                      "borderRadius": "0px",
+                      "letterSpacing": "0px",
+                      "borderTopColor": "rgb(0, 0, 0)",
+                      "borderTopStyle": "none",
+                      "borderTopWidth": "0px",
+                      "textDecoration": "none",
+                      "borderLeftColor": "rgb(0, 0, 0)",
+                      "borderLeftStyle": "none",
+                      "borderLeftWidth": "0px",
+                      "borderRightColor": "rgb(0, 0, 0)",
+                      "borderRightStyle": "none",
+                      "borderRightWidth": "0px",
+                      "borderBottomColor": "rgb(0, 0, 0)",
+                      "borderBottomStyle": "none",
+                      "borderBottomWidth": "0px",
+                    },
+                  ],
+                },
+              },
             ],
             "style": {
-              "padding": "20px 20px 0px 20px",
+              "padding": "10px 10px 0px 10px",
               "borderRadius": "10px",
               "verticalAlign": "top",
               "borderTopColor": "rgb(0, 0, 0)",
               "borderTopStyle": "none",
               "borderTopWidth": "0px",
-              "backgroundColor": "rgb(32, 161, 117)",
+              "backgroundColor": "rgb(4, 80, 130)",
               "borderLeftColor": "rgb(0, 0, 0)",
               "borderLeftStyle": "none",
               "borderLeftWidth": "0px",

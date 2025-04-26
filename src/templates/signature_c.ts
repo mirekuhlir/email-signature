@@ -2,6 +2,21 @@
 
 import { generateRandomId } from "../utils/generateRandomId";
 
+const getLocalizedContent = () => {
+    return {
+        name: "RICHARD S. BREWER",
+        place: "Crestwood Realty",
+        phonePrefix: "Phone: ",
+        phoneValue: "+1 2015577537",
+        emailPrefix: "Email: ",
+        emailValue: "example@email.com",
+        addressPrefix: "Address: ",
+        addressValue: "2645 Beeghley Street, \nWaco, TX 76701",
+        websitePrefix: "Visit ",
+        websiteValue: "www.example.com",
+    };
+};
+
 export const signature_c = () => {
     return {
         info: {
@@ -58,7 +73,7 @@ export const signature_c = () => {
                                     "components": [
                                         {
                                             "id": generateRandomId(),
-                                            "text": "RICHARD S. BREWER",
+                                            "text": getLocalizedContent().name,
                                             "type": "text",
                                             "color": "rgb(48, 52, 112)",
                                             "padding": "15px 0px 0px 0px",
@@ -82,7 +97,7 @@ export const signature_c = () => {
                                     "components": [
                                         {
                                             "id": generateRandomId(),
-                                            "text": "Crestwood Realty",
+                                            "text": getLocalizedContent().place,
                                             "type": "text",
                                             "color": "rgb(0, 0, 0)",
                                             "padding": "10px 0px 15px 0px",
@@ -133,7 +148,8 @@ export const signature_c = () => {
                                     "components": [
                                         {
                                             "id": generateRandomId(),
-                                            "text": "Phone: ",
+                                            "text": getLocalizedContent()
+                                                .phonePrefix,
                                             "type": "text",
                                             "color": "rgb(48, 52, 112)",
                                             "padding": "15px 0px 4px 0px",
@@ -149,7 +165,8 @@ export const signature_c = () => {
                                         },
                                         {
                                             "id": generateRandomId(),
-                                            "text": "+1 2015577537",
+                                            "text": getLocalizedContent()
+                                                .phoneValue,
                                             "type": "phoneLink",
                                             "color": "rgb(0, 0, 0)",
                                             "fontSize": "14px",
@@ -171,7 +188,8 @@ export const signature_c = () => {
                                     "components": [
                                         {
                                             "id": generateRandomId(),
-                                            "text": "Email: ",
+                                            "text": getLocalizedContent()
+                                                .emailPrefix,
                                             "type": "text",
                                             "color": "rgb(48, 52, 112)",
                                             "padding": "0px 0px 4px 0px",
@@ -187,7 +205,8 @@ export const signature_c = () => {
                                         },
                                         {
                                             "id": generateRandomId(),
-                                            "text": "example@email.com",
+                                            "text": getLocalizedContent()
+                                                .emailValue,
                                             "type": "emailLink",
                                             "color": "rgb(0, 0, 0)",
                                             "fontSize": "14px",
@@ -209,7 +228,8 @@ export const signature_c = () => {
                                     "components": [
                                         {
                                             "id": "1uha5r5",
-                                            "text": "Address: ",
+                                            "text": getLocalizedContent()
+                                                .addressPrefix,
                                             "type": "text",
                                             "color": "rgb(48, 52, 112)",
                                             "padding": "0px 0px 4px 0px",
@@ -225,8 +245,8 @@ export const signature_c = () => {
                                         },
                                         {
                                             "id": "w4wqh9v",
-                                            "text":
-                                                "2645 Beeghley Street, \nWaco, TX 76701",
+                                            "text": getLocalizedContent()
+                                                .addressValue,
                                             "type": "text",
                                             "color": "rgb(0, 0, 0)",
                                             "fontSize": "14px",
@@ -246,7 +266,8 @@ export const signature_c = () => {
                                     "components": [
                                         {
                                             "id": generateRandomId(),
-                                            "text": "Visit ",
+                                            "text": getLocalizedContent()
+                                                .websitePrefix,
                                             "type": "text",
                                             "color": "rgb(0, 0, 0)",
                                             "padding": "0px 0px 0px 0px",
@@ -262,7 +283,8 @@ export const signature_c = () => {
                                         },
                                         {
                                             "id": generateRandomId(),
-                                            "text": "www.example.com",
+                                            "text": getLocalizedContent()
+                                                .websiteValue,
                                             "type": "websiteLink",
                                             "color": "rgb(48, 52, 112)",
                                             "fontSize": "14px",
