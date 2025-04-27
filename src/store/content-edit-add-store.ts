@@ -343,7 +343,7 @@ export const useSignatureStore = create<StoreState>((set, get) => {
       set((state) => {
         if (!color || color === "transparent") return state;
         if (state.colors.includes(color)) return state;
-        const newColors = [...state.colors, color];
+        const newColors = [color, ...state.colors];
         if (newColors.length > MAX_COLORS) {
           return { colors: newColors.slice(-MAX_COLORS) };
         }

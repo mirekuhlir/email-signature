@@ -169,6 +169,8 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
     [],
   );
 
+  const componentId = content?.id;
+
   return (
     <div className="w-full max-w-4xl space-y-4">
       <div>
@@ -331,6 +333,7 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
       <EditColor
         initColor={editTextColor}
         label="Text color"
+        sectionId={componentId}
         onChange={(color) => {
           setEditTextColor(color);
           onChangeContent({ color });

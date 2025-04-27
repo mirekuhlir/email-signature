@@ -17,3 +17,5 @@ export const TEMP_SIGNATURE = "temp-signature";
 // link
 // image - odkaz na image?
 // button a link
+
+export const MAX_BORDER_RADIUS = 100;

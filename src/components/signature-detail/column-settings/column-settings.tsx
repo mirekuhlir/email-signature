@@ -11,13 +11,14 @@ import { CollapsibleSection } from '@/src/components/ui/collapsible-section';
 import PreviewActionPanel from '../preview-action-panel';
 import { LoadingInfo } from '../content-edit/content-edit';
 import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
+import { MAX_BORDER_RADIUS } from '@/src/const/content';
 
 export const ColumnSettings = (props: any) => {
   const { columnPathToEdit, signatureId, isSignedIn } = props;
   const { toast } = useToast();
 
   const { rows, setContent, saveSignatureContentRow } = useSignatureStore();
-
+  const { editingSectionIds } = useContentEditStore();
   const { setContentEdit } = useContentEditStore();
 
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -202,6 +203,10 @@ export const ColumnSettings = (props: any) => {
     }
   };
 
+  const componentId = get(rows, columnPathToEdit)?.id;
+
+  const isVisibleOnlyPreview = editingSectionIds.length > 0;
+
   return (
     <div key={`settings-${columnPathToEdit}`} className="mt-6 pb-24">
       <div ref={wrapperRef}>
@@ -229,6 +234,7 @@ export const ColumnSettings = (props: any) => {
                   <EditColor
                     initColor={originalStyle.backgroundColor}
                     label="Background color"
+                    sectionId={componentId}
                     isResetToTransparent
                     onChange={(color) => {
                       setContent(path, {
@@ -245,7 +251,7 @@ export const ColumnSettings = (props: any) => {
                   </Typography>
                   <Slider
                     min={0}
-                    max={20}
+                    max={MAX_BORDER_RADIUS}
                     value={Number(borderRadius.replace('px', ''))}
                     onChange={(value: number) => {
                       setBorderRadius(`${value}px`);
@@ -337,6 +343,7 @@ export const ColumnSettings = (props: any) => {
                 <EditColor
                   initColor={borderColors.top}
                   label="Top border color"
+                  sectionId={componentId}
                   onChange={(color) => {
                     if (color) {
                       setBorderColors((prev) => ({ ...prev, top: color }));
@@ -366,6 +373,7 @@ export const ColumnSettings = (props: any) => {
                 <EditColor
                   initColor={borderColors.right}
                   label="Right border color"
+                  sectionId={componentId}
                   onChange={(color) => {
                     if (color) {
                       setBorderColors((prev) => ({ ...prev, right: color }));
@@ -395,6 +403,7 @@ export const ColumnSettings = (props: any) => {
                 <EditColor
                   initColor={borderColors.bottom}
                   label="Bottom border color"
+                  sectionId={componentId}
                   onChange={(color) => {
                     if (color) {
                       setBorderColors((prev) => ({ ...prev, bottom: color }));
@@ -424,6 +433,7 @@ export const ColumnSettings = (props: any) => {
                 <EditColor
                   initColor={borderColors.left}
                   label="Left border color"
+                  sectionId={componentId}
                   onChange={(color) => {
                     if (color) {
                       setBorderColors((prev) => ({ ...prev, left: color }));
@@ -442,6 +452,7 @@ export const ColumnSettings = (props: any) => {
         visible={!isSavingSignature}
         onClose={closeSettings}
         onSave={handleSave}
+        isVisibleOnlyPreview={isVisibleOnlyPreview}
       />
     </div>
   );

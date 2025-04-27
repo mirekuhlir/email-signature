@@ -3,7 +3,11 @@
 import { useRef, useCallback, useState, useEffect, useMemo } from 'react';
 import { get } from 'lodash';
 import { useSignatureStore } from '@/src/store/content-edit-add-store';
-import { ContentType, TEMP_SIGNATURE } from '@/src/const/content';
+import {
+  ContentType,
+  TEMP_SIGNATURE,
+  MAX_BORDER_RADIUS,
+} from '@/src/const/content';
 import { Button } from '@/src/components/ui/button';
 import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
 import { ImageEditContent } from './image-edit-content';
@@ -81,7 +85,8 @@ export const ContentEdit = (props: any) => {
   const [iniContent, setIniContent] = useState<any>(null);
   const [isSavingSignature, setIsSavingSignature] = useState(false);
 
-  const { setContentEdit, contentEdit } = useContentEditStore();
+  const { setContentEdit, contentEdit, editingSectionIds } =
+    useContentEditStore();
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   const [paddingTop, setPaddingTop] = useState(0);
@@ -344,6 +349,10 @@ export const ContentEdit = (props: any) => {
     }
   };
 
+  const componentId = content?.components[0]?.id;
+
+  const isVisibleOnlyPreview = editingSectionIds.length > 0;
+
   return (
     <div key={path}>
       <div className="pb-24">
@@ -368,6 +377,7 @@ export const ContentEdit = (props: any) => {
                       <EditColor
                         initColor={content?.components[0]?.backgroundColor}
                         label="Background color"
+                        sectionId={componentId}
                         isResetToTransparent
                         onChange={(color) => {
                           const stylePath = `${path}.components[0]`;
@@ -385,7 +395,7 @@ export const ContentEdit = (props: any) => {
                       </Typography>
                       <Slider
                         min={0}
-                        max={20}
+                        max={MAX_BORDER_RADIUS}
                         value={borderRadius}
                         onChange={(value: number) => {
                           setBorderRadius(value);
@@ -476,6 +486,7 @@ export const ContentEdit = (props: any) => {
                       <EditColor
                         initColor={borderColors.top}
                         label="Top border color"
+                        sectionId={componentId}
                         onChange={(color) => {
                           if (color) {
                             setBorderColors((prev) => ({
@@ -508,6 +519,7 @@ export const ContentEdit = (props: any) => {
                       <EditColor
                         initColor={borderColors.right}
                         label="Right border color"
+                        sectionId={componentId}
                         onChange={(color) => {
                           if (color) {
                             setBorderColors((prev) => ({
@@ -540,6 +552,7 @@ export const ContentEdit = (props: any) => {
                       <EditColor
                         initColor={borderColors.bottom}
                         label="Bottom border color"
+                        sectionId={componentId}
                         onChange={(color) => {
                           if (color) {
                             setBorderColors((prev) => ({
@@ -572,6 +585,7 @@ export const ContentEdit = (props: any) => {
                       <EditColor
                         initColor={borderColors.left}
                         label="Left border color"
+                        sectionId={componentId}
                         onChange={(color) => {
                           if (color) {
                             setBorderColors((prev) => ({
@@ -648,6 +662,7 @@ export const ContentEdit = (props: any) => {
           onClose={closeContent}
           onSave={handleSave}
           isVisibleOnlyClose={isVisibleOnlyClose}
+          isVisibleOnlyPreview={isVisibleOnlyPreview}
         />
       </div>
     </div>
