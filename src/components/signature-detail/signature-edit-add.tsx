@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Fragment } from 'react';
+import { Fragment, useState, useEffect, useRef } from 'react';
 import { getContentView } from './content-view/content-view';
 import { Button } from '@/src/components/ui/button';
 import { ContentEdit } from '@/src/components/signature-detail/content-edit/content-edit';
@@ -15,12 +15,49 @@ import { ContentType } from '@/src/const/content';
 import { useMediaQuery } from '@/src/hooks/useMediaQuery';
 import { MAX_ROWS } from '@/supabase/functions/_shared/const';
 
+// Helper function to determine if a color is dark
+function isColorDark(colorString: string): boolean {
+  if (!colorString) return false;
+
+  // Handle RGB(A) format
+  const rgbMatch = colorString.match(
+    /rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*\d*\.?\d+)?\)/,
+  );
+  if (rgbMatch) {
+    const r = parseInt(rgbMatch[1], 10);
+    const g = parseInt(rgbMatch[2], 10);
+    const b = parseInt(rgbMatch[3], 10);
+    // Calculate luminance (simple average for this case)
+    const luminance = r * 0.299 + g * 0.587 + b * 0.114;
+    return luminance < 140; // Threshold for darkness (adjust as needed)
+  }
+
+  // Add handling for other formats (hex, named colors) if necessary
+  // For simplicity, assume non-rgb backgrounds are light
+  return false;
+}
+
 export const EmailTemplateEdit = (props: any) => {
   const { rows, isSignedIn, templateSlug } = props;
   const { setContentEdit, contentEdit } = useContentEditStore();
   const { moveRowUp, moveRowDown, isSavingOrder } = useSignatureStore();
   const { id: signatureId } = useParams();
   const isMobile = useMediaQuery('(max-width: 768px)');
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const [isBackgroundDark, setIsBackgroundDark] = useState(false);
+
+  useEffect(() => {
+    let bgColor = 'transparent'; // Default to transparent or a known light color
+    if (containerRef.current) {
+      const computedStyle = getComputedStyle(containerRef.current);
+      bgColor = computedStyle.backgroundColor;
+    }
+    const isDark = isColorDark(bgColor);
+    setIsBackgroundDark(isDark); // Keep updating this state if needed elsewhere
+  }, [contentEdit]);
+
+  const hrColor = isBackgroundDark ? 'border-gray-600' : 'border-gray-300';
 
   const renderColumn = (column: any, path: string) => {
     const rowPath = `${path}.rows`;
@@ -210,7 +247,7 @@ export const EmailTemplateEdit = (props: any) => {
                       </ContextMenu>
                     )}
                   </div>
-                  <Hr className="mb-2" />
+                  <Hr className={`mb-2 ${hrColor}`} />
                 </>
               )}
           </Fragment>
@@ -237,7 +274,7 @@ export const EmailTemplateEdit = (props: any) => {
 
   return (
     <>
-      <div>
+      <div ref={containerRef}>
         {!contentEdit.editPath &&
           !contentEdit.addPath &&
           !contentEdit.columnPath &&
@@ -256,7 +293,7 @@ export const EmailTemplateEdit = (props: any) => {
               >
                 Add
               </Button>
-              <Hr className="my-4" />
+              <Hr className={`my-4 ${hrColor}`} />
             </div>
           )}
         <>
@@ -269,7 +306,7 @@ export const EmailTemplateEdit = (props: any) => {
           !contentEdit.columnPath &&
           rows.length < MAX_ROWS && (
             <div className="mt-5 mb-5">
-              <Hr className="my-4" />
+              <Hr className={`my-4 ${hrColor}`} />
               <Button
                 onClick={() => {
                   setContentEdit({
