@@ -69,15 +69,12 @@ export const getContentView = (content?: any) => {
         fontSize,
         color,
         letterSpacing,
-        backgroundColor,
         fontFamily,
         fontStyle,
         fontWeight,
         lineHeight,
         textAlign,
         textDecoration,
-        padding,
-        borderRadius,
         borderTopWidth,
         borderTopColor,
         borderTopStyle,
@@ -98,20 +95,16 @@ export const getContentView = (content?: any) => {
         <span
           key={id}
           style={{
-            display: 'inline-block',
             width: '100%',
             fontSize: fontSize,
             color,
             letterSpacing: letterSpacing,
-            backgroundColor,
             fontFamily,
             fontStyle,
             fontWeight,
             lineHeight,
             textAlign,
             textDecoration,
-            padding,
-            borderRadius: borderRadius,
             borderTopWidth: borderTopWidth,
             borderTopColor: borderTopColor,
             borderTopStyle: borderTopStyle,
@@ -137,9 +130,6 @@ export const getContentView = (content?: any) => {
     const { components } = content;
 
     const textAlign = components[1].textAlign;
-    const padding = components[0].padding;
-    const backgroundColor = components[0].backgroundColor;
-    const borderRadius = components[0].borderRadius;
     const borderTopWidth = components[0].borderTopWidth;
     const borderTopColor = components[0].borderTopColor;
     const borderTopStyle = components[0].borderTopStyle;
@@ -159,9 +149,6 @@ export const getContentView = (content?: any) => {
           width: '100%',
           display: 'inline-block',
           textAlign,
-          padding,
-          backgroundColor,
-          borderRadius: borderRadius,
           borderTopWidth: borderTopWidth,
           borderTopColor: borderTopColor,
           borderTopStyle: borderTopStyle,
@@ -202,8 +189,6 @@ export const getContentView = (content?: any) => {
             lineHeight,
             textAlign,
             textDecoration,
-            padding,
-            borderRadius: borderRadius,
             borderTopWidth: component.borderTopWidth,
             borderTopColor: component.borderTopColor,
             borderTopStyle: component.borderTopStyle,
@@ -253,9 +238,6 @@ export const getContentView = (content?: any) => {
     const { components } = content;
 
     const textAlign = components[1].textAlign;
-    const padding = components[0].padding;
-    const borderRadius = components[0].borderRadius;
-    const backgroundColor = components[0].backgroundColor;
     const borderTopWidth = components[0].borderTopWidth;
     const borderTopColor = components[0].borderTopColor;
     const borderTopStyle = components[0].borderTopStyle;
@@ -275,9 +257,6 @@ export const getContentView = (content?: any) => {
           width: '100%',
           display: 'inline-block',
           textAlign,
-          padding,
-          borderRadius: borderRadius,
-          backgroundColor,
           borderTopWidth: borderTopWidth,
           borderTopColor: borderTopColor,
           borderTopStyle: borderTopStyle,
@@ -318,8 +297,6 @@ export const getContentView = (content?: any) => {
             lineHeight,
             textAlign,
             textDecoration,
-            padding,
-            borderRadius: borderRadius,
           };
 
           if (!text) {
@@ -357,9 +334,6 @@ export const getContentView = (content?: any) => {
     const { components } = content;
 
     const textAlign = components[1].textAlign;
-    const padding = components[0].padding;
-    const borderRadius = components[0].borderRadius;
-    const backgroundColor = components[0].backgroundColor;
     const borderTopWidth = components[0].borderTopWidth;
     const borderTopColor = components[0].borderTopColor;
     const borderTopStyle = components[0].borderTopStyle;
@@ -379,9 +353,6 @@ export const getContentView = (content?: any) => {
           width: '100%',
           display: 'inline-block',
           textAlign,
-          padding,
-          borderRadius: borderRadius,
-          backgroundColor,
           borderTopWidth: borderTopWidth,
           borderTopColor: borderTopColor,
           borderTopStyle: borderTopStyle,
@@ -422,8 +393,6 @@ export const getContentView = (content?: any) => {
             lineHeight,
             textAlign,
             textDecoration,
-            padding,
-            borderRadius: borderRadius,
           };
 
           if (!text) {
@@ -467,9 +436,6 @@ export const getContentView = (content?: any) => {
     const { components } = content;
 
     const textAlign = components[1].textAlign;
-    const padding = components[0].padding;
-    const borderRadius = components[0].borderRadius;
-    const backgroundColor = components[0].backgroundColor;
     const borderTopWidth = components[0].borderTopWidth;
     const borderTopColor = components[0].borderTopColor;
     const borderTopStyle = components[0].borderTopStyle;
@@ -489,9 +455,6 @@ export const getContentView = (content?: any) => {
           width: '100%',
           display: 'inline-block',
           textAlign,
-          padding,
-          borderRadius: borderRadius,
-          backgroundColor,
           borderTopWidth: borderTopWidth,
           borderTopColor: borderTopColor,
           borderTopStyle: borderTopStyle,
@@ -532,8 +495,6 @@ export const getContentView = (content?: any) => {
             lineHeight,
             textAlign,
             textDecoration,
-            padding,
-            borderRadius: borderRadius,
             wordBreak: 'break-all' as React.CSSProperties['wordBreak'],
           };
 

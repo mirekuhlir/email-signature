@@ -49,13 +49,18 @@ export const EmailTemplateView = (props: any) => {
       }
 
       const content = getContentView(row?.content);
+      const padding = row.content.components[0].padding;
+      const backgroundColor = row.content.components[0].backgroundColor;
+      const borderRadius = row.content.components[0].borderRadius;
 
       if (content) {
         return (
           <tr key={`tr-${row.id}`}>
             <td
               style={{
-                backgroundColor: row?.content.backgroundColor,
+                backgroundColor: backgroundColor,
+                borderRadius: borderRadius,
+                padding: padding,
                 lineHeight: 1,
                 ...row.style,
               }}

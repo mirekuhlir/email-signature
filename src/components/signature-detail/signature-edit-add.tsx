@@ -179,6 +179,10 @@ export const EmailTemplateEdit = (props: any) => {
       }
 
       const content = getContentView(row?.content);
+
+      const padding = row?.content?.components[0]?.padding;
+      const backgroundColor = row?.content?.components[0]?.backgroundColor;
+      const borderRadius = row?.content?.components[0]?.borderRadius;
       if (content) {
         return (
           <Fragment key={`tr-${row.id}`}>
@@ -189,9 +193,11 @@ export const EmailTemplateEdit = (props: any) => {
             >
               <div
                 style={{
-                  lineHeight: 1,
                   display: 'table-cell',
-                  backgroundColor: row?.content.backgroundColor,
+                  lineHeight: 1,
+                  backgroundColor: backgroundColor,
+                  padding: padding,
+                  borderRadius: borderRadius,
                   ...row.style,
                 }}
               >
