@@ -75,18 +75,6 @@ export const getContentView = (content?: any) => {
         lineHeight,
         textAlign,
         textDecoration,
-        borderTopWidth,
-        borderTopColor,
-        borderTopStyle,
-        borderRightWidth,
-        borderRightColor,
-        borderRightStyle,
-        borderBottomWidth,
-        borderBottomColor,
-        borderBottomStyle,
-        borderLeftWidth,
-        borderLeftColor,
-        borderLeftStyle,
       } = component;
 
       const formattedText = formatTextWithLineBreaks(text);
@@ -105,18 +93,6 @@ export const getContentView = (content?: any) => {
             lineHeight,
             textAlign,
             textDecoration,
-            borderTopWidth: borderTopWidth,
-            borderTopColor: borderTopColor,
-            borderTopStyle: borderTopStyle,
-            borderRightWidth: borderRightWidth,
-            borderRightColor: borderRightColor,
-            borderRightStyle: borderRightStyle,
-            borderBottomWidth: borderBottomWidth,
-            borderBottomColor: borderBottomColor,
-            borderBottomStyle: borderBottomStyle,
-            borderLeftWidth: borderLeftWidth,
-            borderLeftColor: borderLeftColor,
-            borderLeftStyle: borderLeftStyle,
             wordBreak: 'break-all',
           }}
         >

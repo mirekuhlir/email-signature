@@ -183,6 +183,20 @@ export const EmailTemplateEdit = (props: any) => {
       const padding = row?.content?.components[0]?.padding;
       const backgroundColor = row?.content?.components[0]?.backgroundColor;
       const borderRadius = row?.content?.components[0]?.borderRadius;
+
+      const borderBottomWidth = row?.content?.components[0]?.borderBottomWidth;
+      const borderBottomColor = row?.content?.components[0]?.borderBottomColor;
+      const borderBottomStyle = row?.content?.components[0]?.borderBottomStyle;
+      const borderLeftWidth = row?.content?.components[0]?.borderLeftWidth;
+      const borderLeftColor = row?.content?.components[0]?.borderLeftColor;
+      const borderLeftStyle = row?.content?.components[0]?.borderLeftStyle;
+      const borderRightWidth = row?.content?.components[0]?.borderRightWidth;
+      const borderRightColor = row?.content?.components[0]?.borderRightColor;
+      const borderRightStyle = row?.content?.components[0]?.borderRightStyle;
+      const borderTopWidth = row?.content?.components[0]?.borderTopWidth;
+      const borderTopColor = row?.content?.components[0]?.borderTopColor;
+      const borderTopStyle = row?.content?.components[0]?.borderTopStyle;
+
       if (content) {
         return (
           <Fragment key={`tr-${row.id}`}>
@@ -198,6 +212,18 @@ export const EmailTemplateEdit = (props: any) => {
                   backgroundColor: backgroundColor,
                   padding: padding,
                   borderRadius: borderRadius,
+                  borderBottomWidth: borderBottomWidth,
+                  borderBottomColor: borderBottomColor,
+                  borderBottomStyle: borderBottomStyle,
+                  borderLeftWidth: borderLeftWidth,
+                  borderLeftColor: borderLeftColor,
+                  borderLeftStyle: borderLeftStyle,
+                  borderRightWidth: borderRightWidth,
+                  borderRightColor: borderRightColor,
+                  borderRightStyle: borderRightStyle,
+                  borderTopWidth: borderTopWidth,
+                  borderTopColor: borderTopColor,
+                  borderTopStyle: borderTopStyle,
                   ...row.style,
                 }}
               >
