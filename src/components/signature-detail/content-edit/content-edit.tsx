@@ -93,7 +93,12 @@ export const ContentEdit = (props: any) => {
   const [paddingRight, setPaddingRight] = useState(0);
   const [paddingBottom, setPaddingBottom] = useState(0);
   const [paddingLeft, setPaddingLeft] = useState(0);
-  const [borderRadius, setBorderRadius] = useState(0);
+  const [borderRadiusCorners, setBorderRadiusCorners] = useState({
+    topLeft: '0',
+    topRight: '0',
+    bottomRight: '0',
+    bottomLeft: '0',
+  });
 
   const [borderWidths, setBorderWidths] = useState({
     top: 0,
@@ -129,11 +134,39 @@ export const ContentEdit = (props: any) => {
     }
 
     if (content?.components[0].borderRadius) {
-      setBorderRadius(
-        parseInt(content.components[0].borderRadius.replace('px', ''), 10) || 0,
-      );
+      const radiusValues = content.components[0].borderRadius
+        .split(' ')
+        .map((val: string) => val.replace('px', ''));
+      if (radiusValues.length === 1) {
+        setBorderRadiusCorners({
+          topLeft: radiusValues[0],
+          topRight: radiusValues[0],
+          bottomRight: radiusValues[0],
+          bottomLeft: radiusValues[0],
+        });
+      } else if (radiusValues.length === 4) {
+        setBorderRadiusCorners({
+          topLeft: radiusValues[0],
+          topRight: radiusValues[1],
+          bottomRight: radiusValues[2],
+          bottomLeft: radiusValues[3],
+        });
+      } else {
+        // Handle other cases or set a default if needed
+        setBorderRadiusCorners({
+          topLeft: '0',
+          topRight: '0',
+          bottomRight: '0',
+          bottomLeft: '0',
+        });
+      }
     } else {
-      setBorderRadius(0);
+      setBorderRadiusCorners({
+        topLeft: '0',
+        topRight: '0',
+        bottomRight: '0',
+        bottomLeft: '0',
+      });
     }
 
     // Initialize border widths
@@ -184,15 +217,16 @@ export const ContentEdit = (props: any) => {
     }
   };
 
-  const updateBorderRadius = () => {
+  const updateBorderRadiusCorners = () => {
     const stylePath = `${path}.components[0]`;
     const currentStyle = content?.components[0] || {};
-    const borderRadiusPx = `${borderRadius}px`;
+    const { topLeft, topRight, bottomRight, bottomLeft } = borderRadiusCorners;
+    const borderRadiusValue = `${topLeft}px ${topRight}px ${bottomRight}px ${bottomLeft}px`;
 
-    if (currentStyle.borderRadius !== borderRadiusPx) {
+    if (currentStyle.borderRadius !== borderRadiusValue) {
       setContent(stylePath, {
         ...currentStyle,
-        borderRadius: borderRadiusPx,
+        borderRadius: borderRadiusValue,
       });
     }
   };
@@ -235,11 +269,9 @@ export const ContentEdit = (props: any) => {
   }, [paddingTop, paddingRight, paddingBottom, paddingLeft]);
 
   useEffect(() => {
-    if (typeof borderRadius === 'number') {
-      updateBorderRadius();
-    }
+    updateBorderRadiusCorners();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [borderRadius]);
+  }, [borderRadiusCorners]);
 
   useEffect(() => {
     updateBorders();
@@ -391,14 +423,69 @@ export const ContentEdit = (props: any) => {
                     </div>
                     <div className="mb-4">
                       <Typography variant="labelBase" className="mb-2">
-                        Border radius : {borderRadius}px
+                        Top-left border radius : {borderRadiusCorners.topLeft}px
                       </Typography>
                       <Slider
                         min={0}
                         max={MAX_BORDER_RADIUS}
-                        value={borderRadius}
+                        value={Number(borderRadiusCorners.topLeft)}
                         onChange={(value: number) => {
-                          setBorderRadius(value);
+                          setBorderRadiusCorners((prev) => ({
+                            ...prev,
+                            topLeft: value.toString(),
+                          }));
+                        }}
+                      />
+                    </div>
+                    <div className="mb-4">
+                      <Typography variant="labelBase" className="mb-2">
+                        Top-right border radius : {borderRadiusCorners.topRight}
+                        px
+                      </Typography>
+                      <Slider
+                        min={0}
+                        max={MAX_BORDER_RADIUS}
+                        value={Number(borderRadiusCorners.topRight)}
+                        onChange={(value: number) => {
+                          setBorderRadiusCorners((prev) => ({
+                            ...prev,
+                            topRight: value.toString(),
+                          }));
+                        }}
+                      />
+                    </div>
+                    <div className="mb-4">
+                      <Typography variant="labelBase" className="mb-2">
+                        Bottom-right border radius :{' '}
+                        {borderRadiusCorners.bottomRight}px
+                      </Typography>
+                      <Slider
+                        min={0}
+                        max={MAX_BORDER_RADIUS}
+                        value={Number(borderRadiusCorners.bottomRight)}
+                        onChange={(value: number) => {
+                          setBorderRadiusCorners((prev) => ({
+                            ...prev,
+                            bottomRight: value.toString(),
+                          }));
+                        }}
+                      />
+                    </div>
+                    <div className="mb-4">
+                      <Typography variant="labelBase" className="mb-2">
+                        Bottom-left border radius :{' '}
+                        {borderRadiusCorners.bottomLeft}
+                        px
+                      </Typography>
+                      <Slider
+                        min={0}
+                        max={MAX_BORDER_RADIUS}
+                        value={Number(borderRadiusCorners.bottomLeft)}
+                        onChange={(value: number) => {
+                          setBorderRadiusCorners((prev) => ({
+                            ...prev,
+                            bottomLeft: value.toString(),
+                          }));
                         }}
                       />
                     </div>
