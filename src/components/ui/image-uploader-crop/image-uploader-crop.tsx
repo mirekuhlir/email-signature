@@ -682,7 +682,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
             </div>
           </div>
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-2">
             {croppedImageData && (
               <div className="space-y-2">
                 <>
@@ -734,7 +734,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
             )}
 
             {originalImagePreview && (
-              <div className="overflow-hidden bg-black/5 max-w-[90%] mx-0 md:mx-auto">
+              <div className="overflow-hidden bg-black/5 max-w-[90%] sm:max-w-[100%] mx-0 sm:mx-auto">
                 <ReactCrop
                   crop={crop}
                   onChange={(c, percentCrop) => {

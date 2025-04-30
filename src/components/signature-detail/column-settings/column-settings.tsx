@@ -252,8 +252,8 @@ export const ColumnSettings = (props: any) => {
       <div ref={wrapperRef}>
         {!isSavingSignature && (
           <div className="pb-2">
-            <CollapsibleSection title="Alignment and background">
-              <div className="pb-4">
+            <div className="grid grid-cols-1 gap-2 sm:gap-3">
+              <div>
                 <Typography variant="labelBase" className="mb-2">
                   Vertical alignment
                 </Typography>
@@ -352,69 +352,67 @@ export const ColumnSettings = (props: any) => {
                   />
                 </div>
               </div>
-            </CollapsibleSection>
+            </div>
 
-            <CollapsibleSection title="Inner space">
-              <div className="grid grid-cols-1 gap-6">
-                <div>
-                  <Typography variant="labelBase" className="mb-2">
-                    Top inner space: {paddingTop}px
-                  </Typography>
-                  <Slider
-                    min={0}
-                    max={50}
-                    value={Number(paddingTop)}
-                    onChange={(value: number) => {
-                      setPaddingTop(value.toString());
-                    }}
-                  />
-                </div>
-
-                <div>
-                  <Typography variant="labelBase" className="mb-2">
-                    Right inner space: {paddingRight}px
-                  </Typography>
-                  <Slider
-                    min={0}
-                    max={50}
-                    value={Number(paddingRight)}
-                    onChange={(value: number) => {
-                      setPaddingRight(value.toString());
-                    }}
-                  />
-                </div>
-
-                <div>
-                  <Typography variant="labelBase" className="mb-2">
-                    Bottom inner space: {paddingBottom}px
-                  </Typography>
-                  <Slider
-                    min={0}
-                    max={50}
-                    value={Number(paddingBottom)}
-                    onChange={(value: number) => {
-                      setPaddingBottom(value.toString());
-                    }}
-                  />
-                </div>
-
-                <div className="pb-4">
-                  <Typography variant="labelBase" className="mb-2">
-                    Left inner space: {paddingLeft}px
-                  </Typography>
-                  <Slider
-                    min={0}
-                    max={50}
-                    value={Number(paddingLeft)}
-                    onChange={(value: number) => {
-                      setPaddingLeft(value.toString());
-                    }}
-                  />
-                </div>
+            <div className="grid grid-cols-1 gap-2 sm:gap-3">
+              <div>
+                <Typography variant="labelBase" className="mb-2">
+                  Top inner space: {paddingTop}px
+                </Typography>
+                <Slider
+                  min={0}
+                  max={50}
+                  value={Number(paddingTop)}
+                  onChange={(value: number) => {
+                    setPaddingTop(value.toString());
+                  }}
+                />
               </div>
-            </CollapsibleSection>
 
-            <CollapsibleSection title="Borders">
+              <div>
+                <Typography variant="labelBase" className="mb-2">
+                  Right inner space: {paddingRight}px
+                </Typography>
+                <Slider
+                  min={0}
+                  max={50}
+                  value={Number(paddingRight)}
+                  onChange={(value: number) => {
+                    setPaddingRight(value.toString());
+                  }}
+                />
+              </div>
+
+              <div>
+                <Typography variant="labelBase" className="mb-2">
+                  Bottom inner space: {paddingBottom}px
+                </Typography>
+                <Slider
+                  min={0}
+                  max={50}
+                  value={Number(paddingBottom)}
+                  onChange={(value: number) => {
+                    setPaddingBottom(value.toString());
+                  }}
+                />
+              </div>
+
+              <div className="pb-4">
+                <Typography variant="labelBase" className="mb-2">
+                  Left inner space: {paddingLeft}px
+                </Typography>
+                <Slider
+                  min={0}
+                  max={50}
+                  value={Number(paddingLeft)}
+                  onChange={(value: number) => {
+                    setPaddingLeft(value.toString());
+                  }}
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 gap-2 sm:gap-3">
               <div>
                 <Typography variant="labelBase" className="mb-2">
                   Top border width : {borderWidths.top}px
@@ -445,7 +443,7 @@ export const ColumnSettings = (props: any) => {
                 />
               )}
 
-              <div className="mt-4">
+              <div>
                 <Typography variant="labelBase" className="mb-2">
                   Right border width : {borderWidths.right}px
                 </Typography>
@@ -475,7 +473,7 @@ export const ColumnSettings = (props: any) => {
                 />
               )}
 
-              <div className="mt-4">
+              <div>
                 <Typography variant="labelBase" className="mb-2">
                   Bottom border width : {borderWidths.bottom}px
                 </Typography>
@@ -505,7 +503,7 @@ export const ColumnSettings = (props: any) => {
                 />
               )}
 
-              <div className="mt-4">
+              <div>
                 <Typography variant="labelBase" className="mb-2">
                   Left border width : {borderWidths.left}px
                 </Typography>
@@ -534,7 +532,7 @@ export const ColumnSettings = (props: any) => {
                   }}
                 />
               )}
-            </CollapsibleSection>
+            </div>
           </div>
         )}
       </div>
