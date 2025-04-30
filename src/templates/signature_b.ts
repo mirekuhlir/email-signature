@@ -16,6 +16,7 @@ const getLocalizedContent = () => {
 };
 
 export const signature_b = () => {
+  const localizedContent = getLocalizedContent();
   return {
     info: {
       templateSlug: "signature-b",
@@ -88,7 +89,7 @@ export const signature_b = () => {
                   "components": [
                     {
                       "id": generateRandomId(),
-                      "text": getLocalizedContent().name,
+                      "text": localizedContent.name,
                       "color": "rgb(0, 0, 0)",
                       "padding": "0px 0px 0px 0px",
                       "fontSize": "17px",
@@ -123,7 +124,7 @@ export const signature_b = () => {
                   "components": [
                     {
                       "id": "w9q7b5z",
-                      "text": getLocalizedContent().title,
+                      "text": localizedContent.title,
                       "color": "rgb(0, 0, 0)",
                       "padding": "7px 0px 7px 0px",
                       "fontSize": "14px",
@@ -158,7 +159,7 @@ export const signature_b = () => {
                   "components": [
                     {
                       "id": "h4tguv2",
-                      "text": getLocalizedContent().phonePrefix,
+                      "text": localizedContent.phonePrefix,
                       "type": "text",
                       "color": "rgb(58, 135, 176)",
                       "padding": "7px 0px 0px 0px",
@@ -186,7 +187,7 @@ export const signature_b = () => {
                     },
                     {
                       "id": generateRandomId(),
-                      "text": getLocalizedContent().phoneValue,
+                      "text": localizedContent.phoneValue,
                       "type": "phoneLink",
                       "color": "rgb(0, 0, 0)",
                       "fontSize": "14px",
@@ -208,7 +209,7 @@ export const signature_b = () => {
                   "components": [
                     {
                       "id": generateRandomId(),
-                      "text": getLocalizedContent().emailPrefix,
+                      "text": localizedContent.emailPrefix,
                       "type": "text",
                       "color": "rgb(58, 135, 176)",
                       "padding": "0px 0px 0px 0px",
@@ -236,7 +237,7 @@ export const signature_b = () => {
                     },
                     {
                       "id": generateRandomId(),
-                      "text": getLocalizedContent().emailValue,
+                      "text": localizedContent.emailValue,
                       "type": "emailLink",
                       "color": "rgb(0, 0, 0)",
                       "fontSize": "14px",
@@ -258,7 +259,7 @@ export const signature_b = () => {
                   "components": [
                     {
                       "id": generateRandomId(),
-                      "text": getLocalizedContent().websitePrefix,
+                      "text": localizedContent.websitePrefix,
                       "type": "text",
                       "color": "rgb(58, 135, 176)",
                       "padding": "0px 0px 0px 0px",
@@ -286,7 +287,7 @@ export const signature_b = () => {
                     },
                     {
                       "id": generateRandomId(),
-                      "text": getLocalizedContent().websiteValue,
+                      "text": localizedContent.websiteValue,
                       "type": "websiteLink",
                       "color": "rgb(0, 0, 0)",
                       "fontSize": "14px",

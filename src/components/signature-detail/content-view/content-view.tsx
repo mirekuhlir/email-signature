@@ -73,8 +73,8 @@ export const getContentView = (content?: any) => {
         fontStyle,
         fontWeight,
         lineHeight,
-        textAlign,
         textDecoration,
+        textAlign,
       } = component;
 
       const formattedText = formatTextWithLineBreaks(text);
@@ -83,6 +83,7 @@ export const getContentView = (content?: any) => {
         <span
           key={id}
           style={{
+            display: 'inline-block',
             width: '100%',
             fontSize: fontSize,
             color,
@@ -91,9 +92,9 @@ export const getContentView = (content?: any) => {
             fontStyle,
             fontWeight,
             lineHeight,
-            textAlign,
             textDecoration,
             wordBreak: 'break-all',
+            textAlign,
           }}
         >
           {formattedText}
@@ -104,20 +105,7 @@ export const getContentView = (content?: any) => {
 
   if (content?.type === ContentType.EMAIL) {
     const { components } = content;
-
     const textAlign = components[1].textAlign;
-    const borderTopWidth = components[0].borderTopWidth;
-    const borderTopColor = components[0].borderTopColor;
-    const borderTopStyle = components[0].borderTopStyle;
-    const borderRightWidth = components[0].borderRightWidth;
-    const borderRightColor = components[0].borderRightColor;
-    const borderRightStyle = components[0].borderRightStyle;
-    const borderBottomWidth = components[0].borderBottomWidth;
-    const borderBottomColor = components[0].borderBottomColor;
-    const borderBottomStyle = components[0].borderBottomStyle;
-    const borderLeftWidth = components[0].borderLeftWidth;
-    const borderLeftColor = components[0].borderLeftColor;
-    const borderLeftStyle = components[0].borderLeftStyle;
 
     return (
       <span
@@ -125,18 +113,6 @@ export const getContentView = (content?: any) => {
           width: '100%',
           display: 'inline-block',
           textAlign,
-          borderTopWidth: borderTopWidth,
-          borderTopColor: borderTopColor,
-          borderTopStyle: borderTopStyle,
-          borderRightWidth: borderRightWidth,
-          borderRightColor: borderRightColor,
-          borderRightStyle: borderRightStyle,
-          borderBottomWidth: borderBottomWidth,
-          borderBottomColor: borderBottomColor,
-          borderBottomStyle: borderBottomStyle,
-          borderLeftWidth: borderLeftWidth,
-          borderLeftColor: borderLeftColor,
-          borderLeftStyle: borderLeftStyle,
         }}
       >
         {components.map((component: any) => {
@@ -150,8 +126,8 @@ export const getContentView = (content?: any) => {
             fontStyle,
             fontWeight,
             lineHeight,
-            textAlign,
             textDecoration,
+            textAlign,
           } = component;
 
           const style = {
@@ -163,20 +139,8 @@ export const getContentView = (content?: any) => {
             fontStyle,
             fontWeight,
             lineHeight,
-            textAlign,
             textDecoration,
-            borderTopWidth: component.borderTopWidth,
-            borderTopColor: component.borderTopColor,
-            borderTopStyle: component.borderTopStyle,
-            borderRightWidth: component.borderRightWidth,
-            borderRightColor: component.borderRightColor,
-            borderRightStyle: component.borderRightStyle,
-            borderBottomWidth: component.borderBottomWidth,
-            borderBottomColor: component.borderBottomColor,
-            borderBottomStyle: component.borderBottomStyle,
-            borderLeftWidth: component.borderLeftWidth,
-            borderLeftColor: component.borderLeftColor,
-            borderLeftStyle: component.borderLeftStyle,
+            textAlign,
           };
 
           if (!text) {
@@ -212,20 +176,7 @@ export const getContentView = (content?: any) => {
 
   if (content?.type === ContentType.PHONE) {
     const { components } = content;
-
     const textAlign = components[1].textAlign;
-    const borderTopWidth = components[0].borderTopWidth;
-    const borderTopColor = components[0].borderTopColor;
-    const borderTopStyle = components[0].borderTopStyle;
-    const borderRightWidth = components[0].borderRightWidth;
-    const borderRightColor = components[0].borderRightColor;
-    const borderRightStyle = components[0].borderRightStyle;
-    const borderBottomWidth = components[0].borderBottomWidth;
-    const borderBottomColor = components[0].borderBottomColor;
-    const borderBottomStyle = components[0].borderBottomStyle;
-    const borderLeftWidth = components[0].borderLeftWidth;
-    const borderLeftColor = components[0].borderLeftColor;
-    const borderLeftStyle = components[0].borderLeftStyle;
 
     return (
       <span
@@ -233,18 +184,6 @@ export const getContentView = (content?: any) => {
           width: '100%',
           display: 'inline-block',
           textAlign,
-          borderTopWidth: borderTopWidth,
-          borderTopColor: borderTopColor,
-          borderTopStyle: borderTopStyle,
-          borderRightWidth: borderRightWidth,
-          borderRightColor: borderRightColor,
-          borderRightStyle: borderRightStyle,
-          borderBottomWidth: borderBottomWidth,
-          borderBottomColor: borderBottomColor,
-          borderBottomStyle: borderBottomStyle,
-          borderLeftWidth: borderLeftWidth,
-          borderLeftColor: borderLeftColor,
-          borderLeftStyle: borderLeftStyle,
         }}
       >
         {components.map((component: any) => {
@@ -258,8 +197,8 @@ export const getContentView = (content?: any) => {
             fontStyle,
             fontWeight,
             lineHeight,
-            textAlign,
             textDecoration,
+            textAlign,
           } = component;
 
           const style = {
@@ -271,8 +210,8 @@ export const getContentView = (content?: any) => {
             fontStyle,
             fontWeight,
             lineHeight,
-            textAlign,
             textDecoration,
+            textAlign,
           };
 
           if (!text) {
@@ -308,39 +247,12 @@ export const getContentView = (content?: any) => {
 
   if (content?.type === ContentType.WEBSITE) {
     const { components } = content;
-
     const textAlign = components[1].textAlign;
-    const borderTopWidth = components[0].borderTopWidth;
-    const borderTopColor = components[0].borderTopColor;
-    const borderTopStyle = components[0].borderTopStyle;
-    const borderRightWidth = components[0].borderRightWidth;
-    const borderRightColor = components[0].borderRightColor;
-    const borderRightStyle = components[0].borderRightStyle;
-    const borderBottomWidth = components[0].borderBottomWidth;
-    const borderBottomColor = components[0].borderBottomColor;
-    const borderBottomStyle = components[0].borderBottomStyle;
-    const borderLeftWidth = components[0].borderLeftWidth;
-    const borderLeftColor = components[0].borderLeftColor;
-    const borderLeftStyle = components[0].borderLeftStyle;
-
     return (
       <span
         style={{
           width: '100%',
           display: 'inline-block',
-          textAlign,
-          borderTopWidth: borderTopWidth,
-          borderTopColor: borderTopColor,
-          borderTopStyle: borderTopStyle,
-          borderRightWidth: borderRightWidth,
-          borderRightColor: borderRightColor,
-          borderRightStyle: borderRightStyle,
-          borderBottomWidth: borderBottomWidth,
-          borderBottomColor: borderBottomColor,
-          borderBottomStyle: borderBottomStyle,
-          borderLeftWidth: borderLeftWidth,
-          borderLeftColor: borderLeftColor,
-          borderLeftStyle: borderLeftStyle,
         }}
       >
         {components.map((component: any) => {
@@ -354,8 +266,8 @@ export const getContentView = (content?: any) => {
             fontStyle,
             fontWeight,
             lineHeight,
-            textAlign,
             textDecoration,
+            textAlign,
           } = component;
 
           const style = {
@@ -367,8 +279,8 @@ export const getContentView = (content?: any) => {
             fontStyle,
             fontWeight,
             lineHeight,
-            textAlign,
             textDecoration,
+            textAlign,
           };
 
           if (!text) {
@@ -410,20 +322,7 @@ export const getContentView = (content?: any) => {
 
   if (content?.type === ContentType.CUSTOM_VALUE) {
     const { components } = content;
-
     const textAlign = components[1].textAlign;
-    const borderTopWidth = components[0].borderTopWidth;
-    const borderTopColor = components[0].borderTopColor;
-    const borderTopStyle = components[0].borderTopStyle;
-    const borderRightWidth = components[0].borderRightWidth;
-    const borderRightColor = components[0].borderRightColor;
-    const borderRightStyle = components[0].borderRightStyle;
-    const borderBottomWidth = components[0].borderBottomWidth;
-    const borderBottomColor = components[0].borderBottomColor;
-    const borderBottomStyle = components[0].borderBottomStyle;
-    const borderLeftWidth = components[0].borderLeftWidth;
-    const borderLeftColor = components[0].borderLeftColor;
-    const borderLeftStyle = components[0].borderLeftStyle;
 
     return (
       <span
@@ -431,18 +330,6 @@ export const getContentView = (content?: any) => {
           width: '100%',
           display: 'inline-block',
           textAlign,
-          borderTopWidth: borderTopWidth,
-          borderTopColor: borderTopColor,
-          borderTopStyle: borderTopStyle,
-          borderRightWidth: borderRightWidth,
-          borderRightColor: borderRightColor,
-          borderRightStyle: borderRightStyle,
-          borderBottomWidth: borderBottomWidth,
-          borderBottomColor: borderBottomColor,
-          borderBottomStyle: borderBottomStyle,
-          borderLeftWidth: borderLeftWidth,
-          borderLeftColor: borderLeftColor,
-          borderLeftStyle: borderLeftStyle,
         }}
       >
         {components.map((component: any) => {
@@ -456,8 +343,8 @@ export const getContentView = (content?: any) => {
             fontStyle,
             fontWeight,
             lineHeight,
-            textAlign,
             textDecoration,
+            textAlign,
           } = component;
 
           const style = {
@@ -469,9 +356,9 @@ export const getContentView = (content?: any) => {
             fontStyle,
             fontWeight,
             lineHeight,
-            textAlign,
             textDecoration,
             wordBreak: 'break-all' as React.CSSProperties['wordBreak'],
+            textAlign,
           };
 
           if (!text) {

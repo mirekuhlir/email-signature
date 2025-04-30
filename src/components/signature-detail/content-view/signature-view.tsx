@@ -88,7 +88,6 @@ export const EmailTemplateView = (props: any) => {
                 borderTopColor: borderTopColor,
                 borderTopStyle: borderTopStyle,
                 ...row.style,
-                ...row.style,
               }}
             >
               {content}

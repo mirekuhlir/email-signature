@@ -252,8 +252,8 @@ export const ColumnSettings = (props: any) => {
       <div ref={wrapperRef}>
         {!isSavingSignature && (
           <div className="pb-2">
-            <div className="grid grid-cols-1 gap-2 sm:gap-3">
-              <div>
+            <CollapsibleSection title="Alignment and background">
+              <div className="grid grid-cols-1 gap-6">
                 <Typography variant="labelBase" className="mb-2">
                   Vertical alignment
                 </Typography>
@@ -352,187 +352,191 @@ export const ColumnSettings = (props: any) => {
                   />
                 </div>
               </div>
-            </div>
+            </CollapsibleSection>
 
-            <div className="grid grid-cols-1 gap-2 sm:gap-3">
-              <div>
-                <Typography variant="labelBase" className="mb-2">
-                  Top inner space: {paddingTop}px
-                </Typography>
-                <Slider
-                  min={0}
-                  max={50}
-                  value={Number(paddingTop)}
-                  onChange={(value: number) => {
-                    setPaddingTop(value.toString());
-                  }}
-                />
+            <CollapsibleSection title="Inner space">
+              <div className="grid grid-cols-1 gap-2 sm:gap-3">
+                <div>
+                  <Typography variant="labelBase" className="mb-2">
+                    Top inner space: {paddingTop}px
+                  </Typography>
+                  <Slider
+                    min={0}
+                    max={50}
+                    value={Number(paddingTop)}
+                    onChange={(value: number) => {
+                      setPaddingTop(value.toString());
+                    }}
+                  />
+                </div>
+
+                <div>
+                  <Typography variant="labelBase" className="mb-2">
+                    Right inner space: {paddingRight}px
+                  </Typography>
+                  <Slider
+                    min={0}
+                    max={50}
+                    value={Number(paddingRight)}
+                    onChange={(value: number) => {
+                      setPaddingRight(value.toString());
+                    }}
+                  />
+                </div>
+
+                <div>
+                  <Typography variant="labelBase" className="mb-2">
+                    Bottom inner space: {paddingBottom}px
+                  </Typography>
+                  <Slider
+                    min={0}
+                    max={50}
+                    value={Number(paddingBottom)}
+                    onChange={(value: number) => {
+                      setPaddingBottom(value.toString());
+                    }}
+                  />
+                </div>
+
+                <div className="pb-4">
+                  <Typography variant="labelBase" className="mb-2">
+                    Left inner space: {paddingLeft}px
+                  </Typography>
+                  <Slider
+                    min={0}
+                    max={50}
+                    value={Number(paddingLeft)}
+                    onChange={(value: number) => {
+                      setPaddingLeft(value.toString());
+                    }}
+                  />
+                </div>
               </div>
+            </CollapsibleSection>
 
-              <div>
-                <Typography variant="labelBase" className="mb-2">
-                  Right inner space: {paddingRight}px
-                </Typography>
-                <Slider
-                  min={0}
-                  max={50}
-                  value={Number(paddingRight)}
-                  onChange={(value: number) => {
-                    setPaddingRight(value.toString());
-                  }}
-                />
+            <CollapsibleSection title="Borders">
+              <div className="grid grid-cols-1 gap-2 sm:gap-3">
+                <div>
+                  <Typography variant="labelBase" className="mb-2">
+                    Top border width : {borderWidths.top}px
+                  </Typography>
+                  <Slider
+                    min={0}
+                    max={10}
+                    value={Number(borderWidths.top)}
+                    onChange={(value: number) => {
+                      setBorderWidths((prev) => ({
+                        ...prev,
+                        top: value.toString(),
+                      }));
+                    }}
+                  />
+                </div>
+
+                {borderWidths.top !== '0' && (
+                  <EditColor
+                    initColor={borderColors.top}
+                    label="Top border color"
+                    sectionId={componentId}
+                    onChange={(color) => {
+                      if (color) {
+                        setBorderColors((prev) => ({ ...prev, top: color }));
+                      }
+                    }}
+                  />
+                )}
+
+                <div>
+                  <Typography variant="labelBase" className="mb-2">
+                    Right border width : {borderWidths.right}px
+                  </Typography>
+                  <Slider
+                    min={0}
+                    max={10}
+                    value={Number(borderWidths.right)}
+                    onChange={(value: number) => {
+                      setBorderWidths((prev) => ({
+                        ...prev,
+                        right: value.toString(),
+                      }));
+                    }}
+                  />
+                </div>
+
+                {borderWidths.right !== '0' && (
+                  <EditColor
+                    initColor={borderColors.right}
+                    label="Right border color"
+                    sectionId={componentId}
+                    onChange={(color) => {
+                      if (color) {
+                        setBorderColors((prev) => ({ ...prev, right: color }));
+                      }
+                    }}
+                  />
+                )}
+
+                <div>
+                  <Typography variant="labelBase" className="mb-2">
+                    Bottom border width : {borderWidths.bottom}px
+                  </Typography>
+                  <Slider
+                    min={0}
+                    max={10}
+                    value={Number(borderWidths.bottom)}
+                    onChange={(value: number) => {
+                      setBorderWidths((prev) => ({
+                        ...prev,
+                        bottom: value.toString(),
+                      }));
+                    }}
+                  />
+                </div>
+
+                {borderWidths.bottom !== '0' && (
+                  <EditColor
+                    initColor={borderColors.bottom}
+                    label="Bottom border color"
+                    sectionId={componentId}
+                    onChange={(color) => {
+                      if (color) {
+                        setBorderColors((prev) => ({ ...prev, bottom: color }));
+                      }
+                    }}
+                  />
+                )}
+
+                <div>
+                  <Typography variant="labelBase" className="mb-2">
+                    Left border width : {borderWidths.left}px
+                  </Typography>
+                  <Slider
+                    min={0}
+                    max={10}
+                    value={Number(borderWidths.left)}
+                    onChange={(value: number) => {
+                      setBorderWidths((prev) => ({
+                        ...prev,
+                        left: value.toString(),
+                      }));
+                    }}
+                  />
+                </div>
+
+                {borderWidths.left !== '0' && (
+                  <EditColor
+                    initColor={borderColors.left}
+                    label="Left border color"
+                    sectionId={componentId}
+                    onChange={(color) => {
+                      if (color) {
+                        setBorderColors((prev) => ({ ...prev, left: color }));
+                      }
+                    }}
+                  />
+                )}
               </div>
-
-              <div>
-                <Typography variant="labelBase" className="mb-2">
-                  Bottom inner space: {paddingBottom}px
-                </Typography>
-                <Slider
-                  min={0}
-                  max={50}
-                  value={Number(paddingBottom)}
-                  onChange={(value: number) => {
-                    setPaddingBottom(value.toString());
-                  }}
-                />
-              </div>
-
-              <div className="pb-4">
-                <Typography variant="labelBase" className="mb-2">
-                  Left inner space: {paddingLeft}px
-                </Typography>
-                <Slider
-                  min={0}
-                  max={50}
-                  value={Number(paddingLeft)}
-                  onChange={(value: number) => {
-                    setPaddingLeft(value.toString());
-                  }}
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 gap-2 sm:gap-3">
-              <div>
-                <Typography variant="labelBase" className="mb-2">
-                  Top border width : {borderWidths.top}px
-                </Typography>
-                <Slider
-                  min={0}
-                  max={10}
-                  value={Number(borderWidths.top)}
-                  onChange={(value: number) => {
-                    setBorderWidths((prev) => ({
-                      ...prev,
-                      top: value.toString(),
-                    }));
-                  }}
-                />
-              </div>
-
-              {borderWidths.top !== '0' && (
-                <EditColor
-                  initColor={borderColors.top}
-                  label="Top border color"
-                  sectionId={componentId}
-                  onChange={(color) => {
-                    if (color) {
-                      setBorderColors((prev) => ({ ...prev, top: color }));
-                    }
-                  }}
-                />
-              )}
-
-              <div>
-                <Typography variant="labelBase" className="mb-2">
-                  Right border width : {borderWidths.right}px
-                </Typography>
-                <Slider
-                  min={0}
-                  max={10}
-                  value={Number(borderWidths.right)}
-                  onChange={(value: number) => {
-                    setBorderWidths((prev) => ({
-                      ...prev,
-                      right: value.toString(),
-                    }));
-                  }}
-                />
-              </div>
-
-              {borderWidths.right !== '0' && (
-                <EditColor
-                  initColor={borderColors.right}
-                  label="Right border color"
-                  sectionId={componentId}
-                  onChange={(color) => {
-                    if (color) {
-                      setBorderColors((prev) => ({ ...prev, right: color }));
-                    }
-                  }}
-                />
-              )}
-
-              <div>
-                <Typography variant="labelBase" className="mb-2">
-                  Bottom border width : {borderWidths.bottom}px
-                </Typography>
-                <Slider
-                  min={0}
-                  max={10}
-                  value={Number(borderWidths.bottom)}
-                  onChange={(value: number) => {
-                    setBorderWidths((prev) => ({
-                      ...prev,
-                      bottom: value.toString(),
-                    }));
-                  }}
-                />
-              </div>
-
-              {borderWidths.bottom !== '0' && (
-                <EditColor
-                  initColor={borderColors.bottom}
-                  label="Bottom border color"
-                  sectionId={componentId}
-                  onChange={(color) => {
-                    if (color) {
-                      setBorderColors((prev) => ({ ...prev, bottom: color }));
-                    }
-                  }}
-                />
-              )}
-
-              <div>
-                <Typography variant="labelBase" className="mb-2">
-                  Left border width : {borderWidths.left}px
-                </Typography>
-                <Slider
-                  min={0}
-                  max={10}
-                  value={Number(borderWidths.left)}
-                  onChange={(value: number) => {
-                    setBorderWidths((prev) => ({
-                      ...prev,
-                      left: value.toString(),
-                    }));
-                  }}
-                />
-              </div>
-
-              {borderWidths.left !== '0' && (
-                <EditColor
-                  initColor={borderColors.left}
-                  label="Left border color"
-                  sectionId={componentId}
-                  onChange={(color) => {
-                    if (color) {
-                      setBorderColors((prev) => ({ ...prev, left: color }));
-                    }
-                  }}
-                />
-              )}
-            </div>
+            </CollapsibleSection>
           </div>
         )}
       </div>
