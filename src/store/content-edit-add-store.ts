@@ -104,10 +104,27 @@ export const useSignatureStore = create<StoreState>((set, get) => {
                 const fontFamily = lGet(previousComponent, "fontFamily");
                 const color = lGet(previousComponent, "color");
                 const fontSize = lGet(previousComponent, "fontSize");
+                const fontWeight = lGet(previousComponent, "fontWeight");
+                const lineHeight = lGet(previousComponent, "lineHeight");
+                const letterSpacing = lGet(previousComponent, "letterSpacing");
+                const textDecoration = lGet(
+                  previousComponent,
+                  "textDecoration",
+                );
+                const textAlign = lGet(previousComponent, "textAlign");
+                const padding = lGet(previousComponent, "padding");
 
                 const fontFamilyPath = `content.components[${i}].fontFamily`;
                 const colorPath = `content.components[${i}].color`;
                 const fontSizePath = `content.components[${i}].fontSize`;
+                const fontWeightPath = `content.components[${i}].fontWeight`;
+                const lineHeightPath = `content.components[${i}].lineHeight`;
+                const letterSpacingPath =
+                  `content.components[${i}].letterSpacing`;
+                const textDecorationPath =
+                  `content.components[${i}].textDecoration`;
+                const textAlignPath = `content.components[${i}].textAlign`;
+                const paddingPath = `content.components[${i}].padding`;
 
                 if (fontFamily) {
                   lSet(newRowContent, fontFamilyPath, fontFamily);
@@ -117,6 +134,24 @@ export const useSignatureStore = create<StoreState>((set, get) => {
                 }
                 if (fontSize) {
                   lSet(newRowContent, fontSizePath, fontSize);
+                }
+                if (fontWeight) {
+                  lSet(newRowContent, fontWeightPath, fontWeight);
+                }
+                if (lineHeight) {
+                  lSet(newRowContent, lineHeightPath, lineHeight);
+                }
+                if (letterSpacing) {
+                  lSet(newRowContent, letterSpacingPath, letterSpacing);
+                }
+                if (textDecoration) {
+                  lSet(newRowContent, textDecorationPath, textDecoration);
+                }
+                if (textAlign) {
+                  lSet(newRowContent, textAlignPath, textAlign);
+                }
+                if (padding) {
+                  lSet(newRowContent, paddingPath, padding);
                 }
               }
             }
