@@ -109,7 +109,7 @@ export const SignaturePreview: React.FC = () => {
         <div className={`${outerDivClasses} w-full max-w-6xl mx-auto`}>
           <div className={`${wrapperDivClasses}`}>
             <div className={containerDivClasses}>
-              <EmailTemplateView id="email-signature" rows={rowsToDisplay} />
+              <EmailTemplateView rows={rowsToDisplay} />
             </div>
           </div>
         </div>

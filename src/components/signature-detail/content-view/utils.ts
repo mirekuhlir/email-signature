@@ -7,7 +7,7 @@ export const handleCopy = async (/*signatureId: string*/) => {
   if (!signatureElement) return;
 
   const textContent = signatureElement.innerText;
-  let htmlContent = signatureElement.outerHTML;
+  let htmlContent = signatureElement.innerHTML;
 
   // Remove cache busting parameter from PNG images
   htmlContent = htmlContent.replace(/\.png\?t=\d+/g, ".png");
