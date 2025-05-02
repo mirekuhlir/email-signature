@@ -253,6 +253,7 @@ export const getContentView = (content?: any) => {
         style={{
           width: '100%',
           display: 'inline-block',
+          textAlign,
         }}
       >
         {components.map((component: any) => {
