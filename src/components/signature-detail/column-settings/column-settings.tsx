@@ -253,24 +253,24 @@ export const ColumnSettings = (props: any) => {
         {!isSavingSignature && (
           <div className="pb-2">
             <CollapsibleSection title="Alignment and background">
-              <div className="grid grid-cols-1 gap-6">
-                <Typography variant="labelBase" className="mb-2">
-                  Vertical alignment
-                </Typography>
-                <SelectBase
-                  options={[
-                    { value: 'top', label: 'Top' },
-                    { value: 'middle', label: 'Middle' },
-                    { value: 'bottom', label: 'Bottom' },
-                  ]}
-                  value={verticalAlign}
-                  onChange={(value: string) => {
-                    setVerticalAlign(value);
-                  }}
-                />
-              </div>
-              <div>
-                <div className="pb-4">
+              <div className="grid grid-cols-1 gap-2 sm:gap-2">
+                <div>
+                  <Typography variant="labelBase">
+                    Vertical alignment
+                  </Typography>
+                  <SelectBase
+                    options={[
+                      { value: 'top', label: 'Top' },
+                      { value: 'middle', label: 'Middle' },
+                      { value: 'bottom', label: 'Bottom' },
+                    ]}
+                    value={verticalAlign}
+                    onChange={(value: string) => {
+                      setVerticalAlign(value);
+                    }}
+                  />
+                </div>
+                <div className="mb-2">
                   <EditColor
                     initColor={originalStyle.backgroundColor}
                     label="Background color"
@@ -284,8 +284,7 @@ export const ColumnSettings = (props: any) => {
                     }}
                   />
                 </div>
-
-                <div className="pb-4">
+                <div>
                   <Typography variant="labelBase" className="mb-2">
                     Top-left border radius : {borderRadiusCorners.topLeft}px
                   </Typography>
@@ -301,7 +300,7 @@ export const ColumnSettings = (props: any) => {
                     }}
                   />
                 </div>
-                <div className="pb-4">
+                <div>
                   <Typography variant="labelBase" className="mb-2">
                     Top-right border radius : {borderRadiusCorners.topRight}px
                   </Typography>
@@ -317,7 +316,7 @@ export const ColumnSettings = (props: any) => {
                     }}
                   />
                 </div>
-                <div className="pb-4">
+                <div>
                   <Typography variant="labelBase" className="mb-2">
                     Bottom-right border radius :{' '}
                     {borderRadiusCorners.bottomRight}px
@@ -334,7 +333,7 @@ export const ColumnSettings = (props: any) => {
                     }}
                   />
                 </div>
-                <div className="pb-4">
+                <div>
                   <Typography variant="labelBase" className="mb-2">
                     Bottom-left border radius : {borderRadiusCorners.bottomLeft}
                     px
