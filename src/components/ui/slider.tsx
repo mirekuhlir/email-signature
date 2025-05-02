@@ -138,7 +138,11 @@ const Slider: React.FC<SliderProps> = (props) => {
 
   return (
     <div className="pt-3">
-      {label && <Typography variant="labelBase">{label}</Typography>}
+      {label && (
+        <div className="mb-4">
+          <Typography variant="labelBase">{label}</Typography>
+        </div>
+      )}
       <div
         id={id}
         ref={sliderRef}
