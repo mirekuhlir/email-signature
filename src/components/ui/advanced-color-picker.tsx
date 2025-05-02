@@ -1,5 +1,6 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import Slider from './slider';
 
 /* const rgbToHex = (r: number, g: number, b: number): string => {
   const toHex = (n: number) => {
@@ -63,6 +64,30 @@ const rgbToHsv = (rgb: string): { h: number; s: number; v: number } => {
 
   return { h, s: Math.round(s * 100), v: Math.round(v * 100) };
 };
+
+// Helper function to parse RGB string
+const parseRgb = (rgbString: string): { r: number; g: number; b: number } => {
+  const matches = rgbString.match(/rgb\((\d+),?\s*(\d+),?\s*(\d+)\)/);
+  if (!matches) {
+    console.error('Invalid RGB string format:', rgbString);
+    return { r: 0, g: 0, b: 0 }; // Return default or throw error
+  }
+  return {
+    r: parseInt(matches[1], 10),
+    g: parseInt(matches[2], 10),
+    b: parseInt(matches[3], 10),
+  };
+};
+
+// Helper function to format RGB object to string
+const formatRgbToString = (rgb: {
+  r: number;
+  g: number;
+  b: number;
+}): string => {
+  return `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
+};
+
 interface Props {
   onChange: (color: string) => void;
   initColor: string;
@@ -71,7 +96,11 @@ interface Props {
 
 const AdvancedColorPicker = (props: Props) => {
   const { onChange, initColor, usedColors = [] } = props;
-  const [hsv, setHsv] = useState<HSV>(rgbToHsv(initColor));
+
+  // Initialize states directly from initColor
+  const [rgb, setRgb] = useState(() => parseRgb(initColor));
+  const [hsv, setHsv] = useState(() => rgbToHsv(initColor));
+
   const [isDraggingField, setIsDraggingField] = useState(false);
   const [isDraggingHue, setIsDraggingHue] = useState(false);
 
@@ -124,43 +153,64 @@ const AdvancedColorPicker = (props: Props) => {
     return `rgb(${Math.round(r * 255)}, ${Math.round(g * 255)}, ${Math.round(b * 255)})`;
   };
 
-  const updateColorFromEvent = (
-    e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>,
-    isField: boolean,
-  ) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
-    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+  // Effect to call onChange when rgb changes
+  useEffect(() => {
+    onChange(formatRgbToString(rgb));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rgb]); // Depend only on rgb state
 
-    if (isField) {
-      const x = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
-      const y = Math.max(0, Math.min(1, (clientY - rect.top) / rect.height));
+  // Add hsvToRgb to useCallback dependency array
+  const hsvToRgbCallback = useCallback(hsvToRgb, []);
 
-      setHsv((prev) => ({
-        ...prev,
-        s: Math.round(x * 100),
-        v: Math.round((1 - y) * 100),
-      }));
-    } else {
-      const x = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
-      setHsv((prev) => ({
-        ...prev,
-        h: x,
-      }));
-    }
-  };
+  const updateColorFromEvent = useCallback(
+    (
+      e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>,
+      isField: boolean,
+    ) => {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+      const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
 
-  const handleFieldInteraction = (
-    e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>,
-  ) => {
-    updateColorFromEvent(e, true);
-  };
+      let nextHsv: HSV;
+      if (isField) {
+        const x = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+        const y = Math.max(0, Math.min(1, (clientY - rect.top) / rect.height));
+        nextHsv = {
+          ...hsv,
+          s: Math.round(x * 100),
+          v: Math.round((1 - y) * 100),
+        };
+      } else {
+        const x = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+        nextHsv = { ...hsv, h: x };
+      }
 
-  const handleHueInteraction = (
-    e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>,
-  ) => {
-    updateColorFromEvent(e, false);
-  };
+      // Update HSV first
+      setHsv(nextHsv);
+      // Then sync RGB
+      const nextRgbString = hsvToRgbCallback(nextHsv.h, nextHsv.s, nextHsv.v);
+      setRgb(parseRgb(nextRgbString));
+    },
+    [hsv, hsvToRgbCallback], // Use the memoized callback
+  );
+
+  const handleFieldInteraction = useCallback(
+    (
+      e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>,
+    ) => {
+      updateColorFromEvent(e, true);
+    },
+    [updateColorFromEvent],
+  );
+
+  const handleHueInteraction = useCallback(
+    (
+      e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>,
+    ) => {
+      updateColorFromEvent(e, false);
+    },
+    [updateColorFromEvent],
+  );
 
   useEffect(() => {
     const handleMouseUp = () => {
@@ -189,13 +239,22 @@ const AdvancedColorPicker = (props: Props) => {
     };
   }, [isDraggingField, isDraggingHue]);
 
-  const currentColor = hsvToRgb(hsv.h, hsv.s, hsv.v);
+  // Calculate derived colors based on current states
+  const currentColor = formatRgbToString(rgb);
   const hueColor = hsvToRgb(hsv.h, 100, 100);
 
-  useEffect(() => {
-    onChange(currentColor);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentColor]);
+  // Function to handle RGB slider changes
+  const handleRgbChange = useCallback(
+    (channel: 'r' | 'g' | 'b', value: number) => {
+      // Update RGB first
+      const nextRgb = { ...rgb, [channel]: value };
+      setRgb(nextRgb);
+      // Then sync HSV
+      const nextHsv = rgbToHsv(formatRgbToString(nextRgb));
+      setHsv(nextHsv);
+    },
+    [rgb], // Depend on rgb state
+  );
 
   return (
     <div className="w-full">
@@ -229,7 +288,6 @@ const AdvancedColorPicker = (props: Props) => {
             }}
           />
         </div>
-
         {/* Hue slider */}
         <div
           className="relative w-full h-16 rounded-lg cursor-pointer shadow-inner"
@@ -256,7 +314,6 @@ const AdvancedColorPicker = (props: Props) => {
             }}
           />
         </div>
-
         {usedColors.length > 0 && (
           <div className="mt-4">
             <p className="text-sm font-medium text-gray-700 mb-2">
@@ -269,9 +326,10 @@ const AdvancedColorPicker = (props: Props) => {
                   className="w-12 h-12 rounded-md cursor-pointer shadow-md hover:shadow-lg transition-shadow"
                   style={{ backgroundColor: color }}
                   onClick={() => {
+                    const newRgb = parseRgb(color);
                     const newHsv = rgbToHsv(color);
+                    setRgb(newRgb);
                     setHsv(newHsv);
-                    onChange(color);
                   }}
                   title={color}
                 />
@@ -279,7 +337,6 @@ const AdvancedColorPicker = (props: Props) => {
             </div>
           </div>
         )}
-
         <div>
           <div
             className="w-full h-16 rounded-lg shadow-inner"
@@ -288,6 +345,29 @@ const AdvancedColorPicker = (props: Props) => {
           <div className="mt-2 font-mono text-gray-600 text-md text-center">
             {currentColor}
           </div>
+        </div>
+        <div className="space-y-1 pt-4">
+          <Slider
+            label={`R: ${rgb.r}`}
+            min={0}
+            max={255}
+            value={rgb.r}
+            onChange={(value) => handleRgbChange('r', value)}
+          />
+          <Slider
+            label={`G: ${rgb.g}`}
+            min={0}
+            max={255}
+            value={rgb.g}
+            onChange={(value) => handleRgbChange('g', value)}
+          />
+          <Slider
+            label={`B: ${rgb.b}`}
+            min={0}
+            max={255}
+            value={rgb.b}
+            onChange={(value) => handleRgbChange('b', value)}
+          />
         </div>
       </div>
     </div>
