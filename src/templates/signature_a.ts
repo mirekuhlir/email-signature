@@ -83,19 +83,19 @@ export const signature_a = () => {
                     {
                       "id": generateRandomId(),
                       "src":
-                        "https://siph-dev-kfdh6.s3.us-east-1.amazonaws.com/5059b16b-4891-444a-80e9/b382970e/7nycn89.png",
+                        `https://${process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/examples/signature_a_preview.png`,
                       "padding": "0px 0px 0px 0px",
                       "originalSrc":
-                        "https://siph-dev-kfdh6.s3.us-east-1.amazonaws.com/5059b16b-4891-444a-80e9/b382970e/7nycn89-76mm.jpg",
+                        `https://${process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/examples/signature_a_original.jpg`,
                       "borderRadius": "0px",
                       "previewWidth": 100,
                       "imageSettings": {
                         "crop": {
-                          "x": 24.510680824226664,
+                          "x": 28.611913610387735,
                           "y": 0,
                           "unit": "%",
-                          "width": 48.751220380386876,
-                          "height": 84.38510632310548,
+                          "width": 41.748408564814795,
+                          "height": 69.56635365948746,
                         },
                         "aspect": "free",
                         "isCircular": false,
