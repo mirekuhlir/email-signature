@@ -50,7 +50,7 @@ const SignaturesPreview = (props: SignaturesPreviewsProps) => {
     <div>
       <div className="flex flex-col py-4">
         <EmailTemplateView rows={rows} />
-        <div className="flex justify-between bg-gray-200 mb-14 p-3 rounded-md mt-4 w-full sm:w-1/2">
+        <div className="flex justify-between bg-gray-200 mb-6 p-3 rounded-md mt-4 w-full sm:w-1/2">
           <div className="flex flex-col justify-center">
             {updatedAt && (
               <div>
