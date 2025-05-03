@@ -1,11 +1,6 @@
 import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
 
-import {
-  MAX_COMPONENTS,
-  MAX_ROWS,
-  MAX_COLUMNS,
-  MAX_COLORS,
-} from "./const.ts";
+import { MAX_COLORS, MAX_COLUMNS, MAX_COMPONENTS, MAX_ROWS } from "./const.ts";
 
 const MAX_STRING_ID = 100;
 const MAX_STRING_LENGTH = 10000;
@@ -19,6 +14,7 @@ const MAX_LINE_HEIGHT = 50;
 const MAX_TEXT_ALIGN = 50;
 const MAX_TEXT_DECORATION = 50;
 const MAX_PADDING = 50;
+const MAX_MARGIN = 50;
 const MAX_IMAGE_SRC = 200;
 const MAX_IMAGE_PREVIEW = 1000000;
 const MAX_EMAIL_LENGTH = 255;
@@ -117,6 +113,7 @@ const imageComponentSchema = baseComponentSchema.extend({
     previewWidth: z.number().min(MIN_CROP_SIZE).max(MAX_CROP_SIZE).optional(),
     imageSettings: imageSettingsSchema.optional(),
     padding: sanitizedString(MAX_PADDING).optional(),
+    margin: sanitizedString(MAX_MARGIN).optional(),
 });
 
 const emailComponentSchema = baseComponentSchema.extend({

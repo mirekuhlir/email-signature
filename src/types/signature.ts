@@ -35,7 +35,7 @@ interface TextComponent extends BaseComponent {
 }
 
 // Image component
-interface ImageComponent extends BaseComponent {
+export interface ImageComponent extends BaseComponent {
     type?: ContentType.IMAGE;
     src: string;
     cropImagePreview?: string;
@@ -43,6 +43,8 @@ interface ImageComponent extends BaseComponent {
     originalImageFile?: File;
     previewWidth?: number;
     imageSettings?: ImageSettings;
+    margin?: string;
+    link?: string;
 }
 
 // Email component structure

@@ -11,13 +11,16 @@ import { useForm } from 'react-hook-form';
 import { Typography } from '@/src/components/ui/typography';
 import { Hr } from '../../ui/hr';
 import { generateRandomId } from '@/src/utils/generateRandomId';
+import SelectBase from '../../ui/select-base';
+import { ImageComponent } from '@/src/types/signature';
 
 export const ImageEditContent = (props: any) => {
   const { components, contentPathToEdit, isSignedIn } = props;
   const { setContent, rows } = useSignatureStore();
   const { setContentEdit, contentEdit } = useContentEditStore();
-  const imageComponent = components[0];
+  const imageComponent: ImageComponent = components[0];
   const [showLinkInput, setShowLinkInput] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -120,10 +123,13 @@ export const ImageEditContent = (props: any) => {
     setShowLinkInput(false);
   };
 
-  const isShowAddLinkToImage =
-    !showLinkInput &&
+  const isImageLoading = contentEdit.isImageLoading;
+
+  const isImage =
     (imageComponent.originalSrc || imageComponent.cropImagePreview) &&
     imageComponent.imageSettings;
+
+  const isShowAddLinkToImage = !showLinkInput;
 
   const ImageLink = () => {
     return (
@@ -231,10 +237,27 @@ export const ImageEditContent = (props: any) => {
     );
   };
 
-  // TODO - loading
-  if (contentEdit.isImageLoading && !imageComponent.originalSrc) {
-    return null;
-  }
+  const ImageHorizontalAlign = () => {
+    return (
+      <div>
+        <Typography variant="labelBase">Horizontal alignment</Typography>
+        <SelectBase
+          options={[
+            { value: '0 auto 0 0', label: 'Left' },
+            {
+              value: '0 auto 0 auto',
+              label: 'Center',
+            },
+            { value: '0 0 0 auto', label: 'Right' },
+          ]}
+          value={imageComponent.margin}
+          onChange={(value: string) => {
+            setContent(`${contentPathToEdit}.components[0].margin`, value);
+          }}
+        />
+      </div>
+    );
+  };
 
   return (
     <>
@@ -252,7 +275,12 @@ export const ImageEditContent = (props: any) => {
         isSignedIn={isSignedIn}
         imageCount={imageCount}
       />
-      <ImageLink />
+      {isImage && !isImageLoading && (
+        <>
+          <ImageHorizontalAlign />
+          <ImageLink />
+        </>
+      )}
     </>
   );
 };

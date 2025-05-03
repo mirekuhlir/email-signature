@@ -21,7 +21,7 @@ export const getContentView = (content?: any) => {
     const { components } = content;
 
     return components.map((component: any) => {
-      const { id, src, cropImagePreview, link } = component;
+      const { id, src, cropImagePreview, link, margin } = component;
 
       const image = cropImagePreview || src;
       let imageSrc = image;
@@ -36,7 +36,15 @@ export const getContentView = (content?: any) => {
         imageSrc = `${imageSrc}?t=${Date.now()}`;
       }
 
-      const imgElement = <Img key={id} src={imageSrc} />;
+      const imgElement = (
+        <Img
+          key={id}
+          src={imageSrc}
+          style={{
+            margin: margin,
+          }}
+        />
+      );
 
       if (link) {
         return (
