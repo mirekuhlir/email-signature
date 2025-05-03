@@ -57,7 +57,7 @@ export const EmailTemplateEdit = (props: any) => {
     setIsBackgroundDark(isDark); // Keep updating this state if needed elsewhere
   }, [contentEdit]);
 
-  const hrColor = isBackgroundDark ? 'border-gray-600' : 'border-gray-300';
+  const hrColor = isBackgroundDark ? 'border-gray-300' : 'border-gray-600';
 
   const renderColumn = (column: any, path: string) => {
     const rowPath = `${path}.rows`;
@@ -279,7 +279,7 @@ export const EmailTemplateEdit = (props: any) => {
                       </ContextMenu>
                     )}
                   </div>
-                  <Hr className={`mb-2 ${hrColor}`} />
+                  <Hr className={`mb-2 ${hrColor} border-dotted`} />
                 </>
               )}
           </Fragment>
@@ -325,7 +325,7 @@ export const EmailTemplateEdit = (props: any) => {
               >
                 Add
               </Button>
-              <Hr className="my-4" />
+              <Hr className="my-4 border-dotted" />
             </div>
           )}
         <>
@@ -338,7 +338,7 @@ export const EmailTemplateEdit = (props: any) => {
           !contentEdit.columnPath &&
           rows.length < MAX_ROWS && (
             <div className="mt-5 mb-5">
-              <Hr className="my-4" />
+              <Hr className="my-4 border-dotted" />
               <Button
                 onClick={() => {
                   setContentEdit({

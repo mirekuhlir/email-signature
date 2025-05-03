@@ -126,7 +126,7 @@ export const SignatureDetail = (props: any) => {
           {!contentEdit.editPath &&
             !contentEdit.addPath &&
             !contentEdit.columnPath && (
-              <div className="flex justify-end pt-4 border-t border-gray-300">
+              <div className="flex justify-end pt-4">
                 <Button size="lg" onClick={() => setIsEdit(false)}>
                   <Eye size={20} className="mr-2" /> View
                 </Button>

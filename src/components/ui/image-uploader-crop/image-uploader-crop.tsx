@@ -41,6 +41,8 @@ interface ImageUploaderProps {
   isSignedIn?: boolean;
   imageCount?: number;
   originalImageFile?: File;
+  onResizing?: (isResizing: boolean) => void;
+  isResizing?: boolean;
 }
 
 export default function ImageUploadCrop(props: ImageUploaderProps) {
@@ -55,6 +57,8 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     originalSrc,
     onLoadingChange,
     originalImageFile,
+    onResizing,
+    isResizing,
   } = props;
 
   const isDesktop = useMediaQuery('(min-width: 768px)');
@@ -74,14 +78,10 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     string | undefined
   >(undefined);
   const [isLoadingOriginalImage, setIsLoadingOriginalImage] = useState(false);
-  const [isReplacing, setIsReplacing] = useState(false);
-  const [isResizing, setIsResizing] = useState(false);
-  const [initResizing, setInitResizing] = useState(true);
 
   const imgRef = useRef<HTMLImageElement>(null);
   const previewCanvasRef = useRef<HTMLCanvasElement>(null);
 
-  // Použití useRef místo useMemo zaručí stabilní referenci napříč rendery
   const picaInstanceRef = useRef(pica());
 
   const getDefaultCropForCurrentImage = useCallback((aspectRatio: number) => {
@@ -90,7 +90,6 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
       imgRef.current.getBoundingClientRect();
     const defaultCrop = getDefaultCrop(aspectRatio, imgWidth, imgHeight);
 
-    // Explicitně zajistíme, že výchozí crop používá procentuální jednotky
     return {
       ...defaultCrop,
       unit: '%' as const,
@@ -128,7 +127,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
               { type: 'image/jpg' },
             );
 
-            setIsReplacing(false);
+            onResizing?.(false);
 
             setCroppedImageData(null);
             onSetOriginalImage?.(jpegFile); // Pass the File object instead of the data URL
@@ -136,7 +135,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         };
       }
     },
-    [onSetOriginalImage],
+    [onResizing, onSetOriginalImage],
   );
 
   const handleFileDrop = useCallback(
@@ -144,12 +143,12 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
       if (file.type.startsWith('image/')) {
         const fileUrl = URL.createObjectURL(file);
         setOriginalImagePreview(fileUrl);
-        setIsReplacing(false);
+        onResizing?.(false);
         setCroppedImageData(null);
         onSetOriginalImage?.(file);
       }
     },
-    [onSetOriginalImage],
+    [onResizing, onSetOriginalImage],
   );
 
   const handleDragEnter = useCallback((e: React.DragEvent<HTMLDivElement>) => {
@@ -447,19 +446,19 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     () =>
       // First debounce with 400ms, then call handleCrop after 100ms delay
       debounce(() => {
-        setIsResizing(true);
+        onResizing?.(true);
         setTimeout(() => {
           handleCrop()
             .catch((err) => {
               console.error('Error in debounced crop handler:', err);
             })
             .finally(() => {
-              setIsResizing(false);
+              onResizing?.(false);
             });
           // display resizing text
         }, 100);
       }, 1000),
-    [handleCrop],
+    [handleCrop, onResizing],
   );
 
   useEffect(() => {
@@ -508,8 +507,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   }, [croppedImageData, previewWidth, onSetCropImagePreview]);
 
   const handleDeleteImage = useCallback(() => {
-    setIsReplacing(true);
-
+    onResizing?.(true);
     onSetCropImagePreview?.('');
     setCroppedImageData?.(null);
     onSetOriginalImage?.(null);
@@ -521,6 +519,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     }
     setOriginalImagePreview(undefined);
   }, [
+    onResizing,
     onSetCropImagePreview,
     onSetOriginalImage,
     onSetImageSettings,
@@ -559,12 +558,12 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   const handlePreviewWidthChange = useCallback(
     (value: number) => {
       if (!isResizing) {
-        setIsResizing(true);
+        onResizing?.(true);
       }
       setPreviewWidth(value);
       onSetPreviewWidth?.(value);
     },
-    [onSetPreviewWidth, isResizing],
+    [isResizing, onResizing, onSetPreviewWidth],
   );
 
   const handleBorderRadiusChange = useCallback((value: number) => {
@@ -621,9 +620,9 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     if (croppedImageData && !initCalledRef.current) {
       initCalledRef.current = true;
       onInit?.();
-      setInitResizing(false);
+      onResizing?.(false);
     }
-  }, [croppedImageData, onInit]);
+  }, [croppedImageData, onInit, onResizing]);
 
   if (isLoadingOriginalImage) {
     return (
@@ -635,7 +634,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
 
   return (
     <>
-      <div className="w-full pt-6 pb-10">
+      <div className="w-full mb-2">
         {!originalImagePreview && !originalSrc ? (
           <div
             className={`grid place-items-center p-4 border border-dashed ${isDragging ? 'border-orange-500 bg-orange-50' : 'border-gray-300'} rounded min-h-[200px] w-[80%] md:w-[400px] mx-auto transition-colors duration-200`}
@@ -686,17 +685,6 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
             {croppedImageData && (
               <div className="space-y-2">
                 <>
-                  <Typography
-                    variant="lead"
-                    className={`text-center ${
-                      isResizing || initResizing || isReplacing
-                        ? 'text-gray-800'
-                        : 'text-transparent'
-                    }`}
-                  >
-                    Resizing...
-                  </Typography>
-
                   <Typography variant="labelBase">
                     {`Width of image: ${
                       croppedImageData ? `${previewWidth} px` : ''

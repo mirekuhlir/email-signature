@@ -45,6 +45,8 @@ export interface ImageComponent extends BaseComponent {
     imageSettings?: ImageSettings;
     margin?: string;
     link?: string;
+    padding?: string;
+    backgroundColor?: string;
 }
 
 // Email component structure

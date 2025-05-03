@@ -9,10 +9,10 @@ import { Button } from '@/src/components/ui/button';
 import TextInput from '@/src/components/ui/text-input';
 import { useForm } from 'react-hook-form';
 import { Typography } from '@/src/components/ui/typography';
-import { Hr } from '../../ui/hr';
 import { generateRandomId } from '@/src/utils/generateRandomId';
 import SelectBase from '../../ui/select-base';
 import { ImageComponent } from '@/src/types/signature';
+import { CollapsibleSection } from '@/src/components/ui/collapsible-section';
 
 export const ImageEditContent = (props: any) => {
   const { components, contentPathToEdit, isSignedIn } = props;
@@ -20,7 +20,7 @@ export const ImageEditContent = (props: any) => {
   const { setContentEdit, contentEdit } = useContentEditStore();
   const imageComponent: ImageComponent = components[0];
   const [showLinkInput, setShowLinkInput] = useState(false);
-
+  const [imageIsResizing, setImageIsResizing] = useState(true);
   const {
     register,
     handleSubmit,
@@ -134,9 +134,7 @@ export const ImageEditContent = (props: any) => {
   const ImageLink = () => {
     return (
       <>
-        {isShowAddLinkToImage && <Hr className="mb-4" />}
-
-        <div className="pb-6">
+        <div className="pb-2">
           <div
             className={
               showLinkInput ? 'bg-white p-4 shadow-md rounded-md mb-8' : ''
@@ -259,28 +257,50 @@ export const ImageEditContent = (props: any) => {
     );
   };
 
+  const handleResizing = useCallback((isResizing: boolean) => {
+    setImageIsResizing(isResizing);
+  }, []);
+
   return (
     <>
-      <ImageUploadCrop
-        onSetCropImagePreview={handleCropImagePreview}
-        onSetImageSettings={handleImageSettings}
-        imageSettings={imageComponent.imageSettings}
-        imageName={imageComponent.id}
-        previewWidthInit={imageComponent.previewWidth}
-        onSetPreviewWidth={handlePreviewWidth}
-        originalSrc={imageComponent.originalSrc}
-        originalImageFile={imageComponent.originalImageFile}
-        onSetOriginalImage={handleOriginalImage}
-        onLoadingChange={handleImageLoadingChange}
-        isSignedIn={isSignedIn}
-        imageCount={imageCount}
-      />
-      {isImage && !isImageLoading && (
-        <>
-          <ImageHorizontalAlign />
-          <ImageLink />
-        </>
+      {imageIsResizing && (
+        <div className="mt-2">
+          <Typography
+            variant="labelBase"
+            className={`text-center ${
+              imageIsResizing ? 'text-gray-800' : 'text-transparent'
+            }`}
+          >
+            Resizing...
+          </Typography>
+        </div>
       )}
+      <CollapsibleSection title="Image" isInitOpen={true}>
+        <ImageUploadCrop
+          onSetCropImagePreview={handleCropImagePreview}
+          onSetImageSettings={handleImageSettings}
+          imageSettings={imageComponent.imageSettings}
+          imageName={imageComponent.id}
+          previewWidthInit={imageComponent.previewWidth}
+          onSetPreviewWidth={handlePreviewWidth}
+          originalSrc={imageComponent.originalSrc}
+          originalImageFile={imageComponent.originalImageFile}
+          onSetOriginalImage={handleOriginalImage}
+          onLoadingChange={handleImageLoadingChange}
+          isSignedIn={isSignedIn}
+          imageCount={imageCount}
+          onResizing={handleResizing}
+          isResizing={imageIsResizing}
+        />
+        {isImage && !isImageLoading && (
+          <>
+            <div className="mb-4">
+              <ImageHorizontalAlign />
+            </div>
+            <ImageLink />
+          </>
+        )}
+      </CollapsibleSection>
     </>
   );
 };
