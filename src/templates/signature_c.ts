@@ -11,7 +11,7 @@ const getLocalizedContent = () => {
         emailPrefix: "Email: ",
         emailValue: "example@email.com",
         addressPrefix: "Address: ",
-        addressValue: "2645 Beeghley Street, \nWaco, TX 76701",
+        addressValue: "2645 Beeghley Street, Waco, TX 76701",
         websitePrefix: "Visit ",
         websiteValue: "www.example.com",
     };
@@ -46,6 +46,7 @@ export const signature_c = () => {
                                             "id": generateRandomId(),
                                             "src":
                                                 `https://${process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/examples/signature_c_preview.png`,
+                                            "margin": "0 auto 0 auto",
                                             "padding": "0px 0px 0px 0px",
                                             "originalSrc":
                                                 `https://${process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/examples/signature_c_original.jpg`,
