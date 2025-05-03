@@ -7,7 +7,7 @@ interface ImageSettings {
         y: number;
         width: number;
         height: number;
-        unit: string;
+        unit: "px" | "%";
     };
     aspect?: number | string;
     isCircular: boolean;

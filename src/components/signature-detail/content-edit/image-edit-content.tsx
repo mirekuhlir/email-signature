@@ -14,7 +14,13 @@ import SelectBase from '../../ui/select-base';
 import { ImageComponent } from '@/src/types/signature';
 import { CollapsibleSection } from '@/src/components/ui/collapsible-section';
 
-export const ImageEditContent = (props: any) => {
+interface ImageEditContentProps {
+  components: ImageComponent[];
+  contentPathToEdit: string;
+  isSignedIn: boolean;
+}
+
+export const ImageEditContent = (props: ImageEditContentProps) => {
   const { components, contentPathToEdit, isSignedIn } = props;
   const { setContent, rows } = useSignatureStore();
   const { setContentEdit, contentEdit } = useContentEditStore();
@@ -145,7 +151,7 @@ export const ImageEditContent = (props: any) => {
                 <Typography variant="labelBase">Add link to image</Typography>
               </div>
             )}
-            {imageComponent.link ? (
+            {imageComponent?.link ? (
               <>
                 {!showLinkInput && (
                   <>
