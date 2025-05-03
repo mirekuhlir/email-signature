@@ -125,6 +125,117 @@ export const ImageEditContent = (props: any) => {
     (imageComponent.originalSrc || imageComponent.cropImagePreview) &&
     imageComponent.imageSettings;
 
+  const ImageLink = () => {
+    return (
+      <>
+        {isShowAddLinkToImage && <Hr className="mb-4" />}
+
+        <div className="pb-6">
+          <div
+            className={
+              showLinkInput ? 'bg-white p-4 shadow-md rounded-md mb-8' : ''
+            }
+          >
+            {isShowAddLinkToImage && (
+              <div className="pb-1">
+                <Typography variant="labelBase">Add link to image</Typography>
+              </div>
+            )}
+            {imageComponent.link ? (
+              <>
+                {!showLinkInput && (
+                  <>
+                    <div className="py-2">
+                      <Typography
+                        variant="large"
+                        className="text-gray-900 break-all"
+                      >
+                        {imageComponent.link}
+                      </Typography>
+                    </div>
+                    <Button
+                      variant="blue"
+                      onClick={() => {
+                        setContentEdit({
+                          subEdit: 'edit-link',
+                        });
+                        setShowLinkInput(!showLinkInput);
+                      }}
+                    >
+                      {'Edit Link'}
+                    </Button>
+                  </>
+                )}
+              </>
+            ) : (
+              <>
+                {isShowAddLinkToImage && (
+                  <Button
+                    variant="blue"
+                    onClick={() => {
+                      setShowLinkInput(!showLinkInput);
+                      setContentEdit({
+                        subEdit: 'edit-link',
+                      });
+                    }}
+                  >
+                    Add Link
+                  </Button>
+                )}
+
+                {showLinkInput && (
+                  <div className="mt-2 p-3">
+                    <form
+                      onSubmit={handleSubmit(onSubmitLink)}
+                      className="space-y-4"
+                    >
+                      <TextInput
+                        label="Link URL"
+                        name="link"
+                        register={register}
+                        errors={errors}
+                        placeholder="Enter URL (e.g. https://example.com)"
+                        validation={{
+                          pattern: {
+                            value:
+                              /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/,
+                            message: 'Please enter a valid URL',
+                          },
+                        }}
+                      />
+                      <div className="flex justify-between">
+                        <Button
+                          variant="outline"
+                          type="button"
+                          onClick={() => {
+                            setShowLinkInput(false);
+                            setContentEdit({
+                              subEdit: null,
+                            });
+                          }}
+                        >
+                          Close
+                        </Button>
+                        <Button type="submit" variant="blue">
+                          Save
+                        </Button>
+                      </div>
+                    </form>
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+        </div>
+      </>
+    );
+  };
+
+  // TODO - loading
+  if (contentEdit.isImageLoading && !imageComponent.originalSrc) {
+    return null;
+  }
+
   return (
     <>
       <ImageUploadCrop
@@ -141,110 +252,7 @@ export const ImageEditContent = (props: any) => {
         isSignedIn={isSignedIn}
         imageCount={imageCount}
       />
-
-      {!contentEdit.isImageLoading && (
-        <>
-          {isShowAddLinkToImage && <Hr className="mb-4" />}
-
-          <div className="pb-6">
-            <div
-              className={
-                showLinkInput ? 'bg-white p-4 shadow-md rounded-md mb-8' : ''
-              }
-            >
-              {isShowAddLinkToImage && (
-                <div className="pb-1">
-                  <Typography variant="labelBase">Add link to image</Typography>
-                </div>
-              )}
-              {imageComponent.link ? (
-                <>
-                  {!showLinkInput && (
-                    <>
-                      <div className="py-2">
-                        <Typography
-                          variant="large"
-                          className="text-gray-900 break-all"
-                        >
-                          {imageComponent.link}
-                        </Typography>
-                      </div>
-                      <Button
-                        variant="blue"
-                        onClick={() => {
-                          setContentEdit({
-                            subEdit: 'edit-link',
-                          });
-                          setShowLinkInput(!showLinkInput);
-                        }}
-                      >
-                        {'Edit Link'}
-                      </Button>
-                    </>
-                  )}
-                </>
-              ) : (
-                <>
-                  {isShowAddLinkToImage && (
-                    <Button
-                      variant="blue"
-                      onClick={() => {
-                        setShowLinkInput(!showLinkInput);
-                        setContentEdit({
-                          subEdit: 'edit-link',
-                        });
-                      }}
-                    >
-                      Add Link
-                    </Button>
-                  )}
-
-                  {showLinkInput && (
-                    <div className="mt-2 p-3">
-                      <form
-                        onSubmit={handleSubmit(onSubmitLink)}
-                        className="space-y-4"
-                      >
-                        <TextInput
-                          label="Link URL"
-                          name="link"
-                          register={register}
-                          errors={errors}
-                          placeholder="Enter URL (e.g. https://example.com)"
-                          validation={{
-                            pattern: {
-                              value:
-                                /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/,
-                              message: 'Please enter a valid URL',
-                            },
-                          }}
-                        />
-                        <div className="flex justify-between">
-                          <Button
-                            variant="outline"
-                            type="button"
-                            onClick={() => {
-                              setShowLinkInput(false);
-                              setContentEdit({
-                                subEdit: null,
-                              });
-                            }}
-                          >
-                            Close
-                          </Button>
-                          <Button type="submit" variant="blue">
-                            Save
-                          </Button>
-                        </div>
-                      </form>
-                    </div>
-                  )}
-                </>
-              )}
-            </div>
-          </div>
-        </>
-      )}
+      <ImageLink />
     </>
   );
 };
