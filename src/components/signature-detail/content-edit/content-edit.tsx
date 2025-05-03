@@ -796,7 +796,6 @@ const getContentType = (
     case ContentType.IMAGE:
       return (
         <ImageEditContent
-          contentType={type}
           components={components}
           contentPathToEdit={contentPathToEdit}
           isSignedIn={isSignedIn}
