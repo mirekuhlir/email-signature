@@ -12,7 +12,6 @@ import { ContextMenu } from '../ui/context-menu';
 import { useSignatureStore } from '@/src/store/content-edit-add-store';
 import { get } from 'lodash';
 import { ContentType } from '@/src/const/content';
-import { useMediaQuery } from '@/src/hooks/useMediaQuery';
 import { MAX_ROWS } from '@/supabase/functions/_shared/const';
 
 // Helper function to determine if a color is dark
@@ -42,7 +41,6 @@ export const EmailTemplateEdit = (props: any) => {
   const { setContentEdit, contentEdit } = useContentEditStore();
   const { moveRowUp, moveRowDown, isSavingOrder } = useSignatureStore();
   const { id: signatureId } = useParams();
-  const isMobile = useMediaQuery('(max-width: 768px)');
   const containerRef = useRef<HTMLDivElement>(null);
 
   const [isBackgroundDark, setIsBackgroundDark] = useState(false);
@@ -331,6 +329,7 @@ export const EmailTemplateEdit = (props: any) => {
         <>
           {!contentEdit.addPath &&
             !contentEdit.editPath &&
+            !contentEdit.columnPath &&
             renderRows(rows, true, '')}
         </>
         {!contentEdit.editPath &&

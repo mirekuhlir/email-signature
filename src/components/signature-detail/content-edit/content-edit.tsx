@@ -401,7 +401,6 @@ export const ContentEdit = (props: any) => {
                   errors,
                   setContent,
                 )}
-
               <>
                 <CollapsibleSection title="Background">
                   <div className="grid grid-cols-1 gap-2 sm:gap-3">

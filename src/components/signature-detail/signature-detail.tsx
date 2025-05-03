@@ -77,7 +77,7 @@ export const SignatureDetail = (props: any) => {
       </Container>
 
       <div className="flex flex-col">
-        {contentEdit.editPath && (
+        {(contentEdit.editPath || contentEdit.columnPath) && (
           <Container>
             <EmailTemplateView rows={rows} />
           </Container>
