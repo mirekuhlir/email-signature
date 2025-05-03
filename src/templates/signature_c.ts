@@ -4,7 +4,7 @@ import { generateRandomId } from "../utils/generateRandomId";
 
 const getLocalizedContent = () => {
     return {
-        name: "RICHARD S. BREWER",
+        name: "RICHARD BREWER",
         place: "Crestwood Realty",
         phonePrefix: "Phone: ",
         phoneValue: "+1 2015577537",
