@@ -258,10 +258,10 @@ const AdvancedColorPicker = (props: Props) => {
 
   return (
     <div className="w-full">
-      <div className="p-6 space-y-6">
+      <div className="p-6">
         {/* Color field */}
         <div
-          className="relative w-full h-64 rounded-lg cursor-crosshair shadow-inner"
+          className="relative w-full h-64 rounded-lg cursor-crosshair shadow-inner mb-4"
           style={{
             background: `linear-gradient(to right, white, ${hueColor}), 
                         linear-gradient(to bottom, transparent, black)`,
@@ -315,7 +315,7 @@ const AdvancedColorPicker = (props: Props) => {
           />
         </div>
         {usedColors.length > 0 && (
-          <div className="mt-4">
+          <div className="mt-4 mb-4">
             <p className="text-sm font-medium text-gray-700 mb-2">
               Select color
             </p>

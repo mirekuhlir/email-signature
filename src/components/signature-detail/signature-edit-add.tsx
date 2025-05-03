@@ -255,7 +255,7 @@ export const EmailTemplateEdit = (props: any) => {
                     {showContextMenu && (
                       <ContextMenu
                         size="sm"
-                        placement={isMobile ? 'left' : 'right'}
+                        placement={'right'}
                         isLoading={isSavingOrder}
                       >
                         <div className="pt-2 pb-2 px-2 flex flex-col gap-1 whitespace-nowrap items-start">
