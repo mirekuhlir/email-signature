@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Typography } from './typography';
+import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
+
 interface CollapsibleSectionProps {
   children: React.ReactNode;
   className?: string;
@@ -7,7 +9,6 @@ interface CollapsibleSectionProps {
   isInitOpen?: boolean;
 }
 
-// TODO - hover na button
 export const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
   children,
   className = '',
@@ -16,10 +17,16 @@ export const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(isInitOpen);
 
+  const { editingSectionIds } = useContentEditStore();
+
   return (
     <div className={className}>
       <button
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => {
+          if (editingSectionIds.length === 0) {
+            setIsOpen(!isOpen);
+          }
+        }}
         className="w-full py-2 px-2 flex justify-between items-center mt-4 mb-4 bg-gray-200 rounded-md cursor-pointer"
       >
         <div className="flex items-center gap-2">
