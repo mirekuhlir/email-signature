@@ -54,15 +54,18 @@ export const SignatureDetail = (props: any) => {
     });
   };
 
+  const isPreview =
+    !contentEdit.editPath &&
+    !contentEdit.columnPath &&
+    !contentEdit.addPath &&
+    !isEdit;
+
   return (
     <div className="pb-8">
       <Container>
-        {!contentEdit.editPath &&
-          !contentEdit.columnPath &&
-          !contentEdit.addPath &&
-          !isEdit &&
-          isSignedIn && (
-            <>
+        {isPreview && (
+          <>
+            {isSignedIn && (
               <StyledLink
                 variant="default"
                 href="/signatures"
@@ -71,9 +74,21 @@ export const SignatureDetail = (props: any) => {
                 <ChevronLeft size={23} />
                 Back to My signatures
               </StyledLink>
-              <Hr className="mt-4 mb-2 sm:mb-8 sm:mt-8" />
-            </>
-          )}
+            )}
+
+            {!isSignedIn && (
+              <StyledLink
+                variant="default"
+                href="/templates"
+                className="flex items-center gap-1"
+              >
+                <ChevronLeft size={23} />
+                Back to templates
+              </StyledLink>
+            )}
+            <Hr className="mt-4 mb-2 sm:mb-8 sm:mt-8" />
+          </>
+        )}
       </Container>
 
       <div className="flex flex-col">

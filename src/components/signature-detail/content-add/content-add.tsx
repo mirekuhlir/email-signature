@@ -66,7 +66,7 @@ export const ContentAdd = (props: ContentAddProps) => {
   }, []);
 
   return (
-    <div className="pt-6">
+    <div className="pt-6 sm:max-w-1/2 mx-auto">
       {CONTENT_TYPES.map((typeItem, index) => {
         if (
           typeItem.type === ContentType.IMAGE &&
@@ -78,9 +78,9 @@ export const ContentAdd = (props: ContentAddProps) => {
         return (
           <div
             key={index}
-            className="flex gap-4 mb-4 border-b border-gray-300 items-end pb-4"
+            className="flex gap-4 mb-4 border-b border-gray-300 items-end pb-4 justify-between "
           >
-            <Typography>{typeItem.content}</Typography>
+            <Typography variant="large">{typeItem.content}</Typography>
             <Button
               onClick={() => onAdd(typeItem.type)}
             >{`Add ${typeItem.name}`}</Button>

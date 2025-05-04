@@ -15,7 +15,7 @@ export const CONTENT_TYPES = [
   },
   {
     name: "image",
-    content: "Image",
+    content: "image",
     type: ContentType.IMAGE,
   },
   {
