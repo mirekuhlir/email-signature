@@ -75,9 +75,9 @@ export const EditColor = (props: Props) => {
             usedColors={usedColors}
           />
 
-          <div className="p-6">
-            <div className="mb-6">
-              {isResetToTransparent && (
+          <div className="p-3">
+            {isResetToTransparent && (
+              <div className="mb-6 flex justify-center">
                 <Button
                   variant="outline"
                   onClick={() => {
@@ -92,8 +92,9 @@ export const EditColor = (props: Props) => {
                 >
                   Reset to transparent
                 </Button>
-              )}
-            </div>
+              </div>
+            )}
+
             <div className="flex justify-between">
               <div className="flex">
                 <Button

@@ -55,7 +55,7 @@ export const EmailTemplateEdit = (props: any) => {
     setIsBackgroundDark(isDark); // Keep updating this state if needed elsewhere
   }, [contentEdit]);
 
-  const hrColor = isBackgroundDark ? 'border-gray-300' : 'border-gray-600';
+  const hrColor = isBackgroundDark ? 'border-gray-400' : 'border-gray-700';
 
   const renderColumn = (column: any, path: string) => {
     const rowPath = `${path}.rows`;
@@ -232,7 +232,7 @@ export const EmailTemplateEdit = (props: any) => {
             {contentEdit.editPath !== currentPath &&
               contentEdit.columnPath === null && (
                 <>
-                  <div className="flex justify-start items-center gap-2 mb-2 mt-1">
+                  <div className="flex justify-end items-center gap-2 mb-2 mt-1">
                     <Button
                       size="sm"
                       variant="blue"
@@ -323,7 +323,7 @@ export const EmailTemplateEdit = (props: any) => {
               >
                 Add
               </Button>
-              <Hr className="my-4 border-dotted" />
+              <Hr className={`my-4 ${hrColor} border-dotted`} />
             </div>
           )}
         <>
@@ -337,7 +337,7 @@ export const EmailTemplateEdit = (props: any) => {
           !contentEdit.columnPath &&
           rows.length < MAX_ROWS && (
             <div className="mt-5 mb-5">
-              <Hr className="my-4 border-dotted" />
+              <Hr className={`my-4 ${hrColor} border-dotted`} />
               <Button
                 onClick={() => {
                   setContentEdit({

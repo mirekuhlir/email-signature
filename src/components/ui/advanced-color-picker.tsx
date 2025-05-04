@@ -69,7 +69,6 @@ const rgbToHsv = (rgb: string): { h: number; s: number; v: number } => {
 const parseRgb = (rgbString: string): { r: number; g: number; b: number } => {
   const matches = rgbString.match(/rgb\((\d+),?\s*(\d+),?\s*(\d+)\)/);
   if (!matches) {
-    console.error('Invalid RGB string format:', rgbString);
     return { r: 0, g: 0, b: 0 }; // Return default or throw error
   }
   return {

@@ -40,7 +40,7 @@ export const LoadingInfo = ({
           <Loading size={size} />
         </div>
         <div className="mt-2">
-          <Typography className="text-gray-600" variant="body">
+          <Typography className="text-gray-600" variant="large">
             {text}
           </Typography>
         </div>
