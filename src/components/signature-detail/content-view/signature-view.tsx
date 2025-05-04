@@ -107,13 +107,7 @@ export const EmailTemplateView = (props: any) => {
   };
 
   return (
-    <table
-      border={0}
-      cellPadding="0"
-      cellSpacing="0"
-      role="presentation"
-      id="email-signature"
-    >
+    <table border={0} cellPadding="0" cellSpacing="0" role="presentation">
       <tbody>
         <tr>
           <td>{renderRows(rows, true)}</td>

@@ -30,7 +30,7 @@ export const handleCopy = async (/*signatureId: string*/) => {
   // Fallback fot Safari iOS or older browsers
   try {
     const tempElement = document.createElement("div");
-    tempElement.style.backgroundColor = "white";
+    tempElement.style.backgroundColor = "transparent";
     tempElement.style.color = "black";
     tempElement.innerHTML = htmlContent;
     tempElement.style.position = "fixed";
