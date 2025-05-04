@@ -41,6 +41,7 @@ const getText = () => {
                     letterSpacing: "0px",
                     lineHeight: "1",
                     textAlign: "left",
+                    padding: "0px 0px 5px 0px",
                 },
             ],
         },
@@ -110,6 +111,7 @@ export const getEmail = () => {
                     letterSpacing: "0px",
                     lineHeight: "1",
                     textAlign: "left",
+                    padding: "0px 0px 5px 0px",
                 },
                 {
                     id: generateRandomId(),
@@ -148,6 +150,7 @@ const getPhone = () => {
                     letterSpacing: "0px",
                     lineHeight: "1",
                     textAlign: "left",
+                    padding: "0px 0px 5px 0px",
                 },
                 {
                     id: generateRandomId(),
@@ -185,6 +188,7 @@ const getWebsite = () => {
                     letterSpacing: "0px",
                     lineHeight: "1",
                     textAlign: "left",
+                    padding: "0px 0px 5px 0px",
                 },
                 {
                     id: generateRandomId(),
@@ -221,6 +225,7 @@ const getCustomValue = () => {
                     letterSpacing: "0px",
                     lineHeight: "1",
                     textAlign: "left",
+                    padding: "0px 0px 5px 0px",
                 },
                 {
                     id: generateRandomId(),
