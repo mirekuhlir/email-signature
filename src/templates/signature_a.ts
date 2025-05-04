@@ -85,6 +85,7 @@ export const signature_a = () => {
                       "src":
                         `https://${process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/examples/signature_a_preview.png`,
                       "padding": "0px 0px 0px 0px",
+                      "margin": "0 auto 0 0",
                       "originalSrc":
                         `https://${process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/examples/signature_a_original.jpg`,
                       "borderRadius": "0px",

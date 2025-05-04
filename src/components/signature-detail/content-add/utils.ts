@@ -56,6 +56,7 @@ export const getImage = () => {
                 {
                     id: generateRandomId(),
                     src: "",
+                    margin: "0 auto 0 0",
                 },
             ],
         },
