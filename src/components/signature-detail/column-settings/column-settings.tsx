@@ -254,7 +254,7 @@ export const ColumnSettings = (props: any) => {
           <div className="pb-2">
             <CollapsibleSection title="Alignment and background">
               <div className="grid grid-cols-1 gap-2 sm:gap-2">
-                <div>
+                <div className="w-full sm:w-1/4">
                   <Typography variant="labelBase">
                     Vertical alignment
                   </Typography>

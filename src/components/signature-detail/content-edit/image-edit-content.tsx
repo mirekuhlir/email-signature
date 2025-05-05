@@ -243,7 +243,7 @@ export const ImageEditContent = (props: ImageEditContentProps) => {
 
   const ImageHorizontalAlign = () => {
     return (
-      <div>
+      <div className="w-full sm:w-1/4">
         <Typography variant="labelBase">Horizontal alignment</Typography>
         <SelectBase
           options={[

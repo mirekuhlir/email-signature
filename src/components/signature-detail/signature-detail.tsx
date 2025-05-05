@@ -55,10 +55,7 @@ export const SignatureDetail = (props: any) => {
   };
 
   const isPreview =
-    !contentEdit.editPath &&
-    !contentEdit.columnPath &&
-    !contentEdit.addPath &&
-    !isEdit;
+    !contentEdit.editPath && !contentEdit.columnPath && !contentEdit.addPath;
 
   return (
     <div className="pb-8">
@@ -141,7 +138,7 @@ export const SignatureDetail = (props: any) => {
           {!contentEdit.editPath &&
             !contentEdit.addPath &&
             !contentEdit.columnPath && (
-              <div className="flex justify-end pt-4">
+              <div className="flex justify-end">
                 <Button size="lg" onClick={() => setIsEdit(false)}>
                   <Eye size={20} className="mr-2" /> View
                 </Button>
