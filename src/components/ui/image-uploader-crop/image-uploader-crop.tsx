@@ -24,7 +24,12 @@ interface ImageSettings {
   crop: Crop;
   aspect?: number | string;
   isCircular: boolean;
-  borderRadius?: number;
+  borderRadius?: {
+    topLeft: number;
+    topRight: number;
+    bottomRight: number;
+    bottomLeft: number;
+  };
 }
 
 interface ImageUploaderProps {
@@ -67,7 +72,12 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   const [crop, setCrop] = useState<Crop | undefined>(undefined);
   const [aspect, setAspect] = useState<number | undefined>(undefined);
   const [isCircular, setIsCircular] = useState(false);
-  const [borderRadius, setBorderRadius] = useState(0);
+  const [borderRadii, setBorderRadii] = useState({
+    topLeft: 0,
+    topRight: 0,
+    bottomRight: 0,
+    bottomLeft: 0,
+  });
   const [croppedImageData, setCroppedImageData] = useState<string | null>(null);
   const [previewWidth, setPreviewWidth] = useState<number | undefined>(
     undefined,
@@ -335,39 +345,52 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
                 targetCtx.globalCompositeOperation = 'source-over'; // Reset composite operation
               }
               // Apply border radius if needed (AFTER resizing)
-              else if (borderRadius > 0) {
-                const scaledRadius = Math.min(
-                  borderRadius,
+              else if (
+                borderRadii.topLeft > 0 ||
+                borderRadii.topRight > 0 ||
+                borderRadii.bottomRight > 0 ||
+                borderRadii.bottomLeft > 0
+              ) {
+                targetCtx.globalCompositeOperation = 'destination-in';
+                targetCtx.beginPath();
+
+                const rTL = Math.min(
+                  borderRadii.topLeft,
+                  outputWidth / 2,
+                  outputHeight / 2,
+                );
+                const rTR = Math.min(
+                  borderRadii.topRight,
+                  outputWidth / 2,
+                  outputHeight / 2,
+                );
+                const rBR = Math.min(
+                  borderRadii.bottomRight,
+                  outputWidth / 2,
+                  outputHeight / 2,
+                );
+                const rBL = Math.min(
+                  borderRadii.bottomLeft,
                   outputWidth / 2,
                   outputHeight / 2,
                 );
 
-                targetCtx.globalCompositeOperation = 'destination-in';
-                targetCtx.beginPath();
-                targetCtx.moveTo(scaledRadius, 0);
-                targetCtx.lineTo(outputWidth - scaledRadius, 0);
-                targetCtx.quadraticCurveTo(
-                  outputWidth,
-                  0,
-                  outputWidth,
-                  scaledRadius,
-                );
-                targetCtx.lineTo(outputWidth, outputHeight - scaledRadius);
-                targetCtx.quadraticCurveTo(
+                targetCtx.moveTo(rTL, 0);
+                targetCtx.lineTo(outputWidth - rTR, 0);
+                targetCtx.arcTo(outputWidth, 0, outputWidth, rTR, rTR);
+                targetCtx.lineTo(outputWidth, outputHeight - rBR);
+                targetCtx.arcTo(
                   outputWidth,
                   outputHeight,
-                  outputWidth - scaledRadius,
+                  outputWidth - rBR,
                   outputHeight,
+                  rBR,
                 );
-                targetCtx.lineTo(scaledRadius, outputHeight);
-                targetCtx.quadraticCurveTo(
-                  0,
-                  outputHeight,
-                  0,
-                  outputHeight - scaledRadius,
-                );
-                targetCtx.lineTo(0, scaledRadius);
-                targetCtx.quadraticCurveTo(0, 0, scaledRadius, 0);
+                targetCtx.lineTo(rBL, outputHeight);
+                targetCtx.arcTo(0, outputHeight, 0, outputHeight - rBL, rBL);
+                targetCtx.lineTo(0, rTL);
+                targetCtx.arcTo(0, 0, rTL, 0, rTL);
+
                 targetCtx.closePath();
                 targetCtx.fill();
                 targetCtx.globalCompositeOperation = 'source-over'; // Reset composite operation
@@ -418,7 +441,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     }
     return Promise.resolve(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [crop, previewWidth, originalImagePreview, isCircular, borderRadius]);
+  }, [crop, previewWidth, originalImagePreview, isCircular, borderRadii]);
 
   const handleCrop = useCallback(async () => {
     const croppedImageDataUrl = await generateCroppedImage();
@@ -429,7 +452,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         crop: crop!,
         aspect: aspect === undefined ? 'free' : aspect,
         isCircular,
-        borderRadius,
+        borderRadius: borderRadii,
       });
     }
   }, [
@@ -438,7 +461,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     crop,
     aspect,
     isCircular,
-    borderRadius,
+    borderRadii,
     generateCroppedImage,
   ]);
 
@@ -466,7 +489,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     return () => {
       debouncedHandleCrop.cancel();
     };
-  }, [previewWidth, debouncedHandleCrop, crop, isCircular, borderRadius]);
+  }, [previewWidth, debouncedHandleCrop, crop, isCircular, borderRadii]);
 
   // Update the second useEffect to also work with promises
   useEffect(() => {
@@ -566,8 +589,17 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     [isResizing, onResizing, onSetPreviewWidth],
   );
 
-  const handleBorderRadiusChange = useCallback((value: number) => {
-    setBorderRadius(value);
+  const handleBorderRadiusTopLeftChange = useCallback((value: number) => {
+    setBorderRadii((prev) => ({ ...prev, topLeft: value }));
+  }, []);
+  const handleBorderRadiusTopRightChange = useCallback((value: number) => {
+    setBorderRadii((prev) => ({ ...prev, topRight: value }));
+  }, []);
+  const handleBorderRadiusBottomRightChange = useCallback((value: number) => {
+    setBorderRadii((prev) => ({ ...prev, bottomRight: value }));
+  }, []);
+  const handleBorderRadiusBottomLeftChange = useCallback((value: number) => {
+    setBorderRadii((prev) => ({ ...prev, bottomLeft: value }));
   }, []);
 
   useEffect(() => {
@@ -597,15 +629,16 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         setAspect(1);
       }
       setIsCircular(imageSettings?.isCircular || false);
-      setBorderRadius(imageSettings?.borderRadius || 0);
+      setBorderRadii(
+        imageSettings?.borderRadius || {
+          topLeft: 0,
+          topRight: 0,
+          bottomRight: 0,
+          bottomLeft: 0,
+        },
+      );
     }
-  }, [
-    imageSettings,
-    crop?.width,
-    getDefaultCropForCurrentImage,
-    borderRadius,
-    isCircular,
-  ]);
+  }, [imageSettings, crop?.width, getDefaultCropForCurrentImage]);
 
   useEffect(() => {
     if (!previewWidth) {
@@ -705,17 +738,62 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
                 {!isCircular && (
                   <div className="space-y-2">
                     <Typography variant="labelBase">
-                      {`Border radius: ${borderRadius} px`}
+                      Image rounded borders:
                     </Typography>
-
-                    <Slider
-                      min={0}
-                      max={MAX_IMAGE_WIDTH / 2}
-                      units="px"
-                      value={borderRadius}
-                      onChange={handleBorderRadiusChange}
-                      id="border-radius-slider"
-                    />
+                    <div className="grid grid-cols-2 gap-2">
+                      <div>
+                        <Typography variant="body">
+                          {`Top Left: ${borderRadii.topLeft} px`}
+                        </Typography>
+                        <Slider
+                          min={0}
+                          max={MAX_IMAGE_WIDTH / 2}
+                          units="px"
+                          value={borderRadii.topLeft}
+                          onChange={handleBorderRadiusTopLeftChange}
+                          id="border-radius-slider-tl"
+                        />
+                      </div>
+                      <div>
+                        <Typography variant="body">
+                          {`Top Right: ${borderRadii.topRight} px`}
+                        </Typography>
+                        <Slider
+                          min={0}
+                          max={MAX_IMAGE_WIDTH / 2}
+                          units="px"
+                          value={borderRadii.topRight}
+                          onChange={handleBorderRadiusTopRightChange}
+                          id="border-radius-slider-tr"
+                        />
+                      </div>
+                      <div>
+                        <Typography variant="body">
+                          {`Bottom Left: ${borderRadii.bottomLeft} px`}
+                        </Typography>
+                        <Slider
+                          min={0}
+                          max={MAX_IMAGE_WIDTH / 2}
+                          units="px"
+                          value={borderRadii.bottomLeft}
+                          onChange={handleBorderRadiusBottomLeftChange}
+                          id="border-radius-slider-bl"
+                        />
+                      </div>
+                      <div>
+                        <Typography variant="body">
+                          {`Bottom Right: ${borderRadii.bottomRight} px`}
+                        </Typography>
+                        <Slider
+                          min={0}
+                          max={MAX_IMAGE_WIDTH / 2}
+                          units="px"
+                          value={borderRadii.bottomRight}
+                          onChange={handleBorderRadiusBottomRightChange}
+                          id="border-radius-slider-br"
+                        />
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>

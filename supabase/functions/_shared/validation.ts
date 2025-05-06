@@ -96,8 +96,12 @@ const imageSettingsSchema = z.object({
     ])
         .optional(),
     isCircular: z.boolean(),
-    borderRadius: z.number().min(MIN_BORDER_RADIUS).max(MAX_BORDER_RADIUS)
-        .optional(),
+    borderRadius: z.object({
+        topLeft: z.number().min(MIN_BORDER_RADIUS).max(MAX_BORDER_RADIUS),
+        topRight: z.number().min(MIN_BORDER_RADIUS).max(MAX_BORDER_RADIUS),
+        bottomRight: z.number().min(MIN_BORDER_RADIUS).max(MAX_BORDER_RADIUS),
+        bottomLeft: z.number().min(MIN_BORDER_RADIUS).max(MAX_BORDER_RADIUS),
+    }).optional(),
 });
 
 // Component schemas

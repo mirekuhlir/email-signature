@@ -100,7 +100,12 @@ export const signature_a = () => {
                         },
                         "aspect": "free",
                         "isCircular": false,
-                        "borderRadius": 10,
+                        "borderRadius": {
+                          "topLeft": 10,
+                          "topRight": 10,
+                          "bottomRight": 10,
+                          "bottomLeft": 10,
+                        },
                       },
                       "borderTopColor": "rgb(0, 0, 0)",
                       "borderTopStyle": "none",

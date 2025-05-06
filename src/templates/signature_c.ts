@@ -62,7 +62,12 @@ export const signature_c = () => {
                                                 },
                                                 "aspect": 1,
                                                 "isCircular": true,
-                                                "borderRadius": 0,
+                                                "borderRadius": {
+                                                    "topLeft": 0,
+                                                    "topRight": 0,
+                                                    "bottomRight": 0,
+                                                    "bottomLeft": 0,
+                                                },
                                             },
                                             "borderTopColor": "rgb(0, 0, 0)",
                                             "borderTopStyle": "none",
