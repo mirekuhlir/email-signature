@@ -57,6 +57,20 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA "extensions";
 
 
 
+
+CREATE OR REPLACE FUNCTION "public"."handle_new_user"() RETURNS "trigger"
+    LANGUAGE "plpgsql" SECURITY DEFINER
+    AS $$
+begin
+  insert into public.users (id, email)
+  values (new.id, new.email);
+  return new;
+end;
+$$;
+
+
+ALTER FUNCTION "public"."handle_new_user"() OWNER TO "postgres";
+
 SET default_tablespace = '';
 
 SET default_table_access_method = "heap";
@@ -76,8 +90,25 @@ CREATE TABLE IF NOT EXISTS "public"."signatures" (
 ALTER TABLE "public"."signatures" OWNER TO "postgres";
 
 
+CREATE TABLE IF NOT EXISTS "public"."users" (
+    "id" "uuid" DEFAULT "auth"."uid"() NOT NULL,
+    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    "email" "text",
+    "valid_from" timestamp with time zone,
+    "valid_to" timestamp with time zone
+);
+
+
+ALTER TABLE "public"."users" OWNER TO "postgres";
+
+
 ALTER TABLE ONLY "public"."signatures"
     ADD CONSTRAINT "signatures_pkey" PRIMARY KEY ("id");
+
+
+
+ALTER TABLE ONLY "public"."users"
+    ADD CONSTRAINT "users_pkey" PRIMARY KEY ("id");
 
 
 
@@ -86,6 +117,9 @@ CREATE POLICY "Enable users to view their own data only" ON "public"."signatures
 
 
 ALTER TABLE "public"."signatures" ENABLE ROW LEVEL SECURITY;
+
+
+ALTER TABLE "public"."users" ENABLE ROW LEVEL SECURITY;
 
 
 
@@ -268,6 +302,12 @@ GRANT USAGE ON SCHEMA "public" TO "service_role";
 
 
 
+GRANT ALL ON FUNCTION "public"."handle_new_user"() TO "anon";
+GRANT ALL ON FUNCTION "public"."handle_new_user"() TO "authenticated";
+GRANT ALL ON FUNCTION "public"."handle_new_user"() TO "service_role";
+
+
+
 
 
 
@@ -286,6 +326,12 @@ GRANT USAGE ON SCHEMA "public" TO "service_role";
 GRANT ALL ON TABLE "public"."signatures" TO "anon";
 GRANT ALL ON TABLE "public"."signatures" TO "authenticated";
 GRANT ALL ON TABLE "public"."signatures" TO "service_role";
+
+
+
+GRANT ALL ON TABLE "public"."users" TO "anon";
+GRANT ALL ON TABLE "public"."users" TO "authenticated";
+GRANT ALL ON TABLE "public"."users" TO "service_role";
 
 
 
