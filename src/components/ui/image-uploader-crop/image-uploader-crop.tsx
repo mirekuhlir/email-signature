@@ -294,7 +294,6 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
       currentImageDisplayWidth === 0 ||
       currentImageDisplayHeight === 0
     ) {
-      // console.warn('generateCroppedImage: Missing necessary data or dimensions for processing.');
       return Promise.resolve(null);
     }
 
@@ -508,8 +507,6 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     borderRadii.bottomLeft,
     toast,
   ]);
-
-  console.warn('render');
 
   const handleCrop = useCallback(async () => {
     const croppedImageDataUrl = await generateCroppedImage();
