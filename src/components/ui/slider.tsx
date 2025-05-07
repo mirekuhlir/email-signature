@@ -27,6 +27,7 @@ interface SliderProps {
   showValues?: boolean;
   label?: string;
   showValue?: boolean;
+  isDisabled?: boolean;
 }
 
 const Slider: React.FC<SliderProps> = (props) => {
@@ -41,6 +42,7 @@ const Slider: React.FC<SliderProps> = (props) => {
     steps,
     label,
     showValue,
+    isDisabled,
   } = props;
 
   const isUsingSteps = 'steps' in props;
@@ -63,7 +65,7 @@ const Slider: React.FC<SliderProps> = (props) => {
 
   const handleMove = useCallback(
     (clientX: number) => {
-      if (sliderRef.current) {
+      if (sliderRef.current && !isDisabled) {
         const rect = sliderRef.current.getBoundingClientRect();
         const padding = 16; // 1rem = 16px
         const width = rect.width - padding * 2;
@@ -90,7 +92,7 @@ const Slider: React.FC<SliderProps> = (props) => {
         }
       }
     },
-    [isUsingSteps, max, min, onChange, step, steps, value],
+    [isUsingSteps, max, min, onChange, step, steps, value, isDisabled],
   );
 
   const handleTouchMove = useCallback(
@@ -98,11 +100,11 @@ const Slider: React.FC<SliderProps> = (props) => {
       if (e.cancelable) {
         e.preventDefault();
       }
-      if (e.touches.length > 0) {
+      if (e.touches.length > 0 && !isDisabled) {
         handleMove(e.touches[0].clientX);
       }
     },
-    [handleMove],
+    [handleMove, isDisabled],
   );
 
   const getPercentValue = useCallback((): number => {
@@ -134,7 +136,7 @@ const Slider: React.FC<SliderProps> = (props) => {
         sliderElem.removeEventListener('touchmove', handleTouchMove);
       };
     }
-  }, [handleTouchMove]);
+  }, [handleTouchMove, isDisabled]);
 
   return (
     <div className="pt-3">
@@ -146,11 +148,17 @@ const Slider: React.FC<SliderProps> = (props) => {
       <div
         id={id}
         ref={sliderRef}
-        className="relative w-full h-4 select-none px-4"
+        className={`relative w-full h-4 select-none px-4 ${
+          isDisabled ? 'opacity-50 cursor-not-allowed' : ''
+        }`}
         style={{ touchAction: 'none' }}
-        onPointerDown={(e) => sliderRef.current?.setPointerCapture(e.pointerId)}
+        onPointerDown={(e) => {
+          if (!isDisabled) {
+            sliderRef.current?.setPointerCapture(e.pointerId);
+          }
+        }}
         onPointerMove={(e) => {
-          if (e.buttons === 1) {
+          if (e.buttons === 1 && !isDisabled) {
             handleMove(e.clientX);
           }
         }}
@@ -158,15 +166,26 @@ const Slider: React.FC<SliderProps> = (props) => {
         aria-valuemin={isUsingSteps ? steps![0].value : min}
         aria-valuemax={isUsingSteps ? steps![steps!.length - 1].value : max}
         aria-valuenow={currentValue}
+        aria-disabled={isDisabled}
       >
-        <div className="absolute left-4 right-4 h-2 bg-gray-300 rounded-full transform -translate-y-1/2">
+        <div
+          className={`absolute left-4 right-4 h-2 rounded-full transform -translate-y-1/2 ${
+            isDisabled ? 'bg-gray-200' : 'bg-gray-300'
+          }`}
+        >
           <div
-            className="absolute top-0 left-0 h-full bg-blue-500 rounded-full"
+            className={`absolute top-0 left-0 h-full rounded-full ${
+              isDisabled ? 'bg-gray-400' : 'bg-blue-500'
+            }`}
             style={{ width: `${percentValue}%` }}
           />
         </div>
         <div
-          className="absolute w-8 h-8 bg-white border-2 border-blue-500 rounded-full shadow-sm transform -translate-y-1/2 -translate-x-1/2 cursor-pointer"
+          className={`absolute w-8 h-8 bg-white border-2 rounded-full shadow-sm transform -translate-y-1/2 -translate-x-1/2 ${
+            isDisabled
+              ? 'border-gray-400 cursor-not-allowed'
+              : 'border-blue-500 cursor-pointer'
+          }`}
           style={{ left: `calc(16px + (100% - 32px) * ${percentValue / 100})` }}
         />
         <div className="absolute top-full left-0 w-full flex justify-between mt-2 text-xs text-gray-600">
