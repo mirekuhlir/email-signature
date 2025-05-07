@@ -474,22 +474,11 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         .then((dataUrl) => dataUrl)
         .catch((error) => {
           console.error('Error in image processing promise:', error);
-          toast({
-            title: 'Error',
-            description: 'Failed to process image. Please try again.',
-            variant: 'error',
-            duration: 0,
-          });
           return null;
         });
     } catch (error) {
       console.error('Error in crop operation:', error);
-      toast({
-        title: 'Error',
-        description: 'Failed to process image. Please try again.',
-        variant: 'error',
-        duration: 0,
-      });
+
       return Promise.resolve(null);
     }
   }, [
@@ -505,7 +494,6 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     borderRadii.topRight,
     borderRadii.bottomRight,
     borderRadii.bottomLeft,
-    toast,
   ]);
 
   const handleCrop = useCallback(async () => {
@@ -595,7 +583,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   }, [croppedImageData, previewWidth, onSetCropImagePreview]);
 
   const handleDeleteImage = useCallback(() => {
-    onResizing?.(true);
+    /*     onResizing?.(true); */
     onSetCropImagePreview?.('');
     setCroppedImageData?.(null);
     onSetOriginalImage?.(null);
@@ -645,13 +633,10 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
 
   const handlePreviewWidthChange = useCallback(
     (value: number) => {
-      if (!isResizing) {
-        onResizing?.(true);
-      }
       setPreviewWidth(value);
       onSetPreviewWidth?.(value);
     },
-    [isResizing, onResizing, onSetPreviewWidth],
+    [onSetPreviewWidth],
   );
 
   const handleBorderRadiusTopLeftChange = useCallback((value: number) => {
