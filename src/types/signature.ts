@@ -11,7 +11,12 @@ interface ImageSettings {
     };
     aspect?: number | string;
     isCircular: boolean;
-    borderRadius?: number; // 0-100, kde 0 je bez zaoblení a 100 je maximální zaoblení
+    borderRadius?: {
+        topLeft: number;
+        topRight: number;
+        bottomRight: number;
+        bottomLeft: number;
+    };
 }
 
 // Base component properties that are common across different content types

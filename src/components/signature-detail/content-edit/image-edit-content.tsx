@@ -12,7 +12,6 @@ import { Typography } from '@/src/components/ui/typography';
 import { generateRandomId } from '@/src/utils/generateRandomId';
 import SelectBase from '../../ui/select-base';
 import { ImageComponent } from '@/src/types/signature';
-import { CollapsibleSection } from '@/src/components/ui/collapsible-section';
 
 interface ImageEditContentProps {
   components: ImageComponent[];
@@ -23,7 +22,12 @@ interface ImageEditContentProps {
 export const ImageEditContent = (props: ImageEditContentProps) => {
   const { components, contentPathToEdit, isSignedIn } = props;
   const { setContent, rows } = useSignatureStore();
-  const { setContentEdit, contentEdit } = useContentEditStore();
+  const {
+    setContentEdit,
+    contentEdit,
+    addEditingSectionId,
+    removeEditingSectionId,
+  } = useContentEditStore();
   const imageComponent: ImageComponent = components[0];
   const [showLinkInput, setShowLinkInput] = useState(false);
   const [imageIsResizing, setImageIsResizing] = useState(true);
@@ -115,6 +119,7 @@ export const ImageEditContent = (props: ImageEditContentProps) => {
         subEdit: null,
       });
       setShowLinkInput(false);
+      removeEditingSectionId(imageComponent.id);
       return;
     }
 
@@ -127,6 +132,7 @@ export const ImageEditContent = (props: ImageEditContentProps) => {
       subEdit: null,
     });
     setShowLinkInput(false);
+    removeEditingSectionId(imageComponent.id);
   };
 
   const isImageLoading = contentEdit.isImageLoading;
@@ -169,6 +175,7 @@ export const ImageEditContent = (props: ImageEditContentProps) => {
                         setContentEdit({
                           subEdit: 'edit-link',
                         });
+                        addEditingSectionId(imageComponent.id);
                         setShowLinkInput(!showLinkInput);
                       }}
                     >
@@ -187,6 +194,7 @@ export const ImageEditContent = (props: ImageEditContentProps) => {
                       setContentEdit({
                         subEdit: 'edit-link',
                       });
+                      addEditingSectionId(imageComponent.id);
                     }}
                   >
                     Add Link
@@ -222,6 +230,7 @@ export const ImageEditContent = (props: ImageEditContentProps) => {
                             setContentEdit({
                               subEdit: null,
                             });
+                            removeEditingSectionId(imageComponent.id);
                           }}
                         >
                           Close
@@ -281,23 +290,23 @@ export const ImageEditContent = (props: ImageEditContentProps) => {
           </Typography>
         </div>
       )}
-      <CollapsibleSection title="Image" isInitOpen={true}>
-        <ImageUploadCrop
-          onSetCropImagePreview={handleCropImagePreview}
-          onSetImageSettings={handleImageSettings}
-          imageSettings={imageComponent.imageSettings}
-          imageName={imageComponent.id}
-          previewWidthInit={imageComponent.previewWidth}
-          onSetPreviewWidth={handlePreviewWidth}
-          originalSrc={imageComponent.originalSrc}
-          originalImageFile={imageComponent.originalImageFile}
-          onSetOriginalImage={handleOriginalImage}
-          onLoadingChange={handleImageLoadingChange}
-          isSignedIn={isSignedIn}
-          imageCount={imageCount}
-          onResizing={handleResizing}
-          isResizing={imageIsResizing}
-        />
+
+      <ImageUploadCrop
+        onSetCropImagePreview={handleCropImagePreview}
+        onSetImageSettings={handleImageSettings}
+        imageSettings={imageComponent.imageSettings}
+        imageName={imageComponent.id}
+        previewWidthInit={imageComponent.previewWidth}
+        onSetPreviewWidth={handlePreviewWidth}
+        originalSrc={imageComponent.originalSrc}
+        originalImageFile={imageComponent.originalImageFile}
+        onSetOriginalImage={handleOriginalImage}
+        onLoadingChange={handleImageLoadingChange}
+        isSignedIn={isSignedIn}
+        imageCount={imageCount}
+        onResizing={handleResizing}
+        isResizing={imageIsResizing}
+      >
         {isImage && !isImageLoading && (
           <>
             <div className="mb-4">
@@ -306,7 +315,7 @@ export const ImageEditContent = (props: ImageEditContentProps) => {
             <ImageLink />
           </>
         )}
-      </CollapsibleSection>
+      </ImageUploadCrop>
     </>
   );
 };
