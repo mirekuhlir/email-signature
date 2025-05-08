@@ -10,8 +10,8 @@ export const MAX_COLUMNS = 2;
 
 export const MAX_COLORS = 20;
 
-export const MAX_PADDING = 300;
-export const MAX_MARGIN = 300;
+export const MAX_PADDING = 100;
+export const MAX_MARGIN = 100;
 
 // Border limits
 export const MIN_BORDER_RADIUS = 0;

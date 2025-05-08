@@ -51,6 +51,54 @@ const sanitizeString = (val: string) =>
 const sanitizedString = (maxLength: number) =>
     z.string().max(maxLength).transform(sanitizeString);
 
+// Helper schema for validating CSS values with "px" units and numeric ranges
+const pxUnitValueSchema = (
+    min: number,
+    max: number,
+    propertyName: string,
+    allowZeroShorthand = false, // Allow "0" as a shorthand for "0px"
+    maxParts = 4, // Max number of space-separated values (e.g., padding)
+) => z.string()
+    .max(MAX_CSS_VALUE_LENGTH) // Max length for the whole string e.g. "10px 10px 10px 10px"
+    .refine(
+        (val) => {
+            const parts = val.trim().split(/\s+/);
+            if (parts.length === 0 || parts.length > maxParts) {
+                return false; // Must have between 1 and maxParts
+            }
+            for (const part of parts) {
+                if (part.toLowerCase() === "auto") {
+                    continue; // "auto" is allowed
+                }
+                if (allowZeroShorthand && part === "0") {
+                    continue; // "0" is allowed as a shorthand
+                }
+                if (!part.endsWith("px")) {
+                    return false; // Must end with px
+                }
+                const numStr = part.slice(0, -2);
+                if (!/^-?\d+(\.\d+)?$/.test(numStr)) { // check if it's a valid number string
+                    return false; // Not a valid number before px
+                }
+                const num = parseFloat(numStr);
+                if (isNaN(num) || num < min || num > max) {
+                    return false; // Numeric value out of range
+                }
+            }
+            return true;
+        },
+        (val) => ({
+            message: `Invalid ${propertyName} value: "${val}". Must be ${
+                maxParts > 1 ? "1 to " + maxParts + " values" : "a value"
+            } ending with 'px' (e.g., "10px" or "10px 0px"), or "auto". Each numeric part must be between ${min} and ${max}.${
+                allowZeroShorthand
+                    ? ' Or "0" is allowed as a shorthand for "0px".'
+                    : ""
+            }`,
+        }),
+    )
+    .transform(sanitizeString);
+
 // Helper schema for safe URLs
 const safeUrlSchema = (maxLength: number) =>
     z.string()
@@ -89,12 +137,6 @@ const websiteLinkTextSchema = (maxLength: number) =>
         )
         .transform(sanitizeString);
 
-// Helper schema for valid CSS property names
-const cssPropertyNameSchema = z.string().regex(/^[a-zA-Z][a-zA-Z0-9]*$/, {
-    message:
-        "Invalid CSS property name format. Must be camelCase or a simple word (e.g., padding, backgroundColor).",
-});
-
 // Image source schema
 const imageSrcSchema = safeUrlSchema(MAX_IMAGE_SRC)
     .refine((val) => val.endsWith(".png") || val.endsWith(".jpg"), {
@@ -115,20 +157,32 @@ const baseComponentSchema = z.object({
     textAlign: sanitizedString(MAX_TEXT_ALIGN).optional(), // Consider enums for stricter validation: z.enum(["left", "center", "right", "justify"])
     textDecoration: sanitizedString(MAX_TEXT_DECORATION).optional(), // Consider enums: z.enum(["none", "underline", "overline", "line-through"])
     // Added properties based on JSON
-    padding: sanitizedString(MAX_PADDING).optional(),
-    borderRadius: sanitizedString(MAX_CSS_VALUE_LENGTH).optional(), // For string based border radius like "0px" or "0px 0px 0px 0px"
+    padding: pxUnitValueSchema(0, MAX_PADDING, "padding", true).optional(),
+    borderRadius: pxUnitValueSchema(
+        MIN_BORDER_RADIUS,
+        MAX_BORDER_RADIUS,
+        "borderRadius",
+        true,
+    ).optional(), // For string based border radius like "0px" or "0px 0px 0px 0px", allows "0"
     borderTopColor: sanitizedString(MAX_COLOR_LENGTH).optional(),
     borderTopStyle: sanitizedString(MAX_FONT_STYLE).optional(),
-    borderTopWidth: sanitizedString(MAX_BORDER_WIDTH).optional(),
+    borderTopWidth: pxUnitValueSchema(0, MAX_BORDER_WIDTH, "borderTopWidth")
+        .optional(),
     borderLeftColor: sanitizedString(MAX_COLOR_LENGTH).optional(),
     borderLeftStyle: sanitizedString(MAX_FONT_STYLE).optional(),
-    borderLeftWidth: sanitizedString(MAX_BORDER_WIDTH).optional(),
+    borderLeftWidth: pxUnitValueSchema(0, MAX_BORDER_WIDTH, "borderLeftWidth")
+        .optional(),
     borderRightColor: sanitizedString(MAX_COLOR_LENGTH).optional(),
     borderRightStyle: sanitizedString(MAX_FONT_STYLE).optional(),
-    borderRightWidth: sanitizedString(MAX_BORDER_WIDTH).optional(),
+    borderRightWidth: pxUnitValueSchema(0, MAX_BORDER_WIDTH, "borderRightWidth")
+        .optional(),
     borderBottomColor: sanitizedString(MAX_COLOR_LENGTH).optional(),
     borderBottomStyle: sanitizedString(MAX_FONT_STYLE).optional(),
-    borderBottomWidth: sanitizedString(MAX_BORDER_WIDTH).optional(),
+    borderBottomWidth: pxUnitValueSchema(
+        0,
+        MAX_BORDER_WIDTH,
+        "borderBottomWidth",
+    ).optional(),
 }).strip();
 
 // Image settings schema
@@ -164,8 +218,8 @@ const imageComponentSchema = baseComponentSchema.extend({
     originalImageFile: z.any().optional(), // File type - ensure server-side handling is secure
     previewWidth: z.number().min(MIN_CROP_SIZE).max(MAX_CROP_SIZE).optional(),
     imageSettings: imageSettingsSchema.optional(),
-    padding: sanitizedString(MAX_PADDING).optional(),
-    margin: sanitizedString(MAX_MARGIN).optional(),
+    padding: pxUnitValueSchema(0, MAX_PADDING, "padding", true).optional(),
+    margin: pxUnitValueSchema(0, MAX_MARGIN, "margin", true).optional(),
 }).strip();
 
 /* The following schemas are no longer directly used in content schemas as their
@@ -268,6 +322,31 @@ const customValueContentSchema = z.object({
     components: z.array(baseComponentSchema).max(MAX_COMPONENTS),
 });
 
+// Schema for styles applied to rows, columns, and table rows (cells)
+const elementStyleSchema = z.object({
+    // Specific properties with px validation
+    padding: pxUnitValueSchema(0, MAX_PADDING, "padding", true).optional(),
+    margin: pxUnitValueSchema(0, MAX_MARGIN, "margin", true).optional(), // Though margin might not be typical on all these, good to have
+    borderRadius: pxUnitValueSchema(
+        MIN_BORDER_RADIUS,
+        MAX_BORDER_RADIUS,
+        "borderRadius",
+        true,
+    ).optional(),
+    borderTopWidth: pxUnitValueSchema(0, MAX_BORDER_WIDTH, "borderTopWidth")
+        .optional(),
+    borderLeftWidth: pxUnitValueSchema(0, MAX_BORDER_WIDTH, "borderLeftWidth")
+        .optional(),
+    borderRightWidth: pxUnitValueSchema(0, MAX_BORDER_WIDTH, "borderRightWidth")
+        .optional(),
+    borderBottomWidth: pxUnitValueSchema(
+        0,
+        MAX_BORDER_WIDTH,
+        "borderBottomWidth",
+    ).optional(),
+    // Catch-all for other CSS properties with basic sanitization
+}).catchall(sanitizedString(MAX_STRING_ID)); // Allow any other CSS property, ensure its value is sanitized
+
 // Combined content schema
 const baseContentSchema = z.discriminatedUnion("type", [
     textContentSchema,
@@ -282,16 +361,14 @@ const baseContentSchema = z.discriminatedUnion("type", [
 const rowSchema = z.object({
     id: sanitizedString(MAX_STRING_ID),
     // Validate both style property names and values
-    style: z.record(cssPropertyNameSchema, sanitizedString(MAX_STRING_ID))
-        .optional(),
+    style: elementStyleSchema.optional(),
     content: baseContentSchema.optional(),
 }).strip();
 
 // Column schema
 const columnSchema = z.object({
     id: sanitizedString(MAX_STRING_ID),
-    style: z.record(cssPropertyNameSchema, sanitizedString(MAX_STRING_ID))
-        .optional(),
+    style: elementStyleSchema.optional(),
     rows: z.array(rowSchema).max(MAX_ROWS), // Limit to 30 rows
 }).strip();
 
@@ -299,8 +376,7 @@ const columnSchema = z.object({
 const tableRowSchema = z.object({
     id: sanitizedString(MAX_STRING_ID),
     // Validate both style property names and values
-    style: z.record(cssPropertyNameSchema, sanitizedString(MAX_STRING_ID))
-        .optional(),
+    style: elementStyleSchema.optional(),
     columns: z.array(columnSchema).max(MAX_COLUMNS), // Limit to 30 columns
 }).strip();
 
