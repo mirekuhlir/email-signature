@@ -585,7 +585,7 @@ const IconButton = ({
   return (
     <button
       onClick={onClick}
-      className="text-2xl p-2 border border-gray-200 rounded-md hover:bg-gray-100 transition-colors flex items-center justify-center w-[48px] h-[48px] aspect-square cursor-pointer"
+      className="text-2xl p-2 border border-gray-200 rounded-md hover:bg-gray-100 transition-colors flex items-center justify-center w-[48px] h-[48px] aspect-square"
     >
       {icon}
     </button>
