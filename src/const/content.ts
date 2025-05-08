@@ -11,11 +11,3 @@ export enum ContentType {
 }
 
 export const TEMP_SIGNATURE = "temp-signature";
-
-// tel, mob, email, address, website, social,
-// social networks komponenta, dke je uživatel vyplní
-// link
-// image - odkaz na image?
-// button a link
-
-export const MAX_BORDER_RADIUS = 100;

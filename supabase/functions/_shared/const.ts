@@ -17,4 +17,4 @@ export const MAX_MARGIN = 300;
 export const MIN_BORDER_RADIUS = 0;
 export const MAX_BORDER_RADIUS = 100;
 
-export const MAX_BORDER_WIDTH = 100;
+export const MAX_BORDER_WIDTH = 200;

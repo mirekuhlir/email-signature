@@ -37,6 +37,7 @@ const MAX_ASPECT_STRING = 10;
 
 import {
     MAX_BORDER_RADIUS,
+    MAX_BORDER_WIDTH,
     MAX_MARGIN,
     MAX_PADDING,
     MIN_BORDER_RADIUS,
@@ -118,17 +119,17 @@ const baseComponentSchema = z.object({
     borderRadius: sanitizedString(MAX_CSS_VALUE_LENGTH).optional(), // For string based border radius like "0px" or "0px 0px 0px 0px"
     borderTopColor: sanitizedString(MAX_COLOR_LENGTH).optional(),
     borderTopStyle: sanitizedString(MAX_FONT_STYLE).optional(),
-    borderTopWidth: sanitizedString(MAX_FONT_SIZE).optional(),
+    borderTopWidth: sanitizedString(MAX_BORDER_WIDTH).optional(),
     borderLeftColor: sanitizedString(MAX_COLOR_LENGTH).optional(),
     borderLeftStyle: sanitizedString(MAX_FONT_STYLE).optional(),
-    borderLeftWidth: sanitizedString(MAX_FONT_SIZE).optional(),
+    borderLeftWidth: sanitizedString(MAX_BORDER_WIDTH).optional(),
     borderRightColor: sanitizedString(MAX_COLOR_LENGTH).optional(),
     borderRightStyle: sanitizedString(MAX_FONT_STYLE).optional(),
-    borderRightWidth: sanitizedString(MAX_FONT_SIZE).optional(),
+    borderRightWidth: sanitizedString(MAX_BORDER_WIDTH).optional(),
     borderBottomColor: sanitizedString(MAX_COLOR_LENGTH).optional(),
     borderBottomStyle: sanitizedString(MAX_FONT_STYLE).optional(),
-    borderBottomWidth: sanitizedString(MAX_FONT_SIZE).optional(),
-});
+    borderBottomWidth: sanitizedString(MAX_BORDER_WIDTH).optional(),
+}).strip();
 
 // Image settings schema
 const imageSettingsSchema = z.object({
@@ -138,7 +139,7 @@ const imageSettingsSchema = z.object({
         width: z.number().min(MIN_CROP_SIZE).max(MAX_CROP_SIZE),
         height: z.number().min(MIN_CROP_SIZE).max(MAX_CROP_SIZE),
         unit: z.string().max(MAX_CROP_UNIT),
-    }),
+    }).strip(),
     aspect: z.union([
         z.number().min(MIN_ASPECT_RATIO).max(MAX_ASPECT_RATIO),
         z.string().max(MAX_ASPECT_STRING),
@@ -153,7 +154,7 @@ const imageSettingsSchema = z.object({
         bottomLeft: z.number().min(MIN_BORDER_RADIUS).max(MAX_BORDER_RADIUS),
     }).optional(),
     margin: sanitizedString(MAX_MARGIN).optional(),
-});
+}).strip();
 
 // Component schemas
 const imageComponentSchema = baseComponentSchema.extend({
@@ -165,7 +166,7 @@ const imageComponentSchema = baseComponentSchema.extend({
     imageSettings: imageSettingsSchema.optional(),
     padding: sanitizedString(MAX_PADDING).optional(),
     margin: sanitizedString(MAX_MARGIN).optional(),
-});
+}).strip();
 
 /* The following schemas are no longer directly used in content schemas as their
    functionality has been incorporated into TextTypedComponentSchema and the discriminated unions
@@ -190,18 +191,18 @@ const websiteComponentSchema = baseComponentSchema.extend({
 const TextTypedComponentSchema = baseComponentSchema.extend({
     text: sanitizedString(MAX_STRING_LENGTH),
     type: z.literal("text"),
-});
+}).strip();
 
 // Schema for text components specifically within textContentSchema, type is implied
 const TextComponentContentSchema = baseComponentSchema.extend({
     text: sanitizedString(MAX_STRING_LENGTH),
     // No 'type' field here as it's implied by the parent textContentSchema
-});
+}).strip();
 
 const PhoneLinkTypedComponentSchema = baseComponentSchema.extend({
     text: sanitizedString(MAX_PHONE_LENGTH),
     type: z.literal("phoneLink"),
-});
+}).strip();
 
 const EmailLinkTypedComponentSchema = baseComponentSchema.extend({
     text: z.string().max(MAX_EMAIL_LENGTH).email({
@@ -209,24 +210,24 @@ const EmailLinkTypedComponentSchema = baseComponentSchema.extend({
             "Invalid email format. If this is a template variable, ensure it is a valid email placeholder.",
     }).transform(sanitizeString),
     type: z.literal("emailLink"),
-});
+}).strip();
 
 const WebsiteLinkTypedComponentSchema = baseComponentSchema.extend({
     text: websiteLinkTextSchema(MAX_URL_LENGTH), // text is a URL for websiteLink, using the new permissive schema
     type: z.literal("websiteLink"),
-});
+}).strip();
 
 // Content schema for text type
 const textContentSchema = z.object({
     type: z.literal("text"),
     components: z.array(TextComponentContentSchema).max(MAX_COMPONENTS), // Use TextComponentContentSchema
-});
+}).strip();
 
 // Content schema for image type
 const imageContentSchema = z.object({
     type: z.literal("image"),
     components: z.array(imageComponentSchema).max(MAX_COMPONENTS),
-});
+}).strip();
 
 // Content schema for email type
 const emailContentSchema = z.object({
@@ -237,7 +238,7 @@ const emailContentSchema = z.object({
             EmailLinkTypedComponentSchema, // For the actual email link
         ]),
     ).max(MAX_COMPONENTS),
-});
+}).strip();
 
 // Content schema for phone type
 const phoneContentSchema = z.object({
@@ -248,7 +249,7 @@ const phoneContentSchema = z.object({
             PhoneLinkTypedComponentSchema, // For the actual phone link
         ]),
     ).max(MAX_COMPONENTS),
-});
+}).strip();
 
 // Content schema for website type
 const websiteContentSchema = z.object({
@@ -259,7 +260,7 @@ const websiteContentSchema = z.object({
             WebsiteLinkTypedComponentSchema, // For the actual website link
         ]),
     ).max(MAX_COMPONENTS),
-});
+}).strip();
 
 // Content schema for custom type
 const customValueContentSchema = z.object({
@@ -284,7 +285,7 @@ const rowSchema = z.object({
     style: z.record(cssPropertyNameSchema, sanitizedString(MAX_STRING_ID))
         .optional(),
     content: baseContentSchema.optional(),
-});
+}).strip();
 
 // Column schema
 const columnSchema = z.object({
@@ -292,7 +293,7 @@ const columnSchema = z.object({
     style: z.record(cssPropertyNameSchema, sanitizedString(MAX_STRING_ID))
         .optional(),
     rows: z.array(rowSchema).max(MAX_ROWS), // Limit to 30 rows
-});
+}).strip();
 
 // Table row schema
 const tableRowSchema = z.object({
@@ -301,18 +302,18 @@ const tableRowSchema = z.object({
     style: z.record(cssPropertyNameSchema, sanitizedString(MAX_STRING_ID))
         .optional(),
     columns: z.array(columnSchema).max(MAX_COLUMNS), // Limit to 30 columns
-});
+}).strip();
 
 // Signature template schema
 export const signatureTemplateSchema = z.object({
     info: z.object({
         templateSlug: sanitizedString(MAX_STRING_ID),
         version: sanitizedString(MAX_FONT_SIZE),
-    }).optional(),
+    }).strip().optional(),
     // Ensure colors are sanitized
     colors: z.array(sanitizedString(MAX_COLOR_LENGTH)).max(MAX_COLORS),
     rows: z.array(tableRowSchema).max(MAX_ROWS), // Limit to 30 rows
-});
+}).strip();
 
 // Validation function
 export const validateSignature = (data: unknown) => {

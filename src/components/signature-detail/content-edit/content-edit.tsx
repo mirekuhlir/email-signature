@@ -3,11 +3,7 @@
 import { useRef, useCallback, useState, useEffect, useMemo } from 'react';
 import { get } from 'lodash';
 import { useSignatureStore } from '@/src/store/content-edit-add-store';
-import {
-  ContentType,
-  TEMP_SIGNATURE,
-  MAX_BORDER_RADIUS,
-} from '@/src/const/content';
+import { ContentType, TEMP_SIGNATURE } from '@/src/const/content';
 import { Button } from '@/src/components/ui/button';
 import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
 import { ImageEditContent } from './image-edit-content';
@@ -25,7 +21,12 @@ import { GenericEditContent } from './text-edit-content';
 import { LayoutType } from '@/src/components/ui/rich-text-editor/rich-text-editor';
 import useValidate from '@/src/hooks/useValidate';
 import { validateEmail } from '@/src/hooks/validations';
-import { MAX_PADDING } from '@/supabase/functions/_shared/const';
+import {
+  MAX_BORDER_WIDTH,
+  MAX_BORDER_RADIUS,
+  MAX_PADDING,
+} from '@/supabase/functions/_shared/const';
+
 export const LoadingInfo = ({
   text = 'Saving. Please wait...',
   size = 'lg',
@@ -559,7 +560,7 @@ export const ContentEdit = (props: any) => {
                         </Typography>
                         <Slider
                           min={0}
-                          max={10}
+                          max={MAX_BORDER_WIDTH}
                           value={borderWidths.top}
                           onChange={(value: number) => {
                             setBorderWidths((prev) => ({
@@ -594,7 +595,7 @@ export const ContentEdit = (props: any) => {
                         </Typography>
                         <Slider
                           min={0}
-                          max={10}
+                          max={MAX_BORDER_WIDTH}
                           value={borderWidths.right}
                           onChange={(value: number) => {
                             setBorderWidths((prev) => ({
