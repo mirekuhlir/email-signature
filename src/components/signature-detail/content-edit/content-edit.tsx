@@ -552,7 +552,7 @@ export const ContentEdit = (props: any) => {
                 </CollapsibleSection>
                 <CollapsibleSection title="Borders">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    <div className="mb-2">
+                    <div className="mb-4">
                       <div>
                         <Typography variant="labelBase" className="mb-2">
                           Top border width : {borderWidths.top}px
@@ -585,10 +585,9 @@ export const ContentEdit = (props: any) => {
                           }}
                         />
                       )}
-                      <Hr className="mt-4" />
                     </div>
 
-                    <div className="mb-2">
+                    <div className="mb-4">
                       <div>
                         <Typography variant="labelBase" className="mb-2">
                           Right border width : {borderWidths.right}px
@@ -621,10 +620,9 @@ export const ContentEdit = (props: any) => {
                           }}
                         />
                       )}
-                      <Hr className="mt-4" />
                     </div>
 
-                    <div className="mb-2">
+                    <div className="mb-4">
                       <div>
                         <Typography variant="labelBase" className="mb-2">
                           Bottom border width : {borderWidths.bottom}px
@@ -657,10 +655,9 @@ export const ContentEdit = (props: any) => {
                           }}
                         />
                       )}
-                      <Hr className="mt-4" />
                     </div>
 
-                    <div className="mb-2">
+                    <div className="mb-4">
                       <div>
                         <Typography variant="labelBase" className="mb-2">
                           Left border width : {borderWidths.left}px
