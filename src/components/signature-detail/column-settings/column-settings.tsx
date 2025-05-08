@@ -11,8 +11,10 @@ import { CollapsibleSection } from '@/src/components/ui/collapsible-section';
 import PreviewActionPanel from '../preview-action-panel';
 import { LoadingInfo } from '../content-edit/content-edit';
 import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
-import { MAX_BORDER_RADIUS } from '@/src/const/content';
-import { MAX_PADDING } from '@/supabase/functions/_shared/const';
+import {
+  MAX_PADDING,
+  MAX_BORDER_RADIUS,
+} from '@/supabase/functions/_shared/const';
 export const ColumnSettings = (props: any) => {
   const { columnPathToEdit, signatureId, isSignedIn } = props;
   const { toast } = useToast();

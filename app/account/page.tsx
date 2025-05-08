@@ -16,6 +16,9 @@ export default async function Account() {
     return redirect('/sign-in');
   }
 
+  const validFrom = user.app_metadata.premium.validFrom;
+  const validTo = user.app_metadata.premium.validTo;
+
   const isPremium = await getIsPremium(user);
 
   return (
