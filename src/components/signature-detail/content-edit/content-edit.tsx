@@ -585,9 +585,10 @@ export const ContentEdit = (props: any) => {
                           }}
                         />
                       )}
+                      <Hr className="mt-4" />
                     </div>
 
-                    <div>
+                    <div className="mb-2">
                       <div>
                         <Typography variant="labelBase" className="mb-2">
                           Right border width : {borderWidths.right}px
@@ -620,6 +621,7 @@ export const ContentEdit = (props: any) => {
                           }}
                         />
                       )}
+                      <Hr className="mt-4" />
                     </div>
 
                     <div className="mb-2">
@@ -655,6 +657,7 @@ export const ContentEdit = (props: any) => {
                           }}
                         />
                       )}
+                      <Hr className="mt-4" />
                     </div>
 
                     <div className="mb-2">
