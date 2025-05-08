@@ -279,7 +279,7 @@ const AdvancedColorPicker = (props: Props) => {
           onTouchMove={(e) => isDraggingField && handleFieldInteraction(e)}
         >
           <div
-            className="absolute w-8 h-8 border-4 border-white rounded-full -translate-x-4 -translate-y-4 shadow-lg"
+            className="absolute w-8 h-8 border-4 border-white rounded-full -translate-x-4 -translate-y-4 shadow-lg ring-2 ring-blue-500"
             style={{
               left: `${hsv.s}%`,
               top: `${100 - hsv.v}%`,
@@ -307,7 +307,7 @@ const AdvancedColorPicker = (props: Props) => {
           onTouchMove={(e) => isDraggingHue && handleHueInteraction(e)}
         >
           <div
-            className="absolute w-7 h-full border-4 border-white -translate-x-4 shadow-lg"
+            className="absolute w-7 h-full border-4 border-white -translate-x-4 shadow-lg ring-2 ring-blue-500"
             style={{
               left: `${hsv.h * 100}%`,
             }}
