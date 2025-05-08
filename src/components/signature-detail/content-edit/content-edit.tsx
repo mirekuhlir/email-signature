@@ -25,7 +25,7 @@ import { GenericEditContent } from './text-edit-content';
 import { LayoutType } from '@/src/components/ui/rich-text-editor/rich-text-editor';
 import useValidate from '@/src/hooks/useValidate';
 import { validateEmail } from '@/src/hooks/validations';
-
+import { MAX_PADDING } from '@/supabase/functions/_shared/const';
 export const LoadingInfo = ({
   text = 'Saving. Please wait...',
   size = 'lg',
@@ -499,7 +499,7 @@ export const ContentEdit = (props: any) => {
                       </Typography>
                       <Slider
                         min={0}
-                        max={50}
+                        max={MAX_PADDING}
                         value={paddingTop}
                         onChange={(value: number) => {
                           setPaddingTop(value);
@@ -513,7 +513,7 @@ export const ContentEdit = (props: any) => {
                       </Typography>
                       <Slider
                         min={0}
-                        max={50}
+                        max={MAX_PADDING}
                         value={paddingRight}
                         onChange={(value: number) => {
                           setPaddingRight(value);
@@ -527,7 +527,7 @@ export const ContentEdit = (props: any) => {
                       </Typography>
                       <Slider
                         min={0}
-                        max={50}
+                        max={MAX_PADDING}
                         value={paddingBottom}
                         onChange={(value: number) => {
                           setPaddingBottom(value);
@@ -541,7 +541,7 @@ export const ContentEdit = (props: any) => {
                       </Typography>
                       <Slider
                         min={0}
-                        max={50}
+                        max={MAX_PADDING}
                         value={paddingLeft}
                         onChange={(value: number) => {
                           setPaddingLeft(value);
@@ -629,7 +629,7 @@ export const ContentEdit = (props: any) => {
                         </Typography>
                         <Slider
                           min={0}
-                          max={10}
+                          max={MAX_BORDER_WIDTH}
                           value={borderWidths.bottom}
                           onChange={(value: number) => {
                             setBorderWidths((prev) => ({
@@ -664,7 +664,7 @@ export const ContentEdit = (props: any) => {
                         </Typography>
                         <Slider
                           min={0}
-                          max={10}
+                          max={MAX_BORDER_WIDTH}
                           value={borderWidths.left}
                           onChange={(value: number) => {
                             setBorderWidths((prev) => ({

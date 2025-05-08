@@ -1,4 +1,3 @@
-
 export const MAX_SIGNATURES = 15;
 
 export const MAX_IMAGES = 10;
@@ -10,3 +9,12 @@ export const MAX_ROWS = 30;
 export const MAX_COLUMNS = 2;
 
 export const MAX_COLORS = 20;
+
+export const MAX_PADDING = 300;
+export const MAX_MARGIN = 300;
+
+// Border limits
+export const MIN_BORDER_RADIUS = 0;
+export const MAX_BORDER_RADIUS = 100;
+
+export const MAX_BORDER_WIDTH = 100;
