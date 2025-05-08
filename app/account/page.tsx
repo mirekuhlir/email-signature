@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation';
 import { Header } from '@/src/components/header';
 import { Container } from '@/src/components/ui/container';
 import { Typography } from '@/src/components/ui/typography';
+import { getIsPremium } from '@/src/utils/premium';
 
 export default async function Account() {
   const supabase = await createClient();
@@ -15,13 +16,7 @@ export default async function Account() {
     return redirect('/sign-in');
   }
 
-  const validFrom = user.app_metadata.premium.validFrom;
-  const validTo = user.app_metadata.premium.validTo;
-
-  const isPremium =
-    validFrom &&
-    new Date(validFrom) < new Date() &&
-    (!validTo || new Date(validTo) > new Date());
+  const isPremium = await getIsPremium(user);
 
   return (
     <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100">
