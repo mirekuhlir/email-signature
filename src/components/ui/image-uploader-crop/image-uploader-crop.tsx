@@ -523,6 +523,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
       // First debounce with 400ms, then call handleCrop after 100ms delay
       debounce(() => {
         onResizing?.(true);
+
         setTimeout(() => {
           handleCrop()
             .catch((err) => {
@@ -538,11 +539,20 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   );
 
   useEffect(() => {
-    debouncedHandleCrop();
+    if (originalImagePreview) {
+      debouncedHandleCrop();
+    }
     return () => {
       debouncedHandleCrop.cancel();
     };
-  }, [previewWidth, debouncedHandleCrop, crop, isCircular, borderRadii]);
+  }, [
+    previewWidth,
+    debouncedHandleCrop,
+    crop,
+    isCircular,
+    borderRadii,
+    originalImagePreview,
+  ]);
 
   // Update the second useEffect to also work with promises
   useEffect(() => {
@@ -583,7 +593,6 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   }, [croppedImageData, previewWidth, onSetCropImagePreview]);
 
   const handleDeleteImage = useCallback(() => {
-    /*     onResizing?.(true); */
     onSetCropImagePreview?.('');
     setCroppedImageData?.(null);
     onSetOriginalImage?.(null);
@@ -595,7 +604,6 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     }
     setOriginalImagePreview(undefined);
   }, [
-    onResizing,
     onSetCropImagePreview,
     onSetOriginalImage,
     onSetImageSettings,
