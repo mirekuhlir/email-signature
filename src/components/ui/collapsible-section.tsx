@@ -18,16 +18,19 @@ export const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
   const [isOpen, setIsOpen] = useState(isInitOpen);
 
   const { editingSectionIds } = useContentEditStore();
+  const isDisabled = editingSectionIds.length > 0;
 
   return (
     <div className={className}>
       <button
         onClick={() => {
-          if (editingSectionIds.length === 0) {
+          if (!isDisabled) {
             setIsOpen(!isOpen);
           }
         }}
-        className="w-full py-2 px-2 flex justify-between items-center mt-4 mb-4 bg-gray-200 rounded-md cursor-pointer"
+        className={`w-full py-2 px-2 flex justify-between items-center mt-4 mb-4 bg-gray-200 rounded-md ${
+          isDisabled ? 'cursor-not-allowed opacity-30' : 'cursor-pointer'
+        }`}
       >
         <div className="flex items-center gap-2">
           <svg
