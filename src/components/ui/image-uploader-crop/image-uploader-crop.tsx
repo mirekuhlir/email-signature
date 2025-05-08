@@ -107,6 +107,9 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   const [lastKnownDispHeight, setLastKnownDispHeight] = useState<number | null>(
     null,
   );
+  const [originalImageNaturalHeight, setOriginalImageNaturalHeight] = useState<
+    number | null
+  >(null);
 
   const [originalImagePreview, setOriginalImagePreview] = useState<
     string | undefined
@@ -826,9 +829,12 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
                       if (img) {
                         setLastKnownNatWidth(img.naturalWidth);
                         setLastKnownNatHeight(img.naturalHeight);
+
                         const rect = img.getBoundingClientRect();
                         setLastKnownDispWidth(rect.width);
                         setLastKnownDispHeight(rect.height);
+
+                        setOriginalImageNaturalHeight(img.naturalHeight);
 
                         // Initialize crop here if not already set by imageSettings
                         // and if current dimensions are valid
@@ -840,6 +846,23 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
                         ) {
                           const defaultCrop = getDefaultCrop(
                             aspect ?? 1, // Use current aspect or fallback
+                            rect.width,
+                            rect.height,
+                          );
+                          setCrop({
+                            ...defaultCrop,
+                            unit: '%' as const,
+                          });
+                        }
+
+                        // If the image height has changed, update the crop
+                        if (
+                          originalImageNaturalHeight &&
+                          originalImageNaturalHeight > 0 &&
+                          img.naturalHeight !== originalImageNaturalHeight
+                        ) {
+                          const defaultCrop = getDefaultCrop(
+                            aspect ?? 1,
                             rect.width,
                             rect.height,
                           );
