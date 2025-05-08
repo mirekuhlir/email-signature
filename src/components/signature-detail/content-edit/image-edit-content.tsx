@@ -30,7 +30,7 @@ export const ImageEditContent = (props: ImageEditContentProps) => {
   } = useContentEditStore();
   const imageComponent: ImageComponent = components[0];
   const [showLinkInput, setShowLinkInput] = useState(false);
-  const [imageIsResizing, setImageIsResizing] = useState(true);
+  const [imageIsResizing, setImageIsResizing] = useState(false);
   const {
     register,
     handleSubmit,
