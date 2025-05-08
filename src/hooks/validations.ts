@@ -1,4 +1,4 @@
-import t from "@/app/localization/translate";
+import t from "@/src/localization/translate";
 
 export const validateEmail = (email: string): { message: string } => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
