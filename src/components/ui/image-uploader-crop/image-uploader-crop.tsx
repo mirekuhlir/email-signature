@@ -922,81 +922,79 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
           {children}
         </CollapsibleSection>
 
-        {originalImagePreview && (
+        {originalImagePreview && !isCircular && (
           <CollapsibleSection title="Image rounded corners">
             <div className="space-y-2">
               {croppedImageData && (
                 <div className="space-y-2">
-                  {!isCircular && (
-                    <div className="space-y-2">
-                      <div className="grid grid-cols-2 gap-2">
-                        <div>
-                          <div className="mb-1">
-                            <Typography variant="labelBase">
-                              {`Top Left: ${borderRadii.topLeft} px`}
-                            </Typography>
-                          </div>
-                          <Slider
-                            min={0}
-                            max={MAX_IMAGE_WIDTH / 2}
-                            units="px"
-                            value={borderRadii.topLeft}
-                            onChange={handleBorderRadiusTopLeftChange}
-                            id="border-radius-slider-tl"
-                            isDisabled={isResizing}
-                          />
+                  <div className="space-y-2">
+                    <div className="grid grid-cols-2 gap-2">
+                      <div>
+                        <div className="mb-1">
+                          <Typography variant="labelBase">
+                            {`Top Left: ${borderRadii.topLeft} px`}
+                          </Typography>
                         </div>
-                        <div>
-                          <div className="mb-1">
-                            <Typography variant="labelBase">
-                              {`Top Right: ${borderRadii.topRight} px`}
-                            </Typography>
-                          </div>
-                          <Slider
-                            min={0}
-                            max={MAX_IMAGE_WIDTH / 2}
-                            units="px"
-                            value={borderRadii.topRight}
-                            onChange={handleBorderRadiusTopRightChange}
-                            id="border-radius-slider-tr"
-                            isDisabled={isResizing}
-                          />
+                        <Slider
+                          min={0}
+                          max={MAX_IMAGE_WIDTH / 2}
+                          units="px"
+                          value={borderRadii.topLeft}
+                          onChange={handleBorderRadiusTopLeftChange}
+                          id="border-radius-slider-tl"
+                          isDisabled={isResizing}
+                        />
+                      </div>
+                      <div>
+                        <div className="mb-1">
+                          <Typography variant="labelBase">
+                            {`Top Right: ${borderRadii.topRight} px`}
+                          </Typography>
                         </div>
-                        <div>
-                          <div className="mb-1">
-                            <Typography variant="labelBase">
-                              {`Bottom Left: ${borderRadii.bottomLeft} px`}
-                            </Typography>
-                          </div>
-                          <Slider
-                            min={0}
-                            max={MAX_IMAGE_WIDTH / 2}
-                            units="px"
-                            value={borderRadii.bottomLeft}
-                            onChange={handleBorderRadiusBottomLeftChange}
-                            id="border-radius-slider-bl"
-                            isDisabled={isResizing}
-                          />
+                        <Slider
+                          min={0}
+                          max={MAX_IMAGE_WIDTH / 2}
+                          units="px"
+                          value={borderRadii.topRight}
+                          onChange={handleBorderRadiusTopRightChange}
+                          id="border-radius-slider-tr"
+                          isDisabled={isResizing}
+                        />
+                      </div>
+                      <div>
+                        <div className="mb-1">
+                          <Typography variant="labelBase">
+                            {`Bottom Left: ${borderRadii.bottomLeft} px`}
+                          </Typography>
                         </div>
-                        <div>
-                          <div className="mb-1">
-                            <Typography variant="labelBase">
-                              {`Bottom Right: ${borderRadii.bottomRight} px`}
-                            </Typography>
-                          </div>
-                          <Slider
-                            min={0}
-                            max={MAX_IMAGE_WIDTH / 2}
-                            units="px"
-                            value={borderRadii.bottomRight}
-                            onChange={handleBorderRadiusBottomRightChange}
-                            id="border-radius-slider-br"
-                            isDisabled={isResizing}
-                          />
+                        <Slider
+                          min={0}
+                          max={MAX_IMAGE_WIDTH / 2}
+                          units="px"
+                          value={borderRadii.bottomLeft}
+                          onChange={handleBorderRadiusBottomLeftChange}
+                          id="border-radius-slider-bl"
+                          isDisabled={isResizing}
+                        />
+                      </div>
+                      <div>
+                        <div className="mb-1">
+                          <Typography variant="labelBase">
+                            {`Bottom Right: ${borderRadii.bottomRight} px`}
+                          </Typography>
                         </div>
+                        <Slider
+                          min={0}
+                          max={MAX_IMAGE_WIDTH / 2}
+                          units="px"
+                          value={borderRadii.bottomRight}
+                          onChange={handleBorderRadiusBottomRightChange}
+                          id="border-radius-slider-br"
+                          isDisabled={isResizing}
+                        />
                       </div>
                     </div>
-                  )}
+                  </div>
                 </div>
               )}
             </div>
