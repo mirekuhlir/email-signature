@@ -422,7 +422,7 @@ export const ContentEdit = (props: any) => {
                   <div className="grid grid-cols-2 gap-2">
                     <div>
                       <Typography variant="labelBase" className="mb-2">
-                        Top-left border radius : {borderRadiusCorners.topLeft}
+                        Top-left radius : {borderRadiusCorners.topLeft}
                         px
                       </Typography>
                       <Slider

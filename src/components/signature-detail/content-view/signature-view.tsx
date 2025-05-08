@@ -15,6 +15,7 @@ export const EmailTemplateView = (props: any) => {
           cellSpacing="0"
           role="presentation"
           width="100%"
+          style={{ borderCollapse: 'separate' }}
         >
           <tbody>{column.rows && renderRows(column.rows)}</tbody>
         </table>

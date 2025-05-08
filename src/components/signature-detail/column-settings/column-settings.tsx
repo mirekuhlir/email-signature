@@ -284,9 +284,11 @@ export const ColumnSettings = (props: any) => {
                     }}
                   />
                 </div>
+              </div>
+              <div className="grid grid-cols-2 gap-2">
                 <div>
                   <Typography variant="labelBase" className="mb-2">
-                    Top-left border radius : {borderRadiusCorners.topLeft}px
+                    Top-left radius : {borderRadiusCorners.topLeft}px
                   </Typography>
                   <Slider
                     min={0}
@@ -302,7 +304,7 @@ export const ColumnSettings = (props: any) => {
                 </div>
                 <div>
                   <Typography variant="labelBase" className="mb-2">
-                    Top-right border radius : {borderRadiusCorners.topRight}px
+                    Top-right radius : {borderRadiusCorners.topRight}px
                   </Typography>
                   <Slider
                     min={0}
@@ -318,8 +320,7 @@ export const ColumnSettings = (props: any) => {
                 </div>
                 <div>
                   <Typography variant="labelBase" className="mb-2">
-                    Bottom-right border radius :{' '}
-                    {borderRadiusCorners.bottomRight}px
+                    Bottom-right radius : {borderRadiusCorners.bottomRight}px
                   </Typography>
                   <Slider
                     min={0}
@@ -335,7 +336,7 @@ export const ColumnSettings = (props: any) => {
                 </div>
                 <div>
                   <Typography variant="labelBase" className="mb-2">
-                    Bottom-left border radius : {borderRadiusCorners.bottomLeft}
+                    Bottom-left radius : {borderRadiusCorners.bottomLeft}
                     px
                   </Typography>
                   <Slider
@@ -354,7 +355,8 @@ export const ColumnSettings = (props: any) => {
             </CollapsibleSection>
 
             <CollapsibleSection title="Inner space">
-              <div className="grid grid-cols-1 gap-2 sm:gap-3">
+              {/*       TODO - mobile 1 */}
+              <div className="grid grid-cols-2 gap-2">
                 <div>
                   <Typography variant="labelBase" className="mb-2">
                     Top inner space: {paddingTop}px
@@ -397,7 +399,7 @@ export const ColumnSettings = (props: any) => {
                   />
                 </div>
 
-                <div className="pb-4">
+                <div>
                   <Typography variant="labelBase" className="mb-2">
                     Left inner space: {paddingLeft}px
                   </Typography>
@@ -414,126 +416,140 @@ export const ColumnSettings = (props: any) => {
             </CollapsibleSection>
 
             <CollapsibleSection title="Borders">
-              <div className="grid grid-cols-1 gap-2 sm:gap-3">
-                <div>
-                  <Typography variant="labelBase" className="mb-2">
-                    Top border width : {borderWidths.top}px
-                  </Typography>
-                  <Slider
-                    min={0}
-                    max={10}
-                    value={Number(borderWidths.top)}
-                    onChange={(value: number) => {
-                      setBorderWidths((prev) => ({
-                        ...prev,
-                        top: value.toString(),
-                      }));
-                    }}
-                  />
+              <div className="grid grid-cols-2 gap-2">
+                <div className="mb-2">
+                  <div>
+                    <Typography variant="labelBase" className="mb-2">
+                      Top width : {borderWidths.top}px
+                    </Typography>
+                    <Slider
+                      min={0}
+                      max={10}
+                      value={Number(borderWidths.top)}
+                      onChange={(value: number) => {
+                        setBorderWidths((prev) => ({
+                          ...prev,
+                          top: value.toString(),
+                        }));
+                      }}
+                    />
+                  </div>
+
+                  {borderWidths.top !== '0' && (
+                    <EditColor
+                      initColor={borderColors.top}
+                      label="Top border color"
+                      sectionId={componentId}
+                      onChange={(color) => {
+                        if (color) {
+                          setBorderColors((prev) => ({ ...prev, top: color }));
+                        }
+                      }}
+                    />
+                  )}
                 </div>
 
-                {borderWidths.top !== '0' && (
-                  <EditColor
-                    initColor={borderColors.top}
-                    label="Top border color"
-                    sectionId={componentId}
-                    onChange={(color) => {
-                      if (color) {
-                        setBorderColors((prev) => ({ ...prev, top: color }));
-                      }
-                    }}
-                  />
-                )}
+                <div className="mb-4">
+                  <div>
+                    <Typography variant="labelBase" className="mb-2">
+                      Right width : {borderWidths.right}px
+                    </Typography>
+                    <Slider
+                      min={0}
+                      max={10}
+                      value={Number(borderWidths.right)}
+                      onChange={(value: number) => {
+                        setBorderWidths((prev) => ({
+                          ...prev,
+                          right: value.toString(),
+                        }));
+                      }}
+                    />
+                  </div>
 
-                <div>
-                  <Typography variant="labelBase" className="mb-2">
-                    Right border width : {borderWidths.right}px
-                  </Typography>
-                  <Slider
-                    min={0}
-                    max={10}
-                    value={Number(borderWidths.right)}
-                    onChange={(value: number) => {
-                      setBorderWidths((prev) => ({
-                        ...prev,
-                        right: value.toString(),
-                      }));
-                    }}
-                  />
+                  {borderWidths.right !== '0' && (
+                    <EditColor
+                      initColor={borderColors.right}
+                      label="Right border color"
+                      sectionId={componentId}
+                      onChange={(color) => {
+                        if (color) {
+                          setBorderColors((prev) => ({
+                            ...prev,
+                            right: color,
+                          }));
+                        }
+                      }}
+                    />
+                  )}
                 </div>
 
-                {borderWidths.right !== '0' && (
-                  <EditColor
-                    initColor={borderColors.right}
-                    label="Right border color"
-                    sectionId={componentId}
-                    onChange={(color) => {
-                      if (color) {
-                        setBorderColors((prev) => ({ ...prev, right: color }));
-                      }
-                    }}
-                  />
-                )}
+                <div className="mb-4">
+                  <div>
+                    <Typography variant="labelBase" className="mb-2">
+                      Bottom width : {borderWidths.bottom}px
+                    </Typography>
+                    <Slider
+                      min={0}
+                      max={10}
+                      value={Number(borderWidths.bottom)}
+                      onChange={(value: number) => {
+                        setBorderWidths((prev) => ({
+                          ...prev,
+                          bottom: value.toString(),
+                        }));
+                      }}
+                    />
+                  </div>
 
-                <div>
-                  <Typography variant="labelBase" className="mb-2">
-                    Bottom border width : {borderWidths.bottom}px
-                  </Typography>
-                  <Slider
-                    min={0}
-                    max={10}
-                    value={Number(borderWidths.bottom)}
-                    onChange={(value: number) => {
-                      setBorderWidths((prev) => ({
-                        ...prev,
-                        bottom: value.toString(),
-                      }));
-                    }}
-                  />
+                  {borderWidths.bottom !== '0' && (
+                    <EditColor
+                      initColor={borderColors.bottom}
+                      label="Bottom border color"
+                      sectionId={componentId}
+                      onChange={(color) => {
+                        if (color) {
+                          setBorderColors((prev) => ({
+                            ...prev,
+                            bottom: color,
+                          }));
+                        }
+                      }}
+                    />
+                  )}
                 </div>
 
-                {borderWidths.bottom !== '0' && (
-                  <EditColor
-                    initColor={borderColors.bottom}
-                    label="Bottom border color"
-                    sectionId={componentId}
-                    onChange={(color) => {
-                      if (color) {
-                        setBorderColors((prev) => ({ ...prev, bottom: color }));
-                      }
-                    }}
-                  />
-                )}
+                <div className="mb-2">
+                  <div>
+                    <Typography variant="labelBase" className="mb-4">
+                      Left width : {borderWidths.left}px
+                    </Typography>
+                    <Slider
+                      min={0}
+                      max={10}
+                      value={Number(borderWidths.left)}
+                      onChange={(value: number) => {
+                        setBorderWidths((prev) => ({
+                          ...prev,
+                          left: value.toString(),
+                        }));
+                      }}
+                    />
+                  </div>
 
-                <div>
-                  <Typography variant="labelBase" className="mb-2">
-                    Left border width : {borderWidths.left}px
-                  </Typography>
-                  <Slider
-                    min={0}
-                    max={10}
-                    value={Number(borderWidths.left)}
-                    onChange={(value: number) => {
-                      setBorderWidths((prev) => ({
-                        ...prev,
-                        left: value.toString(),
-                      }));
-                    }}
-                  />
+                  {borderWidths.left !== '0' && (
+                    <EditColor
+                      initColor={borderColors.left}
+                      label="Left border color"
+                      sectionId={componentId}
+                      onChange={(color) => {
+                        if (color) {
+                          setBorderColors((prev) => ({ ...prev, left: color }));
+                        }
+                      }}
+                    />
+                  )}
                 </div>
-
-                {borderWidths.left !== '0' && (
-                  <EditColor
-                    initColor={borderColors.left}
-                    label="Left border color"
-                    sectionId={componentId}
-                    onChange={(color) => {
-                      if (color) {
-                        setBorderColors((prev) => ({ ...prev, left: color }));
-                      }
-                    }}
-                  />
-                )}
               </div>
             </CollapsibleSection>
           </div>
