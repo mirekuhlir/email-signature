@@ -1,12 +1,6 @@
 'use client';
 
-import React, {
-  useState,
-  useRef,
-  useEffect,
-  useCallback,
-  useMemo,
-} from 'react';
+import React, { useState, useRef, useCallback, useMemo } from 'react';
 import { Typography } from './typography';
 
 interface Step {
@@ -47,6 +41,9 @@ const Slider: React.FC<SliderProps> = (props) => {
 
   const isUsingSteps = 'steps' in props;
   const sliderRef = useRef<HTMLDivElement>(null);
+
+  const thumbRef = useRef<HTMLDivElement>(null);
+  const isDraggingRef = useRef(false);
 
   const getInitialValue = useCallback((): number => {
     return isUsingSteps
@@ -95,18 +92,6 @@ const Slider: React.FC<SliderProps> = (props) => {
     [isUsingSteps, max, min, onChange, step, steps, value, isDisabled],
   );
 
-  const handleTouchMove = useCallback(
-    (e: TouchEvent) => {
-      if (e.cancelable) {
-        e.preventDefault();
-      }
-      if (e.touches.length > 0 && !isDisabled) {
-        handleMove(e.touches[0].clientX);
-      }
-    },
-    [handleMove, isDisabled],
-  );
-
   const getPercentValue = useCallback((): number => {
     if (isUsingSteps && steps && steps.length > 0) {
       return (
@@ -126,18 +111,6 @@ const Slider: React.FC<SliderProps> = (props) => {
 
   const percentValue = useMemo(() => getPercentValue(), [getPercentValue]);
 
-  useEffect(() => {
-    const sliderElem = sliderRef.current;
-    if (sliderElem) {
-      sliderElem.addEventListener('touchmove', handleTouchMove, {
-        passive: false,
-      });
-      return () => {
-        sliderElem.removeEventListener('touchmove', handleTouchMove);
-      };
-    }
-  }, [handleTouchMove, isDisabled]);
-
   return (
     <div className="pt-3">
       {label && (
@@ -152,16 +125,6 @@ const Slider: React.FC<SliderProps> = (props) => {
           isDisabled ? 'opacity-50 cursor-not-allowed' : ''
         }`}
         style={{ touchAction: 'none' }}
-        onPointerDown={(e) => {
-          if (!isDisabled) {
-            sliderRef.current?.setPointerCapture(e.pointerId);
-          }
-        }}
-        onPointerMove={(e) => {
-          if (e.buttons === 1 && !isDisabled) {
-            handleMove(e.clientX);
-          }
-        }}
         role="slider"
         aria-valuemin={isUsingSteps ? steps![0].value : min}
         aria-valuemax={isUsingSteps ? steps![steps!.length - 1].value : max}
@@ -181,12 +144,36 @@ const Slider: React.FC<SliderProps> = (props) => {
           />
         </div>
         <div
+          ref={thumbRef}
+          style={{
+            left: `calc(16px + (100% - 32px) * ${percentValue / 100})`,
+            touchAction: 'none',
+          }}
           className={`absolute w-8 h-8 bg-white border-2 rounded-full shadow-sm transform -translate-y-1/2 -translate-x-1/2 ${
             isDisabled
               ? 'border-gray-400 cursor-not-allowed'
-              : 'border-blue-500 cursor-pointer'
+              : 'border-blue-500 cursor-grab active:cursor-grabbing'
           }`}
-          style={{ left: `calc(16px + (100% - 32px) * ${percentValue / 100})` }}
+          onPointerDown={(e) => {
+            if (!isDisabled) {
+              isDraggingRef.current = true;
+              (e.target as HTMLElement).setPointerCapture(e.pointerId);
+            }
+          }}
+          onPointerMove={(e) => {
+            if (isDraggingRef.current && !isDisabled) {
+              handleMove(e.clientX);
+            }
+          }}
+          onPointerUp={(e) => {
+            if (isDraggingRef.current) {
+              isDraggingRef.current = false;
+              (e.target as HTMLElement).releasePointerCapture(e.pointerId);
+            }
+          }}
+          onLostPointerCapture={() => {
+            isDraggingRef.current = false;
+          }}
         />
         <div className="absolute top-full left-0 w-full flex justify-between mt-2 text-xs text-gray-600">
           {isUsingSteps && steps
