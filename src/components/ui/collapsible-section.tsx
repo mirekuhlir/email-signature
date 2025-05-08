@@ -28,7 +28,7 @@ export const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
             setIsOpen(!isOpen);
           }
         }}
-        className={`w-full py-2 px-2 flex justify-between items-center mt-4 mb-4 bg-gray-200 rounded-md ${
+        className={`w-full py-2 px-2 flex justify-between items-center mt-2 mb-2 sm:mt-4 sm:mb-4 bg-gray-200 rounded-md ${
           isDisabled ? 'cursor-not-allowed opacity-30' : 'cursor-pointer'
         }`}
       >
@@ -49,9 +49,12 @@ export const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
               d="M19 9l-7 7-7-7"
             />
           </svg>
-          <Typography variant="body">{`${isOpen ? 'Close' : 'Open'} ${
-            title ? ` - ${title}` : ''
-          }`}</Typography>
+          <span className="flex items-center gap-2">
+            <Typography variant="body" textColor="text-gray-900">
+              {`${isOpen ? 'Close' : 'Open'} `}
+            </Typography>
+            <Typography variant="body">{title}</Typography>
+          </span>
         </div>
       </button>
       <div>{isOpen ? children : null}</div>
