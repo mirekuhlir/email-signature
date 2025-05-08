@@ -88,6 +88,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     bottomRight: 0,
     bottomLeft: 0,
   });
+
   const [croppedImageData, setCroppedImageData] = useState<string | null>(null);
   const [previewWidth, setPreviewWidth] = useState<number | undefined>(
     undefined,
@@ -723,6 +724,8 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     );
   }
 
+  const maxImageRadius = Math.round((previewWidth ?? MAX_IMAGE_WIDTH) / 2);
+
   return (
     <>
       <canvas ref={previewCanvasRef} className="hidden" />
@@ -945,7 +948,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
                         </div>
                         <Slider
                           min={0}
-                          max={MAX_IMAGE_WIDTH / 2}
+                          max={maxImageRadius}
                           units="px"
                           value={borderRadii.topLeft}
                           onChange={handleBorderRadiusTopLeftChange}
@@ -961,7 +964,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
                         </div>
                         <Slider
                           min={0}
-                          max={MAX_IMAGE_WIDTH / 2}
+                          max={maxImageRadius}
                           units="px"
                           value={borderRadii.topRight}
                           onChange={handleBorderRadiusTopRightChange}
@@ -977,7 +980,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
                         </div>
                         <Slider
                           min={0}
-                          max={MAX_IMAGE_WIDTH / 2}
+                          max={maxImageRadius}
                           units="px"
                           value={borderRadii.bottomLeft}
                           onChange={handleBorderRadiusBottomLeftChange}
@@ -993,7 +996,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
                         </div>
                         <Slider
                           min={0}
-                          max={MAX_IMAGE_WIDTH / 2}
+                          max={maxImageRadius}
                           units="px"
                           value={borderRadii.bottomRight}
                           onChange={handleBorderRadiusBottomRightChange}
