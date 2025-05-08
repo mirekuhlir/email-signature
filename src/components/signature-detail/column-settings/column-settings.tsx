@@ -252,24 +252,8 @@ export const ColumnSettings = (props: any) => {
       <div ref={wrapperRef}>
         {!isSavingSignature && (
           <div className="pb-2">
-            <CollapsibleSection title="Alignment and background">
+            <CollapsibleSection title="Background">
               <div className="grid grid-cols-1 gap-2 sm:gap-2">
-                <div className="w-full sm:w-1/4">
-                  <Typography variant="labelBase">
-                    Vertical alignment
-                  </Typography>
-                  <SelectBase
-                    options={[
-                      { value: 'top', label: 'Top' },
-                      { value: 'middle', label: 'Middle' },
-                      { value: 'bottom', label: 'Bottom' },
-                    ]}
-                    value={verticalAlign}
-                    onChange={(value: string) => {
-                      setVerticalAlign(value);
-                    }}
-                  />
-                </div>
                 <div className="mb-2">
                   <EditColor
                     initColor={originalStyle.backgroundColor}
@@ -359,7 +343,7 @@ export const ColumnSettings = (props: any) => {
               <div className="grid grid-cols-2 gap-2">
                 <div>
                   <Typography variant="labelBase" className="mb-2">
-                    Top inner space: {paddingTop}px
+                    Top space: {paddingTop}px
                   </Typography>
                   <Slider
                     min={0}
@@ -373,7 +357,7 @@ export const ColumnSettings = (props: any) => {
 
                 <div>
                   <Typography variant="labelBase" className="mb-2">
-                    Right inner space: {paddingRight}px
+                    Right space: {paddingRight}px
                   </Typography>
                   <Slider
                     min={0}
@@ -387,7 +371,7 @@ export const ColumnSettings = (props: any) => {
 
                 <div>
                   <Typography variant="labelBase" className="mb-2">
-                    Bottom inner space: {paddingBottom}px
+                    Bottom space: {paddingBottom}px
                   </Typography>
                   <Slider
                     min={0}
@@ -401,7 +385,7 @@ export const ColumnSettings = (props: any) => {
 
                 <div>
                   <Typography variant="labelBase" className="mb-2">
-                    Left inner space: {paddingLeft}px
+                    Left space: {paddingLeft}px
                   </Typography>
                   <Slider
                     min={0}
@@ -549,6 +533,26 @@ export const ColumnSettings = (props: any) => {
                       }}
                     />
                   )}
+                </div>
+              </div>
+            </CollapsibleSection>
+            <CollapsibleSection title="Alignment">
+              <div className="grid grid-cols-1 gap-2 sm:gap-2">
+                <div className="w-full sm:w-1/4">
+                  <Typography variant="labelBase">
+                    Vertical alignment
+                  </Typography>
+                  <SelectBase
+                    options={[
+                      { value: 'top', label: 'Top' },
+                      { value: 'middle', label: 'Middle' },
+                      { value: 'bottom', label: 'Bottom' },
+                    ]}
+                    value={verticalAlign}
+                    onChange={(value: string) => {
+                      setVerticalAlign(value);
+                    }}
+                  />
                 </div>
               </div>
             </CollapsibleSection>

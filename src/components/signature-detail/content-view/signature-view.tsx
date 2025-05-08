@@ -37,6 +37,7 @@ export const EmailTemplateView = (props: any) => {
             cellPadding="0"
             cellSpacing="0"
             role="presentation"
+            style={{ borderCollapse: 'separate' }}
           >
             <tbody>
               <tr key={`tr-${row.id}`} style={row.style}>
