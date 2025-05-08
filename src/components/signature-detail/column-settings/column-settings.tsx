@@ -273,8 +273,7 @@ export const ColumnSettings = (props: any) => {
               </div>
             </CollapsibleSection>
             <CollapsibleSection title="Background rounded corners">
-              <div className="grid grid-cols-1 gap-2"></div>
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 <div>
                   <Typography variant="labelBase" className="mb-2">
                     Top-left radius : {borderRadiusCorners.topLeft}px
@@ -344,7 +343,7 @@ export const ColumnSettings = (props: any) => {
             </CollapsibleSection>
 
             <CollapsibleSection title="Inner space">
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 <div>
                   <Typography variant="labelBase" className="mb-2">
                     Top space: {paddingTop}px

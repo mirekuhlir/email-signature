@@ -928,7 +928,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
               {croppedImageData && (
                 <div className="space-y-2">
                   <div className="space-y-2">
-                    <div className="grid grid-cols-2 gap-2">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                       <div>
                         <div className="mb-1">
                           <Typography variant="labelBase">

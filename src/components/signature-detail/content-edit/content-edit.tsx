@@ -422,7 +422,7 @@ export const ContentEdit = (props: any) => {
                   </div>
                 </CollapsibleSection>
                 <CollapsibleSection title="Background rounded corners">
-                  <div className="grid grid-cols-2 sm:grid-cols-2 gap-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     <div>
                       <Typography variant="labelBase" className="mb-2">
                         Top-left: {borderRadiusCorners.topLeft}
@@ -493,7 +493,7 @@ export const ContentEdit = (props: any) => {
                   </div>
                 </CollapsibleSection>
                 <CollapsibleSection title="Inner space">
-                  <div className="grid grid-cols-2 gap-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     <div>
                       <Typography variant="labelBase" className="mb-2">
                         Top space: {paddingTop}px
