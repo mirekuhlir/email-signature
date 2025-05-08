@@ -253,8 +253,8 @@ export const ColumnSettings = (props: any) => {
         {!isSavingSignature && (
           <div className="pb-2">
             <CollapsibleSection title="Background">
-              <div className="grid grid-cols-1 gap-2 sm:gap-2">
-                <div className="mb-2">
+              <div className="grid grid-cols-1 gap-2">
+                <div className="mb-4">
                   <EditColor
                     initColor={originalStyle.backgroundColor}
                     label="Background color"
@@ -269,6 +269,9 @@ export const ColumnSettings = (props: any) => {
                   />
                 </div>
               </div>
+            </CollapsibleSection>
+            <CollapsibleSection title="Background rounded corners">
+              <div className="grid grid-cols-1 gap-2"></div>
               <div className="grid grid-cols-2 gap-2">
                 <div>
                   <Typography variant="labelBase" className="mb-2">
@@ -288,7 +291,7 @@ export const ColumnSettings = (props: any) => {
                 </div>
                 <div>
                   <Typography variant="labelBase" className="mb-2">
-                    Top-right radius : {borderRadiusCorners.topRight}px
+                    Top-right: {borderRadiusCorners.topRight}px
                   </Typography>
                   <Slider
                     min={0}
@@ -304,7 +307,7 @@ export const ColumnSettings = (props: any) => {
                 </div>
                 <div>
                   <Typography variant="labelBase" className="mb-2">
-                    Bottom-right radius : {borderRadiusCorners.bottomRight}px
+                    Bottom-right: {borderRadiusCorners.bottomRight}px
                   </Typography>
                   <Slider
                     min={0}
@@ -320,7 +323,7 @@ export const ColumnSettings = (props: any) => {
                 </div>
                 <div>
                   <Typography variant="labelBase" className="mb-2">
-                    Bottom-left radius : {borderRadiusCorners.bottomLeft}
+                    Bottom-left: {borderRadiusCorners.bottomLeft}
                     px
                   </Typography>
                   <Slider
@@ -339,7 +342,6 @@ export const ColumnSettings = (props: any) => {
             </CollapsibleSection>
 
             <CollapsibleSection title="Inner space">
-              {/*       TODO - mobile 1 */}
               <div className="grid grid-cols-2 gap-2">
                 <div>
                   <Typography variant="labelBase" className="mb-2">
@@ -400,7 +402,7 @@ export const ColumnSettings = (props: any) => {
             </CollapsibleSection>
 
             <CollapsibleSection title="Borders">
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 <div className="mb-2">
                   <div>
                     <Typography variant="labelBase" className="mb-2">
@@ -422,7 +424,7 @@ export const ColumnSettings = (props: any) => {
                   {borderWidths.top !== '0' && (
                     <EditColor
                       initColor={borderColors.top}
-                      label="Top border color"
+                      label="Top width border color"
                       sectionId={componentId}
                       onChange={(color) => {
                         if (color) {
@@ -454,7 +456,7 @@ export const ColumnSettings = (props: any) => {
                   {borderWidths.right !== '0' && (
                     <EditColor
                       initColor={borderColors.right}
-                      label="Right border color"
+                      label="Right width border color"
                       sectionId={componentId}
                       onChange={(color) => {
                         if (color) {
@@ -489,7 +491,7 @@ export const ColumnSettings = (props: any) => {
                   {borderWidths.bottom !== '0' && (
                     <EditColor
                       initColor={borderColors.bottom}
-                      label="Bottom border color"
+                      label="Bottom width border color"
                       sectionId={componentId}
                       onChange={(color) => {
                         if (color) {
@@ -524,7 +526,7 @@ export const ColumnSettings = (props: any) => {
                   {borderWidths.left !== '0' && (
                     <EditColor
                       initColor={borderColors.left}
-                      label="Left border color"
+                      label="Left width border color"
                       sectionId={componentId}
                       onChange={(color) => {
                         if (color) {

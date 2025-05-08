@@ -419,10 +419,12 @@ export const ContentEdit = (props: any) => {
                       }}
                     />
                   </div>
-                  <div className="grid grid-cols-2 gap-2">
+                </CollapsibleSection>
+                <CollapsibleSection title="Background rounded corners">
+                  <div className="grid grid-cols-2 sm:grid-cols-2 gap-2">
                     <div>
                       <Typography variant="labelBase" className="mb-2">
-                        Top-left radius : {borderRadiusCorners.topLeft}
+                        Top-left: {borderRadiusCorners.topLeft}
                         px
                       </Typography>
                       <Slider
@@ -439,7 +441,7 @@ export const ContentEdit = (props: any) => {
                     </div>
                     <div>
                       <Typography variant="labelBase" className="mb-2">
-                        Top-right border radius : {borderRadiusCorners.topRight}
+                        Top-right: {borderRadiusCorners.topRight}
                         px
                       </Typography>
                       <Slider
@@ -456,8 +458,7 @@ export const ContentEdit = (props: any) => {
                     </div>
                     <div>
                       <Typography variant="labelBase" className="mb-2">
-                        Bottom-right border radius :{' '}
-                        {borderRadiusCorners.bottomRight}px
+                        Bottom-right: {borderRadiusCorners.bottomRight}px
                       </Typography>
                       <Slider
                         min={0}
@@ -473,8 +474,7 @@ export const ContentEdit = (props: any) => {
                     </div>
                     <div>
                       <Typography variant="labelBase" className="mb-2">
-                        Bottom-left border radius :{' '}
-                        {borderRadiusCorners.bottomLeft}
+                        Bottom-left: {borderRadiusCorners.bottomLeft}
                         px
                       </Typography>
                       <Slider
@@ -551,7 +551,7 @@ export const ContentEdit = (props: any) => {
                   </div>
                 </CollapsibleSection>
                 <CollapsibleSection title="Borders">
-                  <div className="grid grid-cols-2 gap-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     <div className="mb-2">
                       <div>
                         <Typography variant="labelBase" className="mb-2">

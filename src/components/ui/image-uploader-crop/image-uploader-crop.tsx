@@ -923,7 +923,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         </CollapsibleSection>
 
         {originalImagePreview && (
-          <CollapsibleSection title="Rounded corners">
+          <CollapsibleSection title="Image rounded corners">
             <div className="space-y-2">
               {croppedImageData && (
                 <div className="space-y-2">
