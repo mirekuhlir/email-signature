@@ -16,6 +16,29 @@ const formatTextWithLineBreaks = (text?: string) => {
     ));
 };
 
+const getWidthHeightStyle = (component: any) => {
+  let width = 0;
+  let height = 0;
+  if (component) {
+    width =
+      typeof component.width === 'number'
+        ? component.width
+        : parseInt((component.width || '0').toString().replace('px', ''), 10) ||
+          0;
+    height =
+      typeof component.height === 'number'
+        ? component.height
+        : parseInt(
+            (component.height || '0').toString().replace('px', ''),
+            10,
+          ) || 0;
+  }
+  return {
+    width: width === 0 ? '100%' : `${width}px`,
+    height: height === 0 ? 0 : `${height}px`,
+  };
+};
+
 export const getContentView = (content?: any) => {
   if (content?.type == ContentType.IMAGE) {
     const { components } = content;
@@ -92,7 +115,7 @@ export const getContentView = (content?: any) => {
           key={id}
           style={{
             display: 'inline-block',
-            width: '100%',
+            ...getWidthHeightStyle(component),
             fontSize: fontSize,
             color,
             letterSpacing: letterSpacing,
@@ -118,7 +141,7 @@ export const getContentView = (content?: any) => {
     return (
       <span
         style={{
-          width: '100%',
+          ...getWidthHeightStyle(components[0]),
           display: 'inline-block',
           textAlign,
         }}
@@ -139,7 +162,7 @@ export const getContentView = (content?: any) => {
           } = component;
 
           const style = {
-            width: '100%',
+            ...getWidthHeightStyle(component),
             fontSize: fontSize,
             color,
             letterSpacing: letterSpacing,
@@ -189,7 +212,7 @@ export const getContentView = (content?: any) => {
     return (
       <span
         style={{
-          width: '100%',
+          ...getWidthHeightStyle(components[0]),
           display: 'inline-block',
           textAlign,
         }}
@@ -210,7 +233,7 @@ export const getContentView = (content?: any) => {
           } = component;
 
           const style = {
-            width: '100%',
+            ...getWidthHeightStyle(component),
             fontSize: fontSize,
             color,
             letterSpacing: letterSpacing,
@@ -259,7 +282,7 @@ export const getContentView = (content?: any) => {
     return (
       <span
         style={{
-          width: '100%',
+          ...getWidthHeightStyle(components[0]),
           display: 'inline-block',
           textAlign,
         }}
@@ -280,7 +303,7 @@ export const getContentView = (content?: any) => {
           } = component;
 
           const style = {
-            width: '100%',
+            ...getWidthHeightStyle(component),
             fontSize: fontSize,
             color,
             letterSpacing: letterSpacing,
@@ -336,7 +359,7 @@ export const getContentView = (content?: any) => {
     return (
       <span
         style={{
-          width: '100%',
+          ...getWidthHeightStyle(components[0]),
           display: 'inline-block',
           textAlign,
         }}
@@ -357,7 +380,7 @@ export const getContentView = (content?: any) => {
           } = component;
 
           const style = {
-            width: '100%',
+            ...getWidthHeightStyle(component),
             fontSize: fontSize,
             color,
             letterSpacing: letterSpacing,

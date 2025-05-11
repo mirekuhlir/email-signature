@@ -23,10 +23,10 @@ import { useMediaQuery } from '@/src/hooks/useMediaQuery';
 import { useToast } from '@/src/components/ui/toast';
 import { LoadingInfo } from '../../signature-detail/content-edit/content-edit';
 import pica from 'pica';
-import { CollapsibleSection } from '../collapsible-section';
-
-const MIN_IMAGE_WIDTH = 50;
-const MAX_IMAGE_WIDTH = 350;
+import {
+  MIN_IMAGE_WIDTH,
+  MAX_IMAGE_WIDTH,
+} from '@/supabase/functions/_shared/const';
 
 interface ImageSettings {
   crop: Crop;

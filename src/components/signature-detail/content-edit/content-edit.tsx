@@ -25,6 +25,7 @@ import {
   MAX_BORDER_WIDTH,
   MAX_BORDER_RADIUS,
   MAX_PADDING,
+  MAX_IMAGE_WIDTH,
 } from '@/supabase/functions/_shared/const';
 
 export const LoadingInfo = ({
@@ -114,6 +115,9 @@ export const ContentEdit = (props: any) => {
     left: 'rgb(0, 0, 0)',
   });
 
+  const [width, setWidth] = useState(0);
+  const [height, setHeight] = useState(0);
+
   const path = `${contentPathToEdit}.content`;
   const content = useMemo(() => get(rows, path), [rows, path]);
 
@@ -202,6 +206,17 @@ export const ContentEdit = (props: any) => {
       left: content?.components[0].borderLeftColor || 'rgb(0, 0, 0)',
     });
 
+    setWidth(
+      parseInt((content?.components[0].width || '0px').replace('px', ''), 10) ||
+        0,
+    );
+    setHeight(
+      parseInt(
+        (content?.components[0].height || '0px').replace('px', ''),
+        10,
+      ) || 0,
+    );
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -256,6 +271,16 @@ export const ContentEdit = (props: any) => {
     });
   };
 
+  const updateDimensions = () => {
+    const stylePath = `${path}.components[0]`;
+    const currentStyle = content?.components[0] || {};
+    setContent(stylePath, {
+      ...currentStyle,
+      width: `${width}px`,
+      height: `${height}px`,
+    });
+  };
+
   useEffect(() => {
     // Check if all values are numbers before updating
     if (
@@ -278,6 +303,14 @@ export const ContentEdit = (props: any) => {
     updateBorders();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [borderWidths, borderColors]);
+
+  useEffect(() => {
+    // Check if all values are numbers before updating
+    if (typeof width === 'number' && typeof height === 'number') {
+      updateDimensions();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [width, height]);
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
@@ -699,6 +732,36 @@ export const ContentEdit = (props: any) => {
                           />
                         </div>
                       )}
+                    </div>
+                  </div>
+                </CollapsibleSection>
+                <CollapsibleSection title="Width and height">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <div>
+                      <Typography variant="labelBase" className="mb-2">
+                        Width: {width === 0 ? 'auto' : `${width}px`}
+                      </Typography>
+                      <Slider
+                        min={0}
+                        max={MAX_IMAGE_WIDTH}
+                        value={width}
+                        onChange={(value: number) => {
+                          setWidth(value);
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <Typography variant="labelBase" className="mb-2">
+                        Height: {height === 0 ? 'auto' : `${height}px`}
+                      </Typography>
+                      <Slider
+                        min={0}
+                        max={MAX_IMAGE_WIDTH}
+                        value={height}
+                        onChange={(value: number) => {
+                          setHeight(value);
+                        }}
+                      />
                     </div>
                   </div>
                 </CollapsibleSection>
