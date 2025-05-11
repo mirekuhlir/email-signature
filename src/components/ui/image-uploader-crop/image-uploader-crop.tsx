@@ -27,6 +27,7 @@ import {
   MIN_IMAGE_WIDTH,
   MAX_IMAGE_WIDTH,
 } from '@/supabase/functions/_shared/const';
+import { CollapsibleSection } from '../collapsible-section';
 
 interface ImageSettings {
   crop: Crop;

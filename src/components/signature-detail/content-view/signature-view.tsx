@@ -2,6 +2,29 @@
 import { Fragment } from 'react';
 import { getContentView } from './content-view';
 
+const getWidthHeightStyle = (component: any) => {
+  let width = 0;
+  let height = 0;
+  if (component) {
+    width =
+      typeof component.width === 'number'
+        ? component.width
+        : parseInt((component.width || '0').toString().replace('px', ''), 10) ||
+          0;
+    height =
+      typeof component.height === 'number'
+        ? component.height
+        : parseInt(
+            (component.height || '0').toString().replace('px', ''),
+            10,
+          ) || 0;
+  }
+  return {
+    width: width === 0 ? '100%' : `${width}px`,
+    height: height === 0 ? 0 : `${height}px`,
+  };
+};
+
 export const EmailTemplateView = (props: any) => {
   const { rows } = props;
 
@@ -68,6 +91,10 @@ export const EmailTemplateView = (props: any) => {
       const borderTopColor = row?.content?.components[0]?.borderTopColor;
       const borderTopStyle = row?.content?.components[0]?.borderTopStyle;
 
+      const { width, height } = getWidthHeightStyle(
+        row?.content?.components[0],
+      );
+
       if (content) {
         return (
           <tr key={`tr-${row.id}`}>
@@ -89,6 +116,8 @@ export const EmailTemplateView = (props: any) => {
                 borderTopWidth: borderTopWidth,
                 borderTopColor: borderTopColor,
                 borderTopStyle: borderTopStyle,
+                width: width,
+                height: height,
                 ...row.style,
               }}
             >
