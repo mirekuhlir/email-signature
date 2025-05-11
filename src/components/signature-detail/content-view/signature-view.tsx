@@ -1,30 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Fragment } from 'react';
 import { getContentView } from './content-view';
-
-const getWidthHeightStyle = (component: any) => {
-  let width = 0;
-  let height = 0;
-  if (component) {
-    width =
-      typeof component.width === 'number'
-        ? component.width
-        : parseInt((component.width || '0').toString().replace('px', ''), 10) ||
-          0;
-    height =
-      typeof component.height === 'number'
-        ? component.height
-        : parseInt(
-            (component.height || '0').toString().replace('px', ''),
-            10,
-          ) || 0;
-  }
-  return {
-    width: width === 0 ? '100%' : `${width}px`,
-    height: height === 0 ? 0 : `${height}px`,
-  };
-};
-
+import { getWidthHeightStyle } from './utils';
 export const EmailTemplateView = (props: any) => {
   const { rows } = props;
 
@@ -102,7 +79,6 @@ export const EmailTemplateView = (props: any) => {
               style={{
                 backgroundColor: backgroundColor,
                 borderRadius: borderRadius,
-                padding: padding,
                 lineHeight: 1,
                 borderBottomWidth: borderBottomWidth,
                 borderBottomColor: borderBottomColor,
@@ -121,7 +97,15 @@ export const EmailTemplateView = (props: any) => {
                 ...row.style,
               }}
             >
-              {content}
+              <span
+                style={{
+                  padding: padding,
+                  display: 'inline-block',
+                  width: '100%',
+                }}
+              >
+                {content}
+              </span>
             </td>
           </tr>
         );

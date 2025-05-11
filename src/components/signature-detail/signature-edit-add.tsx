@@ -15,6 +15,7 @@ import { ContentType } from '@/src/const/content';
 import { MAX_ROWS } from '@/supabase/functions/_shared/const';
 import { useMediaQuery } from '@/src/hooks/useMediaQuery';
 import { MEDIA_QUERIES } from '@/src/constants/mediaQueries';
+import { getWidthHeightStyle } from './content-view/utils';
 
 // Helper function to determine if a color is dark
 function isColorDark(colorString: string): boolean {
@@ -199,6 +200,10 @@ export const EmailTemplateEdit = (props: any) => {
       const borderTopColor = row?.content?.components[0]?.borderTopColor;
       const borderTopStyle = row?.content?.components[0]?.borderTopStyle;
 
+      const { width, height } = getWidthHeightStyle(
+        row?.content?.components[0],
+      );
+
       if (content) {
         return (
           <Fragment key={`tr-${row.id}`}>
@@ -212,7 +217,6 @@ export const EmailTemplateEdit = (props: any) => {
                   display: 'table-cell',
                   lineHeight: 1,
                   backgroundColor: backgroundColor,
-                  padding: padding,
                   borderRadius: borderRadius,
                   borderBottomWidth: borderBottomWidth,
                   borderBottomColor: borderBottomColor,
@@ -226,10 +230,20 @@ export const EmailTemplateEdit = (props: any) => {
                   borderTopWidth: borderTopWidth,
                   borderTopColor: borderTopColor,
                   borderTopStyle: borderTopStyle,
+                  width: width,
+                  height: height,
                   ...row.style,
                 }}
               >
-                {content}
+                <span
+                  style={{
+                    display: 'inline-block',
+                    width: '100%',
+                    padding: padding,
+                  }}
+                >
+                  {content}
+                </span>
               </div>
             </div>
 
