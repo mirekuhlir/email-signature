@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useToastStore } from "@/src/components/ui/toast";
 
 export const handleCopy = async (/*signatureId: string*/) => {
