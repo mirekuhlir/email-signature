@@ -13,7 +13,6 @@ import SignaturePreview from './signature-preview';
 import { useAuthModal } from '@/src/hooks/use-auth-modal';
 import { Hr } from '../ui/hr';
 import { ChevronLeft, Edit2, Copy, Eye } from 'lucide-react';
-import { EmailTemplateView } from './content-view/signature-view';
 import { Container } from '../ui/container';
 import { TEMP_SIGNATURE } from '@/src/const/content';
 
@@ -90,9 +89,7 @@ export const SignatureDetail = (props: any) => {
 
       <div className="flex flex-col">
         {(contentEdit.editPath || contentEdit.columnPath) && (
-          <Container>
-            <EmailTemplateView rows={rows} />
-          </Container>
+          <SignaturePreview />
         )}
       </div>
       {!isEdit && (

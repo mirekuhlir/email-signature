@@ -60,13 +60,13 @@ export const SignaturePreview: React.FC = () => {
         <EmailTemplateView rows={rows} />
       </div>
 
-      <div className={`py-4 sm:px-0 lg:px-4`}>
+      <div className={`sm:px-0 lg:px-4`}>
         <Container>
           <div className="flex justify-center sm:justify-start mb-1">
             <Typography variant="lead">Preview</Typography>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center w-full justify-center sm:justify-start mb-0 sm:mb-8 space-y-4 sm:space-y-0 sm:space-x-8">
+          <div className="flex flex-col sm:flex-row items-center w-full justify-center sm:justify-start mb-0 sm:mb-2 space-y-4 sm:space-y-0 sm:space-x-8">
             {isDesktopScreen && (
               <TitleSwitch
                 checked={isMobilePreview}

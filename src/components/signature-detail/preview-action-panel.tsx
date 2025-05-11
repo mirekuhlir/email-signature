@@ -107,7 +107,7 @@ const PreviewActionPanel: React.FC<PreviewActionPanelProps> = ({
         </div>
       ),
       isZeroPadding: true,
-      size: 'large',
+      size: 'fullscreen',
     });
   };
 
