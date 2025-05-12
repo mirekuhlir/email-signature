@@ -12,7 +12,7 @@ import { Typography } from '@/src/components/ui/typography';
 import { generateRandomId } from '@/src/utils/generateRandomId';
 import SelectBase from '../../ui/select-base';
 import { ImageComponent } from '@/src/types/signature';
-
+import { CollapsibleSection } from '@/src/components/ui/collapsible-section';
 interface ImageEditContentProps {
   components: ImageComponent[];
   contentPathToEdit: string;
@@ -31,20 +31,6 @@ export const ImageEditContent = (props: ImageEditContentProps) => {
   const imageComponent: ImageComponent = components[0];
   const [showLinkInput, setShowLinkInput] = useState(false);
   const [imageIsResizing, setImageIsResizing] = useState(false);
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm({
-    mode: 'onSubmit',
-  });
-
-  useEffect(() => {
-    if (showLinkInput && imageComponent.link) {
-      reset({ link: imageComponent.link });
-    }
-  }, [showLinkInput, imageComponent.link, reset]);
 
   const handleCropImagePreview = useCallback(
     (croppedImage: string) => {
@@ -110,40 +96,53 @@ export const ImageEditContent = (props: ImageEditContentProps) => {
     return countImageComponents(rows);
   }, [isSignedIn, rows]);
 
-  const onSubmitLink = (data: any) => {
-    const trimmedLink = data.link.trim();
-    if (!trimmedLink) {
-      // If input is empty, remove the link
-      setContent(`${contentPathToEdit}.components[0].link`, '');
-      setContentEdit({
-        subEdit: null,
-      });
-      setShowLinkInput(false);
-      removeEditingSectionId(imageComponent.id);
-      return;
-    }
-
-    let href = trimmedLink;
-    if (!/^https?:\/\//i.test(href)) {
-      href = `https://${href}`;
-    }
-    setContent(`${contentPathToEdit}.components[0].link`, href);
-    setContentEdit({
-      subEdit: null,
-    });
-    setShowLinkInput(false);
-    removeEditingSectionId(imageComponent.id);
-  };
-
   const isImageLoading = contentEdit.isImageLoading;
 
   const isImage =
     (imageComponent.originalSrc || imageComponent.cropImagePreview) &&
     imageComponent.imageSettings;
 
-  const isShowAddLinkToImage = !showLinkInput;
-
   const ImageLink = () => {
+    const {
+      register,
+      handleSubmit,
+      reset,
+      formState: { errors },
+    } = useForm({
+      mode: 'onSubmit',
+    });
+
+    const onSubmitLink = (data: any) => {
+      const trimmedLink = data.link.trim();
+      if (!trimmedLink) {
+        // If input is empty, remove the link
+        setContent(`${contentPathToEdit}.components[0].link`, '');
+        setContentEdit({
+          subEdit: null,
+        });
+        setShowLinkInput(false);
+        removeEditingSectionId(imageComponent.id);
+        return;
+      }
+
+      let href = trimmedLink;
+      if (!/^https?:\/\//i.test(href)) {
+        href = `https://${href}`;
+      }
+      setContent(`${contentPathToEdit}.components[0].link`, href);
+      setContentEdit({
+        subEdit: null,
+      });
+      setShowLinkInput(false);
+      removeEditingSectionId(imageComponent.id);
+    };
+
+    useEffect(() => {
+      if (showLinkInput && imageComponent.link) {
+        reset({ link: imageComponent.link });
+      }
+    }, [reset]);
+
     return (
       <>
         <div className="pb-2">
@@ -152,14 +151,51 @@ export const ImageEditContent = (props: ImageEditContentProps) => {
               showLinkInput ? 'bg-white p-4 shadow-md rounded-md mb-8' : ''
             }
           >
-            {isShowAddLinkToImage && (
-              <div className="pb-1">
-                <Typography variant="labelBase">Add link to image</Typography>
+            {showLinkInput && (
+              <div className="mt-2 p-3">
+                <form
+                  onSubmit={handleSubmit(onSubmitLink)}
+                  className="space-y-4"
+                >
+                  <TextInput
+                    label="Link URL"
+                    name="link"
+                    register={register}
+                    errors={errors}
+                    placeholder="Enter URL (e.g. https://example.com)"
+                    validation={{
+                      pattern: {
+                        value:
+                          /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/,
+                        message: 'Please enter a valid URL',
+                      },
+                    }}
+                  />
+                  <div className="flex justify-between">
+                    <Button
+                      variant="outline"
+                      type="button"
+                      onClick={() => {
+                        setShowLinkInput(false);
+                        setContentEdit({
+                          subEdit: null,
+                        });
+                        removeEditingSectionId(imageComponent.id);
+                      }}
+                    >
+                      Close
+                    </Button>
+                    <Button type="submit" variant="blue">
+                      Save
+                    </Button>
+                  </div>
+                </form>
               </div>
             )}
-            {imageComponent?.link ? (
+
+            {!showLinkInput && (
               <>
-                {!showLinkInput && (
+                {imageComponent?.link && (
                   <>
                     <div className="py-2">
                       <Typography
@@ -176,71 +212,34 @@ export const ImageEditContent = (props: ImageEditContentProps) => {
                           subEdit: 'edit-link',
                         });
                         addEditingSectionId(imageComponent.id);
-                        setShowLinkInput(!showLinkInput);
+                        setShowLinkInput(true);
                       }}
                     >
                       {'Edit Link'}
                     </Button>
                   </>
                 )}
-              </>
-            ) : (
-              <>
-                {isShowAddLinkToImage && (
-                  <Button
-                    variant="blue"
-                    onClick={() => {
-                      setShowLinkInput(!showLinkInput);
-                      setContentEdit({
-                        subEdit: 'edit-link',
-                      });
-                      addEditingSectionId(imageComponent.id);
-                    }}
-                  >
-                    Add Link
-                  </Button>
-                )}
 
-                {showLinkInput && (
-                  <div className="mt-2 p-3">
-                    <form
-                      onSubmit={handleSubmit(onSubmitLink)}
-                      className="space-y-4"
+                {!imageComponent?.link && (
+                  <>
+                    <div className="pb-1">
+                      <Typography variant="labelBase">
+                        Add link to image
+                      </Typography>
+                    </div>
+                    <Button
+                      variant="blue"
+                      onClick={() => {
+                        setShowLinkInput(true);
+                        setContentEdit({
+                          subEdit: 'edit-link',
+                        });
+                        addEditingSectionId(imageComponent.id);
+                      }}
                     >
-                      <TextInput
-                        label="Link URL"
-                        name="link"
-                        register={register}
-                        errors={errors}
-                        placeholder="Enter URL (e.g. https://example.com)"
-                        validation={{
-                          pattern: {
-                            value:
-                              /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/,
-                            message: 'Please enter a valid URL',
-                          },
-                        }}
-                      />
-                      <div className="flex justify-between">
-                        <Button
-                          variant="outline"
-                          type="button"
-                          onClick={() => {
-                            setShowLinkInput(false);
-                            setContentEdit({
-                              subEdit: null,
-                            });
-                            removeEditingSectionId(imageComponent.id);
-                          }}
-                        >
-                          Close
-                        </Button>
-                        <Button type="submit" variant="blue">
-                          Save
-                        </Button>
-                      </div>
-                    </form>
-                  </div>
+                      Add Link
+                    </Button>
+                  </>
                 )}
               </>
             )}
@@ -290,7 +289,6 @@ export const ImageEditContent = (props: ImageEditContentProps) => {
           </Typography>
         </div>
       )}
-
       <ImageUploadCrop
         onSetCropImagePreview={handleCropImagePreview}
         onSetImageSettings={handleImageSettings}
@@ -306,16 +304,17 @@ export const ImageEditContent = (props: ImageEditContentProps) => {
         imageCount={imageCount}
         onResizing={handleResizing}
         isResizing={imageIsResizing}
-      >
-        {isImage && !isImageLoading && (
-          <>
-            <div className="mb-4">
-              <ImageHorizontalAlign />
-            </div>
-            <ImageLink />
-          </>
-        )}
-      </ImageUploadCrop>
+        imageLink={
+          isImage && !isImageLoading ? (
+            <CollapsibleSection title="Image link">
+              <ImageLink />
+            </CollapsibleSection>
+          ) : null
+        }
+        horizontalAlign={
+          isImage && !isImageLoading ? <ImageHorizontalAlign /> : null
+        }
+      />
     </>
   );
 };

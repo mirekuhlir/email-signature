@@ -57,7 +57,8 @@ interface ImageUploaderProps {
   originalImageFile?: File;
   onResizing?: (isResizing: boolean) => void;
   isResizing?: boolean;
-  children?: ReactNode;
+  imageLink?: ReactNode;
+  horizontalAlign?: ReactNode;
 }
 
 export default function ImageUploadCrop(props: ImageUploaderProps) {
@@ -74,7 +75,8 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     originalImageFile,
     onResizing,
     isResizing,
-    children,
+    imageLink,
+    horizontalAlign,
   } = props;
 
   const isDesktop = useMediaQuery('(min-width: 768px)');
@@ -954,7 +956,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
             </>
           )}
 
-          {children}
+          {horizontalAlign}
         </CollapsibleSection>
 
         {originalImagePreview && !isCircular && (
@@ -1036,6 +1038,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
           </CollapsibleSection>
         )}
       </div>
+      {imageLink}
     </>
   );
 }
