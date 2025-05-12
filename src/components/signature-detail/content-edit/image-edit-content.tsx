@@ -343,11 +343,13 @@ export const ImageEditContent = (props: ImageEditContentProps) => {
         }
         horizontalAlign={
           isImage && !isImageLoading ? (
-            <ImageHorizontalAlign
-              imageComponent={imageComponent}
-              contentPathToEdit={contentPathToEdit}
-              setContent={setContent}
-            />
+            <CollapsibleSection title="Horizontal alignment">
+              <ImageHorizontalAlign
+                imageComponent={imageComponent}
+                contentPathToEdit={contentPathToEdit}
+                setContent={setContent}
+              />
+            </CollapsibleSection>
           ) : null
         }
       />

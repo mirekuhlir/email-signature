@@ -28,7 +28,7 @@ export const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
             setIsOpen(!isOpen);
           }
         }}
-        className={`w-full py-2 px-2 flex justify-between items-center mt-2 mb-2 sm:mt-4 sm:mb-4 bg-gray-200 rounded-md ${
+        className={`w-full py-2 px-2 flex justify-between items-center mt-2 mb-2 bg-gray-200 rounded-md ${
           isDisabled ? 'cursor-not-allowed opacity-30' : 'cursor-pointer'
         }`}
       >

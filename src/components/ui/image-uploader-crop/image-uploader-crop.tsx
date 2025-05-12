@@ -955,8 +955,6 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
               </div>
             </>
           )}
-
-          {horizontalAlign}
         </CollapsibleSection>
 
         {originalImagePreview && !isCircular && (
@@ -1039,6 +1037,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         )}
       </div>
       {imageLink}
+      {horizontalAlign}
     </>
   );
 }
