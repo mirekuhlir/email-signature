@@ -7,7 +7,6 @@ import { useMediaQuery } from '@/src/hooks/useMediaQuery';
 import { MEDIA_QUERIES } from '@/src/constants/mediaQueries';
 import { getInvertedSignatureRows } from '@/src/utils/colorUtils';
 import { Container } from '../ui/container';
-import { Typography } from '../ui/typography';
 
 export const SignaturePreview: React.FC = () => {
   const [isMobilePreview, setIsMobilePreview] = useState(false);
