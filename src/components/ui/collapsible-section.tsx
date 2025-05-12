@@ -50,10 +50,12 @@ export const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
             />
           </svg>
           <span className="flex items-center gap-2">
-            <Typography variant="body" textColor="text-gray-900">
-              {`${isOpen ? 'Close' : 'Open'} `}
+            <Typography
+              textColor={isOpen ? 'text-gray-900' : '"'}
+              variant="body"
+            >
+              {title}
             </Typography>
-            <Typography variant="body">{title}</Typography>
           </span>
         </div>
       </button>
