@@ -254,7 +254,7 @@ export const ColumnSettings = (props: any) => {
       <div ref={wrapperRef}>
         {!isSavingSignature && (
           <div className="pb-2">
-            <CollapsibleSection title="Background">
+            <CollapsibleSection title="Background and rounded corners">
               <div className="grid grid-cols-1 gap-2">
                 <div className="mb-4">
                   <EditColor
@@ -271,12 +271,10 @@ export const ColumnSettings = (props: any) => {
                   />
                 </div>
               </div>
-            </CollapsibleSection>
-            <CollapsibleSection title="Background rounded corners">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 <div>
                   <Typography variant="labelBase" className="mb-2">
-                    Top-left radius : {borderRadiusCorners.topLeft}px
+                    Top-left rounded corner : {borderRadiusCorners.topLeft}px
                   </Typography>
                   <Slider
                     min={0}
@@ -292,7 +290,7 @@ export const ColumnSettings = (props: any) => {
                 </div>
                 <div>
                   <Typography variant="labelBase" className="mb-2">
-                    Top-right: {borderRadiusCorners.topRight}px
+                    Top-right rounded corner : {borderRadiusCorners.topRight}px
                   </Typography>
                   <Slider
                     min={0}
@@ -308,7 +306,8 @@ export const ColumnSettings = (props: any) => {
                 </div>
                 <div>
                   <Typography variant="labelBase" className="mb-2">
-                    Bottom-right: {borderRadiusCorners.bottomRight}px
+                    Bottom-right rounded corner :{' '}
+                    {borderRadiusCorners.bottomRight}px
                   </Typography>
                   <Slider
                     min={0}
@@ -324,7 +323,8 @@ export const ColumnSettings = (props: any) => {
                 </div>
                 <div>
                   <Typography variant="labelBase" className="mb-2">
-                    Bottom-left: {borderRadiusCorners.bottomLeft}
+                    Bottom-left rounded corner :{' '}
+                    {borderRadiusCorners.bottomLeft}
                     px
                   </Typography>
                   <Slider

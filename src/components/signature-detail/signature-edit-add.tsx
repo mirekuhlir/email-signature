@@ -232,6 +232,7 @@ export const EmailTemplateEdit = (props: any) => {
                   borderTopStyle: borderTopStyle,
                   width: width,
                   height: height,
+                  verticalAlign: 'middle',
                   ...row.style,
                 }}
               >
