@@ -142,7 +142,10 @@ serve(async (req: Request) => {
 
   const { data: updatedData, error: updateError } = await supabase
     .from("signatures")
-    .update({ signature_content: signatureContent, updated_at: new Date() })
+    .update({
+      signature_content: validationResult.data,
+      updated_at: new Date(),
+    })
     .eq("id", signatureId)
     .select();
 

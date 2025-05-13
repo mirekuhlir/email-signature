@@ -38,6 +38,7 @@ const MAX_ASPECT_STRING = 10;
 import {
     MAX_BORDER_RADIUS,
     MAX_BORDER_WIDTH,
+    MAX_IMAGE_WIDTH,
     MAX_MARGIN,
     MAX_PADDING,
     MIN_BORDER_RADIUS,
@@ -158,6 +159,8 @@ const baseComponentSchema = z.object({
     textDecoration: sanitizedString(MAX_TEXT_DECORATION).optional(), // Consider enums: z.enum(["none", "underline", "overline", "line-through"])
     // Added properties based on JSON
     padding: pxUnitValueSchema(0, MAX_PADDING, "padding", true).optional(),
+    width: pxUnitValueSchema(0, MAX_IMAGE_WIDTH, "width", true, 1).optional(),
+    height: pxUnitValueSchema(0, MAX_IMAGE_WIDTH, "height", true, 1).optional(),
     borderRadius: pxUnitValueSchema(
         MIN_BORDER_RADIUS,
         MAX_BORDER_RADIUS,
@@ -344,8 +347,20 @@ const elementStyleSchema = z.object({
         MAX_BORDER_WIDTH,
         "borderBottomWidth",
     ).optional(),
+    borderTopColor: sanitizedString(MAX_COLOR_LENGTH).optional(),
+    borderTopStyle: sanitizedString(MAX_FONT_STYLE).optional(),
+    borderLeftColor: sanitizedString(MAX_COLOR_LENGTH).optional(),
+    borderLeftStyle: sanitizedString(MAX_FONT_STYLE).optional(),
+    borderRightColor: sanitizedString(MAX_COLOR_LENGTH).optional(),
+    borderRightStyle: sanitizedString(MAX_FONT_STYLE).optional(),
+    borderBottomColor: sanitizedString(MAX_COLOR_LENGTH).optional(),
+    borderBottomStyle: sanitizedString(MAX_FONT_STYLE).optional(),
+    backgroundColor: sanitizedString(MAX_COLOR_LENGTH).optional(),
+    verticalAlign: sanitizedString(MAX_CSS_VALUE_LENGTH).optional(),
+    width: pxUnitValueSchema(0, MAX_IMAGE_WIDTH, "width", true).optional(),
+    height: pxUnitValueSchema(0, MAX_IMAGE_WIDTH, "height", true).optional(),
     // Catch-all for other CSS properties with basic sanitization
-}).catchall(sanitizedString(MAX_STRING_ID)); // Allow any other CSS property, ensure its value is sanitized
+}).catchall(sanitizedString(MAX_CSS_VALUE_LENGTH)); // Allow any other CSS property, ensure its value is sanitized
 
 // Combined content schema
 const baseContentSchema = z.discriminatedUnion("type", [
