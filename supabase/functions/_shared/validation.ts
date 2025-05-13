@@ -113,29 +113,9 @@ const safeUrlSchema = (maxLength: number) =>
 // New schema for website link text, allowing for URLs without http/https prefix
 const websiteLinkTextSchema = (maxLength: number) =>
     z.string()
-        .max(maxLength)
-        .transform((val) => {
-            if (
-                typeof val === "string" && val.length > 0 &&
-                !val.startsWith("http://") && !val.startsWith("https://") &&
-                val.includes(".")
-            ) {
-                // Basic check to see if it's likely a domain name missing a scheme
-                if (
-                    val.split(".").length > 1 && !val.includes(" ") &&
-                    !val.startsWith("/") && !val.includes("://")
-                ) {
-                    return `http://${val}`;
-                }
-            }
-            return val;
+        .max(maxLength, {
+            message: `Link text must not exceed ${maxLength} characters.`,
         })
-        .pipe(
-            z.string().url({
-                message:
-                    "Invalid URL format. Please provide a full URL including http:// or https://, or a valid domain name like www.example.com.",
-            }),
-        )
         .transform(sanitizeString);
 
 // Image source schema
