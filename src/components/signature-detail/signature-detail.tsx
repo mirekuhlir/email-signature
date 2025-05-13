@@ -82,7 +82,7 @@ export const SignatureDetail = (props: any) => {
                 Back to templates
               </StyledLink>
             )}
-            <Hr className="mt-4 mb-2 sm:mb-8 sm:mt-8" />
+            <Hr className="mt-4 mb-2 sm:mb-8 sm:mt-4" />
           </>
         )}
       </Container>
