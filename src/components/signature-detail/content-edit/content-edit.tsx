@@ -490,24 +490,6 @@ export const ContentEdit = (props: any) => {
                     </div>
                     <div>
                       <Typography variant="labelBase" className="mb-2">
-                        Bottom-right rounded corner:{' '}
-                        {borderRadiusCorners.bottomRight}
-                        px
-                      </Typography>
-                      <Slider
-                        min={0}
-                        max={MAX_BORDER_RADIUS}
-                        value={Number(borderRadiusCorners.bottomRight)}
-                        onChange={(value: number) => {
-                          setBorderRadiusCorners((prev) => ({
-                            ...prev,
-                            bottomRight: value.toString(),
-                          }));
-                        }}
-                      />
-                    </div>
-                    <div>
-                      <Typography variant="labelBase" className="mb-2">
                         Bottom-left rounded corner:{' '}
                         {borderRadiusCorners.bottomLeft}
                         px
@@ -520,6 +502,24 @@ export const ContentEdit = (props: any) => {
                           setBorderRadiusCorners((prev) => ({
                             ...prev,
                             bottomLeft: value.toString(),
+                          }));
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <Typography variant="labelBase" className="mb-2">
+                        Bottom-right rounded corner:{' '}
+                        {borderRadiusCorners.bottomRight}
+                        px
+                      </Typography>
+                      <Slider
+                        min={0}
+                        max={MAX_BORDER_RADIUS}
+                        value={Number(borderRadiusCorners.bottomRight)}
+                        onChange={(value: number) => {
+                          setBorderRadiusCorners((prev) => ({
+                            ...prev,
+                            bottomRight: value.toString(),
                           }));
                         }}
                       />

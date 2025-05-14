@@ -7,7 +7,28 @@ export const EmailTemplateView = (props: any) => {
 
   const renderColumn = (column: any) => {
     return (
-      <td style={column.style}>
+      <td
+        style={{
+          backgroundColor: column.style?.backgroundColor,
+          padding: column.style?.padding,
+          verticalAlign: column.style?.verticalAlign,
+          width: column.style?.width,
+          height: column.style?.height,
+          borderTopWidth: column.style?.borderTopWidth,
+          borderTopColor: column.style?.borderTopColor,
+          borderTopStyle: column.style?.borderTopStyle,
+          borderRightWidth: column.style?.borderRightWidth,
+          borderRightColor: column.style?.borderRightColor,
+          borderRightStyle: column.style?.borderRightStyle,
+          borderBottomWidth: column.style?.borderBottomWidth,
+          borderBottomColor: column.style?.borderBottomColor,
+          borderBottomStyle: column.style?.borderBottomStyle,
+          borderLeftWidth: column.style?.borderLeftWidth,
+          borderLeftColor: column.style?.borderLeftColor,
+          borderLeftStyle: column.style?.borderLeftStyle,
+          borderRadius: column.style?.borderRadius,
+        }}
+      >
         <table
           key={column.id}
           border={0}
@@ -94,7 +115,7 @@ export const EmailTemplateView = (props: any) => {
                 borderTopStyle: borderTopStyle,
                 width: width,
                 height: height,
-                ...row.style,
+                /*   ...row.style, */
               }}
             >
               <span

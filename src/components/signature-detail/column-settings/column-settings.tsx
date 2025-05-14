@@ -14,6 +14,8 @@ import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
 import {
   MAX_PADDING,
   MAX_BORDER_RADIUS,
+  MAX_BORDER_WIDTH,
+  MAX_IMAGE_WIDTH,
 } from '@/supabase/functions/_shared/const';
 export const ColumnSettings = (props: any) => {
   const { columnPathToEdit, signatureId, isSignedIn } = props;
@@ -33,6 +35,9 @@ export const ColumnSettings = (props: any) => {
   const [paddingBottom, setPaddingBottom] = useState('0');
   const [paddingLeft, setPaddingLeft] = useState('0');
   const [verticalAlign, setVerticalAlign] = useState('top');
+
+  const [columnWidth, setColumnWidth] = useState(0);
+  const [columnHeight, setColumnHeight] = useState(0);
 
   const [borderWidths, setBorderWidths] = useState({
     top: '0',
@@ -76,6 +81,13 @@ export const ColumnSettings = (props: any) => {
     if (originalStyle.verticalAlign) {
       setVerticalAlign(originalStyle.verticalAlign);
     }
+
+    setColumnWidth(
+      parseInt((originalStyle.width || '0px').replace('px', ''), 10) || 0,
+    );
+    setColumnHeight(
+      parseInt((originalStyle.height || '0px').replace('px', ''), 10) || 0,
+    );
 
     // Initialize border widths
     setBorderWidths({
@@ -187,6 +199,15 @@ export const ColumnSettings = (props: any) => {
     });
   };
 
+  const updateColumnDimensions = () => {
+    const currentStyle = get(rows, path) || {};
+    setContent(path, {
+      ...currentStyle,
+      width: columnWidth === 0 ? 'auto' : `${columnWidth}px`,
+      height: columnHeight === 0 ? 'auto' : `${columnHeight}px`,
+    });
+  };
+
   useEffect(() => {
     if (paddingTop && paddingRight && paddingBottom && paddingLeft) {
       updatePadding();
@@ -210,6 +231,14 @@ export const ColumnSettings = (props: any) => {
     updateBorderRadiusCorners();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [borderRadiusCorners]);
+
+  useEffect(() => {
+    // Check if all values are numbers before updating
+    if (typeof columnWidth === 'number' && typeof columnHeight === 'number') {
+      updateColumnDimensions();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [columnWidth, columnHeight]);
 
   const closeSettings = () => {
     setContent(path, initContent);
@@ -304,23 +333,7 @@ export const ColumnSettings = (props: any) => {
                     }}
                   />
                 </div>
-                <div>
-                  <Typography variant="labelBase" className="mb-2">
-                    Bottom-right rounded corner :{' '}
-                    {borderRadiusCorners.bottomRight}px
-                  </Typography>
-                  <Slider
-                    min={0}
-                    max={MAX_BORDER_RADIUS}
-                    value={Number(borderRadiusCorners.bottomRight)}
-                    onChange={(value: number) => {
-                      setBorderRadiusCorners((prev) => ({
-                        ...prev,
-                        bottomRight: value.toString(),
-                      }));
-                    }}
-                  />
-                </div>
+
                 <div>
                   <Typography variant="labelBase" className="mb-2">
                     Bottom-left rounded corner :{' '}
@@ -335,6 +348,23 @@ export const ColumnSettings = (props: any) => {
                       setBorderRadiusCorners((prev) => ({
                         ...prev,
                         bottomLeft: value.toString(),
+                      }));
+                    }}
+                  />
+                </div>
+                <div>
+                  <Typography variant="labelBase" className="mb-2">
+                    Bottom-right rounded corner :{' '}
+                    {borderRadiusCorners.bottomRight}px
+                  </Typography>
+                  <Slider
+                    min={0}
+                    max={MAX_BORDER_RADIUS}
+                    value={Number(borderRadiusCorners.bottomRight)}
+                    onChange={(value: number) => {
+                      setBorderRadiusCorners((prev) => ({
+                        ...prev,
+                        bottomRight: value.toString(),
                       }));
                     }}
                   />
@@ -411,7 +441,7 @@ export const ColumnSettings = (props: any) => {
                     </Typography>
                     <Slider
                       min={0}
-                      max={10}
+                      max={MAX_BORDER_WIDTH}
                       value={Number(borderWidths.top)}
                       onChange={(value: number) => {
                         setBorderWidths((prev) => ({
@@ -443,7 +473,7 @@ export const ColumnSettings = (props: any) => {
                     </Typography>
                     <Slider
                       min={0}
-                      max={10}
+                      max={MAX_BORDER_WIDTH}
                       value={Number(borderWidths.right)}
                       onChange={(value: number) => {
                         setBorderWidths((prev) => ({
@@ -478,7 +508,7 @@ export const ColumnSettings = (props: any) => {
                     </Typography>
                     <Slider
                       min={0}
-                      max={10}
+                      max={MAX_BORDER_WIDTH}
                       value={Number(borderWidths.bottom)}
                       onChange={(value: number) => {
                         setBorderWidths((prev) => ({
@@ -513,7 +543,7 @@ export const ColumnSettings = (props: any) => {
                     </Typography>
                     <Slider
                       min={0}
-                      max={10}
+                      max={MAX_BORDER_WIDTH}
                       value={Number(borderWidths.left)}
                       onChange={(value: number) => {
                         setBorderWidths((prev) => ({
@@ -554,6 +584,36 @@ export const ColumnSettings = (props: any) => {
                     value={verticalAlign}
                     onChange={(value: string) => {
                       setVerticalAlign(value);
+                    }}
+                  />
+                </div>
+              </div>
+            </CollapsibleSection>
+            <CollapsibleSection title="Width and Height">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <div>
+                  <Typography variant="labelBase" className="mb-2">
+                    Width: {columnWidth === 0 ? 'auto' : `${columnWidth}px`}
+                  </Typography>
+                  <Slider
+                    min={0}
+                    max={MAX_IMAGE_WIDTH} // Assuming MAX_IMAGE_WIDTH is appropriate, or define MAX_COLUMN_WIDTH
+                    value={columnWidth}
+                    onChange={(value: number) => {
+                      setColumnWidth(value);
+                    }}
+                  />
+                </div>
+                <div>
+                  <Typography variant="labelBase" className="mb-2">
+                    Height: {columnHeight === 0 ? 'auto' : `${columnHeight}px`}
+                  </Typography>
+                  <Slider
+                    min={0}
+                    max={MAX_IMAGE_WIDTH} // Assuming MAX_IMAGE_WIDTH is appropriate, or define MAX_COLUMN_HEIGHT
+                    value={columnHeight}
+                    onChange={(value: number) => {
+                      setColumnHeight(value);
                     }}
                   />
                 </div>
