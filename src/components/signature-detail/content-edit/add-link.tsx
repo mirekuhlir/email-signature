@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ImageComponent, WebsiteComponent } from '@/src/types/signature';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
