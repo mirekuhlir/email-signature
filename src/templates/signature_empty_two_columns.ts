@@ -7,9 +7,7 @@ export const signature_empty_two_columns = () => {
             version: "0.1",
             name: "Empty Signature Two Columns",
         },
-        colors: [
-            "rgb(0,148,47)",
-        ],
+        colors: [],
         rows: [
             {
                 "id": generateRandomId(),
@@ -42,6 +40,9 @@ export const signature_empty_two_columns = () => {
                                 },
                             },
                         ],
+                        style: {
+                            "verticalAlign": "top",
+                        },
                     },
                     {
                         id: generateRandomId(),
@@ -71,6 +72,9 @@ export const signature_empty_two_columns = () => {
                                 },
                             },
                         ],
+                        style: {
+                            "verticalAlign": "top",
+                        },
                     },
                 ],
             },

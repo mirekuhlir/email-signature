@@ -40,6 +40,9 @@ export const signature_empty_one_columns = () => {
                 },
               },
             ],
+            style: {
+              "verticalAlign": "top",
+            },
           },
         ],
       },
