@@ -203,6 +203,7 @@ const imageComponentSchema = baseComponentSchema.extend({
     imageSettings: imageSettingsSchema.optional(),
     padding: pxUnitValueSchema(0, MAX_PADDING, "padding", true).optional(),
     margin: pxUnitValueSchema(0, MAX_MARGIN, "margin", true).optional(),
+    link: safeUrlSchema(MAX_URL_LENGTH).optional(),
 }).strip();
 
 /* The following schemas are no longer directly used in content schemas as their
@@ -252,6 +253,7 @@ const EmailLinkTypedComponentSchema = baseComponentSchema.extend({
 const WebsiteLinkTypedComponentSchema = baseComponentSchema.extend({
     text: websiteLinkTextSchema(MAX_URL_LENGTH), // text is a URL for websiteLink, using the new permissive schema
     type: z.literal("websiteLink"),
+    link: safeUrlSchema(MAX_URL_LENGTH).optional(),
 }).strip();
 
 // Content schema for text type
