@@ -25,7 +25,7 @@ export const signature_empty_one_columns = () => {
                       text: "Empty with one column.",
                       type: "text",
                       color: "rgb(0, 0, 0)",
-                      padding: "0px 0px 0px 0px",
+                      padding: "0px 0px 5px 0px",
                       fontSize: "14px",
                       fontStyle: "normal",
                       textAlign: "left",
