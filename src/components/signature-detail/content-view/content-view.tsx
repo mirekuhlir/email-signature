@@ -256,6 +256,7 @@ export const getContentView = (content?: any) => {
   if (content?.type === ContentType.WEBSITE) {
     const { components } = content;
     const textAlign = components[1].textAlign;
+
     return (
       <span
         style={{
@@ -268,6 +269,7 @@ export const getContentView = (content?: any) => {
           const {
             id,
             text,
+            link,
             fontSize,
             color,
             letterSpacing,
@@ -297,7 +299,7 @@ export const getContentView = (content?: any) => {
           }
 
           if (component.type === ContentType.WEBSITE_LINK) {
-            let href = text;
+            let href = link || text;
 
             if (!/^https?:\/\//i.test(href)) {
               href = `https://${href}`;

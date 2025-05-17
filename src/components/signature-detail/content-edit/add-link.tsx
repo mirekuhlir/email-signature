@@ -13,6 +13,7 @@ interface LinkComponentProps {
   setContentEdit: (edit: { subEdit?: string | null }) => void;
   addEditingSectionId: (id: string) => void;
   removeEditingSectionId: (id: string) => void;
+  title?: string;
 }
 
 export const LinkComponent = (props: LinkComponentProps) => {
@@ -23,8 +24,10 @@ export const LinkComponent = (props: LinkComponentProps) => {
     setContentEdit,
     addEditingSectionId,
     removeEditingSectionId,
+    title,
   } = props;
   const [showLinkInput, setShowLinkInput] = useState(false);
+  console.warn('LinkComponent', contentPathToEdit);
 
   const {
     register,
@@ -38,7 +41,7 @@ export const LinkComponent = (props: LinkComponentProps) => {
   const onSubmitLink = (data: any) => {
     const trimmedLink = data.link.trim();
     if (!trimmedLink) {
-      setContent(`${contentPathToEdit}.components[0].link`, '');
+      setContent(`${contentPathToEdit}`, '');
       setContentEdit({
         subEdit: null,
       });
@@ -51,7 +54,7 @@ export const LinkComponent = (props: LinkComponentProps) => {
     if (!/^https?:\/\//i.test(href)) {
       href = `https://${href}`;
     }
-    setContent(`${contentPathToEdit}.components[0].link`, href);
+    setContent(`${contentPathToEdit}`, href);
     setContentEdit({
       subEdit: null,
     });
@@ -77,11 +80,11 @@ export const LinkComponent = (props: LinkComponentProps) => {
             <div className="mt-2 p-3">
               <form onSubmit={handleSubmit(onSubmitLink)} className="space-y-4">
                 <TextInput
-                  label="Link URL"
+                  label="Link"
                   name="link"
                   register={register}
                   errors={errors}
-                  placeholder="Enter URL (e.g. https://example.com)"
+                  placeholder="Enter link e.g. https://example.com"
                   validation={{
                     pattern: {
                       value:
@@ -143,7 +146,7 @@ export const LinkComponent = (props: LinkComponentProps) => {
                 <>
                   <div className="pb-1">
                     <Typography variant="labelBase">
-                      Add link to image
+                      {title ? title : 'Add link'}
                     </Typography>
                   </div>
                   <Button

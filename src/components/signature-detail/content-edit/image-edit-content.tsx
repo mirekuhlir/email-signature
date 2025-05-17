@@ -167,11 +167,12 @@ export const ImageEditContent = (props: ImageEditContentProps) => {
             <CollapsibleSection title="Image link">
               <LinkComponent
                 component={imageComponent}
-                contentPathToEdit={contentPathToEdit}
+                contentPathToEdit={`${contentPathToEdit}.components[0].link`}
                 setContent={setContent}
                 setContentEdit={setContentEdit}
                 addEditingSectionId={addEditingSectionId}
                 removeEditingSectionId={removeEditingSectionId}
+                title="Add link to image"
               />
             </CollapsibleSection>
           ) : null

@@ -27,6 +27,7 @@ import {
   MAX_PADDING,
   MAX_IMAGE_WIDTH,
 } from '@/supabase/functions/_shared/const';
+import { LinkComponent } from './add-link';
 
 export const LoadingInfo = ({
   text = 'Saving. Please wait...',
@@ -87,8 +88,13 @@ export const ContentEdit = (props: any) => {
   const [iniContent, setIniContent] = useState<any>(null);
   const [isSavingSignature, setIsSavingSignature] = useState(false);
 
-  const { setContentEdit, contentEdit, editingSectionIds } =
-    useContentEditStore();
+  const {
+    setContentEdit,
+    contentEdit,
+    editingSectionIds,
+    addEditingSectionId,
+    removeEditingSectionId,
+  } = useContentEditStore();
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   const [paddingTop, setPaddingTop] = useState(0);
@@ -434,6 +440,9 @@ export const ContentEdit = (props: any) => {
                   validate,
                   errors,
                   setContent,
+                  addEditingSectionId,
+                  removeEditingSectionId,
+                  setContentEdit,
                 )}
               <>
                 <CollapsibleSection title="Background and rounded corners">
@@ -849,6 +858,9 @@ const getContentType = (
   }) => void,
   errors: Record<string, string | null>,
   setContent: (path: string, value: any) => void,
+  addEditingSectionId: (sectionId: string) => void,
+  removeEditingSectionId: (sectionId: string) => void,
+  setContentEdit: (edit: any) => void,
 ) => {
   const type: ContentType = content?.type;
   const components = content?.components;
@@ -945,6 +957,7 @@ const getContentType = (
         if (component.type === ContentType.WEBSITE_LINK) return 'Website';
         return '';
       };
+      // TODO
       const getLayoutType = (component: any) => {
         if (component.type === ContentType.TEXT) return LayoutType.PREFIX;
         return LayoutType.TEXT;
@@ -955,6 +968,17 @@ const getContentType = (
           getLabel={getLabel}
           getLayoutType={getLayoutType}
           getTitle={(labelText: string) => `${labelText} text and color`}
+          linkComponent={
+            <LinkComponent
+              component={components[1]}
+              contentPathToEdit={`${contentPathToEdit}.components[1].link`}
+              setContent={setContent}
+              setContentEdit={setContentEdit}
+              addEditingSectionId={addEditingSectionId}
+              removeEditingSectionId={removeEditingSectionId}
+              title="Add link to website"
+            />
+          }
         />
       );
     }

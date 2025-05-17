@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ContentType } from '@/src/const/content';
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, ReactNode } from 'react';
 import SelectBase from '../select-base';
 import { FONTS, FONT_SIZES, LINE_HEIGHTS, LETTER_SPACINGS } from './fonts';
 import { EditColor } from '../edit-color';
@@ -21,6 +21,7 @@ interface RichTextEditorProps {
   layoutType?: LayoutType;
   backgroundColor?: string;
   isAutoFocus?: boolean;
+  linkComponent?: ReactNode;
 }
 
 const ButtonSquare = ({
@@ -53,6 +54,7 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
     layoutType = LayoutType.TEXT,
     backgroundColor,
     isAutoFocus = false,
+    linkComponent,
   } = props;
 
   const [editText, setEditText] = useState(content?.text ?? '');
@@ -206,6 +208,7 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
           <p className="text-red-500 mt-2 text-sm">{errorMessage}</p>
         )}
       </div>
+      {linkComponent ? linkComponent : null}
 
       <div className="grid grid-cols-2 gap-4">
         <SelectBase

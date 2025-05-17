@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { Fragment } from 'react';
+import React, { Fragment, ReactNode } from 'react';
 import { useSignatureStore } from '@/src/store/content-edit-add-store';
 import { ContentType } from '@/src/const/content';
 import {
@@ -25,6 +25,7 @@ interface GenericEditContentProps {
     index: number,
     originalIndex: number,
   ) => string;
+  linkComponent?: ReactNode;
   onValueChange?: (editContent: any, component: any, path: string) => void;
   reverseComponents?: boolean;
   useComponentBackgroundColor?: boolean;
@@ -44,6 +45,7 @@ export const GenericEditContent = (props: GenericEditContentProps) => {
     reverseComponents = true,
     useComponentBackgroundColor = false,
     errors,
+    linkComponent,
   } = props;
   const { setContent } = useSignatureStore();
 
@@ -87,6 +89,7 @@ export const GenericEditContent = (props: GenericEditContentProps) => {
               isAutoFocus={index === 0}
               backgroundColor={finalBackgroundColor}
               errorMessage={errors?.[component.id] || undefined}
+              linkComponent={linkComponent}
             />
           </div>
         </CollapsibleSection>
