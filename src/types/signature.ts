@@ -67,9 +67,10 @@ interface PhoneComponent extends BaseComponent {
 }
 
 // Website component structure
-interface WebsiteComponent extends BaseComponent {
+export interface WebsiteComponent extends BaseComponent {
     type: ContentType.WEBSITE_LINK;
     text: string;
+    link?: string;
 }
 
 // Content types that can be used in rows
