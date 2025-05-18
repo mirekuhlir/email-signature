@@ -990,7 +990,7 @@ const getContentType = (
         originalIndex: number,
       ) => {
         if (component.type === ContentType.TEXT) {
-          return originalIndex === 1 ? 'Prefix' : 'Value';
+          return originalIndex === 0 ? 'Prefix' : 'Value';
         }
         return '';
       };
@@ -999,7 +999,7 @@ const getContentType = (
         index: number,
         originalIndex: number,
       ) => {
-        if (component.type === ContentType.TEXT && originalIndex === 1) {
+        if (component.type === ContentType.TEXT && originalIndex === 0) {
           return LayoutType.PREFIX;
         }
         return LayoutType.TEXT;
