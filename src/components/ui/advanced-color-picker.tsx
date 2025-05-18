@@ -338,7 +338,7 @@ const AdvancedColorPicker = (props: Props) => {
         )}
         <div>
           <div
-            className="w-full h-16 rounded-lg shadow-inner"
+            className="w-full h-16 rounded-lg shadow-inner mt-2"
             style={{ backgroundColor: currentColor }}
           />
           <div className="mt-2 font-mono text-gray-600 text-md text-center">
