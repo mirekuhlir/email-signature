@@ -10,7 +10,7 @@ interface CustomSelectProps {
   options: Option[];
   onChange: (value: string) => void;
   value?: string;
-  label?: string;
+  label?: string | ReactNode;
 }
 
 const SelectBase: React.FC<CustomSelectProps> = ({
