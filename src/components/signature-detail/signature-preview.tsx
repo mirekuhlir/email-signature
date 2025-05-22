@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useSignatureStore } from '@/src/store/content-edit-add-store';
 import { EmailTemplateView } from './content-view/signature-view';
 import { TitleSwitch } from '../ui/title-switch';
@@ -9,10 +9,15 @@ import { getInvertedSignatureRows } from '@/src/utils/colorUtils';
 import { Container } from '../ui/container';
 
 export const SignaturePreview: React.FC = () => {
-  const [isMobilePreview, setIsMobilePreview] = useState(false);
   const isDesktopScreen = useMediaQuery(MEDIA_QUERIES.MD);
 
-  const { rows, isDarkMode, toggleDarkMode } = useSignatureStore();
+  const {
+    rows,
+    isDarkMode,
+    toggleDarkMode,
+    isMobilePreview,
+    setIsMobilePreview,
+  } = useSignatureStore();
 
   const invertedRows = useMemo(() => {
     return getInvertedSignatureRows(rows);

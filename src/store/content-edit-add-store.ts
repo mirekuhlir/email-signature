@@ -19,6 +19,8 @@ export interface StoreState {
   colors: string[];
   isDarkMode: boolean;
   isSavingOrder: boolean;
+  isMobilePreview: boolean;
+  setIsMobilePreview: (value: boolean) => void;
   initSignature: (signature: {
     rows: any;
     colors?: string[];
@@ -48,6 +50,8 @@ export const useSignatureStore = create<StoreState>((set, get) => {
     colors: [],
     isDarkMode: false,
     isSavingOrder: false,
+    isMobilePreview: false,
+    setIsMobilePreview: (value: boolean) => set({ isMobilePreview: value }),
     initSignature: (signature: {
       rows: any;
       colors?: string[];
