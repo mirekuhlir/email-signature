@@ -1,18 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Img } from '@/src/components/ui/img';
 import { ContentType } from '@/src/const/content';
-import { Fragment } from 'react';
 
 const formatTextWithLineBreaks = (text?: string) => {
+  if (!text) return null;
   return text
-
     ?.replace(/\r\n|\r/g, '\n')
     .split('\n')
     .map((line: string, index: number, array: string[]) => (
-      <Fragment key={index}>
+      <span key={index} style={{ whiteSpace: 'pre-wrap' }}>
         {line}
         {index < array.length - 1 && <br />}
-      </Fragment>
+      </span>
     ));
 };
 
@@ -101,8 +100,9 @@ export const getContentView = (content?: any) => {
             fontWeight,
             lineHeight,
             textDecoration,
-            wordBreak: 'break-all',
+            /*      wordBreak: 'break-all', */
             textAlign,
+            whiteSpace: 'pre-wrap',
           }}
         >
           {formattedText}
