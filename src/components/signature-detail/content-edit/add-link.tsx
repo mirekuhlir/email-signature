@@ -85,7 +85,7 @@ export const LinkComponent = (props: LinkComponentProps) => {
                   name="link"
                   register={register}
                   errors={errors}
-                  placeholder="Enter link e.g. https://example.com"
+                  placeholder="Enter link e.g. www.example.com"
                   validation={{
                     pattern: {
                       value:
