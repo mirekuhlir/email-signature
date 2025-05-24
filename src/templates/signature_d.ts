@@ -10,7 +10,7 @@ const getLocalizedContent = () => {
         emailValue: "example@email.com",
         addressValue: "14439 Annamarie Drives\nEaston, IL 62633",
         websitePrefix: "",
-        websiteText: "example.com",
+        websiteValue: "example.com",
         websiteLink: "https://www.example.com",
     };
 };
@@ -349,7 +349,7 @@ export const signature_d = () => {
                                             "link":
                                                 localizedContent.websiteLink,
                                             "text":
-                                                localizedContent.websiteText,
+                                                localizedContent.websiteValue,
                                             "type": "websiteLink",
                                             "color": "rgb(0, 0, 0)",
                                             "fontSize": "14px",
