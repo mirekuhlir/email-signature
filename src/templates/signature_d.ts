@@ -10,7 +10,8 @@ const getLocalizedContent = () => {
         emailValue: "example@email.com",
         addressValue: "14439 Annamarie Drives\nEaston, IL 62633",
         websitePrefix: "",
-        websiteValue: "www.example.com",
+        websiteText: "example.com",
+        websiteLink: "https://www.example.com",
     };
 };
 
@@ -50,13 +51,13 @@ export const signature_d = () => {
                                             "originalSrc":
                                                 `https://${process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/examples/signature_d_original.jpg`,
                                             "borderRadius": "0px 0px 0px 0px",
-                                            "previewWidth": 130,
+                                            "previewWidth": 120,
                                             "imageSettings": {
                                                 "crop": {
-                                                    "x": 14.173611415905892,
+                                                    "x": 16.980004721366498,
                                                     "y": 0,
                                                     "unit": "%",
-                                                    "width": 73.60786009370611,
+                                                    "width": 66.48281622468757,
                                                     "height": 96.65676502699263,
                                                 },
                                                 "aspect": "free",
@@ -207,7 +208,7 @@ export const signature_d = () => {
                                             "fontSize": "14px",
                                             "fontStyle": "normal",
                                             "textAlign": "left",
-                                            "fontFamily": "Arial",
+                                            "fontFamily": "Verdana",
                                             "fontWeight": "normal",
                                             "lineHeight": "1",
                                             "letterSpacing": "0px",
@@ -259,7 +260,8 @@ export const signature_d = () => {
                                             "color": "rgb(0, 0, 0)",
                                             "fontSize": "14px",
                                             "fontStyle": "normal",
-                                            "fontFamily": "Arial",
+                                            "textAlign": "left",
+                                            "fontFamily": "Verdana",
                                             "fontWeight": "normal",
                                             "lineHeight": "1",
                                             "letterSpacing": "0px",
@@ -344,14 +346,16 @@ export const signature_d = () => {
                                         },
                                         {
                                             "id": generateRandomId(),
+                                            "link":
+                                                localizedContent.websiteLink,
                                             "text":
-                                                localizedContent.websiteValue,
+                                                localizedContent.websiteText,
                                             "type": "websiteLink",
                                             "color": "rgb(0, 0, 0)",
                                             "fontSize": "14px",
                                             "fontStyle": "normal",
                                             "textAlign": "left",
-                                            "fontFamily": "Arial",
+                                            "fontFamily": "Verdana",
                                             "fontWeight": "bold",
                                             "lineHeight": "1",
                                             "letterSpacing": "0px",
