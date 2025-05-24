@@ -89,7 +89,11 @@ export const GenericEditContent = (props: GenericEditContentProps) => {
               isAutoFocus={index === 0}
               backgroundColor={finalBackgroundColor}
               errorMessage={errors?.[component.id] || undefined}
-              linkComponent={linkComponent}
+              linkComponent={
+                component.type === ContentType.WEBSITE_LINK
+                  ? linkComponent
+                  : undefined
+              }
             />
           </div>
         </CollapsibleSection>
