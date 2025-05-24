@@ -51,7 +51,7 @@ export const signature_e = () => {
                                             "originalSrc":
                                                 `https://${process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/examples/signature_e_original.jpg`,
                                             "borderRadius": "0px 0px 0px 0px",
-                                            "previewWidth": 98,
+                                            "previewWidth": 100,
                                             "imageSettings": {
                                                 "crop": {
                                                     "x": 27.320800365332133,
@@ -63,10 +63,10 @@ export const signature_e = () => {
                                                 "aspect": "free",
                                                 "isCircular": false,
                                                 "borderRadius": {
-                                                    "topLeft": 35,
-                                                    "topRight": 35,
-                                                    "bottomLeft": 35,
-                                                    "bottomRight": 35,
+                                                    "topLeft": 49,
+                                                    "topRight": 49,
+                                                    "bottomLeft": 49,
+                                                    "bottomRight": 49,
                                                 },
                                             },
                                             "borderTopColor": "rgb(0, 0, 0)",
