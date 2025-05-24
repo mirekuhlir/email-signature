@@ -15,7 +15,7 @@ const getLocalizedContent = () => {
         addressPrefix: "A: ",
         addressValue: "3943 Lyon Avenue, Worcester\n     Massachusetts 01608 ",
         disclaimer:
-            "This email is intended only for the recipient and may contain confidential information. If you are not the intended recipient, please notify the sender and delete this email.",
+            "This email is intended only for the recipient and may contain confidential information. \n If you are not the intended recipient, please notify the sender and delete this email.",
     };
 };
 
