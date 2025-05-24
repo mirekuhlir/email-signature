@@ -2,6 +2,7 @@ import { signature_a } from './signature_a';
 import { signature_b } from './signature_b';
 import { signature_c } from './signature_c';
 import { signature_d } from './signature_d';
+import { signature_e } from './signature_e';
 import { signature_empty_one_columns } from './signature_empty_one_columns';
 import { signature_empty_two_columns } from './signature_empty_two_columns';
 
@@ -11,6 +12,7 @@ export const getTemplates = () => {
     signature_b(),
     signature_c(),
     signature_d(),
+    signature_e(),
     signature_empty_one_columns(),
     signature_empty_two_columns(),
   ];
