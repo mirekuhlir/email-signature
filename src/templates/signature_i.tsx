@@ -27,13 +27,12 @@ export const signature_i = () => {
                   components: [
                     {
                       id: generateRandomId(),
-                      src: 'https://siph-dev-kfdh6.s3.us-east-1.amazonaws.com/e4c73af2-6711-48e9-9b0e/bd1f01bc/frhnk3u.png',
+                      src: `https://${process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/examples/signature_i_preview.png`,
                       width: '0px',
                       height: '0px',
                       margin: '0 auto 0 0',
                       padding: '0px 0px 0px 0px',
-                      originalSrc:
-                        'https://siph-dev-kfdh6.s3.us-east-1.amazonaws.com/e4c73af2-6711-48e9-9b0e/bd1f01bc/frhnk3u-hhum.jpg',
+                      originalSrc: `https://${process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/examples/signature_i_original.jpg`,
                       borderRadius: '0px 0px 0px 0px',
                       imageSettings: {
                         crop: {
