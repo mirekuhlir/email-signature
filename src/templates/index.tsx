@@ -8,6 +8,7 @@ import { signature_g } from './signature_g';
 import { signature_h } from './signature_h';
 import { signature_i } from './signature_i';
 import { signature_j } from './signature_j';
+import { signature_k } from './signature_k';
 import { signature_empty_one_columns } from './signature_empty_one_columns';
 import { signature_empty_two_columns } from './signature_empty_two_columns';
 
@@ -23,6 +24,7 @@ export const getTemplates = () => {
     signature_h(),
     signature_i(),
     signature_j(),
+    signature_k(),
     signature_empty_one_columns(),
     signature_empty_two_columns(),
   ];
