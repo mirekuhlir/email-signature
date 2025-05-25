@@ -28,7 +28,6 @@ export const LinkComponent = (props: LinkComponentProps) => {
     title,
   } = props;
   const [showLinkInput, setShowLinkInput] = useState(false);
-  console.warn('LinkComponent', contentPathToEdit);
 
   const {
     register,
