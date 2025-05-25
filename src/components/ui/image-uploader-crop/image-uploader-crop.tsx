@@ -887,7 +887,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
                     size="md"
                     onClick={handleDeleteImage}
                   >
-                    Change image
+                    Replace image
                   </Button>
                 </div>
               </div>
