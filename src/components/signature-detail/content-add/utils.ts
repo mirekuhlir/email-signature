@@ -87,8 +87,8 @@ export const getWebsiteTextExample = () => {
 
 export const getCustomValueTextExample = () => {
     return {
-        value: "custom value",
-        prefix: "prefix: ",
+        value: "example text",
+        prefix: "prefix text: ",
     };
 };
 

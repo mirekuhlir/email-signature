@@ -62,27 +62,32 @@ export const SignatureDetail = (props: any) => {
         {isPreview && (
           <>
             {isSignedIn && (
-              <StyledLink
-                variant="default"
-                href="/signatures"
-                className="flex items-center gap-1"
-              >
-                <ChevronLeft size={23} />
-                Back to My signatures
-              </StyledLink>
+              <>
+                <StyledLink
+                  variant="default"
+                  href="/signatures"
+                  className="flex items-center gap-1"
+                >
+                  <ChevronLeft size={23} />
+                  Back to My signatures
+                </StyledLink>
+                <Hr className="mt-4 mb-2 sm:mb-8 sm:mt-4" />
+              </>
             )}
 
-            {!isSignedIn && (
-              <StyledLink
-                variant="default"
-                href="/templates"
-                className="flex items-center gap-1"
-              >
-                <ChevronLeft size={23} />
-                Back to templates
-              </StyledLink>
+            {!isSignedIn && !isEdit && (
+              <>
+                <StyledLink
+                  variant="default"
+                  href="/templates"
+                  className="flex items-center gap-1"
+                >
+                  <ChevronLeft size={23} />
+                  Back to templates
+                </StyledLink>
+                <Hr className="mt-4 mb-2 sm:mb-8 sm:mt-4" />
+              </>
             )}
-            <Hr className="mt-4 mb-2 sm:mb-8 sm:mt-4" />
           </>
         )}
       </Container>

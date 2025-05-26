@@ -294,7 +294,7 @@ export const SignaturesList = (props: any) => {
       >
         <Container isZeroPadding={true}>
           <div className="mb-4">
-            <Typography variant="h3">Select signature</Typography>
+            <Typography variant="h3">Select template signature</Typography>
           </div>
           <div className="mb-6">
             <Hr />

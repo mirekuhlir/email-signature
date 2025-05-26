@@ -80,7 +80,11 @@ export const ContentAdd = (props: ContentAddProps) => {
             key={index}
             className="flex gap-4 mb-4 border-b border-gray-300 items-end pb-4 justify-between "
           >
-            <Typography variant="large">{typeItem.content}</Typography>
+            <div className="flex flex-col">
+              <Typography variant="large">{typeItem.name}</Typography>
+              <Typography variant="body">{typeItem.description}</Typography>
+            </div>
+
             <Button
               onClick={() => onAdd(typeItem.type)}
             >{`Add ${typeItem.name}`}</Button>
