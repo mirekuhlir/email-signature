@@ -43,6 +43,7 @@ export const signature_g = () => {
                                         {
                                             id: generateRandomId(),
                                             text: localizedContent.name,
+                                            type: "text",
                                             color: "rgb(51, 150, 125)",
                                             width: "0px",
                                             height: "0px",
@@ -72,6 +73,7 @@ export const signature_g = () => {
                                         {
                                             id: generateRandomId(),
                                             text: localizedContent.title,
+                                            type: "text",
                                             color: "rgb(54, 54, 54)",
                                             fontSize: "16px",
                                             fontStyle: "normal",
@@ -198,6 +200,7 @@ export const signature_g = () => {
                                             id: generateRandomId(),
                                             text:
                                                 localizedContent.addressPrefix,
+                                            type: "text",
                                             color: "rgb(54, 54, 54)",
                                             width: "0px",
                                             height: "0px",
@@ -227,6 +230,7 @@ export const signature_g = () => {
                                         {
                                             id: generateRandomId(),
                                             text: localizedContent.addressValue,
+                                            type: "text",
                                             color: "rgb(0, 0, 0)",
                                             fontSize: "14px",
                                             fontStyle: "normal",
@@ -249,6 +253,7 @@ export const signature_g = () => {
                                             id: generateRandomId(),
                                             text: localizedContent
                                                 .availablePrefix,
+                                            type: "text",
                                             color: "rgb(54, 54, 54)",
                                             width: "0px",
                                             height: "0px",
@@ -279,6 +284,7 @@ export const signature_g = () => {
                                             id: generateRandomId(),
                                             text:
                                                 localizedContent.availableValue,
+                                            type: "text",
                                             color: "rgb(0, 0, 0)",
                                             fontSize: "14px",
                                             fontStyle: "normal",

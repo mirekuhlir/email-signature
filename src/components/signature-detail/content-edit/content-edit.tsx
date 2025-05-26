@@ -1009,7 +1009,7 @@ const getContentType = (
           {...commonProps}
           getLabel={getLabel}
           getLayoutType={getLayoutType}
-          getTitle={(labelText: string) => `Text and color ${labelText}`}
+          getTitle={(labelText: string) => `Text and color - ${labelText}`}
         />
       );
     }

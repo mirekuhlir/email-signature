@@ -192,6 +192,7 @@ export const signature_e = () => {
                                         {
                                             "id": generateRandomId(),
                                             "text": "",
+                                            "type": "text",
                                             "color": "rgb(0, 0, 0)",
                                             "width": "0px",
                                             "height": "0px",
@@ -222,6 +223,7 @@ export const signature_e = () => {
                                             "id": generateRandomId(),
                                             "text":
                                                 localizedContent.addressValue,
+                                            "type": "text",
                                             "color": "rgb(0, 0, 0)",
                                             "fontSize": "14px",
                                             "fontStyle": "normal",

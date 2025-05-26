@@ -219,6 +219,7 @@ export const signature_h = () => {
                                             id: generateRandomId(),
                                             text: localizedContent
                                                 .availablePrefix,
+                                            type: "text",
                                             color: "rgb(59, 59, 59)",
                                             width: "0px",
                                             height: "0px",

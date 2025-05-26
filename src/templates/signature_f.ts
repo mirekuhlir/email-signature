@@ -121,6 +121,7 @@ export const signature_f = () => {
                                         {
                                             "id": generateRandomId(),
                                             "text": localizedContent.name1,
+                                            "type": "text",
                                             "color": "rgb(94, 94, 94)",
                                             "width": "0px",
                                             "height": "0px",
@@ -150,6 +151,7 @@ export const signature_f = () => {
                                         {
                                             "id": generateRandomId(),
                                             "text": localizedContent.name2,
+                                            "type": "text",
                                             "color": "rgb(41, 41, 41)",
                                             "fontSize": "15px",
                                             "fontStyle": "normal",
@@ -371,6 +373,7 @@ export const signature_f = () => {
                                             "id": generateRandomId(),
                                             "text":
                                                 localizedContent.addressPrefix,
+                                            "type": "text",
                                             "color": "rgb(41, 41, 41)",
                                             "width": "0px",
                                             "height": "0px",
@@ -401,6 +404,7 @@ export const signature_f = () => {
                                             "id": generateRandomId(),
                                             "text":
                                                 localizedContent.addressValue,
+                                            "type": "text",
                                             "color": "rgb(94, 94, 94)",
                                             "fontSize": "14px",
                                             "fontStyle": "normal",
