@@ -258,9 +258,7 @@ export const useSignatureStore = create<StoreState>((set, get) => {
 
       set({ rows: cloneRows });
 
-      // Save changes to the database
-
-      if (signatureId) {
+      if (signatureId && signatureId !== "example") {
         set({ isSavingOrder: true }); // Set loading true
 
         const { error } = await supabase.functions.invoke("patch-signature", {
@@ -305,7 +303,7 @@ export const useSignatureStore = create<StoreState>((set, get) => {
       set({ rows: cloneRows });
 
       // Save changes to the database
-      if (signatureId) {
+      if (signatureId && signatureId !== "example") {
         set({ isSavingOrder: true });
 
         const { error } = await supabase.functions.invoke("patch-signature", {
