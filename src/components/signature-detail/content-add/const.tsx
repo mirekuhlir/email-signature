@@ -10,13 +10,13 @@ import {
 export const CONTENT_TYPES = [
   {
     name: 'text',
-    description: 'Plain text – can be anything (e.g. name, title, company).',
+    description: 'Can be name, title, company, department, slogan, etc.',
     content: getExampleText(),
     type: ContentType.TEXT,
   },
   {
     name: 'image',
-    description: 'Image – can be anything (e.g. logo, photo, etc.).',
+    description: 'Can be photo, logo, avatar, banner, icon, badge, etc.',
     content: 'image',
     type: ContentType.IMAGE,
   },
@@ -28,7 +28,7 @@ export const CONTENT_TYPES = [
   },
   {
     name: 'phone',
-    description: 'Phone number (e.g. +1 123 456 7890).',
+    description: 'Any phone number (e.g. +1 123 456 7890).',
     content: `${getPhoneTextExample().prefix}${getPhoneTextExample().phone}`,
     type: ContentType.PHONE,
   },

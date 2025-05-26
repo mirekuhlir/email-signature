@@ -8,6 +8,7 @@ import { ContentType } from '@/src/const/content';
 import { TableRow, Column, Row } from '@/src/types/signature';
 import { useState } from 'react';
 import { MAX_IMAGES } from '@/supabase/functions/_shared/const';
+import { Hr } from '../../ui/hr';
 
 const countOriginalSrc = (tableRows: TableRow[]): number => {
   let count = 0;
@@ -66,7 +67,7 @@ export const ContentAdd = (props: ContentAddProps) => {
   }, []);
 
   return (
-    <div className="pt-6 sm:max-w-1/2 mx-auto">
+    <div className="pt-1 sm:max-w-1/2 mx-auto">
       {CONTENT_TYPES.map((typeItem, index) => {
         if (
           typeItem.type === ContentType.IMAGE &&
@@ -76,22 +77,20 @@ export const ContentAdd = (props: ContentAddProps) => {
         }
 
         return (
-          <div
-            key={index}
-            className="flex gap-4 mb-4 border-b border-gray-300 items-end pb-4 justify-between "
-          >
-            <div className="flex flex-col">
+          <div key={index}>
+            <div className="flex flex-col mt-4">
               <Typography variant="large">{typeItem.name}</Typography>
               <Typography variant="body">{typeItem.description}</Typography>
             </div>
 
-            <Button
-              onClick={() => onAdd(typeItem.type)}
-            >{`Add ${typeItem.name}`}</Button>
+            <div className="flex justify-end mt-4 mb-4">
+              <Button onClick={() => onAdd(typeItem.type)}>{'Add'}</Button>
+            </div>
+            <Hr />
           </div>
         );
       })}
-      <div className="flex justify-end mb-6" ref={wrapperRef}>
+      <div className="flex justify-end mb-6 mt-6" ref={wrapperRef}>
         <Button variant="outline" onClick={onClose}>
           Close
         </Button>
