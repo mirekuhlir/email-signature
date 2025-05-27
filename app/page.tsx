@@ -19,7 +19,8 @@ export default async function Home() {
       <section className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-25">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-6 mt-12">
-            Boost trust and elegance <br /> with our custom email signatures
+            Add personality and credibility to your emails. Create your own
+            email signature now!
           </h1>
           <p className="text-lg md:text-xl max-w-2xl mx-auto mb-8">Text</p>
           <StyledLink variant="button-orange" size="2xl" href="/templates">
