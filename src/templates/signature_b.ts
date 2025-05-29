@@ -6,9 +6,9 @@ const getLocalizedContent = () => {
   return {
     name: "Madison Brooks",
     title: "Professional Photographer",
-    phonePrefix: "phone: ",
+    phonePrefix: "p: ",
     phoneValue: "+1 201-184-1199",
-    emailPrefix: "email: ",
+    emailPrefix: "e: ",
     emailValue: "example@email.com",
     websitePrefix: "web: ",
     websiteValue: "www.example.com",

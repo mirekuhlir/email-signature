@@ -6,8 +6,10 @@ const getLocalizedContent = () => {
     "name": "Dr. Emily Sullivan",
     "place": "NewDawn Medical Center",
     "title": "Pediatrician",
+    "phonePrefix": "p: ",
     "phone": "+1 123 456 7890",
     "email": "example@email.com",
+    "emailPrefix": "e: ",
     "address": "987 Willow Street, Asheville",
   };
 };
@@ -20,7 +22,7 @@ export const signature_a = () => {
       version: "0.1",
       name: "Signature A",
     },
-    "colors": ["rgb(0, 0, 0)", "rgb(81, 25, 92)", "rgb(239, 195, 247)"],
+    "colors": ["rgb(0, 0, 0)", "rgb(81, 25, 92)", "rgb(239,   195, 247)"],
 
     "rows": [
       {
@@ -225,7 +227,7 @@ export const signature_a = () => {
                   "components": [
                     {
                       "id": generateRandomId(),
-                      "text": "tel: ",
+                      "text": localizedContent.phonePrefix,
                       "type": "text",
                       "color": "rgb(81, 25, 92)",
                       "padding": "10px 0px 0px 0px",
@@ -275,7 +277,7 @@ export const signature_a = () => {
                   "components": [
                     {
                       "id": generateRandomId(),
-                      "text": "email: ",
+                      "text": localizedContent.emailPrefix,
                       "type": "text",
                       "color": "rgb(81, 25, 92)",
                       "padding": "5px 0px 0px 0px",
