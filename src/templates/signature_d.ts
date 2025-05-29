@@ -4,9 +4,9 @@ const getLocalizedContent = () => {
     return {
         name: "Mitchell Bartell",
         title: "interior designer",
-        phonePrefix: "phone: ",
+        phonePrefix: "",
         phoneValue: "+1 123 456 7890",
-        emailPrefix: "email: ",
+        emailPrefix: "",
         emailValue: "example@email.com",
         addressValue: "14439 Annamarie Drives\nEaston, IL 62633",
         websitePrefix: "",
