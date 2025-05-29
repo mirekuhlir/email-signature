@@ -445,96 +445,6 @@ export const ContentEdit = (props: any) => {
                   setContentEdit,
                 )}
               <>
-                <CollapsibleSection title="Background and rounded corners">
-                  <div className="mb-4">
-                    <EditColor
-                      initColor={content?.components[0]?.backgroundColor}
-                      label="Background color"
-                      sectionId={componentId}
-                      isResetToTransparent
-                      onChange={(color) => {
-                        const stylePath = `${path}.components[0]`;
-                        const currentStyle = content?.components[0] || {};
-                        setContent(stylePath, {
-                          ...currentStyle,
-                          backgroundColor: color,
-                        });
-                      }}
-                    />
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    <div>
-                      <Typography variant="labelBase" className="mb-2">
-                        Top-left rounded corner: {borderRadiusCorners.topLeft}
-                        px
-                      </Typography>
-                      <Slider
-                        min={0}
-                        max={MAX_BORDER_RADIUS}
-                        value={Number(borderRadiusCorners.topLeft)}
-                        onChange={(value: number) => {
-                          setBorderRadiusCorners((prev) => ({
-                            ...prev,
-                            topLeft: value.toString(),
-                          }));
-                        }}
-                      />
-                    </div>
-                    <div>
-                      <Typography variant="labelBase" className="mb-2">
-                        Top-right rounded corner: {borderRadiusCorners.topRight}
-                        px
-                      </Typography>
-                      <Slider
-                        min={0}
-                        max={MAX_BORDER_RADIUS}
-                        value={Number(borderRadiusCorners.topRight)}
-                        onChange={(value: number) => {
-                          setBorderRadiusCorners((prev) => ({
-                            ...prev,
-                            topRight: value.toString(),
-                          }));
-                        }}
-                      />
-                    </div>
-                    <div>
-                      <Typography variant="labelBase" className="mb-2">
-                        Bottom-left rounded corner:{' '}
-                        {borderRadiusCorners.bottomLeft}
-                        px
-                      </Typography>
-                      <Slider
-                        min={0}
-                        max={MAX_BORDER_RADIUS}
-                        value={Number(borderRadiusCorners.bottomLeft)}
-                        onChange={(value: number) => {
-                          setBorderRadiusCorners((prev) => ({
-                            ...prev,
-                            bottomLeft: value.toString(),
-                          }));
-                        }}
-                      />
-                    </div>
-                    <div>
-                      <Typography variant="labelBase" className="mb-2">
-                        Bottom-right rounded corner:{' '}
-                        {borderRadiusCorners.bottomRight}
-                        px
-                      </Typography>
-                      <Slider
-                        min={0}
-                        max={MAX_BORDER_RADIUS}
-                        value={Number(borderRadiusCorners.bottomRight)}
-                        onChange={(value: number) => {
-                          setBorderRadiusCorners((prev) => ({
-                            ...prev,
-                            bottomRight: value.toString(),
-                          }));
-                        }}
-                      />
-                    </div>
-                  </div>
-                </CollapsibleSection>
                 <CollapsibleSection title="Inner space">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     <div>
@@ -745,6 +655,97 @@ export const ContentEdit = (props: any) => {
                     </div>
                   </div>
                 </CollapsibleSection>
+                <CollapsibleSection title="Background and rounded corners">
+                  <div className="mb-4">
+                    <EditColor
+                      initColor={content?.components[0]?.backgroundColor}
+                      label="Background color"
+                      sectionId={componentId}
+                      isResetToTransparent
+                      onChange={(color) => {
+                        const stylePath = `${path}.components[0]`;
+                        const currentStyle = content?.components[0] || {};
+                        setContent(stylePath, {
+                          ...currentStyle,
+                          backgroundColor: color,
+                        });
+                      }}
+                    />
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <div>
+                      <Typography variant="labelBase" className="mb-2">
+                        Top-left rounded corner: {borderRadiusCorners.topLeft}
+                        px
+                      </Typography>
+                      <Slider
+                        min={0}
+                        max={MAX_BORDER_RADIUS}
+                        value={Number(borderRadiusCorners.topLeft)}
+                        onChange={(value: number) => {
+                          setBorderRadiusCorners((prev) => ({
+                            ...prev,
+                            topLeft: value.toString(),
+                          }));
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <Typography variant="labelBase" className="mb-2">
+                        Top-right rounded corner: {borderRadiusCorners.topRight}
+                        px
+                      </Typography>
+                      <Slider
+                        min={0}
+                        max={MAX_BORDER_RADIUS}
+                        value={Number(borderRadiusCorners.topRight)}
+                        onChange={(value: number) => {
+                          setBorderRadiusCorners((prev) => ({
+                            ...prev,
+                            topRight: value.toString(),
+                          }));
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <Typography variant="labelBase" className="mb-2">
+                        Bottom-left rounded corner:{' '}
+                        {borderRadiusCorners.bottomLeft}
+                        px
+                      </Typography>
+                      <Slider
+                        min={0}
+                        max={MAX_BORDER_RADIUS}
+                        value={Number(borderRadiusCorners.bottomLeft)}
+                        onChange={(value: number) => {
+                          setBorderRadiusCorners((prev) => ({
+                            ...prev,
+                            bottomLeft: value.toString(),
+                          }));
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <Typography variant="labelBase" className="mb-2">
+                        Bottom-right rounded corner:{' '}
+                        {borderRadiusCorners.bottomRight}
+                        px
+                      </Typography>
+                      <Slider
+                        min={0}
+                        max={MAX_BORDER_RADIUS}
+                        value={Number(borderRadiusCorners.bottomRight)}
+                        onChange={(value: number) => {
+                          setBorderRadiusCorners((prev) => ({
+                            ...prev,
+                            bottomRight: value.toString(),
+                          }));
+                        }}
+                      />
+                    </div>
+                  </div>
+                </CollapsibleSection>
+
                 <CollapsibleSection title="Width and height">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     <div>

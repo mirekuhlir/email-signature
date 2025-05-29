@@ -83,7 +83,7 @@ export const EmailTemplateEdit = (props: any) => {
         </div>
 
         {contentEdit.addPath !== rowPath && contentEdit.columnPath === null && (
-          <div className="flex flex-col items-end mb-2">
+          <div className="flex flex-col items-end mb-2 mr-1">
             {column.rows.length < MAX_ROWS && (
               <div className="mb-2">
                 <Button
@@ -251,7 +251,7 @@ export const EmailTemplateEdit = (props: any) => {
             {contentEdit.editPath !== currentPath &&
               contentEdit.columnPath === null && (
                 <>
-                  <div className="flex justify-end items-center gap-2 mb-2 mt-1">
+                  <div className="flex justify-end items-center gap-2 mb-2 mt-1 mr-1">
                     <Button
                       size="sm"
                       variant="blue"
