@@ -10,7 +10,7 @@ const getLocalizedContent = () => {
     phoneValue: "+1 201-184-1199",
     emailPrefix: "e: ",
     emailValue: "example@email.com",
-    websitePrefix: "web: ",
+    websitePrefix: "",
     websiteValue: "www.example.com",
   };
 };
