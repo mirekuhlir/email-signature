@@ -9,7 +9,7 @@ const getLocalizedContent = () => {
         emailPrefix: "email: ",
         emailValue: "example@email.com",
         addressPrefix: "address: ",
-        addressValue: "3943 Lyon Avenue, Worcester, MA 0160",
+        addressValue: "742 Evergreen Terrace, Springfield, IL",
         availablePrefix: "available: ",
         availableValue: "Mon-Fri, 8 AM - 5 PM",
     };

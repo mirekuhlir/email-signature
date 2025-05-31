@@ -24,9 +24,8 @@ export default async function Home() {
           <h1 className="text-3xl md:text-4xl font-bold mb-6 mt-12 text-brand-blue-900">
             Create a professional email signature in just minutes
           </h1>
-          <p className="text-xl md:text-xl mx-auto mb-8 text-brand-purple-900">
-            Make your emails trustworthy and attractive. Make them stand out
-            from the crowd.
+          <p className="text-lg md:text-xl mx-auto mb-8 text-brand-purple-900">
+            Make your emails trustworthy and attractive.
           </p>
           <StyledLink variant="button-orange" size="2xl" href="/templates">
             Create your signature now!
@@ -46,15 +45,11 @@ export default async function Home() {
             <EmailTemplateView rows={signature_b().rows} />
             <EmailTemplateView rows={signature_d().rows} />
           </div>
-          {/*           <div className="flex mt-12 justify-center">
-            <StyledLink
-              variant="button-brand-blue"
-              size="2xl"
-              href="/templates"
-            >
+          <div className="flex mt-12 justify-center">
+            <StyledLink variant="button-brand-blue" size="xl" href="/templates">
               {'See all templates'}
             </StyledLink>
-          </div> */}
+          </div>
         </div>
       </section>
 

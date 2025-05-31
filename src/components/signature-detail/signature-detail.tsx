@@ -105,6 +105,7 @@ export const SignatureDetail = (props: any) => {
               <div className="mt-0 sm:mt-4 flex justify-center sm:justify-start">
                 <Button
                   size="lg"
+                  variant="brandBlue"
                   onClick={() => {
                     if (isSignedIn) {
                       handleCopy();

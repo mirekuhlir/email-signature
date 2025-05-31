@@ -3,6 +3,7 @@ import React from 'react';
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?:
     | 'blue'
+    | 'brandBlue'
     | 'orange'
     | 'red'
     | 'black'
@@ -60,6 +61,7 @@ export const variants = {
 
 export const selectedStyles = {
   blue: 'bg-blue-500 hover:bg-blue-500 text-white',
+  brandBlue: 'bg-brand-blue-800 hover:bg-brand-blue-700 text-white',
   orange: 'bg-orange-500 hover:bg-orange-500 text-white',
   red: 'bg-red-500 hover:bg-red-500 text-white',
   black: 'bg-gray-700 hover:bg-gray-700 text-white',

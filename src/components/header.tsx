@@ -62,6 +62,7 @@ export const Header = (props: any) => {
             </div>
           ) : (
             <Button
+              variant="brandBlue"
               onClick={() =>
                 showAuthModal({
                   title: 'Sign in',

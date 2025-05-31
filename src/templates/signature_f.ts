@@ -12,8 +12,8 @@ const getLocalizedContent = () => {
         websitePrefix: "W: ",
         websiteValue: "www.example.com",
         websiteLink: "https://www.example.com",
-        addressPrefix: "A: ",
-        addressValue: "3943 Lyon Avenue, Worcester\n     Massachusetts 01608 ",
+        addressPrefix: "",
+        addressValue: "3943 Lyon Avenue, Worcester\nMassachusetts 01608 ",
         disclaimer:
             "This email is intended only for the recipient and may contain confidential information.\nIf you are not the intended recipient, please notify the sender and delete this email.",
     };
@@ -422,7 +422,7 @@ export const signature_f = () => {
                         "style": {
                             "width": "auto",
                             "height": "auto",
-                            "padding": "10px 0px 11px 10px",
+                            "padding": "0px 0px 0px 10px",
                             "borderRadius": "0px 0px 0px 0px",
                             "verticalAlign": "top",
                             "borderTopColor": "rgb(0, 0, 0)",

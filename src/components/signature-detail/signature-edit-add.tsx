@@ -116,7 +116,7 @@ export const EmailTemplateEdit = (props: any) => {
                   });
                 }}
               >
-                Settings
+                Edit column
               </Button>
             </div>
           </div>
