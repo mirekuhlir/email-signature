@@ -7,6 +7,7 @@ interface StyledLinkProps {
   children: ReactNode;
   variant?:
     | 'button-blue'
+    | 'button-brand-blue'
     | 'button-orange'
     | 'button-red'
     | 'button-black'
@@ -34,6 +35,7 @@ const StyledLink: FC<StyledLinkProps> = ({
 }) => {
   const variants = {
     'button-blue': buttonVariants.blue,
+    'button-brand-blue': buttonVariants.brandBlue,
     'button-orange': buttonVariants.orange,
     'button-red': buttonVariants.red,
     'button-black': buttonVariants.black,

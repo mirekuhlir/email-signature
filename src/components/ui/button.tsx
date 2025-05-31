@@ -46,6 +46,7 @@ export const baseStyles =
 
 export const variants = {
   blue: 'bg-blue-600 hover:bg-blue-700 text-white',
+  brandBlue: 'bg-brand-blue-900 hover:bg-brand-blue-800 text-white',
   orange: 'bg-orange-600 hover:bg-orange-700 text-white',
   red: 'bg-red-600 hover:bg-red-700 text-white',
   black: 'bg-black hover:bg-gray-900 text-white',

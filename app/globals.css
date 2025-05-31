@@ -1,6 +1,7 @@
 @import 'tailwindcss';
 @theme {
   --color-brand-blue-900: rgba(27, 20, 93, 1);
+  --color-brand-blue-800: rgba(27, 20, 93, 0.8);
   --color-brand-green-900: rgba(32, 172, 160, 1);
   --color-brand-purple-900: rgba(71, 67, 104, 1);
   --color-brand-purple-700: rgba(71, 67, 104, 0.7);
