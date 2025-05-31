@@ -117,7 +117,7 @@ export default async function Home() {
                 Customize your signature
               </h3>
               <p className="text-gray-600">
-                Add your details, photo, and company logo.
+                Add your details, photo or company logo.
               </p>
             </div>
             <div className="text-center">
