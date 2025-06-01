@@ -5,6 +5,7 @@ import { EmailTemplateView } from '@/src/components/signature-detail/content-vie
 import { signature_b } from '@/src/templates/signature_b';
 import { signature_d } from '@/src/templates/signature_d';
 import { signature_i } from '@/src/templates/signature_i';
+import { Handshake, ChartLine, Award } from 'lucide-react';
 
 export default async function Home() {
   const supabase = await createClient();
@@ -36,9 +37,15 @@ export default async function Home() {
       {/* Examples of email signatures Section */}
       <section className="py-10 bg-white pb-20">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center text-brand-blue-900 mb-12">
-            Choose from our professional templates
-          </h2>
+          <div className="mb-12">
+            <h2 className="text-3xl font-bold text-center text-brand-blue-900 mb-6">
+              Choose from our professional templates
+            </h2>
+            <p className="text-lg md:text-xl mx-auto mb-8 text-brand-purple-900 text-center">
+              Customize your signature to match your style - change colors,
+              fonts and anything else you want.
+            </p>
+          </div>
 
           <div className="flex flex-col md:flex-row gap-16 justify-center">
             <EmailTemplateView rows={signature_i().rows} />
@@ -61,7 +68,9 @@ export default async function Home() {
           </h2>
           <ul className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             <li className="text-center">
-              <div className="mb-4 text-4xl">🤝</div>
+              <div className="mb-4 text-4xl text-brand-blue-900 flex justify-center items-center">
+                <Handshake className="w-10 h-10" />
+              </div>
               <h3 className="text-xl font-semibold text-gray-800 mb-2">
                 Trustworthiness
               </h3>
@@ -71,7 +80,9 @@ export default async function Home() {
               </p>
             </li>
             <li className="text-center">
-              <div className="mb-4 text-4xl">💼</div>
+              <div className="mb-4 text-4xl text-brand-blue-900 flex justify-center items-center">
+                <Award className="w-10 h-10" />
+              </div>
               <h3 className="text-xl font-semibold text-gray-800 mb-2">
                 Professional appearance
               </h3>
@@ -80,12 +91,15 @@ export default async function Home() {
               </p>
             </li>
             <li className="text-center">
-              <div className="mb-4 text-4xl">📈</div>
+              <div className="mb-4 text-4xl text-brand-blue-900 flex justify-center items-center">
+                <ChartLine className="w-10 h-10" />
+              </div>
               <h3 className="text-xl font-semibold text-gray-800 mb-2">
                 Brand support
               </h3>
               <p className="text-gray-600">
-                Every email strengthens awareness of your brand or company.
+                Every email strengthens your brand and helps you make new
+                connections.
               </p>
             </li>
           </ul>
@@ -100,14 +114,18 @@ export default async function Home() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
-              <div className="mb-4 text-4xl">1️⃣</div>
+              <div className="mb-4 text-3xl font-bold text-brand-blue-900">
+                1.
+              </div>
               <h3 className="text-lg font-semibold mb-2">Choose a template</h3>
               <p className="text-gray-600">
                 Select from professionally designed signature templates.
               </p>
             </div>
             <div className="text-center">
-              <div className="mb-4 text-4xl">2️⃣</div>
+              <div className="mb-4 text-3xl font-bold text-brand-blue-900">
+                2.
+              </div>
               <h3 className="text-lg font-semibold mb-2">
                 Customize your signature
               </h3>
@@ -116,7 +134,9 @@ export default async function Home() {
               </p>
             </div>
             <div className="text-center">
-              <div className="mb-4 text-4xl">3️⃣</div>
+              <div className="mb-4 text-3xl font-bold text-brand-blue-900">
+                3.
+              </div>
               <h3 className="text-lg font-semibold mb-2">Copy & paste</h3>
               <p className="text-gray-600">
                 Copy your signature to your email with one click.
@@ -127,7 +147,7 @@ export default async function Home() {
       </section>
 
       {/* Social Proof Section - User Quotes */}
-      <section className="py-14 bg-white">
+      {/*       <section className="py-14 bg-white">
         <div className="container mx-auto px-4 max-w-2xl text-center">
           <h2 className="text-2xl font-bold text-brand-blue-900 mb-6">
             What our users say
@@ -146,10 +166,10 @@ export default async function Home() {
             </blockquote>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Social Proof Section */}
-      <section className="py-14 bg-white">
+      {/*      <section className="py-14 bg-white">
         <div className="container mx-auto px-4 max-w-3xl text-center">
           <h2 className="text-2xl font-bold text-brand-blue-900 mb-6">
             Trusted by users from companies like
@@ -164,7 +184,7 @@ export default async function Home() {
             Over 1000 users have already created their signature.
           </p>
         </div>
-      </section>
+      </section> */}
 
       {/* FAQ Section */}
       <section className="py-14 bg-gray-50">
