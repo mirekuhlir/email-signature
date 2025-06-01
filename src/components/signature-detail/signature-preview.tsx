@@ -7,6 +7,7 @@ import { useMediaQuery } from '@/src/hooks/useMediaQuery';
 import { MEDIA_QUERIES } from '@/src/constants/mediaQueries';
 import { getInvertedSignatureRows } from '@/src/utils/colorUtils';
 import { Container } from '../ui/container';
+import { MAX_IMAGE_WIDTH } from '@/supabase/functions/_shared/const';
 
 export const SignaturePreview: React.FC = () => {
   const isDesktopScreen = useMediaQuery(MEDIA_QUERIES.MD);
@@ -36,7 +37,7 @@ export const SignaturePreview: React.FC = () => {
     isDesktopScreen && !isMobilePreview ? 'w-full' : '',
 
     isMobilePreview && isDesktopScreen
-      ? `border-x border-b rounded-b-lg ${
+      ? `border-x border-b rounded-b-lg w-[${MAX_IMAGE_WIDTH + 2}px] ${
           isDarkMode ? 'border-gray-500' : 'border-gray-400'
         }`
       : '',
@@ -48,8 +49,6 @@ export const SignaturePreview: React.FC = () => {
     isDesktopScreen ? 'pt-4 pb-4' : '',
     isDesktopScreen ? 'px-4' : '',
     !isDesktopScreen ? 'py-4' : '',
-
-    isMobilePreview || !isDesktopScreen ? 'w-[375px]' : '',
   ]
     .filter(Boolean)
     .join(' ');
