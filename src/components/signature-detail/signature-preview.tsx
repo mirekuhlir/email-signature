@@ -37,7 +37,7 @@ export const SignaturePreview: React.FC = () => {
     isDesktopScreen && !isMobilePreview ? 'w-full' : '',
 
     isMobilePreview && isDesktopScreen
-      ? `border-x border-b rounded-b-lg w-[${MAX_IMAGE_WIDTH + 2}px] ${
+      ? `border-x border-b rounded-b-lg ${
           isDarkMode ? 'border-gray-500' : 'border-gray-400'
         }`
       : '',
@@ -45,10 +45,13 @@ export const SignaturePreview: React.FC = () => {
     .filter(Boolean)
     .join(' ');
 
+  const mobilePreviewWidth = isMobilePreview ? `w-[${MAX_IMAGE_WIDTH}px]` : '';
+
   const containerDivClasses = [
     isDesktopScreen ? 'pt-4 pb-4' : '',
     isDesktopScreen ? 'px-4' : '',
     !isDesktopScreen ? 'py-4' : '',
+    mobilePreviewWidth ? mobilePreviewWidth : '',
   ]
     .filter(Boolean)
     .join(' ');
