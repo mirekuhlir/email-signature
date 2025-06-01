@@ -50,17 +50,21 @@ export const CopyInstructionsModalContent = () => {
     : null;
 
   return (
-    <div className="py-4 space-y-6">
-      <div className="space-y-4">
-        <Typography variant="h4" textColor="text-gray-700">
-          Your signature has been copied to clipboard!
-        </Typography>
-        <Typography variant="large" textColor="text-gray-700">
-          Select your email client:
-        </Typography>
+    <div className="py-4">
+      <div className="space-y-5">
+        <div className="flex justify-center">
+          <Typography variant="h4" textColor="text-brand-blue-900">
+            Your signature has been copied to clipboard!
+          </Typography>
+        </div>
+        <div className="mb-3">
+          <Typography variant="large" textColor="text-gray-700">
+            Select your email client:
+          </Typography>
+        </div>
       </div>
 
-      <div className="inline-flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-3">
+      <div className="flex md:flex-row space-y-3 md:space-y-0 md:space-x-3">
         {(Object.keys(instructions) as EmailClient[]).map((clientKey) => (
           <div key={clientKey}>
             <Button
