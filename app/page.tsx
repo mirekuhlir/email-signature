@@ -41,10 +41,6 @@ export default async function Home() {
             <h2 className="text-3xl font-bold text-center text-brand-blue-900 mb-6">
               Choose from our professional templates
             </h2>
-            <p className="text-lg md:text-xl mx-auto mb-8 text-brand-purple-900 text-center">
-              Customize your signature to match your style - change colors,
-              fonts and anything else you want.
-            </p>
           </div>
 
           <div className="flex flex-col md:flex-row gap-16 justify-center">
@@ -52,7 +48,11 @@ export default async function Home() {
             <EmailTemplateView rows={signature_b().rows} />
             <EmailTemplateView rows={signature_d().rows} />
           </div>
-          <div className="flex mt-12 justify-center">
+          <p className="text-lg md:text-xl mx-auto mb-8 text-brand-purple-900 text-center mt-12">
+            Customize your signature to match your style - change colors, fonts
+            and anything else you want.
+          </p>
+          <div className="flex mt-6 justify-center">
             <StyledLink variant="button-brand-blue" size="xl" href="/templates">
               {'See all templates'}
             </StyledLink>
