@@ -2,7 +2,7 @@ import { createClient } from '@/src/utils/supabase/server';
 import { Header } from '@/src/components/header';
 import StyledLink from '@/src/components/ui/styled-link';
 import { EmailTemplateView } from '@/src/components/signature-detail/content-view/signature-view';
-import { signature_b } from '@/src/templates/signature_b';
+import { signature_a } from '@/src/templates/signature_a';
 import { signature_d } from '@/src/templates/signature_d';
 import { signature_i } from '@/src/templates/signature_i';
 import { Handshake, ChartLine, Award } from 'lucide-react';
@@ -43,9 +43,9 @@ export default async function Home() {
             </h2>
           </div>
 
-          <div className="flex flex-col md:flex-row gap-16 justify-center">
+          <div className="flex flex-col md:flex-row gap-16 justify-center items-end">
             <EmailTemplateView rows={signature_i().rows} />
-            <EmailTemplateView rows={signature_b().rows} />
+            <EmailTemplateView rows={signature_a().rows} />
             <EmailTemplateView rows={signature_d().rows} />
           </div>
           <p className="text-lg md:text-xl mx-auto mb-8 text-brand-purple-900 text-center mt-12">

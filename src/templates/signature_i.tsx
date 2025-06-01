@@ -343,7 +343,7 @@ export const signature_i = () => {
                       id: generateRandomId(),
                       text: 'Turning your vision into a stunning landscape reality.',
                       color: 'rgb(71, 71, 71)',
-                      width: '350px',
+                      width: '375px',
                       height: '0px',
                       padding: '25px 0px 5px 0px',
                       fontSize: '14px',

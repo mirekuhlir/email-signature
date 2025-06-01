@@ -10,7 +10,7 @@ const getLocalizedContent = () => {
     "phone": "+1 123 456 7890",
     "email": "example@email.com",
     "emailPrefix": "e: ",
-    "address": "987 Willow Street, Asheville",
+    "address": "987 Willow Street, Asheville\nNC 28801",
   };
 };
 
