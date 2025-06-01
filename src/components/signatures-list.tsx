@@ -16,6 +16,7 @@ import { LoadingInfo } from './signature-detail/content-edit/content-edit';
 import { ContextMenu } from './ui/context-menu';
 import { Container } from './ui/container';
 import { MAX_SIGNATURES } from '@/supabase/functions/_shared/const';
+import { PlusIcon } from 'lucide-react';
 
 type SignaturesPreviewsProps = {
   rows: any;
@@ -230,6 +231,7 @@ export const SignaturesList = (props: any) => {
         {signatures.length < MAX_SIGNATURES && (
           <div className="flex justify-center sm:justify-end pt-8 pb-10 sm:pb-2 w-full">
             <Button size="xl" onClick={() => setIsModalOpen(true)}>
+              <PlusIcon className="w-6 h-6 mr-4" />
               Create new signature
             </Button>
           </div>

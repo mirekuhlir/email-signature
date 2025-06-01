@@ -49,8 +49,8 @@ export default async function Home() {
             <EmailTemplateView rows={signature_d().rows} />
           </div>
           <p className="text-lg md:text-xl mx-auto mb-8 text-brand-purple-900 text-center mt-12">
-            Customize your signature to match your style - change colors, fonts
-            and anything else you want.
+            You can customize your signature to match your style - change
+            colors, fonts and anything else you want.
           </p>
           <div className="flex mt-6 justify-center">
             <StyledLink variant="button-brand-blue" size="xl" href="/templates">
