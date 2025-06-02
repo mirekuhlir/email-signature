@@ -242,8 +242,24 @@ export const LETTER_SPACINGS = [
         label: "2px",
     },
     {
+        value: "3px",
+        label: "3px",
+    },
+    {
         value: "4px",
         label: "4px",
+    },
+    {
+        value: "5px",
+        label: "5px",
+    },
+    {
+        value: "6px",
+        label: "6px",
+    },
+    {
+        value: "7px",
+        label: "7px",
     },
     {
         value: "8px",

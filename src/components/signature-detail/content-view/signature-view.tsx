@@ -1,13 +1,34 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Fragment } from 'react';
 import { getContentView } from './content-view';
-
+import { getWidthHeightStyle } from './utils';
 export const EmailTemplateView = (props: any) => {
   const { rows } = props;
 
   const renderColumn = (column: any) => {
     return (
-      <td style={column.style}>
+      <td
+        style={{
+          backgroundColor: column.style?.backgroundColor,
+          padding: column.style?.padding,
+          verticalAlign: column.style?.verticalAlign,
+          width: column.style?.width,
+          height: column.style?.height,
+          borderTopWidth: column.style?.borderTopWidth,
+          borderTopColor: column.style?.borderTopColor,
+          borderTopStyle: column.style?.borderTopStyle,
+          borderRightWidth: column.style?.borderRightWidth,
+          borderRightColor: column.style?.borderRightColor,
+          borderRightStyle: column.style?.borderRightStyle,
+          borderBottomWidth: column.style?.borderBottomWidth,
+          borderBottomColor: column.style?.borderBottomColor,
+          borderBottomStyle: column.style?.borderBottomStyle,
+          borderLeftWidth: column.style?.borderLeftWidth,
+          borderLeftColor: column.style?.borderLeftColor,
+          borderLeftStyle: column.style?.borderLeftStyle,
+          borderRadius: column.style?.borderRadius,
+        }}
+      >
         <table
           key={column.id}
           border={0}
@@ -15,6 +36,7 @@ export const EmailTemplateView = (props: any) => {
           cellSpacing="0"
           role="presentation"
           width="100%"
+          style={{ borderCollapse: 'separate' }}
         >
           <tbody>{column.rows && renderRows(column.rows)}</tbody>
         </table>
@@ -36,6 +58,7 @@ export const EmailTemplateView = (props: any) => {
             cellPadding="0"
             cellSpacing="0"
             role="presentation"
+            style={{ borderCollapse: 'separate' }}
           >
             <tbody>
               <tr key={`tr-${row.id}`} style={row.style}>
@@ -49,18 +72,61 @@ export const EmailTemplateView = (props: any) => {
       }
 
       const content = getContentView(row?.content);
+      const padding = row.content.components[0].padding;
+      const backgroundColor = row.content.components[0].backgroundColor;
+      const borderRadius = row.content.components[0].borderRadius;
+
+      const borderBottomWidth = row?.content?.components[0]?.borderBottomWidth;
+      const borderBottomColor = row?.content?.components[0]?.borderBottomColor;
+      const borderBottomStyle = row?.content?.components[0]?.borderBottomStyle;
+      const borderLeftWidth = row?.content?.components[0]?.borderLeftWidth;
+      const borderLeftColor = row?.content?.components[0]?.borderLeftColor;
+      const borderLeftStyle = row?.content?.components[0]?.borderLeftStyle;
+      const borderRightWidth = row?.content?.components[0]?.borderRightWidth;
+      const borderRightColor = row?.content?.components[0]?.borderRightColor;
+      const borderRightStyle = row?.content?.components[0]?.borderRightStyle;
+      const borderTopWidth = row?.content?.components[0]?.borderTopWidth;
+      const borderTopColor = row?.content?.components[0]?.borderTopColor;
+      const borderTopStyle = row?.content?.components[0]?.borderTopStyle;
+
+      const { width, height } = getWidthHeightStyle(
+        row?.content?.components[0],
+      );
 
       if (content) {
         return (
           <tr key={`tr-${row.id}`}>
             <td
               style={{
-                backgroundColor: row?.content.backgroundColor,
-                lineHeight: 1,
-                ...row.style,
+                backgroundColor: backgroundColor,
+                borderRadius: borderRadius,
+                lineHeight: 0,
+                borderBottomWidth: borderBottomWidth,
+                borderBottomColor: borderBottomColor,
+                borderBottomStyle: borderBottomStyle,
+                borderLeftWidth: borderLeftWidth,
+                borderLeftColor: borderLeftColor,
+                borderLeftStyle: borderLeftStyle,
+                borderRightWidth: borderRightWidth,
+                borderRightColor: borderRightColor,
+                borderRightStyle: borderRightStyle,
+                borderTopWidth: borderTopWidth,
+                borderTopColor: borderTopColor,
+                borderTopStyle: borderTopStyle,
+                width: width,
+                height: height,
+                /*   ...row.style, */
               }}
             >
-              {content}
+              <span
+                style={{
+                  padding: padding,
+                  display: 'inline-block',
+                  width: '100%',
+                }}
+              >
+                {content}
+              </span>
             </td>
           </tr>
         );
@@ -77,13 +143,7 @@ export const EmailTemplateView = (props: any) => {
   };
 
   return (
-    <table
-      border={0}
-      cellPadding="0"
-      cellSpacing="0"
-      role="presentation"
-      id="email-signature"
-    >
+    <table border={0} cellPadding="0" cellSpacing="0" role="presentation">
       <tbody>
         <tr>
           <td>{renderRows(rows, true)}</td>

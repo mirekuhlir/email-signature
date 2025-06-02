@@ -1,5 +1,5 @@
 'use client';
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useCallback } from 'react';
 import { create } from 'zustand';
 
 // TYPES
@@ -56,9 +56,16 @@ export const useToastStore = create<ToastStore>((set) => ({
 export const useToast = () => {
   const { toasts, addToast, deleteToast } = useToastStore();
 
+  const memoizedAddToast = useCallback(
+    (props: Omit<ToastMessage, 'id'>) => {
+      addToast(props);
+    },
+    [addToast],
+  );
+
   return {
     toasts,
-    toast: (props: Omit<ToastMessage, 'id'>) => addToast(props),
+    toast: memoizedAddToast,
     deleteToast,
   };
 };

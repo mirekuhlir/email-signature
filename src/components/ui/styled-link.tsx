@@ -7,6 +7,7 @@ interface StyledLinkProps {
   children: ReactNode;
   variant?:
     | 'button-blue'
+    | 'button-brand-blue'
     | 'button-orange'
     | 'button-red'
     | 'button-black'
@@ -19,7 +20,7 @@ interface StyledLinkProps {
     | 'secondary'
     | 'underline'
     | 'none';
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
   className?: string;
   prefetch?: boolean;
 }
@@ -34,6 +35,7 @@ const StyledLink: FC<StyledLinkProps> = ({
 }) => {
   const variants = {
     'button-blue': buttonVariants.blue,
+    'button-brand-blue': buttonVariants.brandBlue,
     'button-orange': buttonVariants.orange,
     'button-red': buttonVariants.red,
     'button-black': buttonVariants.black,

@@ -1,6 +1,6 @@
 import { generateRandomId } from "@/src/utils/generateRandomId";
 import { ContentType } from "@/src/const/content";
-import t from "@/app/localization/translate";
+import t from "@/src/localization/translate";
 
 export const getContentAdd = (type: ContentType) => {
     switch (type) {
@@ -41,6 +41,7 @@ const getText = () => {
                     letterSpacing: "0px",
                     lineHeight: "1",
                     textAlign: "left",
+                    padding: "0px 0px 5px 0px",
                 },
             ],
         },
@@ -56,6 +57,7 @@ export const getImage = () => {
                 {
                     id: generateRandomId(),
                     src: "",
+                    margin: "0 auto 0 0",
                 },
             ],
         },
@@ -85,8 +87,8 @@ export const getWebsiteTextExample = () => {
 
 export const getCustomValueTextExample = () => {
     return {
-        value: "custom value",
-        prefix: "prefix: ",
+        value: "example text",
+        prefix: "prefix text: ",
     };
 };
 
@@ -109,6 +111,7 @@ export const getEmail = () => {
                     letterSpacing: "0px",
                     lineHeight: "1",
                     textAlign: "left",
+                    padding: "0px 0px 5px 0px",
                 },
                 {
                     id: generateRandomId(),
@@ -147,6 +150,7 @@ const getPhone = () => {
                     letterSpacing: "0px",
                     lineHeight: "1",
                     textAlign: "left",
+                    padding: "0px 0px 5px 0px",
                 },
                 {
                     id: generateRandomId(),
@@ -184,6 +188,7 @@ const getWebsite = () => {
                     letterSpacing: "0px",
                     lineHeight: "1",
                     textAlign: "left",
+                    padding: "0px 0px 5px 0px",
                 },
                 {
                     id: generateRandomId(),
@@ -220,6 +225,7 @@ const getCustomValue = () => {
                     letterSpacing: "0px",
                     lineHeight: "1",
                     textAlign: "left",
+                    padding: "0px 0px 5px 0px",
                 },
                 {
                     id: generateRandomId(),

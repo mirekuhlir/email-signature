@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Fragment } from 'react';
+import { Fragment, useState, useEffect, useRef } from 'react';
 import { getContentView } from './content-view/content-view';
 import { Button } from '@/src/components/ui/button';
 import { ContentEdit } from '@/src/components/signature-detail/content-edit/content-edit';
@@ -12,15 +12,55 @@ import { ContextMenu } from '../ui/context-menu';
 import { useSignatureStore } from '@/src/store/content-edit-add-store';
 import { get } from 'lodash';
 import { ContentType } from '@/src/const/content';
-import { useMediaQuery } from '@/src/hooks/useMediaQuery';
 import { MAX_ROWS } from '@/supabase/functions/_shared/const';
+import { useMediaQuery } from '@/src/hooks/useMediaQuery';
+import { MEDIA_QUERIES } from '@/src/constants/mediaQueries';
+import { getWidthHeightStyle } from './content-view/utils';
+
+// Helper function to determine if a color is dark
+function isColorDark(colorString: string): boolean {
+  if (!colorString) return false;
+
+  // Handle RGB(A) format
+  const rgbMatch = colorString.match(
+    /rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*\d*\.?\d+)?\)/,
+  );
+  if (rgbMatch) {
+    const r = parseInt(rgbMatch[1], 10);
+    const g = parseInt(rgbMatch[2], 10);
+    const b = parseInt(rgbMatch[3], 10);
+    // Calculate luminance (simple average for this case)
+    const luminance = r * 0.299 + g * 0.587 + b * 0.114;
+    return luminance < 140; // Threshold for darkness (adjust as needed)
+  }
+
+  // Add handling for other formats (hex, named colors) if necessary
+  // For simplicity, assume non-rgb backgrounds are light
+  return false;
+}
 
 export const EmailTemplateEdit = (props: any) => {
   const { rows, isSignedIn, templateSlug } = props;
   const { setContentEdit, contentEdit } = useContentEditStore();
   const { moveRowUp, moveRowDown, isSavingOrder } = useSignatureStore();
   const { id: signatureId } = useParams();
-  const isMobile = useMediaQuery('(max-width: 768px)');
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const isMobile = useMediaQuery(MEDIA_QUERIES.MOBILE);
+
+  const [isBackgroundDark, setIsBackgroundDark] = useState(false);
+
+  useEffect(() => {
+    let bgColor = 'transparent'; // Default to transparent or a known light color
+    if (containerRef.current) {
+      const computedStyle = getComputedStyle(containerRef.current);
+      bgColor = computedStyle.backgroundColor;
+    }
+    const isDark = isColorDark(bgColor);
+    setIsBackgroundDark(isDark); // Keep updating this state if needed elsewhere
+  }, [contentEdit]);
+
+  const hrColor = isBackgroundDark ? 'border-gray-400' : 'border-gray-700';
 
   const renderColumn = (column: any, path: string) => {
     const rowPath = `${path}.rows`;
@@ -43,7 +83,7 @@ export const EmailTemplateEdit = (props: any) => {
         </div>
 
         {contentEdit.addPath !== rowPath && contentEdit.columnPath === null && (
-          <div className="flex flex-col items-end mb-2">
+          <div className="flex flex-col items-end mb-2 mr-1">
             {column.rows.length < MAX_ROWS && (
               <div className="mb-2">
                 <Button
@@ -76,7 +116,7 @@ export const EmailTemplateEdit = (props: any) => {
                   });
                 }}
               >
-                Settings
+                Edit column
               </Button>
             </div>
           </div>
@@ -142,6 +182,28 @@ export const EmailTemplateEdit = (props: any) => {
       }
 
       const content = getContentView(row?.content);
+
+      const padding = row?.content?.components[0]?.padding;
+      const backgroundColor = row?.content?.components[0]?.backgroundColor;
+      const borderRadius = row?.content?.components[0]?.borderRadius;
+
+      const borderBottomWidth = row?.content?.components[0]?.borderBottomWidth;
+      const borderBottomColor = row?.content?.components[0]?.borderBottomColor;
+      const borderBottomStyle = row?.content?.components[0]?.borderBottomStyle;
+      const borderLeftWidth = row?.content?.components[0]?.borderLeftWidth;
+      const borderLeftColor = row?.content?.components[0]?.borderLeftColor;
+      const borderLeftStyle = row?.content?.components[0]?.borderLeftStyle;
+      const borderRightWidth = row?.content?.components[0]?.borderRightWidth;
+      const borderRightColor = row?.content?.components[0]?.borderRightColor;
+      const borderRightStyle = row?.content?.components[0]?.borderRightStyle;
+      const borderTopWidth = row?.content?.components[0]?.borderTopWidth;
+      const borderTopColor = row?.content?.components[0]?.borderTopColor;
+      const borderTopStyle = row?.content?.components[0]?.borderTopStyle;
+
+      const { width, height } = getWidthHeightStyle(
+        row?.content?.components[0],
+      );
+
       if (content) {
         return (
           <Fragment key={`tr-${row.id}`}>
@@ -152,20 +214,44 @@ export const EmailTemplateEdit = (props: any) => {
             >
               <div
                 style={{
-                  lineHeight: 1,
                   display: 'table-cell',
-                  backgroundColor: row?.content.backgroundColor,
+                  lineHeight: 1,
+                  backgroundColor: backgroundColor,
+                  borderRadius: borderRadius,
+                  borderBottomWidth: borderBottomWidth,
+                  borderBottomColor: borderBottomColor,
+                  borderBottomStyle: borderBottomStyle,
+                  borderLeftWidth: borderLeftWidth,
+                  borderLeftColor: borderLeftColor,
+                  borderLeftStyle: borderLeftStyle,
+                  borderRightWidth: borderRightWidth,
+                  borderRightColor: borderRightColor,
+                  borderRightStyle: borderRightStyle,
+                  borderTopWidth: borderTopWidth,
+                  borderTopColor: borderTopColor,
+                  borderTopStyle: borderTopStyle,
+                  width: width,
+                  height: height,
+                  verticalAlign: 'middle',
                   ...row.style,
                 }}
               >
-                {content}
+                <span
+                  style={{
+                    display: 'inline-block',
+                    width: '100%',
+                    padding: padding,
+                  }}
+                >
+                  {content}
+                </span>
               </div>
             </div>
 
             {contentEdit.editPath !== currentPath &&
               contentEdit.columnPath === null && (
                 <>
-                  <div className="flex justify-start items-center gap-2 mb-2 mt-1">
+                  <div className="flex justify-end items-center gap-2 mb-2 mt-1 mr-1">
                     <Button
                       size="sm"
                       variant="blue"
@@ -210,7 +296,7 @@ export const EmailTemplateEdit = (props: any) => {
                       </ContextMenu>
                     )}
                   </div>
-                  <Hr className="mb-2" />
+                  <Hr className={`mb-2 ${hrColor} border-dotted`} />
                 </>
               )}
           </Fragment>
@@ -237,7 +323,7 @@ export const EmailTemplateEdit = (props: any) => {
 
   return (
     <>
-      <div>
+      <div ref={containerRef}>
         {!contentEdit.editPath &&
           !contentEdit.addPath &&
           !contentEdit.columnPath &&
@@ -256,12 +342,13 @@ export const EmailTemplateEdit = (props: any) => {
               >
                 Add
               </Button>
-              <Hr className="my-4" />
+              <Hr className={`my-4 ${hrColor} border-dotted`} />
             </div>
           )}
         <>
           {!contentEdit.addPath &&
             !contentEdit.editPath &&
+            !contentEdit.columnPath &&
             renderRows(rows, true, '')}
         </>
         {!contentEdit.editPath &&
@@ -269,7 +356,7 @@ export const EmailTemplateEdit = (props: any) => {
           !contentEdit.columnPath &&
           rows.length < MAX_ROWS && (
             <div className="mt-5 mb-5">
-              <Hr className="my-4" />
+              <Hr className={`my-4 ${hrColor} border-dotted`} />
               <Button
                 onClick={() => {
                   setContentEdit({

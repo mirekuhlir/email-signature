@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useToastStore } from "@/src/components/ui/toast";
 
 export const handleCopy = async (/*signatureId: string*/) => {
@@ -7,7 +8,7 @@ export const handleCopy = async (/*signatureId: string*/) => {
   if (!signatureElement) return;
 
   const textContent = signatureElement.innerText;
-  let htmlContent = signatureElement.outerHTML;
+  let htmlContent = signatureElement.innerHTML;
 
   // Remove cache busting parameter from PNG images
   htmlContent = htmlContent.replace(/\.png\?t=\d+/g, ".png");
@@ -30,7 +31,7 @@ export const handleCopy = async (/*signatureId: string*/) => {
   // Fallback fot Safari iOS or older browsers
   try {
     const tempElement = document.createElement("div");
-    tempElement.style.backgroundColor = "white";
+    tempElement.style.backgroundColor = "transparent";
     tempElement.style.color = "black";
     tempElement.innerHTML = htmlContent;
     tempElement.style.position = "fixed";
@@ -66,4 +67,23 @@ export const handleCopy = async (/*signatureId: string*/) => {
       duration: 5000,
     });
   }
+};
+
+export const getWidthHeightStyle = (component: any) => {
+  let width = 0;
+  let height = 0;
+  if (component) {
+    width = typeof component.width === "number"
+      ? component.width
+      : parseInt((component.width || "0").toString().replace("px", ""), 10) ||
+        0;
+    height = typeof component.height === "number" ? component.height : parseInt(
+      (component.height || "0").toString().replace("px", ""),
+      10,
+    ) || 0;
+  }
+  return {
+    width: width === 0 ? "100%" : `${width}px`,
+    height: height === 0 ? 0 : `${height}px`,
+  };
 };

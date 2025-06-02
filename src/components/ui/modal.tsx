@@ -82,7 +82,7 @@ const Modal: React.FC<ModalProps> = ({
                 <Hr />
               </div>
               <div className="flex justify-end px-4 py-4 sm:py-4 sm:px-0">
-                <Button variant="outline" size="sm" onClick={onClose}>
+                <Button variant="outline" size="md" onClick={onClose}>
                   Close
                 </Button>
               </div>

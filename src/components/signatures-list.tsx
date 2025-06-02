@@ -2,7 +2,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { Typography } from '@/src/components/ui/typography';
-import t from '@/app/localization/translate';
+import t from '@/src/localization/translate';
 import Modal from './ui/modal';
 import { Button } from '@/src/components/ui/button';
 import { createClient } from '@/src/utils/supabase/client';
@@ -16,6 +16,7 @@ import { LoadingInfo } from './signature-detail/content-edit/content-edit';
 import { ContextMenu } from './ui/context-menu';
 import { Container } from './ui/container';
 import { MAX_SIGNATURES } from '@/supabase/functions/_shared/const';
+import { PlusIcon } from 'lucide-react';
 
 type SignaturesPreviewsProps = {
   rows: any;
@@ -50,7 +51,7 @@ const SignaturesPreview = (props: SignaturesPreviewsProps) => {
     <div>
       <div className="flex flex-col py-4">
         <EmailTemplateView rows={rows} />
-        <div className="flex justify-between bg-gray-200 mb-14 p-3 rounded-md mt-4 w-full sm:w-1/2">
+        <div className="flex justify-between bg-gray-200 mb-6 p-3 rounded-md mt-4 w-full sm:w-1/2">
           <div className="flex flex-col justify-center">
             {updatedAt && (
               <div>
@@ -230,6 +231,7 @@ export const SignaturesList = (props: any) => {
         {signatures.length < MAX_SIGNATURES && (
           <div className="flex justify-center sm:justify-end pt-8 pb-10 sm:pb-2 w-full">
             <Button size="xl" onClick={() => setIsModalOpen(true)}>
+              <PlusIcon className="w-6 h-6 mr-4" />
               Create new signature
             </Button>
           </div>
@@ -294,7 +296,7 @@ export const SignaturesList = (props: any) => {
       >
         <Container isZeroPadding={true}>
           <div className="mb-4">
-            <Typography variant="h3">Select signature</Typography>
+            <Typography variant="h3">Select template signature</Typography>
           </div>
           <div className="mb-6">
             <Hr />

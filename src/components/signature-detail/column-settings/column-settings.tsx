@@ -11,13 +11,18 @@ import { CollapsibleSection } from '@/src/components/ui/collapsible-section';
 import PreviewActionPanel from '../preview-action-panel';
 import { LoadingInfo } from '../content-edit/content-edit';
 import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
-
+import {
+  MAX_PADDING,
+  MAX_BORDER_RADIUS,
+  MAX_BORDER_WIDTH,
+  MAX_IMAGE_WIDTH,
+} from '@/supabase/functions/_shared/const';
 export const ColumnSettings = (props: any) => {
   const { columnPathToEdit, signatureId, isSignedIn } = props;
   const { toast } = useToast();
 
   const { rows, setContent, saveSignatureContentRow } = useSignatureStore();
-
+  const { editingSectionIds } = useContentEditStore();
   const { setContentEdit } = useContentEditStore();
 
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -30,6 +35,9 @@ export const ColumnSettings = (props: any) => {
   const [paddingBottom, setPaddingBottom] = useState('0');
   const [paddingLeft, setPaddingLeft] = useState('0');
   const [verticalAlign, setVerticalAlign] = useState('top');
+
+  const [columnWidth, setColumnWidth] = useState(0);
+  const [columnHeight, setColumnHeight] = useState(0);
 
   const [borderWidths, setBorderWidths] = useState({
     top: '0',
@@ -44,7 +52,12 @@ export const ColumnSettings = (props: any) => {
     left: 'rgb(0, 0, 0)',
   });
 
-  const [borderRadius, setBorderRadius] = useState('0');
+  const [borderRadiusCorners, setBorderRadiusCorners] = useState({
+    topLeft: '0',
+    topRight: '0',
+    bottomRight: '0',
+    bottomLeft: '0',
+  });
 
   const path = `${columnPathToEdit}.style`;
   const originalStyle = useMemo(() => get(rows, path) || {}, [rows, path]);
@@ -69,6 +82,13 @@ export const ColumnSettings = (props: any) => {
       setVerticalAlign(originalStyle.verticalAlign);
     }
 
+    setColumnWidth(
+      parseInt((originalStyle.width || '0px').replace('px', ''), 10) || 0,
+    );
+    setColumnHeight(
+      parseInt((originalStyle.height || '0px').replace('px', ''), 10) || 0,
+    );
+
     // Initialize border widths
     setBorderWidths({
       top: (originalStyle.borderTopWidth || '0px').replace('px', ''),
@@ -85,8 +105,41 @@ export const ColumnSettings = (props: any) => {
       left: originalStyle.borderLeftColor || 'rgb(0, 0, 0)',
     });
 
+    // Initialize border radius for each corner
     if (originalStyle.borderRadius) {
-      setBorderRadius(originalStyle.borderRadius);
+      const radiusValues = originalStyle.borderRadius
+        .split(' ')
+        .map((val: string) => val.replace('px', ''));
+      if (radiusValues.length === 1) {
+        setBorderRadiusCorners({
+          topLeft: radiusValues[0],
+          topRight: radiusValues[0],
+          bottomRight: radiusValues[0],
+          bottomLeft: radiusValues[0],
+        });
+      } else if (radiusValues.length === 4) {
+        setBorderRadiusCorners({
+          topLeft: radiusValues[0],
+          topRight: radiusValues[1],
+          bottomRight: radiusValues[2],
+          bottomLeft: radiusValues[3],
+        });
+      } else {
+        // Handle other cases or set a default if needed
+        setBorderRadiusCorners({
+          topLeft: '0',
+          topRight: '0',
+          bottomRight: '0',
+          bottomLeft: '0',
+        });
+      }
+    } else {
+      setBorderRadiusCorners({
+        topLeft: '0',
+        topRight: '0',
+        bottomRight: '0',
+        bottomLeft: '0',
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -135,12 +188,23 @@ export const ColumnSettings = (props: any) => {
     });
   };
 
-  const updateBorderRadius = () => {
+  const updateBorderRadiusCorners = () => {
     const currentStyle = get(rows, path) || {};
+    const { topLeft, topRight, bottomRight, bottomLeft } = borderRadiusCorners;
+    const borderRadiusValue = `${topLeft}px ${topRight}px ${bottomRight}px ${bottomLeft}px`;
 
     setContent(path, {
       ...currentStyle,
-      borderRadius: borderRadius,
+      borderRadius: borderRadiusValue,
+    });
+  };
+
+  const updateColumnDimensions = () => {
+    const currentStyle = get(rows, path) || {};
+    setContent(path, {
+      ...currentStyle,
+      width: columnWidth === 0 ? 'auto' : `${columnWidth}px`,
+      height: columnHeight === 0 ? 'auto' : `${columnHeight}px`,
     });
   };
 
@@ -164,9 +228,17 @@ export const ColumnSettings = (props: any) => {
   }, [borderWidths, borderColors]);
 
   useEffect(() => {
-    updateBorderRadius();
+    updateBorderRadiusCorners();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [borderRadius]);
+  }, [borderRadiusCorners]);
+
+  useEffect(() => {
+    // Check if all values are numbers before updating
+    if (typeof columnWidth === 'number' && typeof columnHeight === 'number') {
+      updateColumnDimensions();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [columnWidth, columnHeight]);
 
   const closeSettings = () => {
     setContent(path, initContent);
@@ -202,68 +274,24 @@ export const ColumnSettings = (props: any) => {
     }
   };
 
+  const componentId = get(rows, columnPathToEdit)?.id;
+
+  const isVisibleOnlyPreview = editingSectionIds.length > 0;
+
   return (
     <div key={`settings-${columnPathToEdit}`} className="mt-6 pb-24">
       <div ref={wrapperRef}>
         {!isSavingSignature && (
           <div className="pb-2">
-            <CollapsibleSection title="Alignment and background">
-              <div className="pb-4">
-                <Typography variant="labelBase" className="mb-2">
-                  Vertical alignment
-                </Typography>
-                <SelectBase
-                  options={[
-                    { value: 'top', label: 'Top' },
-                    { value: 'middle', label: 'Middle' },
-                    { value: 'bottom', label: 'Bottom' },
-                  ]}
-                  value={verticalAlign}
-                  onChange={(value: string) => {
-                    setVerticalAlign(value);
-                  }}
-                />
-              </div>
-              <div>
-                <div className="pb-4">
-                  <EditColor
-                    initColor={originalStyle.backgroundColor}
-                    label="Background color"
-                    isResetToTransparent
-                    onChange={(color) => {
-                      setContent(path, {
-                        ...originalStyle,
-                        backgroundColor: color,
-                      });
-                    }}
-                  />
-                </div>
-
-                <div className="pb-4">
-                  <Typography variant="labelBase" className="mb-2">
-                    Border radius : {borderRadius}
-                  </Typography>
-                  <Slider
-                    min={0}
-                    max={20}
-                    value={Number(borderRadius.replace('px', ''))}
-                    onChange={(value: number) => {
-                      setBorderRadius(`${value}px`);
-                    }}
-                  />
-                </div>
-              </div>
-            </CollapsibleSection>
-
             <CollapsibleSection title="Inner space">
-              <div className="grid grid-cols-1 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 <div>
                   <Typography variant="labelBase" className="mb-2">
-                    Top inner space: {paddingTop}px
+                    Top space: {paddingTop}px
                   </Typography>
                   <Slider
                     min={0}
-                    max={50}
+                    max={MAX_PADDING}
                     value={Number(paddingTop)}
                     onChange={(value: number) => {
                       setPaddingTop(value.toString());
@@ -273,11 +301,11 @@ export const ColumnSettings = (props: any) => {
 
                 <div>
                   <Typography variant="labelBase" className="mb-2">
-                    Right inner space: {paddingRight}px
+                    Right space: {paddingRight}px
                   </Typography>
                   <Slider
                     min={0}
-                    max={50}
+                    max={MAX_PADDING}
                     value={Number(paddingRight)}
                     onChange={(value: number) => {
                       setPaddingRight(value.toString());
@@ -287,11 +315,11 @@ export const ColumnSettings = (props: any) => {
 
                 <div>
                   <Typography variant="labelBase" className="mb-2">
-                    Bottom inner space: {paddingBottom}px
+                    Bottom space: {paddingBottom}px
                   </Typography>
                   <Slider
                     min={0}
-                    max={50}
+                    max={MAX_PADDING}
                     value={Number(paddingBottom)}
                     onChange={(value: number) => {
                       setPaddingBottom(value.toString());
@@ -299,13 +327,13 @@ export const ColumnSettings = (props: any) => {
                   />
                 </div>
 
-                <div className="pb-4">
+                <div>
                   <Typography variant="labelBase" className="mb-2">
-                    Left inner space: {paddingLeft}px
+                    Left space: {paddingLeft}px
                   </Typography>
                   <Slider
                     min={0}
-                    max={50}
+                    max={MAX_PADDING}
                     value={Number(paddingLeft)}
                     onChange={(value: number) => {
                       setPaddingLeft(value.toString());
@@ -316,121 +344,280 @@ export const ColumnSettings = (props: any) => {
             </CollapsibleSection>
 
             <CollapsibleSection title="Borders">
-              <div>
-                <Typography variant="labelBase" className="mb-2">
-                  Top border width : {borderWidths.top}px
-                </Typography>
-                <Slider
-                  min={0}
-                  max={10}
-                  value={Number(borderWidths.top)}
-                  onChange={(value: number) => {
-                    setBorderWidths((prev) => ({
-                      ...prev,
-                      top: value.toString(),
-                    }));
-                  }}
-                />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <div className="mb-2">
+                  <div>
+                    <Typography variant="labelBase" className="mb-2">
+                      Top width : {borderWidths.top}px
+                    </Typography>
+                    <Slider
+                      min={0}
+                      max={MAX_BORDER_WIDTH}
+                      value={Number(borderWidths.top)}
+                      onChange={(value: number) => {
+                        setBorderWidths((prev) => ({
+                          ...prev,
+                          top: value.toString(),
+                        }));
+                      }}
+                    />
+                  </div>
+
+                  {borderWidths.top !== '0' && (
+                    <EditColor
+                      initColor={borderColors.top}
+                      label="Top width border color"
+                      sectionId={componentId}
+                      onChange={(color) => {
+                        if (color) {
+                          setBorderColors((prev) => ({ ...prev, top: color }));
+                        }
+                      }}
+                    />
+                  )}
+                </div>
+
+                <div className="mb-4">
+                  <div>
+                    <Typography variant="labelBase" className="mb-2">
+                      Right width : {borderWidths.right}px
+                    </Typography>
+                    <Slider
+                      min={0}
+                      max={MAX_BORDER_WIDTH}
+                      value={Number(borderWidths.right)}
+                      onChange={(value: number) => {
+                        setBorderWidths((prev) => ({
+                          ...prev,
+                          right: value.toString(),
+                        }));
+                      }}
+                    />
+                  </div>
+
+                  {borderWidths.right !== '0' && (
+                    <EditColor
+                      initColor={borderColors.right}
+                      label="Right width border color"
+                      sectionId={componentId}
+                      onChange={(color) => {
+                        if (color) {
+                          setBorderColors((prev) => ({
+                            ...prev,
+                            right: color,
+                          }));
+                        }
+                      }}
+                    />
+                  )}
+                </div>
+
+                <div className="mb-4">
+                  <div>
+                    <Typography variant="labelBase" className="mb-2">
+                      Bottom width : {borderWidths.bottom}px
+                    </Typography>
+                    <Slider
+                      min={0}
+                      max={MAX_BORDER_WIDTH}
+                      value={Number(borderWidths.bottom)}
+                      onChange={(value: number) => {
+                        setBorderWidths((prev) => ({
+                          ...prev,
+                          bottom: value.toString(),
+                        }));
+                      }}
+                    />
+                  </div>
+
+                  {borderWidths.bottom !== '0' && (
+                    <EditColor
+                      initColor={borderColors.bottom}
+                      label="Bottom width border color"
+                      sectionId={componentId}
+                      onChange={(color) => {
+                        if (color) {
+                          setBorderColors((prev) => ({
+                            ...prev,
+                            bottom: color,
+                          }));
+                        }
+                      }}
+                    />
+                  )}
+                </div>
+
+                <div className="mb-2">
+                  <div>
+                    <Typography variant="labelBase" className="mb-4">
+                      Left width : {borderWidths.left}px
+                    </Typography>
+                    <Slider
+                      min={0}
+                      max={MAX_BORDER_WIDTH}
+                      value={Number(borderWidths.left)}
+                      onChange={(value: number) => {
+                        setBorderWidths((prev) => ({
+                          ...prev,
+                          left: value.toString(),
+                        }));
+                      }}
+                    />
+                  </div>
+
+                  {borderWidths.left !== '0' && (
+                    <EditColor
+                      initColor={borderColors.left}
+                      label="Left width border color"
+                      sectionId={componentId}
+                      onChange={(color) => {
+                        if (color) {
+                          setBorderColors((prev) => ({ ...prev, left: color }));
+                        }
+                      }}
+                    />
+                  )}
+                </div>
               </div>
-
-              {borderWidths.top !== '0' && (
-                <EditColor
-                  initColor={borderColors.top}
-                  label="Top border color"
-                  onChange={(color) => {
-                    if (color) {
-                      setBorderColors((prev) => ({ ...prev, top: color }));
-                    }
-                  }}
-                />
-              )}
-
-              <div className="mt-4">
-                <Typography variant="labelBase" className="mb-2">
-                  Right border width : {borderWidths.right}px
-                </Typography>
-                <Slider
-                  min={0}
-                  max={10}
-                  value={Number(borderWidths.right)}
-                  onChange={(value: number) => {
-                    setBorderWidths((prev) => ({
-                      ...prev,
-                      right: value.toString(),
-                    }));
-                  }}
-                />
+            </CollapsibleSection>
+            <CollapsibleSection title="Background and rounded corners">
+              <div className="grid grid-cols-1 gap-2">
+                <div className="mb-4">
+                  <EditColor
+                    initColor={originalStyle.backgroundColor}
+                    label="Background color"
+                    sectionId={componentId}
+                    isResetToTransparent
+                    onChange={(color) => {
+                      setContent(path, {
+                        ...originalStyle,
+                        backgroundColor: color,
+                      });
+                    }}
+                  />
+                </div>
               </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <div>
+                  <Typography variant="labelBase" className="mb-2">
+                    Top-left rounded corner : {borderRadiusCorners.topLeft}
+                    px
+                  </Typography>
+                  <Slider
+                    min={0}
+                    max={MAX_BORDER_RADIUS}
+                    value={Number(borderRadiusCorners.topLeft)}
+                    onChange={(value: number) => {
+                      setBorderRadiusCorners((prev) => ({
+                        ...prev,
+                        topLeft: value.toString(),
+                      }));
+                    }}
+                  />
+                </div>
+                <div>
+                  <Typography variant="labelBase" className="mb-2">
+                    Top-right rounded corner : {borderRadiusCorners.topRight}px
+                  </Typography>
+                  <Slider
+                    min={0}
+                    max={MAX_BORDER_RADIUS}
+                    value={Number(borderRadiusCorners.topRight)}
+                    onChange={(value: number) => {
+                      setBorderRadiusCorners((prev) => ({
+                        ...prev,
+                        topRight: value.toString(),
+                      }));
+                    }}
+                  />
+                </div>
 
-              {borderWidths.right !== '0' && (
-                <EditColor
-                  initColor={borderColors.right}
-                  label="Right border color"
-                  onChange={(color) => {
-                    if (color) {
-                      setBorderColors((prev) => ({ ...prev, right: color }));
-                    }
-                  }}
-                />
-              )}
-
-              <div className="mt-4">
-                <Typography variant="labelBase" className="mb-2">
-                  Bottom border width : {borderWidths.bottom}px
-                </Typography>
-                <Slider
-                  min={0}
-                  max={10}
-                  value={Number(borderWidths.bottom)}
-                  onChange={(value: number) => {
-                    setBorderWidths((prev) => ({
-                      ...prev,
-                      bottom: value.toString(),
-                    }));
-                  }}
-                />
+                <div>
+                  <Typography variant="labelBase" className="mb-2">
+                    Bottom-left rounded corner :{' '}
+                    {borderRadiusCorners.bottomLeft}
+                    px
+                  </Typography>
+                  <Slider
+                    min={0}
+                    max={MAX_BORDER_RADIUS}
+                    value={Number(borderRadiusCorners.bottomLeft)}
+                    onChange={(value: number) => {
+                      setBorderRadiusCorners((prev) => ({
+                        ...prev,
+                        bottomLeft: value.toString(),
+                      }));
+                    }}
+                  />
+                </div>
+                <div>
+                  <Typography variant="labelBase" className="mb-2">
+                    Bottom-right rounded corner :{' '}
+                    {borderRadiusCorners.bottomRight}px
+                  </Typography>
+                  <Slider
+                    min={0}
+                    max={MAX_BORDER_RADIUS}
+                    value={Number(borderRadiusCorners.bottomRight)}
+                    onChange={(value: number) => {
+                      setBorderRadiusCorners((prev) => ({
+                        ...prev,
+                        bottomRight: value.toString(),
+                      }));
+                    }}
+                  />
+                </div>
               </div>
-
-              {borderWidths.bottom !== '0' && (
-                <EditColor
-                  initColor={borderColors.bottom}
-                  label="Bottom border color"
-                  onChange={(color) => {
-                    if (color) {
-                      setBorderColors((prev) => ({ ...prev, bottom: color }));
-                    }
-                  }}
-                />
-              )}
-
-              <div className="mt-4">
-                <Typography variant="labelBase" className="mb-2">
-                  Left border width : {borderWidths.left}px
-                </Typography>
-                <Slider
-                  min={0}
-                  max={10}
-                  value={Number(borderWidths.left)}
-                  onChange={(value: number) => {
-                    setBorderWidths((prev) => ({
-                      ...prev,
-                      left: value.toString(),
-                    }));
-                  }}
-                />
+            </CollapsibleSection>
+            <CollapsibleSection title="Alignment">
+              <div className="grid grid-cols-1 gap-2 sm:gap-2">
+                <div className="w-full sm:w-1/4">
+                  <Typography variant="labelBase">
+                    Vertical alignment
+                  </Typography>
+                  <SelectBase
+                    options={[
+                      { value: 'top', label: 'Top' },
+                      { value: 'middle', label: 'Middle' },
+                      { value: 'bottom', label: 'Bottom' },
+                    ]}
+                    value={verticalAlign}
+                    onChange={(value: string) => {
+                      setVerticalAlign(value);
+                    }}
+                  />
+                </div>
               </div>
-
-              {borderWidths.left !== '0' && (
-                <EditColor
-                  initColor={borderColors.left}
-                  label="Left border color"
-                  onChange={(color) => {
-                    if (color) {
-                      setBorderColors((prev) => ({ ...prev, left: color }));
-                    }
-                  }}
-                />
-              )}
+            </CollapsibleSection>
+            <CollapsibleSection title="Width and Height">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <div>
+                  <Typography variant="labelBase" className="mb-2">
+                    Width: {columnWidth === 0 ? 'auto' : `${columnWidth}px`}
+                  </Typography>
+                  <Slider
+                    min={0}
+                    max={MAX_IMAGE_WIDTH} // Assuming MAX_IMAGE_WIDTH is appropriate, or define MAX_COLUMN_WIDTH
+                    value={columnWidth}
+                    onChange={(value: number) => {
+                      setColumnWidth(value);
+                    }}
+                  />
+                </div>
+                <div>
+                  <Typography variant="labelBase" className="mb-2">
+                    Height: {columnHeight === 0 ? 'auto' : `${columnHeight}px`}
+                  </Typography>
+                  <Slider
+                    min={0}
+                    max={MAX_IMAGE_WIDTH} // Assuming MAX_IMAGE_WIDTH is appropriate, or define MAX_COLUMN_HEIGHT
+                    value={columnHeight}
+                    onChange={(value: number) => {
+                      setColumnHeight(value);
+                    }}
+                  />
+                </div>
+              </div>
             </CollapsibleSection>
           </div>
         )}
@@ -442,6 +629,7 @@ export const ColumnSettings = (props: any) => {
         visible={!isSavingSignature}
         onClose={closeSettings}
         onSave={handleSave}
+        isVisibleOnlyPreview={isVisibleOnlyPreview}
       />
     </div>
   );

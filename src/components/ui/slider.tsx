@@ -1,12 +1,6 @@
 'use client';
 
-import React, {
-  useState,
-  useRef,
-  useEffect,
-  useCallback,
-  useMemo,
-} from 'react';
+import React, { useState, useRef, useCallback, useMemo } from 'react';
 import { Typography } from './typography';
 
 interface Step {
@@ -27,6 +21,7 @@ interface SliderProps {
   showValues?: boolean;
   label?: string;
   showValue?: boolean;
+  isDisabled?: boolean;
 }
 
 const Slider: React.FC<SliderProps> = (props) => {
@@ -41,10 +36,14 @@ const Slider: React.FC<SliderProps> = (props) => {
     steps,
     label,
     showValue,
+    isDisabled,
   } = props;
 
   const isUsingSteps = 'steps' in props;
   const sliderRef = useRef<HTMLDivElement>(null);
+
+  const thumbRef = useRef<HTMLDivElement>(null);
+  const isDraggingRef = useRef(false);
 
   const getInitialValue = useCallback((): number => {
     return isUsingSteps
@@ -63,7 +62,7 @@ const Slider: React.FC<SliderProps> = (props) => {
 
   const handleMove = useCallback(
     (clientX: number) => {
-      if (sliderRef.current) {
+      if (sliderRef.current && !isDisabled) {
         const rect = sliderRef.current.getBoundingClientRect();
         const padding = 16; // 1rem = 16px
         const width = rect.width - padding * 2;
@@ -90,19 +89,7 @@ const Slider: React.FC<SliderProps> = (props) => {
         }
       }
     },
-    [isUsingSteps, max, min, onChange, step, steps, value],
-  );
-
-  const handleTouchMove = useCallback(
-    (e: TouchEvent) => {
-      if (e.cancelable) {
-        e.preventDefault();
-      }
-      if (e.touches.length > 0) {
-        handleMove(e.touches[0].clientX);
-      }
-    },
-    [handleMove],
+    [isUsingSteps, max, min, onChange, step, steps, value, isDisabled],
   );
 
   const getPercentValue = useCallback((): number => {
@@ -124,46 +111,69 @@ const Slider: React.FC<SliderProps> = (props) => {
 
   const percentValue = useMemo(() => getPercentValue(), [getPercentValue]);
 
-  useEffect(() => {
-    const sliderElem = sliderRef.current;
-    if (sliderElem) {
-      sliderElem.addEventListener('touchmove', handleTouchMove, {
-        passive: false,
-      });
-      return () => {
-        sliderElem.removeEventListener('touchmove', handleTouchMove);
-      };
-    }
-  }, [handleTouchMove]);
-
   return (
     <div className="pt-3">
-      {label && <Typography variant="labelBase">{label}</Typography>}
+      {label && (
+        <div className="mb-4">
+          <Typography variant="labelBase">{label}</Typography>
+        </div>
+      )}
       <div
         id={id}
         ref={sliderRef}
-        className="relative w-full h-4 select-none px-4"
+        className={`relative w-full h-4 select-none px-4 ${
+          isDisabled ? 'opacity-50 cursor-not-allowed' : ''
+        }`}
         style={{ touchAction: 'none' }}
-        onPointerDown={(e) => sliderRef.current?.setPointerCapture(e.pointerId)}
-        onPointerMove={(e) => {
-          if (e.buttons === 1) {
-            handleMove(e.clientX);
-          }
-        }}
         role="slider"
         aria-valuemin={isUsingSteps ? steps![0].value : min}
         aria-valuemax={isUsingSteps ? steps![steps!.length - 1].value : max}
         aria-valuenow={currentValue}
+        aria-disabled={isDisabled}
       >
-        <div className="absolute left-4 right-4 h-2 bg-gray-300 rounded-full transform -translate-y-1/2">
+        <div
+          className={`absolute left-4 right-4 h-2 rounded-full transform -translate-y-1/2 ${
+            isDisabled ? 'bg-gray-200' : 'bg-gray-300'
+          }`}
+        >
           <div
-            className="absolute top-0 left-0 h-full bg-blue-500 rounded-full"
+            className={`absolute top-0 left-0 h-full rounded-full ${
+              isDisabled ? 'bg-gray-400' : 'bg-blue-500'
+            }`}
             style={{ width: `${percentValue}%` }}
           />
         </div>
         <div
-          className="absolute w-8 h-8 bg-white border-2 border-blue-500 rounded-full shadow-sm transform -translate-y-1/2 -translate-x-1/2 cursor-pointer"
-          style={{ left: `calc(16px + (100% - 32px) * ${percentValue / 100})` }}
+          ref={thumbRef}
+          style={{
+            left: `calc(16px + (100% - 32px) * ${percentValue / 100})`,
+            touchAction: 'none',
+          }}
+          className={`absolute w-8 h-8 bg-white border-2 rounded-full shadow-sm transform -translate-y-1/2 -translate-x-1/2 ${
+            isDisabled
+              ? 'border-gray-400 cursor-not-allowed'
+              : 'border-blue-500 cursor-grab active:cursor-grabbing'
+          }`}
+          onPointerDown={(e) => {
+            if (!isDisabled) {
+              isDraggingRef.current = true;
+              (e.target as HTMLElement).setPointerCapture(e.pointerId);
+            }
+          }}
+          onPointerMove={(e) => {
+            if (isDraggingRef.current && !isDisabled) {
+              handleMove(e.clientX);
+            }
+          }}
+          onPointerUp={(e) => {
+            if (isDraggingRef.current) {
+              isDraggingRef.current = false;
+              (e.target as HTMLElement).releasePointerCapture(e.pointerId);
+            }
+          }}
+          onLostPointerCapture={() => {
+            isDraggingRef.current = false;
+          }}
         />
         <div className="absolute top-full left-0 w-full flex justify-between mt-2 text-xs text-gray-600">
           {isUsingSteps && steps

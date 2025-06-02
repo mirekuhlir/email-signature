@@ -7,11 +7,16 @@ interface ImageSettings {
         y: number;
         width: number;
         height: number;
-        unit: string;
+        unit: "px" | "%";
     };
     aspect?: number | string;
     isCircular: boolean;
-    borderRadius?: number; // 0-100, kde 0 je bez zaoblení a 100 je maximální zaoblení
+    borderRadius?: {
+        topLeft: number;
+        topRight: number;
+        bottomRight: number;
+        bottomLeft: number;
+    };
 }
 
 // Base component properties that are common across different content types
@@ -35,7 +40,7 @@ interface TextComponent extends BaseComponent {
 }
 
 // Image component
-interface ImageComponent extends BaseComponent {
+export interface ImageComponent extends BaseComponent {
     type?: ContentType.IMAGE;
     src: string;
     cropImagePreview?: string;
@@ -43,6 +48,10 @@ interface ImageComponent extends BaseComponent {
     originalImageFile?: File;
     previewWidth?: number;
     imageSettings?: ImageSettings;
+    margin?: string;
+    link?: string;
+    padding?: string;
+    backgroundColor?: string;
 }
 
 // Email component structure
@@ -58,9 +67,10 @@ interface PhoneComponent extends BaseComponent {
 }
 
 // Website component structure
-interface WebsiteComponent extends BaseComponent {
+export interface WebsiteComponent extends BaseComponent {
     type: ContentType.WEBSITE_LINK;
     text: string;
+    link?: string;
 }
 
 // Content types that can be used in rows

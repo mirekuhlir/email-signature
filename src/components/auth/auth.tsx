@@ -18,6 +18,7 @@ type AuthProps = {
 export const Auth = ({ title, description }: AuthProps) => {
   const [isEmailSending, setIsEmailSending] = useState(false);
   const [isEmailSent, setIsEmailSent] = useState(false);
+  const [email, setEmail] = useState('');
 
   const { toast } = useToast();
 
@@ -45,6 +46,8 @@ export const Auth = ({ title, description }: AuthProps) => {
       },
     });
 
+    setEmail(email);
+
     if (error) {
       toast({
         title: 'Error',
@@ -68,7 +71,7 @@ export const Auth = ({ title, description }: AuthProps) => {
             E-mail sent
           </Typography>
           <Typography variant="body">
-            Please check your e-mail for a sign in link.
+            Please check your e-mail {email} for a sign in link.
           </Typography>
         </div>
       ) : (

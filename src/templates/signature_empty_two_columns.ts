@@ -7,9 +7,7 @@ export const signature_empty_two_columns = () => {
             version: "0.1",
             name: "Empty Signature Two Columns",
         },
-        colors: [
-            "rgb(0,148,47)",
-        ],
+        colors: [],
         rows: [
             {
                 "id": generateRandomId(),
@@ -27,7 +25,7 @@ export const signature_empty_two_columns = () => {
                                             text: "Empty with two columns",
                                             type: "text",
                                             color: "rgb(0, 0, 0)",
-                                            padding: "0px 0px 0px 0px",
+                                            padding: "0px 0px 5px 0px",
                                             fontSize: "14px",
                                             fontStyle: "normal",
                                             textAlign: "left",
@@ -42,6 +40,9 @@ export const signature_empty_two_columns = () => {
                                 },
                             },
                         ],
+                        style: {
+                            "verticalAlign": "top",
+                        },
                     },
                     {
                         id: generateRandomId(),
@@ -56,7 +57,7 @@ export const signature_empty_two_columns = () => {
                                             text: ". The Second column.",
                                             type: "text",
                                             color: "rgb(0, 0, 0)",
-                                            padding: "0px 0px 0px 0px",
+                                            padding: "0px 0px 5px 0px",
                                             fontSize: "14px",
                                             fontStyle: "normal",
                                             textAlign: "left",
@@ -71,6 +72,9 @@ export const signature_empty_two_columns = () => {
                                 },
                             },
                         ],
+                        style: {
+                            "verticalAlign": "top",
+                        },
                     },
                 ],
             },

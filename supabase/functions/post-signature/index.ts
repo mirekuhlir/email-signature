@@ -309,7 +309,7 @@ serve(async (req: Request) => {
     const { data: insertedData, error: insertError } = await supabase
       .from("signatures")
       .insert([{
-        signature_content: signatureContent,
+        signature_content: validationResult.data,
         user_id: userId,
         template_slug: info?.templateSlug,
         version: info?.version,
@@ -331,7 +331,7 @@ serve(async (req: Request) => {
 
     // Process the signature content to handle base64 images
     const { processedContent, hasBase64Images } = await processSignatureContent(
-      signatureContent,
+      validationResult.data as SignatureContent,
       userId,
       signatureId,
     );

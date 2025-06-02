@@ -12,7 +12,10 @@ interface ContentEdit {
 
 export interface StoreState {
   contentEdit: ContentEdit;
+  editingSectionIds: string[];
   setContentEdit: (contentEdit: ContentEdit) => void;
+  addEditingSectionId: (id: string) => void;
+  removeEditingSectionId: (id: string) => void;
 }
 
 export const useContentEditStore = create<StoreState>((set) => ({
@@ -28,6 +31,7 @@ export const useContentEditStore = create<StoreState>((set) => ({
     isImageLoading: false,
     columnPath: null,
   },
+  editingSectionIds: [],
   setContentEdit: (edit: ContentEdit) =>
     set((state) => {
       return {
@@ -36,5 +40,22 @@ export const useContentEditStore = create<StoreState>((set) => ({
           ...edit,
         },
       };
+    }),
+  addEditingSectionId: (id: string) =>
+    set((state) => ({
+      editingSectionIds: [...state.editingSectionIds, id],
+    })),
+  removeEditingSectionId: (id: string) =>
+    set((state) => {
+      const index = state.editingSectionIds.indexOf(id);
+      if (index === -1) {
+        return state; // ID not found, return original state
+      }
+      // Create a new array without the element at the found index
+      const newEditingSectionIds = [
+        ...state.editingSectionIds.slice(0, index),
+        ...state.editingSectionIds.slice(index + 1),
+      ];
+      return { editingSectionIds: newEditingSectionIds };
     }),
 }));

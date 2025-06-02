@@ -1,37 +1,63 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useSignatureStore } from '@/src/store/content-edit-add-store';
 import ImageUploadCrop from '@/src/components/ui/image-uploader-crop/image-uploader-crop';
 import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
 import { countImageComponents } from '@/src/utils/content';
-import { Button } from '@/src/components/ui/button';
-import TextInput from '@/src/components/ui/text-input';
-import { useForm } from 'react-hook-form';
 import { Typography } from '@/src/components/ui/typography';
-import { Hr } from '../../ui/hr';
 import { generateRandomId } from '@/src/utils/generateRandomId';
+import SelectBase from '../../ui/select-base';
+import { ImageComponent } from '@/src/types/signature';
+import { CollapsibleSection } from '@/src/components/ui/collapsible-section';
+import { LinkComponent } from './add-link';
 
-export const ImageEditContent = (props: any) => {
+interface ImageHorizontalAlignProps {
+  imageComponent: ImageComponent;
+  contentPathToEdit: string;
+  setContent: (path: string, value: any) => void;
+}
+
+const ImageHorizontalAlign = (props: ImageHorizontalAlignProps) => {
+  const { imageComponent, contentPathToEdit, setContent } = props;
+  return (
+    <div className="w-full sm:w-1/4">
+      <Typography variant="labelBase">Horizontal alignment</Typography>
+      <SelectBase
+        options={[
+          { value: '0 auto 0 0', label: 'Left' },
+          {
+            value: '0 auto 0 auto',
+            label: 'Center',
+          },
+          { value: '0 0 0 auto', label: 'Right' },
+        ]}
+        value={imageComponent.margin}
+        onChange={(value: string) => {
+          setContent(`${contentPathToEdit}.components[0].margin`, value);
+        }}
+      />
+    </div>
+  );
+};
+
+interface ImageEditContentProps {
+  components: ImageComponent[];
+  contentPathToEdit: string;
+  isSignedIn: boolean;
+}
+
+export const ImageEditContent = (props: ImageEditContentProps) => {
   const { components, contentPathToEdit, isSignedIn } = props;
   const { setContent, rows } = useSignatureStore();
-  const { setContentEdit, contentEdit } = useContentEditStore();
-  const imageComponent = components[0];
-  const [showLinkInput, setShowLinkInput] = useState(false);
   const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm({
-    mode: 'onSubmit',
-  });
-
-  useEffect(() => {
-    if (showLinkInput && imageComponent.link) {
-      reset({ link: imageComponent.link });
-    }
-  }, [showLinkInput, imageComponent.link, reset]);
+    setContentEdit,
+    contentEdit,
+    addEditingSectionId,
+    removeEditingSectionId,
+  } = useContentEditStore();
+  const imageComponent: ImageComponent = components[0];
+  const [imageIsResizing, setImageIsResizing] = useState(false);
 
   const handleCropImagePreview = useCallback(
     (croppedImage: string) => {
@@ -97,36 +123,30 @@ export const ImageEditContent = (props: any) => {
     return countImageComponents(rows);
   }, [isSignedIn, rows]);
 
-  const onSubmitLink = (data: any) => {
-    const trimmedLink = data.link.trim();
-    if (!trimmedLink) {
-      // If input is empty, remove the link
-      setContent(`${contentPathToEdit}.components[0].link`, '');
-      setContentEdit({
-        subEdit: null,
-      });
-      setShowLinkInput(false);
-      return;
-    }
+  const isImageLoading = contentEdit.isImageLoading;
 
-    let href = trimmedLink;
-    if (!/^https?:\/\//i.test(href)) {
-      href = `https://${href}`;
-    }
-    setContent(`${contentPathToEdit}.components[0].link`, href);
-    setContentEdit({
-      subEdit: null,
-    });
-    setShowLinkInput(false);
-  };
-
-  const isShowAddLinkToImage =
-    !showLinkInput &&
+  const isImage =
     (imageComponent.originalSrc || imageComponent.cropImagePreview) &&
     imageComponent.imageSettings;
 
+  const handleResizing = useCallback((isResizing: boolean) => {
+    setImageIsResizing(isResizing);
+  }, []);
+
   return (
     <>
+      {imageIsResizing && (
+        <div className="mt-2">
+          <Typography
+            variant="labelBase"
+            className={`text-center ${
+              imageIsResizing ? 'text-gray-800' : 'text-transparent'
+            }`}
+          >
+            Resizing...
+          </Typography>
+        </div>
+      )}
       <ImageUploadCrop
         onSetCropImagePreview={handleCropImagePreview}
         onSetImageSettings={handleImageSettings}
@@ -140,111 +160,35 @@ export const ImageEditContent = (props: any) => {
         onLoadingChange={handleImageLoadingChange}
         isSignedIn={isSignedIn}
         imageCount={imageCount}
+        onResizing={handleResizing}
+        isResizing={imageIsResizing}
+        imageLink={
+          isImage && !isImageLoading ? (
+            <CollapsibleSection title="Image link">
+              <LinkComponent
+                component={imageComponent}
+                contentPathToEdit={`${contentPathToEdit}.components[0].link`}
+                setContent={setContent}
+                setContentEdit={setContentEdit}
+                addEditingSectionId={addEditingSectionId}
+                removeEditingSectionId={removeEditingSectionId}
+                title="Add link to image"
+              />
+            </CollapsibleSection>
+          ) : null
+        }
+        horizontalAlign={
+          isImage && !isImageLoading ? (
+            <CollapsibleSection title="Horizontal alignment">
+              <ImageHorizontalAlign
+                imageComponent={imageComponent}
+                contentPathToEdit={contentPathToEdit}
+                setContent={setContent}
+              />
+            </CollapsibleSection>
+          ) : null
+        }
       />
-
-      {!contentEdit.isImageLoading && (
-        <>
-          {isShowAddLinkToImage && <Hr className="mb-4" />}
-
-          <div className="pb-6">
-            <div
-              className={
-                showLinkInput ? 'bg-white p-4 shadow-md rounded-md mb-8' : ''
-              }
-            >
-              {isShowAddLinkToImage && (
-                <div className="pb-1">
-                  <Typography variant="labelBase">Add link to image</Typography>
-                </div>
-              )}
-              {imageComponent.link ? (
-                <>
-                  {!showLinkInput && (
-                    <>
-                      <div className="py-2">
-                        <Typography
-                          variant="large"
-                          className="text-gray-900 break-all"
-                        >
-                          {imageComponent.link}
-                        </Typography>
-                      </div>
-                      <Button
-                        variant="blue"
-                        onClick={() => {
-                          setContentEdit({
-                            subEdit: 'edit-link',
-                          });
-                          setShowLinkInput(!showLinkInput);
-                        }}
-                      >
-                        {'Edit Link'}
-                      </Button>
-                    </>
-                  )}
-                </>
-              ) : (
-                <>
-                  {isShowAddLinkToImage && (
-                    <Button
-                      variant="blue"
-                      onClick={() => {
-                        setShowLinkInput(!showLinkInput);
-                        setContentEdit({
-                          subEdit: 'edit-link',
-                        });
-                      }}
-                    >
-                      Add Link
-                    </Button>
-                  )}
-
-                  {showLinkInput && (
-                    <div className="mt-2 p-3">
-                      <form
-                        onSubmit={handleSubmit(onSubmitLink)}
-                        className="space-y-4"
-                      >
-                        <TextInput
-                          label="Link URL"
-                          name="link"
-                          register={register}
-                          errors={errors}
-                          placeholder="Enter URL (e.g. https://example.com)"
-                          validation={{
-                            pattern: {
-                              value:
-                                /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/,
-                              message: 'Please enter a valid URL',
-                            },
-                          }}
-                        />
-                        <div className="flex justify-between">
-                          <Button
-                            variant="outline"
-                            type="button"
-                            onClick={() => {
-                              setShowLinkInput(false);
-                              setContentEdit({
-                                subEdit: null,
-                              });
-                            }}
-                          >
-                            Close
-                          </Button>
-                          <Button type="submit" variant="blue">
-                            Save
-                          </Button>
-                        </div>
-                      </form>
-                    </div>
-                  )}
-                </>
-              )}
-            </div>
-          </div>
-        </>
-      )}
     </>
   );
 };

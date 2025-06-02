@@ -3,6 +3,7 @@ import React from 'react';
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?:
     | 'blue'
+    | 'brandBlue'
     | 'orange'
     | 'red'
     | 'black'
@@ -46,6 +47,7 @@ export const baseStyles =
 
 export const variants = {
   blue: 'bg-blue-600 hover:bg-blue-700 text-white',
+  brandBlue: 'bg-brand-blue-900 hover:bg-brand-blue-800 text-white',
   orange: 'bg-orange-600 hover:bg-orange-700 text-white',
   red: 'bg-red-600 hover:bg-red-700 text-white',
   black: 'bg-black hover:bg-gray-900 text-white',
@@ -59,6 +61,7 @@ export const variants = {
 
 export const selectedStyles = {
   blue: 'bg-blue-500 hover:bg-blue-500 text-white',
+  brandBlue: 'bg-brand-blue-800 hover:bg-brand-blue-700 text-white',
   orange: 'bg-orange-500 hover:bg-orange-500 text-white',
   red: 'bg-red-500 hover:bg-red-500 text-white',
   black: 'bg-gray-700 hover:bg-gray-700 text-white',
@@ -74,7 +77,8 @@ export const sizes = {
   sm: 'h-8 px-3 text-sm',
   md: 'h-10 px-4 text-base',
   lg: 'h-12 px-6 text-lg',
-  xl: 'h-14 px-8 text-xl',
+  xl: 'h-14 px-6 text-xl',
+  '2xl': 'h-16 px-10 text-2xl',
   modalTab: 'w-40',
 };
 

@@ -53,7 +53,7 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({
             Close
           </Button>
         )}
-        <div className="flex space-x-2">
+        <div className="flex space-x-4">
           {onPreview && (
             <Button variant="outline" onClick={onPreview}>
               View
@@ -107,7 +107,7 @@ const PreviewActionPanel: React.FC<PreviewActionPanelProps> = ({
         </div>
       ),
       isZeroPadding: true,
-      size: 'large',
+      size: 'fullscreen',
     });
   };
 

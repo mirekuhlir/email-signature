@@ -1,6 +1,11 @@
 import { createClient } from '@/src/utils/supabase/server';
 import { Header } from '@/src/components/header';
 import StyledLink from '@/src/components/ui/styled-link';
+import { EmailTemplateView } from '@/src/components/signature-detail/content-view/signature-view';
+import { signature_a } from '@/src/templates/signature_a';
+import { signature_d } from '@/src/templates/signature_d';
+import { signature_i } from '@/src/templates/signature_i';
+import { Handshake, ChartLine, Award } from 'lucide-react';
 
 export default async function Home() {
   const supabase = await createClient();
@@ -10,204 +15,222 @@ export default async function Home() {
   } = await supabase.auth.getUser();
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100">
+    <div className="min-h-screen flex flex-col">
       <Header user={user} />
+      <div className="h-5" />
 
       {/* Hero Section */}
-      <main className="grow w-full pt-16">
-        <section className="relative bg-linear-to-br from-blue-600 via-blue-700 to-blue-900 text-white py-24 sm:py-32 overflow-hidden">
-          <div className="absolute inset-0 opacity-30"></div>
-          <div className="max-w-[1200px] mx-auto px-4 sm:px-6 relative">
-            <div className="max-w-2xl">
-              <h1 className="text-4xl sm:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-linear-to-r from-white to-blue-100">
-                Create amazing projects
-              </h1>
-              <p className="text-lg sm:text-xl mb-8 text-blue-100">
-                With our tools, you can easily and quickly realize your ideas.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <StyledLink size="xl" variant="button-orange" href="/templates">
-                  Try for free
-                </StyledLink>
-              </div>
-            </div>
-          </div>
-        </section>
+      <section className="bg-gray-50 py-20">
+        <div className="container mx-auto px-4 text-center">
+          <h1 className="text-3xl md:text-4xl font-bold mb-6 mt-12 text-brand-blue-900">
+            Create a professional email signature in just minutes
+          </h1>
+          <p className="text-lg md:text-xl mx-auto mb-8 text-brand-purple-900">
+            Make your emails trustworthy and attractive.
+          </p>
+          <StyledLink variant="button-orange" size="2xl" href="/templates">
+            Create your signature now!
+          </StyledLink>
+        </div>
+      </section>
 
-        {/* Final CTA Section */}
-        <section className="bg-linear-to-br from-purple-600 via-blue-700 to-blue-800 text-white py-24 relative overflow-hidden">
-          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMjk4IDUwYTQ4IDQ4IDAgMDAwLTk2IDQ4IDQ4IDAgMDAwIDk2em0wIDEwMGE0OCA0OCAwIDEwMC05NiA0OCA0OCAwIDAwMCA5NnptMCAxMDBhNDggNDggMCAxMDAtOTYgNDggNDggMCAwMDAgOTZ6IiBmaWxsPSJ3aGl0ZSIgZmlsbC1vcGFjaXR5PSIuMDUiLz48L3N2Zz4=')] opacity-30"></div>
-          <div className="max-w-[1200px] mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between relative">
-            <div className="mb-8 sm:mb-0">
-              <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-                Join us today
-              </h2>
-              <p className="text-lg text-blue-100">
-                Start your project with us and get a special offer.
-              </p>
-            </div>
-            <button className="px-8 py-4 bg-white text-blue-600 rounded-lg font-semibold hover:bg-blue-50 transition-all shadow-xl shadow-blue-900/30 hover:shadow-2xl hover:shadow-blue-900/40 hover:-translate-y-0.5">
-              Start now
-            </button>
-          </div>
-        </section>
-
-        {/* New section: Process */}
-        <section className="py-24 relative bg-gray-900 text-white overflow-hidden">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-blue-500/20 via-purple-500/20 to-transparent"></div>
-          <div className="max-w-[1200px] mx-auto px-4 sm:px-6 relative">
-            <h2 className="text-3xl sm:text-5xl font-bold text-center mb-16">
-              How we work
+      {/* Examples of email signatures Section */}
+      <section className="py-10 bg-white pb-20">
+        <div className="container mx-auto px-4">
+          <div className="mb-12">
+            <h2 className="text-3xl font-bold text-center text-brand-blue-900 mb-6">
+              Choose from our professional templates
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-              {[
-                { title: 'Analysis', bg: 'from-blue-500 to-blue-600' },
-                {
-                  title: 'Implementation',
-                  bg: 'from-purple-500 to-purple-600',
-                },
-                { title: 'Optimization', bg: 'from-pink-500 to-pink-600' },
-              ].map((step, idx) => (
-                <div key={idx} className="relative group">
-                  <div className="absolute inset-0 bg-linear-to-br from-gray-800 to-gray-900 rounded-2xl transform transition-transform group-hover:scale-105"></div>
-                  <div
-                    className={`relative p-8 border border-gray-700 rounded-2xl overflow-hidden`}
-                  >
-                    <div
-                      className={`w-20 h-20 mb-6 rounded-xl bg-linear-to-r ${step.bg}`}
-                    >
-                      <div className="w-full h-full flex items-center justify-center text-2xl font-bold">
-                        {idx + 1}
-                      </div>
-                    </div>
-                    <h3 className="text-2xl font-semibold mb-4">
-                      {step.title}
-                    </h3>
-                    <p className="text-gray-400">
-                      Detailed description of the {step.title.toLowerCase()}{' '}
-                      phase and what it entails.
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
           </div>
-        </section>
 
-        {/* New section: Newsletter with wavy background */}
-        <section className="py-24 relative overflow-hidden bg-linear-to-br from-orange-400 to-pink-600">
-          <div className="absolute inset-0 bg-repeat-x bg-bottom"></div>
-          <div className="max-w-[1200px] mx-auto px-4 sm:px-6 relative">
-            <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-12 shadow-2xl">
-              <div className="max-w-2xl mx-auto text-center">
-                <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">
-                  Stay informed
-                </h2>
-                <p className="text-lg text-white/80 mb-8">
-                  Subscribe to our newsletter and be the first to know about our
-                  new services and promotions.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-                  <input
-                    type="email"
-                    placeholder="Your email"
-                    className="flex-1 px-6 py-3 rounded-lg bg-white/20 backdrop-blur-lg text-white placeholder-white/60 border border-white/30 focus:outline-hidden focus:ring-2 focus:ring-white/50"
-                  />
-                  <button className="px-6 py-3 bg-white text-pink-600 rounded-lg font-semibold hover:bg-pink-50 transition-all">
-                    Subscribe
-                  </button>
-                </div>
-              </div>
-            </div>
+          <div className="flex flex-col md:flex-row gap-16 justify-center items-end">
+            <EmailTemplateView rows={signature_i().rows} />
+            <EmailTemplateView rows={signature_a().rows} />
+            <EmailTemplateView rows={signature_d().rows} />
           </div>
-        </section>
+          <p className="text-lg md:text-xl mx-auto mb-8 text-brand-purple-900 text-center mt-12">
+            You can customize your signature to match your style - change
+            colors, fonts and anything else you want.
+          </p>
+          <div className="flex mt-6 justify-center">
+            <StyledLink variant="button-brand-blue" size="xl" href="/templates">
+              {'See all templates'}
+            </StyledLink>
+          </div>
+        </div>
+      </section>
 
-        {/* Footer */}
-        <footer className="bg-linear-to-br from-gray-900 to-gray-800 text-gray-300">
-          <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-16">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
-              <div>
-                <h4 className="text-xl font-semibold text-white mb-4">
-                  About us
-                </h4>
-                <p className="text-gray-400">
-                  We are a modern company focused on providing quality services
-                  to our customers.
-                </p>
+      {/* Benefits Section */}
+      <section className="py-14 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center text-brand-blue-900 mb-12">
+            Why have an email signature?
+          </h2>
+          <ul className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <li className="text-center">
+              <div className="mb-4 text-4xl text-brand-blue-900 flex justify-center items-center">
+                <Handshake className="w-10 h-10" />
               </div>
-              <div>
-                <h4 className="text-xl font-semibold text-white mb-4">
-                  Services
-                </h4>
-                <ul className="space-y-2">
-                  <li>
-                    <a
-                      href="#"
-                      className="text-gray-400 hover:text-white transition-colors"
-                    >
-                      Consulting
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="text-gray-400 hover:text-white transition-colors"
-                    >
-                      Development
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="text-gray-400 hover:text-white transition-colors"
-                    >
-                      Support
-                    </a>
-                  </li>
-                </ul>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                Trustworthiness
+              </h3>
+              <p className="text-gray-600">
+                A signature with a photo and name increases the recipient&apos;s
+                trust.
+              </p>
+            </li>
+            <li className="text-center">
+              <div className="mb-4 text-4xl text-brand-blue-900 flex justify-center items-center">
+                <Award className="w-10 h-10" />
               </div>
-              <div>
-                <h4 className="text-xl font-semibold text-white mb-4">
-                  Contact
-                </h4>
-                <p className="text-gray-400">
-                  Email: info@example.com
-                  <br />
-                  Tel: +420 123 456 789
-                </p>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                Professional appearance
+              </h3>
+              <p className="text-gray-600">
+                Your email looks representative and sets you apart from others.
+              </p>
+            </li>
+            <li className="text-center">
+              <div className="mb-4 text-4xl text-brand-blue-900 flex justify-center items-center">
+                <ChartLine className="w-10 h-10" />
               </div>
-              <div>
-                <h4 className="text-xl font-semibold text-white mb-4">
-                  Follow us
-                </h4>
-                <div className="flex space-x-4">
-                  <a
-                    href="#"
-                    className="text-gray-400 hover:text-white transition-colors"
-                  >
-                    Facebook
-                  </a>
-                  <a
-                    href="#"
-                    className="text-gray-400 hover:text-white transition-colors"
-                  >
-                    Twitter
-                  </a>
-                  <a
-                    href="#"
-                    className="text-gray-400 hover:text-white transition-colors"
-                  >
-                    LinkedIn
-                  </a>
-                </div>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                Brand support
+              </h3>
+              <p className="text-gray-600">
+                Every email strengthens your brand and helps you make new
+                connections.
+              </p>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      {/* How it works Section */}
+      <section className="py-14 bg-gray-50">
+        <div className="container mx-auto px-4 max-w-4xl">
+          <h2 className="text-3xl font-bold text-center text-brand-blue-900 mb-12">
+            How does it work?
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="text-center">
+              <div className="mb-4 text-3xl font-bold text-brand-blue-900">
+                1.
               </div>
+              <h3 className="text-lg font-semibold mb-2">Choose a template</h3>
+              <p className="text-gray-600">
+                Select from professionally designed signature templates.
+              </p>
             </div>
-            <div className="mt-8 pt-8 border-t border-gray-700 text-center text-sm sm:text-base text-gray-400">
-              <p>© 2024 Your Company. All rights reserved.</p>
+            <div className="text-center">
+              <div className="mb-4 text-3xl font-bold text-brand-blue-900">
+                2.
+              </div>
+              <h3 className="text-lg font-semibold mb-2">
+                Customize your signature
+              </h3>
+              <p className="text-gray-600">
+                Add your details, photo or company logo.
+              </p>
+            </div>
+            <div className="text-center">
+              <div className="mb-4 text-3xl font-bold text-brand-blue-900">
+                3.
+              </div>
+              <h3 className="text-lg font-semibold mb-2">Copy & paste</h3>
+              <p className="text-gray-600">
+                Copy your signature to your email with one click.
+              </p>
             </div>
           </div>
-        </footer>
-      </main>
+        </div>
+      </section>
+
+      {/* Social Proof Section - User Quotes */}
+      {/*       <section className="py-14 bg-white">
+        <div className="container mx-auto px-4 max-w-2xl text-center">
+          <h2 className="text-2xl font-bold text-brand-blue-900 mb-6">
+            What our users say
+          </h2>
+          <div className="space-y-6">
+            <blockquote className="italic text-gray-700">
+              &quot;Thanks to the signature from this site, I look much more
+              professional in emails. I recommend it!&quot;
+              <br />
+              <span className="font-semibold">— Jane, HR specialist</span>
+            </blockquote>
+            <blockquote className="italic text-gray-700">
+              &quot;Simple and fast. Exactly what I needed.&quot;
+              <br />
+              <span className="font-semibold">— Peter, freelancer</span>
+            </blockquote>
+          </div>
+        </div>
+      </section> */}
+
+      {/* Social Proof Section */}
+      {/*      <section className="py-14 bg-white">
+        <div className="container mx-auto px-4 max-w-3xl text-center">
+          <h2 className="text-2xl font-bold text-brand-blue-900 mb-6">
+            Trusted by users from companies like
+          </h2>
+          <div className="flex flex-wrap justify-center gap-8 mb-6">
+            <div className="text-3xl">🚀</div>
+            <div className="text-3xl">🏢</div>
+            <div className="text-3xl">👩‍💻</div>
+            <div className="text-3xl">🧑‍💼</div>
+          </div>
+          <p className="text-gray-600">
+            Over 1000 users have already created their signature.
+          </p>
+        </div>
+      </section> */}
+
+      {/* FAQ Section */}
+      <section className="py-14 bg-gray-50">
+        <div className="container mx-auto px-4 max-w-2xl">
+          <h2 className="text-2xl font-bold text-brand-blue-900 mb-6 text-center">
+            Frequently Asked Questions
+          </h2>
+          <div className="space-y-4">
+            <div>
+              <h3 className="font-semibold text-gray-700">
+                Can I use the signature in Gmail or Outlook?
+              </h3>
+              <p className="text-gray-600">
+                Yes, the signature can be used in all common email clients.
+              </p>
+            </div>
+            <div>
+              <h3 className="font-semibold text-gray-700">
+                Do I have to pay a recurring fee?
+              </h3>
+              <p className="text-gray-600">
+                No, you pay only once and can use your signature forever.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section id="get-started" className="py-14 bg-white">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-3xl font-bold mb-6 text-brand-blue-900">
+            Start with your own email signature today
+          </h2>
+          <StyledLink variant="button-orange" size="xl" href="/templates">
+            Create signature
+          </StyledLink>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-gray-800 text-white py-8 mt-auto">
+        <div className="container mx-auto px-4 text-center">
+          <p>© 2025. All rights reserved.</p>
+        </div>
+      </footer>
     </div>
   );
 }

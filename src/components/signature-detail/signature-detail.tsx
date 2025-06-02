@@ -13,7 +13,6 @@ import SignaturePreview from './signature-preview';
 import { useAuthModal } from '@/src/hooks/use-auth-modal';
 import { Hr } from '../ui/hr';
 import { ChevronLeft, Edit2, Copy, Eye } from 'lucide-react';
-import { EmailTemplateView } from './content-view/signature-view';
 import { Container } from '../ui/container';
 import { TEMP_SIGNATURE } from '@/src/const/content';
 
@@ -54,33 +53,48 @@ export const SignatureDetail = (props: any) => {
     });
   };
 
+  const isPreview =
+    !contentEdit.editPath && !contentEdit.columnPath && !contentEdit.addPath;
+
   return (
     <div className="pb-8">
       <Container>
-        {!contentEdit.editPath &&
-          !contentEdit.columnPath &&
-          !contentEdit.addPath &&
-          !isEdit &&
-          isSignedIn && (
-            <>
-              <StyledLink
-                variant="default"
-                href="/signatures"
-                className="flex items-center gap-1"
-              >
-                <ChevronLeft size={23} />
-                Back to My signatures
-              </StyledLink>
-              <Hr className="mt-4 mb-2 sm:mb-8 sm:mt-8" />
-            </>
-          )}
+        {isPreview && (
+          <>
+            {isSignedIn && (
+              <>
+                <StyledLink
+                  variant="default"
+                  href="/signatures"
+                  className="flex items-center gap-1"
+                >
+                  <ChevronLeft size={23} />
+                  Back to My signatures
+                </StyledLink>
+                <Hr className="mt-4 mb-2 sm:mb-8 sm:mt-4" />
+              </>
+            )}
+
+            {!isSignedIn && !isEdit && (
+              <>
+                <StyledLink
+                  variant="default"
+                  href="/templates"
+                  className="flex items-center gap-1"
+                >
+                  <ChevronLeft size={23} />
+                  Back to templates
+                </StyledLink>
+                <Hr className="mt-4 mb-2 sm:mb-8 sm:mt-4" />
+              </>
+            )}
+          </>
+        )}
       </Container>
 
       <div className="flex flex-col">
-        {contentEdit.editPath && (
-          <Container>
-            <EmailTemplateView rows={rows} />
-          </Container>
+        {(contentEdit.editPath || contentEdit.columnPath) && (
+          <SignaturePreview />
         )}
       </div>
       {!isEdit && (
@@ -91,6 +105,7 @@ export const SignatureDetail = (props: any) => {
               <div className="mt-0 sm:mt-4 flex justify-center sm:justify-start">
                 <Button
                   size="lg"
+                  variant="brandBlue"
                   onClick={() => {
                     if (isSignedIn) {
                       handleCopy();
@@ -126,7 +141,7 @@ export const SignatureDetail = (props: any) => {
           {!contentEdit.editPath &&
             !contentEdit.addPath &&
             !contentEdit.columnPath && (
-              <div className="flex justify-end pt-4 border-t border-gray-300">
+              <div className="flex justify-end">
                 <Button size="lg" onClick={() => setIsEdit(false)}>
                   <Eye size={20} className="mr-2" /> View
                 </Button>
