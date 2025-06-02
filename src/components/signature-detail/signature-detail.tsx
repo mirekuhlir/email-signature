@@ -15,6 +15,7 @@ import { Hr } from '../ui/hr';
 import { ChevronLeft, Edit2, Copy, Eye } from 'lucide-react';
 import { Container } from '../ui/container';
 import { TEMP_SIGNATURE } from '@/src/const/content';
+import { Typography } from '../ui/typography';
 
 export const SignatureDetail = (props: any) => {
   const { signatureDetail, isSignedIn, templateSlug } = props;
@@ -92,14 +93,30 @@ export const SignatureDetail = (props: any) => {
         )}
       </Container>
 
-      <div className="flex flex-col">
-        {(contentEdit.editPath || contentEdit.columnPath) && (
+      {(contentEdit.editPath || contentEdit.columnPath) && (
+        <div className="flex flex-col">
           <SignaturePreview />
-        )}
-      </div>
+        </div>
+      )}
+
       {!isEdit && (
         <>
+          <Container>
+            <div className="flex flex-col bg-orange-200 p-4 mb-8 rounded-lg">
+              <Typography variant="large">
+                Try all features free for 30 days
+              </Typography>
+              <Typography variant="body">
+                Use all features for free for 30 days. If you are satisfied, you
+                pay a one-time fee and your signatures will remain yours
+                forever. If you decide not to continue with the paid service,
+                your signatures will be automatically deleted after the trial
+                period ends.
+              </Typography>
+            </div>
+          </Container>
           <SignaturePreview />
+
           <Container>
             {!contentEdit.editPath && (
               <div className="mt-0 sm:mt-4 flex justify-center sm:justify-start">
