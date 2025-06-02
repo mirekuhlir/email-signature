@@ -22,13 +22,13 @@ export default async function Home() {
       {/* Hero Section */}
       <section className="bg-gray-50 py-20">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-3xl md:text-4xl font-bold mb-6 mt-12 text-brand-blue-900">
+          <h1 className="text-2xl md:text-4xl font-bold mb-6 mt-12 text-brand-blue-900">
             Create a professional email signature in just minutes
           </h1>
           <p className="text-lg md:text-xl mx-auto mb-8 text-brand-purple-900">
             Make your emails trustworthy and attractive.
           </p>
-          <StyledLink variant="button-orange" size="2xl" href="/templates">
+          <StyledLink variant="button-orange" size="xl" href="/templates">
             Create your signature now!
           </StyledLink>
         </div>
@@ -38,12 +38,12 @@ export default async function Home() {
       <section className="py-10 bg-white pb-20">
         <div className="container mx-auto px-4">
           <div className="mb-12">
-            <h2 className="text-3xl font-bold text-center text-brand-blue-900 mb-6">
+            <h2 className="text-2xl md:text-3xl font-bold text-center text-brand-blue-900 mb-6">
               Choose from our professional templates
             </h2>
           </div>
 
-          <div className="flex flex-col md:flex-row gap-16 justify-center items-end">
+          <div className="flex flex-col md:flex-row gap-16 justify-center items-center sm:items-end">
             <EmailTemplateView rows={signature_i().rows} />
             <EmailTemplateView rows={signature_a().rows} />
             <EmailTemplateView rows={signature_d().rows} />
@@ -63,7 +63,7 @@ export default async function Home() {
       {/* Benefits Section */}
       <section className="py-14 bg-gray-50">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center text-brand-blue-900 mb-12">
+          <h2 className="text-2xl md:text-3xl font-bold text-center text-brand-blue-900 mb-12">
             Why have an email signature?
           </h2>
           <ul className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
@@ -109,7 +109,7 @@ export default async function Home() {
       {/* How it works Section */}
       <section className="py-14 bg-gray-50">
         <div className="container mx-auto px-4 max-w-4xl">
-          <h2 className="text-3xl font-bold text-center text-brand-blue-900 mb-12">
+          <h2 className="text-2xl md:text-3xl font-bold text-center text-brand-blue-900 mb-12">
             How does it work?
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -189,7 +189,7 @@ export default async function Home() {
       {/* FAQ Section */}
       <section className="py-14 bg-gray-50">
         <div className="container mx-auto px-4 max-w-2xl">
-          <h2 className="text-2xl font-bold text-brand-blue-900 mb-6 text-center">
+          <h2 className="text-2xl md:text-3xl font-bold text-brand-blue-900 mb-6 text-center">
             Frequently Asked Questions
           </h2>
           <div className="space-y-4">
@@ -216,7 +216,7 @@ export default async function Home() {
       {/* CTA Section */}
       <section id="get-started" className="py-14 bg-white">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-6 text-brand-blue-900">
+          <h2 className="text-2xl md:text-3xl font-bold mb-6 text-brand-blue-900">
             Start with your own email signature today
           </h2>
           <StyledLink variant="button-orange" size="xl" href="/templates">
