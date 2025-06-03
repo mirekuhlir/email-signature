@@ -156,7 +156,7 @@ export const SignatureDetail = (props: any) => {
                 <div className="flex justify-end sm:justify-start">
                   <StyledLink
                     variant="button-brand-blue"
-                    href="/premium"
+                    href="/pricing"
                     className="mt-4"
                   >
                     Upgrade to premium
