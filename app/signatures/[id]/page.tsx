@@ -76,6 +76,7 @@ export default async function Signature(props: Props) {
         <main>
           <div className="pt-20">
             <SignatureDetail
+              user={user}
               isSignedIn={isSignedIn}
               signatureDetail={{
                 ...data?.signature_content,

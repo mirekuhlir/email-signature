@@ -239,7 +239,11 @@ export const SignaturesList = (props: any) => {
 
         {(tempSignature?.rows || signatures?.length > 0) && (
           <>
-            <Typography className="leading-none" variant="h3">
+            <Typography
+              className="leading-none"
+              variant="h3"
+              textColor="text-brand-blue-900"
+            >
               My signatures
             </Typography>
             <Hr className="pb-4 mt-4" />
@@ -296,7 +300,9 @@ export const SignaturesList = (props: any) => {
       >
         <Container isZeroPadding={true}>
           <div className="mb-4">
-            <Typography variant="h3">Select template signature</Typography>
+            <Typography variant="h3" textColor="text-brand-blue-900">
+              Select template signature
+            </Typography>
           </div>
           <div className="mb-6">
             <Hr />

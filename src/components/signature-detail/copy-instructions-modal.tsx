@@ -5,17 +5,22 @@ import { EmailIos } from '@/src/icons/EmailiOS';
 
 type EmailClient = 'gmail' | 'outlook' | 'apple-mail';
 
+interface InstructionItem {
+  key: EmailClient;
+  title: string;
+  steps: string[];
+  icon: React.ReactNode;
+}
+
 // TODO - kopírovat mohou jen uživatele s premium účtem
 export const CopyInstructionsModalContent = () => {
   const [selectedClient, setSelectedClient] = useState<EmailClient | null>(
     null,
   );
 
-  const instructions: Record<
-    EmailClient,
-    { title: string; steps: string[]; icon: React.ReactNode }
-  > = {
-    gmail: {
+  const instructions: InstructionItem[] = [
+    {
+      key: 'gmail',
       title: 'Gmail',
       steps: [
         'Open Gmail and go to Settings (gear icon) → See all settings',
@@ -25,7 +30,8 @@ export const CopyInstructionsModalContent = () => {
       ],
       icon: <EmailIos />,
     },
-    outlook: {
+    {
+      key: 'outlook',
       title: 'Outlook',
       steps: [
         'Open Outlook and go to File → Options → Mail → Signatures',
@@ -34,7 +40,8 @@ export const CopyInstructionsModalContent = () => {
       ],
       icon: <EmailIos />,
     },
-    'apple-mail': {
+    {
+      key: 'apple-mail',
       title: 'Apple Mail',
       steps: [
         'Open Mail and go to Mail → Settings → Signatures',
@@ -43,11 +50,11 @@ export const CopyInstructionsModalContent = () => {
       ],
       icon: <EmailIos />,
     },
-  };
+  ];
 
-  const currentInstructions = selectedClient
-    ? instructions[selectedClient]
-    : null;
+  const currentInstructions = instructions.find(
+    (instruction) => instruction.key === selectedClient,
+  );
 
   return (
     <div className="py-4">
@@ -57,26 +64,26 @@ export const CopyInstructionsModalContent = () => {
             Your signature has been copied to clipboard!
           </Typography>
         </div>
-        <div className="mb-3">
+        <div className="mb-3 flex justify-center">
           <Typography variant="large" textColor="text-gray-700">
             Select your email client:
           </Typography>
         </div>
       </div>
 
-      <div className="flex md:flex-row space-y-3 md:space-y-0 md:space-x-3">
-        {(Object.keys(instructions) as EmailClient[]).map((clientKey) => (
-          <div key={clientKey}>
+      <div className="flex flex-col items-center space-y-3">
+        {instructions.map((instruction) => (
+          <div key={instruction.key}>
             <Button
               variant="modalTab"
-              selected={selectedClient === clientKey}
-              onClick={() => setSelectedClient(clientKey)}
+              selected={selectedClient === instruction.key}
+              onClick={() => setSelectedClient(instruction.key)}
               size="modalTab"
               buttonClassName="justify-start"
             >
               <div className="flex items-center p-2">
-                <div className="mr-1">{instructions[clientKey].icon}</div>
-                <div>{instructions[clientKey].title}</div>
+                <div className="mr-1">{instruction.icon}</div>
+                <div>{instruction.title}</div>
               </div>
             </Button>
           </div>

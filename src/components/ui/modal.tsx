@@ -45,7 +45,7 @@ const Modal: React.FC<ModalProps> = ({
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800/70 bg-opacity-30 z-50">
       <div
-        className={`bg-white rounded-lg shadow-lg ${sizeClasses[size]} ${size === 'fullscreen' ? 'h-full flex flex-col' : ''}`}
+        className={`bg-white ${size === 'fullscreen' ? '' : 'rounded-lg'} shadow-lg ${sizeClasses[size]} ${size === 'fullscreen' ? 'h-full flex flex-col' : ''}`}
       >
         {title && (
           <>

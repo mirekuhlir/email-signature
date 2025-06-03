@@ -67,17 +67,26 @@ export const Auth = ({ title, description }: AuthProps) => {
     <div className="flex flex-col bg-white pt-4 min-h-[250px]">
       {isEmailSent ? (
         <div className="flex flex-col justify-center items-center flex-1">
-          <Typography variant="h4" className="leading-loose">
+          <Typography
+            variant="h4"
+            className="leading-loose"
+            textColor="text-brand-blue-900"
+          >
             E-mail sent
           </Typography>
           <Typography variant="body">
-            Please check your e-mail {email} for a sign in link.
+            Please check your e-mail <span className="font-bold">{email}</span>{' '}
+            for a sign in link.
           </Typography>
         </div>
       ) : (
         <>
           {title && (
-            <Typography variant="h4" className="leading-loose">
+            <Typography
+              variant="h4"
+              className="leading-loose"
+              textColor="text-brand-blue-900"
+            >
               {title}
             </Typography>
           )}

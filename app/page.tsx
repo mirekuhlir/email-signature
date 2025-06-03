@@ -206,7 +206,7 @@ export default async function Home() {
                 Do I have to pay a recurring fee?
               </h3>
               <p className="text-gray-600">
-                No, you pay only once and can use your signature forever.
+                No, you pay only once and can use your signatures forever.
               </p>
             </div>
           </div>
