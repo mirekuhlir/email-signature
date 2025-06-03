@@ -98,6 +98,7 @@ export const EmailTemplateView = (props: any) => {
           <tr key={`tr-${row.id}`}>
             <td
               style={{
+                padding: padding,
                 backgroundColor: backgroundColor,
                 borderRadius: borderRadius,
                 lineHeight: 0,
@@ -118,15 +119,7 @@ export const EmailTemplateView = (props: any) => {
                 /*   ...row.style, */
               }}
             >
-              <span
-                style={{
-                  padding: padding,
-                  display: 'inline-block',
-                  width: '100%',
-                }}
-              >
-                {content}
-              </span>
+              {content}
             </td>
           </tr>
         );
