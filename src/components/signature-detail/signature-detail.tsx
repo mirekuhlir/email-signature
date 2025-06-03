@@ -138,14 +138,14 @@ export const SignatureDetail = (props: any) => {
               <Typography variant="large">
                 Try all features free for{' '}
                 {remainingTrialDays > 0
-                  ? `${remainingTrialDays} more days`
+                  ? `${remainingTrialDays} days`
                   : '30 days'}
               </Typography>
 
               <Typography variant="body">
                 Use all features for free for{' '}
                 {remainingTrialDays > 0
-                  ? `${remainingTrialDays} more days`
+                  ? `${remainingTrialDays} days`
                   : '30 days'}
                 . If you are satisfied, you pay a one-time fee and your
                 signatures will remain yours forever. If you decide not to
