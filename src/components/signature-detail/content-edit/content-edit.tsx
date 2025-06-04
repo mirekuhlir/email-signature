@@ -977,7 +977,7 @@ const getContentType = (
               setContentEdit={setContentEdit}
               addEditingSectionId={addEditingSectionId}
               removeEditingSectionId={removeEditingSectionId}
-              title="Add link to website"
+              title="Add link to text"
             />
           }
         />
