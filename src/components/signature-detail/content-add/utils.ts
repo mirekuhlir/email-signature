@@ -67,21 +67,21 @@ export const getImage = () => {
 export const getEmailTextExample = () => {
     return {
         email: "example@email.com",
-        prefix: "email: ",
+        prefix: "e: ",
     };
 };
 
 export const getPhoneTextExample = () => {
     return {
         phone: "+1 123 456 7890",
-        prefix: "tel: ",
+        prefix: "p: ",
     };
 };
 
 export const getWebsiteTextExample = () => {
     return {
         website: "www.example.com",
-        prefix: "web: ",
+        prefix: "w: ",
     };
 };
 
