@@ -23,7 +23,9 @@ export default async function Home() {
       <section className="bg-gray-50 py-20">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-2xl md:text-4xl font-bold mb-6 mt-12 text-brand-blue-900">
-            Create a professional email signature in just minutes
+            Create a professional
+            <span className="text-orange-600"> email signature</span> in{' '}
+            <span className="text-orange-600">just minutes</span>
           </h1>
           <p className="text-lg md:text-xl mx-auto mb-8 text-brand-purple-900">
             Make your emails trustworthy and attractive.
