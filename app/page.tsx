@@ -5,7 +5,15 @@ import { EmailTemplateView } from '@/src/components/signature-detail/content-vie
 import { signature_a } from '@/src/templates/signature_a';
 import { signature_d } from '@/src/templates/signature_d';
 import { signature_i } from '@/src/templates/signature_i';
-import { Handshake, ChartLine, Award } from 'lucide-react';
+import {
+  Handshake,
+  ChartLine,
+  Award,
+  Sparkles,
+  CreditCard,
+  Gem,
+  ShieldCheck,
+} from 'lucide-react';
 
 export default async function Home() {
   const supabase = await createClient();
@@ -188,6 +196,82 @@ export default async function Home() {
         </div>
       </section> */}
 
+      <section className="py-14 bg-white">
+        <div className="container mx-auto px-4 max-w-4xl text-center">
+          <h2 className="text-2xl md:text-3xl font-bold text-brand-blue-900 mb-6">
+            Try all features free for 30 days
+          </h2>
+
+          <div className="grid grid-cols-1 gap-y-8 text-left max-w-2xl mx-auto mb-10">
+            <div className="flex items-start space-x-4">
+              <div>
+                <Sparkles className="w-10 h-10 text-orange-500" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-lg text-gray-800 mb-1">
+                  Full Access to Premium Features
+                </h3>
+                <p className="text-gray-600">
+                  Explore everything our platform has to offer for 30 days
+                  without any limitations.
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start space-x-4">
+              <div>
+                <CreditCard className="w-10 h-10 text-orange-500" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-lg text-gray-800 mb-1">
+                  No Credit Card Required
+                </h3>
+                <p className="text-gray-600">
+                  Start your trial instantly. We don&apos;t ask for any payment
+                  information upfront.
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start space-x-4">
+              <div>
+                <Gem className="w-10 h-10 text-orange-500" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-lg text-gray-800 mb-1">
+                  Keep Your Signatures Forever
+                </h3>
+                <p className="text-gray-600">
+                  After your trial, a single one-time payment lets you keep your
+                  signatures forever.
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start space-x-4">
+              <div>
+                <ShieldCheck className="w-10 h-10 text-orange-500" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-lg text-gray-800 mb-1">
+                  No Strings Attached
+                </h3>
+                <p className="text-gray-600">
+                  If you decide not to continue, your data will be automatically
+                  and safely removed.
+                </p>
+              </div>
+            </div>
+          </div>
+          <p className="text-lg text-gray-600 mb-12">
+            After your trial, a single one-time payment of $30 lets you keep
+            your signatures forever.
+          </p>
+          <div className="flex justify-center">
+            <StyledLink variant="button-orange" size="xl" href="/templates">
+              Try for free
+            </StyledLink>
+          </div>
+        </div>
+      </section>
+
       {/* FAQ Section */}
       <section className="py-14 bg-gray-50">
         <div className="container mx-auto px-4 max-w-2xl">
@@ -216,7 +300,7 @@ export default async function Home() {
       </section>
 
       {/* CTA Section */}
-      <section id="get-started" className="py-14 bg-white">
+      {/*       <section id="get-started" className="py-14 bg-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-2xl md:text-3xl font-bold mb-6 text-brand-blue-900">
             Start with your own email signature today
@@ -225,7 +309,7 @@ export default async function Home() {
             Create signature
           </StyledLink>
         </div>
-      </section>
+      </section> */}
 
       {/* Footer */}
       <footer className="bg-gray-800 text-white py-8 mt-auto">
