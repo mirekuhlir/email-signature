@@ -10,7 +10,7 @@ const getLocalizedContent = () => {
         emailValue: "example@email.com",
         websitePrefix: "🌐 ",
         websiteValue: "example.com",
-        company: "NexusLogistics",
+        company: "Nexus Logistics",
         address: "500 Express Way, Suite B, Rapid City, RC 99001",
         slogan: "Keeping Your Goods Moving, On Time.",
     };
