@@ -11,7 +11,7 @@ const corsHeaders = {
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL") || "";
 const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ||
     "";
-const SUPABASE_ANON_KEY = Deno.env.get("SUPABASE_ANON_KEY") || "";
+
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
 // Helper function to perform batch soft delete
@@ -95,6 +95,7 @@ serve(async (req: Request): Promise<Response> => {
         }
 
         if (!expiredTrials || expiredTrials.length === 0) {
+            console.log("No trials found expiring in the last hour");
             return new Response(
                 JSON.stringify({
                     message: "No trials found expiring in the last hour",
@@ -214,6 +215,11 @@ serve(async (req: Request): Promise<Response> => {
                 `Batch soft deleted trials for ${invalidUserIds.length} users`,
             );
         }
+
+        console.log("Invalid user IDs:", invalidUserIds);
+        console.log("Valid user IDs:", validUserIds);
+        console.log("Soft deleted user IDs:", softDeletedDetails);
+        console.log("Valid users details:", validUsersDetails);
 
         return new Response(
             JSON.stringify({
