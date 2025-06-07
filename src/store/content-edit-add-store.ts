@@ -25,7 +25,7 @@ export interface StoreState {
     rows: any;
     colors?: string[];
   }) => void;
-  addRow: (path: string, type: ContentType) => void;
+  addRow: (path: string, type: ContentType, insertIndex?: number) => void;
   addRowTable: (position: "start" | "end", type: ContentType) => void;
   deleteRow: (
     path: string,
@@ -63,7 +63,7 @@ export const useSignatureStore = create<StoreState>((set, get) => {
       set({ rows, colors });
     },
 
-    addRow: (path: string, type: ContentType) =>
+    addRow: (path: string, type: ContentType, insertIndex?: number) =>
       set((state) => {
         const cloneRows = cloneDeep(state.rows);
         const currentRowsInColumn = lGet(cloneRows, path, []);
@@ -162,7 +162,22 @@ export const useSignatureStore = create<StoreState>((set, get) => {
           }
         }
 
-        lSet(cloneRows, path, [...currentRowsInColumn, newRowContent]);
+        // Insert at specific index if provided, otherwise append to end
+        let updatedRows;
+        if (
+          insertIndex !== undefined && insertIndex >= 0 &&
+          insertIndex <= currentRowsInColumn.length
+        ) {
+          updatedRows = [
+            ...currentRowsInColumn.slice(0, insertIndex),
+            newRowContent,
+            ...currentRowsInColumn.slice(insertIndex),
+          ];
+        } else {
+          updatedRows = [...currentRowsInColumn, newRowContent];
+        }
+
+        lSet(cloneRows, path, updatedRows);
 
         return { rows: cloneRows };
       }),

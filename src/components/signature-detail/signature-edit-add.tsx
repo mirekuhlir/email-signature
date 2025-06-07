@@ -279,6 +279,24 @@ export const EmailTemplateEdit = (props: any) => {
                           <Button
                             variant="ghost"
                             onClick={() => {
+                              const nextIndex = index + 1;
+                              const nextEditRowPath = path
+                                ? `${path}[${nextIndex}]`
+                                : `[${nextIndex}]`;
+
+                              setContentEdit({
+                                editPath: null,
+                                addPath: path || '',
+                                nextEditPath: nextEditRowPath,
+                              });
+                            }}
+                          >
+                            Add
+                          </Button>
+                          <Hr className="my-2" />
+                          <Button
+                            variant="ghost"
+                            onClick={() => {
                               moveRowUp(currentPath, signatureId as string);
                             }}
                           >

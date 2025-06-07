@@ -55,7 +55,17 @@ export const ContentAdd = (props: ContentAddProps) => {
       return;
     }
 
-    addRow(path, type);
+    // Extract insert index from nextEditPath if available
+    let insertIndex: number | undefined;
+    if (contentEdit.nextEditPath) {
+      // Extract the last index from the path (e.g., "[1]" -> 1, or "rows[2]" -> 2)
+      const matches = contentEdit.nextEditPath.match(/\[(\d+)\](?!.*\[)/);
+      if (matches && matches[1]) {
+        insertIndex = parseInt(matches[1], 10);
+      }
+    }
+
+    addRow(path, type, insertIndex);
     setContentEdit({
       editPath: contentEdit.nextEditPath,
       addPath: null,
