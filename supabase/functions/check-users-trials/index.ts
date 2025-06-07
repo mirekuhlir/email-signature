@@ -14,38 +14,6 @@ const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ||
 const SUPABASE_ANON_KEY = Deno.env.get("SUPABASE_ANON_KEY") || "";
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
-// Helper function to check authorization
-function isAuthorized(req: Request): boolean {
-    const authHeader = req.headers.get("Authorization");
-    const apiKeyHeader = req.headers.get("apikey");
-
-    // Allow requests with anon key in Authorization header (for cron jobs)
-    if (authHeader && authHeader.replace("Bearer ", "") === SUPABASE_ANON_KEY) {
-        console.log("Authorized via anon key in Authorization header");
-        return true;
-    }
-
-    // Allow requests with service role key in Authorization header
-    if (
-        authHeader &&
-        authHeader.replace("Bearer ", "") === SUPABASE_SERVICE_ROLE_KEY
-    ) {
-        return true;
-    }
-
-    // Allow requests with anon key in apikey header (for cron jobs)
-    if (apiKeyHeader === SUPABASE_ANON_KEY) {
-        return true;
-    }
-
-    // Allow requests with service role key in apikey header
-    if (apiKeyHeader === SUPABASE_SERVICE_ROLE_KEY) {
-        return true;
-    }
-
-    return false;
-}
-
 // Helper function to perform batch soft delete
 async function softDeleteUserTrials(userIds: string[], timestamp: string) {
     if (userIds.length === 0) return { error: null };
@@ -90,21 +58,6 @@ serve(async (req: Request): Promise<Response> => {
 
     if (method === "OPTIONS") {
         return new Response("ok", { headers: corsHeaders });
-    }
-
-    if (!isAuthorized(req)) {
-        return new Response(
-            JSON.stringify({
-                error: "Unauthorized",
-            }),
-            {
-                status: 401,
-                headers: {
-                    "Content-Type": "application/json",
-                    ...corsHeaders,
-                },
-            },
-        );
     }
 
     try {
