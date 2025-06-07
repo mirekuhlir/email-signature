@@ -19,6 +19,12 @@ function isAuthorized(req: Request): boolean {
     const authHeader = req.headers.get("Authorization");
     const apiKeyHeader = req.headers.get("apikey");
 
+    // Allow requests with anon key in Authorization header (for cron jobs)
+    if (authHeader && authHeader.replace("Bearer ", "") === SUPABASE_ANON_KEY) {
+        console.log("Authorized via anon key in Authorization header");
+        return true;
+    }
+
     // Allow requests with service role key in Authorization header
     if (
         authHeader &&
