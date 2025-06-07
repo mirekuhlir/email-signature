@@ -4,6 +4,7 @@ import { Header } from '@/src/components/header';
 import { Container } from '@/src/components/ui/container';
 import { Typography } from '@/src/components/ui/typography';
 import { getIsPremium } from '@/src/utils/premium';
+import StyledLink from '@/src/components/ui/styled-link';
 
 export default async function Account() {
   const supabase = await createClient();
@@ -16,8 +17,8 @@ export default async function Account() {
     return redirect('/sign-in');
   }
 
-  const validFrom = user.app_metadata.premium.validFrom;
-  const validTo = user.app_metadata.premium.validTo;
+  const validFrom = user.app_metadata.premium?.validFrom;
+  const validTo = user.app_metadata.premium?.validTo;
 
   const isPremium = await getIsPremium(user);
 
@@ -41,6 +42,17 @@ export default async function Account() {
                     </Typography>
                     <Typography>{isPremium ? 'Active' : 'Inactive'}</Typography>
                   </div>
+                  {!isPremium && (
+                    <div className="flex justify-end sm:justify-start">
+                      <StyledLink
+                        variant="button-brand-blue"
+                        href="/pricing"
+                        className="mt-4"
+                      >
+                        Upgrade to premium
+                      </StyledLink>
+                    </div>
+                  )}
                   {validFrom && (
                     <div className="flex items-center gap-2">
                       <Typography className="font-semibold">
