@@ -64,6 +64,10 @@ CREATE OR REPLACE FUNCTION "public"."handle_new_user"() RETURNS "trigger"
 begin
   insert into public.users (id, email)
   values (new.id, new.email);
+  
+  insert into public.user_trials (user_id, trial_expires_at)
+  values (new.id, now() + interval '30 days');
+  
   return new;
 end;
 $$;
@@ -90,6 +94,20 @@ CREATE TABLE IF NOT EXISTS "public"."signatures" (
 ALTER TABLE "public"."signatures" OWNER TO "postgres";
 
 
+CREATE TABLE IF NOT EXISTS "public"."user_trials" (
+    "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
+    "user_id" "uuid" DEFAULT "auth"."uid"(),
+    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    "updated_at" timestamp with time zone,
+    "trial_expires_at" timestamp with time zone NOT NULL,
+    "soft_deleted_at" timestamp with time zone,
+    "deleted_at" timestamp with time zone
+);
+
+
+ALTER TABLE "public"."user_trials" OWNER TO "postgres";
+
+
 CREATE TABLE IF NOT EXISTS "public"."users" (
     "id" "uuid" DEFAULT "auth"."uid"() NOT NULL,
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
@@ -107,8 +125,18 @@ ALTER TABLE ONLY "public"."signatures"
 
 
 
+ALTER TABLE ONLY "public"."user_trials"
+    ADD CONSTRAINT "user_trials_pkey" PRIMARY KEY ("id");
+
+
+
 ALTER TABLE ONLY "public"."users"
     ADD CONSTRAINT "users_pkey" PRIMARY KEY ("id");
+
+
+
+ALTER TABLE ONLY "public"."user_trials"
+    ADD CONSTRAINT "user_trials_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE CASCADE;
 
 
 
@@ -116,7 +144,14 @@ CREATE POLICY "Enable users to view their own data only" ON "public"."signatures
 
 
 
+CREATE POLICY "Enable users to view their own trial data only" ON "public"."user_trials" FOR SELECT TO "authenticated" USING ((( SELECT "auth"."uid"() AS "uid") = "user_id"));
+
+
+
 ALTER TABLE "public"."signatures" ENABLE ROW LEVEL SECURITY;
+
+
+ALTER TABLE "public"."user_trials" ENABLE ROW LEVEL SECURITY;
 
 
 ALTER TABLE "public"."users" ENABLE ROW LEVEL SECURITY;
@@ -326,6 +361,12 @@ GRANT ALL ON FUNCTION "public"."handle_new_user"() TO "service_role";
 GRANT ALL ON TABLE "public"."signatures" TO "anon";
 GRANT ALL ON TABLE "public"."signatures" TO "authenticated";
 GRANT ALL ON TABLE "public"."signatures" TO "service_role";
+
+
+
+GRANT ALL ON TABLE "public"."user_trials" TO "anon";
+GRANT ALL ON TABLE "public"."user_trials" TO "authenticated";
+GRANT ALL ON TABLE "public"."user_trials" TO "service_role";
 
 
 
