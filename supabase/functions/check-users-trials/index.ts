@@ -5,7 +5,7 @@ const corsHeaders = {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Headers":
         "authorization, x-client-info, apikey, Content-Type",
-    "Access-Control-Allow-Methods": "OPTIONS, POST",
+    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
 };
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL") || "";
@@ -57,16 +57,6 @@ serve(async (req: Request): Promise<Response> => {
 
     if (method === "OPTIONS") {
         return new Response("ok", { headers: corsHeaders });
-    }
-
-    if (method !== "POST") {
-        return new Response(
-            JSON.stringify({ error: "Method not allowed" }),
-            {
-                status: 405,
-                headers: { "Content-Type": "application/json", ...corsHeaders },
-            },
-        );
     }
 
     try {
