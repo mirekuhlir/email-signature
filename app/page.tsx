@@ -284,7 +284,7 @@ export default async function Home() {
                 Can I use the signature in Gmail or Outlook?
               </h3>
               <p className="text-gray-600">
-                Yes, the signature can be used in all common email clients.
+                Yes, the signature can be used in all email clients.
               </p>
             </div>
             <div>
