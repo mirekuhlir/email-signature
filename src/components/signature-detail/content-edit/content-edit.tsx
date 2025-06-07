@@ -7,8 +7,8 @@ import { ContentType, TEMP_SIGNATURE } from '@/src/const/content';
 import { Button } from '@/src/components/ui/button';
 import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
 import { ImageEditContent } from './image-edit-content';
-import Modal from '@/src/components/ui/modal';
 import { Typography } from '@/src/components/ui/typography';
+import { DeleteConfirmationModal } from '@/src/components/ui/delete-confirmation-modal';
 import Slider from '@/src/components/ui/slider';
 import { CollapsibleSection } from '@/src/components/ui/collapsible-section';
 import { getTemplateBySlug } from '@/src/templates';
@@ -321,11 +321,11 @@ export const ContentEdit = (props: any) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const handleDeleteRow = useCallback(async () => {
-    setIsDeleteModalOpen(false);
     setIsSavingSignature(true);
 
     try {
       await deleteRow(contentPathToEdit, signatureId, isSignedIn);
+      setContentEdit({ editPath: null });
     } catch (error) {
       toast({
         description: 'Failed to delete row. Please try again.',
@@ -335,7 +335,7 @@ export const ContentEdit = (props: any) => {
       console.error(error);
     } finally {
       setIsSavingSignature(false);
-      setContentEdit({ editPath: null });
+      setIsDeleteModalOpen(false);
     }
   }, [
     contentPathToEdit,
@@ -806,33 +806,14 @@ export const ContentEdit = (props: any) => {
                 </>
               )}
 
-              <Modal size="small" isOpen={isDeleteModalOpen}>
-                <div className="p-2">
-                  <Typography variant="lead">
-                    Delete {getContentTypeName(content.type)}
-                  </Typography>
-                  <Typography variant="body">
-                    Are you sure you want to delete this{' '}
-                    {getContentTypeName(content.type)}?
-                  </Typography>
-                  <div className="mt-8 flex justify-between">
-                    <Button
-                      variant="outline"
-                      onClick={() => {
-                        setIsDeleteModalOpen(false);
-                      }}
-                    >
-                      Cancel
-                    </Button>
-                    <Button
-                      variant="red"
-                      onClick={async () => handleDeleteRow()}
-                    >
-                      Delete
-                    </Button>
-                  </div>
-                </div>
-              </Modal>
+              <DeleteConfirmationModal
+                isOpen={isDeleteModalOpen}
+                onClose={() => setIsDeleteModalOpen(false)}
+                onConfirm={handleDeleteRow}
+                title={`Delete ${getContentTypeName(content.type)}`}
+                message={`Are you sure you want to delete this ${getContentTypeName(content.type)}?`}
+                isLoading={isSavingSignature}
+              />
             </>
           )}
         <PreviewActionPanel

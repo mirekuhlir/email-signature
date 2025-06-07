@@ -16,6 +16,7 @@ import { MAX_ROWS } from '@/supabase/functions/_shared/const';
 import { useMediaQuery } from '@/src/hooks/useMediaQuery';
 import { MEDIA_QUERIES } from '@/src/constants/mediaQueries';
 import { getWidthHeightStyle } from './content-view/utils';
+import { DeleteConfirmationModal } from '@/src/components/ui/delete-confirmation-modal';
 
 // Helper function to determine if a color is dark
 function isColorDark(colorString: string): boolean {
@@ -42,13 +43,30 @@ function isColorDark(colorString: string): boolean {
 export const EmailTemplateEdit = (props: any) => {
   const { rows, isSignedIn, templateSlug } = props;
   const { setContentEdit, contentEdit } = useContentEditStore();
-  const { moveRowUp, moveRowDown, isSavingOrder } = useSignatureStore();
+  const { moveRowUp, moveRowDown, isSavingOrder, deleteRow } =
+    useSignatureStore();
   const { id: signatureId } = useParams();
   const containerRef = useRef<HTMLDivElement>(null);
 
   const isMobile = useMediaQuery(MEDIA_QUERIES.MOBILE);
 
   const [isBackgroundDark, setIsBackgroundDark] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [rowToDelete, setRowToDelete] = useState<string | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const handleDeleteRow = async () => {
+    if (rowToDelete) {
+      setIsDeleting(true);
+      try {
+        await deleteRow(rowToDelete, signatureId as string, isSignedIn);
+      } finally {
+        setIsDeleting(false);
+        setIsDeleteModalOpen(false);
+        setRowToDelete(null);
+      }
+    }
+  };
 
   useEffect(() => {
     let bgColor = 'transparent'; // Default to transparent or a known light color
@@ -310,6 +328,16 @@ export const EmailTemplateEdit = (props: any) => {
                           >
                             Move down
                           </Button>
+                          <Hr className="my-2" />
+                          <Button
+                            variant="ghost"
+                            onClick={() => {
+                              setRowToDelete(currentPath);
+                              setIsDeleteModalOpen(true);
+                            }}
+                          >
+                            Delete
+                          </Button>
                         </div>
                       </ContextMenu>
                     )}
@@ -422,6 +450,18 @@ export const EmailTemplateEdit = (props: any) => {
           signatureId={signatureId}
         />
       )}
+
+      <DeleteConfirmationModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => {
+          setIsDeleteModalOpen(false);
+          setRowToDelete(null);
+        }}
+        onConfirm={handleDeleteRow}
+        title="Delete row"
+        message="Are you sure you want to delete this row?"
+        isLoading={isDeleting}
+      />
     </>
   );
 };
