@@ -32,17 +32,22 @@ function isUserValid(
     userData: { valid_from?: string; valid_to?: string } | null,
     now: Date,
 ): boolean {
-    if (!userData) return false;
-
-    // Check valid_from
-    if (userData.valid_from) {
-        const validFrom = new Date(userData.valid_from);
-        if (now < validFrom) {
-            return false;
-        }
+    if (!userData) {
+        return false;
     }
 
-    // Check valid_to (null means unlimited validity)
+    // Pokud nemá valid_from, nikdy neměl placenou verzi
+    if (!userData.valid_from) {
+        return false;
+    }
+
+    // Check valid_from - musí být v minulosti
+    const validFrom = new Date(userData.valid_from);
+    if (now < validFrom) {
+        return false;
+    }
+
+    // Check valid_to - null znamená neomezenou platnost
     if (userData.valid_to) {
         const validTo = new Date(userData.valid_to);
         if (now > validTo) {
@@ -63,7 +68,6 @@ serve(async (req: Request): Promise<Response> => {
     try {
         const now = new Date();
         const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000);
-
         console.log(
             `Checking trials expiring between ${oneHourAgo.toISOString()} and ${now.toISOString()}`,
         );
@@ -78,7 +82,8 @@ serve(async (req: Request): Promise<Response> => {
             .is("soft_deleted_at", null);
 
         if (trialsError) {
-            console.error("Error fetching expired trials:", trialsError);
+            console.log("Error fetching expired trials:", trialsError);
+
             return new Response(
                 JSON.stringify({
                     error: "Failed to fetch expired trials",
@@ -96,6 +101,7 @@ serve(async (req: Request): Promise<Response> => {
 
         if (!expiredTrials || expiredTrials.length === 0) {
             console.log("No trials found expiring in the last hour");
+
             return new Response(
                 JSON.stringify({
                     message: "No trials found expiring in the last hour",
@@ -111,7 +117,6 @@ serve(async (req: Request): Promise<Response> => {
                 },
             );
         }
-
         console.log(`Found ${expiredTrials.length} expired trials`);
 
         const invalidUserIds: string[] = [];
@@ -193,7 +198,7 @@ serve(async (req: Request): Promise<Response> => {
         );
 
         if (updateError) {
-            console.error(
+            console.log(
                 `Error batch soft deleting trials for users:`,
                 updateError,
             );
@@ -244,7 +249,8 @@ serve(async (req: Request): Promise<Response> => {
             },
         );
     } catch (error) {
-        console.error("Error in trial check:", error);
+        console.log("Error in trial check:", error);
+
         return new Response(
             JSON.stringify({
                 error: "Internal server error",
