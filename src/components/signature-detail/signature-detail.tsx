@@ -16,6 +16,8 @@ import { ChevronLeft, Edit2, Copy, Eye } from 'lucide-react';
 import { Container } from '../ui/container';
 import { TEMP_SIGNATURE } from '@/src/const/content';
 import TrialBanner from '../trial/trial-banner';
+import { useMediaQuery } from '@/src/hooks/useMediaQuery';
+import { MEDIA_QUERIES } from '@/src/constants/mediaQueries';
 
 export const SignatureDetail = (props: any) => {
   const { signatureDetail, isSignedIn, templateSlug, user } = props;
@@ -23,8 +25,10 @@ export const SignatureDetail = (props: any) => {
   const { rows, initSignature } = useSignatureStore();
   const { contentEdit } = useContentEditStore();
   const [isEdit, setIsEdit] = useState(false);
+  const [isSticky, setIsSticky] = useState(false);
   const { modal } = useModal();
   const { showAuthModal } = useAuthModal();
+  const isMobile = useMediaQuery(MEDIA_QUERIES.MOBILE);
 
   /*  console.warn('    user?.email_confirmed_at', user?.email_confirmed_at); */
 
@@ -49,6 +53,29 @@ export const SignatureDetail = (props: any) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!isMobile) {
+        const shouldBeSticky = window.scrollY > 1;
+        setIsSticky(shouldBeSticky);
+      } else {
+        setIsSticky(false);
+      }
+    };
+
+    // Only add scroll listener when in edit mode with edit/column path
+    if (contentEdit.editPath || contentEdit.columnPath) {
+      window.addEventListener('scroll', handleScroll);
+      window.addEventListener('resize', handleScroll); // Handle screen size changes
+      // Call once to set initial state
+      handleScroll();
+      return () => {
+        window.removeEventListener('scroll', handleScroll);
+        window.removeEventListener('resize', handleScroll);
+      };
+    }
+  }, [contentEdit.editPath, contentEdit.columnPath]);
+
   const showCopyInstructionsModal = () => {
     modal({
       content: <CopyInstructionsModalContent />,
@@ -58,6 +85,15 @@ export const SignatureDetail = (props: any) => {
 
   const isPreview =
     !contentEdit.editPath && !contentEdit.columnPath && !contentEdit.addPath;
+
+  // Debug info
+  console.log('Content edit state:', {
+    editPath: contentEdit.editPath,
+    columnPath: contentEdit.columnPath,
+    addPath: contentEdit.addPath,
+    isSticky,
+    shouldShowSticky: contentEdit.editPath || contentEdit.columnPath,
+  });
 
   return (
     <div className="pb-8">
@@ -96,7 +132,9 @@ export const SignatureDetail = (props: any) => {
       </Container>
 
       {(contentEdit.editPath || contentEdit.columnPath) && (
-        <div className="flex flex-col">
+        <div
+          className={`${isSticky ? 'sticky top-0 z-10 bg-white pt-20' : ''}`}
+        >
           <SignaturePreview />
         </div>
       )}
