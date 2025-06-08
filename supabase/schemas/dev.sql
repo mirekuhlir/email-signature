@@ -80,7 +80,7 @@ begin
   values (new.id, new.email);
   
   insert into public.user_trials (user_id, trial_expires_at)
-  values (new.id, now() + interval '30 days');
+  values (new.id, now() + interval '40 days');
   
   return new;
 end;
