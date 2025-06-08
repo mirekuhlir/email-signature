@@ -233,7 +233,7 @@ export const SignaturesList = (props: any) => {
         {signatures.length < MAX_SIGNATURES && (
           <div className="flex justify-center sm:justify-end pt-8 pb-10 sm:pb-2 w-full">
             <Button size="xl" onClick={() => setIsModalOpen(true)}>
-              <PlusIcon className="w-6 h-6 mr-4" />
+              <PlusIcon className="w-7 h-7 mr-4" />
               Create new signature
             </Button>
           </div>
