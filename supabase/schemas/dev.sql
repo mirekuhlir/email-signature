@@ -144,8 +144,7 @@ ALTER TABLE ONLY "public"."user_trials"
 
 
 
-ALTER TABLE ONLY "public"."users"
-    ADD CONSTRAINT "users_pkey" PRIMARY KEY ("id");
+CREATE UNIQUE INDEX users_pkey ON public.users USING btree (id);
 
 
 
