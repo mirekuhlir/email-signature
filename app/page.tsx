@@ -213,7 +213,7 @@ export default async function Home() {
                   Full Access to Premium Features
                 </h3>
                 <p className="text-gray-600">
-                  {`Explore everything our platform has to offer for ${TRIAL_LENGTH_IN_DAYS} days without any limitations.`}
+                  {`Explore everything our platform has to offer for ${TRIAL_LENGTH_IN_DAYS} days with no limitations.`}
                 </p>
               </div>
             </div>

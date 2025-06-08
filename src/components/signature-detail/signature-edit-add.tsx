@@ -173,7 +173,7 @@ export const EmailTemplateEdit = (props: any) => {
       // Get total rows in this column if indices are valid
       const totalRowsInColumn = isValid && rows ? rows.length : 0;
       // Show context menu only if there's more than one row in the column
-      const showContextMenu = totalRowsInColumn > 1;
+      const showContextMenu = totalRowsInColumn > 0;
 
       if (isFirstRow) {
         return (
