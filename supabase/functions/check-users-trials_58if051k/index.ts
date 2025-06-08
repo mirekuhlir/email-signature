@@ -85,10 +85,8 @@ serve(async (req: Request): Promise<Response> => {
 
             // User is invalid if:
             // 1. No valid_from (never had paid version)
-            // 2. OR valid_from is in the future
-            // 3. OR valid_to is in the past (expired)
+            // 2. OR valid_to is in the past (expired)
             return !user.valid_from ||
-                new Date(user.valid_from) > now ||
                 (user.valid_to && new Date(user.valid_to) < now);
         });
 
