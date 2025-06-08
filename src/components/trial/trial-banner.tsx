@@ -26,6 +26,7 @@ const calculateRemainingTrialDays = (emailConfirmedAt: string): number => {
   return Math.max(0, daysDifference);
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const TrialBanner = (user: any) => {
   // Calculate remaining trial days
   const remainingTrialDays = calculateRemainingTrialDays(
