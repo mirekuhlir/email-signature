@@ -789,8 +789,6 @@ export const ContentEdit = (props: any) => {
             <>
               {canDisplayDeleteButton && (
                 <CollapsibleSection title="Delete">
-                  <Hr className="mb-4 mt-4" />
-
                   <Typography variant="labelBase" className="mb-2">
                     Delete {getContentTypeName(content.type)}
                   </Typography>
