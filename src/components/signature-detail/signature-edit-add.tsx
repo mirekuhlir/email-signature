@@ -248,21 +248,20 @@ export const EmailTemplateEdit = (props: any) => {
                   borderTopWidth: borderTopWidth,
                   borderTopColor: borderTopColor,
                   borderTopStyle: borderTopStyle,
-                  width: width,
-                  height: height,
+
                   verticalAlign: 'middle',
                   ...row.style,
                 }}
               >
-                <span
+                <div
                   style={{
-                    display: 'inline-block',
-                    width: '100%',
+                    width: width,
+                    height: height,
                     padding: padding,
                   }}
                 >
                   {content}
-                </span>
+                </div>
               </div>
             </div>
 

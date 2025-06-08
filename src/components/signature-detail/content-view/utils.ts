@@ -84,6 +84,6 @@ export const getWidthHeightStyle = (component: any) => {
   }
   return {
     width: width === 0 ? "100%" : `${width}px`,
-    height: height === 0 ? 0 : `${height}px`,
+    height: height === 0 ? "auto" : `${height}px`,
   };
 };

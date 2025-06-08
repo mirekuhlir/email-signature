@@ -114,12 +114,9 @@ export const EmailTemplateView = (props: any) => {
                 borderTopWidth: borderTopWidth,
                 borderTopColor: borderTopColor,
                 borderTopStyle: borderTopStyle,
-                width: width,
-                height: height,
-                /*   ...row.style, */
               }}
             >
-              {content}
+              <div style={{ width: width, height: height }}>{content}</div>
             </td>
           </tr>
         );
