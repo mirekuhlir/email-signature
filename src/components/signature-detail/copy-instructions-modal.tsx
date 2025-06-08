@@ -2,6 +2,7 @@ import { Typography } from '@/src/components/ui/typography';
 import { useState } from 'react';
 import { Button } from '@/src/components/ui/button';
 import { EmailIos } from '@/src/icons/EmailiOS';
+import { Container } from '../ui/container';
 
 type EmailClient = 'gmail' | 'outlook' | 'apple-mail';
 
@@ -57,52 +58,54 @@ export const CopyInstructionsModalContent = () => {
   );
 
   return (
-    <div className="py-4">
-      <div className="space-y-5">
-        <div className="flex justify-center">
-          <Typography variant="h4" textColor="text-brand-blue-900">
-            Your signature has been copied to clipboard!
-          </Typography>
-        </div>
-        <div className="mb-3 flex justify-center">
-          <Typography variant="large" textColor="text-gray-700">
-            Select your email client:
-          </Typography>
-        </div>
-      </div>
-
-      <div className="flex flex-col items-center space-y-3">
-        {instructions.map((instruction) => (
-          <div key={instruction.key}>
-            <Button
-              variant="modalTab"
-              selected={selectedClient === instruction.key}
-              onClick={() => setSelectedClient(instruction.key)}
-              size="modalTab"
-              buttonClassName="justify-start"
-            >
-              <div className="flex items-center p-2">
-                <div className="mr-1">{instruction.icon}</div>
-                <div>{instruction.title}</div>
-              </div>
-            </Button>
-          </div>
-        ))}
-      </div>
-
-      {currentInstructions && (
-        <div className="space-y-2 p-4 bg-gray-100 rounded-lg mt-4">
-          <Typography variant="h4" weight="bold" textColor="text-gray-800">
-            {currentInstructions.title}:
-          </Typography>
-          {currentInstructions.steps.map((step, index) => (
-            <Typography key={index} variant="body" textColor="text-gray-700">
-              {index + 1}. {step}
+    <Container>
+      <div className="py-4">
+        <div className="space-y-5">
+          <div className="flex justify-center">
+            <Typography variant="h4" textColor="text-brand-blue-900">
+              Your signature has been copied to clipboard!
             </Typography>
+          </div>
+          <div className="mb-3 flex justify-center">
+            <Typography variant="large" textColor="text-gray-700">
+              Select your email client:
+            </Typography>
+          </div>
+        </div>
+
+        <div className="flex flex-col items-center space-y-3">
+          {instructions.map((instruction) => (
+            <div key={instruction.key}>
+              <Button
+                variant="modalTab"
+                selected={selectedClient === instruction.key}
+                onClick={() => setSelectedClient(instruction.key)}
+                size="modalTab"
+                buttonClassName="justify-start"
+              >
+                <div className="flex items-center p-2">
+                  <div className="mr-4">{instruction.icon}</div>
+                  <div>{instruction.title}</div>
+                </div>
+              </Button>
+            </div>
           ))}
         </div>
-      )}
-    </div>
+
+        {currentInstructions && (
+          <div className="space-y-2 p-4 bg-gray-100 rounded-lg mt-4">
+            <Typography variant="large" weight="bold" textColor="text-gray-800">
+              {currentInstructions.title}:
+            </Typography>
+            {currentInstructions.steps.map((step, index) => (
+              <Typography key={index} variant="body" textColor="text-gray-700">
+                {index + 1}. {step}
+              </Typography>
+            ))}
+          </div>
+        )}
+      </div>
+    </Container>
   );
 };
 
