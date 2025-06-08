@@ -66,7 +66,7 @@ export const Header = (props: any) => {
               onClick={() =>
                 showAuthModal({
                   title: 'Sign in',
-                  description: 'Please enter your e-mail to sign in.',
+                  description: 'Please enter your email to sign in.',
                 })
               }
             >

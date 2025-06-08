@@ -21,7 +21,7 @@ export const CONTENT_TYPES = [
     type: ContentType.IMAGE,
   },
   {
-    name: 'e-mail',
+    name: 'email',
     description: 'Any email address (e.g. john.doe@company.com).',
     content: `${getEmailTextExample().prefix}${getEmailTextExample().email}`,
     type: ContentType.EMAIL,
