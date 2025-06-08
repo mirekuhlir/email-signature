@@ -14,6 +14,7 @@ import {
   Gem,
   ShieldCheck,
 } from 'lucide-react';
+import { TRIAL_LENGTH_IN_DAYS } from '@/supabase/functions/_shared/const';
 
 export default async function Home() {
   const supabase = await createClient();
@@ -199,7 +200,7 @@ export default async function Home() {
       <section className="py-14 bg-white">
         <div className="container mx-auto px-4 max-w-4xl text-center">
           <h2 className="text-2xl md:text-3xl font-bold text-brand-blue-900 mb-6">
-            Try all features free for 30 days
+            Try all features free for {TRIAL_LENGTH_IN_DAYS} days
           </h2>
 
           <div className="grid grid-cols-1 gap-y-8 text-left max-w-2xl mx-auto mb-10">
@@ -212,8 +213,7 @@ export default async function Home() {
                   Full Access to Premium Features
                 </h3>
                 <p className="text-gray-600">
-                  Explore everything our platform has to offer for 30 days
-                  without any limitations.
+                  {`Explore everything our platform has to offer for ${TRIAL_LENGTH_IN_DAYS} days without any limitations.`}
                 </p>
               </div>
             </div>

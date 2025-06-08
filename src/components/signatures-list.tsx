@@ -17,6 +17,7 @@ import { ContextMenu } from './ui/context-menu';
 import { Container } from './ui/container';
 import { MAX_SIGNATURES } from '@/supabase/functions/_shared/const';
 import { PlusIcon } from 'lucide-react';
+import TrialBanner from './trial/trial-banner';
 
 type SignaturesPreviewsProps = {
   rows: any;
@@ -121,7 +122,7 @@ const SignaturesPreview = (props: SignaturesPreviewsProps) => {
 };
 
 export const SignaturesList = (props: any) => {
-  const { signatures: signaturesData } = props;
+  const { signatures: signaturesData, user } = props;
   const router = useRouter();
   const supabase = createClient();
   const { toast } = useToast();
@@ -227,6 +228,7 @@ export const SignaturesList = (props: any) => {
   }
   return (
     <div className="w-full pt-6">
+      {user && <TrialBanner user={user} />}
       <div>
         {signatures.length < MAX_SIGNATURES && (
           <div className="flex justify-center sm:justify-end pt-8 pb-10 sm:pb-2 w-full">

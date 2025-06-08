@@ -21,3 +21,5 @@ export const MAX_BORDER_WIDTH = 100;
 
 export const MIN_IMAGE_WIDTH = 50;
 export const MAX_IMAGE_WIDTH = 343;
+
+export const TRIAL_LENGTH_IN_DAYS = 40;

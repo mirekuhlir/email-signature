@@ -26,7 +26,7 @@ export default async function Signatures() {
       <main>
         <div className="pt-16 ">
           <Container>
-            <SignaturesList signatures={data} />
+            <SignaturesList signatures={data} user={user} />
           </Container>
         </div>
       </main>
