@@ -429,7 +429,7 @@ export const signature_a = () => {
                       "textAlign": "left",
                       "fontFamily": "Arial",
                       "fontWeight": "normal",
-                      "lineHeight": "1",
+                      "lineHeight": "1.1",
                       "borderRadius": "0px 0px 0px 0px",
                       "letterSpacing": "0px",
                       "borderTopColor": "rgb(0, 0, 0)",
