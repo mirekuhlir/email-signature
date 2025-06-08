@@ -788,7 +788,7 @@ export const ContentEdit = (props: any) => {
           !contentEdit.isImageLoading && (
             <>
               {canDisplayDeleteButton && (
-                <>
+                <CollapsibleSection title="Delete">
                   <Hr className="mb-4 mt-4" />
 
                   <Typography variant="labelBase" className="mb-2">
@@ -803,7 +803,7 @@ export const ContentEdit = (props: any) => {
                   >
                     Delete
                   </Button>
-                </>
+                </CollapsibleSection>
               )}
 
               <DeleteConfirmationModal

@@ -52,7 +52,7 @@ export const SignatureDetail = (props: any) => {
   const showCopyInstructionsModal = () => {
     modal({
       content: <CopyInstructionsModalContent />,
-      size: 'large',
+      size: 'fullscreen',
     });
   };
 
