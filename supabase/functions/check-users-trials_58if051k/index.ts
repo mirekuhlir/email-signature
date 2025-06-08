@@ -28,32 +28,103 @@ serve(async (req: Request): Promise<Response> => {
             `Checking trials expiring between ${oneHourAgo.toISOString()} and ${now.toISOString()}`,
         );
 
-        // Perform soft delete of expired trials for invalid users in one query
-        const { data: softDeletedTrials, error: updateError } = await supabase
-            // Target the user_trials table
+        // Get expired trials with user information
+        const { data: expiredTrials, error: fetchError } = await supabase
             .from("user_trials")
-            // Set soft_deleted_at timestamp to mark records as soft deleted
-            .update({ soft_deleted_at: now.toISOString() })
-            // Filter trials that expired at or after one hour ago
-            .gte("trial_expires_at", oneHourAgo.toISOString())
-            // Filter trials that expired at or before current time
-            .lte("trial_expires_at", now.toISOString())
-            // Only include records that are not hard deleted
-            .is("deleted_at", null)
-            // Only include records that are not already soft deleted
-            .is("soft_deleted_at", null)
-            // SQL conditions for invalid users:
-            // 1. No valid_from (never had paid version)
-            // 2. OR valid_from is in the future
-            // 3. OR valid_to is in the past (expired)
-            // Apply OR conditions to identify invalid users
-            .or(`users.valid_from.is.null,users.valid_from.gt."${now.toISOString()}",users.valid_to.lt."${now.toISOString()}"`)
-            // Select specific fields to return: user_id, trial_expires_at, and user details via inner join
             .select(`
                 user_id,
                 trial_expires_at,
                 users!inner(id, valid_from, valid_to)
-            `);
+            `)
+            .gte("trial_expires_at", oneHourAgo.toISOString())
+            .lte("trial_expires_at", now.toISOString())
+            .is("deleted_at", null)
+            .is("soft_deleted_at", null);
+
+        if (fetchError) {
+            console.log("Error fetching expired trials:", fetchError);
+            return new Response(
+                JSON.stringify({
+                    error: "Failed to fetch expired trials",
+                    details: fetchError.message,
+                }),
+                {
+                    status: 500,
+                    headers: {
+                        "Content-Type": "application/json",
+                        ...corsHeaders,
+                    },
+                },
+            );
+        }
+
+        if (!expiredTrials || expiredTrials.length === 0) {
+            console.log("No expired trials found in the last hour");
+            return new Response(
+                JSON.stringify({
+                    message: "No expired trials found in the last hour",
+                    processedUsers: 0,
+                    softDeletedUsers: 0,
+                }),
+                {
+                    status: 200,
+                    headers: {
+                        "Content-Type": "application/json",
+                        ...corsHeaders,
+                    },
+                },
+            );
+        }
+
+        // Filter for invalid users (users without valid subscription)
+        const invalidUserTrials = expiredTrials.filter((trial) => {
+            const user = Array.isArray(trial.users)
+                ? trial.users[0]
+                : trial.users;
+            if (!user) return true; // No user data means invalid
+
+            // User is invalid if:
+            // 1. No valid_from (never had paid version)
+            // 2. OR valid_from is in the future
+            // 3. OR valid_to is in the past (expired)
+            return !user.valid_from ||
+                new Date(user.valid_from) > now ||
+                (user.valid_to && new Date(user.valid_to) < now);
+        });
+
+        if (invalidUserTrials.length === 0) {
+            console.log("No invalid users found with expired trials");
+            return new Response(
+                JSON.stringify({
+                    message: "No invalid users found with expired trials",
+                    processedUsers: expiredTrials.length,
+                    softDeletedUsers: 0,
+                }),
+                {
+                    status: 200,
+                    headers: {
+                        "Content-Type": "application/json",
+                        ...corsHeaders,
+                    },
+                },
+            );
+        }
+
+        // Extract user IDs for soft deletion
+        const userIdsToSoftDelete = invalidUserTrials.map((trial) =>
+            trial.user_id
+        );
+
+        // Perform soft delete for invalid users
+        const { data: softDeletedTrials, error: updateError } = await supabase
+            .from("user_trials")
+            .update({ soft_deleted_at: now.toISOString() })
+            .in("user_id", userIdsToSoftDelete)
+            .gte("trial_expires_at", oneHourAgo.toISOString())
+            .lte("trial_expires_at", now.toISOString())
+            .is("deleted_at", null)
+            .is("soft_deleted_at", null)
+            .select("user_id, trial_expires_at");
 
         if (updateError) {
             console.log("Error soft deleting expired trials:", updateError);
@@ -75,34 +146,12 @@ serve(async (req: Request): Promise<Response> => {
 
         const softDeletedCount = softDeletedTrials?.length || 0;
 
-        if (softDeletedCount === 0) {
-            console.log(
-                "No invalid users found with expired trials in the last hour",
-            );
-
-            return new Response(
-                JSON.stringify({
-                    message:
-                        "No invalid users found with expired trials in the last hour",
-                    processedUsers: 0,
-                    softDeletedUsers: 0,
-                }),
-                {
-                    status: 200,
-                    headers: {
-                        "Content-Type": "application/json",
-                        ...corsHeaders,
-                    },
-                },
-            );
-        }
-
         console.log(
             `Soft deleted trials for ${softDeletedCount} invalid users`,
         );
 
         // Log details of soft deleted users
-        const softDeletedDetails = softDeletedTrials?.map((trial) => {
+        const softDeletedDetails = invalidUserTrials.map((trial) => {
             const user = Array.isArray(trial.users)
                 ? trial.users[0]
                 : trial.users;
@@ -122,13 +171,16 @@ serve(async (req: Request): Promise<Response> => {
         });
 
         console.log("Soft deleted details:", softDeletedDetails);
-        console.log("expired trials found:", softDeletedCount);
-        console.log("invalid users found:", softDeletedCount);
+        console.log("expired trials found:", expiredTrials.length);
+        console.log("invalid users found:", invalidUserTrials.length);
         console.log("soft deleted users:", softDeletedCount);
 
         return new Response(
             JSON.stringify({
-                message: `Trial check completed - processed invalid users only`,
+                message:
+                    `Trial check completed - processed ${expiredTrials.length} expired trials, soft deleted ${softDeletedCount} invalid users`,
+                processedUsers: expiredTrials.length,
+                softDeletedUsers: softDeletedCount,
             }),
             {
                 status: 200,
