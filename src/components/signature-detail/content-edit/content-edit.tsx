@@ -978,6 +978,7 @@ const getContentType = (
       return (
         <GenericEditContent
           {...commonProps}
+          reverseComponents={false}
           getLabel={getLabel}
           getLayoutType={getLayoutType}
           getTitle={(labelText: string) => `${labelText} text and color`}
