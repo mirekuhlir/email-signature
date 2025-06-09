@@ -73,7 +73,7 @@ export const signature_g = () => {
                                         {
                                             id: generateRandomId(),
                                             text: localizedContent.title,
-                                            type: "text",
+                                            type: "customValue",
                                             color: "rgb(54, 54, 54)",
                                             fontSize: "16px",
                                             fontStyle: "normal",

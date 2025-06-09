@@ -965,8 +965,8 @@ const getContentType = (
 
     case ContentType.CUSTOM_VALUE: {
       const getLabel = (component: any) => {
-        if (component.type === ContentType.TEXT) return 'Prefix';
-        if (component.type === ContentType.CUSTOM_VALUE) return 'Value';
+        if (component.type === ContentType.TEXT) return 'First';
+        if (component.type === ContentType.CUSTOM_VALUE) return 'Second';
         return '';
       };
       const getLayoutType = (component: any, originalIndex: number) => {
