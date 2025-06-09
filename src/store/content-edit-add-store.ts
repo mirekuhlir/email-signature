@@ -215,21 +215,14 @@ export const useSignatureStore = create<StoreState>((set, get) => {
 
       const columnIndex = parseInt(path.split("columns[")[1].split("]")[0]);
 
-      const columnsLength = cloneRows[tableIndex].columns.length;
-      const rowsLength = cloneRows[tableIndex].columns[columnIndex].rows.length;
+      // Remove just the specific row
+      const rowIndex = parseInt(path.split("rows[")[1].split("]")[0]);
+      const rows = cloneRows[tableIndex].columns[columnIndex].rows;
+      cloneRows[tableIndex].columns[columnIndex].rows = rows.filter((
+        _: any,
+        index: number,
+      ) => index !== rowIndex);
 
-      if (columnsLength === 1 && rowsLength === 1) {
-        // Remove entire table object
-        cloneRows.splice(tableIndex, 1);
-      } else {
-        // Remove just the specific row
-        const rowIndex = parseInt(path.split("rows[")[1].split("]")[0]);
-        const rows = cloneRows[tableIndex].columns[columnIndex].rows;
-        cloneRows[tableIndex].columns[columnIndex].rows = rows.filter((
-          _: any,
-          index: number,
-        ) => index !== rowIndex);
-      }
       if (isSignedIn) {
         const { error } = await supabase.functions.invoke("patch-signature", {
           method: "PATCH",
