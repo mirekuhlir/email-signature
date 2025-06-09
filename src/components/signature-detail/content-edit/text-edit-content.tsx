@@ -13,12 +13,8 @@ interface GenericEditContentProps {
   contentPathToEdit: string;
   contentType: ContentType;
   columnColor?: string;
-  getLabel: (component: any, index: number, originalIndex: number) => string;
-  getLayoutType: (
-    component: any,
-    index: number,
-    originalIndex: number,
-  ) => LayoutType;
+  getLabel: (component: any, originalIndex: number) => string;
+  getLayoutType: (component: any, originalIndex: number) => LayoutType;
   getTitle: (
     labelText: string,
     component: any,
@@ -68,8 +64,8 @@ export const GenericEditContent = (props: GenericEditContentProps) => {
       }
     };
 
-    const labelText = getLabel(component, index, originalIndex);
-    const layoutType = getLayoutType(component, index, originalIndex);
+    const labelText = getLabel(component, originalIndex);
+    const layoutType = getLayoutType(component, originalIndex);
     const title = getTitle(labelText, component, index, originalIndex);
     const rowBackgroundColor = useComponentBackgroundColor
       ? component.backgroundColor

@@ -964,21 +964,12 @@ const getContentType = (
     }
 
     case ContentType.CUSTOM_VALUE: {
-      const getLabel = (
-        component: any,
-        index: number,
-        originalIndex: number,
-      ) => {
-        if (component.type === ContentType.TEXT) {
-          return originalIndex === 0 ? 'Prefix' : 'Value';
-        }
+      const getLabel = (component: any) => {
+        if (component.type === ContentType.TEXT) return 'Prefix';
+        if (component.type === ContentType.CUSTOM_VALUE) return 'Value';
         return '';
       };
-      const getLayoutType = (
-        component: any,
-        index: number,
-        originalIndex: number,
-      ) => {
+      const getLayoutType = (component: any, originalIndex: number) => {
         if (component.type === ContentType.TEXT && originalIndex === 0) {
           return LayoutType.PREFIX;
         }
@@ -989,7 +980,7 @@ const getContentType = (
           {...commonProps}
           getLabel={getLabel}
           getLayoutType={getLayoutType}
-          getTitle={(labelText: string) => `Text and color - ${labelText}`}
+          getTitle={(labelText: string) => `${labelText} text and color`}
         />
       );
     }
