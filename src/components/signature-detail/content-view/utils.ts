@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useToastStore } from "@/src/components/ui/toast";
+import { UserStatus } from "@/src/utils/userState";
 
-export const handleCopy = async (/*signatureId: string*/) => {
+export const handleCopy = async (userStatus: UserStatus) => {
   const signatureElement = document.getElementById(
     "email-signature-light-for-copy",
   );
@@ -10,8 +11,42 @@ export const handleCopy = async (/*signatureId: string*/) => {
   const textContent = signatureElement.innerText;
   let htmlContent = signatureElement.innerHTML;
 
-  // Remove cache busting parameter from PNG images
+  // Remove cache busting parameter from PNG imagesis
   htmlContent = htmlContent.replace(/\.png\?t=\d+/g, ".png");
+
+  const trialTable = userStatus === UserStatus.TRIAL
+    ? `
+    <br />
+      <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse: separate; margin: 0;">
+        <tbody>
+          <tr>
+            <td style="padding: 0px 0px; text-align: left;">
+              <span style="font-size: 14px; color: red; font-family: Arial, sans-serif; font-weight: bold;">
+               You are using the trial version of the app.
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 0px 0px; text-align: left;">
+              <span style="font-size: 14px; color: red; font-family: Arial, sans-serif; font-weight: bold;">
+                You can upgrade to the full version of the app by clicking the link below.
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 0px 0px; text-align: left;">
+              <span style="font-size: 14px; color: red; font-family: Arial, sans-serif; font-weight: bold;">
+                <a href="https://example.com" target="_blank" rel="noreferrer" style="color: red; text-decoration: underline;">
+                  TODO: Add link to the full version
+                </a>
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    `
+    : "";
+  htmlContent = htmlContent + trialTable;
 
   const { addToast } = useToastStore.getState();
 

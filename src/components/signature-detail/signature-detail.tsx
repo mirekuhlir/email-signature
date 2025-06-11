@@ -18,9 +18,10 @@ import { TEMP_SIGNATURE } from '@/src/const/content';
 import TrialBanner from '../trial/trial-banner';
 import { useMediaQuery } from '@/src/hooks/useMediaQuery';
 import { MEDIA_QUERIES } from '@/src/constants/mediaQueries';
+import { UserStatus } from '@/src/utils/userState';
 
 export const SignatureDetail = (props: any) => {
-  const { signatureDetail, isSignedIn, templateSlug, user } = props;
+  const { signatureDetail, isSignedIn, templateSlug, user, userStatus } = props;
 
   const { rows, initSignature } = useSignatureStore();
   const { contentEdit } = useContentEditStore();
@@ -152,7 +153,7 @@ export const SignatureDetail = (props: any) => {
                   variant="brandBlue"
                   onClick={() => {
                     if (isSignedIn) {
-                      handleCopy();
+                      handleCopy(UserStatus.TRIAL);
                       showCopyInstructionsModal();
                     } else {
                       showAuthModal({

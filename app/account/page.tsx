@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 import { Header } from '@/src/components/header';
 import { Container } from '@/src/components/ui/container';
 import { Typography } from '@/src/components/ui/typography';
-import { getIsPremium } from '@/src/utils/premium';
+import { getIsPremium } from '@/src/utils/userState';
 import StyledLink from '@/src/components/ui/styled-link';
 
 export default async function Account() {

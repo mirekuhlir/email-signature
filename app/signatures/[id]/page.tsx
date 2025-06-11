@@ -3,6 +3,7 @@ import { Header } from '@/src/components/header';
 import { createClient } from '@/src/utils/supabase/server';
 import { redirect } from 'next/navigation';
 import { getTemplateBySlug } from '@/src/templates';
+import { getUserStatus } from '@/src/utils/userState';
 
 type Props = {
   params: Promise<{
@@ -39,6 +40,8 @@ export default async function Signature(props: Props) {
       Array.isArray(templateSlug) ? templateSlug[0] : templateSlug,
     );
 
+    const userStatus = getUserStatus(user);
+
     return (
       <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100">
         <Header user={user} />
@@ -50,6 +53,7 @@ export default async function Signature(props: Props) {
               }}
               isSignedIn={isSignedIn}
               templateSlug={templateSlug}
+              userStatus={userStatus}
             />
           </div>
         </main>
@@ -69,6 +73,7 @@ export default async function Signature(props: Props) {
 
     const rows = data?.signature_content?.rows || [];
     const colors = data?.signature_content?.colors || [];
+    const userStatus = getUserStatus(user);
 
     return (
       <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100">
@@ -83,6 +88,7 @@ export default async function Signature(props: Props) {
                 rows,
                 colors,
               }}
+              userStatus={userStatus}
             />
           </div>
         </main>
