@@ -153,7 +153,7 @@ export const SignatureDetail = (props: any) => {
                   variant="brandBlue"
                   onClick={() => {
                     if (isSignedIn) {
-                      handleCopy(UserStatus.TRIAL);
+                      handleCopy(userStatus);
                       showCopyInstructionsModal();
                     } else {
                       showAuthModal({
