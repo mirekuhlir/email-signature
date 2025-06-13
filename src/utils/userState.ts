@@ -6,7 +6,7 @@ export const enum UserStatus {
     AFTER_TRIAL = "after_trial",
 }
 
-export const getIsPremium = (user: User) => {
+const getIsPremium = (user: User) => {
     const validFrom = user.app_metadata.premium?.validFrom;
     const validTo = user.app_metadata.premium?.validTo;
 
@@ -17,14 +17,14 @@ export const getIsPremium = (user: User) => {
     return isPremium;
 };
 
-export const getIsTrial = (user: User) => {
+const getIsTrial = (user: User) => {
     const validFrom = user.app_metadata.premium?.validFrom;
     const validTo = user.app_metadata.premium?.validTo;
 
     return !!validFrom && !validTo;
 };
 
-export const getIsAfterTrial = (user: User) => {
+const getIsAfterTrial = (user: User) => {
     const validTo = user.app_metadata.premium?.validTo;
     return !!validTo && new Date(validTo) < new Date();
 };
