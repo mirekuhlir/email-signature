@@ -47,7 +47,7 @@ export const handleCopy = async (userStatus: UserStatus) => {
           You are using the free version.
         </div>
         <div style="font-size: 14px; color: white; font-family: Arial, sans-serif; padding-bottom: 5px;">
-          You can upgrade to the full version of the app by clicking the link below.
+          You can upgrade to the full version of the app by clicking the link below:
         </div>
         <div style="font-size: 14px; color: white; font-family: Arial, sans-serif;">
           <a href="https://example.com" target="_blank" rel="noreferrer" style="color: white; text-decoration: underline;">
