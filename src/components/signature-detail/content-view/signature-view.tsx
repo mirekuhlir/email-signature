@@ -116,7 +116,33 @@ export const EmailTemplateView = (props: any) => {
                 borderTopStyle: borderTopStyle,
               }}
             >
-              <div style={{ width: width, height: height }}>{content}</div>
+              <table
+                border={0}
+                cellPadding="0"
+                cellSpacing="0"
+                role="presentation"
+                style={{
+                  width: width,
+                  height: height,
+                }}
+              >
+                <tbody>
+                  <tr>
+                    <td
+                      style={{
+                        width: width,
+                        height: height,
+                        padding: '0',
+                        margin: '0',
+                        border: 'none',
+                        verticalAlign: 'top',
+                      }}
+                    >
+                      {content}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </td>
           </tr>
         );
