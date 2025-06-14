@@ -53,7 +53,7 @@ const TrialBanner = (user: any) => {
               href="/pricing"
               className="mt-4"
             >
-              Upgrade to premium
+              Upgrade to full version
             </StyledLink>
           </div>
         )}
