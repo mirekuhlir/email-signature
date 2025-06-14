@@ -95,8 +95,6 @@ export const EmailTemplateView = (props: any) => {
         row?.content?.components[0],
       );
 
-      console.warn('row?.content?.type', row?.content?.type);
-
       if (content) {
         return (
           <tr key={`tr-${row.id}`}>
@@ -118,39 +116,11 @@ export const EmailTemplateView = (props: any) => {
                 borderTopWidth: borderTopWidth,
                 borderTopColor: borderTopColor,
                 borderTopStyle: borderTopStyle,
+                width: width,
+                height: height,
               }}
             >
-              {row?.content?.type === ContentType.TEXT ? (
-                content
-              ) : (
-                <table
-                  border={0}
-                  cellPadding="0"
-                  cellSpacing="0"
-                  role="presentation"
-                  style={{
-                    width: width,
-                    height: height,
-                  }}
-                >
-                  <tbody>
-                    <tr>
-                      <td
-                        style={{
-                          width: width,
-                          height: height,
-                          padding: '0',
-                          margin: '0',
-                          border: 'none',
-                          verticalAlign: 'top',
-                        }}
-                      >
-                        {content}
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              )}
+              {content}
             </td>
           </tr>
         );
