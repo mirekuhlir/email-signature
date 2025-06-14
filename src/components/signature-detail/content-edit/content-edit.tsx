@@ -862,7 +862,7 @@ const getContentType = (
           useComponentBackgroundColor={true}
           getLabel={() => ''}
           getLayoutType={() => LayoutType.TEXT}
-          getTitle={() => 'Text and color'}
+          getTitle={() => 'Text'}
         />
       );
 
@@ -905,7 +905,7 @@ const getContentType = (
           {...commonProps}
           getLabel={getLabel}
           getLayoutType={getLayoutType}
-          getTitle={(labelText: string) => `${labelText} text and color`}
+          getTitle={(labelText: string) => `${labelText} text`}
           onValueChange={onValueChange}
         />
       );
@@ -926,7 +926,7 @@ const getContentType = (
           {...commonProps}
           getLabel={getLabel}
           getLayoutType={getLayoutType}
-          getTitle={(labelText: string) => `${labelText} text and color`}
+          getTitle={(labelText: string) => `${labelText} text`}
         />
       );
     }
@@ -947,7 +947,7 @@ const getContentType = (
           {...commonProps}
           getLabel={getLabel}
           getLayoutType={getLayoutType}
-          getTitle={(labelText: string) => `${labelText} text and color`}
+          getTitle={(labelText: string) => `${labelText} text`}
           linkComponent={
             <LinkComponent
               component={components[1]}
@@ -981,7 +981,7 @@ const getContentType = (
           reverseComponents={false}
           getLabel={getLabel}
           getLayoutType={getLayoutType}
-          getTitle={(labelText: string) => `${labelText} text and color`}
+          getTitle={(labelText: string) => `${labelText} text`}
         />
       );
     }
