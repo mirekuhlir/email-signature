@@ -2,6 +2,8 @@
 import { Fragment } from 'react';
 import { getContentView } from './content-view';
 import { getWidthHeightStyle } from './utils';
+import { ContentType } from '@/src/const/content';
+
 export const EmailTemplateView = (props: any) => {
   const { rows } = props;
 
@@ -93,6 +95,8 @@ export const EmailTemplateView = (props: any) => {
         row?.content?.components[0],
       );
 
+      console.warn('row?.content?.type', row?.content?.type);
+
       if (content) {
         return (
           <tr key={`tr-${row.id}`}>
@@ -116,33 +120,37 @@ export const EmailTemplateView = (props: any) => {
                 borderTopStyle: borderTopStyle,
               }}
             >
-              <table
-                border={0}
-                cellPadding="0"
-                cellSpacing="0"
-                role="presentation"
-                style={{
-                  width: width,
-                  height: height,
-                }}
-              >
-                <tbody>
-                  <tr>
-                    <td
-                      style={{
-                        width: width,
-                        height: height,
-                        padding: '0',
-                        margin: '0',
-                        border: 'none',
-                        verticalAlign: 'top',
-                      }}
-                    >
-                      {content}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+              {row?.content?.type === ContentType.TEXT ? (
+                content
+              ) : (
+                <table
+                  border={0}
+                  cellPadding="0"
+                  cellSpacing="0"
+                  role="presentation"
+                  style={{
+                    width: width,
+                    height: height,
+                  }}
+                >
+                  <tbody>
+                    <tr>
+                      <td
+                        style={{
+                          width: width,
+                          height: height,
+                          padding: '0',
+                          margin: '0',
+                          border: 'none',
+                          verticalAlign: 'top',
+                        }}
+                      >
+                        {content}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              )}
             </td>
           </tr>
         );
