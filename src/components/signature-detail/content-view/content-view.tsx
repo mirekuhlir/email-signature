@@ -16,7 +16,7 @@ const formatTextWithLineBreaks = (text?: string) => {
     ));
 };
 
-export const getContentView = (content?: any) => {
+export const getContentView = (content?: any, isMobilePreview?: boolean) => {
   if (content?.type == ContentType.IMAGE) {
     const { components } = content;
 
@@ -149,7 +149,7 @@ export const getContentView = (content?: any) => {
             lineHeight,
             textDecoration,
             textAlign,
-            whiteSpace: 'nowrap',
+            whiteSpace: isMobilePreview ? 'nowrap' : 'break-spaces',
           };
 
           if (!text) {
@@ -221,7 +221,7 @@ export const getContentView = (content?: any) => {
             lineHeight,
             textDecoration,
             textAlign,
-            whiteSpace: 'nowrap',
+            whiteSpace: isMobilePreview ? 'nowrap' : 'break-spaces',
           };
 
           if (!text) {
@@ -294,7 +294,7 @@ export const getContentView = (content?: any) => {
             lineHeight,
             textDecoration,
             textAlign,
-            whiteSpace: 'nowrap',
+            whiteSpace: isMobilePreview ? 'nowrap' : 'break-spaces',
           };
 
           if (!text) {
@@ -372,7 +372,7 @@ export const getContentView = (content?: any) => {
             lineHeight,
             textDecoration,
             textAlign,
-            whiteSpace: 'nowrap',
+            whiteSpace: isMobilePreview ? 'nowrap' : 'break-spaces',
           };
 
           if (!text) {

@@ -117,7 +117,10 @@ export const SignaturePreview: React.FC = () => {
             style={{ ...mobilePreviewWidth }}
           >
             <div className={containerDivClasses}>
-              <EmailTemplateView rows={rowsToDisplay} />
+              <EmailTemplateView
+                rows={rowsToDisplay}
+                isMobilePreview={isMobilePreview}
+              />
             </div>
           </div>
         </div>
