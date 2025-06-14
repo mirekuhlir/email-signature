@@ -102,7 +102,7 @@ export const EmailTemplateView = (props: any) => {
                 padding: padding,
                 backgroundColor: backgroundColor,
                 borderRadius: borderRadius,
-                lineHeight: 0,
+                lineHeight: 1,
                 borderBottomWidth: borderBottomWidth,
                 borderBottomColor: borderBottomColor,
                 borderBottomStyle: borderBottomStyle,
