@@ -11,6 +11,7 @@ import {
     PutObjectCommand,
     S3Client,
 } from "npm:@aws-sdk/client-s3@3.777.0";
+import { MAX_SIGNATURES } from "../_shared/const.ts";
 
 import { validateSignature } from "../_shared/validation.ts";
 
@@ -330,7 +331,7 @@ serve(async (req: Request) => {
         }
 
         // Max signatures limit
-        if ((count ?? 0) >= 10) {
+        if ((count ?? 0) >= MAX_SIGNATURES) {
             return new Response(
                 JSON.stringify({ error: "Signature limit reached" }),
                 {
