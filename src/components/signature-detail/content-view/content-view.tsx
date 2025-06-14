@@ -149,8 +149,7 @@ export const getContentView = (content?: any) => {
             lineHeight,
             textDecoration,
             textAlign,
-            wordBreak: 'break-all' as React.CSSProperties['wordBreak'],
-            whiteSpace: 'normal' as React.CSSProperties['whiteSpace'],
+            whiteSpace: 'nowrap',
           };
 
           if (!text) {
@@ -222,8 +221,7 @@ export const getContentView = (content?: any) => {
             lineHeight,
             textDecoration,
             textAlign,
-            wordBreak: 'break-all' as React.CSSProperties['wordBreak'],
-            whiteSpace: 'normal' as React.CSSProperties['whiteSpace'],
+            whiteSpace: 'nowrap',
           };
 
           if (!text) {
@@ -296,8 +294,7 @@ export const getContentView = (content?: any) => {
             lineHeight,
             textDecoration,
             textAlign,
-            wordBreak: 'break-all' as React.CSSProperties['wordBreak'],
-            whiteSpace: 'normal' as React.CSSProperties['whiteSpace'],
+            whiteSpace: 'nowrap',
           };
 
           if (!text) {
@@ -375,8 +372,7 @@ export const getContentView = (content?: any) => {
             lineHeight,
             textDecoration,
             textAlign,
-            wordBreak: 'break-all' as React.CSSProperties['wordBreak'],
-            whiteSpace: 'normal' as React.CSSProperties['whiteSpace'],
+            whiteSpace: 'nowrap',
           };
 
           if (!text) {
