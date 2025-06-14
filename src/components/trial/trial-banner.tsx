@@ -40,18 +40,11 @@ const TrialBanner = (user: any) => {
           <Typography variant="large">Your trial has expired.</Typography>
         )}
 
-        <Typography variant="large">
-          Try all features free for{' '}
-          {remainingTrialDays > 0
-            ? `${remainingTrialDays} days`
-            : `${TRIAL_LENGTH_IN_DAYS} days`}
-        </Typography>
+        <Typography variant="large">Try all features for free</Typography>
 
         <Typography variant="body">
           If you are satisfied, you pay a one-time fee and your signatures will
-          remain yours forever. If you decide not to continue with the paid
-          service, your signatures will be automatically deleted after the trial
-          period ends.
+          remain yours forever.
         </Typography>
         {remainingTrialDays >= 0 && (
           <div className="flex justify-end sm:justify-start">
