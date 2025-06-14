@@ -2,7 +2,6 @@
 import { Fragment } from 'react';
 import { getContentView } from './content-view';
 import { getWidthHeightStyle } from './utils';
-import { ContentType } from '@/src/const/content';
 
 export const EmailTemplateView = (props: any) => {
   const { rows } = props;

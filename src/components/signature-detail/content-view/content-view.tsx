@@ -100,6 +100,7 @@ export const getContentView = (content?: any) => {
             lineHeight,
             textDecoration,
             textAlign,
+            wordBreak: 'break-word' as React.CSSProperties['wordBreak'],
             wordWrap: 'break-word',
             overflowWrap: 'break-word',
           }}
@@ -148,6 +149,8 @@ export const getContentView = (content?: any) => {
             lineHeight,
             textDecoration,
             textAlign,
+            wordBreak: 'break-all' as React.CSSProperties['wordBreak'],
+            whiteSpace: 'normal' as React.CSSProperties['whiteSpace'],
           };
 
           if (!text) {
@@ -219,6 +222,8 @@ export const getContentView = (content?: any) => {
             lineHeight,
             textDecoration,
             textAlign,
+            wordBreak: 'break-all' as React.CSSProperties['wordBreak'],
+            whiteSpace: 'normal' as React.CSSProperties['whiteSpace'],
           };
 
           if (!text) {
@@ -291,6 +296,8 @@ export const getContentView = (content?: any) => {
             lineHeight,
             textDecoration,
             textAlign,
+            wordBreak: 'break-all' as React.CSSProperties['wordBreak'],
+            whiteSpace: 'normal' as React.CSSProperties['whiteSpace'],
           };
 
           if (!text) {
@@ -367,8 +374,9 @@ export const getContentView = (content?: any) => {
             fontWeight,
             lineHeight,
             textDecoration,
-            wordBreak: 'break-all' as React.CSSProperties['wordBreak'],
             textAlign,
+            wordBreak: 'break-all' as React.CSSProperties['wordBreak'],
+            whiteSpace: 'normal' as React.CSSProperties['whiteSpace'],
           };
 
           if (!text) {
