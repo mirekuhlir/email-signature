@@ -29,7 +29,7 @@ export const handleCopy = async (userStatus: UserStatus) => {
       const spacerCell = doc.createElement("td");
       spacerCell.setAttribute("colspan", "2");
       spacerCell.style.cssText =
-        "height: 10px; line-height: 10px; font-size: 1px;";
+        "height: 20px; line-height: 20px; font-size: 1px;";
       spacerCell.innerHTML = "&nbsp;";
       spacerRow.appendChild(spacerCell);
 
@@ -40,11 +40,11 @@ export const handleCopy = async (userStatus: UserStatus) => {
       trialCell.setAttribute("colspan", "2");
 
       trialCell.style.cssText =
-        "padding: 12px 6px 0px 6px; text-align: left; background-color: #1B145D; border-radius: 4px; width: 100%; border: 2px dotted red;";
+        "padding: 12px 6px 0px 6px; text-align: left; background-color: #1B145D; border-radius: 4px; width: 100%; border: 2px dotted red; height: 100px;";
 
       trialCell.innerHTML = `
         <div style="font-size: 14px; color: white; font-family: Arial, sans-serif; font-weight: bold; padding-bottom: 5px;">
-          You are using the trial version.
+          You are using the free version.
         </div>
         <div style="font-size: 14px; color: white; font-family: Arial, sans-serif; padding-bottom: 5px;">
           You can upgrade to the full version of the app by clicking the link below.
