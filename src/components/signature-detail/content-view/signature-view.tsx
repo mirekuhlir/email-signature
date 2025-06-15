@@ -2,8 +2,9 @@
 import { Fragment } from 'react';
 import { getContentView } from './content-view';
 import { getWidthHeightStyle } from './utils';
+
 export const EmailTemplateView = (props: any) => {
-  const { rows } = props;
+  const { rows, isMobilePreview } = props;
 
   const renderColumn = (column: any) => {
     return (
@@ -71,7 +72,7 @@ export const EmailTemplateView = (props: any) => {
         );
       }
 
-      const content = getContentView(row?.content);
+      const content = getContentView(row?.content, isMobilePreview);
       const padding = row.content.components[0].padding;
       const backgroundColor = row.content.components[0].backgroundColor;
       const borderRadius = row.content.components[0].borderRadius;
@@ -101,7 +102,7 @@ export const EmailTemplateView = (props: any) => {
                 padding: padding,
                 backgroundColor: backgroundColor,
                 borderRadius: borderRadius,
-                lineHeight: 0,
+                lineHeight: 1,
                 borderBottomWidth: borderBottomWidth,
                 borderBottomColor: borderBottomColor,
                 borderBottomStyle: borderBottomStyle,
@@ -114,9 +115,11 @@ export const EmailTemplateView = (props: any) => {
                 borderTopWidth: borderTopWidth,
                 borderTopColor: borderTopColor,
                 borderTopStyle: borderTopStyle,
+                width: width,
+                height: height,
               }}
             >
-              <div style={{ width: width, height: height }}>{content}</div>
+              {content}
             </td>
           </tr>
         );

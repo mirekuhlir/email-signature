@@ -12,7 +12,6 @@ const getLocalizedContent = () => {
         websitePrefix: "W: ",
         websiteValue: "www.example.com",
         websiteLink: "https://www.example.com",
-        addressPrefix: "",
         addressValue: "3943 Lyon Avenue, Worcester\nMassachusetts 01608 ",
         disclaimer:
             "This email is intended only for the recipient and may contain confidential information.\nIf you are not the intended recipient, please notify the sender and delete this email.",
@@ -367,22 +366,21 @@ export const signature_f = () => {
                             {
                                 "id": generateRandomId(),
                                 "content": {
-                                    "type": "customValue",
+                                    "type": "text",
                                     "components": [
                                         {
                                             "id": generateRandomId(),
                                             "text":
-                                                localizedContent.addressPrefix,
-                                            "type": "text",
-                                            "color": "rgb(41, 41, 41)",
+                                                localizedContent.addressValue,
+                                            "color": "rgb(94, 94, 94)",
                                             "width": "0px",
                                             "height": "0px",
                                             "padding": "0px 0px 0px 0px",
-                                            "fontSize": "15px",
+                                            "fontSize": "14px",
                                             "fontStyle": "normal",
                                             "textAlign": "left",
                                             "fontFamily": "Arial",
-                                            "fontWeight": "bold",
+                                            "fontWeight": "normal",
                                             "lineHeight": "1",
                                             "borderRadius": "0px 0px 0px 0px",
                                             "letterSpacing": "0px",
@@ -399,21 +397,6 @@ export const signature_f = () => {
                                             "borderBottomColor": "rgb(0, 0, 0)",
                                             "borderBottomStyle": "none",
                                             "borderBottomWidth": "0px",
-                                        },
-                                        {
-                                            "id": generateRandomId(),
-                                            "text":
-                                                localizedContent.addressValue,
-                                            "type": "text",
-                                            "color": "rgb(94, 94, 94)",
-                                            "fontSize": "14px",
-                                            "fontStyle": "normal",
-                                            "textAlign": "left",
-                                            "fontFamily": "Arial",
-                                            "fontWeight": "normal",
-                                            "lineHeight": "1.25",
-                                            "letterSpacing": "0px",
-                                            "textDecoration": "none",
                                         },
                                     ],
                                 },

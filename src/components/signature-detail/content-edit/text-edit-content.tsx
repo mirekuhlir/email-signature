@@ -26,6 +26,7 @@ interface GenericEditContentProps {
   reverseComponents?: boolean;
   useComponentBackgroundColor?: boolean;
   errors?: Record<string, string | null>;
+  isLabelHidden?: boolean;
 }
 
 export const GenericEditContent = (props: GenericEditContentProps) => {
@@ -42,6 +43,7 @@ export const GenericEditContent = (props: GenericEditContentProps) => {
     useComponentBackgroundColor = false,
     errors,
     linkComponent,
+    isLabelHidden = false,
   } = props;
   const { setContent } = useSignatureStore();
 
@@ -77,7 +79,7 @@ export const GenericEditContent = (props: GenericEditContentProps) => {
         <CollapsibleSection isInitOpen={true} title={title}>
           <div className={`mb-4 ${!reverseComponents ? 'mt-1' : ''}`}>
             <RichTextEditor
-              label={labelText || undefined}
+              label={isLabelHidden ? undefined : labelText}
               content={component}
               onChange={handleOnChange}
               contentType={contentType}

@@ -72,10 +72,6 @@ export const ContentAdd = (props: ContentAddProps) => {
     });
   };
 
-  useEffect(() => {
-    wrapperRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, []);
-
   return (
     <div className="pt-1 sm:max-w-1/2 mx-auto">
       {CONTENT_TYPES.map((typeItem, index) => {

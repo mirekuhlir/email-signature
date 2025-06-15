@@ -10,8 +10,8 @@ import { ModalContainer } from '../src/components/ui/modal-system';
  */
 export const metadata = {
   /*   metadataBase: new URL('https://www.email-signature-builder.com'), */
-  title: 'Email signature builder',
-  description: 'Create and manage your email signatures with ease',
+  title: 'My Email Avatar',
+  description: 'Create and manage your email signatures',
 };
 
 // prevent zoom  on IOS after focus on input with font size smaller than 16px

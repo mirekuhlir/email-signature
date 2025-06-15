@@ -30,6 +30,7 @@ type SignaturesPreviewsProps = {
   duplicateSignature?: (signatureId: string) => Promise<void>;
   signatureId?: string;
   isTempSignature?: boolean;
+  signatureCount?: number;
 };
 
 const SignaturesPreview = (props: SignaturesPreviewsProps) => {
@@ -44,6 +45,7 @@ const SignaturesPreview = (props: SignaturesPreviewsProps) => {
     duplicateSignature,
     signatureId,
     isTempSignature,
+    signatureCount,
   } = props;
 
   const editButtonText = isFromTemp ? 'Continue' : 'View';
@@ -88,19 +90,20 @@ const SignaturesPreview = (props: SignaturesPreviewsProps) => {
                   >
                     {t('Delete')}
                   </Button>
-                  {!isTempSignature && (
-                    <Button
-                      variant="ghost"
-                      disabled={isLoading}
-                      onClick={() => {
-                        if (signatureId && duplicateSignature) {
-                          duplicateSignature(signatureId);
-                        }
-                      }}
-                    >
-                      {t('Duplicate')}
-                    </Button>
-                  )}
+                  {!isTempSignature &&
+                    (signatureCount ?? 0) < MAX_SIGNATURES && (
+                      <Button
+                        variant="ghost"
+                        disabled={isLoading}
+                        onClick={() => {
+                          if (signatureId && duplicateSignature) {
+                            duplicateSignature(signatureId);
+                          }
+                        }}
+                      >
+                        {t('Duplicate')}
+                      </Button>
+                    )}
                 </div>
               </ContextMenu>
               <Button
@@ -266,6 +269,7 @@ export const SignaturesList = (props: any) => {
               createSignature(tempSignature, true);
             }}
             isTempSignature={true}
+            signatureCount={signatures.length}
           />
         )}
         {signatures
@@ -291,6 +295,7 @@ export const SignaturesList = (props: any) => {
               }}
               duplicateSignature={duplicateSignature}
               signatureId={signature.id}
+              signatureCount={signatures.length}
             />
           ))}
       </div>

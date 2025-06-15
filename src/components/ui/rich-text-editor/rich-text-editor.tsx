@@ -174,10 +174,11 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
   const componentId = content?.id;
 
   return (
-    <div className="w-full max-w-4xl space-y-4">
-      <div>
+    <div className="w-full max-w-4xl space-y-3">
+      <>
         {label && <Typography variant="labelBase">{label}</Typography>}
         <textarea
+          id={componentId}
           className="w-full p-3 border rounded focus:outline-hidden focus:border-blue-400 bg-white border-gray-300 rounded-md shadow-xs"
           style={{
             fontSize: editFontSize,
@@ -207,46 +208,47 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
         {errorMessage && (
           <p className="text-red-500 mt-2 text-sm">{errorMessage}</p>
         )}
-      </div>
+      </>
       {linkComponent ? linkComponent : null}
-
-      <div className="grid grid-cols-2 gap-4">
-        <SelectBase
-          options={fontsOptions}
-          value={editFontFamily}
-          label="Font"
-          onChange={(value) => {
-            setEditFontFamily(value);
-            onChangeContent({ fontFamily: value });
-          }}
-        />
-        <SelectBase
-          options={FONT_SIZES}
-          value={editFontSize}
-          label="Font size"
-          onChange={(value) => {
-            setEditFontSize(value);
-            onChangeContent({ fontSize: value });
-          }}
-        />
-        <SelectBase
-          options={LINE_HEIGHTS}
-          label="Line height"
-          value={editLineHeight}
-          onChange={(value) => {
-            setEditLineHeight(value);
-            onChangeContent({ lineHeight: value });
-          }}
-        />
-        <SelectBase
-          options={LETTER_SPACINGS}
-          value={editLetterSpacing}
-          label="Letter spacing"
-          onChange={(value) => {
-            setEditLetterSpacing(value);
-            onChangeContent({ letterSpacing: value });
-          }}
-        />
+      <div>
+        <div className="grid grid-cols-2 gap-x-4 gap-y-3">
+          <SelectBase
+            options={fontsOptions}
+            value={editFontFamily}
+            label="Font"
+            onChange={(value) => {
+              setEditFontFamily(value);
+              onChangeContent({ fontFamily: value });
+            }}
+          />
+          <SelectBase
+            options={FONT_SIZES}
+            value={editFontSize}
+            label="Font size"
+            onChange={(value) => {
+              setEditFontSize(value);
+              onChangeContent({ fontSize: value });
+            }}
+          />
+          <SelectBase
+            options={LINE_HEIGHTS}
+            label="Line height"
+            value={editLineHeight}
+            onChange={(value) => {
+              setEditLineHeight(value);
+              onChangeContent({ lineHeight: value });
+            }}
+          />
+          <SelectBase
+            options={LETTER_SPACINGS}
+            value={editLetterSpacing}
+            label="Letter spacing"
+            onChange={(value) => {
+              setEditLetterSpacing(value);
+              onChangeContent({ letterSpacing: value });
+            }}
+          />
+        </div>
       </div>
 
       <div>

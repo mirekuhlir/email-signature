@@ -14,39 +14,58 @@ export const handleCopy = async (userStatus: UserStatus) => {
   // Remove cache busting parameter from PNG imagesis
   htmlContent = htmlContent.replace(/\.png\?t=\d+/g, ".png");
 
-  const trialTable = userStatus === UserStatus.TRIAL
-    ? `
-    <br />
-      <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse: separate; margin: 0;">
-        <tbody>
-          <tr>
-            <td style="padding: 0px 0px; text-align: left;">
-              <span style="font-size: 14px; color: red; font-family: Arial, sans-serif; font-weight: bold;">
-               You are using the trial version of the app.
-              </span>
-            </td>
-          </tr>
-          <tr>
-            <td style="padding: 0px 0px; text-align: left;">
-              <span style="font-size: 14px; color: red; font-family: Arial, sans-serif; font-weight: bold;">
-                You can upgrade to the full version of the app by clicking the link below.
-              </span>
-            </td>
-          </tr>
-          <tr>
-            <td style="padding: 0px 0px; text-align: left;">
-              <span style="font-size: 14px; color: red; font-family: Arial, sans-serif; font-weight: bold;">
-                <a href="https://example.com" target="_blank" rel="noreferrer" style="color: red; text-decoration: underline;">
-                  TODO: Add link to the full version
-                </a>
-              </span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    `
-    : "";
-  htmlContent = htmlContent + trialTable;
+  // Add trial information for trial users
+  if (userStatus === UserStatus.TRIAL) {
+    // Find the main table structure and add trial row
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlContent, "text/html");
+
+    // Find the main table
+    const mainTable = doc.querySelector('table[role="presentation"]');
+
+    if (mainTable) {
+      // Create spacer row
+      const spacerRow = doc.createElement("tr");
+      const spacerCell = doc.createElement("td");
+      spacerCell.setAttribute("colspan", "2");
+      spacerCell.style.cssText =
+        "height: 20px; line-height: 20px; font-size: 1px;";
+      spacerCell.innerHTML = "&nbsp;";
+      spacerRow.appendChild(spacerCell);
+
+      // Create trial row
+      const trialRow = doc.createElement("tr");
+      const trialCell = doc.createElement("td");
+
+      trialCell.setAttribute("colspan", "2");
+
+      trialCell.style.cssText =
+        "padding: 6px 6px 6px 6px; text-align: left; background-color: #1B145D; border-radius: 4px; width: 100%; border: 2px dotted red; height: 80px;";
+
+      trialCell.innerHTML = `
+        <div style="font-size: 14px; color: white; font-family: Arial, sans-serif; font-weight: bold; padding-bottom: 5px; line-height: normal;">
+          You are using the free version
+        </div>
+        <div style="font-size: 14px; color: white; font-family: Arial, sans-serif; padding-bottom: 5px; line-height: normal;">
+          You can upgrade to the full version:
+        </div>
+        <div style="font-size: 14px; color: white; font-family: Arial, sans-serif; line-height: normal;">
+          <a href="https://www.myemailavatar.com/pricing" target="_blank" rel="noreferrer" style="color: white; text-decoration: underline;">
+          https://www.myemailavatar.com/pricing
+          </a>
+        </div>
+      `;
+
+      trialRow.appendChild(trialCell);
+
+      // Add spacer and trial rows to the main table
+      mainTable.appendChild(spacerRow);
+      mainTable.appendChild(trialRow);
+
+      // Get the modified HTML
+      htmlContent = doc.body.innerHTML;
+    }
+  }
 
   const { addToast } = useToastStore.getState();
 

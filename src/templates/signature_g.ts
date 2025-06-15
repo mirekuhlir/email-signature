@@ -300,8 +300,6 @@ export const signature_g = () => {
                             },
                         ],
                         style: {
-                            width: "auto",
-                            height: "auto",
                             padding: "0px 0px 0px 15px",
                             borderRadius: "0px 0px 0px 0px",
                             verticalAlign: "top",
