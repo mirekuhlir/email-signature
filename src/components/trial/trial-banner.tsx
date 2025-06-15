@@ -40,7 +40,7 @@ const TrialBanner = (user: any) => {
           <Typography variant="large">Your trial has expired.</Typography>
         )}
 
-        <Typography variant="large">Try all features for free</Typography>
+        <Typography variant="large">Upgrade to full version</Typography>
 
         <Typography variant="body">
           If you are satisfied, you pay a one-time fee and your signatures will
