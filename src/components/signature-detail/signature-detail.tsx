@@ -21,7 +21,7 @@ import { MEDIA_QUERIES } from '@/src/constants/mediaQueries';
 import { UserStatus } from '@/src/utils/userState';
 
 export const SignatureDetail = (props: any) => {
-  const { signatureDetail, isSignedIn, templateSlug, user, userStatus } = props;
+  const { signatureDetail, isSignedIn, templateSlug, user } = props;
 
   const { rows, initSignature } = useSignatureStore();
   const { contentEdit } = useContentEditStore();
@@ -75,7 +75,7 @@ export const SignatureDetail = (props: any) => {
         window.removeEventListener('resize', handleScroll);
       };
     }
-  }, [contentEdit.editPath, contentEdit.columnPath]);
+  }, [contentEdit.editPath, contentEdit.columnPath, isMobile]);
 
   const showCopyInstructionsModal = () => {
     modal({
@@ -153,12 +153,13 @@ export const SignatureDetail = (props: any) => {
                   variant="brandBlue"
                   onClick={() => {
                     if (isSignedIn) {
-                      handleCopy(userStatus);
+                      handleCopy(UserStatus.TRIAL);
                       showCopyInstructionsModal();
                     } else {
                       showAuthModal({
                         title: 'Sign in to use your signature',
-                        description: 'Please enter your email to sign in.',
+                        description:
+                          'Please enter your email to sign in. Then you can also save individual signatures and edit them again later.',
                       });
                     }
                   }}
