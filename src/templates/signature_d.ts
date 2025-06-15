@@ -58,7 +58,7 @@ export const signature_d = () => {
                                                     "y": 0,
                                                     "unit": "%",
                                                     "width": 66.48281622468757,
-                                                    "height": 96.65676502699263,
+                                                    "height": 97.5209317106135,
                                                 },
                                                 "aspect": "free",
                                                 "isCircular": false,
