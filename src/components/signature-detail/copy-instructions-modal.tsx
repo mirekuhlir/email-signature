@@ -1,8 +1,13 @@
 import { Typography } from '@/src/components/ui/typography';
 import { useState } from 'react';
 import { Button } from '@/src/components/ui/button';
-import { EmailIos } from '@/src/icons/EmailiOS';
 import { Container } from '../ui/container';
+import gmail from '@/src/asset/email-clients/gmail.png';
+import outlook from '@/src/asset/email-clients/outlook.png';
+import appleMail from '@/src/asset/email-clients/apple_mail.png';
+import { StaticImageData } from 'next/image';
+
+import Image from 'next/image';
 
 type EmailClient = 'gmail' | 'outlook' | 'apple-mail';
 
@@ -10,7 +15,7 @@ interface InstructionItem {
   key: EmailClient;
   title: string;
   steps: string[];
-  icon: React.ReactNode;
+  icon: StaticImageData;
 }
 
 // TODO - kopírovat mohou jen uživatele s premium účtem
@@ -29,7 +34,7 @@ export const CopyInstructionsModalContent = () => {
         'Create a new signature or edit an existing one',
         'Paste your signature and click "Save Changes" at the bottom',
       ],
-      icon: <EmailIos />,
+      icon: gmail,
     },
     {
       key: 'outlook',
@@ -39,7 +44,7 @@ export const CopyInstructionsModalContent = () => {
         'Select "New" or edit an existing signature',
         'Paste your signature and click "OK"',
       ],
-      icon: <EmailIos />,
+      icon: outlook,
     },
     {
       key: 'apple-mail',
@@ -49,7 +54,7 @@ export const CopyInstructionsModalContent = () => {
         'Create a new signature or select an existing one',
         'Paste your signature and close the preferences window',
       ],
-      icon: <EmailIos />,
+      icon: appleMail,
     },
   ];
 
@@ -84,7 +89,14 @@ export const CopyInstructionsModalContent = () => {
                 buttonClassName="justify-start"
               >
                 <div className="flex items-center p-2">
-                  <div className="mr-4">{instruction.icon}</div>
+                  <div className="mr-2">
+                    <Image
+                      src={instruction.icon}
+                      alt={instruction.title}
+                      width={36}
+                      height={36}
+                    />
+                  </div>
                   <div>{instruction.title}</div>
                 </div>
               </Button>
