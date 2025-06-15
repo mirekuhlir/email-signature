@@ -863,6 +863,7 @@ const getContentType = (
           getLabel={() => ''}
           getLayoutType={() => LayoutType.TEXT}
           getTitle={() => 'Text'}
+          isLabelHidden={true}
         />
       );
 
@@ -907,6 +908,7 @@ const getContentType = (
           getLayoutType={getLayoutType}
           getTitle={(labelText: string) => `${labelText} text`}
           onValueChange={onValueChange}
+          isLabelHidden={true}
         />
       );
     }
@@ -927,6 +929,7 @@ const getContentType = (
           getLabel={getLabel}
           getLayoutType={getLayoutType}
           getTitle={(labelText: string) => `${labelText} text`}
+          isLabelHidden={true}
         />
       );
     }
@@ -959,6 +962,7 @@ const getContentType = (
               title="Add link to text"
             />
           }
+          isLabelHidden={true}
         />
       );
     }
@@ -982,6 +986,7 @@ const getContentType = (
           getLabel={getLabel}
           getLayoutType={getLayoutType}
           getTitle={(labelText: string) => `${labelText} text`}
+          isLabelHidden={true}
         />
       );
     }
