@@ -13,7 +13,6 @@ import {
   CreditCard,
   Gem,
 } from 'lucide-react';
-import { TRIAL_LENGTH_IN_DAYS } from '@/supabase/functions/_shared/const';
 
 export default async function Home() {
   const supabase = await createClient();
