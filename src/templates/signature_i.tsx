@@ -8,6 +8,7 @@ const getLocalizedContent = () => {
     phoneValue: '+1 123 456 7890',
     emailPrefix: '',
     emailValue: 'example@email.com',
+    websitePrefix: '',
     websiteValue: 'www.example.com',
     slogan: 'Turning your vision into a stunning landscape reality.',
   };
