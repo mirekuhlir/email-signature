@@ -145,7 +145,7 @@ export default async function Home() {
               <div className="mb-4 text-3xl font-bold text-orange-500">3.</div>
               <h3 className="text-lg font-semibold mb-2">Copy & paste</h3>
               <p className="text-gray-600">
-                Copy your signature to your email with one click.
+                Copy your signature to your email.
               </p>
             </div>
           </div>

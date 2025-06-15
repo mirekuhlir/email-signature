@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 import { Header } from '@/src/components/header';
 import { Container } from '@/src/components/ui/container';
 import { Typography } from '@/src/components/ui/typography';
-import { getIsPremium } from '@/src/utils/userState';
+import { getUserStatus, UserStatus } from '@/src/utils/userState';
 import StyledLink from '@/src/components/ui/styled-link';
 
 export default async function Account() {
@@ -20,7 +20,7 @@ export default async function Account() {
   const validFrom = user.app_metadata.premium?.validFrom;
   const validTo = user.app_metadata.premium?.validTo;
 
-  const isPremium = await getIsPremium(user);
+  const userStatus = await getUserStatus(user);
 
   return (
     <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100">
@@ -40,9 +40,13 @@ export default async function Account() {
                     <Typography className="font-semibold">
                       Premium Status:
                     </Typography>
-                    <Typography>{isPremium ? 'Active' : 'Inactive'}</Typography>
+                    <Typography>
+                      {userStatus === UserStatus.PREMIUM
+                        ? 'Active'
+                        : 'Inactive'}
+                    </Typography>
                   </div>
-                  {!isPremium && (
+                  {userStatus === UserStatus.TRIAL && (
                     <div className="flex justify-end sm:justify-start">
                       <StyledLink
                         variant="button-brand-blue"
