@@ -99,10 +99,10 @@ export const signature_a = () => {
                       "imageSettings": {
                         "crop": {
                           "x": 27.76039865281848,
-                          "y": 18.344472779168054,
+                          "y": 17.159029112921832,
                           "unit": "%",
                           "width": 45.228589375813755,
-                          "height": 62.5278864966499,
+                          "height": 63.93186993069126,
                         },
                         "aspect": "free",
                         "isCircular": false,
@@ -429,7 +429,7 @@ export const signature_a = () => {
                       "textAlign": "left",
                       "fontFamily": "Arial",
                       "fontWeight": "normal",
-                      "lineHeight": "1",
+                      "lineHeight": "1.1",
                       "borderRadius": "0px 0px 0px 0px",
                       "letterSpacing": "0px",
                       "borderTopColor": "rgb(0, 0, 0)",

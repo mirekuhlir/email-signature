@@ -12,8 +12,8 @@ import {
   Sparkles,
   CreditCard,
   Gem,
-  ShieldCheck,
 } from 'lucide-react';
+import { TRIAL_LENGTH_IN_DAYS } from '@/supabase/functions/_shared/const';
 
 export default async function Home() {
   const supabase = await createClient();
@@ -79,7 +79,7 @@ export default async function Home() {
           <ul className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             <li className="text-center">
               <div className="mb-4 text-4xl text-brand-blue-900 flex justify-center items-center">
-                <Handshake className="w-10 h-10" />
+                <Handshake className="w-10 h-10 text-orange-500" />
               </div>
               <h3 className="text-xl font-semibold text-gray-800 mb-2">
                 Trustworthiness
@@ -91,7 +91,7 @@ export default async function Home() {
             </li>
             <li className="text-center">
               <div className="mb-4 text-4xl text-brand-blue-900 flex justify-center items-center">
-                <Award className="w-10 h-10" />
+                <Award className="w-10 h-10 text-orange-500" />
               </div>
               <h3 className="text-xl font-semibold text-gray-800 mb-2">
                 Professional appearance
@@ -102,7 +102,7 @@ export default async function Home() {
             </li>
             <li className="text-center">
               <div className="mb-4 text-4xl text-brand-blue-900 flex justify-center items-center">
-                <ChartLine className="w-10 h-10" />
+                <ChartLine className="w-10 h-10 text-orange-500" />
               </div>
               <h3 className="text-xl font-semibold text-gray-800 mb-2">
                 Brand support
@@ -118,13 +118,13 @@ export default async function Home() {
 
       {/* How it works Section */}
       <section className="py-14 bg-gray-50">
-        <div className="container mx-auto px-4 max-w-4xl">
+        <div className="container mx-auto px-4 max-w-5xl">
           <h2 className="text-2xl md:text-3xl font-bold text-center text-brand-blue-900 mb-12">
             How does it work?
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
-              <div className="mb-4 text-3xl font-bold text-brand-blue-900">
+              <div className="mb-4 text-3xl font-bold text-orange-500 flex justify-center items-center">
                 1.
               </div>
               <h3 className="text-lg font-semibold mb-2">Choose a template</h3>
@@ -133,9 +133,7 @@ export default async function Home() {
               </p>
             </div>
             <div className="text-center">
-              <div className="mb-4 text-3xl font-bold text-brand-blue-900">
-                2.
-              </div>
+              <div className="mb-4 text-3xl font-bold text-orange-500">2.</div>
               <h3 className="text-lg font-semibold mb-2">
                 Customize your signature
               </h3>
@@ -144,9 +142,7 @@ export default async function Home() {
               </p>
             </div>
             <div className="text-center">
-              <div className="mb-4 text-3xl font-bold text-brand-blue-900">
-                3.
-              </div>
+              <div className="mb-4 text-3xl font-bold text-orange-500">3.</div>
               <h3 className="text-lg font-semibold mb-2">Copy & paste</h3>
               <p className="text-gray-600">
                 Copy your signature to your email with one click.
@@ -197,9 +193,9 @@ export default async function Home() {
       </section> */}
 
       <section className="py-14 bg-white">
-        <div className="container mx-auto px-4 max-w-4xl text-center">
+        <div className="container mx-auto px-4 max-w-5xl text-center">
           <h2 className="text-2xl md:text-3xl font-bold text-brand-blue-900 mb-6">
-            Try all features free for 30 days
+            Try all features free for {TRIAL_LENGTH_IN_DAYS} days
           </h2>
 
           <div className="grid grid-cols-1 gap-y-8 text-left max-w-2xl mx-auto mb-10">
@@ -212,8 +208,7 @@ export default async function Home() {
                   Full Access to Premium Features
                 </h3>
                 <p className="text-gray-600">
-                  Explore everything our platform has to offer for 30 days
-                  without any limitations.
+                  {`Explore everything our platform has to offer for ${TRIAL_LENGTH_IN_DAYS} days with no limitations.`}
                 </p>
               </div>
             </div>
@@ -240,30 +235,12 @@ export default async function Home() {
                   Keep Your Signatures Forever
                 </h3>
                 <p className="text-gray-600">
-                  After your trial, a single one-time payment lets you keep your
-                  signatures forever.
-                </p>
-              </div>
-            </div>
-            <div className="flex items-start space-x-4">
-              <div>
-                <ShieldCheck className="w-10 h-10 text-orange-500" />
-              </div>
-              <div>
-                <h3 className="font-semibold text-lg text-gray-800 mb-1">
-                  No Strings Attached
-                </h3>
-                <p className="text-gray-600">
-                  If you decide not to continue, your data will be automatically
-                  and safely removed.
+                  After your trial, a single one-time payment of $30 lets you
+                  keep your signatures forever.
                 </p>
               </div>
             </div>
           </div>
-          <p className="text-lg text-gray-600 mb-12">
-            After your trial, a single one-time payment of $30 lets you keep
-            your signatures forever.
-          </p>
           <div className="flex justify-center">
             <StyledLink variant="button-orange" size="xl" href="/templates">
               Try for free

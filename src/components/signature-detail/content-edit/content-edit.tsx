@@ -7,8 +7,8 @@ import { ContentType, TEMP_SIGNATURE } from '@/src/const/content';
 import { Button } from '@/src/components/ui/button';
 import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
 import { ImageEditContent } from './image-edit-content';
-import Modal from '@/src/components/ui/modal';
 import { Typography } from '@/src/components/ui/typography';
+import { DeleteConfirmationModal } from '@/src/components/ui/delete-confirmation-modal';
 import Slider from '@/src/components/ui/slider';
 import { CollapsibleSection } from '@/src/components/ui/collapsible-section';
 import { getTemplateBySlug } from '@/src/templates';
@@ -321,11 +321,11 @@ export const ContentEdit = (props: any) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const handleDeleteRow = useCallback(async () => {
-    setIsDeleteModalOpen(false);
     setIsSavingSignature(true);
 
     try {
       await deleteRow(contentPathToEdit, signatureId, isSignedIn);
+      setContentEdit({ editPath: null });
     } catch (error) {
       toast({
         description: 'Failed to delete row. Please try again.',
@@ -335,7 +335,7 @@ export const ContentEdit = (props: any) => {
       console.error(error);
     } finally {
       setIsSavingSignature(false);
-      setContentEdit({ editPath: null });
+      setIsDeleteModalOpen(false);
     }
   }, [
     contentPathToEdit,
@@ -788,9 +788,7 @@ export const ContentEdit = (props: any) => {
           !contentEdit.isImageLoading && (
             <>
               {canDisplayDeleteButton && (
-                <>
-                  <Hr className="mb-4 mt-4" />
-
+                <CollapsibleSection title="Delete">
                   <Typography variant="labelBase" className="mb-2">
                     Delete {getContentTypeName(content.type)}
                   </Typography>
@@ -803,36 +801,17 @@ export const ContentEdit = (props: any) => {
                   >
                     Delete
                   </Button>
-                </>
+                </CollapsibleSection>
               )}
 
-              <Modal size="small" isOpen={isDeleteModalOpen}>
-                <div className="p-2">
-                  <Typography variant="lead">
-                    Delete {getContentTypeName(content.type)}
-                  </Typography>
-                  <Typography variant="body">
-                    Are you sure you want to delete this{' '}
-                    {getContentTypeName(content.type)}?
-                  </Typography>
-                  <div className="mt-8 flex justify-between">
-                    <Button
-                      variant="outline"
-                      onClick={() => {
-                        setIsDeleteModalOpen(false);
-                      }}
-                    >
-                      Cancel
-                    </Button>
-                    <Button
-                      variant="red"
-                      onClick={async () => handleDeleteRow()}
-                    >
-                      Delete
-                    </Button>
-                  </div>
-                </div>
-              </Modal>
+              <DeleteConfirmationModal
+                isOpen={isDeleteModalOpen}
+                onClose={() => setIsDeleteModalOpen(false)}
+                onConfirm={handleDeleteRow}
+                title={`Delete ${getContentTypeName(content.type)}`}
+                message={`Are you sure you want to delete this ${getContentTypeName(content.type)}?`}
+                isLoading={isSavingSignature}
+              />
             </>
           )}
         <PreviewActionPanel
@@ -985,21 +964,12 @@ const getContentType = (
     }
 
     case ContentType.CUSTOM_VALUE: {
-      const getLabel = (
-        component: any,
-        index: number,
-        originalIndex: number,
-      ) => {
-        if (component.type === ContentType.TEXT) {
-          return originalIndex === 0 ? 'Prefix' : 'Value';
-        }
+      const getLabel = (component: any) => {
+        if (component.type === ContentType.TEXT) return 'The first';
+        if (component.type === ContentType.CUSTOM_VALUE) return 'The second';
         return '';
       };
-      const getLayoutType = (
-        component: any,
-        index: number,
-        originalIndex: number,
-      ) => {
+      const getLayoutType = (component: any, originalIndex: number) => {
         if (component.type === ContentType.TEXT && originalIndex === 0) {
           return LayoutType.PREFIX;
         }
@@ -1008,9 +978,10 @@ const getContentType = (
       return (
         <GenericEditContent
           {...commonProps}
+          reverseComponents={false}
           getLabel={getLabel}
           getLayoutType={getLayoutType}
-          getTitle={(labelText: string) => `Text and color - ${labelText}`}
+          getTitle={(labelText: string) => `${labelText} text and color`}
         />
       );
     }

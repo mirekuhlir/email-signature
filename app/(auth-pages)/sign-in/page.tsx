@@ -15,7 +15,7 @@ export default async function Signin() {
               <div className="p-8 bg-white rounded-sm shadow-md">
                 <Auth
                   title="Sign in"
-                  description="Please enter your e-mail address to sign in."
+                  description="Please enter your email address to sign in."
                 />
                 <div className="mt-4 mb-2 sm:mb-8 sm:mt-8">
                   <StyledLink

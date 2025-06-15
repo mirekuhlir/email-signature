@@ -302,15 +302,20 @@ const websiteContentSchema = z.object({
 }).strip();
 
 // Content schema for custom type
-const CustomTextComponentContentSchema = baseComponentSchema.extend({
+const CustomValueTypedComponentSchema = baseComponentSchema.extend({
     text: sanitizedString(MAX_STRING_LENGTH).optional(),
-    // No 'type' field here as it's implied by the parent textContentSchema
+    type: z.literal("customValue"),
 }).strip();
 
 const customValueContentSchema = z.object({
     type: z.literal("customValue"),
-    components: z.array(CustomTextComponentContentSchema).max(MAX_COMPONENTS),
-});
+    components: z.array(
+        z.discriminatedUnion("type", [
+            TextTypedComponentSchema, // For prefix text
+            CustomValueTypedComponentSchema, // For the actual custom value
+        ]),
+    ).max(MAX_COMPONENTS),
+}).strip();
 
 // Schema for styles applied to rows, columns, and table rows (cells)
 const elementStyleSchema = z.object({

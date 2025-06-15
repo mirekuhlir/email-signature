@@ -15,46 +15,21 @@ import { Hr } from '../ui/hr';
 import { ChevronLeft, Edit2, Copy, Eye } from 'lucide-react';
 import { Container } from '../ui/container';
 import { TEMP_SIGNATURE } from '@/src/const/content';
-import { Typography } from '../ui/typography';
-
-// Function to calculate remaining trial days
-const calculateRemainingTrialDays = (emailConfirmedAt: string): number => {
-  if (!emailConfirmedAt) {
-    return 30;
-  }
-
-  const confirmedDate = new Date(emailConfirmedAt);
-  const currentDate = new Date();
-  const trialEndDate = new Date(confirmedDate);
-
-  // Add 30 days to the confirmed date
-  trialEndDate.setDate(confirmedDate.getDate() + 30);
-
-  // Calculate difference in milliseconds
-  const timeDifference = trialEndDate.getTime() - currentDate.getTime();
-
-  // Convert to days and round up
-  const daysDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
-
-  // Return 0 if trial has expired, otherwise return remaining days
-  return Math.max(0, daysDifference);
-};
+import TrialBanner from '../trial/trial-banner';
+import { useMediaQuery } from '@/src/hooks/useMediaQuery';
+import { MEDIA_QUERIES } from '@/src/constants/mediaQueries';
+import { UserStatus } from '@/src/utils/userState';
 
 export const SignatureDetail = (props: any) => {
-  const { signatureDetail, isSignedIn, templateSlug, user } = props;
-
-  console.warn('user1', user);
+  const { signatureDetail, isSignedIn, templateSlug, user, userStatus } = props;
 
   const { rows, initSignature } = useSignatureStore();
   const { contentEdit } = useContentEditStore();
   const [isEdit, setIsEdit] = useState(false);
+  const [isSticky, setIsSticky] = useState(false);
   const { modal } = useModal();
   const { showAuthModal } = useAuthModal();
-
-  // Calculate remaining trial days
-  const remainingTrialDays = calculateRemainingTrialDays(
-    user?.email_confirmed_at,
-  );
+  const isMobile = useMediaQuery(MEDIA_QUERIES.MOBILE);
 
   /*  console.warn('    user?.email_confirmed_at', user?.email_confirmed_at); */
 
@@ -79,15 +54,47 @@ export const SignatureDetail = (props: any) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!isMobile) {
+        const shouldBeSticky = window.scrollY > 1;
+        setIsSticky(shouldBeSticky);
+      } else {
+        setIsSticky(false);
+      }
+    };
+
+    // Only add scroll listener when in edit mode with edit/column path
+    if (contentEdit.editPath || contentEdit.columnPath) {
+      window.addEventListener('scroll', handleScroll);
+      window.addEventListener('resize', handleScroll); // Handle screen size changes
+      // Call once to set initial state
+      handleScroll();
+      return () => {
+        window.removeEventListener('scroll', handleScroll);
+        window.removeEventListener('resize', handleScroll);
+      };
+    }
+  }, [contentEdit.editPath, contentEdit.columnPath]);
+
   const showCopyInstructionsModal = () => {
     modal({
       content: <CopyInstructionsModalContent />,
-      size: 'large',
+      size: 'fullscreen',
     });
   };
 
   const isPreview =
     !contentEdit.editPath && !contentEdit.columnPath && !contentEdit.addPath;
+
+  // Debug info
+  console.log('Content edit state:', {
+    editPath: contentEdit.editPath,
+    columnPath: contentEdit.columnPath,
+    addPath: contentEdit.addPath,
+    isSticky,
+    shouldShowSticky: contentEdit.editPath || contentEdit.columnPath,
+  });
 
   return (
     <div className="pb-8">
@@ -126,52 +133,16 @@ export const SignatureDetail = (props: any) => {
       </Container>
 
       {(contentEdit.editPath || contentEdit.columnPath) && (
-        <div className="flex flex-col">
+        <div
+          className={`${isSticky ? 'sticky top-0 z-10 bg-white pt-20' : ''}`}
+        >
           <SignaturePreview />
         </div>
       )}
 
       {!isEdit && (
         <>
-          <Container>
-            <div className="flex flex-col bg-orange-200 p-4 mb-8 rounded-lg">
-              <Typography variant="large">
-                Try all features free for{' '}
-                {remainingTrialDays > 0
-                  ? `${remainingTrialDays} days`
-                  : '30 days'}
-              </Typography>
-
-              <Typography variant="body">
-                Use all features for free for{' '}
-                {remainingTrialDays > 0
-                  ? `${remainingTrialDays} days`
-                  : '30 days'}
-                . If you are satisfied, you pay a one-time fee and your
-                signatures will remain yours forever. If you decide not to
-                continue with the paid service, your signatures will be
-                automatically deleted after the trial period ends.
-              </Typography>
-              {remainingTrialDays > 0 && isSignedIn && (
-                <div className="flex justify-end sm:justify-start">
-                  <StyledLink
-                    variant="button-brand-blue"
-                    href="/pricing"
-                    className="mt-4"
-                  >
-                    Upgrade to premium
-                  </StyledLink>
-                </div>
-              )}
-              {remainingTrialDays === 0 && (
-                <div className="mt-4">
-                  <Typography variant="body" className="font-semibold">
-                    Your trial has expired.
-                  </Typography>
-                </div>
-              )}
-            </div>
-          </Container>
+          <TrialBanner user={user} />
           <SignaturePreview />
 
           <Container>
@@ -182,12 +153,12 @@ export const SignatureDetail = (props: any) => {
                   variant="brandBlue"
                   onClick={() => {
                     if (isSignedIn) {
-                      handleCopy();
+                      handleCopy(userStatus);
                       showCopyInstructionsModal();
                     } else {
                       showAuthModal({
                         title: 'Sign in to use your signature',
-                        description: 'Please enter your e-mail to sign in.',
+                        description: 'Please enter your email to sign in.',
                       });
                     }
                   }}

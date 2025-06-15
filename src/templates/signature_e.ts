@@ -187,11 +187,12 @@ export const signature_e = () => {
                             {
                                 "id": generateRandomId(),
                                 "content": {
-                                    "type": "customValue",
+                                    "type": "text",
                                     "components": [
                                         {
                                             "id": generateRandomId(),
-                                            "text": "",
+                                            "text":
+                                                localizedContent.addressValue,
                                             "type": "text",
                                             "color": "rgb(0, 0, 0)",
                                             "width": "0px",
@@ -200,9 +201,9 @@ export const signature_e = () => {
                                             "fontSize": "14px",
                                             "fontStyle": "normal",
                                             "textAlign": "left",
-                                            "fontFamily": "Verdana",
-                                            "fontWeight": "bold",
-                                            "lineHeight": "1",
+                                            "fontFamily": "Arial",
+                                            "fontWeight": "normal",
+                                            "lineHeight": "1.1",
                                             "borderRadius": "0px 0px 0px 0px",
                                             "letterSpacing": "0px",
                                             "borderTopColor": "rgb(0, 0, 0)",
@@ -218,21 +219,6 @@ export const signature_e = () => {
                                             "borderBottomColor": "rgb(0, 0, 0)",
                                             "borderBottomStyle": "none",
                                             "borderBottomWidth": "0px",
-                                        },
-                                        {
-                                            "id": generateRandomId(),
-                                            "text":
-                                                localizedContent.addressValue,
-                                            "type": "text",
-                                            "color": "rgb(0, 0, 0)",
-                                            "fontSize": "14px",
-                                            "fontStyle": "normal",
-                                            "textAlign": "left",
-                                            "fontFamily": "Arial",
-                                            "fontWeight": "normal",
-                                            "lineHeight": "1.25",
-                                            "letterSpacing": "0px",
-                                            "textDecoration": "none",
                                         },
                                     ],
                                 },

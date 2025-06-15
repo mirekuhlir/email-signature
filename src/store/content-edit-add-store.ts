@@ -25,7 +25,7 @@ export interface StoreState {
     rows: any;
     colors?: string[];
   }) => void;
-  addRow: (path: string, type: ContentType) => void;
+  addRow: (path: string, type: ContentType, insertIndex?: number) => void;
   addRowTable: (position: "start" | "end", type: ContentType) => void;
   deleteRow: (
     path: string,
@@ -63,7 +63,7 @@ export const useSignatureStore = create<StoreState>((set, get) => {
       set({ rows, colors });
     },
 
-    addRow: (path: string, type: ContentType) =>
+    addRow: (path: string, type: ContentType, insertIndex?: number) =>
       set((state) => {
         const cloneRows = cloneDeep(state.rows);
         const currentRowsInColumn = lGet(cloneRows, path, []);
@@ -162,7 +162,22 @@ export const useSignatureStore = create<StoreState>((set, get) => {
           }
         }
 
-        lSet(cloneRows, path, [...currentRowsInColumn, newRowContent]);
+        // Insert at specific index if provided, otherwise append to end
+        let updatedRows;
+        if (
+          insertIndex !== undefined && insertIndex >= 0 &&
+          insertIndex <= currentRowsInColumn.length
+        ) {
+          updatedRows = [
+            ...currentRowsInColumn.slice(0, insertIndex),
+            newRowContent,
+            ...currentRowsInColumn.slice(insertIndex),
+          ];
+        } else {
+          updatedRows = [...currentRowsInColumn, newRowContent];
+        }
+
+        lSet(cloneRows, path, updatedRows);
 
         return { rows: cloneRows };
       }),
@@ -200,21 +215,14 @@ export const useSignatureStore = create<StoreState>((set, get) => {
 
       const columnIndex = parseInt(path.split("columns[")[1].split("]")[0]);
 
-      const columnsLength = cloneRows[tableIndex].columns.length;
-      const rowsLength = cloneRows[tableIndex].columns[columnIndex].rows.length;
+      // Remove just the specific row
+      const rowIndex = parseInt(path.split("rows[")[1].split("]")[0]);
+      const rows = cloneRows[tableIndex].columns[columnIndex].rows;
+      cloneRows[tableIndex].columns[columnIndex].rows = rows.filter((
+        _: any,
+        index: number,
+      ) => index !== rowIndex);
 
-      if (columnsLength === 1 && rowsLength === 1) {
-        // Remove entire table object
-        cloneRows.splice(tableIndex, 1);
-      } else {
-        // Remove just the specific row
-        const rowIndex = parseInt(path.split("rows[")[1].split("]")[0]);
-        const rows = cloneRows[tableIndex].columns[columnIndex].rows;
-        cloneRows[tableIndex].columns[columnIndex].rows = rows.filter((
-          _: any,
-          index: number,
-        ) => index !== rowIndex);
-      }
       if (isSignedIn) {
         const { error } = await supabase.functions.invoke("patch-signature", {
           method: "PATCH",

@@ -52,7 +52,7 @@ export const Auth = ({ title, description }: AuthProps) => {
       toast({
         title: 'Error',
         description:
-          'Failed to send e-mail. Please try again a few minutes later.',
+          'Failed to send email. Please try again a few minutes later.',
         variant: 'error',
         duration: 0,
       });
@@ -72,10 +72,10 @@ export const Auth = ({ title, description }: AuthProps) => {
             className="leading-loose"
             textColor="text-brand-blue-900"
           >
-            E-mail sent
+            Email sent
           </Typography>
           <Typography variant="body">
-            Please check your e-mail <span className="font-bold">{email}</span>{' '}
+            Please check your email <span className="font-bold">{email}</span>{' '}
             for a sign in link.
           </Typography>
         </div>
@@ -98,13 +98,13 @@ export const Auth = ({ title, description }: AuthProps) => {
           <div className="flex flex-col justify-center  flex-1">
             {!title && (
               <Typography variant="h5" className="mb-4">
-                Please enter your e-mail to sign in.
+                Please enter your email to sign in.
               </Typography>
             )}
             <form onSubmit={handleSubmit(onSubmit)} className="bg-white">
               <TextInput
                 isAutoFocus={true}
-                label="E-mail"
+                label="Email"
                 name="email"
                 register={register}
                 errors={formErrors}

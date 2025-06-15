@@ -230,7 +230,7 @@ const getCustomValue = () => {
                 {
                     id: generateRandomId(),
                     text: getCustomValueTextExample().value,
-                    type: ContentType.TEXT,
+                    type: ContentType.CUSTOM_VALUE,
                     fontSize: "14px",
                     color: "rgb(0, 0, 0)",
                     fontFamily: "Arial",

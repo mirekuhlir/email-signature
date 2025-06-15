@@ -34,7 +34,7 @@ export const Header = (props: any) => {
           <div className="flex items-center">
             <StyledLink variant="none" href="/">
               <span className="text-xl sm:text-2xl font-bold bg-linear-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
-                Logo
+                Email avatar
               </span>
             </StyledLink>
           </div>
@@ -66,7 +66,7 @@ export const Header = (props: any) => {
               onClick={() =>
                 showAuthModal({
                   title: 'Sign in',
-                  description: 'Please enter your e-mail to sign in.',
+                  description: 'Please enter your email to sign in.',
                 })
               }
             >
