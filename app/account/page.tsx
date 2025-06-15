@@ -29,8 +29,10 @@ export default async function Account() {
         <div className="pt-24">
           <Container>
             <div className="w-full">
-              <Typography variant="h3">Account</Typography>
-              <div className="mt-6 p-6 bg-white rounded-sm shadow-md">
+              <Typography variant="h3" textColor="text-brand-blue-900">
+                Account
+              </Typography>
+              <div className="mt-2 p-6 bg-white rounded-sm shadow-md">
                 <div className="flex flex-col gap-2">
                   <div className="flex items-center gap-2">
                     <Typography className="font-semibold">Email:</Typography>
