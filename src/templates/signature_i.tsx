@@ -1,5 +1,18 @@
 import { generateRandomId } from '../utils/generateRandomId';
 
+const getLocalizedContent = () => {
+  return {
+    name: 'Adeline Waren',
+    title: 'landscape architect',
+    phonePrefix: '',
+    phoneValue: '+1 123 456 7890',
+    emailPrefix: '',
+    emailValue: 'example@email.com',
+    websiteValue: 'www.example.com',
+    slogan: 'Turning your vision into a stunning landscape reality.',
+  };
+};
+
 export const signature_i = () => {
   return {
     info: {
@@ -77,7 +90,7 @@ export const signature_i = () => {
                   components: [
                     {
                       id: generateRandomId(),
-                      text: 'Adeline Waren',
+                      text: getLocalizedContent().name,
                       color: 'rgb(204, 120, 43)',
                       width: '0px',
                       height: '0px',
@@ -114,7 +127,7 @@ export const signature_i = () => {
                   components: [
                     {
                       id: generateRandomId(),
-                      text: 'landscape architect',
+                      text: getLocalizedContent().title,
                       color: 'rgb(109, 143, 118)',
                       width: '0px',
                       height: '0px',
@@ -151,7 +164,7 @@ export const signature_i = () => {
                   components: [
                     {
                       id: generateRandomId(),
-                      text: '',
+                      text: getLocalizedContent().phonePrefix,
                       type: 'text',
                       color: 'rgb(71, 71, 71)',
                       width: '0px',
@@ -181,7 +194,7 @@ export const signature_i = () => {
                     },
                     {
                       id: generateRandomId(),
-                      text: '+1 123 456 7890',
+                      text: getLocalizedContent().phoneValue,
                       type: 'phoneLink',
                       color: 'rgb(71, 71, 71)',
                       fontSize: '14px',
@@ -203,7 +216,7 @@ export const signature_i = () => {
                   components: [
                     {
                       id: generateRandomId(),
-                      text: '',
+                      text: getLocalizedContent().emailPrefix,
                       type: 'text',
                       color: 'rgb(71, 71, 71)',
                       width: '0px',
@@ -233,7 +246,7 @@ export const signature_i = () => {
                     },
                     {
                       id: generateRandomId(),
-                      text: 'example@email.com',
+                      text: getLocalizedContent().emailValue,
                       type: 'emailLink',
                       color: 'rgb(71, 71, 71)',
                       fontSize: '14px',
@@ -255,7 +268,7 @@ export const signature_i = () => {
                   components: [
                     {
                       id: generateRandomId(),
-                      text: '',
+                      text: getLocalizedContent().websitePrefix,
                       type: 'text',
                       color: 'rgb(71, 71, 71)',
                       width: '0px',
@@ -285,7 +298,7 @@ export const signature_i = () => {
                     },
                     {
                       id: generateRandomId(),
-                      text: 'www.example.com',
+                      text: getLocalizedContent().websiteValue,
                       type: 'websiteLink',
                       color: 'rgb(71, 71, 71)',
                       fontSize: '14px',
@@ -302,9 +315,9 @@ export const signature_i = () => {
               },
             ],
             style: {
-              width: '224px',
+              width: 'auto',
               height: 'auto',
-              padding: '0px 0px 0px 0px',
+              padding: '0px 0px 0px 50px',
               borderRadius: '0px 0px 0px 0px',
               verticalAlign: 'middle',
               borderTopColor: 'rgb(0, 0, 0)',
@@ -336,14 +349,14 @@ export const signature_i = () => {
                   components: [
                     {
                       id: generateRandomId(),
-                      text: 'Turning your vision into a stunning landscape reality.',
+                      text: getLocalizedContent().slogan,
                       color: 'rgb(71, 71, 71)',
-                      width: '343px',
+                      width: '0px',
                       height: '0px',
-                      padding: '25px 0px 5px 0px',
+                      padding: '25px 0px 5px 6px',
                       fontSize: '14px',
                       fontStyle: 'italic',
-                      textAlign: 'center',
+                      textAlign: 'left',
                       fontFamily: 'Arial',
                       fontWeight: 'normal',
                       lineHeight: '1',
