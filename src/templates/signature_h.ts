@@ -250,6 +250,7 @@ export const signature_h = () => {
                                             id: generateRandomId(),
                                             text:
                                                 localizedContent.availableValue,
+                                            type: "customValue",
                                             color: "rgb(68, 64, 60)",
                                             fontSize: "14px",
                                             fontStyle: "normal",
