@@ -4,7 +4,7 @@ const PricingCard = () => {
   return (
     <div className="mx-auto">
       {/* Header Section */}
-      <div className="text-center mb-16">
+      <div className="text-center mb-8">
         <h2 className="text-2xl md:text-3xl font-bold text-brand-blue-900 mb-6">
           Simple, Transparent Pricing
         </h2>
