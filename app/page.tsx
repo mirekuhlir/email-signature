@@ -237,20 +237,6 @@ export default async function Home() {
                 </p>
               </div>
             </div>
-            <div className="flex items-start space-x-4">
-              <div>
-                <Gem className="w-10 h-10 text-orange-500" />
-              </div>
-              <div>
-                <h3 className="font-semibold text-lg text-gray-800 mb-1">
-                  Keep Your Signatures Forever
-                </h3>
-                <p className="text-gray-600">
-                  Single one-time payment of $30 lets you keep your signatures
-                  forever.
-                </p>
-              </div>
-            </div>
           </div>
           {userStatus === UserStatus.TRIAL && (
             <div className="flex justify-center">

@@ -118,7 +118,7 @@ const PricingCard = () => {
                   </svg>
                 </div>
                 <Typography className="text-gray-700">
-                  Instant download
+                  One-time payment
                 </Typography>
               </div>
             </div>
