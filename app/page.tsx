@@ -209,7 +209,7 @@ export default async function Home() {
             Try all features for free
           </h2>
 
-          <div className="grid grid-cols-1 gap-y-8 text-left max-w-2xl mx-auto mb-10">
+          <div className="grid grid-cols-1 gap-y-8 text-left max-w-2xl mx-auto">
             <div className="flex items-start space-x-4">
               <div>
                 <Sparkles className="w-10 h-10 text-orange-500" />
@@ -254,7 +254,7 @@ export default async function Home() {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-14 bg-gray-50">
+      <section className="pb-14 pt-1 bg-gray-50">
         <div className="container mx-auto px-4 max-w-2xl">
           <h2 className="text-2xl md:text-3xl font-bold text-brand-blue-900 mb-6 text-center">
             Frequently Asked Questions
