@@ -66,7 +66,7 @@ export const Auth = ({ title, description }: AuthProps) => {
   return (
     <div className="flex flex-col bg-white pt-4 min-h-[250px]">
       {isEmailSent ? (
-        <div className="flex flex-col justify-center items-center flex-1">
+        <div className="flex flex-col justify-center items-center">
           <Typography
             variant="h4"
             className="leading-loose"
@@ -75,8 +75,10 @@ export const Auth = ({ title, description }: AuthProps) => {
             Email sent
           </Typography>
           <Typography variant="body">
-            Please check your email <span className="font-bold">{email}</span>{' '}
-            for a sign in link.
+            <span className="font-bold">{email}</span>
+          </Typography>
+          <Typography variant="body">
+            Please check your email for a sign in link.
           </Typography>
         </div>
       ) : (
