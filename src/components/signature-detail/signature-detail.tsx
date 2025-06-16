@@ -159,7 +159,7 @@ export const SignatureDetail = (props: any) => {
                       showAuthModal({
                         title: 'Sign in to use your signature',
                         description:
-                          'Please enter your email to sign in. Then you can also save individual signatures and edit them again later.',
+                          'Please enter your email to sign in. Then you can also save signatures and edit them again later.',
                       });
                     }
                   }}

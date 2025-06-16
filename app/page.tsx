@@ -13,6 +13,8 @@ import {
   CreditCard,
   Gem,
 } from 'lucide-react';
+import { getUserStatus, UserStatus } from '@/src/utils/userState';
+import PricingCard from '@/src/components/pricing/pricing-card';
 
 export default async function Home() {
   const supabase = await createClient();
@@ -20,6 +22,8 @@ export default async function Home() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
+  const userStatus = await getUserStatus(user);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -37,9 +41,16 @@ export default async function Home() {
           <p className="text-lg md:text-xl mx-auto mb-8 text-brand-purple-900">
             Make your emails trustworthy and attractive.
           </p>
-          <StyledLink variant="button-orange" size="xl" href="/templates">
-            Create your signature now!
-          </StyledLink>
+          {userStatus === UserStatus.TRIAL && (
+            <StyledLink variant="button-orange" size="xl" href="/templates">
+              Create your signature now!
+            </StyledLink>
+          )}
+          {userStatus === UserStatus.PREMIUM && (
+            <StyledLink variant="button-brand-blue" size="xl" href="/pricing">
+              Buy full version
+            </StyledLink>
+          )}
         </div>
       </section>
 
@@ -239,11 +250,19 @@ export default async function Home() {
               </div>
             </div>
           </div>
-          <div className="flex justify-center">
-            <StyledLink variant="button-orange" size="xl" href="/templates">
-              Try for free
-            </StyledLink>
-          </div>
+          {userStatus === UserStatus.TRIAL && (
+            <div className="flex justify-center">
+              <StyledLink variant="button-orange" size="xl" href="/templates">
+                Try for free
+              </StyledLink>
+            </div>
+          )}
+        </div>
+      </section>
+
+      <section className="py-14 bg-gray-50">
+        <div className="container mx-auto px-4 max-w-5xl text-center">
+          <PricingCard />
         </div>
       </section>
 
