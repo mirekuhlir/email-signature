@@ -24,14 +24,17 @@ export const SignatureDetail = (props: any) => {
   const { signatureDetail, isSignedIn, templateSlug, user } = props;
 
   const { rows, initSignature } = useSignatureStore();
-  const { contentEdit } = useContentEditStore();
+  const { contentEdit, resetContentEdit } = useContentEditStore();
   const [isEdit, setIsEdit] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
   const { modal } = useModal();
   const { showAuthModal } = useAuthModal();
   const isMobile = useMediaQuery(MEDIA_QUERIES.MOBILE);
 
-  /*  console.warn('    user?.email_confirmed_at', user?.email_confirmed_at); */
+  useEffect(() => {
+    resetContentEdit();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const tempSignature = JSON.parse(
