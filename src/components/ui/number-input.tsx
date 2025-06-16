@@ -45,8 +45,6 @@ const NumberInput: React.FC<NumberInputProps> = ({
         id={name}
         type="number"
         autoFocus={isAutoFocus}
-        min={min}
-        max={max}
         step={step}
         {...register(name, {
           ...validation,

@@ -1,9 +1,11 @@
 'use client';
 
 import React, { useState, useRef, useCallback, useMemo } from 'react';
+import { useForm } from 'react-hook-form';
 import { Typography } from './typography';
 import Modal from './modal';
 import { Button } from './button';
+import NumberInput from './number-input';
 
 interface Step {
   label: string;
@@ -47,9 +49,11 @@ const Slider: React.FC<SliderProps> = (props) => {
   const thumbRef = useRef<HTMLDivElement>(null);
   const isDraggingRef = useRef(false);
 
-  // Modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [inputValue, setInputValue] = useState('');
+
+  const form = useForm<{ value: number }>({
+    defaultValues: { value: 0 },
+  });
 
   const getInitialValue = useCallback((): number => {
     return isUsingSteps
@@ -117,8 +121,8 @@ const Slider: React.FC<SliderProps> = (props) => {
 
   const percentValue = useMemo(() => getPercentValue(), [getPercentValue]);
 
-  const handleModalSubmit = () => {
-    const numValue = parseFloat(inputValue);
+  const handleModalSubmit = form.handleSubmit((data) => {
+    const numValue = data.value;
     if (!isNaN(numValue)) {
       if (isUsingSteps) {
         // Find closest step value
@@ -148,7 +152,17 @@ const Slider: React.FC<SliderProps> = (props) => {
       }
     }
     setIsModalOpen(false);
-    setInputValue('');
+    form.reset();
+  });
+
+  const openModal = () => {
+    form.setValue('value', currentValue);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    form.reset();
   };
 
   return (
@@ -231,11 +245,11 @@ const Slider: React.FC<SliderProps> = (props) => {
           </div>
         </div>
 
-        <div className="pl-2 relative -top-4">
+        <div className="pl-1 pr-0 sm:pr-4 relative -top-4">
           <Button
             variant="blue"
             size="sm"
-            onClick={() => setIsModalOpen(true)}
+            onClick={openModal}
             disabled={isDisabled}
           >
             Edit
@@ -243,48 +257,32 @@ const Slider: React.FC<SliderProps> = (props) => {
         </div>
       </div>
 
-      <Modal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        title="Enter Value"
-        size="small"
-      >
-        <div className="space-y-4">
-          <div>
-            <Typography variant="labelBase">
-              Value{' '}
-              {isUsingSteps
+      <Modal isOpen={isModalOpen} title="Enter Value" size="small">
+        <form onSubmit={handleModalSubmit} className="space-y-4">
+          <NumberInput
+            label={`Value ${
+              isUsingSteps
                 ? `(${steps![0].value} - ${steps![steps!.length - 1].value})`
-                : `(${min} - ${max})`}
-              :
-            </Typography>
-            <input
-              type="number"
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              min={isUsingSteps ? steps![0].value : min}
-              max={isUsingSteps ? steps![steps!.length - 1].value : max}
-              step={isUsingSteps ? 1 : step}
-              className="mt-2 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter number..."
-              autoFocus
-            />
-          </div>
-          <div className="flex justify-end gap-2">
-            <Button
-              variant="outline"
-              onClick={() => {
-                setIsModalOpen(false);
-                setInputValue('');
-              }}
-            >
-              Cancel
+                : `(${min} - ${max})`
+            }`}
+            name="value"
+            register={form.register}
+            errors={form.formState.errors}
+            placeholder="Enter number..."
+            isAutoFocus={true}
+            min={isUsingSteps ? steps![0].value : min}
+            max={isUsingSteps ? steps![steps!.length - 1].value : max}
+            step={isUsingSteps ? 1 : step}
+          />
+          <div className="flex justify-between gap-2">
+            <Button type="button" variant="outline" onClick={closeModal}>
+              Close
             </Button>
-            <Button variant="blue" onClick={handleModalSubmit}>
+            <Button type="submit" variant="blue">
               Confirm
             </Button>
           </div>
-        </div>
+        </form>
       </Modal>
     </div>
   );
