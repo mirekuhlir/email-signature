@@ -119,7 +119,12 @@ export const Auth = ({ title, description }: AuthProps) => {
               />
 
               <div className="w-full flex justify-end">
-                <Button loading={isEmailSending} size="lg" type="submit">
+                <Button
+                  loading={isEmailSending}
+                  size="lg"
+                  type="submit"
+                  isFullWidth
+                >
                   {isEmailSending ? 'Sending...' : 'Send'}
                 </Button>
               </div>
