@@ -424,6 +424,7 @@ export const ContentEdit = (props: any) => {
   const componentId = content?.components[0]?.id;
 
   const isVisibleOnlyPreview = editingSectionIds.length > 0;
+  const isSlidersDisabled = editingSectionIds.length > 0;
 
   return (
     <div key={path}>
@@ -458,6 +459,7 @@ export const ContentEdit = (props: any) => {
                         onChange={(value: number) => {
                           setPaddingTop(value);
                         }}
+                        isDisabled={isSlidersDisabled}
                       />
                     </div>
 
@@ -472,6 +474,7 @@ export const ContentEdit = (props: any) => {
                         onChange={(value: number) => {
                           setPaddingRight(value);
                         }}
+                        isDisabled={isSlidersDisabled}
                       />
                     </div>
 
@@ -486,6 +489,7 @@ export const ContentEdit = (props: any) => {
                         onChange={(value: number) => {
                           setPaddingBottom(value);
                         }}
+                        isDisabled={isSlidersDisabled}
                       />
                     </div>
 
@@ -500,6 +504,7 @@ export const ContentEdit = (props: any) => {
                         onChange={(value: number) => {
                           setPaddingLeft(value);
                         }}
+                        isDisabled={isSlidersDisabled}
                       />
                     </div>
                   </div>
@@ -521,6 +526,7 @@ export const ContentEdit = (props: any) => {
                               top: value,
                             }));
                           }}
+                          isDisabled={isSlidersDisabled}
                         />
                       </div>
 
@@ -558,6 +564,7 @@ export const ContentEdit = (props: any) => {
                               right: value,
                             }));
                           }}
+                          isDisabled={isSlidersDisabled}
                         />
                       </div>
 
@@ -595,6 +602,7 @@ export const ContentEdit = (props: any) => {
                               bottom: value,
                             }));
                           }}
+                          isDisabled={isSlidersDisabled}
                         />
                       </div>
 
@@ -632,6 +640,7 @@ export const ContentEdit = (props: any) => {
                               left: value,
                             }));
                           }}
+                          isDisabled={isSlidersDisabled}
                         />
                       </div>
 
@@ -688,6 +697,7 @@ export const ContentEdit = (props: any) => {
                             topLeft: value.toString(),
                           }));
                         }}
+                        isDisabled={isSlidersDisabled}
                       />
                     </div>
                     <div>
@@ -705,6 +715,7 @@ export const ContentEdit = (props: any) => {
                             topRight: value.toString(),
                           }));
                         }}
+                        isDisabled={isSlidersDisabled}
                       />
                     </div>
                     <div>
@@ -723,6 +734,7 @@ export const ContentEdit = (props: any) => {
                             bottomLeft: value.toString(),
                           }));
                         }}
+                        isDisabled={isSlidersDisabled}
                       />
                     </div>
                     <div>
@@ -741,6 +753,7 @@ export const ContentEdit = (props: any) => {
                             bottomRight: value.toString(),
                           }));
                         }}
+                        isDisabled={isSlidersDisabled}
                       />
                     </div>
                   </div>
@@ -759,6 +772,7 @@ export const ContentEdit = (props: any) => {
                         onChange={(value: number) => {
                           setWidth(value);
                         }}
+                        isDisabled={isSlidersDisabled}
                       />
                     </div>
                     <div>
@@ -772,6 +786,7 @@ export const ContentEdit = (props: any) => {
                         onChange={(value: number) => {
                           setHeight(value);
                         }}
+                        isDisabled={isSlidersDisabled}
                       />
                     </div>
                   </div>
