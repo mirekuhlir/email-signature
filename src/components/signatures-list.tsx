@@ -222,7 +222,7 @@ export const SignaturesList = (props: any) => {
 
   if (isLoading) {
     return (
-      <div className="w-full pt-6">
+      <div className="w-full pt-20">
         <div className="flex justify-center items-center">
           <LoadingInfo text="Creating signature. Please wait..." />
         </div>

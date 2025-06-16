@@ -11,7 +11,6 @@ import {
   Award,
   Sparkles,
   CreditCard,
-  Gem,
 } from 'lucide-react';
 import { getUserStatus, UserStatus } from '@/src/utils/userState';
 import PricingCard from '@/src/components/pricing/pricing-card';
