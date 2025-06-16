@@ -46,6 +46,8 @@ export default async function Home() {
               Create your signature now!
             </StyledLink>
           )}
+
+          {/*   TODO: odkaz přímo na stripe */}
           {userStatus === UserStatus.PREMIUM && (
             <StyledLink variant="button-brand-blue" size="xl" href="/pricing">
               Buy full version
