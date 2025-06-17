@@ -284,31 +284,33 @@ export default async function Home() {
             Try all features for free
           </h2>
 
-          <div className="grid grid-cols-1 gap-y-8 text-left max-w-2xl mx-auto">
-            <div className="flex items-start space-x-4">
-              <div>
-                <Sparkles className="w-10 h-10 text-orange-500" />
+          <div className="flex flex-col justify-center">
+            <div className="grid grid-cols-1 gap-y-8 text-left max-w-2xl mx-auto">
+              <div className="flex items-start space-x-4">
+                <div>
+                  <Sparkles className="w-10 h-10 text-orange-500" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-lg text-gray-800 mb-1">
+                    Full Access to Premium Features
+                  </h3>
+                  <p className="text-gray-600">
+                    {`Explore everything our platform has to offer for free.`}
+                  </p>
+                </div>
               </div>
-              <div>
-                <h3 className="font-semibold text-lg text-gray-800 mb-1">
-                  Full Access to Premium Features
-                </h3>
-                <p className="text-gray-600">
-                  {`Explore everything our platform has to offer for free.`}
-                </p>
-              </div>
-            </div>
-            <div className="flex items-start space-x-4">
-              <div>
-                <CreditCard className="w-10 h-10 text-orange-500" />
-              </div>
-              <div>
-                <h3 className="font-semibold text-lg text-gray-800 mb-1">
-                  No Credit Card Required
-                </h3>
-                <p className="text-gray-600">
-                  We don&apos;t ask for any payment information upfront.
-                </p>
+              <div className="flex items-start space-x-4">
+                <div>
+                  <CreditCard className="w-10 h-10 text-orange-500" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-lg text-gray-800 mb-1">
+                    No Credit Card Required
+                  </h3>
+                  <p className="text-gray-600">
+                    We don&apos;t ask for any payment information upfront.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
