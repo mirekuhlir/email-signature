@@ -24,8 +24,6 @@ const NumberInput: React.FC<NumberInputProps> = ({
   placeholder,
   validation,
   isAutoFocus,
-  min,
-  max,
   step,
 }) => {
   const errorMessage =
