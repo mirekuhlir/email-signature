@@ -306,15 +306,6 @@ export const SignaturesList = (props: any) => {
         onClose={() => setIsModalOpen(false)}
       >
         <Container isZeroPadding={true}>
-          <div className="mb-4">
-            <Typography variant="h4" textColor="text-brand-blue-900">
-              Choose a template you like
-            </Typography>
-          </div>
-          <div className="mb-6">
-            <Hr />
-          </div>
-
           <TemplatesExamples
             isSignedIn={true}
             createSignature={createSignature}

@@ -14,6 +14,10 @@ import {
 } from 'lucide-react';
 import { getUserStatus, UserStatus } from '@/src/utils/userState';
 import PricingCard from '@/src/components/pricing/pricing-card';
+import gmail from '@/src/asset/email-clients/gmail.png';
+import outlook from '@/src/asset/email-clients/outlook.png';
+import ios from '@/src/asset/email-clients/ios.png';
+import Image from 'next/image';
 
 export default async function Home() {
   const supabase = await createClient();
@@ -163,6 +167,77 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* Supported Email Clients Section */}
+      <section className="py-14 bg-white">
+        <div className="container mx-auto px-4 max-w-5xl">
+          <h2 className="text-2xl md:text-3xl font-bold text-center text-brand-blue-900 mb-6">
+            Compatible with all major email clients
+          </h2>
+          <p className="text-lg text-center text-gray-600 mb-12 max-w-2xl mx-auto">
+            Your signature will work perfectly in all popular email clients
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-8 max-w-3xl mx-auto justify-center items-center">
+            <div className="text-center group">
+              <div className="mb-4 flex justify-center">
+                <div className="w-16 h-16 bg-gray-50 rounded-lg flex items-center justify-center group-hover:bg-gray-100 transition-colors">
+                  <Image
+                    src={gmail}
+                    alt="Gmail"
+                    width={48}
+                    height={48}
+                    className="object-contain"
+                  />
+                </div>
+              </div>
+              <h3 className="text-lg font-semibold text-gray-800">Gmail</h3>
+              <p className="text-sm text-gray-600">Web & Mobile</p>
+            </div>
+
+            <div className="text-center group">
+              <div className="mb-4 flex justify-center">
+                <div className="w-16 h-16 bg-gray-50 rounded-lg flex items-center justify-center group-hover:bg-gray-100 transition-colors">
+                  <Image
+                    src={outlook}
+                    alt="Outlook"
+                    width={48}
+                    height={48}
+                    className="object-contain"
+                  />
+                </div>
+              </div>
+              <h3 className="text-lg font-semibold text-gray-800">Outlook</h3>
+              <p className="text-sm text-gray-600">Desktop & Web</p>
+            </div>
+
+            <div className="text-center group">
+              <div className="mb-4 flex justify-center">
+                <div className="w-16 h-16 bg-gray-50 rounded-lg flex items-center justify-center group-hover:bg-gray-100 transition-colors">
+                  <Image
+                    src={ios}
+                    alt="Apple Mail & iPhone & iPad"
+                    width={48}
+                    height={48}
+                    className="object-contain"
+                  />
+                </div>
+              </div>
+              <h3 className="text-lg font-semibold text-gray-800">
+                Apple Mail
+              </h3>
+              <p className="text-sm text-gray-600">macOS & iOS</p>
+            </div>
+          </div>
+
+          <div className="text-center mt-8">
+            <p className="text-gray-600">
+              And many more email clients including Thunderbird, Yahoo Mail, and
+              others
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Social Proof Section - User Quotes */}
       {/*       <section className="py-14 bg-white">
         <div className="container mx-auto px-4 max-w-2xl text-center">
@@ -238,7 +313,7 @@ export default async function Home() {
             </div>
           </div>
           {userStatus === UserStatus.TRIAL && (
-            <div className="flex justify-center">
+            <div className="flex justify-center mt-6">
               <StyledLink variant="button-orange" size="xl" href="/templates">
                 Try for free
               </StyledLink>
