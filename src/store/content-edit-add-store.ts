@@ -86,8 +86,11 @@ export const useSignatureStore = create<StoreState>((set, get) => {
           applyToTypes.includes(type) &&
           currentRowsInColumn.length > 0
         ) {
-          const previousRow =
-            currentRowsInColumn[currentRowsInColumn.length - 1];
+          const previousRow = currentRowsInColumn[
+            typeof insertIndex === "number"
+              ? insertIndex - 1
+              : currentRowsInColumn.length - 1
+          ];
           const previousContentType = lGet(previousRow, "content.type");
 
           if (applyToTypes.includes(previousContentType)) {
