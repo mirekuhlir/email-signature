@@ -320,7 +320,7 @@ export const signature_d = () => {
                                             "color": "rgb(105, 105, 105)",
                                             "width": "0px",
                                             "height": "0px",
-                                            "padding": "0px 0px 10px 0px",
+                                            "padding": "0px 0px 2px 0px",
                                             "fontSize": "14px",
                                             "fontStyle": "normal",
                                             "textAlign": "left",
