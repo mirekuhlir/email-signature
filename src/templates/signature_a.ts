@@ -12,7 +12,8 @@ const getLocalizedContent = () => {
     "emailPrefix": "e: ",
     "websitePrefix": "w: ",
     "website": "example.com",
-    "address": "987 Willow Street, Asheville\nNC 28801",
+    "address": "987 Willow Street, Asheville",
+    "address2": "NC 28801",
   };
 };
 
@@ -378,7 +379,7 @@ export const signature_a = () => {
                 },
               },
               {
-                "id": "ypthzm7",
+                "id": generateRandomId(),
                 "content": {
                   "type": "text",
                   "components": [
@@ -424,6 +425,43 @@ export const signature_a = () => {
                       "type": "text",
                       "color": "rgb(81, 25, 92)",
                       "padding": "3px 0px 0px 0px",
+                      "fontSize": "14px",
+                      "fontStyle": "normal",
+                      "textAlign": "left",
+                      "fontFamily": "Arial",
+                      "fontWeight": "normal",
+                      "lineHeight": "1.1",
+                      "borderRadius": "0px 0px 0px 0px",
+                      "letterSpacing": "0px",
+                      "borderTopColor": "rgb(0, 0, 0)",
+                      "borderTopStyle": "none",
+                      "borderTopWidth": "0px",
+                      "textDecoration": "none",
+                      "borderLeftColor": "rgb(0, 0, 0)",
+                      "borderLeftStyle": "none",
+                      "borderLeftWidth": "0px",
+                      "borderRightColor": "rgb(0, 0, 0)",
+                      "borderRightStyle": "none",
+                      "borderRightWidth": "0px",
+                      "borderBottomColor": "rgb(0, 0, 0)",
+                      "borderBottomStyle": "none",
+                      "borderBottomWidth": "0px",
+                    },
+                  ],
+                },
+              },
+              {
+                "id": generateRandomId(),
+                "content": {
+                  "type": "text",
+                  "components": [
+                    {
+                      "id": generateRandomId(),
+                      "text": localizedContent.address2,
+                      "color": "rgb(81, 25, 92)",
+                      "width": "0px",
+                      "height": "0px",
+                      "padding": "0px 0px 0px 0px",
                       "fontSize": "14px",
                       "fontStyle": "normal",
                       "textAlign": "left",
