@@ -899,6 +899,7 @@ const getContentType = (
       };
       const getLayoutType = (component: any) => {
         if (component.type === ContentType.TEXT) return LayoutType.PREFIX;
+        if (component.type === ContentType.EMAIL_LINK) return LayoutType.EMAIL;
         return LayoutType.TEXT;
       };
       const onValueChange = (
@@ -934,10 +935,13 @@ const getContentType = (
         if (component.type === ContentType.PHONE_LINK) return 'Phone';
         return '';
       };
+
       const getLayoutType = (component: any) => {
         if (component.type === ContentType.TEXT) return LayoutType.PREFIX;
+        if (component.type === ContentType.PHONE_LINK) return LayoutType.PHONE;
         return LayoutType.TEXT;
       };
+
       return (
         <GenericEditContent
           {...commonProps}
@@ -958,6 +962,8 @@ const getContentType = (
       // TODO
       const getLayoutType = (component: any) => {
         if (component.type === ContentType.TEXT) return LayoutType.PREFIX;
+        if (component.type === ContentType.WEBSITE_LINK)
+          return LayoutType.WEBSITE;
         return LayoutType.TEXT;
       };
       return (
