@@ -29,6 +29,36 @@ const NumberInput: React.FC<NumberInputProps> = ({
   const errorMessage =
     errors && errors[name] && (errors[name].message as string);
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    // Allowed keys: numbers, Backspace, Delete, Tab, Escape, Enter, arrows
+    const allowedKeys = [
+      'Backspace',
+      'Delete',
+      'Tab',
+      'Escape',
+      'Enter',
+      'ArrowLeft',
+      'ArrowRight',
+      'ArrowUp',
+      'ArrowDown',
+      'Home',
+      'End',
+    ];
+
+    const isNumber = /^[0-9]$/.test(e.key);
+    const isMinus = e.key === '-';
+
+    // Allow control keys, digits and minus (if at the beginning)
+    if (!allowedKeys.includes(e.key) && !isNumber && !isMinus) {
+      e.preventDefault();
+    }
+
+    // Prevent minus anywhere other than at the beginning
+    if (isMinus && e.currentTarget.selectionStart !== 0) {
+      e.preventDefault();
+    }
+  };
+
   return (
     <div className="mb-4">
       {label && (
@@ -44,6 +74,7 @@ const NumberInput: React.FC<NumberInputProps> = ({
         type="number"
         autoFocus={isAutoFocus}
         step={step}
+        onKeyDown={handleKeyDown}
         {...register(name, {
           ...validation,
           valueAsNumber: true,
