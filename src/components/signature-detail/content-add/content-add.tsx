@@ -39,6 +39,10 @@ export const ContentAdd = (props: ContentAddProps) => {
   const [totalOriginalSrc, setTotalOriginalSrc] = useState(0);
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, []);
+
+  useEffect(() => {
     if (rows.length > 0) {
       const totalOriginalSrc = countOriginalSrc(rows);
       setTotalOriginalSrc(totalOriginalSrc);
