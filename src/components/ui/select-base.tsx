@@ -40,14 +40,20 @@ const SelectBase: React.FC<CustomSelectProps> = ({
   }, []);
 
   useEffect(() => {
-    if (isOpen && selectedOptionRef.current) {
-      if (
-        listRef.current &&
-        listRef.current.scrollHeight > listRef.current.clientHeight
-      ) {
-        selectedOptionRef.current.scrollIntoView({
-          block: 'nearest',
-        });
+    if (isOpen && selectedOptionRef.current && listRef.current) {
+      if (listRef.current.scrollHeight > listRef.current.clientHeight) {
+        // Calculate position to show selected option slightly above the bottom
+        const listRect = listRef.current.getBoundingClientRect();
+        const selectedRect = selectedOptionRef.current.getBoundingClientRect();
+        const optionHeight = selectedRect.height;
+        const listHeight = listRect.height;
+
+        // Position selected option so there's space for ~1.5 more options below it
+        const offsetFromBottom = optionHeight * 1.5;
+        const targetScrollTop =
+          selectedOptionRef.current.offsetTop - (listHeight - offsetFromBottom);
+
+        listRef.current.scrollTop = Math.max(0, targetScrollTop);
       }
     }
   }, [isOpen]);
