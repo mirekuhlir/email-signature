@@ -6,6 +6,8 @@ import { Container } from './ui/container';
 import { useAuthModal } from '@/src/hooks/use-auth-modal';
 import { ContextMenu } from './ui/context-menu';
 import StyledLink from './ui/styled-link';
+import Image from 'next/image';
+import logo5_45 from '@/src/asset/logo5_45.png';
 
 const getInitialsFromEmail = (email: string): string => {
   if (!email) return '??';
@@ -33,15 +35,18 @@ export const Header = (props: any) => {
         <div className="mx-auto lg:px-0 h-16 flex items-center justify-between">
           <div className="flex items-center">
             <StyledLink variant="none" href="/">
-              <span className="text-md sm:text-xl font-bold bg-linear-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
-                My Email Avatar
-              </span>
+              <div className="flex items-center">
+                <Image src={logo5_45} alt="My Email Avatar" />
+                <span className="text-md sm:text-xl font-bold text-brand-blue-900 pl-2">
+                  My Email Avatar
+                </span>
+              </div>
             </StyledLink>
           </div>
           {user ? (
             <div>
               <ContextMenu
-                buttonClassName="w-10 h-10 rounded-full bg-linear-to-r from-blue-600 to-blue-800 flex items-center justify-center text-white font-medium cursor-pointer"
+                buttonClassName="w-10 h-10 rounded-full bg-linear-to-r from-brand-blue-800 to-brand-blue-900 flex items-center justify-center text-white font-medium cursor-pointer"
                 label={getInitialsFromEmail(user.email)}
               >
                 <form action={signOutAction}>
