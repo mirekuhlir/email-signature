@@ -61,7 +61,10 @@ const SignaturesPreview = (props: SignaturesPreviewsProps) => {
                 <Typography className="text-gray-500 text-sm md:text-base block md:inline">
                   Updated at:
                 </Typography>
-                <Typography className="text-sm md:text-base block md:inline md:ml-1">
+                <Typography
+                  className="text-sm md:text-base block md:inline md:ml-1"
+                  textColor="text-gray-900"
+                >
                   {new Date(updatedAt).toLocaleString()}
                 </Typography>
               </div>
@@ -71,7 +74,10 @@ const SignaturesPreview = (props: SignaturesPreviewsProps) => {
                 <Typography className="text-gray-500 text-sm md:text-base block md:inline">
                   Created at:
                 </Typography>
-                <Typography className="text-sm md:text-base block md:inline md:ml-1">
+                <Typography
+                  className="text-sm md:text-base block md:inline md:ml-1"
+                  textColor="text-gray-900"
+                >
                   {new Date(createdAt).toLocaleString()}
                 </Typography>
               </div>

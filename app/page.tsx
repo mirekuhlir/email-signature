@@ -132,7 +132,7 @@ export default async function Home() {
       </section>
 
       {/* How it works Section */}
-      <section className="py-14 bg-gray-50">
+      <section className="py-14 bg-white">
         <div className="container mx-auto px-4 max-w-5xl">
           <h2 className="text-2xl md:text-3xl font-bold text-center text-brand-blue-900 mb-12">
             How does it work?
@@ -168,7 +168,7 @@ export default async function Home() {
       </section>
 
       {/* Supported Email Clients Section */}
-      <section className="py-14 bg-white">
+      <section className="py-14 bg-gray-50">
         <div className="container mx-auto px-4 max-w-5xl">
           <h2 className="text-2xl md:text-3xl font-bold text-center text-brand-blue-900 mb-6">
             Compatible with all major email clients
@@ -177,55 +177,55 @@ export default async function Home() {
             Your signature will work perfectly in all popular email clients
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-8 max-w-3xl mx-auto justify-center items-center">
-            <div className="text-center group">
-              <div className="mb-4 flex justify-center">
-                <div className="w-16 h-16 bg-gray-50 rounded-lg flex items-center justify-center group-hover:bg-gray-100 transition-colors">
-                  <Image
-                    src={gmail}
-                    alt="Gmail"
-                    width={48}
-                    height={48}
-                    className="object-contain"
-                  />
-                </div>
+          <div className="flex flex-col sm:flex-row gap-12 sm:gap-16 max-w-3xl mx-auto justify-center items-center">
+            <div className="flex flex-row gap-4">
+              <div>
+                <Image
+                  src={gmail}
+                  alt="Gmail"
+                  width={48}
+                  height={48}
+                  className="object-contain"
+                />
               </div>
-              <h3 className="text-lg font-semibold text-gray-800">Gmail</h3>
-              <p className="text-sm text-gray-600">Web & Mobile</p>
+              <div>
+                <h3 className="text-lg font-semibold text-gray-800">Gmail</h3>
+                <p className="text-sm text-gray-600">Web & Mobile</p>
+              </div>
             </div>
 
-            <div className="text-center group">
-              <div className="mb-4 flex justify-center">
-                <div className="w-16 h-16 bg-gray-50 rounded-lg flex items-center justify-center group-hover:bg-gray-100 transition-colors">
-                  <Image
-                    src={outlook}
-                    alt="Outlook"
-                    width={48}
-                    height={48}
-                    className="object-contain"
-                  />
-                </div>
+            <div className="flex flex-row gap-4">
+              <div>
+                <Image
+                  src={outlook}
+                  alt="Outlook"
+                  width={48}
+                  height={48}
+                  className="object-contain"
+                />
               </div>
-              <h3 className="text-lg font-semibold text-gray-800">Outlook</h3>
-              <p className="text-sm text-gray-600">Desktop & Web</p>
+              <div>
+                <h3 className="text-lg font-semibold text-gray-800">Outlook</h3>
+                <p className="text-sm text-gray-600">Desktop & Web</p>
+              </div>
             </div>
 
-            <div className="text-center group">
-              <div className="mb-4 flex justify-center">
-                <div className="w-16 h-16 bg-gray-50 rounded-lg flex items-center justify-center group-hover:bg-gray-100 transition-colors">
-                  <Image
-                    src={ios}
-                    alt="Apple Mail & iPhone & iPad"
-                    width={48}
-                    height={48}
-                    className="object-contain"
-                  />
-                </div>
+            <div className="flex flex-row gap-4">
+              <div>
+                <Image
+                  src={ios}
+                  alt="Apple Mail & iPhone & iPad"
+                  width={48}
+                  height={48}
+                  className="object-contain"
+                />
               </div>
-              <h3 className="text-lg font-semibold text-gray-800">
-                Apple Mail
-              </h3>
-              <p className="text-sm text-gray-600">macOS & iOS</p>
+              <div>
+                <h3 className="text-lg font-semibold text-gray-800">
+                  Apple Mail
+                </h3>
+                <p className="text-sm text-gray-600">macOS & iOS</p>
+              </div>
             </div>
           </div>
 
@@ -331,7 +331,7 @@ export default async function Home() {
       </section>
 
       {/* FAQ Section */}
-      <section className="pb-14 pt-1 bg-gray-50">
+      <section className="pb-14 py-14 bg-white">
         <div className="container mx-auto px-4 max-w-2xl">
           <h2 className="text-2xl md:text-3xl font-bold text-brand-blue-900 mb-6 text-center">
             Frequently Asked Questions

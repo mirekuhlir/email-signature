@@ -35,12 +35,9 @@ export const Header = (props: any) => {
         <div className="mx-auto lg:px-0 h-16 flex items-center justify-between">
           <div className="flex items-center">
             <StyledLink variant="none" href="/">
-              <div className="flex items-center">
-                <Image src={logo5_45} alt="My Email Avatar" />
-                <span className="text-md sm:text-xl font-bold text-brand-blue-900 pl-2">
-                  My Email Avatar
-                </span>
-              </div>
+              <span className="text-xl sm:text-2xl font-bold text-brand-blue-900 pl-2">
+                My Email Avatar
+              </span>
             </StyledLink>
           </div>
           {user ? (
