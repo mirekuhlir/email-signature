@@ -6,8 +6,6 @@ import { Container } from './ui/container';
 import { useAuthModal } from '@/src/hooks/use-auth-modal';
 import { ContextMenu } from './ui/context-menu';
 import StyledLink from './ui/styled-link';
-import Image from 'next/image';
-import logo5_45 from '@/src/asset/logo5_45.png';
 
 const getInitialsFromEmail = (email: string): string => {
   if (!email) return '??';
