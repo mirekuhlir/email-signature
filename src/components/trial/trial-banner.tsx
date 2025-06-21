@@ -1,11 +1,15 @@
 import { Typography } from '../ui/typography';
 import { Container } from '../ui/container';
 import StyledLink from '../ui/styled-link';
-import { UserStatus } from '@/src/utils/userState';
+import { getUserStatus, UserStatus } from '@/src/utils/userState';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const TrialBanner = (user: any) => {
-  const isPremium = user.userStatus === UserStatus.PREMIUM;
+  const userStatus = getUserStatus(user);
+
+  if (userStatus === UserStatus.PREMIUM) {
+    return null;
+  }
 
   return (
     <Container>
@@ -16,7 +20,7 @@ const TrialBanner = (user: any) => {
           If you are satisfied, you pay a one-time fee and your signatures will
           remain yours forever.
         </Typography>
-        {!isPremium && (
+        {userStatus === UserStatus.TRIAL && (
           <div className="flex justify-end sm:justify-start">
             <StyledLink
               variant="button-brand-blue"

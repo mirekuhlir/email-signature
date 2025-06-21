@@ -18,7 +18,7 @@ import { TEMP_SIGNATURE } from '@/src/const/content';
 import TrialBanner from '../trial/trial-banner';
 import { useMediaQuery } from '@/src/hooks/useMediaQuery';
 import { MEDIA_QUERIES } from '@/src/constants/mediaQueries';
-import { UserStatus } from '@/src/utils/userState';
+import { getUserStatus } from '@/src/utils/userState';
 
 export const SignatureDetail = (props: any) => {
   const { signatureDetail, isSignedIn, templateSlug, user } = props;
@@ -30,6 +30,8 @@ export const SignatureDetail = (props: any) => {
   const { modal } = useModal();
   const { showAuthModal } = useAuthModal();
   const isMobile = useMediaQuery(MEDIA_QUERIES.MOBILE);
+
+  const userStatus = getUserStatus(user);
 
   useEffect(() => {
     resetContentEdit();
@@ -156,7 +158,7 @@ export const SignatureDetail = (props: any) => {
                   variant="brandBlue"
                   onClick={() => {
                     if (isSignedIn) {
-                      handleCopy(UserStatus.TRIAL);
+                      handleCopy(userStatus);
                       showCopyInstructionsModal();
                     } else {
                       showAuthModal({
