@@ -33,7 +33,7 @@ export const Header = (props: any) => {
         <div className="mx-auto lg:px-0 h-16 flex items-center justify-between">
           <div className="flex items-center">
             <StyledLink variant="none" href="/">
-              <span className="text-xl sm:text-2xl font-bold text-brand-blue-900 pl-2">
+              <span className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-blue-800 via-blue-900 to-brand-blue-900 bg-clip-text text-transparent pl-2 tracking-tight hover:from-blue-700 hover:via-blue-800 hover:to-brand-blue-900 transition-all duration-300 drop-shadow-sm">
                 My Email Avatar
               </span>
             </StyledLink>
