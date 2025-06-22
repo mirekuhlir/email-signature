@@ -319,45 +319,45 @@ export const SignaturesList = (props: any) => {
         </Container>
       </Modal>
       <Modal size="small" isOpen={isDeleteModalOpen}>
-        <div className="pt-4">
-          <div className="mb-4">
-            <Typography variant="h3">{t('Confirm Deletion')}</Typography>
-          </div>
-          <Typography>
-            {t('Are you sure you want to delete this signature?')}
+        <div className="mb-1">
+          <Typography variant="lead" textColor="text-gray-900">
+            {t('Confirm Deletion')}
           </Typography>
-          <div className="mt-4 flex justify-between">
-            <Button
-              variant="gray"
-              disabled={isDeleteLoading}
-              onClick={() => setIsDeleteModalOpen(false)}
-            >
-              {t('Cancel')}
-            </Button>
-            <Button
-              loading={isDeleteLoading}
-              variant="red"
-              onClick={async () => {
-                if (signatureToDelete) {
-                  setIsDeleteLoading(true);
-                  await supabase.functions.invoke(
-                    `delete-signature?signatureId=${signatureToDelete.id}`,
-                    { method: 'DELETE' },
-                  );
+        </div>
+        <Typography>
+          {t('Are you sure you want to delete this signature?')}
+        </Typography>
+        <div className="mt-4 flex justify-between">
+          <Button
+            variant="gray"
+            disabled={isDeleteLoading}
+            onClick={() => setIsDeleteModalOpen(false)}
+          >
+            {t('Cancel')}
+          </Button>
+          <Button
+            loading={isDeleteLoading}
+            variant="red"
+            onClick={async () => {
+              if (signatureToDelete) {
+                setIsDeleteLoading(true);
+                await supabase.functions.invoke(
+                  `delete-signature?signatureId=${signatureToDelete.id}`,
+                  { method: 'DELETE' },
+                );
 
-                  setSignatures(
-                    signatures.filter(
-                      (signature) => signature.id !== signatureToDelete.id,
-                    ),
-                  );
-                  setIsDeleteLoading(false);
-                  setIsDeleteModalOpen(false);
-                }
-              }}
-            >
-              {isDeleteLoading ? 'Deleting...' : t('Delete')}
-            </Button>
-          </div>
+                setSignatures(
+                  signatures.filter(
+                    (signature) => signature.id !== signatureToDelete.id,
+                  ),
+                );
+                setIsDeleteLoading(false);
+                setIsDeleteModalOpen(false);
+              }
+            }}
+          >
+            {isDeleteLoading ? 'Deleting...' : t('Delete')}
+          </Button>
         </div>
       </Modal>
     </div>

@@ -43,6 +43,7 @@ export const signature_i = () => {
                       padding: '0px 0px 0px 0px',
                       originalSrc: `https://${process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/examples/signature_i_original.jpg`,
                       borderRadius: '0px 0px 0px 0px',
+                      previewWidth: 120,
                       imageSettings: {
                         crop: {
                           x: 17.90408434186663,
