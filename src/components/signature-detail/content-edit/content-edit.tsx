@@ -28,6 +28,7 @@ import {
   MAX_IMAGE_WIDTH,
 } from '@/supabase/functions/_shared/const';
 import { LinkComponent } from './add-link';
+import { VerticalAlign } from '../column-settings/column-settings';
 
 export const LoadingInfo = ({
   text = 'Saving. Please wait...',
@@ -124,6 +125,7 @@ export const ContentEdit = (props: any) => {
 
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
+  const [verticalAlign, setVerticalAlign] = useState('top');
 
   const path = `${contentPathToEdit}.content`;
   const content = useMemo(() => get(rows, path), [rows, path]);
@@ -132,6 +134,13 @@ export const ContentEdit = (props: any) => {
     () => get(rows, columnStylePath) || {},
     [rows, columnStylePath],
   );
+
+  // Initialize verticalAlign from existing column style data
+  useEffect(() => {
+    const currentVerticalAlign = columnStyle.verticalAlign || 'top';
+    setVerticalAlign(currentVerticalAlign);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (content?.components[0].padding) {
@@ -293,6 +302,17 @@ export const ContentEdit = (props: any) => {
     });
   };
 
+  const updateVerticalAlign = useCallback(
+    (value: string) => {
+      const currentStyle = get(rows, columnStylePath) || {};
+      setContent(columnStylePath, {
+        ...currentStyle,
+        verticalAlign: value,
+      });
+    },
+    [columnStylePath, setContent, rows],
+  );
+
   useEffect(() => {
     // Check if all values are numbers before updating
     if (
@@ -323,6 +343,14 @@ export const ContentEdit = (props: any) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [width, height]);
+
+  // Apply vertical align changes immediately
+  useEffect(() => {
+    if (verticalAlign) {
+      updateVerticalAlign(verticalAlign);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [verticalAlign]);
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
@@ -772,6 +800,12 @@ export const ContentEdit = (props: any) => {
                       />
                     </div>
                   </div>
+                </CollapsibleSection>
+                <CollapsibleSection title="Alignment">
+                  <VerticalAlign
+                    verticalAlign={verticalAlign}
+                    setVerticalAlign={setVerticalAlign}
+                  />
                 </CollapsibleSection>
 
                 <CollapsibleSection title="Width and height">
