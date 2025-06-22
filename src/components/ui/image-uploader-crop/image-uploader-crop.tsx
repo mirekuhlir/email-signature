@@ -348,11 +348,13 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
       return new Promise<string | null>((resolve, reject) => {
         originalImg.onload = async () => {
           try {
-            // Calculate output dimensions
-            const outputWidth = previewWidth;
-            const outputHeight = Math.round(
-              (cropNaturalHeight / cropNaturalWidth) * outputWidth,
+            // Calculate output dimensions at 2x resolution for sharper images on mobile
+            const displayWidth = previewWidth;
+            const displayHeight = Math.round(
+              (cropNaturalHeight / cropNaturalWidth) * displayWidth,
             );
+            const outputWidth = displayWidth * 2; // 2x resolution
+            const outputHeight = displayHeight * 2; // 2x resolution
 
             // Create source canvas for the cropped area at full resolution
             const sourceCanvas = document.createElement('canvas');
@@ -375,7 +377,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
               cropNaturalHeight,
             );
 
-            // Create target canvas for the final resized image
+            // Create target canvas for the final resized image at 2x resolution
             const targetCanvas = document.createElement('canvas');
             targetCanvas.width = outputWidth;
             targetCanvas.height = outputHeight;
@@ -395,7 +397,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
               return;
             }
 
-            // Apply circular mask if needed (AFTER resizing)
+            // Apply circular mask if needed (AFTER resizing) - scale values for 2x resolution
             if (isCircular) {
               targetCtx.globalCompositeOperation = 'destination-in';
               targetCtx.beginPath();
@@ -409,7 +411,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
               targetCtx.fill();
               targetCtx.globalCompositeOperation = 'source-over'; // Reset composite operation
             }
-            // Apply border radius if needed (AFTER resizing)
+            // Apply border radius if needed (AFTER resizing) - scale values for 2x resolution
             else if (
               borderRadii.topLeft > 0 ||
               borderRadii.topRight > 0 ||
@@ -419,23 +421,24 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
               targetCtx.globalCompositeOperation = 'destination-in';
               targetCtx.beginPath();
 
+              // Scale border radii for 2x resolution
               const rTL = Math.min(
-                borderRadii.topLeft,
+                borderRadii.topLeft * 2,
                 outputWidth / 2,
                 outputHeight / 2,
               );
               const rTR = Math.min(
-                borderRadii.topRight,
+                borderRadii.topRight * 2,
                 outputWidth / 2,
                 outputHeight / 2,
               );
               const rBR = Math.min(
-                borderRadii.bottomRight,
+                borderRadii.bottomRight * 2,
                 outputWidth / 2,
                 outputHeight / 2,
               );
               const rBL = Math.min(
-                borderRadii.bottomLeft,
+                borderRadii.bottomLeft * 2,
                 outputWidth / 2,
                 outputHeight / 2,
               );
@@ -564,40 +567,11 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   // Update the second useEffect to also work with promises
   useEffect(() => {
     if (croppedImageData) {
-      const img = new Image();
-      img.onload = () => {
-        if (!previewCanvasRef.current || !previewWidth) return;
-
-        // Calculate simple scale without pixel ratio multiplication
-        const scale = previewWidth / img.width;
-        const scaledHeight = img.height * scale;
-
-        // Set canvas dimensions directly to the display size
-        previewCanvasRef.current.width = previewWidth;
-        previewCanvasRef.current.height = scaledHeight;
-        previewCanvasRef.current.style.width = `${previewWidth}px`;
-        previewCanvasRef.current.style.height = `${scaledHeight}px`;
-
-        const ctx = previewCanvasRef.current.getContext('2d', { alpha: true });
-        if (!ctx) return;
-
-        // Apply high-quality settings without pixel ratio scaling
-        ctx.imageSmoothingEnabled = true;
-        ctx.imageSmoothingQuality = 'high';
-
-        // Clear the canvas to ensure transparency
-        ctx.clearRect(0, 0, previewWidth, scaledHeight);
-        ctx.drawImage(img, 0, 0, previewWidth, scaledHeight);
-
-        // Always use PNG format with maximum quality to ensure transparency
-        // Even though the final output might be JPEG, keep PNG for preview to handle transparency correctly during adjustments.
-        // The final conversion to JPEG happens in generateCroppedImage.
-        const newDataUrl = previewCanvasRef.current.toDataURL('image/png', 1.0);
-        onSetCropImagePreview?.(newDataUrl);
-      };
-      img.src = croppedImageData; // This is now potentially a JPEG URL from generateCroppedImage
+      // For the final output, we want to keep the 2x resolution image data
+      // So we just pass the high-resolution image data directly without re-rendering
+      onSetCropImagePreview?.(croppedImageData);
     }
-  }, [croppedImageData, previewWidth, onSetCropImagePreview]);
+  }, [croppedImageData, onSetCropImagePreview]);
 
   const handleDeleteImage = useCallback(() => {
     onSetCropImagePreview?.('');
