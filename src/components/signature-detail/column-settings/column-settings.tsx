@@ -21,21 +21,19 @@ import {
 export const VerticalAlign = (props: any) => {
   const { verticalAlign, setVerticalAlign } = props;
   return (
-    <div className="grid grid-cols-1 gap-2 sm:gap-2">
-      <div className="w-full sm:w-1/4">
-        <Typography variant="labelBase">Vertical alignment</Typography>
-        <SelectBase
-          options={[
-            { value: 'top', label: 'Top' },
-            { value: 'middle', label: 'Middle' },
-            { value: 'bottom', label: 'Bottom' },
-          ]}
-          value={verticalAlign}
-          onChange={(value: string) => {
-            setVerticalAlign(value);
-          }}
-        />
-      </div>
+    <div className="w-full">
+      <Typography variant="labelBase">Vertical alignment</Typography>
+      <SelectBase
+        options={[
+          { value: 'top', label: 'Top' },
+          { value: 'middle', label: 'Middle' },
+          { value: 'bottom', label: 'Bottom' },
+        ]}
+        value={verticalAlign}
+        onChange={(value: string) => {
+          setVerticalAlign(value);
+        }}
+      />
     </div>
   );
 };

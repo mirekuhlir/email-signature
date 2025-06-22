@@ -23,7 +23,7 @@ interface ImageHorizontalAlignProps {
 const ImageHorizontalAlign = (props: ImageHorizontalAlignProps) => {
   const { imageComponent, contentPathToEdit, setContent } = props;
   return (
-    <div className="w-full sm:w-1/4">
+    <div className="w-full">
       <Typography variant="labelBase">Horizontal alignment</Typography>
       <SelectBase
         options={[
@@ -217,15 +217,17 @@ export const ImageEditContent = (props: ImageEditContentProps) => {
         horizontalAlign={
           isImage && !isImageLoading ? (
             <CollapsibleSection title="Alignment">
-              <ImageHorizontalAlign
-                imageComponent={imageComponent}
-                contentPathToEdit={contentPathToEdit}
-                setContent={setContent}
-              />
-              <VerticalAlign
-                verticalAlign={verticalAlign}
-                setVerticalAlign={setVerticalAlign}
-              />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <ImageHorizontalAlign
+                  imageComponent={imageComponent}
+                  contentPathToEdit={contentPathToEdit}
+                  setContent={setContent}
+                />
+                <VerticalAlign
+                  verticalAlign={verticalAlign}
+                  setVerticalAlign={setVerticalAlign}
+                />
+              </div>
             </CollapsibleSection>
           ) : null
         }
