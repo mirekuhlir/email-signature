@@ -11,6 +11,8 @@ const TrialBanner = (user: any) => {
     return null;
   }
 
+  console.warn('userStatus', userStatus);
+
   return (
     <Container>
       <div className="flex flex-col bg-orange-200 p-4 mb-8 rounded-lg">
@@ -20,17 +22,16 @@ const TrialBanner = (user: any) => {
           If you are satisfied, you pay a one-time fee and your signatures will
           remain yours forever.
         </Typography>
-        {userStatus === UserStatus.TRIAL && (
-          <div className="flex justify-end sm:justify-start">
-            <StyledLink
-              variant="button-brand-blue"
-              href="/pricing"
-              className="mt-4"
-            >
-              Upgrade to full version
-            </StyledLink>
-          </div>
-        )}
+
+        <div className="flex justify-end sm:justify-start">
+          <StyledLink
+            variant="button-brand-blue"
+            href="/pricing"
+            className="mt-4"
+          >
+            Upgrade to full version
+          </StyledLink>
+        </div>
       </div>
     </Container>
   );

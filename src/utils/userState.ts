@@ -31,7 +31,7 @@ const getIsAfterTrial = (user: User) => {
 };
 
 export const getUserStatus = (user: User | null) => {
-    if (!user) return UserStatus.NOT_LOGGED_IN;
+    if (!user?.email) return UserStatus.NOT_LOGGED_IN;
 
     const isPremium = getIsPremium(user);
     const isTrial = getIsTrial(user);

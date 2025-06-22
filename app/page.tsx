@@ -26,7 +26,7 @@ export default async function Home() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const userStatus = await getUserStatus(user);
+  const userStatus = getUserStatus(user);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -44,14 +44,15 @@ export default async function Home() {
           <p className="text-lg md:text-xl mx-auto mb-8 text-brand-purple-900">
             Make your emails trustworthy and attractive.
           </p>
-          {userStatus === UserStatus.TRIAL && (
+          {(userStatus === UserStatus.NOT_LOGGED_IN ||
+            userStatus === UserStatus.PREMIUM) && (
             <StyledLink variant="button-orange" size="xl" href="/templates">
               Create your signature now!
             </StyledLink>
           )}
 
           {/*   TODO: odkaz přímo na stripe */}
-          {userStatus === UserStatus.PREMIUM && (
+          {userStatus === UserStatus.TRIAL && (
             <StyledLink variant="button-brand-blue" size="xl" href="/pricing">
               Buy full version
             </StyledLink>
@@ -314,13 +315,12 @@ export default async function Home() {
               </div>
             </div>
           </div>
-          {userStatus === UserStatus.TRIAL && (
-            <div className="flex justify-center mt-6">
-              <StyledLink variant="button-orange" size="xl" href="/templates">
-                Try for free
-              </StyledLink>
-            </div>
-          )}
+
+          <div className="flex justify-center mt-6">
+            <StyledLink variant="button-orange" size="xl" href="/templates">
+              Try for free
+            </StyledLink>
+          </div>
         </div>
       </section>
 

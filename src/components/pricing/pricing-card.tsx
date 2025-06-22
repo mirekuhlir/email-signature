@@ -54,6 +54,7 @@ const PricingCard = () => {
             </div>
 
             {/* CTA Button */}
+            {/*      TODO: pokud není přihlášený, ta modál pro přihlášení */}
             <button className="w-full bg-gradient-to-r bg-brand-blue-900 hover:from-brand-blue-900 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl cursor-pointer">
               Get Lifetime Access
             </button>
