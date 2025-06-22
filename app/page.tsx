@@ -140,7 +140,7 @@ export default async function Home() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
-              <div className="mb-4 text-3xl font-bold text-orange-500 flex justify-center items-center">
+              <div className="mb-2 text-3xl font-bold text-orange-500 flex justify-center items-center">
                 1.
               </div>
               <h3 className="text-lg font-semibold mb-2">Choose a template</h3>
@@ -149,7 +149,7 @@ export default async function Home() {
               </p>
             </div>
             <div className="text-center">
-              <div className="mb-4 text-3xl font-bold text-orange-500">2.</div>
+              <div className="mb-2 text-3xl font-bold text-orange-500">2.</div>
               <h3 className="text-lg font-semibold mb-2">
                 Customize your signature
               </h3>
@@ -158,7 +158,7 @@ export default async function Home() {
               </p>
             </div>
             <div className="text-center">
-              <div className="mb-4 text-3xl font-bold text-orange-500">3.</div>
+              <div className="mb-2 text-3xl font-bold text-orange-500">3.</div>
               <h3 className="text-lg font-semibold mb-2">Copy & paste</h3>
               <p className="text-gray-600">
                 Copy your signature to your email.
@@ -189,9 +189,8 @@ export default async function Home() {
                   className="object-contain"
                 />
               </div>
-              <div>
+              <div className="flex justify-center items-center">
                 <h3 className="text-lg font-semibold text-gray-800">Gmail</h3>
-                <p className="text-sm text-gray-600">Web & Mobile</p>
               </div>
             </div>
 
@@ -205,9 +204,8 @@ export default async function Home() {
                   className="object-contain"
                 />
               </div>
-              <div>
+              <div className="flex justify-center items-center">
                 <h3 className="text-lg font-semibold text-gray-800">Outlook</h3>
-                <p className="text-sm text-gray-600">Desktop & Web</p>
               </div>
             </div>
 
@@ -221,11 +219,10 @@ export default async function Home() {
                   className="object-contain"
                 />
               </div>
-              <div>
+              <div className="flex justify-center items-center">
                 <h3 className="text-lg font-semibold text-gray-800">
                   Apple Mail
                 </h3>
-                <p className="text-sm text-gray-600">macOS & iOS</p>
               </div>
             </div>
           </div>
