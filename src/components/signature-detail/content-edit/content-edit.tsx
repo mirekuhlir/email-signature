@@ -86,6 +86,7 @@ export const ContentEdit = (props: any) => {
   const columnColor = get(rows, `${columnPath}.style.backgroundColor`);
 
   const [iniContent, setIniContent] = useState<any>(null);
+  const [iniColumnStyle, setIniColumnStyle] = useState<any>(null);
   const [isSavingSignature, setIsSavingSignature] = useState(false);
 
   const {
@@ -126,6 +127,11 @@ export const ContentEdit = (props: any) => {
 
   const path = `${contentPathToEdit}.content`;
   const content = useMemo(() => get(rows, path), [rows, path]);
+  const columnStylePath = `${columnPath}.style`;
+  const columnStyle = useMemo(
+    () => get(rows, columnStylePath) || {},
+    [rows, columnStylePath],
+  );
 
   useEffect(() => {
     if (content?.components[0].padding) {
@@ -350,8 +356,11 @@ export const ContentEdit = (props: any) => {
     if (!iniContent) {
       setIniContent(content);
     }
+    if (!iniColumnStyle) {
+      setIniColumnStyle(columnStyle);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [content]);
+  }, [content, columnStyle]);
 
   const isImage = content?.type === ContentType.IMAGE;
 
@@ -376,7 +385,11 @@ export const ContentEdit = (props: any) => {
       deleteRow(contentPathToEdit, signatureId, isSignedIn);
       setContentEdit({ editPath: null });
     } else {
+      // Restore both content and column style
       setContent(path, iniContent);
+      if (iniColumnStyle) {
+        setContent(columnStylePath, iniColumnStyle);
+      }
       setContentEdit({
         editPath: null,
       });
@@ -401,10 +414,12 @@ export const ContentEdit = (props: any) => {
       setIsSavingSignature(true);
 
       try {
+        // Save both content and column (which includes column style)
         await saveSignatureContentRow(
           signatureId,
           `${contentPathToEdit}.content`,
         );
+        await saveSignatureContentRow(signatureId, columnPath);
         setContentEdit({
           editPath: null,
         });

@@ -17,6 +17,29 @@ import {
   MAX_BORDER_WIDTH,
   MAX_IMAGE_WIDTH,
 } from '@/supabase/functions/_shared/const';
+
+export const VerticalAlign = (props: any) => {
+  const { verticalAlign, setVerticalAlign } = props;
+  return (
+    <div className="grid grid-cols-1 gap-2 sm:gap-2">
+      <div className="w-full sm:w-1/4">
+        <Typography variant="labelBase">Vertical alignment</Typography>
+        <SelectBase
+          options={[
+            { value: 'top', label: 'Top' },
+            { value: 'middle', label: 'Middle' },
+            { value: 'bottom', label: 'Bottom' },
+          ]}
+          value={verticalAlign}
+          onChange={(value: string) => {
+            setVerticalAlign(value);
+          }}
+        />
+      </div>
+    </div>
+  );
+};
+
 export const ColumnSettings = (props: any) => {
   const { columnPathToEdit, signatureId, isSignedIn } = props;
   const { toast } = useToast();
@@ -583,24 +606,10 @@ export const ColumnSettings = (props: any) => {
               </div>
             </CollapsibleSection>
             <CollapsibleSection title="Alignment">
-              <div className="grid grid-cols-1 gap-2 sm:gap-2">
-                <div className="w-full sm:w-1/4">
-                  <Typography variant="labelBase">
-                    Vertical alignment
-                  </Typography>
-                  <SelectBase
-                    options={[
-                      { value: 'top', label: 'Top' },
-                      { value: 'middle', label: 'Middle' },
-                      { value: 'bottom', label: 'Bottom' },
-                    ]}
-                    value={verticalAlign}
-                    onChange={(value: string) => {
-                      setVerticalAlign(value);
-                    }}
-                  />
-                </div>
-              </div>
+              <VerticalAlign
+                verticalAlign={verticalAlign}
+                setVerticalAlign={setVerticalAlign}
+              />
             </CollapsibleSection>
             <CollapsibleSection title="Width and Height">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
