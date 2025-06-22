@@ -17,6 +17,8 @@ import { useMediaQuery } from '@/src/hooks/useMediaQuery';
 import { MEDIA_QUERIES } from '@/src/constants/mediaQueries';
 import { getWidthHeightStyle } from './content-view/utils';
 import { DeleteConfirmationModal } from '@/src/components/ui/delete-confirmation-modal';
+import Modal from '../ui/modal';
+import { Container } from '../ui/container';
 
 // Helper function to determine if a color is dark
 function isColorDark(colorString: string): boolean {
@@ -420,14 +422,19 @@ export const EmailTemplateEdit = (props: any) => {
       </div>
 
       {contentEdit.addPath && (
-        <ContentAdd
-          path={contentEdit.addPath}
+        <Modal
+          isOpen={Boolean(contentEdit.addPath)}
+          size="fullscreen"
           onClose={() => {
             setContentEdit({
               addPath: null,
             });
           }}
-        />
+        >
+          <Container isZeroPadding={true}>
+            <ContentAdd path={contentEdit.addPath} />
+          </Container>
+        </Modal>
       )}
 
       {contentEdit.editPath && (
