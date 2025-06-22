@@ -109,6 +109,7 @@ export const EmailTemplateEdit = (props: any) => {
                 <Button
                   size="sm"
                   variant="gray"
+                  disabled={isSavingOrder}
                   onClick={() => {
                     const numberOfRows = column.rows.length;
                     const nextEditRowPath = `${rowPath}[${numberOfRows}]`;
@@ -128,6 +129,7 @@ export const EmailTemplateEdit = (props: any) => {
               <Button
                 variant="blue"
                 size="sm"
+                disabled={isSavingOrder}
                 onClick={() => {
                   setContentEdit({
                     columnPath: path,
@@ -274,6 +276,7 @@ export const EmailTemplateEdit = (props: any) => {
                     <Button
                       size="sm"
                       variant="blue"
+                      disabled={isSavingOrder}
                       onClick={() => {
                         setContentEdit({
                           editPath: currentPath,
@@ -292,6 +295,7 @@ export const EmailTemplateEdit = (props: any) => {
                       <ContextMenu
                         size="sm"
                         placement={isMobile ? 'left' : 'right'}
+                        isDisabled={isSavingOrder}
                         isLoading={
                           isSavingOrder && savingOrderPath === currentPath
                         }
@@ -299,6 +303,7 @@ export const EmailTemplateEdit = (props: any) => {
                         <div className="pt-2 pb-2 px-2 flex flex-col gap-1 whitespace-nowrap items-start">
                           <Button
                             variant="ghost"
+                            disabled={isSavingOrder}
                             onClick={() => {
                               const nextIndex = index + 1;
                               const nextEditRowPath = path
@@ -317,6 +322,7 @@ export const EmailTemplateEdit = (props: any) => {
                           <Hr className="my-2" />
                           <Button
                             variant="ghost"
+                            disabled={isSavingOrder}
                             onClick={() => {
                               moveRowUp(currentPath, signatureId as string);
                             }}
@@ -325,6 +331,7 @@ export const EmailTemplateEdit = (props: any) => {
                           </Button>
                           <Button
                             variant="ghost"
+                            disabled={isSavingOrder}
                             onClick={() => {
                               moveRowDown(currentPath, signatureId as string);
                             }}
@@ -334,6 +341,7 @@ export const EmailTemplateEdit = (props: any) => {
                           <Hr className="my-2" />
                           <Button
                             variant="ghost"
+                            disabled={isSavingOrder}
                             onClick={() => {
                               setRowToDelete(currentPath);
                               setIsDeleteModalOpen(true);
@@ -388,6 +396,7 @@ export const EmailTemplateEdit = (props: any) => {
                   });
                 }}
                 variant="gray"
+                disabled={isSavingOrder}
               >
                 Add
               </Button>
@@ -416,6 +425,7 @@ export const EmailTemplateEdit = (props: any) => {
                   });
                 }}
                 variant="gray"
+                disabled={isSavingOrder}
               >
                 Add
               </Button>

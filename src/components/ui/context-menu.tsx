@@ -16,6 +16,7 @@ interface ContextMenuProps {
   buttonClassName?: string;
   size?: 'sm' | 'md' | 'lg';
   isLoading?: boolean;
+  isDisabled?: boolean;
 }
 
 export const ContextMenu: React.FC<ContextMenuProps> = ({
@@ -27,6 +28,7 @@ export const ContextMenu: React.FC<ContextMenuProps> = ({
   buttonClassName,
   size = 'md',
   isLoading = false,
+  isDisabled = false,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [direction, setDirection] = useState<'down' | 'up'>('down');
@@ -105,6 +107,7 @@ export const ContextMenu: React.FC<ContextMenuProps> = ({
         size={size}
         variant="white"
         ref={buttonRef}
+        disabled={isDisabled}
         onClick={() => setIsOpen(!isOpen)}
       >
         {buttonContent}
