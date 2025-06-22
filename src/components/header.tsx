@@ -41,7 +41,7 @@ export const Header = (props: any) => {
           {user ? (
             <div>
               <ContextMenu
-                buttonClassName="w-10 h-10 rounded-full bg-linear-to-r from-brand-blue-800 to-brand-blue-900 flex items-center justify-center text-white font-medium cursor-pointer"
+                buttonClassName="w-10 h-10 rounded-full bg-gradient-to-br from-brand-blue-800 to-brand-blue-900 hover:from-brand-blue-700 hover:to-brand-blue-800 flex items-center justify-center text-white font-medium cursor-pointer shadow-lg transition-all duration-300"
                 label={getInitialsFromEmail(user.email)}
               >
                 <form action={signOutAction}>
