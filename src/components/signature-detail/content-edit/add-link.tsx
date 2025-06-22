@@ -108,7 +108,7 @@ export const LinkComponent = (props: LinkComponentProps) => {
                     Close
                   </Button>
                   <Button type="submit" variant="blue">
-                    Save
+                    Confirm
                   </Button>
                 </div>
               </form>

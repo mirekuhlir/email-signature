@@ -131,7 +131,7 @@ export const EditColor = (props: Props) => {
                   setIsColorPickerOpen(false);
                 }}
               >
-                Save
+                Confirm
               </Button>
             </div>
           </div>
