@@ -147,7 +147,10 @@ export const SignatureDetail = (props: any) => {
 
       {!isEdit && (
         <>
-          <TrialBanner user={user} />
+          <div className="flex justify-center">
+            <TrialBanner user={user} />
+          </div>
+
           <SignaturePreview />
 
           <Container>

@@ -237,10 +237,12 @@ export const SignaturesList = (props: any) => {
   }
   return (
     <div className="w-full pt-6">
-      <TrialBanner user={user} />
+      <div className="flex justify-center">
+        <TrialBanner user={user} />
+      </div>
       <div>
         {signatures.length < MAX_SIGNATURES && (
-          <div className="flex justify-center sm:justify-end pt-8 pb-10 sm:pb-2 w-full">
+          <div className="flex justify-center pt-8 pb-10 sm:pb-2 w-full">
             <Button size="xl" onClick={() => setIsModalOpen(true)}>
               <PlusIcon className="w-7 h-7 mr-4" />
               Create new signature
