@@ -272,7 +272,12 @@ export const useSignatureStore = create<StoreState>((set, get) => {
       set({ rows: cloneRows });
 
       if (signatureId && signatureId !== "example") {
-        set({ isSavingOrder: true, savingOrderPath: path }); // Set loading true for specific path
+        // Calculate the target path (where the item will be after moving up)
+        const targetPath = path.replace(
+          /rows\[(\d+)\]/,
+          `rows[${rowIndex - 1}]`,
+        );
+        set({ isSavingOrder: true, savingOrderPath: targetPath }); // Set loading true for target path
 
         const { error } = await supabase.functions.invoke("patch-signature", {
           method: "PATCH",
@@ -317,7 +322,12 @@ export const useSignatureStore = create<StoreState>((set, get) => {
 
       // Save changes to the database
       if (signatureId && signatureId !== "example") {
-        set({ isSavingOrder: true, savingOrderPath: path });
+        // Calculate the target path (where the item will be after moving down)
+        const targetPath = path.replace(
+          /rows\[(\d+)\]/,
+          `rows[${rowIndex + 1}]`,
+        );
+        set({ isSavingOrder: true, savingOrderPath: targetPath });
 
         const { error } = await supabase.functions.invoke("patch-signature", {
           method: "PATCH",
