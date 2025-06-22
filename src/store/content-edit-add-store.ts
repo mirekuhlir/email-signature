@@ -14,6 +14,89 @@ import { MAX_COLORS } from "@/supabase/functions/_shared/const";
 
 const supabase = createClient();
 
+// Helper function to move rows with wrapping
+const moveRowWithWrapping = async (
+  path: string,
+  signatureId: string,
+  direction: "up" | "down",
+  state: StoreState,
+  set: (partial: Partial<StoreState>) => void,
+) => {
+  const { addToast } = useToastStore.getState();
+  const cloneRows = cloneDeep(state.rows);
+  const tableIndex = parseInt(path.split(".")[0].replace(/[[\]]/g, ""));
+  const columnIndex = parseInt(path.split("columns[")[1].split("]")[0]);
+  const rowIndex = parseInt(path.split("rows[")[1].split("]")[0]);
+
+  const rows = cloneRows[tableIndex].columns[columnIndex].rows;
+  const totalRows = rows.length;
+
+  if (totalRows <= 1) {
+    return; // No need to move if there's only one or no rows
+  }
+
+  let newIndex: number;
+  let targetIndex: number;
+
+  if (direction === "up") {
+    // If at the beginning, wrap to the end
+    if (rowIndex === 0) {
+      newIndex = totalRows - 1;
+      targetIndex = totalRows - 1;
+    } else {
+      newIndex = rowIndex - 1;
+      targetIndex = rowIndex - 1;
+    }
+  } else {
+    // If at the end, wrap to the beginning
+    if (rowIndex === totalRows - 1) {
+      newIndex = 0;
+      targetIndex = 0;
+    } else {
+      newIndex = rowIndex + 1;
+      targetIndex = rowIndex + 1;
+    }
+  }
+
+  // Move the item
+  const temp = rows[rowIndex];
+  rows.splice(rowIndex, 1);
+  rows.splice(newIndex, 0, temp);
+
+  set({ rows: cloneRows });
+
+  // Save changes to the database
+  if (signatureId && signatureId !== "example") {
+    // Calculate the target path (where the item will be after moving)
+    const targetPath = path.replace(
+      /rows\[(\d+)\]/,
+      `rows[${targetIndex}]`,
+    );
+    set({ isSavingOrder: true, savingOrderPath: targetPath });
+
+    const { error } = await supabase.functions.invoke("patch-signature", {
+      method: "PATCH",
+      body: {
+        signatureId,
+        signatureContent: {
+          rows: cloneRows,
+          colors: state.colors,
+        },
+      },
+    });
+
+    if (error) {
+      addToast({
+        title: "Error",
+        description: `Failed to move row ${direction}. Please try again.`,
+        variant: "error",
+      });
+    }
+
+    set({ isSavingOrder: false, savingOrderPath: null });
+  }
+};
+
 export interface StoreState {
   rows: any[];
   colors: string[];
@@ -253,103 +336,11 @@ export const useSignatureStore = create<StoreState>((set, get) => {
     },
 
     moveRowUp: async (path: string, signatureId: string) => {
-      const { addToast } = useToastStore.getState();
-      const state = get();
-      const cloneRows = cloneDeep(state.rows);
-      const tableIndex = parseInt(path.split(".")[0].replace(/[[\]]/g, ""));
-      const columnIndex = parseInt(path.split("columns[")[1].split("]")[0]);
-      const rowIndex = parseInt(path.split("rows[")[1].split("]")[0]);
-
-      if (rowIndex === 0) {
-        return;
-      }
-
-      const rows = cloneRows[tableIndex].columns[columnIndex].rows;
-      const temp = rows[rowIndex];
-      rows[rowIndex] = rows[rowIndex - 1];
-      rows[rowIndex - 1] = temp;
-
-      set({ rows: cloneRows });
-
-      if (signatureId && signatureId !== "example") {
-        // Calculate the target path (where the item will be after moving up)
-        const targetPath = path.replace(
-          /rows\[(\d+)\]/,
-          `rows[${rowIndex - 1}]`,
-        );
-        set({ isSavingOrder: true, savingOrderPath: targetPath }); // Set loading true for target path
-
-        const { error } = await supabase.functions.invoke("patch-signature", {
-          method: "PATCH",
-          body: {
-            signatureId,
-            signatureContent: {
-              rows: cloneRows,
-              colors: state.colors,
-            },
-          },
-        });
-        if (error) {
-          addToast({
-            title: "Error",
-            description: "Failed to move row up. Please try again.",
-            variant: "error",
-          });
-        }
-
-        set({ isSavingOrder: false, savingOrderPath: null });
-      }
+      await moveRowWithWrapping(path, signatureId, "up", get(), set);
     },
 
     moveRowDown: async (path: string, signatureId: string) => {
-      const { addToast } = useToastStore.getState();
-      const state = get();
-      const cloneRows = cloneDeep(state.rows);
-      const tableIndex = parseInt(path.split(".")[0].replace(/[[\]]/g, ""));
-      const columnIndex = parseInt(path.split("columns[")[1].split("]")[0]);
-      const rowIndex = parseInt(path.split("rows[")[1].split("]")[0]);
-
-      const rows = cloneRows[tableIndex].columns[columnIndex].rows;
-      if (rowIndex === rows.length - 1) {
-        return;
-      }
-
-      const temp = rows[rowIndex];
-      rows[rowIndex] = rows[rowIndex + 1];
-      rows[rowIndex + 1] = temp;
-
-      set({ rows: cloneRows });
-
-      // Save changes to the database
-      if (signatureId && signatureId !== "example") {
-        // Calculate the target path (where the item will be after moving down)
-        const targetPath = path.replace(
-          /rows\[(\d+)\]/,
-          `rows[${rowIndex + 1}]`,
-        );
-        set({ isSavingOrder: true, savingOrderPath: targetPath });
-
-        const { error } = await supabase.functions.invoke("patch-signature", {
-          method: "PATCH",
-          body: {
-            signatureId,
-            signatureContent: {
-              rows: cloneRows,
-              colors: state.colors,
-            },
-          },
-        });
-
-        if (error) {
-          addToast({
-            title: "Error",
-            description: "Failed to move row down. Please try again.",
-            variant: "error",
-          });
-        }
-
-        set({ isSavingOrder: false, savingOrderPath: null });
-      }
+      await moveRowWithWrapping(path, signatureId, "down", get(), set);
     },
 
     setContent: (path: string, content: any) =>
