@@ -319,25 +319,32 @@ export const EmailTemplateEdit = (props: any) => {
                           >
                             Add
                           </Button>
-                          <Hr className="my-2" />
-                          <Button
-                            variant="ghost"
-                            disabled={isSavingOrder}
-                            onClick={() => {
-                              moveRowUp(currentPath, signatureId as string);
-                            }}
-                          >
-                            Move up
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            disabled={isSavingOrder}
-                            onClick={() => {
-                              moveRowDown(currentPath, signatureId as string);
-                            }}
-                          >
-                            Move down
-                          </Button>
+                          {totalRowsInColumn > 1 && (
+                            <>
+                              <Hr className="my-2" />
+                              <Button
+                                variant="ghost"
+                                disabled={isSavingOrder}
+                                onClick={() => {
+                                  moveRowUp(currentPath, signatureId as string);
+                                }}
+                              >
+                                Move up
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                disabled={isSavingOrder}
+                                onClick={() => {
+                                  moveRowDown(
+                                    currentPath,
+                                    signatureId as string,
+                                  );
+                                }}
+                              >
+                                Move down
+                              </Button>
+                            </>
+                          )}
                           <Hr className="my-2" />
                           <Button
                             variant="ghost"
