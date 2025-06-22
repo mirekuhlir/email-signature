@@ -45,7 +45,7 @@ function isColorDark(colorString: string): boolean {
 export const EmailTemplateEdit = (props: any) => {
   const { rows, isSignedIn, templateSlug } = props;
   const { setContentEdit, contentEdit } = useContentEditStore();
-  const { moveRowUp, moveRowDown, isSavingOrder, deleteRow } =
+  const { moveRowUp, moveRowDown, isSavingOrder, savingOrderPath, deleteRow } =
     useSignatureStore();
   const { id: signatureId } = useParams();
   const containerRef = useRef<HTMLDivElement>(null);
@@ -292,7 +292,9 @@ export const EmailTemplateEdit = (props: any) => {
                       <ContextMenu
                         size="sm"
                         placement={isMobile ? 'left' : 'right'}
-                        isLoading={isSavingOrder}
+                        isLoading={
+                          isSavingOrder && savingOrderPath === currentPath
+                        }
                       >
                         <div className="pt-2 pb-2 px-2 flex flex-col gap-1 whitespace-nowrap items-start">
                           <Button

@@ -19,6 +19,7 @@ export interface StoreState {
   colors: string[];
   isDarkMode: boolean;
   isSavingOrder: boolean;
+  savingOrderPath: string | null;
   isMobilePreview: boolean;
   setIsMobilePreview: (value: boolean) => void;
   initSignature: (signature: {
@@ -50,6 +51,7 @@ export const useSignatureStore = create<StoreState>((set, get) => {
     colors: [],
     isDarkMode: false,
     isSavingOrder: false,
+    savingOrderPath: null,
     isMobilePreview: false,
     setIsMobilePreview: (value: boolean) => set({ isMobilePreview: value }),
     initSignature: (signature: {
@@ -270,7 +272,7 @@ export const useSignatureStore = create<StoreState>((set, get) => {
       set({ rows: cloneRows });
 
       if (signatureId && signatureId !== "example") {
-        set({ isSavingOrder: true }); // Set loading true
+        set({ isSavingOrder: true, savingOrderPath: path }); // Set loading true for specific path
 
         const { error } = await supabase.functions.invoke("patch-signature", {
           method: "PATCH",
@@ -290,7 +292,7 @@ export const useSignatureStore = create<StoreState>((set, get) => {
           });
         }
 
-        set({ isSavingOrder: false });
+        set({ isSavingOrder: false, savingOrderPath: null });
       }
     },
 
@@ -315,7 +317,7 @@ export const useSignatureStore = create<StoreState>((set, get) => {
 
       // Save changes to the database
       if (signatureId && signatureId !== "example") {
-        set({ isSavingOrder: true });
+        set({ isSavingOrder: true, savingOrderPath: path });
 
         const { error } = await supabase.functions.invoke("patch-signature", {
           method: "PATCH",
@@ -336,7 +338,7 @@ export const useSignatureStore = create<StoreState>((set, get) => {
           });
         }
 
-        set({ isSavingOrder: false });
+        set({ isSavingOrder: false, savingOrderPath: null });
       }
     },
 
