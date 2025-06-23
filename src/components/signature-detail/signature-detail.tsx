@@ -187,20 +187,24 @@ export const SignatureDetail = (props: any) => {
 
       {isEdit && (
         <Container>
-          {!contentEdit.editPath &&
-            !contentEdit.addPath &&
-            !contentEdit.columnPath && (
-              <div className="flex justify-end sm:justify-center">
-                <Button size="lg" onClick={() => setIsEdit(false)}>
-                  <Eye size={20} className="mr-2" /> View
-                </Button>
-              </div>
-            )}
           <EmailTemplateEdit
             isSignedIn={isSignedIn}
             templateSlug={templateSlug}
             rows={rows}
           />
+          {!contentEdit.editPath &&
+            !contentEdit.addPath &&
+            !contentEdit.columnPath && (
+              <div className="mb-8">
+                <Button
+                  size="lg"
+                  onClick={() => setIsEdit(false)}
+                  variant="brandBlue"
+                >
+                  <Eye size={20} className="mr-2" /> View
+                </Button>
+              </div>
+            )}
         </Container>
       )}
     </div>
