@@ -29,6 +29,9 @@ import {
 } from '@/supabase/functions/_shared/const';
 import { CollapsibleSection } from '../collapsible-section';
 
+// Resolution multiplier for output images
+const RESOLUTION_MULTIPLIER = 1;
+
 interface ImageSettings {
   crop: Crop;
   aspect?: number | string;
@@ -348,13 +351,13 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
       return new Promise<string | null>((resolve, reject) => {
         originalImg.onload = async () => {
           try {
-            // Calculate output dimensions at 2x resolution for sharper images on mobile
+            // Calculate output dimensions at specified resolution multiplier
             const displayWidth = previewWidth;
             const displayHeight = Math.round(
               (cropNaturalHeight / cropNaturalWidth) * displayWidth,
             );
-            const outputWidth = displayWidth * 2; // 2x resolution
-            const outputHeight = displayHeight * 2; // 2x resolution
+            const outputWidth = displayWidth * RESOLUTION_MULTIPLIER;
+            const outputHeight = displayHeight * RESOLUTION_MULTIPLIER;
 
             // Create source canvas for the cropped area at full resolution
             const sourceCanvas = document.createElement('canvas');
@@ -377,7 +380,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
               cropNaturalHeight,
             );
 
-            // Create target canvas for the final resized image at 2x resolution
+            // Create target canvas for the final resized image at specified resolution
             const targetCanvas = document.createElement('canvas');
             targetCanvas.width = outputWidth;
             targetCanvas.height = outputHeight;
@@ -397,7 +400,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
               return;
             }
 
-            // Apply circular mask if needed (AFTER resizing) - scale values for 2x resolution
+            // Apply circular mask if needed (AFTER resizing) - scale values for resolution multiplier
             if (isCircular) {
               targetCtx.globalCompositeOperation = 'destination-in';
               targetCtx.beginPath();
@@ -411,7 +414,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
               targetCtx.fill();
               targetCtx.globalCompositeOperation = 'source-over'; // Reset composite operation
             }
-            // Apply border radius if needed (AFTER resizing) - scale values for 2x resolution
+            // Apply border radius if needed (AFTER resizing) - scale values for resolution multiplier
             else if (
               borderRadii.topLeft > 0 ||
               borderRadii.topRight > 0 ||
@@ -421,24 +424,24 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
               targetCtx.globalCompositeOperation = 'destination-in';
               targetCtx.beginPath();
 
-              // Scale border radii for 2x resolution
+              // Scale border radii for resolution multiplier
               const rTL = Math.min(
-                borderRadii.topLeft * 2,
+                borderRadii.topLeft * RESOLUTION_MULTIPLIER,
                 outputWidth / 2,
                 outputHeight / 2,
               );
               const rTR = Math.min(
-                borderRadii.topRight * 2,
+                borderRadii.topRight * RESOLUTION_MULTIPLIER,
                 outputWidth / 2,
                 outputHeight / 2,
               );
               const rBR = Math.min(
-                borderRadii.bottomRight * 2,
+                borderRadii.bottomRight * RESOLUTION_MULTIPLIER,
                 outputWidth / 2,
                 outputHeight / 2,
               );
               const rBL = Math.min(
-                borderRadii.bottomLeft * 2,
+                borderRadii.bottomLeft * RESOLUTION_MULTIPLIER,
                 outputWidth / 2,
                 outputHeight / 2,
               );
@@ -567,8 +570,8 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   // Update the second useEffect to also work with promises
   useEffect(() => {
     if (croppedImageData) {
-      // For the final output, we want to keep the 2x resolution image data
-      // So we just pass the high-resolution image data directly without re-rendering
+      // For the final output, we want to keep the resolution multiplier image data
+      // So we just pass the image data directly without re-rendering
       onSetCropImagePreview?.(croppedImageData);
     }
   }, [croppedImageData, onSetCropImagePreview]);
