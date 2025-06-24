@@ -30,11 +30,10 @@ interface ContentAddProps {
 }
 
 export const ContentAdd = (props: ContentAddProps) => {
-  const { path, onClose } = props;
+  const { path } = props;
 
   const { addRow, addRowTable, rows } = useSignatureStore();
   const { contentEdit, setContentEdit } = useContentEditStore();
-  const wrapperRef = useRef<HTMLDivElement>(null);
   const [totalOriginalSrc, setTotalOriginalSrc] = useState(0);
 
   useEffect(() => {
@@ -98,7 +97,7 @@ export const ContentAdd = (props: ContentAddProps) => {
               <Typography variant="body">{typeItem.description}</Typography>
             </div>
 
-            <div className="flex justify-end mt-4 mb-4">
+            <div className="flex justify-end sm:justify-start mt-4 mb-4">
               <Button onClick={() => onAdd(typeItem.type)}>{'Add'}</Button>
             </div>
             {index !== CONTENT_TYPES.length - 1 && <Hr />}
