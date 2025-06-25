@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { useSignatureStore } from '@/src/store/content-edit-add-store';
 import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
 import { Button } from '@/src/components/ui/button';

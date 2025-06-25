@@ -21,8 +21,7 @@ export const getContentView = (content?: any, isMobilePreview?: boolean) => {
     const { components } = content;
 
     return components.map((component: any) => {
-      const { id, src, cropImagePreview, link, margin, previewWidth } =
-        component;
+      const { id, src, cropImagePreview, link, margin } = component;
 
       const image = cropImagePreview || src;
       let imageSrc = image;
