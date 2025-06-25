@@ -41,7 +41,7 @@ export const getContentView = (content?: any, isMobilePreview?: boolean) => {
         <Img
           key={id}
           src={imageSrc}
-          width={previewWidth}
+          /*      width={previewWidth} */
           style={{
             margin: margin,
           }}
