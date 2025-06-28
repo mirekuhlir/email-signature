@@ -61,7 +61,10 @@ const SignaturesPreview = (props: SignaturesPreviewsProps) => {
                 <Typography className="text-gray-500 text-sm md:text-base block md:inline">
                   Updated at:
                 </Typography>
-                <Typography className="text-sm md:text-base block md:inline md:ml-1">
+                <Typography
+                  className="text-sm md:text-base block md:inline md:ml-1"
+                  textColor="text-gray-900"
+                >
                   {new Date(updatedAt).toLocaleString()}
                 </Typography>
               </div>
@@ -71,7 +74,10 @@ const SignaturesPreview = (props: SignaturesPreviewsProps) => {
                 <Typography className="text-gray-500 text-sm md:text-base block md:inline">
                   Created at:
                 </Typography>
-                <Typography className="text-sm md:text-base block md:inline md:ml-1">
+                <Typography
+                  className="text-sm md:text-base block md:inline md:ml-1"
+                  textColor="text-gray-900"
+                >
                   {new Date(createdAt).toLocaleString()}
                 </Typography>
               </div>
@@ -222,7 +228,7 @@ export const SignaturesList = (props: any) => {
 
   if (isLoading) {
     return (
-      <div className="w-full pt-6">
+      <div className="w-full pt-20">
         <div className="flex justify-center items-center">
           <LoadingInfo text="Creating signature. Please wait..." />
         </div>
@@ -231,10 +237,12 @@ export const SignaturesList = (props: any) => {
   }
   return (
     <div className="w-full pt-6">
-      {user && <TrialBanner user={user} />}
+      <div className="flex justify-center">
+        <TrialBanner user={user} />
+      </div>
       <div>
         {signatures.length < MAX_SIGNATURES && (
-          <div className="flex justify-center sm:justify-end pt-8 pb-10 sm:pb-2 w-full">
+          <div className="flex justify-center pt-8 pb-10 sm:pb-2 w-full">
             <Button size="xl" onClick={() => setIsModalOpen(true)}>
               <PlusIcon className="w-7 h-7 mr-4" />
               Create new signature
@@ -306,15 +314,6 @@ export const SignaturesList = (props: any) => {
         onClose={() => setIsModalOpen(false)}
       >
         <Container isZeroPadding={true}>
-          <div className="mb-4">
-            <Typography variant="h3" textColor="text-brand-blue-900">
-              Select template signature
-            </Typography>
-          </div>
-          <div className="mb-6">
-            <Hr />
-          </div>
-
           <TemplatesExamples
             isSignedIn={true}
             createSignature={createSignature}
@@ -322,45 +321,45 @@ export const SignaturesList = (props: any) => {
         </Container>
       </Modal>
       <Modal size="small" isOpen={isDeleteModalOpen}>
-        <div className="pt-4">
-          <div className="mb-4">
-            <Typography variant="h3">{t('Confirm Deletion')}</Typography>
-          </div>
-          <Typography>
-            {t('Are you sure you want to delete this signature?')}
+        <div className="mb-1">
+          <Typography variant="lead" textColor="text-gray-900">
+            {t('Confirm Deletion')}
           </Typography>
-          <div className="mt-4 flex justify-between">
-            <Button
-              variant="gray"
-              disabled={isDeleteLoading}
-              onClick={() => setIsDeleteModalOpen(false)}
-            >
-              {t('Cancel')}
-            </Button>
-            <Button
-              loading={isDeleteLoading}
-              variant="red"
-              onClick={async () => {
-                if (signatureToDelete) {
-                  setIsDeleteLoading(true);
-                  await supabase.functions.invoke(
-                    `delete-signature?signatureId=${signatureToDelete.id}`,
-                    { method: 'DELETE' },
-                  );
+        </div>
+        <Typography>
+          {t('Are you sure you want to delete this signature?')}
+        </Typography>
+        <div className="mt-4 flex justify-between">
+          <Button
+            variant="gray"
+            disabled={isDeleteLoading}
+            onClick={() => setIsDeleteModalOpen(false)}
+          >
+            {t('Cancel')}
+          </Button>
+          <Button
+            loading={isDeleteLoading}
+            variant="red"
+            onClick={async () => {
+              if (signatureToDelete) {
+                setIsDeleteLoading(true);
+                await supabase.functions.invoke(
+                  `delete-signature?signatureId=${signatureToDelete.id}`,
+                  { method: 'DELETE' },
+                );
 
-                  setSignatures(
-                    signatures.filter(
-                      (signature) => signature.id !== signatureToDelete.id,
-                    ),
-                  );
-                  setIsDeleteLoading(false);
-                  setIsDeleteModalOpen(false);
-                }
-              }}
-            >
-              {isDeleteLoading ? 'Deleting...' : t('Delete')}
-            </Button>
-          </div>
+                setSignatures(
+                  signatures.filter(
+                    (signature) => signature.id !== signatureToDelete.id,
+                  ),
+                );
+                setIsDeleteLoading(false);
+                setIsDeleteModalOpen(false);
+              }
+            }}
+          >
+            {isDeleteLoading ? 'Deleting...' : t('Delete')}
+          </Button>
         </div>
       </Modal>
     </div>

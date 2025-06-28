@@ -55,7 +55,7 @@ export function Loading({ className = '', size = 'md' }: LoadingProps) {
             transform: scale(1);
           }
           45%, 55% { 
-            background-color: #2563EB;
+            background-color: rgba(27, 20, 93, 1);
             transform: scale(1.2);
           }
         }

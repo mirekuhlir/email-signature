@@ -14,6 +14,7 @@ export interface StoreState {
   contentEdit: ContentEdit;
   editingSectionIds: string[];
   setContentEdit: (contentEdit: ContentEdit) => void;
+  resetContentEdit: () => void;
   addEditingSectionId: (id: string) => void;
   removeEditingSectionId: (id: string) => void;
 }
@@ -41,6 +42,18 @@ export const useContentEditStore = create<StoreState>((set) => ({
         },
       };
     }),
+  resetContentEdit: () =>
+    set(() => ({
+      contentEdit: {
+        editPath: null,
+        addPath: null,
+        nextEditPath: null,
+        position: null,
+        subEdit: null,
+        isImageLoading: false,
+        columnPath: null,
+      },
+    })),
   addEditingSectionId: (id: string) =>
     set((state) => ({
       editingSectionIds: [...state.editingSectionIds, id],

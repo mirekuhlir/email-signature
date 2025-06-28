@@ -17,6 +17,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   loading?: boolean;
   selected?: boolean;
   buttonClassName?: string;
+  isFullWidth?: boolean;
 }
 
 const LoadingSpinner = () => (
@@ -93,13 +94,14 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       selected = false,
       children,
       buttonClassName = '',
+      isFullWidth = false,
       ...props
     },
     ref,
   ) => {
     const variantClass = selected ? selectedStyles[variant] : variants[variant];
 
-    const buttonClasses = `${baseStyles} ${variantClass} ${sizes[size]} ${buttonClassName}`;
+    const buttonClasses = `${baseStyles} ${variantClass} ${sizes[size]} ${buttonClassName} ${isFullWidth ? 'w-full' : ''}`;
 
     return (
       <button

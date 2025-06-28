@@ -40,7 +40,7 @@ export default async function Account() {
                   </div>
                   <div className="flex items-center gap-2">
                     <Typography className="font-semibold">
-                      Premium Status:
+                      Full version:
                     </Typography>
                     <Typography>
                       {userStatus === UserStatus.PREMIUM

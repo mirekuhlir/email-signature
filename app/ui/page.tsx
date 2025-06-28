@@ -7,6 +7,7 @@ import { Typography } from '@/src/components/ui/typography';
 import Modal from '@/src/components/ui/modal';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import TextInput from '@/src/components/ui/text-input';
+import NumberInput from '@/src/components/ui/number-input';
 import { RichTextEditor } from '@/src/components/ui/rich-text-editor/rich-text-editor';
 import Select from '@/src/components/ui/select-form';
 import { TextEditor } from '@/src/components/ui/text-editor-full/text-editor';
@@ -375,6 +376,92 @@ const TextInputExample: React.FC = () => {
         />
 
         <Button type="submit">Send</Button>
+      </form>
+    </div>
+  );
+};
+
+const NumberInputExample: React.FC = () => {
+  type FormValues = {
+    age: number;
+    price: number;
+    quantity: number;
+  };
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>();
+
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
+    console.log(data);
+    alert(`Submitted: ${JSON.stringify(data)}`);
+  };
+
+  return (
+    <div className="bg-gray-100 p-4">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="bg-white p-6 rounded shadow-md w-full max-w-md"
+      >
+        <NumberInput
+          label="Age"
+          name="age"
+          register={register}
+          validation={{
+            required: 'Age is required',
+            min: {
+              value: 18,
+              message: 'Minimum age is 18',
+            },
+            max: {
+              value: 100,
+              message: 'Maximum age is 100',
+            },
+          }}
+          errors={errors}
+          placeholder="Enter your age"
+          min={18}
+          max={100}
+        />
+
+        <NumberInput
+          label="Price ($)"
+          name="price"
+          register={register}
+          errors={errors}
+          placeholder="0.00"
+          validation={{
+            required: 'Price is required',
+            min: {
+              value: 0.01,
+              message: 'Price must be greater than 0',
+            },
+          }}
+          min={0}
+          step={0.01}
+        />
+
+        <NumberInput
+          label="Quantity"
+          name="quantity"
+          register={register}
+          errors={errors}
+          validation={{
+            required: 'Quantity is required',
+            min: {
+              value: 1,
+              message: 'Minimum quantity is 1',
+            },
+          }}
+          placeholder="Enter quantity"
+          min={1}
+          step={1}
+          isAutoFocus
+        />
+
+        <Button type="submit">Submit</Button>
       </form>
     </div>
   );
@@ -757,6 +844,7 @@ export default function DesignSystem() {
       <AdvancedColorPickerExample />
       <ModalExample />
       <TextInputExample />
+      <NumberInputExample />
       <RichTextEditorExample />
       <SelectExample />
       <TextEditor />

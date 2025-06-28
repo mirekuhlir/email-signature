@@ -72,7 +72,7 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({
   return (
     <>
       <div
-        className={`fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-lg border-t border-gray-200 shadow-lg py-2 sm:py-4 z-40`}
+        className={`fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-lg border-t border-gray-200 shadow-lg py-2 z-40`}
       >
         <Container>{renderButtons()}</Container>
       </div>

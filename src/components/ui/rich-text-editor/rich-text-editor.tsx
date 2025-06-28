@@ -10,6 +10,9 @@ import { IconSelector } from './icon-selector';
 export enum LayoutType {
   TEXT = 'text',
   PREFIX = 'prefix',
+  EMAIL = 'email',
+  PHONE = 'phone',
+  WEBSITE = 'website',
 }
 
 interface RichTextEditorProps {
@@ -288,12 +291,15 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
             Underline
           </ButtonSquare>
 
-          <ButtonSquare
-            onClick={() => setShowIconSelector(true)}
-            className="bg-blue-50"
-          >
-            Icons
-          </ButtonSquare>
+          {(layoutType === LayoutType.TEXT ||
+            layoutType === LayoutType.PREFIX) && (
+            <ButtonSquare
+              onClick={() => setShowIconSelector(true)}
+              className="bg-blue-50"
+            >
+              Icons
+            </ButtonSquare>
+          )}
         </div>
       </div>
 

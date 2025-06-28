@@ -40,26 +40,23 @@ export const handleCopy = async (userStatus: UserStatus) => {
       trialCell.setAttribute("colspan", "2");
 
       trialCell.style.cssText =
-        "padding: 6px 6px 6px 6px; text-align: left; background-color: #1B145D; border-radius: 4px; width: 100%; border: 2px dotted red; height: 80px;";
+        "padding: 6px 6px 6px 20px; text-align: left; background-color: #1B145D; border-radius: 8px; width: 100%; border: 2px solid white; height: 80px;";
 
       trialCell.innerHTML = `
         <div style="font-size: 14px; color: white; font-family: Arial, sans-serif; font-weight: bold; padding-bottom: 5px; line-height: normal;">
           You are using the free version
         </div>
         <div style="font-size: 14px; color: white; font-family: Arial, sans-serif; padding-bottom: 5px; line-height: normal;">
-          You can upgrade to the full version:
+          Upgrade to the full version:
         </div>
         <div style="font-size: 14px; color: white; font-family: Arial, sans-serif; line-height: normal;">
-          <a href="https://www.myemailavatar.com/pricing" target="_blank" rel="noreferrer" style="color: white; text-decoration: underline;">
-          https://www.myemailavatar.com/pricing
+          <a href="https://www.myemailavatar.com" target="_blank" rel="noreferrer" style="color: white; text-decoration: underline;">
+          https://www.myemailavatar.com
           </a>
         </div>
       `;
 
       trialRow.appendChild(trialCell);
-
-      // Add spacer and trial rows to the main table
-      mainTable.appendChild(spacerRow);
       mainTable.appendChild(trialRow);
 
       // Get the modified HTML

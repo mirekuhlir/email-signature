@@ -11,8 +11,13 @@ import {
   Award,
   Sparkles,
   CreditCard,
-  Gem,
 } from 'lucide-react';
+import { getUserStatus, UserStatus } from '@/src/utils/userState';
+import PricingCard from '@/src/components/pricing/pricing-card';
+import gmail from '@/src/asset/email-clients/gmail.png';
+import outlook from '@/src/asset/email-clients/outlook.png';
+import ios from '@/src/asset/email-clients/ios.png';
+import Image from 'next/image';
 
 export default async function Home() {
   const supabase = await createClient();
@@ -20,6 +25,8 @@ export default async function Home() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
+  const userStatus = getUserStatus(user);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -37,9 +44,19 @@ export default async function Home() {
           <p className="text-lg md:text-xl mx-auto mb-8 text-brand-purple-900">
             Make your emails trustworthy and attractive.
           </p>
-          <StyledLink variant="button-orange" size="xl" href="/templates">
-            Create your signature now!
-          </StyledLink>
+          {(userStatus === UserStatus.NOT_LOGGED_IN ||
+            userStatus === UserStatus.PREMIUM) && (
+            <StyledLink variant="button-orange" size="xl" href="/templates">
+              Create your signature now!
+            </StyledLink>
+          )}
+
+          {/*   TODO: odkaz přímo na stripe */}
+          {userStatus === UserStatus.TRIAL && (
+            <StyledLink variant="button-brand-blue" size="xl" href="/pricing">
+              Buy full version
+            </StyledLink>
+          )}
         </div>
       </section>
 
@@ -116,14 +133,14 @@ export default async function Home() {
       </section>
 
       {/* How it works Section */}
-      <section className="py-14 bg-gray-50">
+      <section className="py-14 bg-white">
         <div className="container mx-auto px-4 max-w-5xl">
           <h2 className="text-2xl md:text-3xl font-bold text-center text-brand-blue-900 mb-12">
             How does it work?
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
-              <div className="mb-4 text-3xl font-bold text-orange-500 flex justify-center items-center">
+              <div className="mb-2 text-3xl font-bold text-orange-500 flex justify-center items-center">
                 1.
               </div>
               <h3 className="text-lg font-semibold mb-2">Choose a template</h3>
@@ -132,7 +149,7 @@ export default async function Home() {
               </p>
             </div>
             <div className="text-center">
-              <div className="mb-4 text-3xl font-bold text-orange-500">2.</div>
+              <div className="mb-2 text-3xl font-bold text-orange-500">2.</div>
               <h3 className="text-lg font-semibold mb-2">
                 Customize your signature
               </h3>
@@ -141,12 +158,80 @@ export default async function Home() {
               </p>
             </div>
             <div className="text-center">
-              <div className="mb-4 text-3xl font-bold text-orange-500">3.</div>
+              <div className="mb-2 text-3xl font-bold text-orange-500">3.</div>
               <h3 className="text-lg font-semibold mb-2">Copy & paste</h3>
               <p className="text-gray-600">
                 Copy your signature to your email.
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Supported Email Clients Section */}
+      <section className="py-14 bg-gray-50">
+        <div className="container mx-auto px-4 max-w-5xl">
+          <h2 className="text-2xl md:text-3xl font-bold text-center text-brand-blue-900 mb-6">
+            Compatible with all major email clients
+          </h2>
+          <p className="text-lg text-center text-gray-600 mb-12 max-w-2xl mx-auto">
+            Your signature will work perfectly in all popular email clients
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-12 sm:gap-16 max-w-3xl mx-auto justify-center items-center">
+            <div className="flex flex-row gap-4">
+              <div>
+                <Image
+                  src={gmail}
+                  alt="Gmail"
+                  width={48}
+                  height={48}
+                  className="object-contain"
+                />
+              </div>
+              <div className="flex justify-center items-center">
+                <h3 className="text-lg font-semibold text-gray-800">Gmail</h3>
+              </div>
+            </div>
+
+            <div className="flex flex-row gap-4">
+              <div>
+                <Image
+                  src={outlook}
+                  alt="Outlook"
+                  width={48}
+                  height={48}
+                  className="object-contain"
+                />
+              </div>
+              <div className="flex justify-center items-center">
+                <h3 className="text-lg font-semibold text-gray-800">Outlook</h3>
+              </div>
+            </div>
+
+            <div className="flex flex-row gap-4">
+              <div>
+                <Image
+                  src={ios}
+                  alt="Apple Mail & iPhone & iPad"
+                  width={48}
+                  height={48}
+                  className="object-contain"
+                />
+              </div>
+              <div className="flex justify-center items-center">
+                <h3 className="text-lg font-semibold text-gray-800">
+                  Apple Mail
+                </h3>
+              </div>
+            </div>
+          </div>
+
+          <div className="text-center mt-8">
+            <p className="text-gray-600">
+              And many more email clients including Thunderbird, Yahoo Mail, and
+              others
+            </p>
           </div>
         </div>
       </section>
@@ -197,49 +282,38 @@ export default async function Home() {
             Try all features for free
           </h2>
 
-          <div className="grid grid-cols-1 gap-y-8 text-left max-w-2xl mx-auto mb-10">
-            <div className="flex items-start space-x-4">
-              <div>
-                <Sparkles className="w-10 h-10 text-orange-500" />
+          <div className="flex flex-col justify-center">
+            <div className="grid grid-cols-1 gap-y-8 text-left max-w-2xl mx-auto">
+              <div className="flex items-start space-x-4">
+                <div>
+                  <Sparkles className="w-10 h-10 text-orange-500" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-lg text-gray-800 mb-1">
+                    Full Access to Premium Features
+                  </h3>
+                  <p className="text-gray-600">
+                    {`Explore everything our platform has to offer for free.`}
+                  </p>
+                </div>
               </div>
-              <div>
-                <h3 className="font-semibold text-lg text-gray-800 mb-1">
-                  Full Access to Premium Features
-                </h3>
-                <p className="text-gray-600">
-                  {`Explore everything our platform has to offer for free.`}
-                </p>
-              </div>
-            </div>
-            <div className="flex items-start space-x-4">
-              <div>
-                <CreditCard className="w-10 h-10 text-orange-500" />
-              </div>
-              <div>
-                <h3 className="font-semibold text-lg text-gray-800 mb-1">
-                  No Credit Card Required
-                </h3>
-                <p className="text-gray-600">
-                  We don&apos;t ask for any payment information upfront.
-                </p>
-              </div>
-            </div>
-            <div className="flex items-start space-x-4">
-              <div>
-                <Gem className="w-10 h-10 text-orange-500" />
-              </div>
-              <div>
-                <h3 className="font-semibold text-lg text-gray-800 mb-1">
-                  Keep Your Signatures Forever
-                </h3>
-                <p className="text-gray-600">
-                  Single one-time payment of $30 lets you keep your signatures
-                  forever.
-                </p>
+              <div className="flex items-start space-x-4">
+                <div>
+                  <CreditCard className="w-10 h-10 text-orange-500" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-lg text-gray-800 mb-1">
+                    No Credit Card Required
+                  </h3>
+                  <p className="text-gray-600">
+                    We don&apos;t ask for any payment information upfront.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
-          <div className="flex justify-center">
+
+          <div className="flex justify-center mt-6">
             <StyledLink variant="button-orange" size="xl" href="/templates">
               Try for free
             </StyledLink>
@@ -247,8 +321,14 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* FAQ Section */}
       <section className="py-14 bg-gray-50">
+        <div className="container mx-auto px-4 max-w-5xl text-center">
+          <PricingCard />
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="pb-14 py-14 bg-white">
         <div className="container mx-auto px-4 max-w-2xl">
           <h2 className="text-2xl md:text-3xl font-bold text-brand-blue-900 mb-6 text-center">
             Frequently Asked Questions

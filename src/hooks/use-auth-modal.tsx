@@ -14,7 +14,7 @@ export const useAuthModal = () => {
   }) => {
     return modal({
       content: <Auth title={title} description={description} />,
-      size: 'medium',
+      size: 'small',
     });
   };
 

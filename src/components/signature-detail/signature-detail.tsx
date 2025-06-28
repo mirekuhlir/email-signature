@@ -18,20 +18,25 @@ import { TEMP_SIGNATURE } from '@/src/const/content';
 import TrialBanner from '../trial/trial-banner';
 import { useMediaQuery } from '@/src/hooks/useMediaQuery';
 import { MEDIA_QUERIES } from '@/src/constants/mediaQueries';
-import { UserStatus } from '@/src/utils/userState';
+import { getUserStatus } from '@/src/utils/userState';
 
 export const SignatureDetail = (props: any) => {
   const { signatureDetail, isSignedIn, templateSlug, user } = props;
 
   const { rows, initSignature } = useSignatureStore();
-  const { contentEdit } = useContentEditStore();
+  const { contentEdit, resetContentEdit } = useContentEditStore();
   const [isEdit, setIsEdit] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
   const { modal } = useModal();
   const { showAuthModal } = useAuthModal();
   const isMobile = useMediaQuery(MEDIA_QUERIES.MOBILE);
 
-  /*  console.warn('    user?.email_confirmed_at', user?.email_confirmed_at); */
+  const userStatus = getUserStatus(user);
+
+  useEffect(() => {
+    resetContentEdit();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const tempSignature = JSON.parse(
@@ -134,7 +139,7 @@ export const SignatureDetail = (props: any) => {
 
       {(contentEdit.editPath || contentEdit.columnPath) && (
         <div
-          className={`${isSticky ? 'sticky top-0 z-10 bg-white pt-20' : ''}`}
+          className={`${isSticky ? 'sticky top-0 bg-gray-50 z-10 pt-20 border-b border-gray-300' : ''}`}
         >
           <SignaturePreview />
         </div>
@@ -142,7 +147,10 @@ export const SignatureDetail = (props: any) => {
 
       {!isEdit && (
         <>
-          <TrialBanner user={user} />
+          <div className="flex justify-center">
+            <TrialBanner user={user} />
+          </div>
+
           <SignaturePreview />
 
           <Container>
@@ -153,13 +161,13 @@ export const SignatureDetail = (props: any) => {
                   variant="brandBlue"
                   onClick={() => {
                     if (isSignedIn) {
-                      handleCopy(UserStatus.TRIAL);
+                      handleCopy(userStatus);
                       showCopyInstructionsModal();
                     } else {
                       showAuthModal({
                         title: 'Sign in to use your signature',
                         description:
-                          'Please enter your email to sign in. Then you can also save individual signatures and edit them again later.',
+                          'Please enter your email to sign in. Then you can also save signatures and edit them again later.',
                       });
                     }
                   }}
@@ -187,8 +195,12 @@ export const SignatureDetail = (props: any) => {
           {!contentEdit.editPath &&
             !contentEdit.addPath &&
             !contentEdit.columnPath && (
-              <div className="flex justify-end">
-                <Button size="lg" onClick={() => setIsEdit(false)}>
+              <div className="mb-8">
+                <Button
+                  size="lg"
+                  onClick={() => setIsEdit(false)}
+                  variant="brandBlue"
+                >
                   <Eye size={20} className="mr-2" /> View
                 </Button>
               </div>

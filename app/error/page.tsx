@@ -13,7 +13,7 @@ export default function ErrorPage() {
             <div className="p-8 bg-white rounded-sm shadow-md">
               <h1 className="text-4xl font-bold mb-4">Error</h1>
               <p className="text-lg mb-8 text-center">
-                An unexpected error occurred. Please try again later.
+                An unexpected error occurred. Please try again.
               </p>
               <div className="flex flex-col gap-4 items-center">
                 <StyledLink

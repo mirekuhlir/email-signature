@@ -43,7 +43,7 @@ const Modal: React.FC<ModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gray-800/70 bg-opacity-30 z-50">
+    <div className="fixed inset-0 flex items-center justify-center bg-blue-900/20 backdrop-blur-sm z-50">
       <div
         className={`bg-white ${size === 'fullscreen' ? '' : 'rounded-lg'} shadow-lg ${sizeClasses[size]} ${size === 'fullscreen' ? 'h-full flex flex-col' : ''}`}
       >
@@ -76,18 +76,15 @@ const Modal: React.FC<ModalProps> = ({
           </>
         )}
         {onClose && size === 'fullscreen' && (
-          <Container isZeroPadding={true}>
-            <>
-              <div className="px-4 sm:px-0">
-                <Hr />
-              </div>
-              <div className="flex justify-end px-4 py-4 sm:py-4 sm:px-0">
+          <div className="fixed bottom-0 w-full bg-white/80 backdrop-blur-lg border-t border-gray-200 shadow-lg z-50">
+            <Container isZeroPadding={true}>
+              <div className="flex justify-end px-4 sm:px-0 py-2">
                 <Button variant="outline" size="md" onClick={onClose}>
                   Close
                 </Button>
               </div>
-            </>
-          </Container>
+            </Container>
+          </div>
         )}
       </div>
     </div>

@@ -2,7 +2,7 @@ import { generateRandomId } from "../utils/generateRandomId";
 
 const getLocalizedContent = () => {
     return {
-        name: "Michael Carter ",
+        name: "Michael Carter ⚡",
         title: "Electrician & Owner",
         phonePrefix: "phone: ",
         phoneValue: "+1 123 456 7890",
@@ -250,6 +250,7 @@ export const signature_h = () => {
                                             id: generateRandomId(),
                                             text:
                                                 localizedContent.availableValue,
+                                            type: "customValue",
                                             color: "rgb(68, 64, 60)",
                                             fontSize: "14px",
                                             fontStyle: "normal",

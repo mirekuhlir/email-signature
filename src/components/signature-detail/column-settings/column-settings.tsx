@@ -17,6 +17,27 @@ import {
   MAX_BORDER_WIDTH,
   MAX_IMAGE_WIDTH,
 } from '@/supabase/functions/_shared/const';
+
+export const VerticalAlign = (props: any) => {
+  const { verticalAlign, setVerticalAlign } = props;
+  return (
+    <div className="w-full">
+      <Typography variant="labelBase">Vertical alignment</Typography>
+      <SelectBase
+        options={[
+          { value: 'top', label: 'Top' },
+          { value: 'middle', label: 'Middle' },
+          { value: 'bottom', label: 'Bottom' },
+        ]}
+        value={verticalAlign}
+        onChange={(value: string) => {
+          setVerticalAlign(value);
+        }}
+      />
+    </div>
+  );
+};
+
 export const ColumnSettings = (props: any) => {
   const { columnPathToEdit, signatureId, isSignedIn } = props;
   const { toast } = useToast();
@@ -277,6 +298,7 @@ export const ColumnSettings = (props: any) => {
   const componentId = get(rows, columnPathToEdit)?.id;
 
   const isVisibleOnlyPreview = editingSectionIds.length > 0;
+  const isSlidersDisabled = editingSectionIds.length > 0;
 
   return (
     <div key={`settings-${columnPathToEdit}`} className="mt-6 pb-24">
@@ -296,6 +318,7 @@ export const ColumnSettings = (props: any) => {
                     onChange={(value: number) => {
                       setPaddingTop(value.toString());
                     }}
+                    isDisabled={isSlidersDisabled}
                   />
                 </div>
 
@@ -310,6 +333,7 @@ export const ColumnSettings = (props: any) => {
                     onChange={(value: number) => {
                       setPaddingRight(value.toString());
                     }}
+                    isDisabled={isSlidersDisabled}
                   />
                 </div>
 
@@ -324,6 +348,7 @@ export const ColumnSettings = (props: any) => {
                     onChange={(value: number) => {
                       setPaddingBottom(value.toString());
                     }}
+                    isDisabled={isSlidersDisabled}
                   />
                 </div>
 
@@ -338,6 +363,7 @@ export const ColumnSettings = (props: any) => {
                     onChange={(value: number) => {
                       setPaddingLeft(value.toString());
                     }}
+                    isDisabled={isSlidersDisabled}
                   />
                 </div>
               </div>
@@ -360,6 +386,7 @@ export const ColumnSettings = (props: any) => {
                           top: value.toString(),
                         }));
                       }}
+                      isDisabled={isSlidersDisabled}
                     />
                   </div>
 
@@ -392,6 +419,7 @@ export const ColumnSettings = (props: any) => {
                           right: value.toString(),
                         }));
                       }}
+                      isDisabled={isSlidersDisabled}
                     />
                   </div>
 
@@ -427,6 +455,7 @@ export const ColumnSettings = (props: any) => {
                           bottom: value.toString(),
                         }));
                       }}
+                      isDisabled={isSlidersDisabled}
                     />
                   </div>
 
@@ -462,6 +491,7 @@ export const ColumnSettings = (props: any) => {
                           left: value.toString(),
                         }));
                       }}
+                      isDisabled={isSlidersDisabled}
                     />
                   </div>
 
@@ -513,6 +543,7 @@ export const ColumnSettings = (props: any) => {
                         topLeft: value.toString(),
                       }));
                     }}
+                    isDisabled={isSlidersDisabled}
                   />
                 </div>
                 <div>
@@ -529,6 +560,7 @@ export const ColumnSettings = (props: any) => {
                         topRight: value.toString(),
                       }));
                     }}
+                    isDisabled={isSlidersDisabled}
                   />
                 </div>
 
@@ -548,6 +580,7 @@ export const ColumnSettings = (props: any) => {
                         bottomLeft: value.toString(),
                       }));
                     }}
+                    isDisabled={isSlidersDisabled}
                   />
                 </div>
                 <div>
@@ -565,29 +598,16 @@ export const ColumnSettings = (props: any) => {
                         bottomRight: value.toString(),
                       }));
                     }}
+                    isDisabled={isSlidersDisabled}
                   />
                 </div>
               </div>
             </CollapsibleSection>
             <CollapsibleSection title="Alignment">
-              <div className="grid grid-cols-1 gap-2 sm:gap-2">
-                <div className="w-full sm:w-1/4">
-                  <Typography variant="labelBase">
-                    Vertical alignment
-                  </Typography>
-                  <SelectBase
-                    options={[
-                      { value: 'top', label: 'Top' },
-                      { value: 'middle', label: 'Middle' },
-                      { value: 'bottom', label: 'Bottom' },
-                    ]}
-                    value={verticalAlign}
-                    onChange={(value: string) => {
-                      setVerticalAlign(value);
-                    }}
-                  />
-                </div>
-              </div>
+              <VerticalAlign
+                verticalAlign={verticalAlign}
+                setVerticalAlign={setVerticalAlign}
+              />
             </CollapsibleSection>
             <CollapsibleSection title="Width and Height">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -602,6 +622,7 @@ export const ColumnSettings = (props: any) => {
                     onChange={(value: number) => {
                       setColumnWidth(value);
                     }}
+                    isDisabled={isSlidersDisabled}
                   />
                 </div>
                 <div>
@@ -615,6 +636,7 @@ export const ColumnSettings = (props: any) => {
                     onChange={(value: number) => {
                       setColumnHeight(value);
                     }}
+                    isDisabled={isSlidersDisabled}
                   />
                 </div>
               </div>

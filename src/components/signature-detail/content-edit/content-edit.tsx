@@ -28,6 +28,7 @@ import {
   MAX_IMAGE_WIDTH,
 } from '@/supabase/functions/_shared/const';
 import { LinkComponent } from './add-link';
+import { VerticalAlign } from '../column-settings/column-settings';
 
 export const LoadingInfo = ({
   text = 'Saving. Please wait...',
@@ -86,6 +87,7 @@ export const ContentEdit = (props: any) => {
   const columnColor = get(rows, `${columnPath}.style.backgroundColor`);
 
   const [iniContent, setIniContent] = useState<any>(null);
+  const [iniColumnStyle, setIniColumnStyle] = useState<any>(null);
   const [isSavingSignature, setIsSavingSignature] = useState(false);
 
   const {
@@ -123,9 +125,22 @@ export const ContentEdit = (props: any) => {
 
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
+  const [verticalAlign, setVerticalAlign] = useState('top');
 
   const path = `${contentPathToEdit}.content`;
   const content = useMemo(() => get(rows, path), [rows, path]);
+  const columnStylePath = `${columnPath}.style`;
+  const columnStyle = useMemo(
+    () => get(rows, columnStylePath) || {},
+    [rows, columnStylePath],
+  );
+
+  // Initialize verticalAlign from existing column style data
+  useEffect(() => {
+    const currentVerticalAlign = columnStyle.verticalAlign || 'top';
+    setVerticalAlign(currentVerticalAlign);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (content?.components[0].padding) {
@@ -287,6 +302,17 @@ export const ContentEdit = (props: any) => {
     });
   };
 
+  const updateVerticalAlign = useCallback(
+    (value: string) => {
+      const currentStyle = get(rows, columnStylePath) || {};
+      setContent(columnStylePath, {
+        ...currentStyle,
+        verticalAlign: value,
+      });
+    },
+    [columnStylePath, setContent, rows],
+  );
+
   useEffect(() => {
     // Check if all values are numbers before updating
     if (
@@ -317,6 +343,14 @@ export const ContentEdit = (props: any) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [width, height]);
+
+  // Apply vertical align changes immediately
+  useEffect(() => {
+    if (verticalAlign) {
+      updateVerticalAlign(verticalAlign);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [verticalAlign]);
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
@@ -350,8 +384,11 @@ export const ContentEdit = (props: any) => {
     if (!iniContent) {
       setIniContent(content);
     }
+    if (!iniColumnStyle) {
+      setIniColumnStyle(columnStyle);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [content]);
+  }, [content, columnStyle]);
 
   const isImage = content?.type === ContentType.IMAGE;
 
@@ -376,7 +413,11 @@ export const ContentEdit = (props: any) => {
       deleteRow(contentPathToEdit, signatureId, isSignedIn);
       setContentEdit({ editPath: null });
     } else {
+      // Restore both content and column style
       setContent(path, iniContent);
+      if (iniColumnStyle) {
+        setContent(columnStylePath, iniColumnStyle);
+      }
       setContentEdit({
         editPath: null,
       });
@@ -401,10 +442,12 @@ export const ContentEdit = (props: any) => {
       setIsSavingSignature(true);
 
       try {
+        // Save both content and column (which includes column style)
         await saveSignatureContentRow(
           signatureId,
           `${contentPathToEdit}.content`,
         );
+        await saveSignatureContentRow(signatureId, columnPath);
         setContentEdit({
           editPath: null,
         });
@@ -424,6 +467,7 @@ export const ContentEdit = (props: any) => {
   const componentId = content?.components[0]?.id;
 
   const isVisibleOnlyPreview = editingSectionIds.length > 0;
+  const isSlidersDisabled = editingSectionIds.length > 0;
 
   return (
     <div key={path}>
@@ -458,6 +502,7 @@ export const ContentEdit = (props: any) => {
                         onChange={(value: number) => {
                           setPaddingTop(value);
                         }}
+                        isDisabled={isSlidersDisabled}
                       />
                     </div>
 
@@ -472,6 +517,7 @@ export const ContentEdit = (props: any) => {
                         onChange={(value: number) => {
                           setPaddingRight(value);
                         }}
+                        isDisabled={isSlidersDisabled}
                       />
                     </div>
 
@@ -486,6 +532,7 @@ export const ContentEdit = (props: any) => {
                         onChange={(value: number) => {
                           setPaddingBottom(value);
                         }}
+                        isDisabled={isSlidersDisabled}
                       />
                     </div>
 
@@ -500,6 +547,7 @@ export const ContentEdit = (props: any) => {
                         onChange={(value: number) => {
                           setPaddingLeft(value);
                         }}
+                        isDisabled={isSlidersDisabled}
                       />
                     </div>
                   </div>
@@ -521,6 +569,7 @@ export const ContentEdit = (props: any) => {
                               top: value,
                             }));
                           }}
+                          isDisabled={isSlidersDisabled}
                         />
                       </div>
 
@@ -558,6 +607,7 @@ export const ContentEdit = (props: any) => {
                               right: value,
                             }));
                           }}
+                          isDisabled={isSlidersDisabled}
                         />
                       </div>
 
@@ -595,6 +645,7 @@ export const ContentEdit = (props: any) => {
                               bottom: value,
                             }));
                           }}
+                          isDisabled={isSlidersDisabled}
                         />
                       </div>
 
@@ -632,6 +683,7 @@ export const ContentEdit = (props: any) => {
                               left: value,
                             }));
                           }}
+                          isDisabled={isSlidersDisabled}
                         />
                       </div>
 
@@ -688,6 +740,7 @@ export const ContentEdit = (props: any) => {
                             topLeft: value.toString(),
                           }));
                         }}
+                        isDisabled={isSlidersDisabled}
                       />
                     </div>
                     <div>
@@ -705,6 +758,7 @@ export const ContentEdit = (props: any) => {
                             topRight: value.toString(),
                           }));
                         }}
+                        isDisabled={isSlidersDisabled}
                       />
                     </div>
                     <div>
@@ -723,6 +777,7 @@ export const ContentEdit = (props: any) => {
                             bottomLeft: value.toString(),
                           }));
                         }}
+                        isDisabled={isSlidersDisabled}
                       />
                     </div>
                     <div>
@@ -741,10 +796,20 @@ export const ContentEdit = (props: any) => {
                             bottomRight: value.toString(),
                           }));
                         }}
+                        isDisabled={isSlidersDisabled}
                       />
                     </div>
                   </div>
                 </CollapsibleSection>
+
+                {content.type !== ContentType.IMAGE && (
+                  <CollapsibleSection title="Alignment">
+                    <VerticalAlign
+                      verticalAlign={verticalAlign}
+                      setVerticalAlign={setVerticalAlign}
+                    />
+                  </CollapsibleSection>
+                )}
 
                 <CollapsibleSection title="Width and height">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -759,6 +824,7 @@ export const ContentEdit = (props: any) => {
                         onChange={(value: number) => {
                           setWidth(value);
                         }}
+                        isDisabled={isSlidersDisabled}
                       />
                     </div>
                     <div>
@@ -772,6 +838,7 @@ export const ContentEdit = (props: any) => {
                         onChange={(value: number) => {
                           setHeight(value);
                         }}
+                        isDisabled={isSlidersDisabled}
                       />
                     </div>
                   </div>
@@ -884,6 +951,7 @@ const getContentType = (
       };
       const getLayoutType = (component: any) => {
         if (component.type === ContentType.TEXT) return LayoutType.PREFIX;
+        if (component.type === ContentType.EMAIL_LINK) return LayoutType.EMAIL;
         return LayoutType.TEXT;
       };
       const onValueChange = (
@@ -919,10 +987,13 @@ const getContentType = (
         if (component.type === ContentType.PHONE_LINK) return 'Phone';
         return '';
       };
+
       const getLayoutType = (component: any) => {
         if (component.type === ContentType.TEXT) return LayoutType.PREFIX;
+        if (component.type === ContentType.PHONE_LINK) return LayoutType.PHONE;
         return LayoutType.TEXT;
       };
+
       return (
         <GenericEditContent
           {...commonProps}
@@ -943,6 +1014,8 @@ const getContentType = (
       // TODO
       const getLayoutType = (component: any) => {
         if (component.type === ContentType.TEXT) return LayoutType.PREFIX;
+        if (component.type === ContentType.WEBSITE_LINK)
+          return LayoutType.WEBSITE;
         return LayoutType.TEXT;
       };
       return (

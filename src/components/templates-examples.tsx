@@ -5,6 +5,7 @@ import { getTemplates } from '@/src/templates';
 import { Button } from './ui/button';
 import { useRouter } from 'next/navigation';
 import { Hr } from './ui/hr';
+import { Typography } from './ui/typography';
 
 type TemplatesExamplesProps = {
   isSignedIn: boolean;
@@ -19,6 +20,14 @@ export const TemplatesExamples = (props: TemplatesExamplesProps) => {
 
   return (
     <div className="bg-color-gray-50">
+      <div className="mb-4">
+        <Typography variant="h4" textColor="text-brand-blue-900">
+          Choose a template you like
+        </Typography>
+      </div>
+      <div className="mb-6">
+        <Hr />
+      </div>
       {templates.map((template, index) => (
         <div key={index} className="flex flex-col">
           <EmailTemplateView rows={template.rows} />

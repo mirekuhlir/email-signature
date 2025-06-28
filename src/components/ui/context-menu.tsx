@@ -16,6 +16,7 @@ interface ContextMenuProps {
   buttonClassName?: string;
   size?: 'sm' | 'md' | 'lg';
   isLoading?: boolean;
+  isDisabled?: boolean;
 }
 
 export const ContextMenu: React.FC<ContextMenuProps> = ({
@@ -27,6 +28,7 @@ export const ContextMenu: React.FC<ContextMenuProps> = ({
   buttonClassName,
   size = 'md',
   isLoading = false,
+  isDisabled = false,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [direction, setDirection] = useState<'down' | 'up'>('down');
@@ -57,6 +59,29 @@ export const ContextMenu: React.FC<ContextMenuProps> = ({
     }
   }, [isOpen]);
 
+  // Function to handle child clicks
+  const handleChildClick = (originalOnClick?: () => void) => {
+    return () => {
+      if (originalOnClick) {
+        originalOnClick();
+      }
+      setIsOpen(false); // Close menu when child is clicked
+    };
+  };
+
+  // Clone children and add onClick handlers
+  const clonedChildren = React.Children.map(children, (child) => {
+    if (React.isValidElement(child)) {
+      const childElement = child as React.ReactElement<{
+        onClick?: () => void;
+      }>;
+      return React.cloneElement(childElement, {
+        onClick: handleChildClick(childElement.props.onClick),
+      });
+    }
+    return child;
+  });
+
   const MenuContainer: React.ElementType = el || 'div';
 
   const menuStyle: React.CSSProperties = {
@@ -82,6 +107,7 @@ export const ContextMenu: React.FC<ContextMenuProps> = ({
         size={size}
         variant="white"
         ref={buttonRef}
+        disabled={isDisabled}
         onClick={() => setIsOpen(!isOpen)}
       >
         {buttonContent}
@@ -94,7 +120,7 @@ export const ContextMenu: React.FC<ContextMenuProps> = ({
         >
           <div className="py-1">
             {children
-              ? children
+              ? clonedChildren
               : items &&
                 items.map((item, index) => (
                   <button

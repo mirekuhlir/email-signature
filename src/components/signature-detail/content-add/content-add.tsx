@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { useSignatureStore } from '@/src/store/content-edit-add-store';
 import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
 import { Button } from '@/src/components/ui/button';
@@ -27,16 +27,18 @@ const countOriginalSrc = (tableRows: TableRow[]): number => {
 
 interface ContentAddProps {
   path: string;
-  onClose: () => void;
 }
 
 export const ContentAdd = (props: ContentAddProps) => {
-  const { path, onClose } = props;
+  const { path } = props;
 
   const { addRow, addRowTable, rows } = useSignatureStore();
   const { contentEdit, setContentEdit } = useContentEditStore();
-  const wrapperRef = useRef<HTMLDivElement>(null);
   const [totalOriginalSrc, setTotalOriginalSrc] = useState(0);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, []);
 
   useEffect(() => {
     if (rows.length > 0) {
@@ -73,7 +75,13 @@ export const ContentAdd = (props: ContentAddProps) => {
   };
 
   return (
-    <div className="pt-1 sm:max-w-1/2 mx-auto">
+    <>
+      <div className="mb-4">
+        <Typography variant="h4" textColor="text-brand-blue-900">
+          Add content
+        </Typography>
+      </div>
+      <Hr />
       {CONTENT_TYPES.map((typeItem, index) => {
         if (
           typeItem.type === ContentType.IMAGE &&
@@ -89,18 +97,13 @@ export const ContentAdd = (props: ContentAddProps) => {
               <Typography variant="body">{typeItem.description}</Typography>
             </div>
 
-            <div className="flex justify-end mt-4 mb-4">
+            <div className="flex justify-end sm:justify-start mt-4 mb-4">
               <Button onClick={() => onAdd(typeItem.type)}>{'Add'}</Button>
             </div>
-            <Hr />
+            {index !== CONTENT_TYPES.length - 1 && <Hr />}
           </div>
         );
       })}
-      <div className="flex justify-end mb-6 mt-6" ref={wrapperRef}>
-        <Button variant="outline" onClick={onClose}>
-          Close
-        </Button>
-      </div>
-    </div>
+    </>
   );
 };

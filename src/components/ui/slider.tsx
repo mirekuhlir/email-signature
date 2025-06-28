@@ -1,7 +1,11 @@
 'use client';
 
 import React, { useState, useRef, useCallback, useMemo } from 'react';
+import { useForm } from 'react-hook-form';
 import { Typography } from './typography';
+import Modal from './modal';
+import { Button } from './button';
+import NumberInput from './number-input';
 
 interface Step {
   label: string;
@@ -44,6 +48,12 @@ const Slider: React.FC<SliderProps> = (props) => {
 
   const thumbRef = useRef<HTMLDivElement>(null);
   const isDraggingRef = useRef(false);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const form = useForm<{ value: number }>({
+    defaultValues: { value: 0 },
+  });
 
   const getInitialValue = useCallback((): number => {
     return isUsingSteps
@@ -111,6 +121,50 @@ const Slider: React.FC<SliderProps> = (props) => {
 
   const percentValue = useMemo(() => getPercentValue(), [getPercentValue]);
 
+  const handleModalSubmit = form.handleSubmit((data) => {
+    const numValue = data.value;
+    if (!isNaN(numValue)) {
+      if (isUsingSteps) {
+        // Find closest step value
+        const closestStep = steps!.reduce((prev, curr) =>
+          Math.abs(curr.value - numValue) < Math.abs(prev.value - numValue)
+            ? curr
+            : prev,
+        );
+        if (value !== undefined) {
+          onChange?.(closestStep.value);
+        } else {
+          setInternalValue(closestStep.value);
+          onChange?.(closestStep.value);
+        }
+      } else {
+        // Clamp value to min/max bounds
+        const clampedValue = Math.max(
+          min as number,
+          Math.min(max as number, numValue),
+        );
+        if (value !== undefined) {
+          onChange?.(clampedValue);
+        } else {
+          setInternalValue(clampedValue);
+          onChange?.(clampedValue);
+        }
+      }
+    }
+    setIsModalOpen(false);
+    form.reset();
+  });
+
+  const openModal = () => {
+    form.setValue('value', currentValue);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    form.reset();
+  };
+
   return (
     <div className="pt-3">
       {label && (
@@ -118,77 +172,118 @@ const Slider: React.FC<SliderProps> = (props) => {
           <Typography variant="labelBase">{label}</Typography>
         </div>
       )}
-      <div
-        id={id}
-        ref={sliderRef}
-        className={`relative w-full h-4 select-none px-4 ${
-          isDisabled ? 'opacity-50 cursor-not-allowed' : ''
-        }`}
-        style={{ touchAction: 'none' }}
-        role="slider"
-        aria-valuemin={isUsingSteps ? steps![0].value : min}
-        aria-valuemax={isUsingSteps ? steps![steps!.length - 1].value : max}
-        aria-valuenow={currentValue}
-        aria-disabled={isDisabled}
-      >
+      <div className="flex flex-row">
         <div
-          className={`absolute left-4 right-4 h-2 rounded-full transform -translate-y-1/2 ${
-            isDisabled ? 'bg-gray-200' : 'bg-gray-300'
+          id={id}
+          ref={sliderRef}
+          className={`relative w-full h-4 select-none px-4 ${
+            isDisabled ? 'opacity-50 cursor-not-allowed' : ''
           }`}
+          style={{ touchAction: 'none' }}
+          role="slider"
+          aria-valuemin={isUsingSteps ? steps![0].value : min}
+          aria-valuemax={isUsingSteps ? steps![steps!.length - 1].value : max}
+          aria-valuenow={currentValue}
+          aria-disabled={isDisabled}
         >
           <div
-            className={`absolute top-0 left-0 h-full rounded-full ${
-              isDisabled ? 'bg-gray-400' : 'bg-blue-500'
+            className={`absolute left-4 right-4 h-2 rounded-full transform -translate-y-1/2 ${
+              isDisabled ? 'bg-gray-200' : 'bg-gray-300'
             }`}
-            style={{ width: `${percentValue}%` }}
-          />
-        </div>
-        <div
-          ref={thumbRef}
-          style={{
-            left: `calc(16px + (100% - 32px) * ${percentValue / 100})`,
-            touchAction: 'none',
-          }}
-          className={`absolute w-8 h-8 bg-white border-2 rounded-full shadow-sm transform -translate-y-1/2 -translate-x-1/2 ${
-            isDisabled
-              ? 'border-gray-400 cursor-not-allowed'
-              : 'border-blue-500 cursor-grab active:cursor-grabbing'
-          }`}
-          onPointerDown={(e) => {
-            if (!isDisabled) {
-              isDraggingRef.current = true;
-              (e.target as HTMLElement).setPointerCapture(e.pointerId);
-            }
-          }}
-          onPointerMove={(e) => {
-            if (isDraggingRef.current && !isDisabled) {
-              handleMove(e.clientX);
-            }
-          }}
-          onPointerUp={(e) => {
-            if (isDraggingRef.current) {
+          >
+            <div
+              className={`absolute top-0 left-0 h-full rounded-full ${
+                isDisabled ? 'bg-gray-400' : 'bg-blue-500'
+              }`}
+              style={{ width: `${percentValue}%` }}
+            />
+          </div>
+          <div
+            ref={thumbRef}
+            style={{
+              left: `calc(16px + (100% - 32px) * ${percentValue / 100})`,
+              touchAction: 'none',
+            }}
+            className={`absolute w-8 h-8 bg-white border-2 rounded-full shadow-sm transform -translate-y-1/2 -translate-x-1/2 ${
+              isDisabled
+                ? 'border-gray-400 cursor-not-allowed'
+                : 'border-blue-500 cursor-grab active:cursor-grabbing'
+            }`}
+            onPointerDown={(e) => {
+              if (!isDisabled) {
+                isDraggingRef.current = true;
+                (e.target as HTMLElement).setPointerCapture(e.pointerId);
+              }
+            }}
+            onPointerMove={(e) => {
+              if (isDraggingRef.current && !isDisabled) {
+                handleMove(e.clientX);
+              }
+            }}
+            onPointerUp={(e) => {
+              if (isDraggingRef.current) {
+                isDraggingRef.current = false;
+                (e.target as HTMLElement).releasePointerCapture(e.pointerId);
+              }
+            }}
+            onLostPointerCapture={() => {
               isDraggingRef.current = false;
-              (e.target as HTMLElement).releasePointerCapture(e.pointerId);
-            }
-          }}
-          onLostPointerCapture={() => {
-            isDraggingRef.current = false;
-          }}
-        />
-        <div className="absolute top-full left-0 w-full flex justify-between mt-2 text-xs text-gray-600">
-          {isUsingSteps && steps
-            ? steps.map((step, index) => (
-                <span key={index} className="flex-1 text-center">
-                  {step.label}
-                </span>
-              ))
-            : showValue && (
-                <span className="w-full text-center text-sm font-bold text-gray-700">
-                  {`${currentValue} ${props.units ?? ''}`}
-                </span>
-              )}
+            }}
+          />
+          <div className="absolute top-full left-0 w-full flex justify-between mt-2 text-xs text-gray-600">
+            {isUsingSteps && steps
+              ? steps.map((step, index) => (
+                  <span key={index} className="flex-1 text-center">
+                    {step.label}
+                  </span>
+                ))
+              : showValue && (
+                  <span className="w-full text-center text-sm font-bold text-gray-700">
+                    {`${currentValue} ${props.units ?? ''}`}
+                  </span>
+                )}
+          </div>
+        </div>
+
+        <div className="pl-1 pr-0 sm:pr-4 relative -top-4">
+          <Button
+            variant="blue"
+            size="sm"
+            onClick={openModal}
+            disabled={isDisabled}
+          >
+            Edit
+          </Button>
         </div>
       </div>
+
+      <Modal isOpen={isModalOpen} title="Enter Value" size="small">
+        <form onSubmit={handleModalSubmit} className="space-y-4">
+          <NumberInput
+            label={`Value ${
+              isUsingSteps
+                ? `(${steps![0].value} - ${steps![steps!.length - 1].value})`
+                : `(${min} - ${max})`
+            }`}
+            name="value"
+            register={form.register}
+            errors={form.formState.errors}
+            placeholder="Enter number..."
+            isAutoFocus={true}
+            min={isUsingSteps ? steps![0].value : min}
+            max={isUsingSteps ? steps![steps!.length - 1].value : max}
+            step={isUsingSteps ? 1 : step}
+          />
+          <div className="flex justify-between gap-2">
+            <Button type="button" variant="outline" onClick={closeModal}>
+              Close
+            </Button>
+            <Button type="submit" variant="blue">
+              Confirm
+            </Button>
+          </div>
+        </form>
+      </Modal>
     </div>
   );
 };

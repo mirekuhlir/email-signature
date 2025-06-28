@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState, useEffect } from 'react';
 import { useSignatureStore } from '@/src/store/content-edit-add-store';
 import ImageUploadCrop from '@/src/components/ui/image-uploader-crop/image-uploader-crop';
 import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
@@ -11,6 +11,8 @@ import SelectBase from '../../ui/select-base';
 import { ImageComponent } from '@/src/types/signature';
 import { CollapsibleSection } from '@/src/components/ui/collapsible-section';
 import { LinkComponent } from './add-link';
+import { VerticalAlign } from '../column-settings/column-settings';
+import { get } from 'lodash';
 
 interface ImageHorizontalAlignProps {
   imageComponent: ImageComponent;
@@ -21,7 +23,7 @@ interface ImageHorizontalAlignProps {
 const ImageHorizontalAlign = (props: ImageHorizontalAlignProps) => {
   const { imageComponent, contentPathToEdit, setContent } = props;
   return (
-    <div className="w-full sm:w-1/4">
+    <div className="w-full">
       <Typography variant="labelBase">Horizontal alignment</Typography>
       <SelectBase
         options={[
@@ -58,6 +60,41 @@ export const ImageEditContent = (props: ImageEditContentProps) => {
   } = useContentEditStore();
   const imageComponent: ImageComponent = components[0];
   const [imageIsResizing, setImageIsResizing] = useState(false);
+  const [verticalAlign, setVerticalAlign] = useState('top');
+
+  // Define path for the parent column's style (same pattern as content-edit.tsx)
+  const columnPath = contentPathToEdit.substring(
+    0,
+    contentPathToEdit.lastIndexOf('.rows['),
+  );
+  const path = `${columnPath}.style`;
+  const originalStyle = useMemo(() => get(rows, path) || {}, [rows, path]);
+
+  // Initialize verticalAlign from existing column style data
+  useEffect(() => {
+    const currentVerticalAlign = originalStyle.verticalAlign || 'top';
+    setVerticalAlign(currentVerticalAlign);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const updateVerticalAlign = useCallback(
+    (value: string) => {
+      const currentStyle = get(rows, path) || {};
+      setContent(path, {
+        ...currentStyle,
+        verticalAlign: value,
+      });
+    },
+    [path, setContent, rows],
+  );
+
+  // Apply vertical align changes immediately (same pattern as other properties in content-edit.tsx)
+  useEffect(() => {
+    if (verticalAlign) {
+      updateVerticalAlign(verticalAlign);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [verticalAlign]);
 
   const handleCropImagePreview = useCallback(
     (croppedImage: string) => {
@@ -179,12 +216,18 @@ export const ImageEditContent = (props: ImageEditContentProps) => {
         }
         horizontalAlign={
           isImage && !isImageLoading ? (
-            <CollapsibleSection title="Horizontal alignment">
-              <ImageHorizontalAlign
-                imageComponent={imageComponent}
-                contentPathToEdit={contentPathToEdit}
-                setContent={setContent}
-              />
+            <CollapsibleSection title="Alignment">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <ImageHorizontalAlign
+                  imageComponent={imageComponent}
+                  contentPathToEdit={contentPathToEdit}
+                  setContent={setContent}
+                />
+                <VerticalAlign
+                  verticalAlign={verticalAlign}
+                  setVerticalAlign={setVerticalAlign}
+                />
+              </div>
             </CollapsibleSection>
           ) : null
         }

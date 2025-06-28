@@ -17,6 +17,8 @@ import { useMediaQuery } from '@/src/hooks/useMediaQuery';
 import { MEDIA_QUERIES } from '@/src/constants/mediaQueries';
 import { getWidthHeightStyle } from './content-view/utils';
 import { DeleteConfirmationModal } from '@/src/components/ui/delete-confirmation-modal';
+import Modal from '../ui/modal';
+import { Container } from '../ui/container';
 
 // Helper function to determine if a color is dark
 function isColorDark(colorString: string): boolean {
@@ -43,7 +45,7 @@ function isColorDark(colorString: string): boolean {
 export const EmailTemplateEdit = (props: any) => {
   const { rows, isSignedIn, templateSlug } = props;
   const { setContentEdit, contentEdit } = useContentEditStore();
-  const { moveRowUp, moveRowDown, isSavingOrder, deleteRow } =
+  const { moveRowUp, moveRowDown, isSavingOrder, savingOrderPath, deleteRow } =
     useSignatureStore();
   const { id: signatureId } = useParams();
   const containerRef = useRef<HTMLDivElement>(null);
@@ -107,6 +109,7 @@ export const EmailTemplateEdit = (props: any) => {
                 <Button
                   size="sm"
                   variant="gray"
+                  disabled={isSavingOrder}
                   onClick={() => {
                     const numberOfRows = column.rows.length;
                     const nextEditRowPath = `${rowPath}[${numberOfRows}]`;
@@ -126,6 +129,7 @@ export const EmailTemplateEdit = (props: any) => {
               <Button
                 variant="blue"
                 size="sm"
+                disabled={isSavingOrder}
                 onClick={() => {
                   setContentEdit({
                     columnPath: path,
@@ -272,6 +276,7 @@ export const EmailTemplateEdit = (props: any) => {
                     <Button
                       size="sm"
                       variant="blue"
+                      disabled={isSavingOrder}
                       onClick={() => {
                         setContentEdit({
                           editPath: currentPath,
@@ -290,11 +295,15 @@ export const EmailTemplateEdit = (props: any) => {
                       <ContextMenu
                         size="sm"
                         placement={isMobile ? 'left' : 'right'}
-                        isLoading={isSavingOrder}
+                        isDisabled={isSavingOrder}
+                        isLoading={
+                          isSavingOrder && savingOrderPath === currentPath
+                        }
                       >
                         <div className="pt-2 pb-2 px-2 flex flex-col gap-1 whitespace-nowrap items-start">
                           <Button
                             variant="ghost"
+                            disabled={isSavingOrder}
                             onClick={() => {
                               const nextIndex = index + 1;
                               const nextEditRowPath = path
@@ -310,26 +319,36 @@ export const EmailTemplateEdit = (props: any) => {
                           >
                             Add
                           </Button>
+                          {totalRowsInColumn > 1 && (
+                            <>
+                              <Hr className="my-2" />
+                              <Button
+                                variant="ghost"
+                                disabled={isSavingOrder}
+                                onClick={() => {
+                                  moveRowUp(currentPath, signatureId as string);
+                                }}
+                              >
+                                Move up
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                disabled={isSavingOrder}
+                                onClick={() => {
+                                  moveRowDown(
+                                    currentPath,
+                                    signatureId as string,
+                                  );
+                                }}
+                              >
+                                Move down
+                              </Button>
+                            </>
+                          )}
                           <Hr className="my-2" />
                           <Button
                             variant="ghost"
-                            onClick={() => {
-                              moveRowUp(currentPath, signatureId as string);
-                            }}
-                          >
-                            Move up
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            onClick={() => {
-                              moveRowDown(currentPath, signatureId as string);
-                            }}
-                          >
-                            Move down
-                          </Button>
-                          <Hr className="my-2" />
-                          <Button
-                            variant="ghost"
+                            disabled={isSavingOrder}
                             onClick={() => {
                               setRowToDelete(currentPath);
                               setIsDeleteModalOpen(true);
@@ -384,6 +403,7 @@ export const EmailTemplateEdit = (props: any) => {
                   });
                 }}
                 variant="gray"
+                disabled={isSavingOrder}
               >
                 Add
               </Button>
@@ -412,6 +432,7 @@ export const EmailTemplateEdit = (props: any) => {
                   });
                 }}
                 variant="gray"
+                disabled={isSavingOrder}
               >
                 Add
               </Button>
@@ -420,14 +441,19 @@ export const EmailTemplateEdit = (props: any) => {
       </div>
 
       {contentEdit.addPath && (
-        <ContentAdd
-          path={contentEdit.addPath}
+        <Modal
+          isOpen={Boolean(contentEdit.addPath)}
+          size="fullscreen"
           onClose={() => {
             setContentEdit({
               addPath: null,
             });
           }}
-        />
+        >
+          <Container isZeroPadding={true}>
+            <ContentAdd path={contentEdit.addPath} />
+          </Container>
+        </Modal>
       )}
 
       {contentEdit.editPath && (

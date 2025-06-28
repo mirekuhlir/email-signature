@@ -16,13 +16,13 @@ export const CONTENT_TYPES = [
   },
   {
     name: 'image',
-    description: 'Can be photo, logo, avatar, banner, icon, badge, etc.',
+    description: 'Can be photo, logo, avatar, banner, icon, etc.',
     content: 'image',
     type: ContentType.IMAGE,
   },
   {
     name: 'email',
-    description: 'Any email address (e.g. john.doe@company.com).',
+    description: 'Any email address (e.g. john@company.com).',
     content: `${getEmailTextExample().prefix}${getEmailTextExample().email}`,
     type: ContentType.EMAIL,
   },
