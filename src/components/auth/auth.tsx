@@ -125,6 +125,7 @@ export const Auth = ({ title, description }: AuthProps) => {
                   loading={isEmailSending}
                   size="lg"
                   type="submit"
+                  variant="brandBlue"
                   isFullWidth
                 >
                   {isEmailSending ? 'Sending...' : 'Send'}
