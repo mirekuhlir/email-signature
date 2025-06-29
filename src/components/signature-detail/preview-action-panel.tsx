@@ -60,7 +60,7 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({
             </Button>
           )}
           {onSave && !isSaving && (
-            <Button variant="blue" size="md" onClick={onSave}>
+            <Button variant="brandBlue" size="md" onClick={onSave}>
               Save
             </Button>
           )}

@@ -95,7 +95,7 @@ export const EditColor = (props: Props) => {
               </div>
             )}
 
-            <div className="flex justify-between">
+            <div className="flex justify-between px-3">
               <div className="flex">
                 <Button
                   variant="outline"

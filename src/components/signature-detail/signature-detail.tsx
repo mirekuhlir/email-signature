@@ -102,11 +102,13 @@ export const SignatureDetail = (props: any) => {
   });
 
   return (
-    <div className="pb-8">
+    <div
+      className={`pb-8 ${contentEdit.editPath || contentEdit.columnPath ? 'pt-6' : 'pt-20'}`}
+    >
       <Container>
         {isPreview && (
           <>
-            {isSignedIn && (
+            {isSignedIn && !isEdit && (
               <>
                 <StyledLink
                   variant="default"
@@ -139,7 +141,7 @@ export const SignatureDetail = (props: any) => {
 
       {(contentEdit.editPath || contentEdit.columnPath) && (
         <div
-          className={`${isSticky ? 'sticky top-0 bg-gray-50 z-10 pt-20 border-b border-gray-300' : ''}`}
+          className={`${isSticky ? 'sticky top-0 bg-gray-50 z-10 pt-5 border-b border-gray-300' : ''}`}
         >
           <SignaturePreview />
         </div>
@@ -187,24 +189,24 @@ export const SignatureDetail = (props: any) => {
 
       {isEdit && (
         <Container>
-          <EmailTemplateEdit
-            isSignedIn={isSignedIn}
-            templateSlug={templateSlug}
-            rows={rows}
-          />
           {!contentEdit.editPath &&
             !contentEdit.addPath &&
             !contentEdit.columnPath && (
-              <div className="mb-8">
+              <div className="mb-8 mt-4 flex justify-end sm:justify-start">
                 <Button
                   size="lg"
                   onClick={() => setIsEdit(false)}
-                  variant="brandBlue"
+                  variant="blue"
                 >
                   <Eye size={20} className="mr-2" /> View
                 </Button>
               </div>
             )}
+          <EmailTemplateEdit
+            isSignedIn={isSignedIn}
+            templateSlug={templateSlug}
+            rows={rows}
+          />
         </Container>
       )}
     </div>

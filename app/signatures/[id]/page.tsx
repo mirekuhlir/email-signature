@@ -79,18 +79,16 @@ export default async function Signature(props: Props) {
       <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100">
         <Header user={user} />
         <main>
-          <div className="pt-20">
-            <SignatureDetail
-              user={user}
-              isSignedIn={isSignedIn}
-              signatureDetail={{
-                ...data?.signature_content,
-                rows,
-                colors,
-              }}
-              userStatus={userStatus}
-            />
-          </div>
+          <SignatureDetail
+            user={user}
+            isSignedIn={isSignedIn}
+            signatureDetail={{
+              ...data?.signature_content,
+              rows,
+              colors,
+            }}
+            userStatus={userStatus}
+          />
         </main>
       </div>
     );

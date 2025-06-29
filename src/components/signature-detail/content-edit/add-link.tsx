@@ -120,6 +120,7 @@ export const LinkComponent = (props: LinkComponentProps) => {
               {component?.link && (
                 <>
                   <div className="py-2">
+                    <Typography variant="labelBase">Link</Typography>
                     <Typography
                       variant="large"
                       className="text-gray-900 break-all"

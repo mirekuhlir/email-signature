@@ -7,6 +7,7 @@ import { ContextMenu } from './ui/context-menu';
 import StyledLink from './ui/styled-link';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/src/utils/supabase/client';
+import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
 
 export const signOutClient = async (router: ReturnType<typeof useRouter>) => {
   const supabase = await createClient();
@@ -43,6 +44,7 @@ export const Header = (props: any) => {
   const router = useRouter();
 
   const { showAuthModal } = useAuthModal();
+  const { contentEdit } = useContentEditStore();
 
   const handleSignOut = async () => {
     try {
@@ -55,6 +57,10 @@ export const Header = (props: any) => {
       console.error('Sign out error:', error);
     }
   };
+
+  if (contentEdit.editPath || contentEdit.columnPath) {
+    return null;
+  }
 
   return (
     <header className="fixed top-0 w-full bg-white/80 backdrop-blur-lg border-b border-gray-200 shadow-lg z-50">
