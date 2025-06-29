@@ -309,10 +309,8 @@ export const ColumnSettings = (props: any) => {
             <CollapsibleSection title="Inner space">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 <div>
-                  <Typography variant="labelBase" className="mb-2">
-                    Top space: {paddingTop}px
-                  </Typography>
                   <Slider
+                    label={`Top space: ${paddingTop}px`}
                     min={0}
                     max={MAX_PADDING}
                     value={Number(paddingTop)}
@@ -326,10 +324,8 @@ export const ColumnSettings = (props: any) => {
                 </div>
 
                 <div>
-                  <Typography variant="labelBase" className="mb-2">
-                    Right space: {paddingRight}px
-                  </Typography>
                   <Slider
+                    label={`Right space: ${paddingRight}px`}
                     min={0}
                     max={MAX_PADDING}
                     value={Number(paddingRight)}
@@ -343,10 +339,8 @@ export const ColumnSettings = (props: any) => {
                 </div>
 
                 <div>
-                  <Typography variant="labelBase" className="mb-2">
-                    Bottom space: {paddingBottom}px
-                  </Typography>
                   <Slider
+                    label={`Bottom space: ${paddingBottom}px`}
                     min={0}
                     max={MAX_PADDING}
                     value={Number(paddingBottom)}
@@ -360,10 +354,8 @@ export const ColumnSettings = (props: any) => {
                 </div>
 
                 <div>
-                  <Typography variant="labelBase" className="mb-2">
-                    Left space: {paddingLeft}px
-                  </Typography>
                   <Slider
+                    label={`Left space: ${paddingLeft}px`}
                     min={0}
                     max={MAX_PADDING}
                     value={Number(paddingLeft)}
@@ -382,10 +374,8 @@ export const ColumnSettings = (props: any) => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 <div className="mb-2">
                   <div>
-                    <Typography variant="labelBase" className="mb-2">
-                      Top width : {borderWidths.top}px
-                    </Typography>
                     <Slider
+                      label={`Top width : ${borderWidths.top}px`}
                       min={0}
                       max={MAX_BORDER_WIDTH}
                       value={Number(borderWidths.top)}
@@ -417,10 +407,8 @@ export const ColumnSettings = (props: any) => {
 
                 <div className="mb-4">
                   <div>
-                    <Typography variant="labelBase" className="mb-2">
-                      Right width : {borderWidths.right}px
-                    </Typography>
                     <Slider
+                      label={`Right width : ${borderWidths.right}px`}
                       min={0}
                       max={MAX_BORDER_WIDTH}
                       value={Number(borderWidths.right)}
@@ -455,10 +443,8 @@ export const ColumnSettings = (props: any) => {
 
                 <div className="mb-4">
                   <div>
-                    <Typography variant="labelBase" className="mb-2">
-                      Bottom width : {borderWidths.bottom}px
-                    </Typography>
                     <Slider
+                      label={`Bottom width : ${borderWidths.bottom}px`}
                       min={0}
                       max={MAX_BORDER_WIDTH}
                       value={Number(borderWidths.bottom)}
@@ -493,10 +479,8 @@ export const ColumnSettings = (props: any) => {
 
                 <div className="mb-2">
                   <div>
-                    <Typography variant="labelBase" className="mb-4">
-                      Left width : {borderWidths.left}px
-                    </Typography>
                     <Slider
+                      label={`Left width : ${borderWidths.left}px`}
                       min={0}
                       max={MAX_BORDER_WIDTH}
                       value={Number(borderWidths.left)}
@@ -546,11 +530,8 @@ export const ColumnSettings = (props: any) => {
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 <div>
-                  <Typography variant="labelBase" className="mb-2">
-                    Top-left rounded corner : {borderRadiusCorners.topLeft}
-                    px
-                  </Typography>
                   <Slider
+                    label={`Top-left rounded corner : ${borderRadiusCorners.topLeft}px`}
                     min={0}
                     max={MAX_BORDER_RADIUS}
                     value={Number(borderRadiusCorners.topLeft)}
@@ -566,10 +547,8 @@ export const ColumnSettings = (props: any) => {
                   />
                 </div>
                 <div>
-                  <Typography variant="labelBase" className="mb-2">
-                    Top-right rounded corner : {borderRadiusCorners.topRight}px
-                  </Typography>
                   <Slider
+                    label={`Top-right rounded corner : ${borderRadiusCorners.topRight}px`}
                     min={0}
                     max={MAX_BORDER_RADIUS}
                     value={Number(borderRadiusCorners.topRight)}
@@ -586,12 +565,8 @@ export const ColumnSettings = (props: any) => {
                 </div>
 
                 <div>
-                  <Typography variant="labelBase" className="mb-2">
-                    Bottom-left rounded corner :{' '}
-                    {borderRadiusCorners.bottomLeft}
-                    px
-                  </Typography>
                   <Slider
+                    label={`Bottom-left rounded corner : ${borderRadiusCorners.bottomLeft}px`}
                     min={0}
                     max={MAX_BORDER_RADIUS}
                     value={Number(borderRadiusCorners.bottomLeft)}
@@ -607,11 +582,8 @@ export const ColumnSettings = (props: any) => {
                   />
                 </div>
                 <div>
-                  <Typography variant="labelBase" className="mb-2">
-                    Bottom-right rounded corner :{' '}
-                    {borderRadiusCorners.bottomRight}px
-                  </Typography>
                   <Slider
+                    label={`Bottom-right rounded corner : ${borderRadiusCorners.bottomRight}px`}
                     min={0}
                     max={MAX_BORDER_RADIUS}
                     value={Number(borderRadiusCorners.bottomRight)}
@@ -637,10 +609,8 @@ export const ColumnSettings = (props: any) => {
             <CollapsibleSection title="Width and Height">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 <div>
-                  <Typography variant="labelBase" className="mb-2">
-                    Width: {columnWidth === 0 ? 'auto' : `${columnWidth}px`}
-                  </Typography>
                   <Slider
+                    label={`Width: ${columnWidth === 0 ? 'auto' : `${columnWidth}px`}`}
                     min={0}
                     max={MAX_IMAGE_WIDTH} // Assuming MAX_IMAGE_WIDTH is appropriate, or define MAX_COLUMN_WIDTH
                     value={columnWidth}
@@ -651,10 +621,8 @@ export const ColumnSettings = (props: any) => {
                   />
                 </div>
                 <div>
-                  <Typography variant="labelBase" className="mb-2">
-                    Height: {columnHeight === 0 ? 'auto' : `${columnHeight}px`}
-                  </Typography>
                   <Slider
+                    label={`Height: ${columnHeight === 0 ? 'auto' : `${columnHeight}px`}`}
                     min={0}
                     max={MAX_IMAGE_WIDTH} // Assuming MAX_IMAGE_WIDTH is appropriate, or define MAX_COLUMN_HEIGHT
                     value={columnHeight}

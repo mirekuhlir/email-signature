@@ -501,10 +501,8 @@ export const ContentEdit = (props: any) => {
                 <CollapsibleSection title="Inner space">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     <div>
-                      <Typography variant="labelBase" className="mb-2">
-                        Top space: {paddingTop}px
-                      </Typography>
                       <Slider
+                        label={`Top space: ${paddingTop}px`}
                         min={0}
                         max={MAX_PADDING}
                         value={paddingTop}
@@ -518,10 +516,8 @@ export const ContentEdit = (props: any) => {
                     </div>
 
                     <div>
-                      <Typography variant="labelBase" className="mb-2">
-                        Right space: {paddingRight}px
-                      </Typography>
                       <Slider
+                        label={`Right space: ${paddingRight}px`}
                         min={0}
                         max={MAX_PADDING}
                         value={paddingRight}
@@ -535,10 +531,8 @@ export const ContentEdit = (props: any) => {
                     </div>
 
                     <div>
-                      <Typography variant="labelBase" className="mb-2">
-                        Bottom space: {paddingBottom}px
-                      </Typography>
                       <Slider
+                        label={`Bottom space: ${paddingBottom}px`}
                         min={0}
                         max={MAX_PADDING}
                         value={paddingBottom}
@@ -552,10 +546,8 @@ export const ContentEdit = (props: any) => {
                     </div>
 
                     <div>
-                      <Typography variant="labelBase" className="mb-2">
-                        Left space: {paddingLeft}px
-                      </Typography>
                       <Slider
+                        label={`Left space: ${paddingLeft}px`}
                         min={0}
                         max={MAX_PADDING}
                         value={paddingLeft}
@@ -573,10 +565,8 @@ export const ContentEdit = (props: any) => {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     <div>
                       <div>
-                        <Typography variant="labelBase" className="mb-2">
-                          Top border width : {borderWidths.top}px
-                        </Typography>
                         <Slider
+                          label={`Top border width : ${borderWidths.top}px`}
                           min={0}
                           max={MAX_BORDER_WIDTH}
                           value={borderWidths.top}
@@ -613,10 +603,8 @@ export const ContentEdit = (props: any) => {
 
                     <div>
                       <div>
-                        <Typography variant="labelBase" className="mb-2">
-                          Right border width : {borderWidths.right}px
-                        </Typography>
                         <Slider
+                          label={`Right border width : ${borderWidths.right}px`}
                           min={0}
                           max={MAX_BORDER_WIDTH}
                           value={borderWidths.right}
@@ -653,10 +641,8 @@ export const ContentEdit = (props: any) => {
 
                     <div>
                       <div>
-                        <Typography variant="labelBase" className="mb-2">
-                          Bottom border width : {borderWidths.bottom}px
-                        </Typography>
                         <Slider
+                          label={`Bottom border width : ${borderWidths.bottom}px`}
                           min={0}
                           max={MAX_BORDER_WIDTH}
                           value={borderWidths.bottom}
@@ -693,10 +679,8 @@ export const ContentEdit = (props: any) => {
 
                     <div>
                       <div>
-                        <Typography variant="labelBase" className="mb-2">
-                          Left border width : {borderWidths.left}px
-                        </Typography>
                         <Slider
+                          label={`Left border width : ${borderWidths.left}px`}
                           min={0}
                           max={MAX_BORDER_WIDTH}
                           value={borderWidths.left}
@@ -751,11 +735,8 @@ export const ContentEdit = (props: any) => {
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     <div>
-                      <Typography variant="labelBase" className="mb-2">
-                        Top-left rounded corner: {borderRadiusCorners.topLeft}
-                        px
-                      </Typography>
                       <Slider
+                        label={`Top-left rounded corner: ${borderRadiusCorners.topLeft}px`}
                         min={0}
                         max={MAX_BORDER_RADIUS}
                         value={Number(borderRadiusCorners.topLeft)}
@@ -771,11 +752,8 @@ export const ContentEdit = (props: any) => {
                       />
                     </div>
                     <div>
-                      <Typography variant="labelBase" className="mb-2">
-                        Top-right rounded corner: {borderRadiusCorners.topRight}
-                        px
-                      </Typography>
                       <Slider
+                        label={`Top-right rounded corner: ${borderRadiusCorners.topRight}px`}
                         min={0}
                         max={MAX_BORDER_RADIUS}
                         value={Number(borderRadiusCorners.topRight)}
@@ -791,12 +769,8 @@ export const ContentEdit = (props: any) => {
                       />
                     </div>
                     <div>
-                      <Typography variant="labelBase" className="mb-2">
-                        Bottom-left rounded corner:{' '}
-                        {borderRadiusCorners.bottomLeft}
-                        px
-                      </Typography>
                       <Slider
+                        label={`Bottom-left rounded corner: ${borderRadiusCorners.bottomLeft}px`}
                         min={0}
                         max={MAX_BORDER_RADIUS}
                         value={Number(borderRadiusCorners.bottomLeft)}
@@ -812,12 +786,8 @@ export const ContentEdit = (props: any) => {
                       />
                     </div>
                     <div>
-                      <Typography variant="labelBase" className="mb-2">
-                        Bottom-right rounded corner:{' '}
-                        {borderRadiusCorners.bottomRight}
-                        px
-                      </Typography>
                       <Slider
+                        label={`Bottom-right rounded corner: ${borderRadiusCorners.bottomRight}px`}
                         min={0}
                         max={MAX_BORDER_RADIUS}
                         value={Number(borderRadiusCorners.bottomRight)}
@@ -847,10 +817,8 @@ export const ContentEdit = (props: any) => {
                 <CollapsibleSection title="Width and height">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     <div>
-                      <Typography variant="labelBase" className="mb-2">
-                        Width: {width === 0 ? 'auto' : `${width}px`}
-                      </Typography>
                       <Slider
+                        label={`Width: ${width === 0 ? 'auto' : `${width}px`}`}
                         min={0}
                         max={MAX_IMAGE_WIDTH}
                         value={width}
@@ -861,10 +829,8 @@ export const ContentEdit = (props: any) => {
                       />
                     </div>
                     <div>
-                      <Typography variant="labelBase" className="mb-2">
-                        Height: {height === 0 ? 'auto' : `${height}px`}
-                      </Typography>
                       <Slider
+                        label={`Height: ${height === 0 ? 'auto' : `${height}px`}`}
                         min={0}
                         max={MAX_IMAGE_WIDTH}
                         value={height}

@@ -189,197 +189,199 @@ const Slider: React.FC<SliderProps> = (props) => {
   };
 
   return (
-    <div className="pt-3">
+    <>
       {label && (
-        <div className="mb-4">
-          <Typography variant="labelBase">{label}</Typography>
-        </div>
+        <Typography variant="labelBase" className="pb-2">
+          {label}
+        </Typography>
       )}
-      <div className="flex flex-row">
-        <div
-          id={id}
-          ref={sliderRef}
-          className={`relative w-full h-4 select-none px-4 ${
-            isDisabled ? 'opacity-50 cursor-not-allowed' : ''
-          }`}
-          style={{ touchAction: 'none' }}
-          role="slider"
-          aria-valuemin={isUsingSteps ? steps![0].value : min}
-          aria-valuemax={isUsingSteps ? steps![steps!.length - 1].value : max}
-          aria-valuenow={currentValue}
-          aria-disabled={isDisabled}
-        >
+      <div className="pt-3">
+        <div className="flex flex-row">
           <div
-            className={`absolute left-4 right-4 h-2 rounded-full transform -translate-y-1/2 ${
-              isDisabled ? 'bg-gray-200' : 'bg-gray-300'
+            id={id}
+            ref={sliderRef}
+            className={`relative w-full h-4 select-none px-4 ${
+              isDisabled ? 'opacity-50 cursor-not-allowed' : ''
             }`}
+            style={{ touchAction: 'none' }}
+            role="slider"
+            aria-valuemin={isUsingSteps ? steps![0].value : min}
+            aria-valuemax={isUsingSteps ? steps![steps!.length - 1].value : max}
+            aria-valuenow={currentValue}
+            aria-disabled={isDisabled}
           >
             <div
-              className={`absolute top-0 left-0 h-full rounded-full ${
-                isDisabled ? 'bg-gray-400' : 'bg-blue-500'
+              className={`absolute left-4 right-4 h-2 rounded-full transform -translate-y-1/2 ${
+                isDisabled ? 'bg-gray-200' : 'bg-gray-300'
               }`}
-              style={{ width: `${percentValue}%` }}
-            />
-          </div>
-          <div
-            ref={thumbRef}
-            style={{
-              left: `calc(16px + (100% - 32px) * ${percentValue / 100})`,
-              touchAction: 'none',
-            }}
-            className={`absolute w-8 h-8 bg-white border-2 rounded-full shadow-sm transform -translate-y-1/2 -translate-x-1/2 ${
-              isDisabled
-                ? 'border-gray-400 cursor-not-allowed'
-                : 'border-blue-500 cursor-grab active:cursor-grabbing'
-            }`}
-            onPointerDown={(e) => {
-              if (!isDisabled) {
-                isDraggingRef.current = true;
-                (e.target as HTMLElement).setPointerCapture(e.pointerId);
-              }
-            }}
-            onPointerMove={(e) => {
-              if (isDraggingRef.current && !isDisabled) {
-                handleMove(e.clientX);
-              }
-            }}
-            onPointerUp={(e) => {
-              if (isDraggingRef.current) {
+            >
+              <div
+                className={`absolute top-0 left-0 h-full rounded-full ${
+                  isDisabled ? 'bg-gray-400' : 'bg-blue-500'
+                }`}
+                style={{ width: `${percentValue}%` }}
+              />
+            </div>
+            <div
+              ref={thumbRef}
+              style={{
+                left: `calc(16px + (100% - 32px) * ${percentValue / 100})`,
+                touchAction: 'none',
+              }}
+              className={`absolute w-8 h-8 bg-white border-2 rounded-full shadow-sm transform -translate-y-1/2 -translate-x-1/2 ${
+                isDisabled
+                  ? 'border-gray-400 cursor-not-allowed'
+                  : 'border-blue-500 cursor-grab active:cursor-grabbing'
+              }`}
+              onPointerDown={(e) => {
+                if (!isDisabled) {
+                  isDraggingRef.current = true;
+                  (e.target as HTMLElement).setPointerCapture(e.pointerId);
+                }
+              }}
+              onPointerMove={(e) => {
+                if (isDraggingRef.current && !isDisabled) {
+                  handleMove(e.clientX);
+                }
+              }}
+              onPointerUp={(e) => {
+                if (isDraggingRef.current) {
+                  isDraggingRef.current = false;
+                  (e.target as HTMLElement).releasePointerCapture(e.pointerId);
+                }
+              }}
+              onLostPointerCapture={() => {
                 isDraggingRef.current = false;
-                (e.target as HTMLElement).releasePointerCapture(e.pointerId);
-              }
-            }}
-            onLostPointerCapture={() => {
-              isDraggingRef.current = false;
-            }}
-          />
-          <div className="absolute top-full left-0 w-full flex justify-between mt-2 text-xs text-gray-600">
-            {isUsingSteps && steps
-              ? steps.map((step, index) => (
-                  <span key={index} className="flex-1 text-center">
-                    {step.label}
-                  </span>
-                ))
-              : showValue && (
-                  <span className="w-full text-center text-sm font-bold text-gray-700">
-                    {`${currentValue} ${props.units ?? ''}`}
-                  </span>
-                )}
+              }}
+            />
+            <div className="absolute top-full left-0 w-full flex justify-between mt-2 text-xs text-gray-600">
+              {isUsingSteps && steps
+                ? steps.map((step, index) => (
+                    <span key={index} className="flex-1 text-center">
+                      {step.label}
+                    </span>
+                  ))
+                : showValue && (
+                    <span className="w-full text-center text-sm font-bold text-gray-700">
+                      {`${currentValue} ${props.units ?? ''}`}
+                    </span>
+                  )}
+            </div>
+          </div>
+
+          <div className="pl-1 pr-0 sm:pr-4 relative -top-4">
+            <Button
+              variant="blue"
+              size="sm"
+              onClick={openModal}
+              disabled={isDisabled}
+            >
+              Edit
+            </Button>
           </div>
         </div>
 
-        <div className="pl-1 pr-0 sm:pr-4 relative -top-4">
-          <Button
-            variant="blue"
-            size="sm"
-            onClick={openModal}
-            disabled={isDisabled}
-          >
-            Edit
-          </Button>
-        </div>
+        <Modal isOpen={isModalOpen} title="Enter Value" size="small">
+          <form onSubmit={handleModalSubmit} className="space-y-4">
+            <NumberInput
+              label={`Value ${
+                isUsingSteps
+                  ? `(${steps![0].value} - ${steps![steps!.length - 1].value})`
+                  : `(${min} - ${max})`
+              }`}
+              name="value"
+              register={form.register}
+              errors={form.formState.errors}
+              placeholder="Enter number..."
+              isAutoFocus={true}
+              min={isUsingSteps ? steps![0].value : min}
+              max={isUsingSteps ? steps![steps!.length - 1].value : max}
+              step={isUsingSteps ? 1 : step}
+            />
+            <div>
+              {spaces && spaces.length > 0 && (
+                <>
+                  <Typography variant="labelBase">Select space</Typography>
+                  <div className="flex flex-wrap gap-2">
+                    {spaces?.map((space, index) => (
+                      <Button
+                        key={index}
+                        variant="outline"
+                        size="md"
+                        type="submit"
+                        onClick={() => {
+                          const numValue = Number(space);
+                          if (!isNaN(numValue)) {
+                            form.setValue('value', numValue);
+                          }
+                        }}
+                      >
+                        {`${space} px`}
+                      </Button>
+                    ))}
+                  </div>
+                </>
+              )}
+
+              {corners && corners.length > 0 && (
+                <>
+                  <Typography variant="labelBase">Select corner</Typography>
+                  <div className="flex flex-wrap gap-2">
+                    {corners?.map((corner, index) => (
+                      <Button
+                        key={index}
+                        variant="outline"
+                        size="md"
+                        onClick={() => {
+                          const numValue = Number(corner);
+                          if (!isNaN(numValue)) {
+                            form.setValue('value', numValue);
+                          }
+                        }}
+                      >
+                        {`${corner} px`}
+                      </Button>
+                    ))}
+                  </div>
+                </>
+              )}
+
+              {borders && borders.length > 0 && (
+                <>
+                  <Typography variant="labelBase">Select border</Typography>
+                  <div className="flex flex-wrap gap-2">
+                    {borders?.map((border, index) => (
+                      <Button
+                        key={index}
+                        variant="outline"
+                        size="md"
+                        onClick={() => {
+                          const numValue = Number(border);
+                          if (!isNaN(numValue)) {
+                            form.setValue('value', numValue);
+                          }
+                        }}
+                      >
+                        {`${border} px`}
+                      </Button>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+            <Hr />
+            <div className="flex justify-between gap-2">
+              <Button type="button" variant="outline" onClick={closeModal}>
+                Close
+              </Button>
+              <Button type="submit" variant="blue">
+                Confirm
+              </Button>
+            </div>
+          </form>
+        </Modal>
       </div>
-
-      <Modal isOpen={isModalOpen} title="Enter Value" size="small">
-        <form onSubmit={handleModalSubmit} className="space-y-4">
-          <NumberInput
-            label={`Value ${
-              isUsingSteps
-                ? `(${steps![0].value} - ${steps![steps!.length - 1].value})`
-                : `(${min} - ${max})`
-            }`}
-            name="value"
-            register={form.register}
-            errors={form.formState.errors}
-            placeholder="Enter number..."
-            isAutoFocus={true}
-            min={isUsingSteps ? steps![0].value : min}
-            max={isUsingSteps ? steps![steps!.length - 1].value : max}
-            step={isUsingSteps ? 1 : step}
-          />
-          <div>
-            {spaces && spaces.length > 0 && (
-              <>
-                <Typography variant="labelBase">Select space</Typography>
-                <div className="flex flex-wrap gap-2">
-                  {spaces?.map((space, index) => (
-                    <Button
-                      key={index}
-                      variant="outline"
-                      size="md"
-                      type="submit"
-                      onClick={() => {
-                        const numValue = Number(space);
-                        if (!isNaN(numValue)) {
-                          form.setValue('value', numValue);
-                        }
-                      }}
-                    >
-                      {`${space} px`}
-                    </Button>
-                  ))}
-                </div>
-              </>
-            )}
-
-            {corners && corners.length > 0 && (
-              <>
-                <Typography variant="labelBase">Select corner</Typography>
-                <div className="flex flex-wrap gap-2">
-                  {corners?.map((corner, index) => (
-                    <Button
-                      key={index}
-                      variant="outline"
-                      size="md"
-                      onClick={() => {
-                        const numValue = Number(corner);
-                        if (!isNaN(numValue)) {
-                          form.setValue('value', numValue);
-                        }
-                      }}
-                    >
-                      {`${corner} px`}
-                    </Button>
-                  ))}
-                </div>
-              </>
-            )}
-
-            {borders && borders.length > 0 && (
-              <>
-                <Typography variant="labelBase">Select border</Typography>
-                <div className="flex flex-wrap gap-2">
-                  {borders?.map((border, index) => (
-                    <Button
-                      key={index}
-                      variant="outline"
-                      size="md"
-                      onClick={() => {
-                        const numValue = Number(border);
-                        if (!isNaN(numValue)) {
-                          form.setValue('value', numValue);
-                        }
-                      }}
-                    >
-                      {`${border} px`}
-                    </Button>
-                  ))}
-                </div>
-              </>
-            )}
-          </div>
-          <Hr />
-          <div className="flex justify-between gap-2">
-            <Button type="button" variant="outline" onClick={closeModal}>
-              Close
-            </Button>
-            <Button type="submit" variant="blue">
-              Confirm
-            </Button>
-          </div>
-        </form>
-      </Modal>
-    </div>
+    </>
   );
 };
 

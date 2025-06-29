@@ -764,13 +764,9 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
               {croppedImageData && (
                 <div className="space-y-2">
                   <>
-                    <Typography variant="labelBase">
-                      {`Width of image: ${
-                        croppedImageData ? `${previewWidth} px` : ''
-                      }`}
-                    </Typography>
                     <div className="pb-3">
                       <Slider
+                        label={`Width of image: ${previewWidth} px`}
                         min={MIN_IMAGE_WIDTH}
                         max={MAX_IMAGE_WIDTH}
                         units="pixels"
@@ -942,12 +938,8 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
                   <div className="space-y-2">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                       <div>
-                        <div className="mb-1">
-                          <Typography variant="labelBase">
-                            {`Top Left: ${borderRadii.topLeft} px`}
-                          </Typography>
-                        </div>
                         <Slider
+                          label={`Top Left: ${borderRadii.topLeft} px`}
                           min={0}
                           max={maxImageRadius}
                           units="px"
@@ -958,12 +950,8 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
                         />
                       </div>
                       <div>
-                        <div className="mb-1">
-                          <Typography variant="labelBase">
-                            {`Top Right: ${borderRadii.topRight} px`}
-                          </Typography>
-                        </div>
                         <Slider
+                          label={`Top Right: ${borderRadii.topRight} px`}
                           min={0}
                           max={maxImageRadius}
                           units="px"
@@ -974,12 +962,8 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
                         />
                       </div>
                       <div>
-                        <div className="mb-1">
-                          <Typography variant="labelBase">
-                            {`Bottom Left: ${borderRadii.bottomLeft} px`}
-                          </Typography>
-                        </div>
                         <Slider
+                          label={`Bottom Left: ${borderRadii.bottomLeft} px`}
                           min={0}
                           max={maxImageRadius}
                           units="px"
@@ -990,12 +974,8 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
                         />
                       </div>
                       <div>
-                        <div className="mb-1">
-                          <Typography variant="labelBase">
-                            {`Bottom Right: ${borderRadii.bottomRight} px`}
-                          </Typography>
-                        </div>
                         <Slider
+                          label={`Bottom Right: ${borderRadii.bottomRight} px`}
                           min={0}
                           max={maxImageRadius}
                           units="px"
