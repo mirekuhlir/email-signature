@@ -8,6 +8,7 @@ import StyledLink from './ui/styled-link';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/src/utils/supabase/client';
 import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
+import { getUserStatus, UserStatus } from '../utils/userState';
 
 export const signOutClient = async (router: ReturnType<typeof useRouter>) => {
   const supabase = await createClient();
@@ -62,6 +63,8 @@ export const Header = (props: any) => {
     return null;
   }
 
+  const userStatus = getUserStatus(user);
+
   return (
     <header className="fixed top-0 w-full bg-white/80 backdrop-blur-lg border-b border-gray-200 shadow-lg z-50">
       <Container>
@@ -73,39 +76,48 @@ export const Header = (props: any) => {
               </span>
             </StyledLink>
           </div>
-          {user ? (
-            <div>
-              <ContextMenu
-                buttonClassName="w-10 h-10 rounded-full bg-gradient-to-br from-brand-blue-800 to-brand-blue-900 hover:from-brand-blue-700 hover:to-brand-blue-800 flex items-center justify-center text-white font-medium cursor-pointer shadow-lg transition-all duration-300"
-                label={getInitialsFromEmail(user.email)}
+          <div className="flex items-center gap-2">
+            {userStatus === UserStatus.TRIAL && (
+              <div className="mr-2">
+                <StyledLink variant="button-orange" href="/pricing">
+                  Buy
+                </StyledLink>
+              </div>
+            )}
+            {user ? (
+              <div>
+                <ContextMenu
+                  buttonClassName="w-10 h-10 rounded-full bg-gradient-to-br from-brand-blue-800 to-brand-blue-900 hover:from-brand-blue-700 hover:to-brand-blue-800 flex items-center justify-center text-white font-medium cursor-pointer shadow-lg transition-all duration-300"
+                  label={getInitialsFromEmail(user.email)}
+                >
+                  <div className="pt-2 pb-1 px-2 flex flex-col gap-2 whitespace-nowrap items-start">
+                    <StyledLink variant="button-ghost" href="/signatures">
+                      My signatures
+                    </StyledLink>
+                    <StyledLink variant="button-ghost" href="/account">
+                      Account
+                    </StyledLink>
+                    <hr className="w-full border-gray-200" />
+                    <Button variant="ghost" onClick={handleSignOut}>
+                      Sign out
+                    </Button>
+                  </div>
+                </ContextMenu>
+              </div>
+            ) : (
+              <Button
+                variant="brandBlue"
+                onClick={() =>
+                  showAuthModal({
+                    title: 'Sign in',
+                    description: 'Please enter your email to sign in.',
+                  })
+                }
               >
-                <div className="pt-2 pb-1 px-2 flex flex-col gap-2 whitespace-nowrap items-start">
-                  <StyledLink variant="button-ghost" href="/signatures">
-                    My signatures
-                  </StyledLink>
-                  <StyledLink variant="button-ghost" href="/account">
-                    Account
-                  </StyledLink>
-                  <hr className="w-full border-gray-200" />
-                  <Button variant="ghost" onClick={handleSignOut}>
-                    Sign out
-                  </Button>
-                </div>
-              </ContextMenu>
-            </div>
-          ) : (
-            <Button
-              variant="brandBlue"
-              onClick={() =>
-                showAuthModal({
-                  title: 'Sign in',
-                  description: 'Please enter your email to sign in.',
-                })
-              }
-            >
-              Sign in
-            </Button>
-          )}
+                Sign in
+              </Button>
+            )}
+          </div>
         </div>
       </Container>
     </header>
