@@ -571,6 +571,7 @@ export const ContentEdit = (props: any) => {
                             }));
                           }}
                           isDisabled={isSlidersDisabled}
+                          editType={EEditType.BORDER}
                         />
                       </div>
 

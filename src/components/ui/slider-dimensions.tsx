@@ -13,7 +13,7 @@ export enum EEditType {
 }
 
 interface SliderDimensionsProps extends SliderProps {
-  editType?: EEditType;
+  editType: EEditType;
 }
 
 interface ModalContentProps {

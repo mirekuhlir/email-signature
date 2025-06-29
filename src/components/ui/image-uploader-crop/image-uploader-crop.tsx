@@ -866,7 +866,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
                 </div>
               </div>
               <div className="mb-4">
-                <Typography variant="labelBase">Aspect ratio</Typography>
+                <Typography variant="labelBase">Select aspect ratio</Typography>
                 <div className="flex flex-wrap gap-y-4 gap-x-8">
                   <Button
                     size="md"
