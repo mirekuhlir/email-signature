@@ -179,7 +179,7 @@ export default async function Home() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-12 sm:gap-16 max-w-3xl mx-auto justify-center items-center">
-            <div className="flex flex-row gap-4">
+            <div className="flex flex-row gap-2">
               <div>
                 <Image
                   src={gmail}
@@ -194,7 +194,7 @@ export default async function Home() {
               </div>
             </div>
 
-            <div className="flex flex-row gap-4">
+            <div className="flex flex-row gap-2">
               <div>
                 <Image
                   src={outlook}
@@ -209,7 +209,7 @@ export default async function Home() {
               </div>
             </div>
 
-            <div className="flex flex-row gap-4">
+            <div className="flex flex-row gap-2">
               <div>
                 <Image
                   src={ios}
