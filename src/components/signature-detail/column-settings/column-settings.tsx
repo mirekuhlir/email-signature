@@ -42,8 +42,7 @@ export const ColumnSettings = (props: any) => {
   const { columnPathToEdit, signatureId, isSignedIn } = props;
   const { toast } = useToast();
 
-  const { rows, setContent, saveSignatureContentRow, dimensions } =
-    useSignatureStore();
+  const { rows, setContent, saveSignatureContentRow } = useSignatureStore();
   const { editingSectionIds } = useContentEditStore();
   const { setContentEdit } = useContentEditStore();
 
