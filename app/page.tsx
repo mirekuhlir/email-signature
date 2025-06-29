@@ -53,8 +53,13 @@ export default async function Home() {
 
           {/*   TODO: odkaz přímo na stripe */}
           {userStatus === UserStatus.TRIAL && (
-            <StyledLink variant="button-orange" size="xl" href="/pricing">
-              Buy full version
+            <StyledLink
+              variant="button-orange"
+              size="xl"
+              href="/pricing"
+              className="min-w-50"
+            >
+              Buy
             </StyledLink>
           )}
         </div>

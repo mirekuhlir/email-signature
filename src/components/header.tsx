@@ -8,7 +8,6 @@ import StyledLink from './ui/styled-link';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/src/utils/supabase/client';
 import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
-import { getUserStatus, UserStatus } from '../utils/userState';
 
 export const signOutClient = async (router: ReturnType<typeof useRouter>) => {
   const supabase = await createClient();
@@ -63,8 +62,6 @@ export const Header = (props: any) => {
     return null;
   }
 
-  const userStatus = getUserStatus(user);
-
   return (
     <header className="fixed top-0 w-full bg-white/80 backdrop-blur-lg border-b border-gray-200 shadow-lg z-50">
       <Container>
@@ -77,13 +74,6 @@ export const Header = (props: any) => {
             </StyledLink>
           </div>
           <div className="flex items-center gap-2">
-            {userStatus === UserStatus.TRIAL && (
-              <div className="mr-2">
-                <StyledLink variant="button-orange" href="/pricing">
-                  Buy
-                </StyledLink>
-              </div>
-            )}
             {user ? (
               <div>
                 <ContextMenu

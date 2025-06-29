@@ -26,9 +26,10 @@ const TrialBanner = (user: any) => {
             <StyledLink
               variant="button-orange"
               href="/pricing"
-              className="mt-4"
+              className="mt-4 min-w-40"
+              size="md"
             >
-              Buy full version
+              Buy
             </StyledLink>
           </div>
         </div>

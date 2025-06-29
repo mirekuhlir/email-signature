@@ -47,7 +47,7 @@ export const handleCopy = async (userStatus: UserStatus) => {
           You are using the free version
         </div>
         <div style="font-size: 14px; color: white; font-family: Arial, sans-serif; padding-bottom: 5px; line-height: normal;">
-          Upgrade to the full version:
+          Buy to the full version:
         </div>
         <div style="font-size: 14px; color: white; font-family: Arial, sans-serif; line-height: normal;">
           <a href="https://www.myemailavatar.com" target="_blank" rel="noreferrer" style="color: white; text-decoration: underline;">
