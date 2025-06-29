@@ -18,7 +18,7 @@ import { TEMP_SIGNATURE } from '@/src/const/content';
 import TrialBanner from '../trial/trial-banner';
 import { useMediaQuery } from '@/src/hooks/useMediaQuery';
 import { MEDIA_QUERIES } from '@/src/constants/mediaQueries';
-import { getUserStatus } from '@/src/utils/userState';
+import { getUserStatus, UserStatus } from '@/src/utils/userState';
 
 export const SignatureDetail = (props: any) => {
   const { signatureDetail, isSignedIn, templateSlug, user } = props;
@@ -142,9 +142,11 @@ export const SignatureDetail = (props: any) => {
 
       {!isEdit && (
         <>
-          <div className="flex justify-center">
-            <TrialBanner user={user} />
-          </div>
+          {userStatus === UserStatus.TRIAL && (
+            <div className="flex justify-center">
+              <TrialBanner user={user} />
+            </div>
+          )}
 
           <SignaturePreview />
 
