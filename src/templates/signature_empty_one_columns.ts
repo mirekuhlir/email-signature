@@ -8,6 +8,11 @@ export const signature_empty_one_columns = () => {
       name: "Empty Signature One Column",
     },
     colors: [],
+    dimensions: {
+      spaces: [],
+      corners: [],
+      borders: [],
+    },
     rows: [
       {
         id: generateRandomId(),

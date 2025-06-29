@@ -3,7 +3,7 @@ import { useState, useRef, useEffect, useMemo } from 'react';
 import { get } from 'lodash';
 import { useSignatureStore } from '@/src/store/content-edit-add-store';
 import { Typography } from '@/src/components/ui/typography';
-import Slider from '@/src/components/ui/slider';
+import Slider, { EEditType } from '@/src/components/ui/slider';
 import SelectBase from '@/src/components/ui/select-base';
 import { EditColor } from '../../ui/edit-color';
 import { useToast } from '@/src/components/ui/toast';
@@ -42,7 +42,8 @@ export const ColumnSettings = (props: any) => {
   const { columnPathToEdit, signatureId, isSignedIn } = props;
   const { toast } = useToast();
 
-  const { rows, setContent, saveSignatureContentRow } = useSignatureStore();
+  const { rows, setContent, saveSignatureContentRow, dimensions } =
+    useSignatureStore();
   const { editingSectionIds } = useContentEditStore();
   const { setContentEdit } = useContentEditStore();
 
@@ -319,6 +320,8 @@ export const ColumnSettings = (props: any) => {
                       setPaddingTop(value.toString());
                     }}
                     isDisabled={isSlidersDisabled}
+                    spaces={dimensions.spaces}
+                    editType={EEditType.SPACE}
                   />
                 </div>
 
@@ -334,6 +337,8 @@ export const ColumnSettings = (props: any) => {
                       setPaddingRight(value.toString());
                     }}
                     isDisabled={isSlidersDisabled}
+                    spaces={dimensions.spaces}
+                    editType={EEditType.SPACE}
                   />
                 </div>
 
@@ -349,6 +354,8 @@ export const ColumnSettings = (props: any) => {
                       setPaddingBottom(value.toString());
                     }}
                     isDisabled={isSlidersDisabled}
+                    spaces={dimensions.spaces}
+                    editType={EEditType.SPACE}
                   />
                 </div>
 
@@ -364,6 +371,8 @@ export const ColumnSettings = (props: any) => {
                       setPaddingLeft(value.toString());
                     }}
                     isDisabled={isSlidersDisabled}
+                    spaces={dimensions.spaces}
+                    editType={EEditType.SPACE}
                   />
                 </div>
               </div>
@@ -387,6 +396,8 @@ export const ColumnSettings = (props: any) => {
                         }));
                       }}
                       isDisabled={isSlidersDisabled}
+                      borders={dimensions.borders}
+                      editType={EEditType.BORDER}
                     />
                   </div>
 
@@ -420,6 +431,8 @@ export const ColumnSettings = (props: any) => {
                         }));
                       }}
                       isDisabled={isSlidersDisabled}
+                      borders={dimensions.borders}
+                      editType={EEditType.BORDER}
                     />
                   </div>
 
@@ -456,6 +469,8 @@ export const ColumnSettings = (props: any) => {
                         }));
                       }}
                       isDisabled={isSlidersDisabled}
+                      borders={dimensions.borders}
+                      editType={EEditType.BORDER}
                     />
                   </div>
 
@@ -492,6 +507,8 @@ export const ColumnSettings = (props: any) => {
                         }));
                       }}
                       isDisabled={isSlidersDisabled}
+                      borders={dimensions.borders}
+                      editType={EEditType.BORDER}
                     />
                   </div>
 
@@ -544,6 +561,8 @@ export const ColumnSettings = (props: any) => {
                       }));
                     }}
                     isDisabled={isSlidersDisabled}
+                    corners={dimensions.corners}
+                    editType={EEditType.CORNER}
                   />
                 </div>
                 <div>
@@ -561,6 +580,8 @@ export const ColumnSettings = (props: any) => {
                       }));
                     }}
                     isDisabled={isSlidersDisabled}
+                    corners={dimensions.corners}
+                    editType={EEditType.CORNER}
                   />
                 </div>
 
@@ -581,6 +602,8 @@ export const ColumnSettings = (props: any) => {
                       }));
                     }}
                     isDisabled={isSlidersDisabled}
+                    corners={dimensions.corners}
+                    editType={EEditType.CORNER}
                   />
                 </div>
                 <div>
@@ -599,6 +622,8 @@ export const ColumnSettings = (props: any) => {
                       }));
                     }}
                     isDisabled={isSlidersDisabled}
+                    corners={dimensions.corners}
+                    editType={EEditType.CORNER}
                   />
                 </div>
               </div>

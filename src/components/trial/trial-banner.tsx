@@ -11,8 +11,6 @@ const TrialBanner = (user: any) => {
     return null;
   }
 
-  console.warn('userStatus', userStatus);
-
   return (
     <div>
       <Container>

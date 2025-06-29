@@ -26,6 +26,11 @@ export const signature_a = () => {
       name: "Signature A",
     },
     "colors": ["rgb(0, 0, 0)", "rgb(81, 25, 92)", "rgb(239,   195, 247)"],
+    "dimensions": {
+      "spaces": ["10", "5", "3"],
+      "corners": ["10"],
+      "borders": [],
+    },
 
     "rows": [
       {

@@ -29,6 +29,7 @@ import {
 } from '@/supabase/functions/_shared/const';
 import { LinkComponent } from './add-link';
 import { VerticalAlign } from '../column-settings/column-settings';
+import { EEditType } from '@/src/components/ui/slider';
 
 export const LoadingInfo = ({
   text = 'Saving. Please wait...',
@@ -77,8 +78,16 @@ export const ContentEdit = (props: any) => {
   const { toast } = useToast();
   const { validate, errors } = useValidate();
 
-  const { rows, setContent, deleteRow, saveSignatureContentRow, colors } =
-    useSignatureStore();
+  const {
+    rows,
+    setContent,
+    deleteRow,
+    saveSignatureContentRow,
+    colors,
+    dimensions,
+  } = useSignatureStore();
+
+  console.warn('dimensions', dimensions);
 
   const columnPath = contentPathToEdit.substring(
     0,
@@ -503,6 +512,8 @@ export const ContentEdit = (props: any) => {
                           setPaddingTop(value);
                         }}
                         isDisabled={isSlidersDisabled}
+                        spaces={dimensions.spaces}
+                        editType={EEditType.SPACE}
                       />
                     </div>
 
@@ -518,6 +529,8 @@ export const ContentEdit = (props: any) => {
                           setPaddingRight(value);
                         }}
                         isDisabled={isSlidersDisabled}
+                        spaces={dimensions.spaces}
+                        editType={EEditType.SPACE}
                       />
                     </div>
 
@@ -533,6 +546,8 @@ export const ContentEdit = (props: any) => {
                           setPaddingBottom(value);
                         }}
                         isDisabled={isSlidersDisabled}
+                        spaces={dimensions.spaces}
+                        editType={EEditType.SPACE}
                       />
                     </div>
 
@@ -548,6 +563,8 @@ export const ContentEdit = (props: any) => {
                           setPaddingLeft(value);
                         }}
                         isDisabled={isSlidersDisabled}
+                        spaces={dimensions.spaces}
+                        editType={EEditType.SPACE}
                       />
                     </div>
                   </div>
@@ -570,6 +587,8 @@ export const ContentEdit = (props: any) => {
                             }));
                           }}
                           isDisabled={isSlidersDisabled}
+                          borders={dimensions.borders}
+                          editType={EEditType.BORDER}
                         />
                       </div>
 
@@ -608,6 +627,8 @@ export const ContentEdit = (props: any) => {
                             }));
                           }}
                           isDisabled={isSlidersDisabled}
+                          borders={dimensions.borders}
+                          editType={EEditType.BORDER}
                         />
                       </div>
 
@@ -646,6 +667,8 @@ export const ContentEdit = (props: any) => {
                             }));
                           }}
                           isDisabled={isSlidersDisabled}
+                          borders={dimensions.borders}
+                          editType={EEditType.BORDER}
                         />
                       </div>
 
@@ -684,6 +707,8 @@ export const ContentEdit = (props: any) => {
                             }));
                           }}
                           isDisabled={isSlidersDisabled}
+                          borders={dimensions.borders}
+                          editType={EEditType.BORDER}
                         />
                       </div>
 
@@ -741,6 +766,8 @@ export const ContentEdit = (props: any) => {
                           }));
                         }}
                         isDisabled={isSlidersDisabled}
+                        corners={dimensions.corners}
+                        editType={EEditType.CORNER}
                       />
                     </div>
                     <div>
@@ -759,6 +786,8 @@ export const ContentEdit = (props: any) => {
                           }));
                         }}
                         isDisabled={isSlidersDisabled}
+                        corners={dimensions.corners}
+                        editType={EEditType.CORNER}
                       />
                     </div>
                     <div>
@@ -778,6 +807,8 @@ export const ContentEdit = (props: any) => {
                           }));
                         }}
                         isDisabled={isSlidersDisabled}
+                        corners={dimensions.corners}
+                        editType={EEditType.CORNER}
                       />
                     </div>
                     <div>
@@ -797,6 +828,8 @@ export const ContentEdit = (props: any) => {
                           }));
                         }}
                         isDisabled={isSlidersDisabled}
+                        corners={dimensions.corners}
+                        editType={EEditType.CORNER}
                       />
                     </div>
                   </div>

@@ -196,6 +196,7 @@ export const SignaturesList = (props: any) => {
         signatureContent: {
           rows: template.rows,
           colors: template.colors,
+          dimensions: template.dimensions,
         },
         info: template.info,
       },

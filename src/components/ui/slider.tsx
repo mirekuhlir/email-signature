@@ -6,6 +6,14 @@ import { Typography } from './typography';
 import Modal from './modal';
 import { Button } from './button';
 import NumberInput from './number-input';
+import { Hr } from './hr';
+import { useSignatureStore } from '@/src/store/content-edit-add-store';
+
+export enum EEditType {
+  SPACE = 'space',
+  CORNER = 'corner',
+  BORDER = 'border',
+}
 
 interface Step {
   label: string;
@@ -26,6 +34,10 @@ interface SliderProps {
   label?: string;
   showValue?: boolean;
   isDisabled?: boolean;
+  spaces?: string[];
+  corners?: string[];
+  borders?: string[];
+  editType?: EEditType;
 }
 
 const Slider: React.FC<SliderProps> = (props) => {
@@ -41,8 +53,12 @@ const Slider: React.FC<SliderProps> = (props) => {
     label,
     showValue,
     isDisabled,
+    spaces,
+    corners,
+    borders,
+    editType,
   } = props;
-
+  const { addBorder, addCorner, addSpace } = useSignatureStore();
   const isUsingSteps = 'steps' in props;
   const sliderRef = useRef<HTMLDivElement>(null);
 
@@ -122,6 +138,13 @@ const Slider: React.FC<SliderProps> = (props) => {
   const percentValue = useMemo(() => getPercentValue(), [getPercentValue]);
 
   const handleModalSubmit = form.handleSubmit((data) => {
+    if (editType === EEditType.SPACE) {
+      addSpace(data.value.toString());
+    } else if (editType === EEditType.CORNER) {
+      addCorner(data.value.toString());
+    } else if (editType === EEditType.BORDER) {
+      addBorder(data.value.toString());
+    }
     const numValue = data.value;
     if (!isNaN(numValue)) {
       if (isUsingSteps) {
@@ -274,6 +297,78 @@ const Slider: React.FC<SliderProps> = (props) => {
             max={isUsingSteps ? steps![steps!.length - 1].value : max}
             step={isUsingSteps ? 1 : step}
           />
+          <div>
+            {spaces && spaces.length > 0 && (
+              <>
+                <Typography variant="labelBase">Select space</Typography>
+                <div className="flex flex-wrap gap-2">
+                  {spaces?.map((space, index) => (
+                    <Button
+                      key={index}
+                      variant="outline"
+                      size="md"
+                      type="submit"
+                      onClick={() => {
+                        const numValue = Number(space);
+                        if (!isNaN(numValue)) {
+                          form.setValue('value', numValue);
+                        }
+                      }}
+                    >
+                      {`${space} px`}
+                    </Button>
+                  ))}
+                </div>
+              </>
+            )}
+
+            {corners && corners.length > 0 && (
+              <>
+                <Typography variant="labelBase">Select corner</Typography>
+                <div className="flex flex-wrap gap-2">
+                  {corners?.map((corner, index) => (
+                    <Button
+                      key={index}
+                      variant="outline"
+                      size="md"
+                      onClick={() => {
+                        const numValue = Number(corner);
+                        if (!isNaN(numValue)) {
+                          form.setValue('value', numValue);
+                        }
+                      }}
+                    >
+                      {`${corner} px`}
+                    </Button>
+                  ))}
+                </div>
+              </>
+            )}
+
+            {borders && borders.length > 0 && (
+              <>
+                <Typography variant="labelBase">Select border</Typography>
+                <div className="flex flex-wrap gap-2">
+                  {borders?.map((border, index) => (
+                    <Button
+                      key={index}
+                      variant="outline"
+                      size="md"
+                      onClick={() => {
+                        const numValue = Number(border);
+                        if (!isNaN(numValue)) {
+                          form.setValue('value', numValue);
+                        }
+                      }}
+                    >
+                      {`${border} px`}
+                    </Button>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+          <Hr />
           <div className="flex justify-between gap-2">
             <Button type="button" variant="outline" onClick={closeModal}>
               Close

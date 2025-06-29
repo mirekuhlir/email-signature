@@ -48,11 +48,13 @@ export const SignatureDetail = (props: any) => {
       initSignature({
         rows: tempSignature.rows,
         colors: tempSignature.colors,
+        dimensions: tempSignature.dimensions,
       });
     } else {
       initSignature({
         rows: signatureDetail.rows,
         colors: signatureDetail.colors,
+        dimensions: signatureDetail.dimensions,
       });
     }
 
