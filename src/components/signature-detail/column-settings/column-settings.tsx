@@ -3,7 +3,6 @@ import { useState, useRef, useEffect, useMemo } from 'react';
 import { get } from 'lodash';
 import { useSignatureStore } from '@/src/store/content-edit-add-store';
 import { Typography } from '@/src/components/ui/typography';
-import Slider from '@/src/components/ui/slider';
 import SelectBase from '@/src/components/ui/select-base';
 import { EditColor } from '../../ui/edit-color';
 import { useToast } from '@/src/components/ui/toast';

@@ -33,6 +33,7 @@ export const signature_e = () => {
             "spaces": ["15", "10", "5", "3"],
             "corners": ["50"],
             "borders": ["5"],
+            "lengths": [],
         },
         "rows": [
             {
