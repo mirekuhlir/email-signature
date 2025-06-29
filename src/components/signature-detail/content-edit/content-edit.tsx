@@ -29,7 +29,7 @@ import {
 } from '@/supabase/functions/_shared/const';
 import { LinkComponent } from './add-link';
 import { VerticalAlign } from '../column-settings/column-settings';
-import { EEditType } from '@/src/components/ui/slider';
+import { EEditType, SliderDimensions } from '../../ui/slider-dimensions';
 
 export const LoadingInfo = ({
   text = 'Saving. Please wait...',
@@ -501,7 +501,7 @@ export const ContentEdit = (props: any) => {
                 <CollapsibleSection title="Inner space">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     <div>
-                      <Slider
+                      <SliderDimensions
                         label={`Top space: ${paddingTop}px`}
                         min={0}
                         max={MAX_PADDING}
@@ -510,13 +510,12 @@ export const ContentEdit = (props: any) => {
                           setPaddingTop(value);
                         }}
                         isDisabled={isSlidersDisabled}
-                        spaces={dimensions.spaces}
                         editType={EEditType.SPACE}
                       />
                     </div>
 
                     <div>
-                      <Slider
+                      <SliderDimensions
                         label={`Right space: ${paddingRight}px`}
                         min={0}
                         max={MAX_PADDING}
@@ -525,13 +524,12 @@ export const ContentEdit = (props: any) => {
                           setPaddingRight(value);
                         }}
                         isDisabled={isSlidersDisabled}
-                        spaces={dimensions.spaces}
                         editType={EEditType.SPACE}
                       />
                     </div>
 
                     <div>
-                      <Slider
+                      <SliderDimensions
                         label={`Bottom space: ${paddingBottom}px`}
                         min={0}
                         max={MAX_PADDING}
@@ -540,13 +538,12 @@ export const ContentEdit = (props: any) => {
                           setPaddingBottom(value);
                         }}
                         isDisabled={isSlidersDisabled}
-                        spaces={dimensions.spaces}
                         editType={EEditType.SPACE}
                       />
                     </div>
 
                     <div>
-                      <Slider
+                      <SliderDimensions
                         label={`Left space: ${paddingLeft}px`}
                         min={0}
                         max={MAX_PADDING}
@@ -555,7 +552,6 @@ export const ContentEdit = (props: any) => {
                           setPaddingLeft(value);
                         }}
                         isDisabled={isSlidersDisabled}
-                        spaces={dimensions.spaces}
                         editType={EEditType.SPACE}
                       />
                     </div>
@@ -565,7 +561,7 @@ export const ContentEdit = (props: any) => {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     <div>
                       <div>
-                        <Slider
+                        <SliderDimensions
                           label={`Top border width : ${borderWidths.top}px`}
                           min={0}
                           max={MAX_BORDER_WIDTH}
@@ -577,8 +573,6 @@ export const ContentEdit = (props: any) => {
                             }));
                           }}
                           isDisabled={isSlidersDisabled}
-                          borders={dimensions.borders}
-                          editType={EEditType.BORDER}
                         />
                       </div>
 
@@ -603,7 +597,7 @@ export const ContentEdit = (props: any) => {
 
                     <div>
                       <div>
-                        <Slider
+                        <SliderDimensions
                           label={`Right border width : ${borderWidths.right}px`}
                           min={0}
                           max={MAX_BORDER_WIDTH}
@@ -615,7 +609,6 @@ export const ContentEdit = (props: any) => {
                             }));
                           }}
                           isDisabled={isSlidersDisabled}
-                          borders={dimensions.borders}
                           editType={EEditType.BORDER}
                         />
                       </div>
@@ -641,7 +634,7 @@ export const ContentEdit = (props: any) => {
 
                     <div>
                       <div>
-                        <Slider
+                        <SliderDimensions
                           label={`Bottom border width : ${borderWidths.bottom}px`}
                           min={0}
                           max={MAX_BORDER_WIDTH}
@@ -653,7 +646,6 @@ export const ContentEdit = (props: any) => {
                             }));
                           }}
                           isDisabled={isSlidersDisabled}
-                          borders={dimensions.borders}
                           editType={EEditType.BORDER}
                         />
                       </div>
@@ -679,7 +671,7 @@ export const ContentEdit = (props: any) => {
 
                     <div>
                       <div>
-                        <Slider
+                        <SliderDimensions
                           label={`Left border width : ${borderWidths.left}px`}
                           min={0}
                           max={MAX_BORDER_WIDTH}
@@ -691,7 +683,6 @@ export const ContentEdit = (props: any) => {
                             }));
                           }}
                           isDisabled={isSlidersDisabled}
-                          borders={dimensions.borders}
                           editType={EEditType.BORDER}
                         />
                       </div>
@@ -735,7 +726,7 @@ export const ContentEdit = (props: any) => {
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     <div>
-                      <Slider
+                      <SliderDimensions
                         label={`Top-left rounded corner: ${borderRadiusCorners.topLeft}px`}
                         min={0}
                         max={MAX_BORDER_RADIUS}
@@ -747,12 +738,11 @@ export const ContentEdit = (props: any) => {
                           }));
                         }}
                         isDisabled={isSlidersDisabled}
-                        corners={dimensions.corners}
                         editType={EEditType.CORNER}
                       />
                     </div>
                     <div>
-                      <Slider
+                      <SliderDimensions
                         label={`Top-right rounded corner: ${borderRadiusCorners.topRight}px`}
                         min={0}
                         max={MAX_BORDER_RADIUS}
@@ -764,12 +754,11 @@ export const ContentEdit = (props: any) => {
                           }));
                         }}
                         isDisabled={isSlidersDisabled}
-                        corners={dimensions.corners}
                         editType={EEditType.CORNER}
                       />
                     </div>
                     <div>
-                      <Slider
+                      <SliderDimensions
                         label={`Bottom-left rounded corner: ${borderRadiusCorners.bottomLeft}px`}
                         min={0}
                         max={MAX_BORDER_RADIUS}
@@ -781,12 +770,11 @@ export const ContentEdit = (props: any) => {
                           }));
                         }}
                         isDisabled={isSlidersDisabled}
-                        corners={dimensions.corners}
                         editType={EEditType.CORNER}
                       />
                     </div>
                     <div>
-                      <Slider
+                      <SliderDimensions
                         label={`Bottom-right rounded corner: ${borderRadiusCorners.bottomRight}px`}
                         min={0}
                         max={MAX_BORDER_RADIUS}
@@ -798,7 +786,6 @@ export const ContentEdit = (props: any) => {
                           }));
                         }}
                         isDisabled={isSlidersDisabled}
-                        corners={dimensions.corners}
                         editType={EEditType.CORNER}
                       />
                     </div>

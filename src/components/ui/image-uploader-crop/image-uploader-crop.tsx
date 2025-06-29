@@ -28,6 +28,7 @@ import {
   MAX_IMAGE_WIDTH,
 } from '@/supabase/functions/_shared/const';
 import { CollapsibleSection } from '../collapsible-section';
+import { EEditType, SliderDimensions } from '../slider-dimensions';
 
 // Resolution multiplier for output images
 const RESOLUTION_MULTIPLIER = 1;
@@ -938,7 +939,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
                   <div className="space-y-2">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                       <div>
-                        <Slider
+                        <SliderDimensions
                           label={`Top Left: ${borderRadii.topLeft} px`}
                           min={0}
                           max={maxImageRadius}
@@ -947,10 +948,11 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
                           onChange={handleBorderRadiusTopLeftChange}
                           id="border-radius-slider-tl"
                           isDisabled={isResizing}
+                          editType={EEditType.CORNER}
                         />
                       </div>
                       <div>
-                        <Slider
+                        <SliderDimensions
                           label={`Top Right: ${borderRadii.topRight} px`}
                           min={0}
                           max={maxImageRadius}
@@ -959,10 +961,11 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
                           onChange={handleBorderRadiusTopRightChange}
                           id="border-radius-slider-tr"
                           isDisabled={isResizing}
+                          editType={EEditType.CORNER}
                         />
                       </div>
                       <div>
-                        <Slider
+                        <SliderDimensions
                           label={`Bottom Left: ${borderRadii.bottomLeft} px`}
                           min={0}
                           max={maxImageRadius}
@@ -971,10 +974,11 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
                           onChange={handleBorderRadiusBottomLeftChange}
                           id="border-radius-slider-bl"
                           isDisabled={isResizing}
+                          editType={EEditType.CORNER}
                         />
                       </div>
                       <div>
-                        <Slider
+                        <SliderDimensions
                           label={`Bottom Right: ${borderRadii.bottomRight} px`}
                           min={0}
                           max={maxImageRadius}
@@ -983,6 +987,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
                           onChange={handleBorderRadiusBottomRightChange}
                           id="border-radius-slider-br"
                           isDisabled={isResizing}
+                          editType={EEditType.CORNER}
                         />
                       </div>
                     </div>
