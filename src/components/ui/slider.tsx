@@ -100,25 +100,13 @@ const Slider: React.FC<SliderProps> = (props) => {
         }
         if (value !== undefined) {
           onChange?.(newValue);
-          onSubmit?.(newValue);
         } else {
           setInternalValue(newValue);
           onChange?.(newValue);
-          onSubmit?.(newValue);
         }
       }
     },
-    [
-      isDisabled,
-      isUsingSteps,
-      value,
-      steps,
-      step,
-      max,
-      min,
-      onChange,
-      onSubmit,
-    ],
+    [isDisabled, isUsingSteps, value, steps, step, max, min, onChange],
   );
 
   const getPercentValue = useCallback((): number => {
