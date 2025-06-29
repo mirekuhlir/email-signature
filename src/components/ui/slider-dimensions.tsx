@@ -31,22 +31,25 @@ const ModalContent = ({ editType, onSetValue }: ModalContentProps) => {
             <>
               <Typography variant="labelBase">Select space</Typography>
               <div className="flex flex-wrap gap-2">
-                {dimensions.spaces?.map((space, index) => (
-                  <Button
-                    key={index}
-                    variant="outline"
-                    size="md"
-                    type="button"
-                    onClick={() => {
-                      const numValue = Number(space);
-                      if (!isNaN(numValue)) {
-                        onSetValue?.(numValue);
-                      }
-                    }}
-                  >
-                    {`${space} px`}
-                  </Button>
-                ))}
+                {dimensions.spaces
+                  ?.slice()
+                  .reverse()
+                  .map((space, index) => (
+                    <Button
+                      key={index}
+                      variant="outline"
+                      size="md"
+                      type="button"
+                      onClick={() => {
+                        const numValue = Number(space);
+                        if (!isNaN(numValue)) {
+                          onSetValue?.(numValue);
+                        }
+                      }}
+                    >
+                      {`${space} px`}
+                    </Button>
+                  ))}
               </div>
             </>
           )}
@@ -57,22 +60,25 @@ const ModalContent = ({ editType, onSetValue }: ModalContentProps) => {
             <>
               <Typography variant="labelBase">Select corner</Typography>
               <div className="flex flex-wrap gap-2">
-                {dimensions.corners?.map((corner, index) => (
-                  <Button
-                    key={index}
-                    variant="outline"
-                    size="md"
-                    type="button"
-                    onClick={() => {
-                      const numValue = Number(corner);
-                      if (!isNaN(numValue)) {
-                        onSetValue?.(numValue);
-                      }
-                    }}
-                  >
-                    {`${corner} px`}
-                  </Button>
-                ))}
+                {dimensions.corners
+                  ?.slice()
+                  .reverse()
+                  .map((corner, index) => (
+                    <Button
+                      key={index}
+                      variant="outline"
+                      size="md"
+                      type="button"
+                      onClick={() => {
+                        const numValue = Number(corner);
+                        if (!isNaN(numValue)) {
+                          onSetValue?.(numValue);
+                        }
+                      }}
+                    >
+                      {`${corner} px`}
+                    </Button>
+                  ))}
               </div>
             </>
           )}
@@ -83,22 +89,25 @@ const ModalContent = ({ editType, onSetValue }: ModalContentProps) => {
             <>
               <Typography variant="labelBase">Select border</Typography>
               <div className="flex flex-wrap gap-2">
-                {dimensions.borders?.map((border, index) => (
-                  <Button
-                    key={index}
-                    variant="outline"
-                    size="md"
-                    type="button"
-                    onClick={() => {
-                      const numValue = Number(border);
-                      if (!isNaN(numValue)) {
-                        onSetValue?.(numValue);
-                      }
-                    }}
-                  >
-                    {`${border} px`}
-                  </Button>
-                ))}
+                {dimensions.borders
+                  .slice()
+                  .reverse()
+                  .map((border, index) => (
+                    <Button
+                      key={index}
+                      variant="outline"
+                      size="md"
+                      type="button"
+                      onClick={() => {
+                        const numValue = Number(border);
+                        if (!isNaN(numValue)) {
+                          onSetValue?.(numValue);
+                        }
+                      }}
+                    >
+                      {`${border} px`}
+                    </Button>
+                  ))}
               </div>
             </>
           )}
