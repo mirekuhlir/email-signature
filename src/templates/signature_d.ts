@@ -31,7 +31,7 @@ export const signature_d = () => {
         ],
         "dimensions": {
             "spaces": ["15", "10", "5", "2"],
-            "corners": [],
+            "corners": ["10"],
             "borders": ["2"],
             "lengths": [],
         },
