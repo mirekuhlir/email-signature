@@ -31,6 +31,11 @@ export const signature_f = () => {
             "rgb(41, 41, 41)",
             "rgb(94, 94, 94)",
         ],
+        "dimensions": {
+            "spaces": ["15", "10", "5", "7", "3"],
+            "corners": [],
+            "borders": ["2"],
+        },
         "rows": [
             {
                 "id": generateRandomId(),
@@ -50,7 +55,7 @@ export const signature_f = () => {
                                             "width": "0px",
                                             "height": "0px",
                                             "margin": "0 auto 0 0",
-                                            "padding": "0px 14px 0px 0px",
+                                            "padding": "0px 15px 0px 0px",
                                             "originalSrc":
                                                 `https://${process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/examples/signature_f_original.jpg`,
                                             "borderRadius": "0px 0px 0px 0px",

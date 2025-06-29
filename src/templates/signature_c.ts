@@ -25,11 +25,15 @@ export const signature_c = () => {
             version: "0.1",
             name: "Signature C",
         },
-
         "colors": [
             "rgb(0, 0, 0)",
             "rgb(48, 52, 112)",
         ],
+        "dimensions": {
+            "spaces": ["15", "10", "5"],
+            "corners": [],
+            "borders": ["2"],
+        },
         "rows": [
             {
                 "id": generateRandomId(),

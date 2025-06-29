@@ -22,6 +22,11 @@ export const signature_i = () => {
       name: 'Signature I',
     },
     colors: ['rgb(71, 71, 71)', 'rgb(109, 143, 118)', 'rgb(204, 120, 43)'],
+    dimensions: {
+      spaces: ['50', '25', '10', '6', '5'],
+      corners: ['60'],
+      borders: ['0'],
+    },
     rows: [
       {
         id: generateRandomId(),

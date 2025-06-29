@@ -24,7 +24,13 @@ export const signature_h = () => {
         colors: [
             "rgb(68, 64, 60)",
             "rgb(59, 59, 59)",
+            "rgb(0, 0, 0)",
         ],
+        "dimensions": {
+            "spaces": ["7", "5"],
+            "corners": [],
+            "borders": ["3"],
+        },
         rows: [
             {
                 id: generateRandomId(),

@@ -29,6 +29,11 @@ export const signature_d = () => {
             "rgb(105, 105, 105)",
             "rgb(61, 61, 61)",
         ],
+        "dimensions": {
+            "spaces": ["15", "10", "5", "2"],
+            "corners": [],
+            "borders": ["2"],
+        },
         "rows": [
             {
                 "id": generateRandomId(),

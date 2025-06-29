@@ -31,7 +31,6 @@ export const signature_a = () => {
       "corners": ["10"],
       "borders": [],
     },
-
     "rows": [
       {
         "id": generateRandomId(),

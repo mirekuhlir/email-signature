@@ -25,6 +25,11 @@ export const signature_k = () => {
         colors: [
             "rgb(0, 0, 0)",
         ],
+        "dimensions": {
+            "spaces": ["90", "15", "5"],
+            "corners": [],
+            "borders": [],
+        },
         rows: [
             {
                 id: generateRandomId(),
@@ -378,9 +383,9 @@ export const signature_k = () => {
                                             "borderRightWidth": "0px",
                                             "borderBottomColor": "rgb(0, 0, 0)",
                                             "borderBottomStyle": "none",
-                                            "borderBottomWidth": "0px"
-                                          },
-                                          {
+                                            "borderBottomWidth": "0px",
+                                        },
+                                        {
                                             "id": "l8izwye",
                                             "link": "https://www.youtube.com",
                                             "text": "YouTube",
@@ -393,8 +398,8 @@ export const signature_k = () => {
                                             "fontWeight": "bold",
                                             "lineHeight": "1",
                                             "letterSpacing": "0px",
-                                            "textDecoration": "underline"
-                                          }
+                                            "textDecoration": "underline",
+                                        },
                                     ],
                                 },
                             },

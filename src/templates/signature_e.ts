@@ -29,6 +29,11 @@ export const signature_e = () => {
             "rgb(241, 225, 250)",
             "rgb(65, 26, 138)",
         ],
+        "dimensions": {
+            "spaces": ["15", "10", "5", "3"],
+            "corners": ["50"],
+            "borders": ["5"],
+        },
         "rows": [
             {
                 "id": generateRandomId(),
@@ -85,7 +90,7 @@ export const signature_e = () => {
                                             "width": "0px",
                                             "height": "0px",
                                             "padding": "10px 0px 10px 0px",
-                                            "fontSize": "14px",
+                                            "fontSize": "18px",
                                             "fontStyle": "normal",
                                             "textAlign": "left",
                                             "fontFamily": "Verdana",
@@ -360,10 +365,10 @@ export const signature_e = () => {
                                                 "aspect": "free",
                                                 "isCircular": false,
                                                 "borderRadius": {
-                                                    "topLeft": 49,
-                                                    "topRight": 49,
-                                                    "bottomLeft": 49,
-                                                    "bottomRight": 49,
+                                                    "topLeft": 50,
+                                                    "topRight": 50,
+                                                    "bottomLeft": 50,
+                                                    "bottomRight": 50,
                                                 },
                                             },
                                             "borderTopColor": "rgb(0, 0, 0)",
