@@ -12,6 +12,7 @@ export const signature_empty_one_columns = () => {
       spaces: [],
       corners: [],
       borders: [],
+      lengths: [],
     },
     rows: [
       {

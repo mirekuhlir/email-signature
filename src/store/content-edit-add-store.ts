@@ -108,6 +108,7 @@ export interface StoreState {
     spaces: string[];
     corners: string[];
     borders: string[];
+    lengths: string[];
   };
   isDarkMode: boolean;
   isSavingOrder: boolean;
@@ -121,6 +122,7 @@ export interface StoreState {
       spaces: string[];
       corners: string[];
       borders: string[];
+      lengths: string[];
     };
   }) => void;
   addRow: (path: string, type: ContentType, insertIndex?: number) => void;
@@ -139,6 +141,7 @@ export interface StoreState {
   addSpace: (space: string) => void;
   addCorner: (corner: string) => void;
   addBorder: (border: string) => void;
+  addLength: (length: string) => void;
   moveRowUp: (path: string, signatureId: string) => Promise<void>;
   moveRowDown: (path: string, signatureId: string) => Promise<void>;
   toggleDarkMode: () => void;
@@ -152,6 +155,7 @@ export const useSignatureStore = create<StoreState>((set, get) => {
       spaces: [],
       corners: [],
       borders: [],
+      lengths: [],
     },
     isDarkMode: false,
     isSavingOrder: false,
@@ -165,6 +169,7 @@ export const useSignatureStore = create<StoreState>((set, get) => {
         spaces: string[];
         corners: string[];
         borders: string[];
+        lengths: string[];
       };
     }) => {
       const {
@@ -174,6 +179,7 @@ export const useSignatureStore = create<StoreState>((set, get) => {
           spaces: [],
           corners: [],
           borders: [],
+          lengths: [],
         },
       } = signature;
       set({
@@ -183,6 +189,7 @@ export const useSignatureStore = create<StoreState>((set, get) => {
           spaces: [],
           corners: [],
           borders: [],
+          lengths: [],
         },
       });
     },
@@ -497,6 +504,26 @@ export const useSignatureStore = create<StoreState>((set, get) => {
           dimensions: {
             ...state.dimensions,
             borders: newBorders,
+          },
+        });
+      }),
+
+    addLength: (length: string) =>
+      set((state) => {
+        if (state.dimensions.lengths.includes(length)) return state;
+        const newLengths = [...state.dimensions.lengths, length];
+        if (newLengths.length > MAX_DIMENSION_VALUES) {
+          return {
+            dimensions: {
+              ...state.dimensions,
+              lengths: newLengths.slice(-MAX_DIMENSION_VALUES),
+            },
+          };
+        }
+        return ({
+          dimensions: {
+            ...state.dimensions,
+            lengths: newLengths,
           },
         });
       }),

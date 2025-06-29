@@ -803,7 +803,7 @@ export const ContentEdit = (props: any) => {
                 <CollapsibleSection title="Width and height">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     <div>
-                      <Slider
+                      <SliderDimensions
                         label={`Width: ${width === 0 ? 'auto' : `${width}px`}`}
                         min={0}
                         max={MAX_IMAGE_WIDTH}
@@ -812,10 +812,11 @@ export const ContentEdit = (props: any) => {
                           setWidth(value);
                         }}
                         isDisabled={isSlidersDisabled}
+                        editType={EEditType.LENGTH}
                       />
                     </div>
                     <div>
-                      <Slider
+                      <SliderDimensions
                         label={`Height: ${height === 0 ? 'auto' : `${height}px`}`}
                         min={0}
                         max={MAX_IMAGE_WIDTH}
@@ -824,6 +825,7 @@ export const ContentEdit = (props: any) => {
                           setHeight(value);
                         }}
                         isDisabled={isSlidersDisabled}
+                        editType={EEditType.LENGTH}
                       />
                     </div>
                   </div>

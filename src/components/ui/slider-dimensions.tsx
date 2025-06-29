@@ -10,6 +10,7 @@ export enum EEditType {
   SPACE = 'space',
   CORNER = 'corner',
   BORDER = 'border',
+  LENGTH = 'length',
 }
 
 interface SliderDimensionsProps extends SliderProps {
@@ -116,6 +117,36 @@ const ModalContent = ({ editType, onSetValue }: ModalContentProps) => {
               </div>
             </>
           )}
+
+        {editType === EEditType.LENGTH &&
+          dimensions.lengths &&
+          dimensions.lengths.length > 0 && (
+            <>
+              <Typography variant="labelBase">Select length</Typography>
+              <div className="flex flex-wrap gap-4">
+                {dimensions.lengths
+                  .slice()
+                  .reverse()
+                  .map((length, index) => (
+                    <Button
+                      key={index}
+                      variant="outline"
+                      size="md"
+                      type="button"
+                      buttonClassName="min-w-20"
+                      onClick={() => {
+                        const numValue = Number(length);
+                        if (!isNaN(numValue)) {
+                          onSetValue?.(numValue);
+                        }
+                      }}
+                    >
+                      {`${length} px`}
+                    </Button>
+                  ))}
+              </div>
+            </>
+          )}
       </div>
       <Hr />
     </>
@@ -125,7 +156,7 @@ const ModalContent = ({ editType, onSetValue }: ModalContentProps) => {
 export const SliderDimensions = (props: SliderDimensionsProps) => {
   const { editType, ...sliderProps } = props;
 
-  const { addBorder, addCorner, addSpace } = useSignatureStore();
+  const { addBorder, addCorner, addSpace, addLength } = useSignatureStore();
 
   const handleOnSubmit = useCallback(
     (value: number) => {
@@ -135,9 +166,11 @@ export const SliderDimensions = (props: SliderDimensionsProps) => {
         addCorner(value.toString());
       } else if (editType === EEditType.BORDER) {
         addBorder(value.toString());
+      } else if (editType === EEditType.LENGTH) {
+        addLength(value.toString());
       }
     },
-    [editType, addSpace, addCorner, addBorder],
+    [editType, addSpace, addCorner, addBorder, addLength],
   );
 
   const onSubmitDebounce = useMemo(

@@ -598,7 +598,7 @@ export const ColumnSettings = (props: any) => {
             <CollapsibleSection title="Width and Height">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 <div>
-                  <Slider
+                  <SliderDimensions
                     label={`Width: ${columnWidth === 0 ? 'auto' : `${columnWidth}px`}`}
                     min={0}
                     max={MAX_IMAGE_WIDTH} // Assuming MAX_IMAGE_WIDTH is appropriate, or define MAX_COLUMN_WIDTH
@@ -607,10 +607,11 @@ export const ColumnSettings = (props: any) => {
                       setColumnWidth(value);
                     }}
                     isDisabled={isSlidersDisabled}
+                    editType={EEditType.LENGTH}
                   />
                 </div>
                 <div>
-                  <Slider
+                  <SliderDimensions
                     label={`Height: ${columnHeight === 0 ? 'auto' : `${columnHeight}px`}`}
                     min={0}
                     max={MAX_IMAGE_WIDTH} // Assuming MAX_IMAGE_WIDTH is appropriate, or define MAX_COLUMN_HEIGHT
@@ -619,6 +620,7 @@ export const ColumnSettings = (props: any) => {
                       setColumnHeight(value);
                     }}
                     isDisabled={isSlidersDisabled}
+                    editType={EEditType.LENGTH}
                   />
                 </div>
               </div>

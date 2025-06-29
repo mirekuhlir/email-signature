@@ -400,6 +400,9 @@ const dimensionsSchema = z.object({
     borders: z.array(sanitizedString(MAX_DIMENSION_VALUE_LENGTH)).max(
         MAX_DIMENSION_VALUES,
     ),
+    lengths: z.array(sanitizedString(MAX_DIMENSION_VALUE_LENGTH)).max(
+        MAX_DIMENSION_VALUES,
+    ),
 }).strip();
 
 // Signature template schema

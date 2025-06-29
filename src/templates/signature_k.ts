@@ -29,6 +29,7 @@ export const signature_k = () => {
             "spaces": ["90", "15", "5"],
             "corners": [],
             "borders": [],
+            "lengths": [],
         },
         rows: [
             {
