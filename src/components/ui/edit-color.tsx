@@ -23,7 +23,7 @@ export const EditColor = (props: Props) => {
   );
   const { setContentEdit, addEditingSectionId, removeEditingSectionId } =
     useContentEditStore();
-  const { getColors, addColor } = useSignatureStore();
+  const { addColor, colors } = useSignatureStore();
 
   const [localInitColor, setLocalInitColor] = useState<string | undefined>(
     undefined,
@@ -36,7 +36,7 @@ export const EditColor = (props: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initColor]);
 
-  const usedColors = getColors();
+  const usedColors = colors;
 
   return (
     <div>

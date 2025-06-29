@@ -139,7 +139,6 @@ export interface StoreState {
   addSpace: (space: string) => void;
   addCorner: (corner: string) => void;
   addBorder: (border: string) => void;
-  getColors: () => string[];
   moveRowUp: (path: string, signatureId: string) => Promise<void>;
   moveRowDown: (path: string, signatureId: string) => Promise<void>;
   toggleDarkMode: () => void;
@@ -502,12 +501,6 @@ export const useSignatureStore = create<StoreState>((set, get) => {
           },
         });
       }),
-
-    getColors: () => get().colors,
-    // TODO je potřeba?
-    getBorders: () => get().dimensions.borders,
-    getSpaces: () => get().dimensions.spaces,
-    getCorners: () => get().dimensions.corners,
 
     saveSignatureContentRow: async (
       signatureId: string,
