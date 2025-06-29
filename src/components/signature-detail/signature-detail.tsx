@@ -94,15 +94,6 @@ export const SignatureDetail = (props: any) => {
   const isPreview =
     !contentEdit.editPath && !contentEdit.columnPath && !contentEdit.addPath;
 
-  // Debug info
-  console.log('Content edit state:', {
-    editPath: contentEdit.editPath,
-    columnPath: contentEdit.columnPath,
-    addPath: contentEdit.addPath,
-    isSticky,
-    shouldShowSticky: contentEdit.editPath || contentEdit.columnPath,
-  });
-
   return (
     <div
       className={`pb-8 ${contentEdit.editPath || contentEdit.columnPath ? 'pt-6' : 'pt-20'}`}

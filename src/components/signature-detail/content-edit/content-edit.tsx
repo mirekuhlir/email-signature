@@ -87,8 +87,6 @@ export const ContentEdit = (props: any) => {
     dimensions,
   } = useSignatureStore();
 
-  console.warn('dimensions', dimensions);
-
   const columnPath = contentPathToEdit.substring(
     0,
     contentPathToEdit.lastIndexOf('.rows['),

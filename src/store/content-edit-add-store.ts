@@ -443,7 +443,6 @@ export const useSignatureStore = create<StoreState>((set, get) => {
 
     addSpace: (space: string) =>
       set((state) => {
-        console.warn("space", space);
         if (state.dimensions.spaces.includes(space)) return state;
         const newSpaces = [...state.dimensions.spaces, space];
         if (newSpaces.length > MAX_DIMENSION_VALUES) {
