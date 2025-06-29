@@ -32,7 +32,7 @@ const ModalContent = ({ editType, onSetValue }: ModalContentProps) => {
           dimensions.spaces.length > 0 && (
             <>
               <Typography variant="labelBase">Select space</Typography>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-4">
                 {dimensions.spaces
                   ?.slice()
                   .reverse()
@@ -42,6 +42,7 @@ const ModalContent = ({ editType, onSetValue }: ModalContentProps) => {
                       variant="outline"
                       size="md"
                       type="button"
+                      buttonClassName="min-w-20"
                       onClick={() => {
                         const numValue = Number(space);
                         if (!isNaN(numValue)) {
@@ -61,7 +62,7 @@ const ModalContent = ({ editType, onSetValue }: ModalContentProps) => {
           dimensions.corners.length > 0 && (
             <>
               <Typography variant="labelBase">Select corner</Typography>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-4">
                 {dimensions.corners
                   ?.slice()
                   .reverse()
@@ -71,6 +72,7 @@ const ModalContent = ({ editType, onSetValue }: ModalContentProps) => {
                       variant="outline"
                       size="md"
                       type="button"
+                      buttonClassName="min-w-20"
                       onClick={() => {
                         const numValue = Number(corner);
                         if (!isNaN(numValue)) {
@@ -90,7 +92,7 @@ const ModalContent = ({ editType, onSetValue }: ModalContentProps) => {
           dimensions.borders.length > 0 && (
             <>
               <Typography variant="labelBase">Select border</Typography>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-4">
                 {dimensions.borders
                   .slice()
                   .reverse()
@@ -100,6 +102,7 @@ const ModalContent = ({ editType, onSetValue }: ModalContentProps) => {
                       variant="outline"
                       size="md"
                       type="button"
+                      buttonClassName="min-w-20"
                       onClick={() => {
                         const numValue = Number(border);
                         if (!isNaN(numValue)) {

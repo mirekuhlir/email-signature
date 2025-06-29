@@ -300,7 +300,7 @@ const Slider: React.FC<SliderProps> = (props) => {
           </div>
         </div>
 
-        <Modal isOpen={isModalOpen} title={label} size="small">
+        <Modal isOpen={isModalOpen} title={label} size="medium">
           <form onSubmit={handleModalSubmit} className="space-y-4">
             <NumberInput
               label={`Value ${

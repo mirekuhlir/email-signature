@@ -24,7 +24,7 @@ const TrialBanner = (user: any) => {
 
           <div className="flex justify-end">
             <StyledLink
-              variant="button-brand-blue"
+              variant="button-orange"
               href="/pricing"
               className="mt-4"
             >
