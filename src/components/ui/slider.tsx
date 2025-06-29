@@ -46,7 +46,6 @@ const Slider: React.FC<SliderProps> = (props) => {
     label,
     showValue,
     isDisabled,
-
     onSubmit,
     modalContent,
   } = props;
@@ -101,13 +100,25 @@ const Slider: React.FC<SliderProps> = (props) => {
         }
         if (value !== undefined) {
           onChange?.(newValue);
+          onSubmit?.(newValue);
         } else {
           setInternalValue(newValue);
           onChange?.(newValue);
+          onSubmit?.(newValue);
         }
       }
     },
-    [isUsingSteps, max, min, onChange, step, steps, value, isDisabled],
+    [
+      isDisabled,
+      isUsingSteps,
+      value,
+      steps,
+      step,
+      max,
+      min,
+      onChange,
+      onSubmit,
+    ],
   );
 
   const getPercentValue = useCallback((): number => {
@@ -177,7 +188,6 @@ const Slider: React.FC<SliderProps> = (props) => {
 
   // Callback function to set form value from modal content
   const handleSetValue = (value: number) => {
-    console.warn('handleSetValue', value);
     form.setValue('value', value);
   };
 

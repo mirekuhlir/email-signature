@@ -3,6 +3,8 @@ import { Hr } from './hr';
 import Slider, { SliderProps } from './slider';
 import { Typography } from './typography';
 import { useSignatureStore } from '@/src/store/content-edit-add-store';
+import { useMemo, useCallback } from 'react';
+import { debounce } from 'lodash';
 
 export enum EEditType {
   SPACE = 'space',
@@ -122,15 +124,26 @@ export const SliderDimensions = (props: SliderDimensionsProps) => {
 
   const { addBorder, addCorner, addSpace } = useSignatureStore();
 
-  const handleOnSubmit = (value: number) => {
-    if (editType === EEditType.SPACE) {
-      addSpace(value.toString());
-    } else if (editType === EEditType.CORNER) {
-      addCorner(value.toString());
-    } else if (editType === EEditType.BORDER) {
-      addBorder(value.toString());
-    }
-  };
+  const handleOnSubmit = useCallback(
+    (value: number) => {
+      if (editType === EEditType.SPACE) {
+        addSpace(value.toString());
+      } else if (editType === EEditType.CORNER) {
+        addCorner(value.toString());
+      } else if (editType === EEditType.BORDER) {
+        addBorder(value.toString());
+      }
+    },
+    [editType, addSpace, addCorner, addBorder],
+  );
+
+  const onSubmitDebounce = useMemo(
+    () =>
+      debounce((value: number) => {
+        handleOnSubmit(value);
+      }, 350),
+    [handleOnSubmit],
+  );
 
   const modalContent = <ModalContent editType={editType} />;
 
@@ -138,7 +151,7 @@ export const SliderDimensions = (props: SliderDimensionsProps) => {
     <Slider
       {...sliderProps}
       modalContent={modalContent}
-      onSubmit={handleOnSubmit}
+      onSubmit={onSubmitDebounce}
     />
   );
 };
