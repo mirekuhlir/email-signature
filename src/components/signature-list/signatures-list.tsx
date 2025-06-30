@@ -3,132 +3,21 @@
 import { useState, useEffect } from 'react';
 import { Typography } from '@/src/components/ui/typography';
 import t from '@/src/localization/translate';
-import Modal from './ui/modal';
+import Modal from '../ui/modal';
 import { Button } from '@/src/components/ui/button';
 import { createClient } from '@/src/utils/supabase/client';
-import { TemplatesExamples } from './templates-examples';
-import { EmailTemplateView } from './signature-detail/content-view/signature-view';
+import { TemplatesExamples } from '../templates-examples';
 import { useRouter } from 'next/navigation';
-import { TEMP_SIGNATURE } from '../const/content';
+import { TEMP_SIGNATURE } from '../../const/content';
 import { useToast } from '@/src/components/ui/toast';
-import { Hr } from './ui/hr';
-import { LoadingInfo } from './signature-detail/content-edit/content-edit';
-import { ContextMenu } from './ui/context-menu';
-import { Container } from './ui/container';
+import { Hr } from '../ui/hr';
+import { LoadingInfo } from '../signature-detail/content-edit/content-edit';
+import { Container } from '../ui/container';
 import { MAX_SIGNATURES } from '@/supabase/functions/_shared/const';
 import { PlusIcon } from 'lucide-react';
-import TrialBanner from './trial/trial-banner';
+import TrialBanner from '../trial/trial-banner';
 
-type SignaturesPreviewsProps = {
-  rows: any;
-  createdAt: string;
-  updatedAt?: string;
-  onDelete: () => void;
-  onEdit: () => void;
-  isLoading: boolean;
-  isFromTemp: boolean;
-  duplicateSignature?: (signatureId: string) => Promise<void>;
-  signatureId?: string;
-  isTempSignature?: boolean;
-  signatureCount?: number;
-};
-
-const SignaturesPreview = (props: SignaturesPreviewsProps) => {
-  const {
-    rows,
-    createdAt,
-    updatedAt,
-    onDelete,
-    onEdit,
-    isLoading,
-    isFromTemp,
-    duplicateSignature,
-    signatureId,
-    isTempSignature,
-    signatureCount,
-  } = props;
-
-  const editButtonText = isFromTemp ? 'Continue' : 'View';
-
-  return (
-    <div>
-      <div className="flex flex-col py-4">
-        <EmailTemplateView rows={rows} />
-        <div className="flex justify-between bg-gray-200 mb-6 p-3 rounded-md mt-4 w-full sm:w-1/2">
-          <div className="flex flex-col justify-center">
-            {updatedAt && (
-              <div>
-                <Typography className="text-gray-500 text-sm md:text-base block md:inline">
-                  Updated at:
-                </Typography>
-                <Typography
-                  className="text-sm md:text-base block md:inline md:ml-1"
-                  textColor="text-gray-900"
-                >
-                  {new Date(updatedAt).toLocaleString()}
-                </Typography>
-              </div>
-            )}
-            {createdAt && (
-              <div className="mb-2 md:mb-0">
-                <Typography className="text-gray-500 text-sm md:text-base block md:inline">
-                  Created at:
-                </Typography>
-                <Typography
-                  className="text-sm md:text-base block md:inline md:ml-1"
-                  textColor="text-gray-900"
-                >
-                  {new Date(createdAt).toLocaleString()}
-                </Typography>
-              </div>
-            )}
-          </div>
-          <div className="flex gap-3 items-center">
-            <>
-              <ContextMenu>
-                <div className="pt-2 pb-2 px-2 flex flex-col gap-1 whitespace-nowrap items-start">
-                  <Button
-                    variant="ghost"
-                    disabled={isLoading}
-                    onClick={() => {
-                      onDelete();
-                    }}
-                  >
-                    {t('Delete')}
-                  </Button>
-                  {!isTempSignature &&
-                    (signatureCount ?? 0) < MAX_SIGNATURES && (
-                      <Button
-                        variant="ghost"
-                        disabled={isLoading}
-                        onClick={() => {
-                          if (signatureId && duplicateSignature) {
-                            duplicateSignature(signatureId);
-                          }
-                        }}
-                      >
-                        {t('Duplicate')}
-                      </Button>
-                    )}
-                </div>
-              </ContextMenu>
-              <Button
-                variant="blue"
-                loading={isLoading}
-                onClick={() => {
-                  onEdit();
-                }}
-              >
-                {isLoading ? 'Creating...' : editButtonText}
-              </Button>
-            </>
-          </div>
-        </div>
-      </div>
-      <div />
-    </div>
-  );
-};
+import { SignatureListItem } from './signature-list-item';
 
 export const SignaturesList = (props: any) => {
   const { signatures: signaturesData, user } = props;
@@ -265,7 +154,7 @@ export const SignaturesList = (props: any) => {
         )}
 
         {tempSignature?.rows && (
-          <SignaturesPreview
+          <SignatureListItem
             rows={tempSignature.rows}
             isLoading={isLoading}
             isFromTemp={true}
@@ -288,7 +177,7 @@ export const SignaturesList = (props: any) => {
               new Date(a.updated_at || a.created_at).getTime(),
           )
           .map((signature: any) => (
-            <SignaturesPreview
+            <SignatureListItem
               key={signature.id}
               rows={signature.signature_content.rows}
               createdAt={signature.created_at}
