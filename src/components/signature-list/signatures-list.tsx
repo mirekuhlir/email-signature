@@ -33,6 +33,7 @@ export const SignaturesList = (props: any) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const [signatureToDelete, setSignatureToDelete] = useState<any>(null);
+  const [tempSignatureToDelete, setTempSignatureToDelete] = useState<any>(null);
 
   const [signatures, setSignatures] = useState<any[]>(signaturesData || []);
   const [tempSignatures, setTempSignatures] = useState<any>([]);
@@ -177,13 +178,8 @@ export const SignaturesList = (props: any) => {
             isLoading={isLoading}
             createdAt={tempSignature.created_at}
             onDelete={() => {
-              const newTempSignatures = tempSignatures.filter(
-                (signature: any) =>
-                  signature.info?.templateSlug !==
-                  tempSignature.info?.templateSlug,
-              );
-              setTempSignatures(newTempSignatures);
-              localStorage.removeItem(tempSignature.info?.templateSlug);
+              setTempSignatureToDelete(tempSignature);
+              setIsDeleteModalOpen(true);
             }}
             onEdit={() => {
               if (userStatus === UserStatus.NOT_LOGGED_IN) {
@@ -251,7 +247,11 @@ export const SignaturesList = (props: any) => {
           <Button
             variant="gray"
             disabled={isDeleteLoading}
-            onClick={() => setIsDeleteModalOpen(false)}
+            onClick={() => {
+              setIsDeleteModalOpen(false);
+              setSignatureToDelete(null);
+              setTempSignatureToDelete(null);
+            }}
           >
             {t('Cancel')}
           </Button>
@@ -273,6 +273,19 @@ export const SignaturesList = (props: any) => {
                 );
                 setIsDeleteLoading(false);
                 setIsDeleteModalOpen(false);
+                setSignatureToDelete(null);
+              } else if (tempSignatureToDelete) {
+                const newTempSignatures = tempSignatures.filter(
+                  (signature: any) =>
+                    signature.info?.templateSlug !==
+                    tempSignatureToDelete.info?.templateSlug,
+                );
+                setTempSignatures(newTempSignatures);
+                localStorage.removeItem(
+                  tempSignatureToDelete.info?.templateSlug,
+                );
+                setIsDeleteModalOpen(false);
+                setTempSignatureToDelete(null);
               }
             }}
           >
