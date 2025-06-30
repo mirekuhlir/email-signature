@@ -35,3 +35,14 @@ export const getTemplateBySlug = (slug: string) => {
     (template) => template?.info?.templateSlug === slug,
   );
 };
+
+export const templatesSlugs = [
+  'signature-a',
+  'signature-b',
+  'signature-c',
+  'signature-d',
+  'signature-e',
+  'signature-f',
+  'signature-g',
+  'signature-h',
+];

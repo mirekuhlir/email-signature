@@ -3,18 +3,15 @@
 import { EmailTemplateView } from './signature-detail/content-view/signature-view';
 import { getTemplates } from '@/src/templates';
 import { Button } from './ui/button';
-import { useRouter } from 'next/navigation';
 import { Hr } from './ui/hr';
 import { Typography } from './ui/typography';
 
 type TemplatesExamplesProps = {
-  isSignedIn: boolean;
-  createSignature?: (template: any) => void;
+  onCreateSignature: (template: any) => void;
 };
 
 export const TemplatesExamples = (props: TemplatesExamplesProps) => {
-  const { createSignature, isSignedIn } = props;
-  const router = useRouter();
+  const { onCreateSignature } = props;
 
   const templates = getTemplates();
 
@@ -34,13 +31,7 @@ export const TemplatesExamples = (props: TemplatesExamplesProps) => {
           <div className="flex mt-4 justify-end sm:justify-start">
             <Button
               onClick={async () => {
-                if (isSignedIn) {
-                  createSignature?.(template);
-                } else {
-                  router.push(
-                    `/signatures/example/?template=${template.info?.templateSlug}`,
-                  );
-                }
+                onCreateSignature?.(template);
               }}
             >
               {'Select'}

@@ -14,7 +14,6 @@ import { useAuthModal } from '@/src/hooks/use-auth-modal';
 import { Hr } from '../ui/hr';
 import { ChevronLeft, Edit2, Copy, Eye } from 'lucide-react';
 import { Container } from '../ui/container';
-import { TEMP_SIGNATURE } from '@/src/const/content';
 import TrialBanner from '../trial/trial-banner';
 import { useMediaQuery } from '@/src/hooks/useMediaQuery';
 import { MEDIA_QUERIES } from '@/src/constants/mediaQueries';
@@ -40,7 +39,7 @@ export const SignatureDetail = (props: any) => {
 
   useEffect(() => {
     const tempSignature = JSON.parse(
-      localStorage.getItem(TEMP_SIGNATURE) || '{}',
+      localStorage.getItem(templateSlug) || '{}',
     );
 
     // Load signature if template slug from url matches the template slug from local storage
@@ -101,33 +100,17 @@ export const SignatureDetail = (props: any) => {
       <Container>
         {isPreview && (
           <>
-            {isSignedIn && !isEdit && (
-              <>
-                <StyledLink
-                  variant="default"
-                  href="/signatures"
-                  className="flex items-center gap-1"
-                >
-                  <ChevronLeft size={23} />
-                  Back to My signatures
-                </StyledLink>
-                <Hr className="mt-4 mb-2 sm:mb-8 sm:mt-4" />
-              </>
-            )}
-
-            {!isSignedIn && !isEdit && (
-              <>
-                <StyledLink
-                  variant="default"
-                  href="/templates"
-                  className="flex items-center gap-1"
-                >
-                  <ChevronLeft size={23} />
-                  Back to templates
-                </StyledLink>
-                <Hr className="mt-4 mb-2 sm:mb-8 sm:mt-4" />
-              </>
-            )}
+            <>
+              <StyledLink
+                variant="default"
+                href="/signatures"
+                className="flex items-center gap-1"
+              >
+                <ChevronLeft size={23} />
+                Back to My signatures
+              </StyledLink>
+              <Hr className="mt-4 mb-2 sm:mb-8 sm:mt-4" />
+            </>
           </>
         )}
       </Container>

@@ -23,7 +23,8 @@ export default async function Examples() {
       <main>
         <div className="pt-24 ">
           <Container>
-            <TemplatesExamples isSignedIn={false} />
+            {/*  TODO */}
+            <TemplatesExamples /* onCreateSignature={}  */ />
           </Container>
         </div>
       </main>

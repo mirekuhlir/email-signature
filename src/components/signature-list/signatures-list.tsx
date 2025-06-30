@@ -8,7 +8,6 @@ import { Button } from '@/src/components/ui/button';
 import { createClient } from '@/src/utils/supabase/client';
 import { TemplatesExamples } from '../templates-examples';
 import { useRouter } from 'next/navigation';
-import { TEMP_SIGNATURE } from '../../const/content';
 import { useToast } from '@/src/components/ui/toast';
 import { Hr } from '../ui/hr';
 import { LoadingInfo } from '../signature-detail/content-edit/content-edit';
@@ -18,6 +17,8 @@ import { PlusIcon } from 'lucide-react';
 import TrialBanner from '../trial/trial-banner';
 
 import { SignatureListItem } from './signature-list-item';
+import { getUserStatus, UserStatus } from '@/src/utils/userState';
+import { templatesSlugs } from '@/src/templates';
 
 export const SignaturesList = (props: any) => {
   const { signatures: signaturesData, user } = props;
@@ -33,15 +34,19 @@ export const SignaturesList = (props: any) => {
 
   const [signatureToDelete, setSignatureToDelete] = useState<any>(null);
 
-  const [signatures, setSignatures] = useState<any[]>(signaturesData);
-  const [tempSignature, setTempSignature] = useState<any>(null);
+  const [signatures, setSignatures] = useState<any[]>(signaturesData || []);
+  const [tempSignatures, setTempSignatures] = useState<any>([]);
+
+  const userStatus = getUserStatus(user);
 
   useEffect(() => {
-    const savedData = localStorage.getItem(TEMP_SIGNATURE);
+    templatesSlugs.forEach((templateSlug: string) => {
+      const savedData = localStorage.getItem(templateSlug);
 
-    if (savedData) {
-      setTempSignature(JSON.parse(savedData));
-    }
+      if (savedData) {
+        setTempSignatures((prev: any) => [...prev, JSON.parse(savedData)]);
+      }
+    });
   }, []);
 
   const duplicateSignature = async (signatureId: string) => {
@@ -74,7 +79,18 @@ export const SignaturesList = (props: any) => {
     }
   };
 
-  const createSignature = async (template: any, isTemp: boolean = false) => {
+  const createSignature = async (
+    template: any,
+    userStatus: UserStatus,
+    isTemp: boolean = false,
+  ) => {
+    if (userStatus === UserStatus.NOT_LOGGED_IN) {
+      router.push(
+        `/signatures/example/?template=${template.info?.templateSlug}`,
+      );
+      return;
+    }
+
     setIsLoading(true);
 
     setIsModalOpen(false);
@@ -103,8 +119,8 @@ export const SignaturesList = (props: any) => {
     }
 
     if (isTemp) {
-      setTempSignature(null);
-      localStorage.removeItem(TEMP_SIGNATURE);
+      setTempSignatures(null);
+      localStorage.removeItem(template.info?.templateSlug);
       if (data?.signatureId) {
         router.push(`/signatures/${data.signatureId}`);
       }
@@ -125,6 +141,7 @@ export const SignaturesList = (props: any) => {
       </div>
     );
   }
+
   return (
     <div className="w-full pt-6">
       <div className="flex justify-center">
@@ -140,7 +157,7 @@ export const SignaturesList = (props: any) => {
           </div>
         )}
 
-        {(tempSignature?.rows || signatures?.length > 0) && (
+        {(tempSignatures?.length > 0 || signatures?.length > 0) && (
           <>
             <Typography
               className="leading-none"
@@ -153,23 +170,34 @@ export const SignaturesList = (props: any) => {
           </>
         )}
 
-        {tempSignature?.rows && (
+        {tempSignatures?.map((tempSignature: any) => (
           <SignatureListItem
+            key={tempSignature.info?.templateSlug}
             rows={tempSignature.rows}
             isLoading={isLoading}
-            isFromTemp={true}
-            createdAt={tempSignature.createdAt}
+            createdAt={tempSignature.created_at}
             onDelete={() => {
-              setTempSignature(null);
-              localStorage.removeItem(TEMP_SIGNATURE);
+              const newTempSignatures = tempSignatures.filter(
+                (signature: any) =>
+                  signature.info?.templateSlug !==
+                  tempSignature.info?.templateSlug,
+              );
+              setTempSignatures(newTempSignatures);
+              localStorage.removeItem(tempSignature.info?.templateSlug);
             }}
             onEdit={() => {
-              createSignature(tempSignature, true);
+              if (userStatus === UserStatus.NOT_LOGGED_IN) {
+                router.push(
+                  `/signatures/example/?template=${tempSignature.info?.templateSlug}`,
+                );
+              } else {
+                createSignature(tempSignature, userStatus, true);
+              }
             }}
             isTempSignature={true}
             signatureCount={signatures.length}
           />
-        )}
+        ))}
         {signatures
           ?.sort(
             (a, b) =>
@@ -183,7 +211,6 @@ export const SignaturesList = (props: any) => {
               createdAt={signature.created_at}
               updatedAt={signature.updated_at}
               isLoading={isLoading}
-              isFromTemp={false}
               onEdit={() => {
                 router.push(`/signatures/${signature.id}`);
               }}
@@ -205,8 +232,9 @@ export const SignaturesList = (props: any) => {
       >
         <Container isZeroPadding={true}>
           <TemplatesExamples
-            isSignedIn={true}
-            createSignature={createSignature}
+            onCreateSignature={(template: any) => {
+              createSignature(template, userStatus, false);
+            }}
           />
         </Container>
       </Modal>

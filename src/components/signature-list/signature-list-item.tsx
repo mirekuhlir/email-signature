@@ -14,7 +14,6 @@ type SignatureListItemProps = {
   onDelete: () => void;
   onEdit: () => void;
   isLoading: boolean;
-  isFromTemp: boolean;
   duplicateSignature?: (signatureId: string) => Promise<void>;
   signatureId?: string;
   isTempSignature?: boolean;
@@ -29,14 +28,11 @@ export const SignatureListItem = (props: SignatureListItemProps) => {
     onDelete,
     onEdit,
     isLoading,
-    isFromTemp,
     duplicateSignature,
     signatureId,
     isTempSignature,
     signatureCount,
   } = props;
-
-  const editButtonText = isFromTemp ? 'Continue' : 'View';
 
   return (
     <div>
@@ -107,7 +103,7 @@ export const SignatureListItem = (props: SignatureListItemProps) => {
                   onEdit();
                 }}
               >
-                {isLoading ? 'Creating...' : editButtonText}
+                {isLoading ? 'Creating...' : 'View'}
               </Button>
             </>
           </div>

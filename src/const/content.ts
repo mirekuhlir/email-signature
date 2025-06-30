@@ -9,5 +9,3 @@ export enum ContentType {
     WEBSITE_LINK = "websiteLink",
     CUSTOM_VALUE = "customValue",
 }
-
-export const TEMP_SIGNATURE = "temp-signature";

@@ -3,7 +3,7 @@
 import { useRef, useCallback, useState, useEffect, useMemo } from 'react';
 import { get } from 'lodash';
 import { useSignatureStore } from '@/src/store/content-edit-add-store';
-import { ContentType, TEMP_SIGNATURE } from '@/src/const/content';
+import { ContentType } from '@/src/const/content';
 import { Button } from '@/src/components/ui/button';
 import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
 import { ImageEditContent } from './image-edit-content';
@@ -434,7 +434,7 @@ export const ContentEdit = (props: any) => {
   const handleSave = async () => {
     if (!isSignedIn) {
       localStorage.setItem(
-        TEMP_SIGNATURE,
+        templateSlug,
         JSON.stringify({
           rows,
           colors,
