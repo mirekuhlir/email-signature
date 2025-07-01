@@ -14,6 +14,8 @@ import {
   MAX_COLORS,
   MAX_DIMENSION_VALUES,
 } from "@/supabase/functions/_shared/const";
+import { UserStatus } from "@/src/utils/userState";
+import { saveTempSignature } from "../components/signature-detail/content-edit/utils";
 
 const supabase = createClient();
 
@@ -24,6 +26,8 @@ const moveRowWithWrapping = async (
   direction: "up" | "down",
   state: StoreState,
   set: (partial: Partial<StoreState>) => void,
+  userStatus: UserStatus,
+  templateSlug: string,
 ) => {
   const { addToast } = useToastStore.getState();
   const cloneRows = cloneDeep(state.rows);
@@ -69,14 +73,15 @@ const moveRowWithWrapping = async (
   set({ rows: cloneRows });
 
   // Save changes to the database
-  if (signatureId && signatureId !== "example") {
-    // Calculate the target path (where the item will be after moving)
-    const targetPath = path.replace(
-      /rows\[(\d+)\]/,
-      `rows[${targetIndex}]`,
-    );
-    set({ isSavingOrder: true, savingOrderPath: targetPath });
 
+  // Calculate the target path (where the item will be after moving)
+  const targetPath = path.replace(
+    /rows\[(\d+)\]/,
+    `rows[${targetIndex}]`,
+  );
+  set({ isSavingOrder: true, savingOrderPath: targetPath });
+
+  if (userStatus !== UserStatus.NOT_LOGGED_IN) {
     const { error } = await supabase.functions.invoke("patch-signature", {
       method: "PATCH",
       body: {
@@ -96,9 +101,16 @@ const moveRowWithWrapping = async (
         variant: "error",
       });
     }
-
-    set({ isSavingOrder: false, savingOrderPath: null });
+  } else {
+    saveTempSignature({
+      templateSlug: templateSlug,
+      rows: cloneRows,
+      colors: state.colors,
+      dimensions: state.dimensions,
+    });
   }
+
+  set({ isSavingOrder: false, savingOrderPath: null });
 };
 
 export interface StoreState {
@@ -142,8 +154,18 @@ export interface StoreState {
   addCorner: (corner: string) => void;
   addBorder: (border: string) => void;
   addLength: (length: string) => void;
-  moveRowUp: (path: string, signatureId: string) => Promise<void>;
-  moveRowDown: (path: string, signatureId: string) => Promise<void>;
+  moveRowUp: (
+    path: string,
+    signatureId: string,
+    userStatus: UserStatus,
+    templateSlug: string,
+  ) => Promise<void>;
+  moveRowDown: (
+    path: string,
+    signatureId: string,
+    userStatus: UserStatus,
+    templateSlug: string,
+  ) => Promise<void>;
   toggleDarkMode: () => void;
 }
 
@@ -382,12 +404,38 @@ export const useSignatureStore = create<StoreState>((set, get) => {
       set({ rows: cloneRows });
     },
 
-    moveRowUp: async (path: string, signatureId: string) => {
-      await moveRowWithWrapping(path, signatureId, "up", get(), set);
+    moveRowUp: async (
+      path: string,
+      signatureId: string,
+      userStatus: UserStatus,
+      templateSlug: string,
+    ) => {
+      await moveRowWithWrapping(
+        path,
+        signatureId,
+        "up",
+        get(),
+        set,
+        userStatus,
+        templateSlug,
+      );
     },
 
-    moveRowDown: async (path: string, signatureId: string) => {
-      await moveRowWithWrapping(path, signatureId, "down", get(), set);
+    moveRowDown: async (
+      path: string,
+      signatureId: string,
+      userStatus: UserStatus,
+      templateSlug: string,
+    ) => {
+      await moveRowWithWrapping(
+        path,
+        signatureId,
+        "down",
+        get(),
+        set,
+        userStatus,
+        templateSlug,
+      );
     },
 
     setContent: (path: string, content: any) =>

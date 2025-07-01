@@ -50,4 +50,9 @@ export const templatesSlugs = [
   'signature-f',
   'signature-g',
   'signature-h',
+  'signature-i',
+  'signature-j',
+  'signature-k',
+  'signature-empty-one-columns',
+  'signature-empty-two-columns',
 ];

@@ -43,7 +43,7 @@ function isColorDark(colorString: string): boolean {
 }
 
 export const EmailTemplateEdit = (props: any) => {
-  const { rows, isSignedIn, templateSlug } = props;
+  const { rows, isSignedIn, templateSlug, userStatus } = props;
   const { setContentEdit, contentEdit } = useContentEditStore();
   const { moveRowUp, moveRowDown, isSavingOrder, savingOrderPath, deleteRow } =
     useSignatureStore();
@@ -326,7 +326,12 @@ export const EmailTemplateEdit = (props: any) => {
                                 variant="ghost"
                                 disabled={isSavingOrder}
                                 onClick={() => {
-                                  moveRowUp(currentPath, signatureId as string);
+                                  moveRowUp(
+                                    currentPath,
+                                    signatureId as string,
+                                    userStatus,
+                                    templateSlug,
+                                  );
                                 }}
                               >
                                 Move up
@@ -338,6 +343,8 @@ export const EmailTemplateEdit = (props: any) => {
                                   moveRowDown(
                                     currentPath,
                                     signatureId as string,
+                                    userStatus,
+                                    templateSlug,
                                   );
                                 }}
                               >

@@ -184,6 +184,7 @@ export const SignatureDetail = (props: any) => {
             isSignedIn={isSignedIn}
             templateSlug={templateSlug}
             rows={rows}
+            userStatus={userStatus}
           />
         </Container>
       )}
