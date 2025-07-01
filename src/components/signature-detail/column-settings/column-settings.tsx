@@ -17,6 +17,7 @@ import {
   MAX_IMAGE_WIDTH,
 } from '@/supabase/functions/_shared/const';
 import { EEditType, SliderDimensions } from '../../ui/slider-dimensions';
+import { saveTempSignature } from '../content-edit/utils';
 
 export const VerticalAlign = (props: any) => {
   const { verticalAlign, setVerticalAlign } = props;
@@ -39,10 +40,11 @@ export const VerticalAlign = (props: any) => {
 };
 
 export const ColumnSettings = (props: any) => {
-  const { columnPathToEdit, signatureId, isSignedIn } = props;
+  const { columnPathToEdit, signatureId, isSignedIn, templateSlug } = props;
   const { toast } = useToast();
 
-  const { rows, setContent, saveSignatureContentRow } = useSignatureStore();
+  const { rows, setContent, saveSignatureContentRow, colors, dimensions } =
+    useSignatureStore();
   const { editingSectionIds } = useContentEditStore();
   const { setContentEdit } = useContentEditStore();
 
@@ -268,8 +270,15 @@ export const ColumnSettings = (props: any) => {
     });
   };
 
+  // TODO: sjednotit s handleSave v content-edit
   const handleSave = async () => {
     if (!isSignedIn) {
+      saveTempSignature({
+        templateSlug: templateSlug,
+        rows: rows,
+        colors: colors,
+        dimensions: dimensions,
+      });
       setContentEdit({
         columnPath: null,
       });
