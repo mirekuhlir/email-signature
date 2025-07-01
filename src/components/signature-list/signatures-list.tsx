@@ -160,9 +160,11 @@ export const SignaturesList = (props: any) => {
 
   return (
     <div className="w-full pt-6">
-      <div className="flex justify-center">
-        <TrialBanner user={user} />
-      </div>
+      {userStatus === UserStatus.TRIAL && (
+        <div className="flex justify-center">
+          <TrialBanner user={user} />
+        </div>
+      )}
       <div>
         {signatures.length < MAX_SIGNATURES && (
           <div className="flex justify-center pt-8 pb-10 sm:pb-2 w-full">

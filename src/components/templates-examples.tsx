@@ -19,7 +19,7 @@ export const TemplatesExamples = (props: TemplatesExamplesProps) => {
     <div className="bg-color-gray-50">
       <div className="mb-4">
         <Typography variant="h4" textColor="text-brand-blue-900">
-          Choose a template you like
+          Choose a signature you like
         </Typography>
       </div>
       <div className="mb-6">
