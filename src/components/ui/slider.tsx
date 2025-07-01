@@ -261,19 +261,22 @@ const Slider: React.FC<SliderProps> = (props) => {
                 isDraggingRef.current = false;
               }}
             />
-            <div className="absolute top-full left-0 w-full flex justify-between mt-2 text-xs text-gray-600">
-              {isUsingSteps && steps
-                ? steps.map((step, index) => (
-                    <span key={index} className="flex-1 text-center">
-                      {step.label}
-                    </span>
-                  ))
-                : showValue && (
-                    <span className="w-full text-center text-sm font-bold text-gray-700">
-                      {`${currentValue} ${props.units ?? ''}`}
-                    </span>
-                  )}
-            </div>
+
+            {((isUsingSteps && steps) || showValue) && (
+              <div className="absolute top-full left-0 w-full flex justify-between mt-2 text-xs text-gray-600">
+                {isUsingSteps && steps
+                  ? steps.map((step, index) => (
+                      <span key={index} className="flex-1 text-center">
+                        {step.label}
+                      </span>
+                    ))
+                  : showValue && (
+                      <span className="w-full text-center text-sm font-bold text-gray-700">
+                        {`${currentValue} ${props.units ?? ''}`}
+                      </span>
+                    )}
+              </div>
+            )}
           </div>
 
           <div className="pl-1 pr-0 sm:pr-4 relative -top-4">
