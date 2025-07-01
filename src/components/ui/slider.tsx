@@ -197,13 +197,9 @@ const Slider: React.FC<SliderProps> = (props) => {
 
   return (
     <>
-      {label && (
-        <Typography variant="labelBase" className="pb-2">
-          {label}
-        </Typography>
-      )}
-      <div className="pt-3">
-        <div className="flex flex-row">
+      {label && <Typography variant="labelBase">{label}</Typography>}
+      <div>
+        <div className="flex flex-row items-center">
           <div
             id={id}
             ref={sliderRef}
@@ -221,6 +217,7 @@ const Slider: React.FC<SliderProps> = (props) => {
               className={`absolute left-4 right-4 h-2 rounded-full transform -translate-y-1/2 ${
                 isDisabled ? 'bg-gray-200' : 'bg-gray-300'
               }`}
+              style={{ top: '50%' }}
             >
               <div
                 className={`absolute top-0 left-0 h-full rounded-full ${
@@ -233,6 +230,7 @@ const Slider: React.FC<SliderProps> = (props) => {
               ref={thumbRef}
               style={{
                 left: `calc(16px + (100% - 32px) * ${percentValue / 100})`,
+                top: '50%',
                 touchAction: 'none',
               }}
               className={`absolute w-8 h-8 bg-white border-2 rounded-full shadow-sm transform -translate-y-1/2 -translate-x-1/2 ${
@@ -263,7 +261,7 @@ const Slider: React.FC<SliderProps> = (props) => {
             />
 
             {((isUsingSteps && steps) || showValue) && (
-              <div className="absolute top-full left-0 w-full flex justify-between mt-2 text-xs text-gray-600">
+              <div className="absolute top-full left-0 w-full flex justify-between text-xs text-gray-600">
                 {isUsingSteps && steps
                   ? steps.map((step, index) => (
                       <span key={index} className="flex-1 text-center">
@@ -279,7 +277,7 @@ const Slider: React.FC<SliderProps> = (props) => {
             )}
           </div>
 
-          <div className="pl-1 pr-0 sm:pr-4 relative -top-4">
+          <div className="pl-1 pr-0 sm:pr-4">
             <Button
               variant="blue"
               size="sm"
@@ -309,7 +307,7 @@ const Slider: React.FC<SliderProps> = (props) => {
               step={isUsingSteps ? 1 : step}
             />
             {enhancedModalContent}
-            <div className="flex justify-between gap-2">
+            <div className="flex justify-between gap-1">
               <Button type="button" variant="outline" onClick={closeModal}>
                 Close
               </Button>
