@@ -10,7 +10,7 @@ import StyledLink from '../ui/styled-link';
 import { useModal } from '@/src/components/ui/modal-system';
 import CopyInstructionsModalContent from './copy-instructions-modal';
 import SignaturePreview from './signature-preview';
-import { useAuthModal } from '@/src/hooks/use-auth-modal';
+import { useAuthModal } from '@/src/hooks/useAuthModal';
 import { Hr } from '../ui/hr';
 import { ChevronLeft, Edit2, Copy, Eye } from 'lucide-react';
 import { Container } from '../ui/container';

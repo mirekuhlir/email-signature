@@ -46,7 +46,7 @@ export default async function Home() {
           </p>
           {(userStatus === UserStatus.NOT_LOGGED_IN ||
             userStatus === UserStatus.PREMIUM) && (
-            <StyledLink variant="button-orange" size="xl" href="/templates">
+            <StyledLink variant="button-orange" size="xl" href="/signatures">
               Create your signature now!
             </StyledLink>
           )}
@@ -84,7 +84,11 @@ export default async function Home() {
             colors, fonts and anything else you want.
           </p>
           <div className="flex mt-6 justify-center">
-            <StyledLink variant="button-brand-blue" size="xl" href="/templates">
+            <StyledLink
+              variant="button-brand-blue"
+              size="xl"
+              href="/signatures"
+            >
               {'See all templates'}
             </StyledLink>
           </div>
@@ -319,7 +323,7 @@ export default async function Home() {
           </div>
 
           <div className="flex justify-center mt-6">
-            <StyledLink variant="button-orange" size="xl" href="/templates">
+            <StyledLink variant="button-orange" size="xl" href="/signatures">
               Try for free
             </StyledLink>
           </div>

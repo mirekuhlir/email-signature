@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import { Typography } from '@/src/components/ui/typography';
 import t from '@/src/localization/translate';
 import Modal from '../ui/modal';
@@ -19,6 +19,8 @@ import TrialBanner from '../trial/trial-banner';
 import { SignatureListItem } from './signature-list-item';
 import { getUserStatus, UserStatus } from '@/src/utils/userState';
 import { templatesSlugs } from '@/src/templates';
+import useEffectOnce from '@/src/hooks/useEffectOnce';
+import { saveTempSignature } from '../signature-detail/content-edit/utils';
 
 export const SignaturesList = (props: any) => {
   const { signatures: signaturesData, user } = props;
@@ -40,7 +42,7 @@ export const SignaturesList = (props: any) => {
 
   const userStatus = getUserStatus(user);
 
-  useEffect(() => {
+  const loadTempSignatures = useCallback(() => {
     templatesSlugs.forEach((templateSlug: string) => {
       const savedData = localStorage.getItem(templateSlug);
 
@@ -49,6 +51,10 @@ export const SignaturesList = (props: any) => {
       }
     });
   }, []);
+
+  useEffectOnce(() => {
+    loadTempSignatures();
+  });
 
   const duplicateSignature = async (signatureId: string) => {
     setIsLoading(true);
@@ -86,6 +92,15 @@ export const SignaturesList = (props: any) => {
     isTemp: boolean = false,
   ) => {
     if (userStatus === UserStatus.NOT_LOGGED_IN) {
+      const templateSlug = template.info?.templateSlug;
+
+      saveTempSignature({
+        templateSlug,
+        rows: template.rows,
+        colors: template.colors,
+        dimensions: template.dimensions,
+      });
+
       router.push(
         `/signatures/example/?template=${template.info?.templateSlug}`,
       );

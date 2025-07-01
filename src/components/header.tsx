@@ -2,7 +2,7 @@
 'use client';
 import { Button } from './ui/button';
 import { Container } from './ui/container';
-import { useAuthModal } from '@/src/hooks/use-auth-modal';
+import { useAuthModal } from '@/src/hooks/useAuthModal';
 import { ContextMenu } from './ui/context-menu';
 import StyledLink from './ui/styled-link';
 import { useRouter } from 'next/navigation';

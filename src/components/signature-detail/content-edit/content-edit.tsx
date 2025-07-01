@@ -9,11 +9,8 @@ import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
 import { ImageEditContent } from './image-edit-content';
 import { Typography } from '@/src/components/ui/typography';
 import { DeleteConfirmationModal } from '@/src/components/ui/delete-confirmation-modal';
-import Slider from '@/src/components/ui/slider';
 import { CollapsibleSection } from '@/src/components/ui/collapsible-section';
-import { getTemplateBySlug } from '@/src/templates';
 import { EditColor } from '@/src/components/ui/edit-color';
-import { Hr } from '../../ui/hr';
 import { useToast } from '@/src/components/ui/toast';
 import { Loading } from '../../ui/loading';
 import PreviewActionPanel from '../preview-action-panel';
@@ -30,6 +27,7 @@ import {
 import { LinkComponent } from './add-link';
 import { VerticalAlign } from '../column-settings/column-settings';
 import { EEditType, SliderDimensions } from '../../ui/slider-dimensions';
+import { saveTempSignature } from './utils';
 
 export const LoadingInfo = ({
   text = 'Saving. Please wait...',
@@ -433,15 +431,12 @@ export const ContentEdit = (props: any) => {
 
   const handleSave = async () => {
     if (!isSignedIn) {
-      localStorage.setItem(
+      saveTempSignature({
         templateSlug,
-        JSON.stringify({
-          rows,
-          colors,
-          createdAt: new Date().toISOString(),
-          info: getTemplateBySlug(templateSlug)?.info,
-        }),
-      );
+        rows,
+        colors,
+        dimensions,
+      });
       setContentEdit({
         editPath: null,
       });
@@ -449,12 +444,10 @@ export const ContentEdit = (props: any) => {
       setIsSavingSignature(true);
 
       try {
-        // Save both content and column (which includes column style)
         await saveSignatureContentRow(
           signatureId,
           `${contentPathToEdit}.content`,
         );
-        await saveSignatureContentRow(signatureId, columnPath);
         setContentEdit({
           editPath: null,
         });

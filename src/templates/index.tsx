@@ -31,9 +31,14 @@ export const getTemplates = () => {
 };
 
 export const getTemplateBySlug = (slug: string) => {
-  return getTemplates().find(
+  const template = getTemplates().find(
     (template) => template?.info?.templateSlug === slug,
   );
+  if (!template) {
+    return signature_empty_one_columns();
+  }
+
+  return template;
 };
 
 export const templatesSlugs = [
