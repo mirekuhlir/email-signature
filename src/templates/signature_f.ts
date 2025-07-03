@@ -2,8 +2,8 @@ import { generateRandomId } from "../utils/generateRandomId";
 
 const getLocalizedContent = () => {
     return {
-        name1: "ROBERT ",
-        name2: "STANFORD",
+        name: "ROBERT ",
+        surname: "STANFORD",
         title: "Lawyer",
         phonePrefix: "P: ",
         phoneValue: "+1 123 456 7890",
@@ -12,8 +12,8 @@ const getLocalizedContent = () => {
         websitePrefix: "W: ",
         websiteValue: "www.example.com",
         websiteLink: "https://www.example.com",
-        addressValue: "3943 Lyon Avenue, Worcester",
-        addressValue2: "Massachusetts 01608",
+        address1: "3943 Lyon Avenue, Worcester",
+        address2: "Massachusetts 01608",
         disclaimer:
             "This email is intended only for the recipient and may contain confidential information.\nIf you are not the intended recipient, please notify the sender and delete this email.",
     };
@@ -126,7 +126,7 @@ export const signature_f = () => {
                                     "components": [
                                         {
                                             "id": generateRandomId(),
-                                            "text": localizedContent.name1,
+                                            "text": localizedContent.name,
                                             "type": "text",
                                             "color": "rgb(94, 94, 94)",
                                             "width": "0px",
@@ -156,7 +156,7 @@ export const signature_f = () => {
                                         },
                                         {
                                             "id": generateRandomId(),
-                                            "text": localizedContent.name2,
+                                            "text": localizedContent.surname,
                                             "type": "customValue",
                                             "color": "rgb(41, 41, 41)",
                                             "fontSize": "15px",
@@ -377,8 +377,7 @@ export const signature_f = () => {
                                     "components": [
                                         {
                                             "id": generateRandomId(),
-                                            "text":
-                                                localizedContent.addressValue,
+                                            "text": localizedContent.address1,
                                             "color": "rgb(94, 94, 94)",
                                             "width": "0px",
                                             "height": "0px",
@@ -415,8 +414,7 @@ export const signature_f = () => {
                                     "components": [
                                         {
                                             "id": generateRandomId(),
-                                            "text":
-                                                localizedContent.addressValue2,
+                                            "text": localizedContent.address2,
                                             "color": "rgb(94, 94, 94)",
                                             "width": "0px",
                                             "height": "0px",

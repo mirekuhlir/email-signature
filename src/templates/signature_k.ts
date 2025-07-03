@@ -388,8 +388,10 @@ export const signature_k = () => {
                                         },
                                         {
                                             "id": "l8izwye",
-                                            "link": "https://www.youtube.com",
-                                            "text": "YouTube",
+                                            "link":
+                                                localizedContent.youtubeLink,
+                                            "text":
+                                                localizedContent.youtubeText,
                                             "type": "websiteLink",
                                             "color": "rgb(0, 0, 0)",
                                             "fontSize": "16px",

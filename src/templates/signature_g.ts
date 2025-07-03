@@ -9,7 +9,7 @@ const getLocalizedContent = () => {
         emailPrefix: "email: ",
         emailValue: "example@email.com",
         addressPrefix: "address: ",
-        addressValue: "742 Desert Sun Blvd, Phoenix, AZ",
+        address1: "742 Desert Sun Blvd, Phoenix, AZ",
         availablePrefix: "available: ",
         availableValue: "Mon-Fri, 8 AM - 5 PM",
     };
@@ -235,7 +235,7 @@ export const signature_g = () => {
                                         },
                                         {
                                             id: generateRandomId(),
-                                            text: localizedContent.addressValue,
+                                            text: localizedContent.address1,
                                             type: "text",
                                             color: "rgb(0, 0, 0)",
                                             fontSize: "14px",

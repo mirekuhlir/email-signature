@@ -11,7 +11,7 @@ const getLocalizedContent = () => {
         websitePrefix: "🌐 ",
         websiteValue: "example.com",
         company: "Nexus Logistics",
-        address: "500 Express Way, Suite B, Rapid City, RC 99001",
+        address1: "500 Express Way, Suite B, Rapid City, RC 99001",
         slogan: "Keeping Your Goods Moving, On Time.",
     };
 };
@@ -319,7 +319,7 @@ export const signature_j = () => {
                                     "components": [
                                         {
                                             "id": generateRandomId(),
-                                            "text": localizedContent.address,
+                                            "text": localizedContent.address1,
                                             "color": "rgb(55, 121, 166)",
                                             "width": "0px",
                                             "height": "0px",
