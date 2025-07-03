@@ -170,15 +170,18 @@ export const SignatureDetail = (props: any) => {
           {!contentEdit.editPath &&
             !contentEdit.addPath &&
             !contentEdit.columnPath && (
-              <div className="mb-8 mt-4 flex justify-end sm:justify-start">
-                <Button
-                  size="lg"
-                  onClick={() => setIsEdit(false)}
-                  variant="blue"
-                >
-                  <Eye size={20} className="mr-2" /> View
-                </Button>
-              </div>
+              <>
+                <div className="mb-2 sm:mb-8 flex justify-end sm:justify-start">
+                  <Button
+                    size="lg"
+                    onClick={() => setIsEdit(false)}
+                    variant="blue"
+                  >
+                    <Eye size={20} className="mr-2" /> View
+                  </Button>
+                </div>
+                <Hr className="mb-4" />
+              </>
             )}
           <EmailTemplateEdit
             isSignedIn={isSignedIn}
