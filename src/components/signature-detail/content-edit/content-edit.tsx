@@ -72,7 +72,13 @@ const getContentTypeName = (type: ContentType): string => {
 };
 
 export const ContentEdit = (props: any) => {
-  const { contentPathToEdit, signatureId, isSignedIn, templateSlug } = props;
+  const {
+    contentPathToEdit,
+    signatureId,
+    isSignedIn,
+    templateSlug,
+    tempSignatureCreatedAt,
+  } = props;
   const { toast } = useToast();
   const { validate, errors } = useValidate();
 
@@ -432,6 +438,7 @@ export const ContentEdit = (props: any) => {
   const handleSave = async () => {
     if (!isSignedIn) {
       saveTempSignature({
+        createdAt: tempSignatureCreatedAt,
         templateSlug,
         rows,
         colors,

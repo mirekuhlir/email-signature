@@ -28,6 +28,7 @@ const moveRowWithWrapping = async (
   set: (partial: Partial<StoreState>) => void,
   userStatus: UserStatus,
   templateSlug: string,
+  tempSignatureCreatedAt?: string,
 ) => {
   const { addToast } = useToastStore.getState();
   const cloneRows = cloneDeep(state.rows);
@@ -104,6 +105,7 @@ const moveRowWithWrapping = async (
   } else {
     saveTempSignature({
       templateSlug: templateSlug,
+      createdAt: tempSignatureCreatedAt || "",
       rows: cloneRows,
       colors: state.colors,
       dimensions: state.dimensions,
@@ -159,12 +161,14 @@ export interface StoreState {
     signatureId: string,
     userStatus: UserStatus,
     templateSlug: string,
+    tempSignatureCreatedAt?: string,
   ) => Promise<void>;
   moveRowDown: (
     path: string,
     signatureId: string,
     userStatus: UserStatus,
     templateSlug: string,
+    tempSignatureCreatedAt?: string,
   ) => Promise<void>;
   toggleDarkMode: () => void;
 }
@@ -409,6 +413,7 @@ export const useSignatureStore = create<StoreState>((set, get) => {
       signatureId: string,
       userStatus: UserStatus,
       templateSlug: string,
+      tempSignatureCreatedAt?: string,
     ) => {
       await moveRowWithWrapping(
         path,
@@ -418,6 +423,7 @@ export const useSignatureStore = create<StoreState>((set, get) => {
         set,
         userStatus,
         templateSlug,
+        tempSignatureCreatedAt,
       );
     },
 
@@ -426,6 +432,7 @@ export const useSignatureStore = create<StoreState>((set, get) => {
       signatureId: string,
       userStatus: UserStatus,
       templateSlug: string,
+      tempSignatureCreatedAt?: string,
     ) => {
       await moveRowWithWrapping(
         path,
@@ -435,6 +442,7 @@ export const useSignatureStore = create<StoreState>((set, get) => {
         set,
         userStatus,
         templateSlug,
+        tempSignatureCreatedAt,
       );
     },
 

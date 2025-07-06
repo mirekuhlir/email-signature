@@ -40,7 +40,13 @@ export const VerticalAlign = (props: any) => {
 };
 
 export const ColumnSettings = (props: any) => {
-  const { columnPathToEdit, signatureId, isSignedIn, templateSlug } = props;
+  const {
+    columnPathToEdit,
+    signatureId,
+    isSignedIn,
+    templateSlug,
+    tempSignatureCreatedAt,
+  } = props;
   const { toast } = useToast();
 
   const { rows, setContent, saveSignatureContentRow, colors, dimensions } =
@@ -274,6 +280,7 @@ export const ColumnSettings = (props: any) => {
   const handleSave = async () => {
     if (!isSignedIn) {
       saveTempSignature({
+        createdAt: tempSignatureCreatedAt,
         templateSlug: templateSlug,
         rows: rows,
         colors: colors,

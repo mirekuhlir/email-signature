@@ -20,7 +20,13 @@ import { MEDIA_QUERIES } from '@/src/constants/mediaQueries';
 import { getUserStatus, UserStatus } from '@/src/utils/userState';
 
 export const SignatureDetail = (props: any) => {
-  const { signatureDetail, isSignedIn, templateSlug, user } = props;
+  const {
+    signatureDetail,
+    isSignedIn,
+    templateSlug,
+    user,
+    tempSignatureCreatedAt,
+  } = props;
 
   const { rows, initSignature } = useSignatureStore();
   const { contentEdit, resetContentEdit } = useContentEditStore();
@@ -39,7 +45,7 @@ export const SignatureDetail = (props: any) => {
 
   useEffect(() => {
     const tempSignature = JSON.parse(
-      localStorage.getItem(templateSlug) || '{}',
+      localStorage.getItem(`${templateSlug}-${tempSignatureCreatedAt}`) || '{}',
     );
 
     // Load signature if template slug from url matches the template slug from local storage
@@ -188,6 +194,7 @@ export const SignatureDetail = (props: any) => {
             templateSlug={templateSlug}
             rows={rows}
             userStatus={userStatus}
+            tempSignatureCreatedAt={tempSignatureCreatedAt}
           />
         </Container>
       )}

@@ -21,6 +21,7 @@ export default async function Signature(props: Props) {
   const { id } = await params;
   const awaitedSearchParams = await searchParams;
   const templateSlug = awaitedSearchParams['template'];
+  const tempSignatureCreatedAt = awaitedSearchParams['createdAt'];
 
   const supabase = await createClient();
 
@@ -53,6 +54,7 @@ export default async function Signature(props: Props) {
             isSignedIn={isSignedIn}
             templateSlug={templateSlug}
             userStatus={userStatus}
+            tempSignatureCreatedAt={tempSignatureCreatedAt}
           />
         </main>
       </div>
@@ -86,6 +88,7 @@ export default async function Signature(props: Props) {
               colors,
             }}
             userStatus={userStatus}
+            tempSignatureCreatedAt={''}
           />
         </main>
       </div>

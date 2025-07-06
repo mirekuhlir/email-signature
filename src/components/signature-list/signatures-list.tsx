@@ -18,9 +18,11 @@ import TrialBanner from '../trial/trial-banner';
 
 import { SignatureListItem } from './signature-list-item';
 import { getUserStatus, UserStatus } from '@/src/utils/userState';
-import { templatesSlugs } from '@/src/templates';
 import useEffectOnce from '@/src/hooks/useEffectOnce';
-import { saveTempSignature } from '../signature-detail/content-edit/utils';
+import {
+  deleteTempSignature,
+  saveTempSignature,
+} from '../signature-detail/content-edit/utils';
 
 export const SignaturesList = (props: any) => {
   const { signatures: signaturesData, user } = props;
@@ -43,8 +45,10 @@ export const SignaturesList = (props: any) => {
   const userStatus = getUserStatus(user);
 
   const loadTempSignatures = useCallback(() => {
-    templatesSlugs.forEach((templateSlug: string) => {
-      const savedData = localStorage.getItem(templateSlug);
+    const names = JSON.parse(localStorage.getItem('templates-names') || '[]');
+
+    names.forEach((name: string) => {
+      const savedData = localStorage.getItem(name);
 
       if (savedData) {
         setTempSignatures((prev: any) => [...prev, JSON.parse(savedData)]);
@@ -94,7 +98,10 @@ export const SignaturesList = (props: any) => {
     if (userStatus === UserStatus.NOT_LOGGED_IN) {
       const templateSlug = template.info?.templateSlug;
 
+      const createdAt = new Date().toISOString();
+
       saveTempSignature({
+        createdAt,
         templateSlug,
         rows: template.rows,
         colors: template.colors,
@@ -102,7 +109,7 @@ export const SignaturesList = (props: any) => {
       });
 
       router.push(
-        `/signatures/example/?template=${template.info?.templateSlug}`,
+        `/signatures/example/?template=${template.info?.templateSlug}&createdAt=${createdAt}`,
       );
       return;
     }
@@ -190,10 +197,11 @@ export const SignaturesList = (props: any) => {
 
         {tempSignatures?.map((tempSignature: any) => (
           <SignatureListItem
-            key={tempSignature.info?.templateSlug}
+            key={`${tempSignature.info?.templateSlug}-${tempSignature.createdAt}`}
             rows={tempSignature.rows}
             isLoading={isLoading}
-            createdAt={tempSignature.created_at}
+            createdAt={tempSignature.createdAt}
+            updatedAt={tempSignature.updatedAt}
             onDelete={() => {
               setTempSignatureToDelete(tempSignature);
               setIsDeleteModalOpen(true);
@@ -201,7 +209,7 @@ export const SignaturesList = (props: any) => {
             onEdit={() => {
               if (userStatus === UserStatus.NOT_LOGGED_IN) {
                 router.push(
-                  `/signatures/example/?template=${tempSignature.info?.templateSlug}`,
+                  `/signatures/example/?template=${tempSignature.info?.templateSlug}&createdAt=${tempSignature.createdAt}`,
                 );
               } else {
                 createSignature(tempSignature, userStatus, true);
@@ -295,12 +303,11 @@ export const SignaturesList = (props: any) => {
                 const newTempSignatures = tempSignatures.filter(
                   (signature: any) =>
                     signature.info?.templateSlug !==
-                    tempSignatureToDelete.info?.templateSlug,
+                      tempSignatureToDelete.info?.templateSlug ||
+                    signature.createdAt !== tempSignatureToDelete.createdAt,
                 );
                 setTempSignatures(newTempSignatures);
-                localStorage.removeItem(
-                  tempSignatureToDelete.info?.templateSlug,
-                );
+                deleteTempSignature(tempSignatureToDelete);
                 setIsDeleteModalOpen(false);
                 setTempSignatureToDelete(null);
               }

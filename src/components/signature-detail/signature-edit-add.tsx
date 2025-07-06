@@ -43,7 +43,8 @@ function isColorDark(colorString: string): boolean {
 }
 
 export const EmailTemplateEdit = (props: any) => {
-  const { rows, isSignedIn, templateSlug, userStatus } = props;
+  const { rows, isSignedIn, templateSlug, userStatus, tempSignatureCreatedAt } =
+    props;
   const { setContentEdit, contentEdit } = useContentEditStore();
   const { moveRowUp, moveRowDown, isSavingOrder, savingOrderPath, deleteRow } =
     useSignatureStore();
@@ -331,6 +332,7 @@ export const EmailTemplateEdit = (props: any) => {
                                     signatureId as string,
                                     userStatus,
                                     templateSlug,
+                                    tempSignatureCreatedAt,
                                   );
                                 }}
                               >
@@ -345,6 +347,7 @@ export const EmailTemplateEdit = (props: any) => {
                                     signatureId as string,
                                     userStatus,
                                     templateSlug,
+                                    tempSignatureCreatedAt,
                                   );
                                 }}
                               >
@@ -470,6 +473,7 @@ export const EmailTemplateEdit = (props: any) => {
           contentPathToEdit={contentEdit.editPath}
           key={`edit-${contentEdit.editPath}`}
           signatureId={signatureId}
+          tempSignatureCreatedAt={tempSignatureCreatedAt}
         />
       )}
 
@@ -480,6 +484,7 @@ export const EmailTemplateEdit = (props: any) => {
           columnPathToEdit={contentEdit.columnPath}
           key={`settings-${contentEdit.columnPath}`}
           signatureId={signatureId}
+          tempSignatureCreatedAt={tempSignatureCreatedAt}
         />
       )}
 
