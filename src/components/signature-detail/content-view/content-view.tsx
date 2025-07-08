@@ -101,9 +101,6 @@ export const getContentView = (content?: any, isMobilePreview?: boolean) => {
             lineHeight,
             textDecoration,
             textAlign,
-            wordBreak: 'break-word' as React.CSSProperties['wordBreak'],
-            wordWrap: 'break-word',
-            overflowWrap: 'break-word',
           }}
         >
           {formattedText}
@@ -150,7 +147,6 @@ export const getContentView = (content?: any, isMobilePreview?: boolean) => {
             lineHeight,
             textDecoration,
             textAlign,
-            whiteSpace: isMobilePreview ? 'nowrap' : 'break-spaces',
           };
 
           if (!text) {
@@ -165,7 +161,8 @@ export const getContentView = (content?: any, isMobilePreview?: boolean) => {
                 target="_blank"
                 style={{
                   ...style,
-                  wordBreak: 'break-all',
+                  wordBreak: isMobilePreview ? 'break-all' : 'unset',
+                  whiteSpace: isMobilePreview ? 'unset' : 'nowrap',
                 }}
                 rel="noreferrer"
               >
@@ -222,7 +219,6 @@ export const getContentView = (content?: any, isMobilePreview?: boolean) => {
             lineHeight,
             textDecoration,
             textAlign,
-            whiteSpace: isMobilePreview ? 'nowrap' : 'break-spaces',
           };
 
           if (!text) {
@@ -237,7 +233,8 @@ export const getContentView = (content?: any, isMobilePreview?: boolean) => {
                 target="_blank"
                 style={{
                   ...style,
-                  wordBreak: 'break-all',
+                  wordBreak: isMobilePreview ? 'break-all' : 'unset',
+                  whiteSpace: isMobilePreview ? 'unset' : 'nowrap',
                 }}
                 rel="noreferrer"
               >
@@ -295,7 +292,6 @@ export const getContentView = (content?: any, isMobilePreview?: boolean) => {
             lineHeight,
             textDecoration,
             textAlign,
-            whiteSpace: isMobilePreview ? 'nowrap' : 'break-spaces',
           };
 
           if (!text) {
@@ -316,7 +312,8 @@ export const getContentView = (content?: any, isMobilePreview?: boolean) => {
                 target="_blank"
                 style={{
                   ...style,
-                  wordBreak: 'break-all',
+                  wordBreak: isMobilePreview ? 'break-all' : 'unset',
+                  whiteSpace: isMobilePreview ? 'unset' : 'nowrap',
                 }}
                 rel="noreferrer"
               >
@@ -373,7 +370,6 @@ export const getContentView = (content?: any, isMobilePreview?: boolean) => {
             lineHeight,
             textDecoration,
             textAlign,
-            whiteSpace: isMobilePreview ? 'nowrap' : 'break-spaces',
           };
 
           if (!text) {
@@ -381,7 +377,14 @@ export const getContentView = (content?: any, isMobilePreview?: boolean) => {
           }
 
           return (
-            <span key={id} style={style}>
+            <span
+              key={id}
+              style={{
+                ...style,
+                wordBreak: isMobilePreview ? 'break-all' : 'unset',
+                whiteSpace: isMobilePreview ? 'unset' : 'nowrap',
+              }}
+            >
               {formatTextWithLineBreaks(text)}
             </span>
           );
