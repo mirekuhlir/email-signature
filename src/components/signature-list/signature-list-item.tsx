@@ -37,7 +37,7 @@ export const SignatureListItem = (props: SignatureListItemProps) => {
   return (
     <div>
       <div className="flex flex-col py-4">
-        <EmailTemplateView rows={rows} />
+        <EmailTemplateView rows={rows} isMobilePreview={true} />
         <div className="flex justify-between bg-gray-200 mb-6 p-3 rounded-md mt-4 w-full sm:w-1/2">
           <div className="flex flex-col justify-center">
             {updatedAt && (

@@ -161,7 +161,7 @@ export const getContentView = (content?: any, isMobilePreview?: boolean) => {
                 target="_blank"
                 style={{
                   ...style,
-                  wordBreak: isMobilePreview ? 'break-all' : 'unset',
+                  wordBreak: isMobilePreview ? 'break-all' : 'normal',
                   whiteSpace: isMobilePreview ? 'unset' : 'nowrap',
                 }}
                 rel="noreferrer"
