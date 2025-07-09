@@ -2,7 +2,7 @@
 import { useToastStore } from "@/src/components/ui/toast";
 import { UserStatus } from "@/src/utils/userState";
 
-export const handleCopy = async (userStatus: UserStatus) => {
+export const copySignatureToClipboard = async (userStatus: UserStatus) => {
   const signatureElement = document.getElementById(
     "email-signature-light-for-copy",
   );

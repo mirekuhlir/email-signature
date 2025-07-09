@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useSignatureStore } from '@/src/store/content-edit-add-store';
 import { Button } from '@/src/components/ui/button';
-import { handleCopy } from './content-view/utils';
+import { copySignatureToClipboard } from './content-view/utils';
 import { EmailTemplateEdit } from './signature-edit-add';
 import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
 import StyledLink from '../ui/styled-link';
@@ -96,12 +96,11 @@ export const SignatureDetail = (props: any) => {
     });
   };
 
-  const isPreview =
-    !contentEdit.editPath && !contentEdit.columnPath && !contentEdit.addPath;
+  const isPreview = !isEdit;
 
   return (
     <div
-      className={`pb-8 ${contentEdit.editPath || contentEdit.columnPath ? 'pt-6' : 'pt-20'}`}
+      className={`pb-12 ${contentEdit.editPath || contentEdit.columnPath ? 'pt-6' : 'pt-20'}`}
     >
       <Container>
         {isPreview && (
@@ -115,8 +114,18 @@ export const SignatureDetail = (props: any) => {
                 <ChevronLeft size={23} />
                 Back to My signatures
               </StyledLink>
-              <Hr className="mt-4 mb-2 sm:mb-8 sm:mt-4" />
+              <Hr className="mt-4 mb-4 sm:mb-4 sm:mt-4" />
             </>
+          </>
+        )}
+        {!isEdit && (
+          <>
+            <div className="flex justify-end sm:justify-start">
+              <Button size="lg" onClick={() => setIsEdit(true)}>
+                <Edit2 size={18} className="mr-2" /> Edit
+              </Button>
+            </div>
+            <Hr className="mt-4 mb-2 sm:mb-8 sm:mt-4" />
           </>
         )}
       </Container>
@@ -141,13 +150,13 @@ export const SignatureDetail = (props: any) => {
 
           <Container>
             {!contentEdit.editPath && (
-              <div className="mt-0 sm:mt-4 flex justify-center sm:justify-start">
+              <div className="mt-0 sm:mt-4 flex justify-end sm:justify-start">
                 <Button
                   size="lg"
                   variant="brandBlue"
                   onClick={() => {
                     if (isSignedIn) {
-                      handleCopy(userStatus);
+                      copySignatureToClipboard(userStatus);
                       showCopyInstructionsModal();
                     } else {
                       showAuthModal({
@@ -160,11 +169,6 @@ export const SignatureDetail = (props: any) => {
                 >
                   <Copy size={18} className="mr-2" /> Use signature
                 </Button>
-                <div className="ml-6">
-                  <Button size="lg" onClick={() => setIsEdit(true)}>
-                    <Edit2 size={18} className="mr-2" /> Edit
-                  </Button>
-                </div>
               </div>
             )}
           </Container>
