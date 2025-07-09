@@ -1,10 +1,17 @@
+'use client';
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Fragment } from 'react';
 import { getContentView } from './content-view';
 import { getWidthHeightStyle } from './utils';
+import { useMediaQuery } from '@/src/hooks/useMediaQuery';
+import { MEDIA_QUERIES } from '@/src/constants/mediaQueries';
 
 export const EmailTemplateView = (props: any) => {
   const { rows, isMobilePreview } = props;
+
+  const isMobile = useMediaQuery(MEDIA_QUERIES.MOBILE);
+
+  const isMobileView = isMobilePreview || isMobile;
 
   const renderColumn = (column: any) => {
     return (
@@ -72,7 +79,7 @@ export const EmailTemplateView = (props: any) => {
         );
       }
 
-      const content = getContentView(row?.content, isMobilePreview);
+      const content = getContentView(row?.content, isMobileView);
       const padding = row.content.components[0].padding;
       const backgroundColor = row.content.components[0].backgroundColor;
       const borderRadius = row.content.components[0].borderRadius;

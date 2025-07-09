@@ -93,6 +93,8 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
   const [showIconSelector, setShowIconSelector] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
+  const isAlreadyFocused = useRef(false);
+
   useEffect(() => {
     if (content) {
       setEditText(content.text ?? '');
@@ -110,12 +112,17 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
   }, [content]);
 
   useEffect(() => {
-    if (textareaRef.current && isAutoFocus) {
+    if (!content.text) {
+      return;
+    }
+
+    if (textareaRef.current && isAutoFocus && !isAlreadyFocused.current) {
       textareaRef.current.focus();
       const length = textareaRef.current.value.length;
       textareaRef.current.setSelectionRange(length, length);
+      isAlreadyFocused.current = true;
     }
-  }, [isAutoFocus]);
+  }, [content.text, isAutoFocus]);
 
   const onChangeContent = (updated: any) => {
     const editContent = {
