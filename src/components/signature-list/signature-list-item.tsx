@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
+import { useRef } from 'react';
 import { Typography } from '@/src/components/ui/typography';
 import t from '@/src/localization/translate';
 import { Button } from '@/src/components/ui/button';
@@ -34,10 +35,18 @@ export const SignatureListItem = (props: SignatureListItemProps) => {
     signatureCount,
   } = props;
 
+  const autoScaleRef = useRef<HTMLDivElement>(null);
+
   return (
     <div>
-      <div className="flex flex-col py-4">
-        <EmailTemplateView rows={rows} isMobilePreview={true} />
+      <div ref={autoScaleRef} className="flex flex-col py-4">
+        <EmailTemplateView
+          rows={rows}
+          enableAutoScale={true}
+          autoScaleContainerRef={
+            autoScaleRef as React.RefObject<HTMLElement | null>
+          }
+        />
         <div className="flex justify-between bg-gray-200 mb-6 p-3 rounded-md mt-4 w-full sm:w-1/2">
           <div className="flex flex-col justify-center">
             {updatedAt && (
