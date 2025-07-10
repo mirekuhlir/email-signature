@@ -16,7 +16,7 @@ const formatTextWithLineBreaks = (text?: string) => {
     ));
 };
 
-export const getContentView = (content?: any, isMobilePreview?: boolean) => {
+export const getContentView = (content?: any) => {
   if (content?.type == ContentType.IMAGE) {
     const { components } = content;
 
@@ -161,8 +161,6 @@ export const getContentView = (content?: any, isMobilePreview?: boolean) => {
                 target="_blank"
                 style={{
                   ...style,
-                  wordBreak: isMobilePreview ? 'break-all' : 'normal',
-                  whiteSpace: isMobilePreview ? 'unset' : 'nowrap',
                 }}
                 rel="noreferrer"
               >
@@ -233,8 +231,6 @@ export const getContentView = (content?: any, isMobilePreview?: boolean) => {
                 target="_blank"
                 style={{
                   ...style,
-                  wordBreak: isMobilePreview ? 'break-all' : 'unset',
-                  whiteSpace: isMobilePreview ? 'unset' : 'nowrap',
                 }}
                 rel="noreferrer"
               >
@@ -312,8 +308,6 @@ export const getContentView = (content?: any, isMobilePreview?: boolean) => {
                 target="_blank"
                 style={{
                   ...style,
-                  wordBreak: isMobilePreview ? 'break-all' : 'unset',
-                  whiteSpace: isMobilePreview ? 'unset' : 'nowrap',
                 }}
                 rel="noreferrer"
               >
@@ -381,8 +375,6 @@ export const getContentView = (content?: any, isMobilePreview?: boolean) => {
               key={id}
               style={{
                 ...style,
-                wordBreak: isMobilePreview ? 'break-all' : 'unset',
-                whiteSpace: isMobilePreview ? 'unset' : 'nowrap',
               }}
             >
               {formatTextWithLineBreaks(text)}

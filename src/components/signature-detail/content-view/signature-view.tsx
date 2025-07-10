@@ -5,7 +5,7 @@ import { getContentView } from './content-view';
 import { getWidthHeightStyle } from './utils';
 
 export const EmailTemplateView = (props: any) => {
-  const { rows, isMobilePreview } = props;
+  const { rows } = props;
 
   const renderColumn = (column: any) => {
     return (
@@ -73,7 +73,7 @@ export const EmailTemplateView = (props: any) => {
         );
       }
 
-      const content = getContentView(row?.content, isMobilePreview);
+      const content = getContentView(row?.content);
       const padding = row.content.components[0].padding;
       const backgroundColor = row.content.components[0].backgroundColor;
       const borderRadius = row.content.components[0].borderRadius;
@@ -118,6 +118,7 @@ export const EmailTemplateView = (props: any) => {
                 borderTopStyle: borderTopStyle,
                 width: width,
                 height: height,
+                whiteSpace: 'nowrap',
               }}
             >
               {content}

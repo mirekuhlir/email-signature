@@ -204,7 +204,7 @@ export const EmailTemplateEdit = (props: any) => {
         );
       }
 
-      const content = getContentView(row?.content, isMobile);
+      const content = getContentView(row?.content);
 
       const padding = row?.content?.components[0]?.padding;
       const backgroundColor = row?.content?.components[0]?.backgroundColor;
