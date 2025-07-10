@@ -3,9 +3,22 @@
 import { Fragment } from 'react';
 import { getContentView } from './content-view';
 import { getWidthHeightStyle } from './utils';
+import { AutoScaleContainer } from '../../ui/auto-scale-container';
 
-export const EmailTemplateView = (props: any) => {
-  const { rows } = props;
+interface EmailTemplateViewProps {
+  rows: any;
+  enableAutoScale?: boolean;
+  autoScaleMargin?: number;
+  autoScaleContainerRef?: React.RefObject<HTMLElement | null>;
+}
+
+export const EmailTemplateView = (props: EmailTemplateViewProps) => {
+  const {
+    rows,
+    enableAutoScale = false,
+    autoScaleMargin = 32,
+    autoScaleContainerRef,
+  } = props;
 
   const renderColumn = (column: any) => {
     return (
@@ -137,7 +150,7 @@ export const EmailTemplateView = (props: any) => {
     });
   };
 
-  return (
+  const tableContent = (
     <table border={0} cellPadding="0" cellSpacing="0" role="presentation">
       <tbody>
         <tr>
@@ -146,4 +159,17 @@ export const EmailTemplateView = (props: any) => {
       </tbody>
     </table>
   );
+
+  if (enableAutoScale) {
+    return (
+      <AutoScaleContainer
+        margin={autoScaleMargin}
+        containerRef={autoScaleContainerRef}
+      >
+        {tableContent}
+      </AutoScaleContainer>
+    );
+  }
+
+  return tableContent;
 };

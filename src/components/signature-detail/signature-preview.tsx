@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { useSignatureStore } from '@/src/store/content-edit-add-store';
 import { EmailTemplateView } from './content-view/signature-view';
 import { TitleSwitch } from '../ui/title-switch';
@@ -11,6 +11,7 @@ import { MAX_IMAGE_WIDTH } from '@/supabase/functions/_shared/const';
 
 export const SignaturePreview: React.FC = () => {
   const isDesktopScreen = useMediaQuery(MEDIA_QUERIES.MD);
+  const previewContainerRef = useRef<HTMLDivElement>(null);
 
   const {
     rows,
@@ -113,7 +114,10 @@ export const SignaturePreview: React.FC = () => {
           </div>
         </Container>
 
-        <div className={`${outerDivClasses} w-full max-w-6xl mx-auto`}>
+        <div
+          className={`${outerDivClasses} w-full max-w-6xl mx-auto`}
+          ref={previewContainerRef}
+        >
           <div
             className={`${wrapperDivClasses}`}
             style={{ ...mobilePreviewWidth }}
@@ -121,7 +125,8 @@ export const SignaturePreview: React.FC = () => {
             <div className={containerDivClasses}>
               <EmailTemplateView
                 rows={rowsToDisplay}
-                isMobilePreview={isMobilePreview}
+                enableAutoScale={true}
+                autoScaleContainerRef={previewContainerRef}
               />
             </div>
           </div>
