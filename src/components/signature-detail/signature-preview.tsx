@@ -113,21 +113,16 @@ export const SignaturePreview: React.FC = () => {
             </div>
           </div>
         </Container>
-
-        <div
-          className={`${outerDivClasses} w-full max-w-6xl mx-auto`}
-          ref={previewContainerRef}
-        >
-          <div
-            className={`${wrapperDivClasses}`}
-            style={{ ...mobilePreviewWidth }}
-          >
-            <div className={containerDivClasses}>
-              <EmailTemplateView
-                rows={rowsToDisplay}
-                enableAutoScale={true}
-                autoScaleContainerRef={previewContainerRef}
-              />
+        {/*       TODO - proč musí být div s overflowX: auto  anestačí ten v  EmailTemplateView - přemístit pryč z EmailTemplateView? */}
+        <div style={{ overflowX: 'auto' }}>
+          <div className={`${outerDivClasses} w-full max-w-6xl mx-auto`}>
+            <div
+              className={`${wrapperDivClasses}`}
+              style={{ ...mobilePreviewWidth }}
+            >
+              <div className={containerDivClasses}>
+                <EmailTemplateView rows={rowsToDisplay} />
+              </div>
             </div>
           </div>
         </div>

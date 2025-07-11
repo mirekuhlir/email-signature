@@ -3,22 +3,12 @@
 import { Fragment } from 'react';
 import { getContentView } from './content-view';
 import { getWidthHeightStyle } from './utils';
-import { AutoScaleContainer } from '../../ui/auto-scale-container';
-
 interface EmailTemplateViewProps {
   rows: any;
-  enableAutoScale?: boolean;
-  autoScaleMargin?: number;
-  autoScaleContainerRef?: React.RefObject<HTMLElement | null>;
 }
 
 export const EmailTemplateView = (props: EmailTemplateViewProps) => {
-  const {
-    rows,
-    enableAutoScale = false,
-    autoScaleMargin = 32,
-    autoScaleContainerRef,
-  } = props;
+  const { rows } = props;
 
   const renderColumn = (column: any) => {
     return (
@@ -131,7 +121,6 @@ export const EmailTemplateView = (props: EmailTemplateViewProps) => {
                 borderTopStyle: borderTopStyle,
                 width: width,
                 height: height,
-                whiteSpace: 'nowrap',
               }}
             >
               {content}
@@ -160,16 +149,15 @@ export const EmailTemplateView = (props: EmailTemplateViewProps) => {
     </table>
   );
 
-  if (enableAutoScale) {
-    return (
-      <AutoScaleContainer
-        margin={autoScaleMargin}
-        containerRef={autoScaleContainerRef}
-      >
-        {tableContent}
-      </AutoScaleContainer>
-    );
-  }
+  // TODO - tento pryč? a nějaká podmínk ať ot není v copy?
 
-  return tableContent;
+  return (
+    <div
+      style={{
+        overflowX: 'auto',
+      }}
+    >
+      {tableContent}
+    </div>
+  );
 };

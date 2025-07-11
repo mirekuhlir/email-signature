@@ -16,7 +16,10 @@ const formatTextWithLineBreaks = (text?: string) => {
     ));
 };
 
-export const getContentView = (content?: any) => {
+export const getContentView = (
+  content?: any,
+  isWhiteSpaceDisabled?: boolean,
+) => {
   if (content?.type == ContentType.IMAGE) {
     const { components } = content;
 
@@ -101,6 +104,7 @@ export const getContentView = (content?: any) => {
             lineHeight,
             textDecoration,
             textAlign,
+            whiteSpace: isWhiteSpaceDisabled ? 'normal' : 'nowrap',
           }}
         >
           {formattedText}
@@ -119,6 +123,7 @@ export const getContentView = (content?: any) => {
           width: '100%',
           display: 'inline-block',
           textAlign,
+          whiteSpace: 'nowrap',
         }}
       >
         {components.map((component: any) => {
@@ -189,6 +194,7 @@ export const getContentView = (content?: any) => {
           width: '100%',
           display: 'inline-block',
           textAlign,
+          whiteSpace: 'nowrap',
         }}
       >
         {components.map((component: any) => {
@@ -259,6 +265,7 @@ export const getContentView = (content?: any) => {
           width: '100%',
           display: 'inline-block',
           textAlign,
+          whiteSpace: 'nowrap',
         }}
       >
         {components.map((component: any) => {
@@ -336,6 +343,7 @@ export const getContentView = (content?: any) => {
           width: '100%',
           display: 'inline-block',
           textAlign,
+          whiteSpace: 'nowrap',
         }}
       >
         {components.map((component: any) => {
