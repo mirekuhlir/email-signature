@@ -18,6 +18,7 @@ import TrialBanner from '../trial/trial-banner';
 import { useMediaQuery } from '@/src/hooks/useMediaQuery';
 import { MEDIA_QUERIES } from '@/src/constants/mediaQueries';
 import { getUserStatus, UserStatus } from '@/src/utils/userState';
+import EditPanel from './edit-panel';
 
 export const SignatureDetail = (props: any) => {
   const {
@@ -118,16 +119,6 @@ export const SignatureDetail = (props: any) => {
             </>
           </>
         )}
-        {!isEdit && (
-          <>
-            <div className="flex justify-end sm:justify-start">
-              <Button size="lg" onClick={() => setIsEdit(true)}>
-                <Edit2 size={18} className="mr-2" /> Edit
-              </Button>
-            </div>
-            <Hr className="mt-4 mb-2 sm:mb-8 sm:mt-4" />
-          </>
-        )}
       </Container>
 
       {(contentEdit.editPath || contentEdit.columnPath) && (
@@ -147,52 +138,53 @@ export const SignatureDetail = (props: any) => {
           )}
 
           <SignaturePreview />
-
-          <Container>
-            {!contentEdit.editPath && (
-              <div className="mt-0 sm:mt-4 flex justify-end sm:justify-start">
-                <Button
-                  size="lg"
-                  variant="brandBlue"
-                  onClick={() => {
-                    if (isSignedIn) {
-                      copySignatureToClipboard(userStatus);
-                      showCopyInstructionsModal();
-                    } else {
-                      showAuthModal({
-                        title: 'Sign in to use your signature',
-                        description:
-                          'Please enter your email to sign in. Then you can also save signatures and edit them again later.',
-                      });
-                    }
-                  }}
-                >
-                  <Copy size={18} className="mr-2" /> Use signature
-                </Button>
-              </div>
-            )}
-          </Container>
         </>
       )}
 
-      {isEdit && (
+      <EditPanel>
         <Container>
-          {!contentEdit.editPath &&
-            !contentEdit.addPath &&
-            !contentEdit.columnPath && (
-              <>
-                <div className="mb-2 sm:mb-8 flex justify-end sm:justify-start">
+          <div className="flex justify-between">
+            {!isEdit && (
+              <Button
+                size="md"
+                variant="brandBlue"
+                onClick={() => {
+                  if (isSignedIn) {
+                    copySignatureToClipboard(userStatus);
+                    showCopyInstructionsModal();
+                  } else {
+                    copySignatureToClipboard(userStatus);
+                  }
+                }}
+              >
+                <Copy size={18} className="mr-2" /> Use signature
+              </Button>
+            )}
+            {!isEdit && (
+              <Button size="md" onClick={() => setIsEdit(true)}>
+                <Edit2 size={18} className="mr-2" /> Edit
+              </Button>
+            )}
+            {!contentEdit.editPath &&
+              !contentEdit.addPath &&
+              !contentEdit.columnPath &&
+              isEdit && (
+                <div className="flex w-full justify-end">
                   <Button
-                    size="lg"
+                    size="md"
                     onClick={() => setIsEdit(false)}
                     variant="blue"
                   >
                     <Eye size={20} className="mr-2" /> View
                   </Button>
                 </div>
-                <Hr className="mb-4" />
-              </>
-            )}
+              )}
+          </div>
+        </Container>
+      </EditPanel>
+
+      {isEdit && (
+        <Container>
           <EmailTemplateEdit
             isSignedIn={isSignedIn}
             templateSlug={templateSlug}
