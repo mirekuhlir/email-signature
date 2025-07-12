@@ -30,7 +30,7 @@ const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
     };
 
     const labelBaseClasses =
-      'relative inline-flex items-center h-6 w-11 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out';
+      'relative inline-flex items-center h-8 w-16 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out';
     const labelBgFocusClasses =
       'bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-500 peer-focus:ring-offset-2';
     const labelCheckedClasses = 'peer-checked:bg-blue-600';
@@ -38,8 +38,8 @@ const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
       'peer-disabled:cursor-not-allowed peer-disabled:opacity-50';
 
     const thumbBaseClasses =
-      'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out';
-    const thumbCheckedPosition = checked ? 'translate-x-5' : 'translate-x-0';
+      'pointer-events-none inline-block h-7 w-7 transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out';
+    const thumbCheckedPosition = checked ? 'translate-x-8' : 'translate-x-0';
 
     return (
       <div className={`flex items-center ${className || ''}`}>
