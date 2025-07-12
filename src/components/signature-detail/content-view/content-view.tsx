@@ -16,10 +16,7 @@ const formatTextWithLineBreaks = (text?: string) => {
     ));
 };
 
-export const getContentView = (
-  content?: any,
-  isWhiteSpaceDisabled?: boolean,
-) => {
+export const getContentView = (content?: any) => {
   if (content?.type == ContentType.IMAGE) {
     const { components } = content;
 
@@ -87,6 +84,7 @@ export const getContentView = (
         lineHeight,
         textDecoration,
         textAlign,
+        whiteSpace,
       } = component;
 
       const formattedText = formatTextWithLineBreaks(text);
@@ -104,7 +102,7 @@ export const getContentView = (
             lineHeight,
             textDecoration,
             textAlign,
-            whiteSpace: isWhiteSpaceDisabled ? 'normal' : 'nowrap',
+            whiteSpace,
           }}
         >
           {formattedText}
@@ -116,6 +114,7 @@ export const getContentView = (
   if (content?.type === ContentType.EMAIL) {
     const { components } = content;
     const textAlign = components[1].textAlign;
+    const whiteSpace = components[1].whiteSpace;
 
     return (
       <span
@@ -123,7 +122,7 @@ export const getContentView = (
           width: '100%',
           display: 'inline-block',
           textAlign,
-          whiteSpace: 'nowrap',
+          whiteSpace,
         }}
       >
         {components.map((component: any) => {
@@ -187,14 +186,14 @@ export const getContentView = (
   if (content?.type === ContentType.PHONE) {
     const { components } = content;
     const textAlign = components[1].textAlign;
-
+    const whiteSpace = components[1].whiteSpace;
     return (
       <span
         style={{
           width: '100%',
           display: 'inline-block',
           textAlign,
-          whiteSpace: 'nowrap',
+          whiteSpace,
         }}
       >
         {components.map((component: any) => {
@@ -258,14 +257,14 @@ export const getContentView = (
   if (content?.type === ContentType.WEBSITE) {
     const { components } = content;
     const textAlign = components[1].textAlign;
-
+    const whiteSpace = components[1].whiteSpace;
     return (
       <span
         style={{
           width: '100%',
           display: 'inline-block',
           textAlign,
-          whiteSpace: 'nowrap',
+          whiteSpace,
         }}
       >
         {components.map((component: any) => {
@@ -295,6 +294,7 @@ export const getContentView = (
             lineHeight,
             textDecoration,
             textAlign,
+            whiteSpace,
           };
 
           if (!text) {
@@ -336,14 +336,14 @@ export const getContentView = (
   if (content?.type === ContentType.CUSTOM_VALUE) {
     const { components } = content;
     const textAlign = components[1].textAlign;
-
+    const whiteSpace = components[1].whiteSpace;
     return (
       <span
         style={{
           width: '100%',
           display: 'inline-block',
           textAlign,
-          whiteSpace: 'nowrap',
+          whiteSpace,
         }}
       >
         {components.map((component: any) => {

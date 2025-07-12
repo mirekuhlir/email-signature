@@ -204,8 +204,7 @@ export const EmailTemplateEdit = (props: any) => {
         );
       }
 
-      //TODO: nějaká hodnota pro whiteSpace
-      const content = getContentView(row?.content, true);
+      const content = getContentView(row?.content);
 
       const padding = row?.content?.components[0]?.padding;
       const backgroundColor = row?.content?.components[0]?.backgroundColor;

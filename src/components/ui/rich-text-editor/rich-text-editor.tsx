@@ -6,6 +6,7 @@ import { FONTS, FONT_SIZES, LINE_HEIGHTS, LETTER_SPACINGS } from './fonts';
 import { EditColor } from '../edit-color';
 import { Typography } from '../typography';
 import { IconSelector } from './icon-selector';
+import { Switch } from '../switch';
 
 export enum LayoutType {
   TEXT = 'text',
@@ -90,6 +91,9 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
   const [editLetterSpacing, setEditLetterSpacing] = useState(
     content?.letterSpacing ?? '0px',
   );
+  const [editWhiteSpace, setEditWhiteSpace] = useState(
+    content?.whiteSpace ?? 'nowrap',
+  );
   const [showIconSelector, setShowIconSelector] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
@@ -108,6 +112,7 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
       setEditTextDecoration(content.textDecoration ?? 'none');
       setEditFontFamily(content.fontFamily ?? 'Arial');
       setEditLetterSpacing(content.letterSpacing ?? '0px');
+      setEditWhiteSpace(content.whiteSpace ?? 'nowrap');
     }
   }, [content]);
 
@@ -137,6 +142,7 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
       textDecoration: editTextDecoration,
       fontFamily: editFontFamily,
       letterSpacing: editLetterSpacing,
+      whiteSpace: editWhiteSpace,
     };
 
     onChange({
@@ -203,6 +209,7 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
             resize: 'vertical',
             minHeight: '100px',
             backgroundColor,
+            whiteSpace: editWhiteSpace,
           }}
           onChange={(e) => {
             setEditText(e.target.value);
@@ -357,6 +364,22 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
           onChangeContent({ color });
         }}
       />
+
+      {layoutType === LayoutType.TEXT && (
+        <div>
+          <Typography variant="labelBase">Wrap text</Typography>
+          <Switch
+            label="Text color"
+            checked={editWhiteSpace === 'normal'}
+            onCheckedChange={(checked) => {
+              setEditWhiteSpace(checked ? 'normal' : 'nowrap');
+              onChangeContent({
+                whiteSpace: checked ? 'normal' : 'nowrap',
+              });
+            }}
+          />
+        </div>
+      )}
 
       <IconSelector
         isOpen={showIconSelector}
