@@ -10,7 +10,7 @@ import StyledLink from '../ui/styled-link';
 import { useModal } from '@/src/components/ui/modal-system';
 import CopyInstructionsModalContent from './copy-instructions-modal';
 import SignaturePreview from './signature-preview';
-import { useAuthModal } from '@/src/hooks/useAuthModal';
+
 import { Hr } from '../ui/hr';
 import { ChevronLeft, Edit2, Copy, Eye } from 'lucide-react';
 import { Container } from '../ui/container';
@@ -34,7 +34,6 @@ export const SignatureDetail = (props: any) => {
   const [isEdit, setIsEdit] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
   const { modal } = useModal();
-  const { showAuthModal } = useAuthModal();
   const isMobile = useMediaQuery(MEDIA_QUERIES.MOBILE);
 
   const userStatus = getUserStatus(user);
@@ -185,13 +184,15 @@ export const SignatureDetail = (props: any) => {
 
       {isEdit && (
         <Container>
-          <EmailTemplateEdit
-            isSignedIn={isSignedIn}
-            templateSlug={templateSlug}
-            rows={rows}
-            userStatus={userStatus}
-            tempSignatureCreatedAt={tempSignatureCreatedAt}
-          />
+          <div className="overflow-x-auto scrollbar-visible">
+            <EmailTemplateEdit
+              isSignedIn={isSignedIn}
+              templateSlug={templateSlug}
+              rows={rows}
+              userStatus={userStatus}
+              tempSignatureCreatedAt={tempSignatureCreatedAt}
+            />
+          </div>
         </Container>
       )}
     </div>
