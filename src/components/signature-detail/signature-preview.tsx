@@ -63,7 +63,7 @@ export const SignaturePreview: React.FC = () => {
         style={{ position: 'absolute', left: '-9999px', top: '-9999px' }}
         aria-hidden="true"
       >
-        <EmailTemplateView rows={rows} />
+        <EmailTemplateView rows={rows} isCopySignature={true} />
       </div>
 
       <div className={`sm:px-0 lg:px-4`}>

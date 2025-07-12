@@ -5,10 +5,11 @@ import { getContentView } from './content-view';
 import { getWidthHeightStyle } from './utils';
 interface EmailTemplateViewProps {
   rows: any;
+  isCopySignature?: boolean;
 }
 
 export const EmailTemplateView = (props: EmailTemplateViewProps) => {
-  const { rows } = props;
+  const { rows, isCopySignature } = props;
 
   const renderColumn = (column: any) => {
     return (
@@ -149,7 +150,9 @@ export const EmailTemplateView = (props: EmailTemplateViewProps) => {
     </table>
   );
 
-  // TODO - tento pryč? a nějaká podmínk ať ot není v copy?
+  if (isCopySignature) {
+    return <>{tableContent}</>;
+  }
 
   return (
     <div
