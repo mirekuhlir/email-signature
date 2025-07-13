@@ -238,8 +238,8 @@ export default async function Home() {
 
           <div className="text-center mt-8">
             <p className="text-gray-600">
-              And many more email clients including Thunderbird, Yahoo Mail, and
-              others
+              And many more email clients including iPhone Mail, Thunderbird,
+              Yahoo Mail, Google Workspace, Microsoft Office 365 and others
             </p>
           </div>
         </div>
