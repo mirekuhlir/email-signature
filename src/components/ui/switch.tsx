@@ -31,8 +31,7 @@ const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
 
     const labelBaseClasses =
       'relative inline-flex items-center h-8 w-16 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out';
-    const labelBgFocusClasses =
-      'bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-500 peer-focus:ring-offset-2';
+    const labelBgFocusClasses = 'bg-gray-200 peer-focus:outline-none';
     const labelCheckedClasses = 'peer-checked:bg-blue-600';
     const labelDisabledClasses =
       'peer-disabled:cursor-not-allowed peer-disabled:opacity-50';
