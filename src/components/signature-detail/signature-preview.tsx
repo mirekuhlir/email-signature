@@ -113,7 +113,6 @@ export const SignaturePreview: React.FC = () => {
             </div>
           </div>
         </Container>
-        {/*       TODO - proč musí být div s overflowX: auto  anestačí ten v  EmailTemplateView - přemístit pryč z EmailTemplateView? */}
         <div style={{ overflowX: 'auto' }}>
           <div className={`${outerDivClasses} w-full max-w-6xl mx-auto`}>
             <div
