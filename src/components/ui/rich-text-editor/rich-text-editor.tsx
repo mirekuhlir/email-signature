@@ -367,9 +367,13 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
 
       {layoutType === LayoutType.TEXT && (
         <div>
-          <Typography variant="labelBase">Wrap text</Typography>
+          <Typography variant="labelBase">Text wrapping</Typography>
           <Switch
-            label="Text color"
+            label={
+              editWhiteSpace === 'normal'
+                ? 'Text wraps to multiple lines'
+                : 'Text stays on one line'
+            }
             checked={editWhiteSpace === 'normal'}
             onCheckedChange={(checked) => {
               setEditWhiteSpace(checked ? 'normal' : 'nowrap');
