@@ -142,11 +142,12 @@ export const SignatureDetail = (props: any) => {
 
       <EditPanel>
         <Container>
-          <div className="flex justify-between">
+          <div className="flex justify-between flex-row sm:flex-row-reverse">
             {!isEdit && (
               <Button
                 size="md"
                 variant="brandBlue"
+                buttonClassName="min-w-35"
                 onClick={() => {
                   if (isSignedIn) {
                     copySignatureToClipboard(userStatus);
@@ -156,25 +157,30 @@ export const SignatureDetail = (props: any) => {
                   }
                 }}
               >
-                <Copy size={18} className="mr-2" /> Use signature
+                Use signature
               </Button>
             )}
             {!isEdit && (
-              <Button size="md" onClick={() => setIsEdit(true)}>
-                <Edit2 size={18} className="mr-2" /> Edit
+              <Button
+                size="md"
+                onClick={() => setIsEdit(true)}
+                buttonClassName="min-w-35"
+              >
+                Edit
               </Button>
             )}
             {!contentEdit.editPath &&
               !contentEdit.addPath &&
               !contentEdit.columnPath &&
               isEdit && (
-                <div className="flex w-full justify-end">
+                <div className="flex w-full justify-end sm:justify-start">
                   <Button
                     size="md"
                     onClick={() => setIsEdit(false)}
                     variant="blue"
+                    buttonClassName="min-w-35"
                   >
-                    <Eye size={20} className="mr-2" /> View
+                    Preview
                   </Button>
                 </div>
               )}

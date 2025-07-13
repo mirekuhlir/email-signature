@@ -40,27 +40,39 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({
       return (
         <div className="flex justify-end">
           <Button variant="outline" onClick={onPreview}>
-            View
+            Preview
           </Button>
         </div>
       );
     }
 
     return (
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center sm:flex-row-reverse">
         {onClose && (
-          <Button variant="outline" onClick={onClose}>
+          <Button
+            variant="outline"
+            onClick={onClose}
+            buttonClassName="sm:min-w-35"
+          >
             Close
           </Button>
         )}
-        <div className="flex space-x-4">
+        <div className="flex gap-4 sm:flex-row-reverse">
           {onPreview && (
-            <Button variant="outline" onClick={onPreview}>
-              View
+            <Button
+              variant="outline"
+              onClick={onPreview}
+              buttonClassName="min-w-24 sm:min-w-35"
+            >
+              Preview
             </Button>
           )}
           {onSave && !isSaving && (
-            <Button variant="brandBlue" size="md" onClick={onSave}>
+            <Button
+              size="md"
+              onClick={onSave}
+              buttonClassName="min-w-24 sm:min-w-35"
+            >
               Save
             </Button>
           )}
