@@ -12,7 +12,7 @@ import CopyInstructionsModalContent from './copy-instructions-modal';
 import SignaturePreview from './signature-preview';
 
 import { Hr } from '../ui/hr';
-import { ChevronLeft, Edit2, Copy, Eye } from 'lucide-react';
+import { ChevronLeft } from 'lucide-react';
 import { Container } from '../ui/container';
 import TrialBanner from '../trial/trial-banner';
 import { useMediaQuery } from '@/src/hooks/useMediaQuery';
