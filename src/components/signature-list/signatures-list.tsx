@@ -195,30 +195,36 @@ export const SignaturesList = (props: any) => {
           </>
         )}
 
-        {tempSignatures?.map((tempSignature: any) => (
-          <SignatureListItem
-            key={`${tempSignature.info?.templateSlug}-${tempSignature.createdAt}`}
-            rows={tempSignature.rows}
-            isLoading={isLoading}
-            createdAt={tempSignature.createdAt}
-            updatedAt={tempSignature.updatedAt}
-            onDelete={() => {
-              setTempSignatureToDelete(tempSignature);
-              setIsDeleteModalOpen(true);
-            }}
-            onEdit={() => {
-              if (userStatus === UserStatus.NOT_LOGGED_IN) {
-                router.push(
-                  `/signatures/example/?template=${tempSignature.info?.templateSlug}&createdAt=${tempSignature.createdAt}`,
-                );
-              } else {
-                createSignature(tempSignature, userStatus, true);
-              }
-            }}
-            isTempSignature={true}
-            signatureCount={signatures.length}
-          />
-        ))}
+        {tempSignatures
+          ?.sort(
+            (a: any, b: any) =>
+              new Date(b.updated_at || b.created_at).getTime() -
+              new Date(a.updated_at || a.created_at).getTime(),
+          )
+          ?.map((tempSignature: any) => (
+            <SignatureListItem
+              key={`${tempSignature.info?.templateSlug}-${tempSignature.createdAt}`}
+              rows={tempSignature.rows}
+              isLoading={isLoading}
+              createdAt={tempSignature.createdAt}
+              updatedAt={tempSignature.updatedAt}
+              onDelete={() => {
+                setTempSignatureToDelete(tempSignature);
+                setIsDeleteModalOpen(true);
+              }}
+              onEdit={() => {
+                if (userStatus === UserStatus.NOT_LOGGED_IN) {
+                  router.push(
+                    `/signatures/example/?template=${tempSignature.info?.templateSlug}&createdAt=${tempSignature.createdAt}`,
+                  );
+                } else {
+                  createSignature(tempSignature, userStatus, true);
+                }
+              }}
+              isTempSignature={true}
+              signatureCount={signatures.length}
+            />
+          ))}
         {signatures
           ?.sort(
             (a, b) =>
