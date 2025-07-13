@@ -16,8 +16,8 @@ type SignatureListItemProps = {
   onEdit: () => void;
   isLoading: boolean;
   duplicateSignature?: (signatureId: string) => Promise<void>;
+  duplicateTempSignature?: () => void;
   signatureId?: string;
-  isTempSignature?: boolean;
   signatureCount?: number;
 };
 
@@ -30,8 +30,8 @@ export const SignatureListItem = (props: SignatureListItemProps) => {
     onEdit,
     isLoading,
     duplicateSignature,
+    duplicateTempSignature,
     signatureId,
-    isTempSignature,
     signatureCount,
   } = props;
 
@@ -83,20 +83,21 @@ export const SignatureListItem = (props: SignatureListItemProps) => {
                   >
                     {t('Delete')}
                   </Button>
-                  {!isTempSignature &&
-                    (signatureCount ?? 0) < MAX_SIGNATURES && (
-                      <Button
-                        variant="ghost"
-                        disabled={isLoading}
-                        onClick={() => {
-                          if (signatureId && duplicateSignature) {
-                            duplicateSignature(signatureId);
-                          }
-                        }}
-                      >
-                        {t('Duplicate')}
-                      </Button>
-                    )}
+                  {(signatureCount ?? 0) < MAX_SIGNATURES && (
+                    <Button
+                      variant="ghost"
+                      disabled={isLoading}
+                      onClick={() => {
+                        if (signatureId && duplicateSignature) {
+                          duplicateSignature(signatureId);
+                        } else if (duplicateTempSignature) {
+                          duplicateTempSignature();
+                        }
+                      }}
+                    >
+                      {t('Duplicate')}
+                    </Button>
+                  )}
                 </div>
               </ContextMenu>
               <Button

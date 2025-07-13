@@ -198,8 +198,8 @@ export const SignaturesList = (props: any) => {
         {tempSignatures
           ?.sort(
             (a: any, b: any) =>
-              new Date(b.updated_at || b.created_at).getTime() -
-              new Date(a.updated_at || a.created_at).getTime(),
+              new Date(b.updatedAt || b.createdAt).getTime() -
+              new Date(a.updatedAt || a.createdAt).getTime(),
           )
           ?.map((tempSignature: any) => (
             <SignatureListItem
@@ -221,8 +221,10 @@ export const SignaturesList = (props: any) => {
                   createSignature(tempSignature, userStatus, true);
                 }
               }}
-              isTempSignature={true}
               signatureCount={signatures.length}
+              duplicateTempSignature={() => {
+                createSignature(tempSignature, userStatus, true);
+              }}
             />
           ))}
         {signatures
