@@ -101,13 +101,12 @@ export const EmailTemplateView = (props: EmailTemplateViewProps) => {
 
       if (content) {
         return (
-          <tr key={`tr-${row.id}`}>
+          <tr key={`tr-${row.id}`} style={{ fontSize: 0 }}>
             <td
               style={{
                 padding: padding,
                 backgroundColor: backgroundColor,
                 borderRadius: borderRadius,
-                lineHeight: 1,
                 borderBottomWidth: borderBottomWidth,
                 borderBottomColor: borderBottomColor,
                 borderBottomStyle: borderBottomStyle,

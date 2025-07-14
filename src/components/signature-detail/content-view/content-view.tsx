@@ -90,9 +90,11 @@ export const getContentView = (content?: any) => {
       const formattedText = formatTextWithLineBreaks(text);
 
       return (
-        <div
+        <span
           key={id}
           style={{
+            width: '100%',
+            display: 'inline-block',
             fontSize: fontSize,
             color,
             letterSpacing: letterSpacing,
@@ -106,7 +108,7 @@ export const getContentView = (content?: any) => {
           }}
         >
           {formattedText}
-        </div>
+        </span>
       );
     });
   }
@@ -359,6 +361,7 @@ export const getContentView = (content?: any) => {
             lineHeight,
             textDecoration,
             textAlign,
+            whiteSpace,
           } = component;
 
           const style = {
@@ -372,6 +375,7 @@ export const getContentView = (content?: any) => {
             lineHeight,
             textDecoration,
             textAlign,
+            whiteSpace,
           };
 
           if (!text) {
