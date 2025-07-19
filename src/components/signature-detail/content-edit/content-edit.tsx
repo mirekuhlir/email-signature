@@ -65,7 +65,7 @@ const getContentTypeName = (type: ContentType): string => {
     case ContentType.WEBSITE:
       return 'website';
     case ContentType.CUSTOM_VALUE:
-      return 'custom element';
+      return 'text with prefix';
     default:
       return 'element';
   }
