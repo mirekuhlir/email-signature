@@ -14,6 +14,7 @@ interface AutoScaleContainerProps {
   className?: string;
   style?: React.CSSProperties;
   containerRef?: RefObject<HTMLElement | null>; // Optional external container ref to measure width from
+  isActive?: boolean;
 }
 
 export const AutoScaleContainer: React.FC<AutoScaleContainerProps> = ({
@@ -24,6 +25,7 @@ export const AutoScaleContainer: React.FC<AutoScaleContainerProps> = ({
   className = '',
   style = {},
   containerRef: externalContainerRef,
+  isActive = false,
 }) => {
   const internalContainerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -34,7 +36,7 @@ export const AutoScaleContainer: React.FC<AutoScaleContainerProps> = ({
 
   // Calculate scale based on container and content width
   const calculateScale = () => {
-    if (!containerRef.current || !contentRef.current) return;
+    if (!containerRef.current || !contentRef.current || !isActive) return;
 
     const containerWidth = containerRef.current.offsetWidth;
     const contentWidth = contentRef.current.scrollWidth;
@@ -50,12 +52,20 @@ export const AutoScaleContainer: React.FC<AutoScaleContainerProps> = ({
 
   // Effect to calculate scale on mount and when dependencies change
   useEffect(() => {
-    calculateScale();
-  }, [margin, minScale, ...dependencies]);
+    if (isActive) {
+      // Add a small delay to ensure DOM has updated
+      const timeoutId = setTimeout(() => {
+        calculateScale();
+      }, 10);
+      return () => clearTimeout(timeoutId);
+    } else {
+      setScale(1);
+    }
+  }, [margin, minScale, isActive, ...dependencies]);
 
   // ResizeObserver to recalculate scale when window resizes
   useEffect(() => {
-    if (!containerRef.current || !contentRef.current) return;
+    if (!containerRef.current || !contentRef.current || !isActive) return;
 
     const resizeObserver = new ResizeObserver(() => {
       calculateScale();
@@ -67,7 +77,11 @@ export const AutoScaleContainer: React.FC<AutoScaleContainerProps> = ({
     return () => {
       resizeObserver.disconnect();
     };
-  }, []);
+  }, [isActive, containerRef, contentRef]);
+
+  if (!isActive) {
+    return <>{children}</>;
+  }
 
   return (
     <div

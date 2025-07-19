@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { useSignatureStore } from '@/src/store/content-edit-add-store';
 import { EmailTemplateView } from './content-view/signature-view';
 import { TitleSwitch } from '../ui/title-switch';
@@ -8,6 +8,7 @@ import { MEDIA_QUERIES } from '@/src/constants/mediaQueries';
 import { getInvertedSignatureRows } from '@/src/utils/colorUtils';
 import { Container } from '../ui/container';
 import { MAX_IMAGE_WIDTH } from '@/supabase/functions/_shared/const';
+import { AutoScaleContainer } from '../ui/auto-scale-container';
 
 export const SignaturePreview: React.FC = () => {
   const isDesktopScreen = useMediaQuery(MEDIA_QUERIES.MD);
@@ -54,6 +55,8 @@ export const SignaturePreview: React.FC = () => {
   ]
     .filter(Boolean)
     .join(' ');
+
+  const containerRef = useRef<HTMLDivElement>(null);
 
   return (
     <>
@@ -117,10 +120,17 @@ export const SignaturePreview: React.FC = () => {
             <div
               className={`${wrapperDivClasses}`}
               style={{ ...mobilePreviewWidth }}
+              ref={containerRef}
             >
-              <div className={containerDivClasses}>
-                <EmailTemplateView rows={rowsToDisplay} />
-              </div>
+              <AutoScaleContainer
+                containerRef={containerRef}
+                margin={0}
+                isActive={isMobilePreview}
+              >
+                <div className={containerDivClasses}>
+                  <EmailTemplateView rows={rowsToDisplay} />
+                </div>
+              </AutoScaleContainer>
             </div>
           </div>
         </div>
