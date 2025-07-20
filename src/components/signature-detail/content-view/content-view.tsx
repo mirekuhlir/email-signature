@@ -337,8 +337,8 @@ export const getContentView = (content?: any) => {
 
   if (content?.type === ContentType.CUSTOM_VALUE) {
     const { components } = content;
-    const textAlign = components[1].textAlign;
-    const whiteSpace = components[1].whiteSpace;
+    const textAlign = components[0].textAlign;
+    const whiteSpace = components[0].whiteSpace;
     return (
       <span
         style={{

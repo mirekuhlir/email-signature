@@ -92,6 +92,7 @@ export const GenericEditContent = (props: GenericEditContentProps) => {
                   ? linkComponent
                   : undefined
               }
+              index={index}
             />
           </div>
         </CollapsibleSection>

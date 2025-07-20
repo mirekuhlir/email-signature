@@ -27,6 +27,7 @@ interface RichTextEditorProps {
   backgroundColor?: string;
   isAutoFocus?: boolean;
   linkComponent?: ReactNode;
+  index?: number;
 }
 
 const ButtonSquare = ({
@@ -60,6 +61,7 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
     backgroundColor,
     isAutoFocus = false,
     linkComponent,
+    index,
   } = props;
 
   const [editText, setEditText] = useState(content?.text ?? '');
@@ -318,43 +320,45 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
         </div>
       </div>
 
-      {layoutType !== LayoutType.PREFIX && (
-        <div>
-          <Typography variant="labelBase">Text align</Typography>
+      {layoutType !== LayoutType.PREFIX &&
+        layoutType === LayoutType.CUSTOM_VALUE &&
+        index === 0 && (
+          <div>
+            <Typography variant="labelBase">Text align</Typography>
 
-          <div className="flex gap-2">
-            <ButtonSquare
-              isSelected={editTextAlign === 'left'}
-              onClick={() => {
-                setEditTextAlign('left');
-                onChangeContent({ textAlign: 'left' });
-              }}
-            >
-              Left
-            </ButtonSquare>
+            <div className="flex gap-2">
+              <ButtonSquare
+                isSelected={editTextAlign === 'left'}
+                onClick={() => {
+                  setEditTextAlign('left');
+                  onChangeContent({ textAlign: 'left' });
+                }}
+              >
+                Left
+              </ButtonSquare>
 
-            <ButtonSquare
-              isSelected={editTextAlign === 'center'}
-              onClick={() => {
-                setEditTextAlign('center');
-                onChangeContent({ textAlign: 'center' });
-              }}
-            >
-              Center
-            </ButtonSquare>
+              <ButtonSquare
+                isSelected={editTextAlign === 'center'}
+                onClick={() => {
+                  setEditTextAlign('center');
+                  onChangeContent({ textAlign: 'center' });
+                }}
+              >
+                Center
+              </ButtonSquare>
 
-            <ButtonSquare
-              isSelected={editTextAlign === 'right'}
-              onClick={() => {
-                setEditTextAlign('right');
-                onChangeContent({ textAlign: 'right' });
-              }}
-            >
-              Right
-            </ButtonSquare>
+              <ButtonSquare
+                isSelected={editTextAlign === 'right'}
+                onClick={() => {
+                  setEditTextAlign('right');
+                  onChangeContent({ textAlign: 'right' });
+                }}
+              >
+                Right
+              </ButtonSquare>
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
       <EditColor
         initColor={editTextColor}
@@ -393,20 +397,20 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
       />
 
       {/*     <div className="flex flex-wrap gap-2 items-center p-2">
-        <div className="flex items-center gap-2">
-        <span className="text-sm">Barva pozadí:</span>
-        <input
-          type="color"
-          value={editBackgroundColor || "rgba(0, 0, 0, 0)"}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => {
-          const newColor = e.target.value || "transparent";
-          setEditBackgroundColor(newColor);
-          onChangeContent({ backgroundColor: newColor });
-          }}
-          className="w-10 h-10 rounded cursor-pointer"
-        />
-        </div>
-      </div> */}
+          <div className="flex items-center gap-2">
+          <span className="text-sm">Barva pozadí:</span>
+          <input
+            type="color"
+            value={editBackgroundColor || "rgba(0, 0, 0, 0)"}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+            const newColor = e.target.value || "transparent";
+            setEditBackgroundColor(newColor);
+            onChangeContent({ backgroundColor: newColor });
+            }}
+            className="w-10 h-10 rounded cursor-pointer"
+          />
+          </div>
+        </div> */}
     </div>
   );
 };
