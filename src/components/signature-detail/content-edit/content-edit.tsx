@@ -1035,13 +1035,9 @@ const getContentType = (
           return 'The second';
         return '';
       };
-      const getLayoutType = (component: any, originalIndex: number) => {
-        if (
-          component.type === ContentType.CUSTOM_VALUE &&
-          originalIndex === 0
-        ) {
-          return LayoutType.PREFIX;
-        }
+      const getLayoutType = (component: any, _: number) => {
+        if (component.type === ContentType.CUSTOM_VALUE)
+          return LayoutType.CUSTOM_VALUE;
         return LayoutType.TEXT;
       };
       return (

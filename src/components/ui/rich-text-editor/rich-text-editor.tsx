@@ -14,6 +14,7 @@ export enum LayoutType {
   EMAIL = 'email',
   PHONE = 'phone',
   WEBSITE = 'website',
+  CUSTOM_VALUE = 'customValue',
 }
 
 interface RichTextEditorProps {
