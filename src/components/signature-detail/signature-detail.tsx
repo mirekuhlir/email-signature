@@ -19,6 +19,7 @@ import { useMediaQuery } from '@/src/hooks/useMediaQuery';
 import { MEDIA_QUERIES } from '@/src/constants/mediaQueries';
 import { getUserStatus, UserStatus } from '@/src/utils/userState';
 import EditPanel from './edit-panel';
+import { useAuthModal } from '@/src/hooks/useAuthModal';
 
 export const SignatureDetail = (props: any) => {
   const {
@@ -34,6 +35,7 @@ export const SignatureDetail = (props: any) => {
   const [isEdit, setIsEdit] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
   const { modal } = useModal();
+  const { showAuthModal } = useAuthModal();
   const isMobile = useMediaQuery(MEDIA_QUERIES.MOBILE);
 
   const userStatus = getUserStatus(user);
@@ -153,7 +155,10 @@ export const SignatureDetail = (props: any) => {
                     copySignatureToClipboard(userStatus);
                     showCopyInstructionsModal();
                   } else {
-                    copySignatureToClipboard(userStatus);
+                    showAuthModal({
+                      title: 'Sign in to use your signature',
+                      description: 'Please enter your email to sign in.',
+                    });
                   }
                 }}
               >
