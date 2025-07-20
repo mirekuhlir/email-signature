@@ -77,7 +77,7 @@ export const EmailTemplateView = (props: EmailTemplateViewProps) => {
         );
       }
 
-      const content = getContentView(row?.content);
+      const content = getContentView(row?.content, isCopySignature);
       const padding = row.content.components[0].padding;
       const backgroundColor = row.content.components[0].backgroundColor;
       const borderRadius = row.content.components[0].borderRadius;

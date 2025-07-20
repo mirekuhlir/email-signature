@@ -16,12 +16,13 @@ const formatTextWithLineBreaks = (text?: string) => {
     ));
 };
 
-export const getContentView = (content?: any) => {
+export const getContentView = (content?: any, isCopySignature?: boolean) => {
   if (content?.type == ContentType.IMAGE) {
     const { components } = content;
 
     return components.map((component: any) => {
-      const { id, src, cropImagePreview, link, margin } = component;
+      const { id, src, cropImagePreview, link, margin, previewWidth } =
+        component;
 
       const image = cropImagePreview || src;
       let imageSrc = image;
@@ -40,7 +41,7 @@ export const getContentView = (content?: any) => {
         <Img
           key={id}
           src={imageSrc}
-          /*      width={previewWidth} */
+          width={!isCopySignature ? previewWidth : undefined}
           style={{
             margin: margin,
           }}
