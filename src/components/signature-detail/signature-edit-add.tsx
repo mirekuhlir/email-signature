@@ -91,7 +91,7 @@ export const EmailTemplateEdit = (props: any) => {
         style={{
           ...column.style,
           display: 'table-cell',
-          verticalAlign: column.style?.verticalAlign || 'top',
+          verticalAlign: column.style?.verticalAlign || 'middle',
         }}
       >
         <div
