@@ -7,6 +7,7 @@ interface CollapsibleSectionProps {
   className?: string;
   title?: string;
   isInitOpen?: boolean;
+  panelContent?: React.ReactNode;
 }
 
 export const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
@@ -14,6 +15,7 @@ export const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
   className = '',
   title = '',
   isInitOpen = false,
+  panelContent,
 }) => {
   const [isOpen, setIsOpen] = useState(isInitOpen);
 
@@ -49,6 +51,7 @@ export const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
               d="M19 9l-7 7-7-7"
             />
           </svg>
+
           <span className="flex items-center gap-2">
             <Typography
               textColor={isOpen ? 'text-gray-900' : '"'}
@@ -57,6 +60,9 @@ export const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
               {title}
             </Typography>
           </span>
+        </div>
+        <div className="flex items-center w-full justify-center">
+          {panelContent}
         </div>
       </button>
       <div>{isOpen ? children : null}</div>

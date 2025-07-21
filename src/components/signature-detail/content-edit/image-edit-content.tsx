@@ -59,7 +59,6 @@ export const ImageEditContent = (props: ImageEditContentProps) => {
     removeEditingSectionId,
   } = useContentEditStore();
   const imageComponent: ImageComponent = components[0];
-  const [imageIsResizing, setImageIsResizing] = useState(false);
   const [verticalAlign, setVerticalAlign] = useState('top');
 
   // Define path for the parent column's style (same pattern as content-edit.tsx)
@@ -166,24 +165,8 @@ export const ImageEditContent = (props: ImageEditContentProps) => {
     (imageComponent.originalSrc || imageComponent.cropImagePreview) &&
     imageComponent.imageSettings;
 
-  const handleResizing = useCallback((isResizing: boolean) => {
-    setImageIsResizing(isResizing);
-  }, []);
-
   return (
     <>
-      {imageIsResizing && (
-        <div className="mt-2">
-          <Typography
-            variant="labelBase"
-            className={`text-center ${
-              imageIsResizing ? 'text-gray-800' : 'text-transparent'
-            }`}
-          >
-            Resizing...
-          </Typography>
-        </div>
-      )}
       <ImageUploadCrop
         onSetCropImagePreview={handleCropImagePreview}
         onSetImageSettings={handleImageSettings}
@@ -197,8 +180,6 @@ export const ImageEditContent = (props: ImageEditContentProps) => {
         onLoadingChange={handleImageLoadingChange}
         isSignedIn={isSignedIn}
         imageCount={imageCount}
-        onResizing={handleResizing}
-        isResizing={imageIsResizing}
         imageLink={
           isImage && !isImageLoading ? (
             <CollapsibleSection title="Image link">
