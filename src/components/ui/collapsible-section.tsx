@@ -61,9 +61,11 @@ export const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
             </Typography>
           </span>
         </div>
-        <div className="flex items-center w-full justify-center">
-          {panelContent}
-        </div>
+        {panelContent && (
+          <div className="flex items-center w-full justify-center">
+            {panelContent}
+          </div>
+        )}
       </button>
       <div>{isOpen ? children : null}</div>
     </div>
