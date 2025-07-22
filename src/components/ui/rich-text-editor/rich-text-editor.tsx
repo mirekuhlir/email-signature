@@ -321,7 +321,7 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
       </div>
 
       {layoutType !== LayoutType.PREFIX &&
-        layoutType === LayoutType.CUSTOM_VALUE &&
+        layoutType !== LayoutType.CUSTOM_VALUE &&
         index === 0 && (
           <div>
             <Typography variant="labelBase">Text align</Typography>
