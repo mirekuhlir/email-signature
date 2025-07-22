@@ -93,7 +93,7 @@ export const AutoScaleContainer: React.FC<AutoScaleContainerProps> = ({
         ref={contentRef}
         style={{
           transform: `scale(${scale})`,
-          transformOrigin: 'top left',
+          transformOrigin: 'bottom left',
         }}
       >
         {children}
