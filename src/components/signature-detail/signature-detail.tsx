@@ -144,7 +144,7 @@ export const SignatureDetail = (props: any) => {
 
       <EditPanel>
         <Container>
-          <div className="flex justify-between flex-row sm:flex-row-reverse">
+          <div className="flex sm:justify-end sm:gap-8 justify-between flex-row sm:flex-row-reverse">
             {!isEdit && (
               <Button
                 size="md"
