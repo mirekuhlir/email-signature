@@ -7,7 +7,7 @@ import { useMediaQuery } from '@/src/hooks/useMediaQuery';
 import { MEDIA_QUERIES } from '@/src/constants/mediaQueries';
 import { getInvertedSignatureRows } from '@/src/utils/colorUtils';
 import { Container } from '../ui/container';
-import { MAX_IMAGE_WIDTH } from '@/supabase/functions/_shared/const';
+import { MAX_MOBILE_IMAGE_WIDTH } from '@/supabase/functions/_shared/const';
 import { AutoScaleContainer } from '../ui/auto-scale-container';
 
 export const SignaturePreview: React.FC = () => {
@@ -46,7 +46,9 @@ export const SignaturePreview: React.FC = () => {
     .filter(Boolean)
     .join(' ');
 
-  const mobilePreviewWidth = isMobilePreview ? { width: MAX_IMAGE_WIDTH } : {};
+  const mobilePreviewWidth = isMobilePreview
+    ? { width: MAX_MOBILE_IMAGE_WIDTH }
+    : {};
 
   const containerDivClasses = [
     isDesktopScreen ? 'pt-4 pb-4' : '',

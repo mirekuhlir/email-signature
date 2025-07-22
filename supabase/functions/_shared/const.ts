@@ -20,7 +20,9 @@ export const MAX_BORDER_RADIUS = 100;
 export const MAX_BORDER_WIDTH = 100;
 
 export const MIN_IMAGE_WIDTH = 50;
-export const MAX_IMAGE_WIDTH = 375;
+export const MAX_MOBILE_IMAGE_WIDTH = 375;
+export const MAX_IMAGE_WIDTH = 500;
+export const MAX_WIDTH_OR_HEIGHT = 1000;
 
 // Dimensions limits
 export const MAX_DIMENSION_VALUES = 20;

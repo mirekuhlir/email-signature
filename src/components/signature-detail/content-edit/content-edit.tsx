@@ -22,7 +22,7 @@ import {
   MAX_BORDER_WIDTH,
   MAX_BORDER_RADIUS,
   MAX_PADDING,
-  MAX_IMAGE_WIDTH,
+  MAX_WIDTH_OR_HEIGHT,
 } from '@/supabase/functions/_shared/const';
 import { LinkComponent } from './add-link';
 import { VerticalAlign } from '../column-settings/column-settings';
@@ -806,7 +806,7 @@ export const ContentEdit = (props: any) => {
                       <SliderDimensions
                         label={`Width: ${width === 0 ? 'auto' : `${width}px`}`}
                         min={0}
-                        max={MAX_IMAGE_WIDTH}
+                        max={MAX_WIDTH_OR_HEIGHT}
                         value={width}
                         onChange={(value: number) => {
                           setWidth(value);
@@ -819,7 +819,7 @@ export const ContentEdit = (props: any) => {
                       <SliderDimensions
                         label={`Height: ${height === 0 ? 'auto' : `${height}px`}`}
                         min={0}
-                        max={MAX_IMAGE_WIDTH}
+                        max={MAX_WIDTH_OR_HEIGHT}
                         value={height}
                         onChange={(value: number) => {
                           setHeight(value);

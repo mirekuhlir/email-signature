@@ -14,7 +14,7 @@ import {
   MAX_PADDING,
   MAX_BORDER_RADIUS,
   MAX_BORDER_WIDTH,
-  MAX_IMAGE_WIDTH,
+  MAX_WIDTH_OR_HEIGHT,
 } from '@/supabase/functions/_shared/const';
 import { EEditType, SliderDimensions } from '../../ui/slider-dimensions';
 import { saveTempSignature } from '../content-edit/utils';
@@ -615,7 +615,7 @@ export const ColumnSettings = (props: any) => {
                   <SliderDimensions
                     label={`Width: ${columnWidth === 0 ? 'auto' : `${columnWidth}px`}`}
                     min={0}
-                    max={MAX_IMAGE_WIDTH} // Assuming MAX_IMAGE_WIDTH is appropriate, or define MAX_COLUMN_WIDTH
+                    max={MAX_WIDTH_OR_HEIGHT}
                     value={columnWidth}
                     onChange={(value: number) => {
                       setColumnWidth(value);
@@ -628,7 +628,7 @@ export const ColumnSettings = (props: any) => {
                   <SliderDimensions
                     label={`Height: ${columnHeight === 0 ? 'auto' : `${columnHeight}px`}`}
                     min={0}
-                    max={MAX_IMAGE_WIDTH} // Assuming MAX_IMAGE_WIDTH is appropriate, or define MAX_COLUMN_HEIGHT
+                    max={MAX_WIDTH_OR_HEIGHT}
                     value={columnHeight}
                     onChange={(value: number) => {
                       setColumnHeight(value);
