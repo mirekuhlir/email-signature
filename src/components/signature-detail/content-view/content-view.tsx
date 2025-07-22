@@ -95,7 +95,7 @@ export const getContentView = (content?: any, isCopySignature?: boolean) => {
           key={id}
           style={{
             width: '100%',
-            display: 'inline-block',
+            display: whiteSpace === 'nowrap' ? 'inline-block' : 'initial',
             fontSize: fontSize,
             color,
             letterSpacing: letterSpacing,
