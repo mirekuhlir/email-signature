@@ -38,9 +38,10 @@ const TextInput: React.FC<TextInputProps> = ({
       <input
         id={name}
         autoFocus={isAutoFocus}
+        autoCapitalize="off"
         {...register(name, { ...validation })}
         placeholder={placeholder}
-        className={`appearance-none border border-gray-300 rounded w-full py-3 px-4 text-gray-800 leading-tight focus:outline-hidden focus:border-blue-400 ${
+        className={`appearance-none border border-gray-300 rounded w-full py-3 px-3 text-gray-800 leading-tight focus:outline-hidden focus:border-blue-400 ${
           errors && errors[name] ? 'border-red-500' : ''
         }`}
       />
