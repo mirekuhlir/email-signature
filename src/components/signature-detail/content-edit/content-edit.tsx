@@ -28,6 +28,14 @@ import { LinkComponent } from './add-link';
 import { VerticalAlign } from '../column-settings/column-settings';
 import { EEditType, SliderDimensions } from '../../ui/slider-dimensions';
 import { saveTempSignature } from './utils';
+import {
+  image,
+  text,
+  twoPartText,
+  email,
+  phone,
+  website,
+} from '../content-add/const';
 
 export const LoadingInfo = ({
   text = 'Saving. Please wait...',
@@ -52,20 +60,22 @@ export const LoadingInfo = ({
   );
 };
 
+// TODO
+
 const getContentTypeName = (type: ContentType): string => {
   switch (type) {
     case ContentType.TEXT:
-      return 'text';
+      return text;
     case ContentType.IMAGE:
-      return 'image';
+      return image;
     case ContentType.EMAIL:
-      return 'email';
+      return email;
     case ContentType.PHONE:
-      return 'phone';
+      return phone;
     case ContentType.WEBSITE:
-      return 'website';
+      return website;
     case ContentType.CUSTOM_VALUE:
-      return 'text with prefix';
+      return twoPartText;
     default:
       return 'element';
   }
