@@ -143,7 +143,7 @@ export const SignaturesList = (props: any) => {
 
     if (isTemp) {
       setTempSignatures(null);
-      localStorage.removeItem(template.info?.templateSlug);
+      deleteTempSignature(template);
       if (data?.signatureId) {
         router.push(`/signatures/${data.signatureId}`);
       }
