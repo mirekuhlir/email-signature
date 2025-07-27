@@ -1,19 +1,20 @@
 import { generateRandomId } from "../utils/generateRandomId";
+import { content } from "./constants";
 
 const getLocalizedContent = () => {
   return {
-    "best_regards": "Best regards,",
-    "name": "Emily Sullivan",
-    "place": "Dreamweaver Weddings",
-    "title": "Wedding Planner",
-    "phonePrefix": "p: ",
-    "phone": "+1 123 456 7890",
-    "email": "example@email.com",
-    "emailPrefix": "e: ",
-    "websitePrefix": "w: ",
-    "website": "example.com",
-    "address": "987 Willow Street, Asheville",
-    "address2": "NC 28801",
+    [content.bestRegards]: "Best regards,",
+    [content.name]: "Emily Sullivan",
+    [content.place]: "Dreamweaver Weddings",
+    [content.title]: "Wedding Planner",
+    [content.phonePrefix]: "p: ",
+    [content.phone]: "+1 123 456 7890",
+    [content.email]: "example@email.com",
+    [content.emailPrefix]: "e: ",
+    [content.websitePrefix]: "w: ",
+    [content.website]: "example.com",
+    [content.address]: "987 Willow Street, Asheville",
+    [content.address2]: "NC 28801",
   };
 };
 
@@ -46,7 +47,7 @@ export const signature_a = () => {
                   "components": [
                     {
                       "id": generateRandomId(),
-                      "text": localizedContent.best_regards,
+                      "text": localizedContent[content.bestRegards],
                       "type": "text",
                       "color": "rgb(0, 0, 0)",
                       "padding": "0px 0px 10px 0px",
@@ -168,7 +169,7 @@ export const signature_a = () => {
                   "components": [
                     {
                       "id": generateRandomId(),
-                      "text": localizedContent.name,
+                      "text": localizedContent[content.name],
                       "type": "text",
                       "color": "rgb(81, 25, 92)",
                       "padding": "0px 0px 0px 0px",
@@ -205,7 +206,7 @@ export const signature_a = () => {
                   "components": [
                     {
                       "id": generateRandomId(),
-                      "text": localizedContent.title,
+                      "text": localizedContent[content.title],
                       "type": "text",
                       "color": "rgb(81, 25, 92)",
                       "padding": "5px 0px 0px 0px",
@@ -242,7 +243,7 @@ export const signature_a = () => {
                   "components": [
                     {
                       "id": generateRandomId(),
-                      "text": localizedContent.phonePrefix,
+                      "text": localizedContent[content.phonePrefix],
                       "type": "text",
                       "color": "rgb(81, 25, 92)",
                       "padding": "10px 0px 0px 0px",
@@ -271,7 +272,7 @@ export const signature_a = () => {
                     },
                     {
                       "id": generateRandomId(),
-                      "text": localizedContent.phone,
+                      "text": localizedContent[content.phone],
                       "type": "phoneLink",
                       "color": "rgb(81, 25, 92)",
                       "fontSize": "14px",
@@ -293,7 +294,7 @@ export const signature_a = () => {
                   "components": [
                     {
                       "id": generateRandomId(),
-                      "text": localizedContent.emailPrefix,
+                      "text": localizedContent[content.emailPrefix],
                       "type": "text",
                       "color": "rgb(81, 25, 92)",
                       "padding": "3px 0px 0px 0px",
@@ -322,7 +323,7 @@ export const signature_a = () => {
                     },
                     {
                       "id": generateRandomId(),
-                      "text": localizedContent.email,
+                      "text": localizedContent[content.email],
                       "type": "emailLink",
                       "color": "rgb(81, 25, 92)",
                       "fontSize": "14px",
@@ -343,7 +344,7 @@ export const signature_a = () => {
                   "components": [
                     {
                       "id": generateRandomId(),
-                      "text": localizedContent.websitePrefix,
+                      "text": localizedContent[content.websitePrefix],
                       "type": "text",
                       "color": "rgb(81, 25, 92)",
                       "width": "0px",
@@ -374,7 +375,7 @@ export const signature_a = () => {
                     },
                     {
                       "id": generateRandomId(),
-                      "text": localizedContent.website,
+                      "text": localizedContent[content.website],
                       "type": "websiteLink",
                       "color": "rgb(81, 25, 92)",
                       "fontSize": "14px",
@@ -396,7 +397,7 @@ export const signature_a = () => {
                   "components": [
                     {
                       "id": generateRandomId(),
-                      "text": localizedContent.place,
+                      "text": localizedContent[content.place],
                       "type": "text",
                       "color": "rgb(81, 25, 92)",
                       "padding": "10px 0px 0px 0px",
@@ -433,7 +434,7 @@ export const signature_a = () => {
                   "components": [
                     {
                       "id": generateRandomId(),
-                      "text": localizedContent.address,
+                      "text": localizedContent[content.address],
                       "type": "text",
                       "color": "rgb(81, 25, 92)",
                       "padding": "3px 0px 0px 0px",
@@ -470,7 +471,7 @@ export const signature_a = () => {
                   "components": [
                     {
                       "id": generateRandomId(),
-                      "text": localizedContent.address2,
+                      "text": localizedContent[content.address2],
                       "color": "rgb(81, 25, 92)",
                       "width": "0px",
                       "height": "0px",

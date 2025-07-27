@@ -1,20 +1,22 @@
 import { generateRandomId } from '../utils/generateRandomId';
+import { content } from './constants';
 
 const getLocalizedContent = () => {
   return {
-    name: 'Adeline Waren',
-    title: 'landscape architect',
-    phonePrefix: '',
-    phoneValue: '+1 123 456 7890',
-    emailPrefix: '',
-    emailValue: 'example@email.com',
-    websitePrefix: '',
-    websiteValue: 'www.example.com',
-    slogan: 'Turning your vision into a stunning landscape reality.',
+    [content.name]: 'Adeline Waren',
+    [content.title]: 'landscape architect',
+    [content.phonePrefix]: '',
+    [content.phone]: '+1 123 456 7890',
+    [content.emailPrefix]: '',
+    [content.email]: 'example@email.com',
+    [content.websitePrefix]: '',
+    [content.website]: 'www.example.com',
+    [content.slogan]: 'Turning your vision into a stunning landscape reality.',
   };
 };
 
 export const signature_i = () => {
+  const localizedContent = getLocalizedContent();
   return {
     info: {
       templateSlug: 'signature-i',
@@ -98,7 +100,7 @@ export const signature_i = () => {
                   components: [
                     {
                       id: generateRandomId(),
-                      text: getLocalizedContent().name,
+                      text: localizedContent[content.name],
                       color: 'rgb(204, 120, 43)',
                       width: '0px',
                       height: '0px',
@@ -136,7 +138,7 @@ export const signature_i = () => {
                   components: [
                     {
                       id: generateRandomId(),
-                      text: getLocalizedContent().title,
+                      text: localizedContent[content.title],
                       color: 'rgb(109, 143, 118)',
                       width: '0px',
                       height: '0px',
@@ -174,7 +176,7 @@ export const signature_i = () => {
                   components: [
                     {
                       id: generateRandomId(),
-                      text: getLocalizedContent().phonePrefix,
+                      text: localizedContent[content.phonePrefix],
                       type: 'text',
                       color: 'rgb(71, 71, 71)',
                       width: '0px',
@@ -205,7 +207,7 @@ export const signature_i = () => {
                     },
                     {
                       id: generateRandomId(),
-                      text: getLocalizedContent().phoneValue,
+                      text: localizedContent[content.phone],
                       type: 'phoneLink',
                       color: 'rgb(71, 71, 71)',
                       fontSize: '14px',
@@ -228,7 +230,7 @@ export const signature_i = () => {
                   components: [
                     {
                       id: generateRandomId(),
-                      text: getLocalizedContent().emailPrefix,
+                      text: localizedContent[content.emailPrefix],
                       type: 'text',
                       color: 'rgb(71, 71, 71)',
                       width: '0px',
@@ -259,7 +261,7 @@ export const signature_i = () => {
                     },
                     {
                       id: generateRandomId(),
-                      text: getLocalizedContent().emailValue,
+                      text: localizedContent[content.email],
                       type: 'emailLink',
                       color: 'rgb(71, 71, 71)',
                       fontSize: '14px',
@@ -282,7 +284,7 @@ export const signature_i = () => {
                   components: [
                     {
                       id: generateRandomId(),
-                      text: getLocalizedContent().websitePrefix,
+                      text: localizedContent[content.websitePrefix],
                       type: 'text',
                       color: 'rgb(71, 71, 71)',
                       width: '0px',
@@ -313,7 +315,7 @@ export const signature_i = () => {
                     },
                     {
                       id: generateRandomId(),
-                      text: getLocalizedContent().websiteValue,
+                      text: localizedContent[content.website],
                       type: 'websiteLink',
                       color: 'rgb(71, 71, 71)',
                       fontSize: '14px',
@@ -365,7 +367,7 @@ export const signature_i = () => {
                   components: [
                     {
                       id: generateRandomId(),
-                      text: getLocalizedContent().slogan,
+                      text: localizedContent[content.slogan],
                       color: 'rgb(71, 71, 71)',
                       width: '0px',
                       height: '0px',

@@ -1,20 +1,21 @@
 import { generateRandomId } from "../utils/generateRandomId";
+import { content } from "./constants";
 
 const getLocalizedContent = () => {
     return {
-        name: "ROBERT ",
-        surname: "STANFORD",
-        title: "Lawyer",
-        phonePrefix: "P: ",
-        phoneValue: "+1 123 456 7890",
-        emailPrefix: "E: ",
-        emailValue: "example@email.com",
-        websitePrefix: "W: ",
-        websiteValue: "www.example.com",
-        websiteLink: "https://www.example.com",
-        address1: "3943 Lyon Avenue, Worcester",
-        address2: "Massachusetts 01608",
-        disclaimer:
+        [content.name]: "ROBERT ",
+        [content.surname]: "STANFORD",
+        [content.title]: "Lawyer",
+        [content.phonePrefix]: "P: ",
+        [content.phone]: "+1 123 456 7890",
+        [content.emailPrefix]: "E: ",
+        [content.email]: "example@email.com",
+        [content.websitePrefix]: "W: ",
+        [content.website]: "www.example.com",
+        [content.websiteLink]: "https://www.example.com",
+        [content.address]: "3943 Lyon Avenue, Worcester",
+        [content.address2]: "Massachusetts 01608",
+        [content.disclaimer]:
             "This email is intended only for the recipient and may contain confidential information.\nIf you are not the intended recipient, please notify the sender and delete this email.",
     };
 };
@@ -126,7 +127,8 @@ export const signature_f = () => {
                                     "components": [
                                         {
                                             "id": generateRandomId(),
-                                            "text": localizedContent.name,
+                                            "text":
+                                                localizedContent[content.name],
                                             "type": "customValue",
                                             "color": "rgb(94, 94, 94)",
                                             "width": "0px",
@@ -157,7 +159,9 @@ export const signature_f = () => {
                                         },
                                         {
                                             "id": generateRandomId(),
-                                            "text": localizedContent.surname,
+                                            "text": localizedContent[
+                                                content.surname
+                                            ],
                                             "type": "customValue",
                                             "color": "rgb(41, 41, 41)",
                                             "fontSize": "15px",
@@ -180,7 +184,8 @@ export const signature_f = () => {
                                     "components": [
                                         {
                                             "id": generateRandomId(),
-                                            "text": localizedContent.title,
+                                            "text":
+                                                localizedContent[content.title],
                                             "color": "rgb(41, 41, 41)",
                                             "width": "0px",
                                             "height": "0px",
@@ -218,8 +223,9 @@ export const signature_f = () => {
                                     "components": [
                                         {
                                             "id": generateRandomId(),
-                                            "text":
-                                                localizedContent.phonePrefix,
+                                            "text": localizedContent[
+                                                content.phonePrefix
+                                            ],
                                             "type": "text",
                                             "color": "rgb(41, 41, 41)",
                                             "width": "0px",
@@ -250,7 +256,8 @@ export const signature_f = () => {
                                         },
                                         {
                                             "id": generateRandomId(),
-                                            "text": localizedContent.phoneValue,
+                                            "text":
+                                                localizedContent[content.phone],
                                             "type": "phoneLink",
                                             "color": "rgb(94, 94, 94)",
                                             "fontSize": "14px",
@@ -272,8 +279,9 @@ export const signature_f = () => {
                                     "components": [
                                         {
                                             "id": generateRandomId(),
-                                            "text":
-                                                localizedContent.emailPrefix,
+                                            "text": localizedContent[
+                                                content.emailPrefix
+                                            ],
                                             "type": "text",
                                             "color": "rgb(41, 41, 41)",
                                             "width": "0px",
@@ -304,7 +312,8 @@ export const signature_f = () => {
                                         },
                                         {
                                             "id": generateRandomId(),
-                                            "text": localizedContent.emailValue,
+                                            "text":
+                                                localizedContent[content.email],
                                             "type": "emailLink",
                                             "color": "rgb(94, 94, 94)",
                                             "fontSize": "14px",
@@ -327,8 +336,9 @@ export const signature_f = () => {
                                     "components": [
                                         {
                                             "id": generateRandomId(),
-                                            "text":
-                                                localizedContent.websitePrefix,
+                                            "text": localizedContent[
+                                                content.websitePrefix
+                                            ],
                                             "type": "text",
                                             "color": "rgb(41, 41, 41)",
                                             "width": "0px",
@@ -359,10 +369,12 @@ export const signature_f = () => {
                                         },
                                         {
                                             "id": generateRandomId(),
-                                            "link":
-                                                localizedContent.websiteLink,
-                                            "text":
-                                                localizedContent.websiteValue,
+                                            "link": localizedContent[
+                                                content.websiteLink
+                                            ],
+                                            "text": localizedContent[
+                                                content.website
+                                            ],
                                             "type": "websiteLink",
                                             "color": "rgb(94, 94, 94)",
                                             "fontSize": "14px",
@@ -385,7 +397,9 @@ export const signature_f = () => {
                                     "components": [
                                         {
                                             "id": generateRandomId(),
-                                            "text": localizedContent.address1,
+                                            "text": localizedContent[
+                                                content.address
+                                            ],
                                             "color": "rgb(94, 94, 94)",
                                             "width": "0px",
                                             "height": "0px",
@@ -423,7 +437,9 @@ export const signature_f = () => {
                                     "components": [
                                         {
                                             "id": generateRandomId(),
-                                            "text": localizedContent.address2,
+                                            "text": localizedContent[
+                                                content.address2
+                                            ],
                                             "color": "rgb(94, 94, 94)",
                                             "width": "0px",
                                             "height": "0px",
@@ -490,7 +506,9 @@ export const signature_f = () => {
                                     "components": [
                                         {
                                             "id": generateRandomId(),
-                                            "text": localizedContent.disclaimer,
+                                            "text": localizedContent[
+                                                content.disclaimer
+                                            ],
                                             "color": "rgb(94, 94, 94)",
                                             "width": "0px",
                                             "height": "0px",

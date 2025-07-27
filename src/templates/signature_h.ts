@@ -1,15 +1,16 @@
 import { generateRandomId } from "../utils/generateRandomId";
+import { content } from "./constants";
 
 const getLocalizedContent = () => {
     return {
-        name: "Michael Carter ⚡",
-        title: "Electrician & Owner",
-        phonePrefix: "phone: ",
-        phoneValue: "+1 123 456 7890",
-        emailPrefix: "email: ",
-        emailValue: "example@email.com",
-        availablePrefix: "available: ",
-        availableValue: "Mon-Fri, 9 AM - 5 PM",
+        [content.name]: "Michael Carter ⚡",
+        [content.title]: "Electrician & Owner",
+        [content.phonePrefix]: "phone: ",
+        [content.phone]: "+1 123 456 7890",
+        [content.emailPrefix]: "email: ",
+        [content.email]: "example@email.com",
+        [content.availablePrefix]: "available: ",
+        [content.availableValue]: "Mon-Fri, 9 AM - 5 PM",
     };
 };
 
@@ -46,7 +47,8 @@ export const signature_h = () => {
                                     components: [
                                         {
                                             id: generateRandomId(),
-                                            text: localizedContent.name,
+                                            text:
+                                                localizedContent[content.name],
                                             color: "rgb(0, 0, 0)",
                                             width: "0px",
                                             height: "0px",
@@ -84,7 +86,8 @@ export const signature_h = () => {
                                     components: [
                                         {
                                             id: generateRandomId(),
-                                            text: localizedContent.title,
+                                            text:
+                                                localizedContent[content.title],
                                             color: "rgb(68, 64, 60)",
                                             width: "0px",
                                             height: "0px",
@@ -122,7 +125,10 @@ export const signature_h = () => {
                                     components: [
                                         {
                                             id: generateRandomId(),
-                                            text: localizedContent.phonePrefix,
+                                            text:
+                                                localizedContent[
+                                                    content.phonePrefix
+                                                ],
                                             type: "text",
                                             color: "rgb(59, 59, 59)",
                                             width: "0px",
@@ -153,7 +159,8 @@ export const signature_h = () => {
                                         },
                                         {
                                             id: generateRandomId(),
-                                            text: localizedContent.phoneValue,
+                                            text:
+                                                localizedContent[content.phone],
                                             type: "phoneLink",
                                             color: "rgb(68, 64, 60)",
                                             fontSize: "14px",
@@ -176,62 +183,10 @@ export const signature_h = () => {
                                     components: [
                                         {
                                             id: generateRandomId(),
-                                            text: localizedContent.emailPrefix,
-                                            type: "text",
-                                            color: "rgb(59, 59, 59)",
-                                            width: "0px",
-                                            height: "0px",
-                                            padding: "0px 0px 0px 0px",
-                                            fontSize: "14px",
-                                            fontStyle: "normal",
-                                            textAlign: "left",
-                                            fontFamily: "Verdana",
-                                            fontWeight: "bold",
-                                            lineHeight: "1",
-                                            borderRadius: "0px 0px 0px 0px",
-                                            letterSpacing: "0px",
-                                            borderTopColor: "rgb(0, 0, 0)",
-                                            borderTopStyle: "none",
-                                            borderTopWidth: "0px",
-                                            textDecoration: "none",
-                                            borderLeftColor: "rgb(0, 0, 0)",
-                                            borderLeftStyle: "none",
-                                            borderLeftWidth: "0px",
-                                            borderRightColor: "rgb(0, 0, 0)",
-                                            borderRightStyle: "none",
-                                            borderRightWidth: "0px",
-                                            borderBottomColor: "rgb(0, 0, 0)",
-                                            borderBottomStyle: "none",
-                                            borderBottomWidth: "0px",
-                                            whiteSpace: "nowrap",
-                                        },
-                                        {
-                                            id: generateRandomId(),
-                                            text: localizedContent.emailValue,
-                                            type: "emailLink",
-                                            color: "rgb(68, 64, 60)",
-                                            fontSize: "14px",
-                                            fontStyle: "normal",
-                                            textAlign: "left",
-                                            fontFamily: "Arial",
-                                            fontWeight: "normal",
-                                            lineHeight: "1.5",
-                                            letterSpacing: "0px",
-                                            textDecoration: "none",
-                                            whiteSpace: "nowrap",
-                                        },
-                                    ],
-                                },
-                            },
-                            {
-                                id: generateRandomId(),
-                                content: {
-                                    type: "customValue",
-                                    components: [
-                                        {
-                                            id: generateRandomId(),
-                                            text: localizedContent
-                                                .availablePrefix,
+                                            text:
+                                                localizedContent[
+                                                    content.emailPrefix
+                                                ],
                                             type: "text",
                                             color: "rgb(59, 59, 59)",
                                             width: "0px",
@@ -263,7 +218,65 @@ export const signature_h = () => {
                                         {
                                             id: generateRandomId(),
                                             text:
-                                                localizedContent.availableValue,
+                                                localizedContent[content.email],
+                                            type: "emailLink",
+                                            color: "rgb(68, 64, 60)",
+                                            fontSize: "14px",
+                                            fontStyle: "normal",
+                                            textAlign: "left",
+                                            fontFamily: "Arial",
+                                            fontWeight: "normal",
+                                            lineHeight: "1.5",
+                                            letterSpacing: "0px",
+                                            textDecoration: "none",
+                                            whiteSpace: "nowrap",
+                                        },
+                                    ],
+                                },
+                            },
+                            {
+                                id: generateRandomId(),
+                                content: {
+                                    type: "customValue",
+                                    components: [
+                                        {
+                                            id: generateRandomId(),
+                                            text: localizedContent[
+                                                content.availablePrefix
+                                            ],
+                                            type: "text",
+                                            color: "rgb(59, 59, 59)",
+                                            width: "0px",
+                                            height: "0px",
+                                            padding: "0px 0px 0px 0px",
+                                            fontSize: "14px",
+                                            fontStyle: "normal",
+                                            textAlign: "left",
+                                            fontFamily: "Verdana",
+                                            fontWeight: "bold",
+                                            lineHeight: "1",
+                                            borderRadius: "0px 0px 0px 0px",
+                                            letterSpacing: "0px",
+                                            borderTopColor: "rgb(0, 0, 0)",
+                                            borderTopStyle: "none",
+                                            borderTopWidth: "0px",
+                                            textDecoration: "none",
+                                            borderLeftColor: "rgb(0, 0, 0)",
+                                            borderLeftStyle: "none",
+                                            borderLeftWidth: "0px",
+                                            borderRightColor: "rgb(0, 0, 0)",
+                                            borderRightStyle: "none",
+                                            borderRightWidth: "0px",
+                                            borderBottomColor: "rgb(0, 0, 0)",
+                                            borderBottomStyle: "none",
+                                            borderBottomWidth: "0px",
+                                            whiteSpace: "nowrap",
+                                        },
+                                        {
+                                            id: generateRandomId(),
+                                            text: localizedContent[
+                                                content.availableValue
+                                            ],
                                             type: "customValue",
                                             color: "rgb(68, 64, 60)",
                                             fontSize: "14px",
