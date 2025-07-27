@@ -336,7 +336,7 @@ export const getContentView = (content?: any, isCopySignature?: boolean) => {
     );
   }
 
-  if (content?.type === ContentType.CUSTOM_VALUE) {
+  if (content?.type === ContentType.TWO_PART_TEXT) {
     const { components } = content;
     const textAlign = components[0].textAlign;
     const whiteSpace = components[0].whiteSpace;

@@ -45,13 +45,13 @@ export const signature_g = () => {
                             {
                                 id: generateRandomId(),
                                 content: {
-                                    type: "customValue",
+                                    type: "twoPartText",
                                     components: [
                                         {
                                             id: generateRandomId(),
                                             text:
                                                 localizedContent[content.name],
-                                            type: "customValue",
+                                            type: "twoPartText",
                                             color: "rgb(51, 150, 125)",
                                             width: "0px",
                                             height: "0px",
@@ -83,7 +83,7 @@ export const signature_g = () => {
                                             id: generateRandomId(),
                                             text:
                                                 localizedContent[content.title],
-                                            type: "customValue",
+                                            type: "twoPartText",
                                             color: "rgb(54, 54, 54)",
                                             fontSize: "16px",
                                             fontStyle: "normal",
@@ -215,7 +215,7 @@ export const signature_g = () => {
                             {
                                 id: generateRandomId(),
                                 content: {
-                                    type: "customValue",
+                                    type: "twoPartText",
                                     components: [
                                         {
                                             id: generateRandomId(),
@@ -273,7 +273,7 @@ export const signature_g = () => {
                             {
                                 id: generateRandomId(),
                                 content: {
-                                    type: "customValue",
+                                    type: "twoPartText",
                                     components: [
                                         {
                                             id: generateRandomId(),

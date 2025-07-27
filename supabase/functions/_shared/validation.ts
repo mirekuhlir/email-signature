@@ -306,11 +306,11 @@ const websiteContentSchema = z.object({
 // Content schema for custom type
 const CustomValueTypedComponentSchema = baseComponentSchema.extend({
     text: sanitizedString(MAX_STRING_LENGTH).optional(),
-    type: z.literal("customValue"),
+    type: z.literal("twoPartText"),
 }).strip();
 
 const customValueContentSchema = z.object({
-    type: z.literal("customValue"),
+    type: z.literal("twoPartText"),
     components: z.array(
         z.discriminatedUnion("type", [
             TextTypedComponentSchema, // For prefix text

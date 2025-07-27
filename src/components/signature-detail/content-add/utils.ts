@@ -14,7 +14,7 @@ export const getContentAdd = (type: ContentType) => {
             return getPhone();
         case ContentType.WEBSITE:
             return getWebsite();
-        case ContentType.CUSTOM_VALUE:
+        case ContentType.TWO_PART_TEXT:
             return getCustomValue();
         default:
             return getText();
@@ -218,12 +218,12 @@ const getCustomValue = () => {
     return {
         id: generateRandomId(),
         content: {
-            type: ContentType.CUSTOM_VALUE,
+            type: ContentType.TWO_PART_TEXT,
             components: [
                 {
                     id: generateRandomId(),
                     text: getCustomValueTextExample().prefix,
-                    type: ContentType.CUSTOM_VALUE,
+                    type: ContentType.TWO_PART_TEXT,
                     fontSize: "14px",
                     color: "rgb(0, 0, 0)",
                     fontFamily: "Arial",
@@ -238,7 +238,7 @@ const getCustomValue = () => {
                 {
                     id: generateRandomId(),
                     text: getCustomValueTextExample().value,
-                    type: ContentType.CUSTOM_VALUE,
+                    type: ContentType.TWO_PART_TEXT,
                     fontSize: "14px",
                     color: "rgb(0, 0, 0)",
                     fontFamily: "Arial",

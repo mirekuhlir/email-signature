@@ -231,7 +231,7 @@ export const useSignatureStore = create<StoreState>((set, get) => {
           ContentType.EMAIL,
           ContentType.PHONE,
           ContentType.WEBSITE,
-          ContentType.CUSTOM_VALUE,
+          ContentType.TWO_PART_TEXT,
         ];
 
         const applyToTypes = [

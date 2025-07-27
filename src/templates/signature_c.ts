@@ -175,10 +175,9 @@ export const signature_c = () => {
                                     "components": [
                                         {
                                             "id": generateRandomId(),
-                                            "text":
-                                                localizedContent[
-                                                    content.phonePrefix
-                                                ],
+                                            "text": localizedContent[
+                                                content.phonePrefix
+                                            ],
                                             "type": "text",
                                             "color": "rgb(48, 52, 112)",
                                             "padding": "10px 0px 5px 0px",
@@ -231,10 +230,9 @@ export const signature_c = () => {
                                     "components": [
                                         {
                                             "id": generateRandomId(),
-                                            "text":
-                                                localizedContent[
-                                                    content.emailPrefix
-                                                ],
+                                            "text": localizedContent[
+                                                content.emailPrefix
+                                            ],
                                             "type": "text",
                                             "color": "rgb(48, 52, 112)",
                                             "padding": "0px 0px 5px 0px",
@@ -282,14 +280,13 @@ export const signature_c = () => {
                             {
                                 "id": generateRandomId(),
                                 "content": {
-                                    "type": "customValue",
+                                    "type": "twoPartText",
                                     "components": [
                                         {
                                             "id": generateRandomId(),
-                                            "text":
-                                                localizedContent[
-                                                    content.addressPrefix
-                                                ],
+                                            "text": localizedContent[
+                                                content.addressPrefix
+                                            ],
                                             "type": "text",
                                             "color": "rgb(48, 52, 112)",
                                             "padding": "0px 0px 5px 0px",
@@ -318,10 +315,9 @@ export const signature_c = () => {
                                         },
                                         {
                                             "id": generateRandomId(),
-                                            "text":
-                                                localizedContent[
-                                                    content.address
-                                                ],
+                                            "text": localizedContent[
+                                                content.address
+                                            ],
                                             "type": "text",
                                             "color": "rgb(0, 0, 0)",
                                             "fontSize": "14px",
@@ -344,10 +340,9 @@ export const signature_c = () => {
                                     "components": [
                                         {
                                             "id": generateRandomId(),
-                                            "text":
-                                                localizedContent[
-                                                    content.websitePrefix
-                                                ],
+                                            "text": localizedContent[
+                                                content.websitePrefix
+                                            ],
                                             "type": "text",
                                             "color": "rgb(0, 0, 0)",
                                             "padding": "0px 0px 5px 0px",
@@ -376,10 +371,9 @@ export const signature_c = () => {
                                         },
                                         {
                                             "id": generateRandomId(),
-                                            "text":
-                                                localizedContent[
-                                                    content.website
-                                                ],
+                                            "text": localizedContent[
+                                                content.website
+                                            ],
                                             "type": "websiteLink",
                                             "color": "rgb(48, 52, 112)",
                                             "fontSize": "14px",

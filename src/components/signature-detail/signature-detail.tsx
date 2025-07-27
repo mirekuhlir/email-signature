@@ -155,10 +155,11 @@ export const SignatureDetail = (props: any) => {
                     copySignatureToClipboard(userStatus);
                     showCopyInstructionsModal();
                   } else {
-                    showAuthModal({
+                    copySignatureToClipboard(userStatus);
+                    /*     showAuthModal({
                       title: 'Sign in to use your signature',
                       description: 'Please enter your email to sign in.',
-                    });
+                    }); */
                   }
                 }}
               >

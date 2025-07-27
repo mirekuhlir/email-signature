@@ -125,10 +125,9 @@ export const signature_h = () => {
                                     components: [
                                         {
                                             id: generateRandomId(),
-                                            text:
-                                                localizedContent[
-                                                    content.phonePrefix
-                                                ],
+                                            text: localizedContent[
+                                                content.phonePrefix
+                                            ],
                                             type: "text",
                                             color: "rgb(59, 59, 59)",
                                             width: "0px",
@@ -183,10 +182,9 @@ export const signature_h = () => {
                                     components: [
                                         {
                                             id: generateRandomId(),
-                                            text:
-                                                localizedContent[
-                                                    content.emailPrefix
-                                                ],
+                                            text: localizedContent[
+                                                content.emailPrefix
+                                            ],
                                             type: "text",
                                             color: "rgb(59, 59, 59)",
                                             width: "0px",
@@ -237,7 +235,7 @@ export const signature_h = () => {
                             {
                                 id: generateRandomId(),
                                 content: {
-                                    type: "customValue",
+                                    type: "twoPartText",
                                     components: [
                                         {
                                             id: generateRandomId(),
@@ -277,7 +275,7 @@ export const signature_h = () => {
                                             text: localizedContent[
                                                 content.availableValue
                                             ],
-                                            type: "customValue",
+                                            type: "twoPartText",
                                             color: "rgb(68, 64, 60)",
                                             fontSize: "14px",
                                             fontStyle: "normal",

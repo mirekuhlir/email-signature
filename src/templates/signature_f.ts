@@ -123,13 +123,13 @@ export const signature_f = () => {
                             {
                                 "id": generateRandomId(),
                                 "content": {
-                                    "type": "customValue",
+                                    "type": "twoPartText",
                                     "components": [
                                         {
                                             "id": generateRandomId(),
                                             "text":
                                                 localizedContent[content.name],
-                                            "type": "customValue",
+                                            "type": "twoPartText",
                                             "color": "rgb(94, 94, 94)",
                                             "width": "0px",
                                             "height": "0px",
@@ -162,7 +162,7 @@ export const signature_f = () => {
                                             "text": localizedContent[
                                                 content.surname
                                             ],
-                                            "type": "customValue",
+                                            "type": "twoPartText",
                                             "color": "rgb(41, 41, 41)",
                                             "fontSize": "15px",
                                             "fontStyle": "normal",
