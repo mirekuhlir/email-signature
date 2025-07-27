@@ -41,7 +41,7 @@ const PricingCard = () => {
               <div className="flex items-center">
                 <Checkmark />
                 <Typography className="text-gray-700">
-                  No recurring fees
+                  No monthly fees
                 </Typography>
               </div>
               <div className="flex items-center">
