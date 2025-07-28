@@ -74,7 +74,7 @@ const getContentTypeName = (type: ContentType): string => {
       return phone;
     case ContentType.WEBSITE:
       return website;
-    case ContentType.CUSTOM_VALUE:
+    case ContentType.TWO_PART_TEXT:
       return twoPartText;
     default:
       return 'element';
@@ -1037,16 +1037,16 @@ const getContentType = (
       );
     }
 
-    case ContentType.CUSTOM_VALUE: {
+    case ContentType.TWO_PART_TEXT: {
       const getLabel = (component: any, originalIndex: number) => {
-        if (component.type === ContentType.CUSTOM_VALUE && originalIndex === 0)
+        if (component.type === ContentType.TWO_PART_TEXT && originalIndex === 0)
           return 'The first';
-        if (component.type === ContentType.CUSTOM_VALUE && originalIndex === 1)
+        if (component.type === ContentType.TWO_PART_TEXT && originalIndex === 1)
           return 'The second';
         return '';
       };
       const getLayoutType = (component: any, _: number) => {
-        if (component.type === ContentType.CUSTOM_VALUE)
+        if (component.type === ContentType.TWO_PART_TEXT)
           return LayoutType.CUSTOM_VALUE;
         return LayoutType.TEXT;
       };

@@ -102,7 +102,7 @@ export const SignatureDetail = (props: any) => {
 
   return (
     <div
-      className={`pb-12 ${contentEdit.editPath || contentEdit.columnPath ? 'pt-6' : 'pt-20'}`}
+      className={`pb-12 min-h-screen ${contentEdit.editPath || contentEdit.columnPath ? 'pt-6' : 'pt-20'}`}
     >
       <Container>
         {isPreview && (
@@ -155,11 +155,10 @@ export const SignatureDetail = (props: any) => {
                     copySignatureToClipboard(userStatus);
                     showCopyInstructionsModal();
                   } else {
-                    copySignatureToClipboard(userStatus);
-                    /*     showAuthModal({
+                    showAuthModal({
                       title: 'Sign in to use your signature',
                       description: 'Please enter your email to sign in.',
-                    }); */
+                    });
                   }
                 }}
               >
@@ -196,7 +195,7 @@ export const SignatureDetail = (props: any) => {
 
       {isEdit && (
         <Container>
-          <div className="overflow-x-auto scrollbar-visible">
+          <div className="overflow-x-auto min-h-screen">
             <EmailTemplateEdit
               isSignedIn={isSignedIn}
               templateSlug={templateSlug}

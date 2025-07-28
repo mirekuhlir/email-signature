@@ -51,7 +51,7 @@ export const ContextMenu: React.FC<ContextMenuProps> = ({
     if (isOpen && buttonRef.current) {
       const rect = buttonRef.current.getBoundingClientRect();
       const spaceBelow = window.innerHeight - rect.bottom;
-      if (spaceBelow < 100) {
+      if (spaceBelow < 270) {
         setDirection('up');
       } else {
         setDirection('down');
