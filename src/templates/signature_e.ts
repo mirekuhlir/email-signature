@@ -413,7 +413,7 @@ export const signature_e = () => {
                         "style": {
                             "width": "auto",
                             "height": "auto",
-                            "padding": "15px 10px 15px 0px",
+                            "padding": "0px 10px 0px 0px",
                             "borderRadius": "0px 10px 10px 0px",
                             "verticalAlign": "middle",
                             "borderTopColor": "rgb(0, 0, 0)",
