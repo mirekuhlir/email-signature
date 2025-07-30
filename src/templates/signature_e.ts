@@ -260,7 +260,7 @@ export const signature_e = () => {
                                             "width": "0px",
                                             "height": "0px",
                                             "padding": "0px 0px 10px 0px",
-                                            "fontSize": "20px",
+                                            "fontSize": "14px",
                                             "fontStyle": "normal",
                                             "textAlign": "left",
                                             "fontFamily": "Verdana",
