@@ -30,7 +30,7 @@ export const SignaturePreview: React.FC = () => {
   const outerDivClasses = 'py-2 flex justify-center';
 
   const wrapperDivClasses = [
-    !isDesktopScreen || isMobilePreview ? 'inline-flex' : '',
+    isMobilePreview ? 'inline-flex' : '',
 
     isDarkMode ? 'bg-neutral-800' : '',
     !isDesktopScreen ? 'w-full px-4' : '',

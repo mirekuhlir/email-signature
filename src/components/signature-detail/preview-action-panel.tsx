@@ -57,7 +57,7 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({
             Close
           </Button>
         )}
-        <div className="flex gap-8 sm:flex-row-reverse">
+        <div className="flex gap-4 sm:gap-8 sm:flex-row-reverse">
           {onPreview && (
             <Button
               variant="outline"

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useSignatureStore } from '@/src/store/content-edit-add-store';
 import { Button } from '@/src/components/ui/button';
 import { copySignatureToClipboard } from './content-view/utils';
@@ -32,7 +32,6 @@ export const SignatureDetail = (props: any) => {
 
   const { rows, initSignature } = useSignatureStore();
   const { contentEdit, resetContentEdit } = useContentEditStore();
-  const [isEdit, setIsEdit] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
   const { modal } = useModal();
   const { showAuthModal } = useAuthModal();
@@ -68,6 +67,19 @@ export const SignatureDetail = (props: any) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const showPreview = useCallback(() => {
+    modal({
+      content: (
+        <div className="pt-6">
+          <SignaturePreview />
+        </div>
+      ),
+      isZeroPadding: true,
+      size: 'fullscreen',
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
     const handleScroll = () => {
       if (!isMobile) {
@@ -98,28 +110,20 @@ export const SignatureDetail = (props: any) => {
     });
   };
 
-  const isPreview = !isEdit;
-
   return (
     <div
       className={`pb-12 min-h-screen ${contentEdit.editPath || contentEdit.columnPath ? 'pt-6' : 'pt-20'}`}
     >
       <Container>
-        {isPreview && (
-          <>
-            <>
-              <StyledLink
-                variant="default"
-                href="/signatures"
-                className="flex items-center gap-1"
-              >
-                <ChevronLeft size={23} />
-                Back to My signatures
-              </StyledLink>
-              <Hr className="mt-4 mb-4 sm:mb-4 sm:mt-4" />
-            </>
-          </>
-        )}
+        <StyledLink
+          variant="default"
+          href="/signatures"
+          className="flex items-center gap-1"
+        >
+          <ChevronLeft size={23} />
+          Back to My signatures
+        </StyledLink>
+        <Hr className="mt-4 mb-4 sm:mb-4 sm:mt-4" />
       </Container>
 
       {(contentEdit.editPath || contentEdit.columnPath) && (
@@ -130,82 +134,53 @@ export const SignatureDetail = (props: any) => {
         </div>
       )}
 
-      {!isEdit && (
-        <>
-          {userStatus === UserStatus.TRIAL && (
-            <div className="flex justify-center">
-              <TrialBanner user={user} />
-            </div>
-          )}
-
-          <SignaturePreview />
-        </>
-      )}
+      {userStatus === UserStatus.TRIAL &&
+        !contentEdit.editPath &&
+        !contentEdit.columnPath && (
+          <div className="flex justify-center">
+            <TrialBanner user={user} />
+          </div>
+        )}
 
       <EditPanel>
         <Container>
           <div className="flex sm:justify-end sm:gap-8 justify-between flex-row sm:flex-row-reverse">
-            {!isEdit && (
-              <Button
-                size="md"
-                variant="brandBlue"
-                buttonClassName="min-w-35"
-                onClick={() => {
-                  if (isSignedIn) {
-                    copySignatureToClipboard(userStatus);
-                    showCopyInstructionsModal();
-                  } else {
-                    showAuthModal({
-                      title: 'Sign in to use your signature',
-                      description: 'Please enter your email to sign in.',
-                    });
-                  }
-                }}
-              >
-                Use signature
-              </Button>
-            )}
-            {!isEdit && (
-              <Button
-                size="md"
-                onClick={() => setIsEdit(true)}
-                buttonClassName="min-w-35"
-              >
-                Edit
-              </Button>
-            )}
-            {!contentEdit.editPath &&
-              !contentEdit.addPath &&
-              !contentEdit.columnPath &&
-              isEdit && (
-                <div className="flex w-full justify-end sm:justify-start">
-                  <Button
-                    size="md"
-                    onClick={() => setIsEdit(false)}
-                    variant="blue"
-                    buttonClassName="min-w-35"
-                  >
-                    Preview
-                  </Button>
-                </div>
-              )}
+            <Button
+              size="md"
+              variant="brandBlue"
+              buttonClassName="min-w-35"
+              onClick={() => {
+                if (isSignedIn) {
+                  copySignatureToClipboard(userStatus);
+                  showCopyInstructionsModal();
+                } else {
+                  showAuthModal({
+                    title: 'Sign in to use your signature',
+                    description: 'Please enter your email to sign in.',
+                  });
+                }
+              }}
+            >
+              Use signature
+            </Button>
+            <Button buttonClassName="min-w-35" onClick={showPreview}>
+              Preview
+            </Button>
           </div>
         </Container>
       </EditPanel>
 
-      {isEdit && (
-        <Container>
-          <div className="overflow-x-auto min-h-screen">
-            <EmailTemplateEdit
-              isSignedIn={isSignedIn}
-              templateSlug={templateSlug}
-              rows={rows}
-              userStatus={userStatus}
-              tempSignatureCreatedAt={tempSignatureCreatedAt}
-            />
-          </div>
-        </Container>
-      )}
+      <Container>
+        <div className="overflow-x-auto min-h-screen">
+          <EmailTemplateEdit
+            isSignedIn={isSignedIn}
+            templateSlug={templateSlug}
+            rows={rows}
+            userStatus={userStatus}
+            tempSignatureCreatedAt={tempSignatureCreatedAt}
+          />
+        </div>
+      </Container>
     </div>
   );
 };
