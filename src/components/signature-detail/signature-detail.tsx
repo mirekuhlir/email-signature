@@ -113,9 +113,7 @@ export const SignatureDetail = (props: any) => {
   const isEdit = contentEdit.editPath || contentEdit.columnPath;
 
   return (
-    <div
-      className={`pb-12 min-h-screen ${contentEdit.editPath || contentEdit.columnPath ? 'pt-6' : 'pt-20'}`}
-    >
+    <div className={`pb-12 min-h-screen ${isEdit ? 'pt-6' : 'pt-20'}`}>
       {!isEdit && (
         <Container>
           <StyledLink
@@ -130,7 +128,7 @@ export const SignatureDetail = (props: any) => {
         </Container>
       )}
 
-      {(contentEdit.editPath || contentEdit.columnPath) && (
+      {isEdit && (
         <div
           className={`${isSticky ? 'sticky top-0 bg-gray-50 z-10 pt-5 border-b border-gray-300' : ''}`}
         >
@@ -146,33 +144,35 @@ export const SignatureDetail = (props: any) => {
           </div>
         )}
 
-      <EditPanel>
-        <Container>
-          <div className="flex sm:justify-end sm:gap-8 justify-between flex-row sm:flex-row-reverse">
-            <Button
-              size="md"
-              variant="brandBlue"
-              buttonClassName="min-w-35"
-              onClick={() => {
-                if (isSignedIn) {
-                  copySignatureToClipboard(userStatus);
-                  showCopyInstructionsModal();
-                } else {
-                  showAuthModal({
-                    title: 'Sign in to use your signature',
-                    description: 'Please enter your email to sign in.',
-                  });
-                }
-              }}
-            >
-              Use signature
-            </Button>
-            <Button buttonClassName="min-w-35" onClick={showPreview}>
-              Preview
-            </Button>
-          </div>
-        </Container>
-      </EditPanel>
+      {!isEdit && (
+        <EditPanel>
+          <Container>
+            <div className="flex sm:justify-end sm:gap-8 justify-between flex-row sm:flex-row-reverse">
+              <Button
+                size="md"
+                variant="brandBlue"
+                buttonClassName="min-w-35"
+                onClick={() => {
+                  if (isSignedIn) {
+                    copySignatureToClipboard(userStatus);
+                    showCopyInstructionsModal();
+                  } else {
+                    showAuthModal({
+                      title: 'Sign in to use your signature',
+                      description: 'Please enter your email to sign in.',
+                    });
+                  }
+                }}
+              >
+                Use signature
+              </Button>
+              <Button buttonClassName="min-w-35" onClick={showPreview}>
+                Preview
+              </Button>
+            </div>
+          </Container>
+        </EditPanel>
+      )}
 
       <Container>
         <div className="overflow-x-auto min-h-screen">
