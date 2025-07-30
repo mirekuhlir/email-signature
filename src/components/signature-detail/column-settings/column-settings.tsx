@@ -92,6 +92,11 @@ export const ColumnSettings = (props: any) => {
   const originalStyle = useMemo(() => get(rows, path) || {}, [rows, path]);
 
   useEffect(() => {
+    // Scroll to top when column settings is opened
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, []);
+
+  useEffect(() => {
     if (!initContent) {
       setInitContent(originalStyle);
     }

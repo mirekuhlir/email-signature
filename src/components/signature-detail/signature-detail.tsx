@@ -110,21 +110,25 @@ export const SignatureDetail = (props: any) => {
     });
   };
 
+  const isEdit = contentEdit.editPath || contentEdit.columnPath;
+
   return (
     <div
       className={`pb-12 min-h-screen ${contentEdit.editPath || contentEdit.columnPath ? 'pt-6' : 'pt-20'}`}
     >
-      <Container>
-        <StyledLink
-          variant="default"
-          href="/signatures"
-          className="flex items-center gap-1"
-        >
-          <ChevronLeft size={23} />
-          Back to My signatures
-        </StyledLink>
-        <Hr className="mt-4 mb-4 sm:mb-4 sm:mt-4" />
-      </Container>
+      {!isEdit && (
+        <Container>
+          <StyledLink
+            variant="default"
+            href="/signatures"
+            className="flex items-center gap-1"
+          >
+            <ChevronLeft size={23} />
+            Back to My signatures
+          </StyledLink>
+          <Hr className="mt-4 mb-4 sm:mb-4 sm:mt-4" />
+        </Container>
+      )}
 
       {(contentEdit.editPath || contentEdit.columnPath) && (
         <div
