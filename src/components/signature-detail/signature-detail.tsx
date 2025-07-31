@@ -166,7 +166,8 @@ export const SignatureDetail = (props: any) => {
                   } else {
                     showAuthModal({
                       title: 'Sign in to use your signature',
-                      description: 'Please enter your email to sign in.',
+                      description:
+                        'To use your signature in email, you need to sign up first.',
                     });
                   }
                 }}
