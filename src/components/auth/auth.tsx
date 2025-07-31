@@ -100,7 +100,7 @@ export const Auth = ({ title, description }: AuthProps) => {
           <div className="flex flex-col justify-center  flex-1">
             {!title && (
               <Typography variant="h5" className="mb-4">
-                Please enter your email to sign in.
+                Enter your email to sign in.
               </Typography>
             )}
             <form onSubmit={handleSubmit(onSubmit)} className="bg-white">
