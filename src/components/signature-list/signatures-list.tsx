@@ -165,6 +165,8 @@ export const SignaturesList = (props: any) => {
     );
   }
 
+  const signaturesCount = signatures.length + tempSignatures.length;
+
   return (
     <div className="w-full pt-6">
       {userStatus === UserStatus.TRIAL && (
@@ -173,12 +175,21 @@ export const SignaturesList = (props: any) => {
         </div>
       )}
       <div>
-        {signatures.length < MAX_SIGNATURES && (
+        {signaturesCount < MAX_SIGNATURES && (
           <div className="flex justify-center pt-8 pb-10 sm:pb-2 w-full">
             <Button size="xl" onClick={() => setIsModalOpen(true)}>
               <PlusIcon className="w-7 h-7 mr-4" />
               Create new signature
             </Button>
+          </div>
+        )}
+
+        {signaturesCount >= MAX_SIGNATURES && (
+          <div className="flex justify-center pt-8 pb-12">
+            <Typography variant="labelBase">
+              You have reached the maximum number of signatures. Please delete
+              some signatures to create a new one.
+            </Typography>
           </div>
         )}
 
