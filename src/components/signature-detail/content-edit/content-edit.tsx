@@ -449,6 +449,7 @@ export const ContentEdit = (props: any) => {
     if (!isSignedIn) {
       saveTempSignature({
         createdAt: tempSignatureCreatedAt,
+        updatedAt: new Date().toISOString(),
         templateSlug,
         rows,
         colors,

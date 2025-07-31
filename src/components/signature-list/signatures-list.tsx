@@ -102,6 +102,7 @@ export const SignaturesList = (props: any) => {
 
       saveTempSignature({
         createdAt,
+        updatedAt: createdAt,
         templateSlug,
         rows: template.rows,
         colors: template.colors,

@@ -286,6 +286,7 @@ export const ColumnSettings = (props: any) => {
     if (!isSignedIn) {
       saveTempSignature({
         createdAt: tempSignatureCreatedAt,
+        updatedAt: new Date().toISOString(),
         templateSlug: templateSlug,
         rows: rows,
         colors: colors,

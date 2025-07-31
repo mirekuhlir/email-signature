@@ -105,6 +105,7 @@ const moveRowWithWrapping = async (
   } else {
     saveTempSignature({
       templateSlug: templateSlug,
+      updatedAt: new Date().toISOString(),
       createdAt: tempSignatureCreatedAt || "",
       rows: cloneRows,
       colors: state.colors,

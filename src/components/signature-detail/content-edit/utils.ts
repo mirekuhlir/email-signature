@@ -5,12 +5,14 @@ export const saveTempSignature = (
     {
         templateSlug,
         createdAt,
+        updatedAt,
         rows,
         colors,
         dimensions,
     }: {
         templateSlug: string;
         createdAt: string;
+        updatedAt: string;
         rows: any;
         colors: any;
         dimensions: any;
@@ -36,7 +38,7 @@ export const saveTempSignature = (
                 colors,
                 dimensions,
                 createdAt,
-                updatedAt: new Date().toISOString(),
+                updatedAt,
                 info: getTemplateBySlug(slug)?.info,
             }),
         );
