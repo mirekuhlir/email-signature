@@ -3,6 +3,7 @@ import { useModal } from '@/src/components/ui/modal-system';
 import { Container } from '@/src/components/ui/container';
 import { Button } from '@/src/components/ui/button';
 import SignaturePreview from './signature-preview';
+import EditPanel from './edit-panel';
 
 interface ActionPanelProps {
   visible: boolean;
@@ -83,11 +84,9 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({
 
   return (
     <>
-      <div
-        className={`fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-lg border-t border-gray-200 shadow-lg py-2 z-40`}
-      >
+      <EditPanel>
         <Container>{renderButtons()}</Container>
-      </div>
+      </EditPanel>
     </>
   );
 };

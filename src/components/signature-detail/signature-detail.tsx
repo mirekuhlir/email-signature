@@ -149,8 +149,15 @@ export const SignatureDetail = (props: any) => {
           <Container>
             <div className="flex sm:justify-end sm:gap-8 justify-between flex-row sm:flex-row-reverse">
               <Button
+                variant="outline"
+                buttonClassName="min-w-35"
+                onClick={showPreview}
+              >
+                Preview
+              </Button>
+              <Button
                 size="md"
-                variant="brandBlue"
+                variant="blue"
                 buttonClassName="min-w-35"
                 onClick={() => {
                   if (isSignedIn) {
@@ -165,9 +172,6 @@ export const SignatureDetail = (props: any) => {
                 }}
               >
                 Use signature
-              </Button>
-              <Button buttonClassName="min-w-35" onClick={showPreview}>
-                Preview
               </Button>
             </div>
           </Container>
