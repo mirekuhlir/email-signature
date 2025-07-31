@@ -372,13 +372,15 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
 
       {layoutType === LayoutType.TEXT && (
         <div>
-          <Typography variant="labelBase">Text stays on one line</Typography>
+          <Typography variant="labelBase">
+            Break text to multiple lines
+          </Typography>
           <Switch
-            checked={editWhiteSpace === 'nowrap'}
+            checked={editWhiteSpace === 'normal'}
             onCheckedChange={(checked) => {
-              setEditWhiteSpace(checked ? 'nowrap' : 'normal');
+              setEditWhiteSpace(checked ? 'normal' : 'nowrap');
               onChangeContent({
-                whiteSpace: checked ? 'nowrap' : 'normal',
+                whiteSpace: checked ? 'normal' : 'nowrap',
               });
             }}
           />
