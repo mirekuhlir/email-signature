@@ -587,6 +587,8 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
       URL.revokeObjectURL(originalImagePreview);
     }
     setOriginalImagePreview(undefined);
+
+    window.scrollTo({ top: 0, behavior: 'instant' });
   }, [
     onSetCropImagePreview,
     onSetOriginalImage,

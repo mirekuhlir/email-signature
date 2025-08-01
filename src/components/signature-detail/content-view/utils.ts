@@ -2,10 +2,14 @@
 import { useToastStore } from "@/src/components/ui/toast";
 import { UserStatus } from "@/src/utils/userState";
 
-export const copySignatureToClipboard = async (userStatus: UserStatus) => {
+export const copySignatureToClipboard = async (
+  userStatus: UserStatus,
+  onCopy?: () => void,
+) => {
   const signatureElement = document.getElementById(
     "email-signature-light-for-copy",
   );
+
   if (!signatureElement) return;
 
   const textContent = signatureElement.innerText;
@@ -73,6 +77,7 @@ export const copySignatureToClipboard = async (userStatus: UserStatus) => {
         "text/html": new Blob([htmlContent], { type: "text/html" }),
       });
       await navigator.clipboard.write([clipboardItem]);
+      onCopy?.();
       return;
     } catch (err) {
       console.error("Modern clipboard API failed:", err);
@@ -103,6 +108,7 @@ export const copySignatureToClipboard = async (userStatus: UserStatus) => {
       selection.removeAllRanges();
     }
     document.body.removeChild(tempElement);
+    onCopy?.();
 
     if (!success) {
       throw new Error("execCommand copy failed");

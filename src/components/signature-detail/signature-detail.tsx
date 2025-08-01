@@ -161,8 +161,9 @@ export const SignatureDetail = (props: any) => {
                 buttonClassName="min-w-35"
                 onClick={() => {
                   if (isSignedIn) {
-                    copySignatureToClipboard(userStatus);
-                    showCopyInstructionsModal();
+                    copySignatureToClipboard(userStatus, () => {
+                      showCopyInstructionsModal();
+                    });
                   } else {
                     showAuthModal({
                       title: 'Sign in to use your signature',

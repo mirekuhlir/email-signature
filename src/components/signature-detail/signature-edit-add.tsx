@@ -19,6 +19,7 @@ import { getWidthHeightStyle } from './content-view/utils';
 import { DeleteConfirmationModal } from '@/src/components/ui/delete-confirmation-modal';
 import Modal from '../ui/modal';
 import { Container } from '../ui/container';
+import { EmailTemplateView } from './content-view/signature-view';
 
 // Helper function to determine if a color is dark
 function isColorDark(colorString: string): boolean {
@@ -499,6 +500,13 @@ export const EmailTemplateEdit = (props: any) => {
         message="Are you sure you want to delete this row?"
         isLoading={isDeleting}
       />
+      <div
+        id="email-signature-light-for-copy"
+        style={{ position: 'absolute', left: '-9999px', top: '-9999px' }}
+        aria-hidden="true"
+      >
+        <EmailTemplateView rows={rows} isCopySignature={true} />
+      </div>
     </>
   );
 };

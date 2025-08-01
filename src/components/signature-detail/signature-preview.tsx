@@ -62,14 +62,6 @@ export const SignaturePreview: React.FC = () => {
 
   return (
     <>
-      <div
-        id="email-signature-light-for-copy"
-        style={{ position: 'absolute', left: '-9999px', top: '-9999px' }}
-        aria-hidden="true"
-      >
-        <EmailTemplateView rows={rows} isCopySignature={true} />
-      </div>
-
       <div className={`sm:px-0 lg:px-4`}>
         <Container>
           {/*      <div className="flex justify-center sm:justify-start mb-1">
