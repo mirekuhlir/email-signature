@@ -75,7 +75,7 @@ export const selectedStyles = {
 };
 
 export const sizes = {
-  sm: 'h-8 px-3 text-sm',
+  sm: 'h-8 px-2 sm:px-2 text-sm min-w-12',
   md: 'h-10 px-4 text-base',
   lg: 'h-12 px-6 text-lg',
   xl: 'h-14 px-6 text-xl',

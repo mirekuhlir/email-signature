@@ -327,7 +327,7 @@ export const ColumnSettings = (props: any) => {
       <div ref={wrapperRef}>
         {!isSavingSignature && (
           <div className="pb-2">
-            <CollapsibleSection title="Inner space">
+            <CollapsibleSection title="Spaces">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 <div>
                   <SliderDimensions
