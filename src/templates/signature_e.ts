@@ -3,8 +3,8 @@ import { content } from "./constants";
 
 const getLocalizedContent = () => {
     return {
-        [content.name]: "Isabella Thompson",
         [content.title]: "Starlit Beauty Salon",
+        [content.name]: "Isabella Thompson",
         [content.phonePrefix]: "",
         [content.phone]: "+1 123 456 7890",
         [content.emailPrefix]: "",
@@ -51,7 +51,7 @@ export const signature_e = () => {
                                         {
                                             "id": generateRandomId(),
                                             "text":
-                                                localizedContent[content.name],
+                                                localizedContent[content.title],
                                             "color": "rgb(65, 26, 138)",
                                             "width": "0px",
                                             "height": "0px",
@@ -90,12 +90,12 @@ export const signature_e = () => {
                                         {
                                             "id": generateRandomId(),
                                             "text":
-                                                localizedContent[content.title],
+                                                localizedContent[content.name],
                                             "color": "rgb(0, 0, 0)",
                                             "width": "0px",
                                             "height": "0px",
                                             "padding": "10px 0px 10px 0px",
-                                            "fontSize": "18px",
+                                            "fontSize": "16px",
                                             "fontStyle": "normal",
                                             "textAlign": "left",
                                             "fontFamily": "Verdana",
