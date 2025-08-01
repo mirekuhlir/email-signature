@@ -10,7 +10,13 @@ import { Container } from '../ui/container';
 import { MAX_MOBILE_IMAGE_WIDTH } from '@/supabase/functions/_shared/const';
 import { AutoScaleContainer } from '../ui/auto-scale-container';
 
-export const SignaturePreview: React.FC = () => {
+interface SignaturePreviewProps {
+  isOnlyView?: boolean;
+}
+
+export const SignaturePreview: React.FC<SignaturePreviewProps> = ({
+  isOnlyView = false,
+}) => {
   const isDesktopScreen = useMediaQuery(MEDIA_QUERIES.MD);
 
   const {
@@ -63,52 +69,54 @@ export const SignaturePreview: React.FC = () => {
   return (
     <>
       <div className={`sm:px-0 lg:px-4`}>
-        <Container>
-          {/*      <div className="flex justify-center sm:justify-start mb-1">
+        {!isOnlyView && (
+          <Container>
+            {/*      <div className="flex justify-center sm:justify-start mb-1">
             <Typography variant="lead">Preview</Typography>
           </div>
  */}
-          <div className="flex flex-col sm:flex-row items-center w-full justify-center sm:justify-start mb-0 sm:mb-2 space-y-4 sm:space-y-0 sm:space-x-8">
-            {isDesktopScreen && (
-              <TitleSwitch
-                checked={isMobilePreview}
-                onCheckedChange={setIsMobilePreview}
-                leftContent={
-                  <div className="flex items-center">
-                    <Monitor size={16} className="mr-1" />
-                    Desktop
-                  </div>
-                }
-                rightContent={
-                  <div className="flex items-center">
-                    <Smartphone size={16} className="mr-1" />
-                    Mobile
-                  </div>
-                }
-                aria-label="Switch between desktop and mobile view"
-              />
-            )}
-            <div className="pt-2">
-              <TitleSwitch
-                checked={isDarkMode}
-                onCheckedChange={toggleDarkMode}
-                leftContent={
-                  <div className="flex items-center">
-                    <Sun size={16} className="mr-1" />
-                    Light
-                  </div>
-                }
-                rightContent={
-                  <div className="flex items-center">
-                    <Moon size={16} className="mr-1" />
-                    Dark
-                  </div>
-                }
-                aria-label="Switch between light and dark mode"
-              />
+            <div className="flex flex-col sm:flex-row items-center w-full justify-center sm:justify-start mb-0 sm:mb-2 space-y-4 sm:space-y-0 sm:space-x-8">
+              {isDesktopScreen && (
+                <TitleSwitch
+                  checked={isMobilePreview}
+                  onCheckedChange={setIsMobilePreview}
+                  leftContent={
+                    <div className="flex items-center">
+                      <Monitor size={16} className="mr-1" />
+                      Desktop
+                    </div>
+                  }
+                  rightContent={
+                    <div className="flex items-center">
+                      <Smartphone size={16} className="mr-1" />
+                      Mobile
+                    </div>
+                  }
+                  aria-label="Switch between desktop and mobile view"
+                />
+              )}
+              <div className="pt-2">
+                <TitleSwitch
+                  checked={isDarkMode}
+                  onCheckedChange={toggleDarkMode}
+                  leftContent={
+                    <div className="flex items-center">
+                      <Sun size={16} className="mr-1" />
+                      Light
+                    </div>
+                  }
+                  rightContent={
+                    <div className="flex items-center">
+                      <Moon size={16} className="mr-1" />
+                      Dark
+                    </div>
+                  }
+                  aria-label="Switch between light and dark mode"
+                />
+              </div>
             </div>
-          </div>
-        </Container>
+          </Container>
+        )}
         <div style={{ overflowX: 'auto' }}>
           <div className={`${outerDivClasses} w-full max-w-6xl mx-auto`}>
             <div

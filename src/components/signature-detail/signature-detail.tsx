@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useSignatureStore } from '@/src/store/content-edit-add-store';
 import { Button } from '@/src/components/ui/button';
 import { copySignatureToClipboard } from './content-view/utils';
@@ -67,19 +67,6 @@ export const SignatureDetail = (props: any) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const showPreview = useCallback(() => {
-    modal({
-      content: (
-        <div className="pt-6">
-          <SignaturePreview />
-        </div>
-      ),
-      isZeroPadding: true,
-      size: 'fullscreen',
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   useEffect(() => {
     const handleScroll = () => {
       if (!isMobile) {
@@ -107,6 +94,7 @@ export const SignatureDetail = (props: any) => {
     modal({
       content: <CopyInstructionsModalContent />,
       size: 'fullscreen',
+      isZeroPadding: true,
     });
   };
 
@@ -148,13 +136,6 @@ export const SignatureDetail = (props: any) => {
         <EditPanel>
           <Container>
             <div className="flex sm:justify-end sm:gap-8 justify-between flex-row sm:flex-row-reverse">
-              <Button
-                variant="outline"
-                buttonClassName="min-w-35"
-                onClick={showPreview}
-              >
-                Preview
-              </Button>
               <Button
                 size="md"
                 variant="blue"
