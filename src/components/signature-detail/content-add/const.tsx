@@ -23,7 +23,7 @@ export const CONTENT_TYPES = [
   },
   {
     name: twoPartText,
-    description: `Text that consists of two parts. Each part can have its own style (color, font size, font weight, etc.). For example, your name and position on one line, each in a different color.`,
+    description: `Text that consists of two parts. Each part can have its own independent style including color, font size, and font weight.\nFor example, your name and position on one line, each in a different color.`,
     content: `${getCustomValueTextExample().prefix}${getCustomValueTextExample().value}`,
     type: ContentType.TWO_PART_TEXT,
   },
