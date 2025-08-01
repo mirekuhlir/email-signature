@@ -3,6 +3,7 @@ import { useModal } from '@/src/components/ui/modal-system';
 import { Container } from '@/src/components/ui/container';
 import { Button } from '@/src/components/ui/button';
 import SignaturePreview from './signature-preview';
+import EditPanel from './edit-panel';
 
 interface ActionPanelProps {
   visible: boolean;
@@ -40,27 +41,39 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({
       return (
         <div className="flex justify-end">
           <Button variant="outline" onClick={onPreview}>
-            View
+            Preview
           </Button>
         </div>
       );
     }
 
     return (
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center sm:flex-row-reverse">
         {onClose && (
-          <Button variant="outline" onClick={onClose}>
+          <Button
+            variant="outline"
+            onClick={onClose}
+            buttonClassName="sm:min-w-35"
+          >
             Close
           </Button>
         )}
-        <div className="flex space-x-4">
+        <div className="flex gap-4 sm:gap-8 sm:flex-row-reverse">
           {onPreview && (
-            <Button variant="outline" onClick={onPreview}>
-              View
+            <Button
+              variant="outline"
+              onClick={onPreview}
+              buttonClassName="min-w-24 sm:min-w-35"
+            >
+              Preview
             </Button>
           )}
           {onSave && !isSaving && (
-            <Button variant="blue" size="md" onClick={onSave}>
+            <Button
+              size="md"
+              onClick={onSave}
+              buttonClassName="min-w-24 sm:min-w-35"
+            >
               Save
             </Button>
           )}
@@ -71,11 +84,9 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({
 
   return (
     <>
-      <div
-        className={`fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-lg border-t border-gray-200 shadow-lg py-2 z-40`}
-      >
+      <EditPanel>
         <Container>{renderButtons()}</Container>
-      </div>
+      </EditPanel>
     </>
   );
 };

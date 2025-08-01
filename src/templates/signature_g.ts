@@ -1,17 +1,18 @@
 import { generateRandomId } from "../utils/generateRandomId";
+import { content } from "./constants";
 
 const getLocalizedContent = () => {
     return {
-        name: "Trenton Morrison ",
-        title: "accountant",
-        phonePrefix: "tel: ",
-        phoneValue: "+1 123 456 7890",
-        emailPrefix: "email: ",
-        emailValue: "example@email.com",
-        addressPrefix: "address: ",
-        addressValue: "742 Desert Sun Blvd, Phoenix, AZ",
-        availablePrefix: "available: ",
-        availableValue: "Mon-Fri, 8 AM - 5 PM",
+        [content.name]: "Trenton Morrison ",
+        [content.title]: "accountant",
+        [content.phonePrefix]: "tel: ",
+        [content.phone]: "+1 123 456 7890",
+        [content.emailPrefix]: "email: ",
+        [content.email]: "example@email.com",
+        [content.addressPrefix]: "address: ",
+        [content.address]: "742 Desert Sun Blvd, Phoenix, AZ",
+        [content.availablePrefix]: "available: ",
+        [content.availableValue]: "Mon-Fri, 8 AM - 5 PM",
     };
 };
 
@@ -28,6 +29,12 @@ export const signature_g = () => {
             "rgb(0, 0, 0)",
             "rgb(51, 150, 125)",
         ],
+        "dimensions": {
+            "spaces": ["15", "10", "5", "7"],
+            "corners": [],
+            "borders": ["4"],
+            "lengths": [],
+        },
         rows: [
             {
                 id: generateRandomId(),
@@ -38,12 +45,13 @@ export const signature_g = () => {
                             {
                                 id: generateRandomId(),
                                 content: {
-                                    type: "customValue",
+                                    type: "twoPartText",
                                     components: [
                                         {
                                             id: generateRandomId(),
-                                            text: localizedContent.name,
-                                            type: "text",
+                                            text:
+                                                localizedContent[content.name],
+                                            type: "twoPartText",
                                             color: "rgb(51, 150, 125)",
                                             width: "0px",
                                             height: "0px",
@@ -69,11 +77,13 @@ export const signature_g = () => {
                                             borderBottomColor: "rgb(0, 0, 0)",
                                             borderBottomStyle: "none",
                                             borderBottomWidth: "0px",
+                                            whiteSpace: "nowrap",
                                         },
                                         {
                                             id: generateRandomId(),
-                                            text: localizedContent.title,
-                                            type: "customValue",
+                                            text:
+                                                localizedContent[content.title],
+                                            type: "twoPartText",
                                             color: "rgb(54, 54, 54)",
                                             fontSize: "16px",
                                             fontStyle: "normal",
@@ -83,6 +93,7 @@ export const signature_g = () => {
                                             lineHeight: "1",
                                             letterSpacing: "0px",
                                             textDecoration: "none",
+                                            whiteSpace: "nowrap",
                                         },
                                     ],
                                 },
@@ -94,7 +105,9 @@ export const signature_g = () => {
                                     components: [
                                         {
                                             id: generateRandomId(),
-                                            text: localizedContent.phonePrefix,
+                                            text: localizedContent[
+                                                content.phonePrefix
+                                            ],
                                             type: "text",
                                             color: "rgb(54, 54, 54)",
                                             width: "0px",
@@ -121,10 +134,12 @@ export const signature_g = () => {
                                             borderBottomColor: "rgb(0, 0, 0)",
                                             borderBottomStyle: "none",
                                             borderBottomWidth: "0px",
+                                            whiteSpace: "nowrap",
                                         },
                                         {
                                             id: generateRandomId(),
-                                            text: localizedContent.phoneValue,
+                                            text:
+                                                localizedContent[content.phone],
                                             type: "phoneLink",
                                             color: "rgb(0, 0, 0)",
                                             fontSize: "14px",
@@ -135,6 +150,7 @@ export const signature_g = () => {
                                             lineHeight: "1",
                                             letterSpacing: "0px",
                                             textDecoration: "none",
+                                            whiteSpace: "nowrap",
                                         },
                                     ],
                                 },
@@ -146,7 +162,9 @@ export const signature_g = () => {
                                     components: [
                                         {
                                             id: generateRandomId(),
-                                            text: localizedContent.emailPrefix,
+                                            text: localizedContent[
+                                                content.emailPrefix
+                                            ],
                                             type: "text",
                                             color: "rgb(54, 54, 54)",
                                             width: "0px",
@@ -173,10 +191,12 @@ export const signature_g = () => {
                                             borderBottomColor: "rgb(0, 0, 0)",
                                             borderBottomStyle: "none",
                                             borderBottomWidth: "0px",
+                                            whiteSpace: "nowrap",
                                         },
                                         {
                                             id: generateRandomId(),
-                                            text: localizedContent.emailValue,
+                                            text:
+                                                localizedContent[content.email],
                                             type: "emailLink",
                                             color: "rgb(0, 0, 0)",
                                             fontSize: "14px",
@@ -187,6 +207,7 @@ export const signature_g = () => {
                                             lineHeight: "1",
                                             letterSpacing: "0px",
                                             textDecoration: "none",
+                                            whiteSpace: "nowrap",
                                         },
                                     ],
                                 },
@@ -194,12 +215,13 @@ export const signature_g = () => {
                             {
                                 id: generateRandomId(),
                                 content: {
-                                    type: "customValue",
+                                    type: "twoPartText",
                                     components: [
                                         {
                                             id: generateRandomId(),
-                                            text:
-                                                localizedContent.addressPrefix,
+                                            text: localizedContent[
+                                                content.addressPrefix
+                                            ],
                                             type: "text",
                                             color: "rgb(54, 54, 54)",
                                             width: "0px",
@@ -226,10 +248,13 @@ export const signature_g = () => {
                                             borderBottomColor: "rgb(0, 0, 0)",
                                             borderBottomStyle: "none",
                                             borderBottomWidth: "0px",
+                                            whiteSpace: "nowrap",
                                         },
                                         {
                                             id: generateRandomId(),
-                                            text: localizedContent.addressValue,
+                                            text: localizedContent[
+                                                content.address
+                                            ],
                                             type: "text",
                                             color: "rgb(0, 0, 0)",
                                             fontSize: "14px",
@@ -240,6 +265,7 @@ export const signature_g = () => {
                                             lineHeight: "1",
                                             letterSpacing: "0px",
                                             textDecoration: "none",
+                                            whiteSpace: "nowrap",
                                         },
                                     ],
                                 },
@@ -247,12 +273,13 @@ export const signature_g = () => {
                             {
                                 id: generateRandomId(),
                                 content: {
-                                    type: "customValue",
+                                    type: "twoPartText",
                                     components: [
                                         {
                                             id: generateRandomId(),
-                                            text: localizedContent
-                                                .availablePrefix,
+                                            text: localizedContent[
+                                                content.availablePrefix
+                                            ],
                                             type: "text",
                                             color: "rgb(54, 54, 54)",
                                             width: "0px",
@@ -279,11 +306,13 @@ export const signature_g = () => {
                                             borderBottomColor: "rgb(0, 0, 0)",
                                             borderBottomStyle: "none",
                                             borderBottomWidth: "0px",
+                                            whiteSpace: "nowrap",
                                         },
                                         {
                                             id: generateRandomId(),
-                                            text:
-                                                localizedContent.availableValue,
+                                            text: localizedContent[
+                                                content.availableValue
+                                            ],
                                             type: "text",
                                             color: "rgb(0, 0, 0)",
                                             fontSize: "14px",
@@ -294,6 +323,7 @@ export const signature_g = () => {
                                             lineHeight: "1",
                                             letterSpacing: "0px",
                                             textDecoration: "none",
+                                            whiteSpace: "nowrap",
                                         },
                                     ],
                                 },

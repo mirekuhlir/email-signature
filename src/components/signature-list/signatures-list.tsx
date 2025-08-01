@@ -1,134 +1,28 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import { Typography } from '@/src/components/ui/typography';
 import t from '@/src/localization/translate';
-import Modal from './ui/modal';
+import Modal from '../ui/modal';
 import { Button } from '@/src/components/ui/button';
 import { createClient } from '@/src/utils/supabase/client';
-import { TemplatesExamples } from './templates-examples';
-import { EmailTemplateView } from './signature-detail/content-view/signature-view';
+import { TemplatesExamples } from '../templates-examples';
 import { useRouter } from 'next/navigation';
-import { TEMP_SIGNATURE } from '../const/content';
 import { useToast } from '@/src/components/ui/toast';
-import { Hr } from './ui/hr';
-import { LoadingInfo } from './signature-detail/content-edit/content-edit';
-import { ContextMenu } from './ui/context-menu';
-import { Container } from './ui/container';
+import { Hr } from '../ui/hr';
+import { LoadingInfo } from '../signature-detail/content-edit/content-edit';
+import { Container } from '../ui/container';
 import { MAX_SIGNATURES } from '@/supabase/functions/_shared/const';
 import { PlusIcon } from 'lucide-react';
-import TrialBanner from './trial/trial-banner';
+import TrialBanner from '../trial/trial-banner';
 
-type SignaturesPreviewsProps = {
-  rows: any;
-  createdAt: string;
-  updatedAt?: string;
-  onDelete: () => void;
-  onEdit: () => void;
-  isLoading: boolean;
-  isFromTemp: boolean;
-  duplicateSignature?: (signatureId: string) => Promise<void>;
-  signatureId?: string;
-  isTempSignature?: boolean;
-  signatureCount?: number;
-};
-
-const SignaturesPreview = (props: SignaturesPreviewsProps) => {
-  const {
-    rows,
-    createdAt,
-    updatedAt,
-    onDelete,
-    onEdit,
-    isLoading,
-    isFromTemp,
-    duplicateSignature,
-    signatureId,
-    isTempSignature,
-    signatureCount,
-  } = props;
-
-  const editButtonText = isFromTemp ? 'Continue' : 'View';
-
-  return (
-    <div>
-      <div className="flex flex-col py-4">
-        <EmailTemplateView rows={rows} />
-        <div className="flex justify-between bg-gray-200 mb-6 p-3 rounded-md mt-4 w-full sm:w-1/2">
-          <div className="flex flex-col justify-center">
-            {updatedAt && (
-              <div>
-                <Typography className="text-gray-500 text-sm md:text-base block md:inline">
-                  Updated at:
-                </Typography>
-                <Typography
-                  className="text-sm md:text-base block md:inline md:ml-1"
-                  textColor="text-gray-900"
-                >
-                  {new Date(updatedAt).toLocaleString()}
-                </Typography>
-              </div>
-            )}
-            {createdAt && (
-              <div className="mb-2 md:mb-0">
-                <Typography className="text-gray-500 text-sm md:text-base block md:inline">
-                  Created at:
-                </Typography>
-                <Typography
-                  className="text-sm md:text-base block md:inline md:ml-1"
-                  textColor="text-gray-900"
-                >
-                  {new Date(createdAt).toLocaleString()}
-                </Typography>
-              </div>
-            )}
-          </div>
-          <div className="flex gap-3 items-center">
-            <>
-              <ContextMenu>
-                <div className="pt-2 pb-2 px-2 flex flex-col gap-1 whitespace-nowrap items-start">
-                  <Button
-                    variant="ghost"
-                    disabled={isLoading}
-                    onClick={() => {
-                      onDelete();
-                    }}
-                  >
-                    {t('Delete')}
-                  </Button>
-                  {!isTempSignature &&
-                    (signatureCount ?? 0) < MAX_SIGNATURES && (
-                      <Button
-                        variant="ghost"
-                        disabled={isLoading}
-                        onClick={() => {
-                          if (signatureId && duplicateSignature) {
-                            duplicateSignature(signatureId);
-                          }
-                        }}
-                      >
-                        {t('Duplicate')}
-                      </Button>
-                    )}
-                </div>
-              </ContextMenu>
-              <Button
-                variant="blue"
-                loading={isLoading}
-                onClick={() => {
-                  onEdit();
-                }}
-              >
-                {isLoading ? 'Creating...' : editButtonText}
-              </Button>
-            </>
-          </div>
-        </div>
-      </div>
-      <div />
-    </div>
-  );
-};
+import { SignatureListItem } from './signature-list-item';
+import { getUserStatus, UserStatus } from '@/src/utils/userState';
+import useEffectOnce from '@/src/hooks/useEffectOnce';
+import {
+  deleteTempSignature,
+  saveTempSignature,
+} from '../signature-detail/content-edit/utils';
 
 export const SignaturesList = (props: any) => {
   const { signatures: signaturesData, user } = props;
@@ -143,17 +37,28 @@ export const SignaturesList = (props: any) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const [signatureToDelete, setSignatureToDelete] = useState<any>(null);
+  const [tempSignatureToDelete, setTempSignatureToDelete] = useState<any>(null);
 
-  const [signatures, setSignatures] = useState<any[]>(signaturesData);
-  const [tempSignature, setTempSignature] = useState<any>(null);
+  const [signatures, setSignatures] = useState<any[]>(signaturesData || []);
+  const [tempSignatures, setTempSignatures] = useState<any>([]);
 
-  useEffect(() => {
-    const savedData = localStorage.getItem(TEMP_SIGNATURE);
+  const userStatus = getUserStatus(user);
 
-    if (savedData) {
-      setTempSignature(JSON.parse(savedData));
-    }
+  const loadTempSignatures = useCallback(() => {
+    const names = JSON.parse(localStorage.getItem('templates-names') || '[]');
+
+    names.forEach((name: string) => {
+      const savedData = localStorage.getItem(name);
+
+      if (savedData) {
+        setTempSignatures((prev: any) => [...prev, JSON.parse(savedData)]);
+      }
+    });
   }, []);
+
+  useEffectOnce(() => {
+    loadTempSignatures();
+  });
 
   const duplicateSignature = async (signatureId: string) => {
     setIsLoading(true);
@@ -185,7 +90,31 @@ export const SignaturesList = (props: any) => {
     }
   };
 
-  const createSignature = async (template: any, isTemp: boolean = false) => {
+  const createSignature = async (
+    template: any,
+    userStatus: UserStatus,
+    isTemp: boolean = false,
+  ) => {
+    if (userStatus === UserStatus.NOT_LOGGED_IN) {
+      const templateSlug = template.info?.templateSlug;
+
+      const createdAt = new Date().toISOString();
+
+      saveTempSignature({
+        createdAt,
+        updatedAt: '',
+        templateSlug,
+        rows: template.rows,
+        colors: template.colors,
+        dimensions: template.dimensions,
+      });
+
+      router.push(
+        `/signatures/example/?template=${template.info?.templateSlug}&createdAt=${createdAt}`,
+      );
+      return;
+    }
+
     setIsLoading(true);
 
     setIsModalOpen(false);
@@ -196,6 +125,7 @@ export const SignaturesList = (props: any) => {
         signatureContent: {
           rows: template.rows,
           colors: template.colors,
+          dimensions: template.dimensions,
         },
         info: template.info,
       },
@@ -213,8 +143,8 @@ export const SignaturesList = (props: any) => {
     }
 
     if (isTemp) {
-      setTempSignature(null);
-      localStorage.removeItem(TEMP_SIGNATURE);
+      setTempSignatures(null);
+      deleteTempSignature(template);
       if (data?.signatureId) {
         router.push(`/signatures/${data.signatureId}`);
       }
@@ -235,13 +165,18 @@ export const SignaturesList = (props: any) => {
       </div>
     );
   }
+
+  const signaturesCount = signatures.length + tempSignatures.length;
+
   return (
     <div className="w-full pt-6">
-      <div className="flex justify-center">
-        <TrialBanner user={user} />
-      </div>
+      {userStatus === UserStatus.TRIAL && (
+        <div className="flex justify-center">
+          <TrialBanner user={user} />
+        </div>
+      )}
       <div>
-        {signatures.length < MAX_SIGNATURES && (
+        {signaturesCount < MAX_SIGNATURES && (
           <div className="flex justify-center pt-8 pb-10 sm:pb-2 w-full">
             <Button size="xl" onClick={() => setIsModalOpen(true)}>
               <PlusIcon className="w-7 h-7 mr-4" />
@@ -250,7 +185,16 @@ export const SignaturesList = (props: any) => {
           </div>
         )}
 
-        {(tempSignature?.rows || signatures?.length > 0) && (
+        {signaturesCount >= MAX_SIGNATURES && (
+          <div className="flex justify-center pt-8 pb-12">
+            <Typography variant="labelBase">
+              You have reached the maximum number of signatures. Please delete
+              some signatures to create a new one.
+            </Typography>
+          </div>
+        )}
+
+        {(tempSignatures?.length > 0 || signatures?.length > 0) && (
           <>
             <Typography
               className="leading-none"
@@ -263,23 +207,38 @@ export const SignaturesList = (props: any) => {
           </>
         )}
 
-        {tempSignature?.rows && (
-          <SignaturesPreview
-            rows={tempSignature.rows}
-            isLoading={isLoading}
-            isFromTemp={true}
-            createdAt={tempSignature.createdAt}
-            onDelete={() => {
-              setTempSignature(null);
-              localStorage.removeItem(TEMP_SIGNATURE);
-            }}
-            onEdit={() => {
-              createSignature(tempSignature, true);
-            }}
-            isTempSignature={true}
-            signatureCount={signatures.length}
-          />
-        )}
+        {tempSignatures
+          ?.sort(
+            (a: any, b: any) =>
+              new Date(b.updatedAt || b.createdAt).getTime() -
+              new Date(a.updatedAt || a.createdAt).getTime(),
+          )
+          ?.map((tempSignature: any) => (
+            <SignatureListItem
+              key={`${tempSignature.info?.templateSlug}-${tempSignature.createdAt}`}
+              rows={tempSignature.rows}
+              isLoading={isLoading}
+              createdAt={tempSignature.createdAt}
+              updatedAt={tempSignature.updatedAt}
+              onDelete={() => {
+                setTempSignatureToDelete(tempSignature);
+                setIsDeleteModalOpen(true);
+              }}
+              onEdit={() => {
+                if (userStatus === UserStatus.NOT_LOGGED_IN) {
+                  router.push(
+                    `/signatures/example/?template=${tempSignature.info?.templateSlug}&createdAt=${tempSignature.createdAt}`,
+                  );
+                } else {
+                  createSignature(tempSignature, userStatus, true);
+                }
+              }}
+              signatureCount={signatures.length}
+              duplicateTempSignature={() => {
+                createSignature(tempSignature, userStatus, true);
+              }}
+            />
+          ))}
         {signatures
           ?.sort(
             (a, b) =>
@@ -287,13 +246,12 @@ export const SignaturesList = (props: any) => {
               new Date(a.updated_at || a.created_at).getTime(),
           )
           .map((signature: any) => (
-            <SignaturesPreview
+            <SignatureListItem
               key={signature.id}
               rows={signature.signature_content.rows}
               createdAt={signature.created_at}
               updatedAt={signature.updated_at}
               isLoading={isLoading}
-              isFromTemp={false}
               onEdit={() => {
                 router.push(`/signatures/${signature.id}`);
               }}
@@ -315,8 +273,9 @@ export const SignaturesList = (props: any) => {
       >
         <Container isZeroPadding={true}>
           <TemplatesExamples
-            isSignedIn={true}
-            createSignature={createSignature}
+            onCreateSignature={(template: any) => {
+              createSignature(template, userStatus, false);
+            }}
           />
         </Container>
       </Modal>
@@ -333,7 +292,11 @@ export const SignaturesList = (props: any) => {
           <Button
             variant="gray"
             disabled={isDeleteLoading}
-            onClick={() => setIsDeleteModalOpen(false)}
+            onClick={() => {
+              setIsDeleteModalOpen(false);
+              setSignatureToDelete(null);
+              setTempSignatureToDelete(null);
+            }}
           >
             {t('Cancel')}
           </Button>
@@ -355,6 +318,18 @@ export const SignaturesList = (props: any) => {
                 );
                 setIsDeleteLoading(false);
                 setIsDeleteModalOpen(false);
+                setSignatureToDelete(null);
+              } else if (tempSignatureToDelete) {
+                const newTempSignatures = tempSignatures.filter(
+                  (signature: any) =>
+                    signature.info?.templateSlug !==
+                      tempSignatureToDelete.info?.templateSlug ||
+                    signature.createdAt !== tempSignatureToDelete.createdAt,
+                );
+                setTempSignatures(newTempSignatures);
+                deleteTempSignature(tempSignatureToDelete);
+                setIsDeleteModalOpen(false);
+                setTempSignatureToDelete(null);
               }
             }}
           >

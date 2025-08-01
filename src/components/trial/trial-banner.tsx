@@ -11,8 +11,6 @@ const TrialBanner = (user: any) => {
     return null;
   }
 
-  console.warn('userStatus', userStatus);
-
   return (
     <div>
       <Container>
@@ -20,17 +18,18 @@ const TrialBanner = (user: any) => {
           <Typography variant="large">Upgrade to full version</Typography>
 
           <Typography variant="body">
-            You are using the free version of the app. If you are satisfied, you
-            pay a one-time fee and your signatures will remain yours forever.
+            You are using the free version. If you are satisfied, you pay a
+            one-time fee and your signatures will remain yours forever.
           </Typography>
 
           <div className="flex justify-end">
             <StyledLink
-              variant="button-brand-blue"
+              variant="button-orange"
               href="/pricing"
-              className="mt-4"
+              className="mt-4 min-w-40"
+              size="md"
             >
-              Upgrade to full version
+              Buy
             </StyledLink>
           </div>
         </div>

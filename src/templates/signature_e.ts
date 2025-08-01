@@ -1,18 +1,19 @@
 import { generateRandomId } from "../utils/generateRandomId";
+import { content } from "./constants";
 
 const getLocalizedContent = () => {
     return {
-        name: "Isabella Thompson",
-        title: "Starlit Beauty Salon",
-        phonePrefix: "",
-        phoneValue: "+1 123 456 7890",
-        emailPrefix: "",
-        emailValue: "example@email.com",
-        addressValue: "3810 Pasadena Ave",
-        address2: "Los Angeles, CA 90031",
-        websitePrefix: "Visit our ",
-        websiteValue: "Instagram",
-        websiteLink: "https://www.example.com",
+        [content.title]: "Starlit Beauty Salon",
+        [content.name]: "Isabella Thompson",
+        [content.phonePrefix]: "",
+        [content.phone]: "+1 123 456 7890",
+        [content.emailPrefix]: "",
+        [content.email]: "example@email.com",
+        [content.address]: "3810 Pasadena Ave",
+        [content.address2]: "Los Angeles, CA 90031",
+        [content.websitePrefix]: "Visit our ",
+        [content.website]: "Instagram",
+        [content.websiteLink]: "https://www.example.com",
     };
 };
 
@@ -29,6 +30,12 @@ export const signature_e = () => {
             "rgb(241, 225, 250)",
             "rgb(65, 26, 138)",
         ],
+        "dimensions": {
+            "spaces": ["15", "10", "5", "3"],
+            "corners": ["50"],
+            "borders": ["5"],
+            "lengths": [],
+        },
         "rows": [
             {
                 "id": generateRandomId(),
@@ -43,7 +50,8 @@ export const signature_e = () => {
                                     "components": [
                                         {
                                             "id": generateRandomId(),
-                                            "text": localizedContent.name,
+                                            "text":
+                                                localizedContent[content.title],
                                             "color": "rgb(65, 26, 138)",
                                             "width": "0px",
                                             "height": "0px",
@@ -69,6 +77,7 @@ export const signature_e = () => {
                                             "borderBottomColor": "rgb(0, 0, 0)",
                                             "borderBottomStyle": "none",
                                             "borderBottomWidth": "0px",
+                                            "whiteSpace": "nowrap",
                                         },
                                     ],
                                 },
@@ -80,12 +89,13 @@ export const signature_e = () => {
                                     "components": [
                                         {
                                             "id": generateRandomId(),
-                                            "text": localizedContent.title,
+                                            "text":
+                                                localizedContent[content.name],
                                             "color": "rgb(0, 0, 0)",
                                             "width": "0px",
                                             "height": "0px",
                                             "padding": "10px 0px 10px 0px",
-                                            "fontSize": "14px",
+                                            "fontSize": "16px",
                                             "fontStyle": "normal",
                                             "textAlign": "left",
                                             "fontFamily": "Verdana",
@@ -106,6 +116,7 @@ export const signature_e = () => {
                                             "borderBottomColor": "rgb(0, 0, 0)",
                                             "borderBottomStyle": "none",
                                             "borderBottomWidth": "0px",
+                                            "whiteSpace": "nowrap",
                                         },
                                     ],
                                 },
@@ -117,8 +128,9 @@ export const signature_e = () => {
                                     "components": [
                                         {
                                             "id": generateRandomId(),
-                                            "text":
-                                                localizedContent.addressValue,
+                                            "text": localizedContent[
+                                                content.address
+                                            ],
                                             "color": "rgb(0, 0, 0)",
                                             "width": "0px",
                                             "height": "0px",
@@ -144,6 +156,7 @@ export const signature_e = () => {
                                             "borderBottomColor": "rgb(0, 0, 0)",
                                             "borderBottomStyle": "none",
                                             "borderBottomWidth": "0px",
+                                            "whiteSpace": "nowrap",
                                         },
                                     ],
                                 },
@@ -155,7 +168,9 @@ export const signature_e = () => {
                                     "components": [
                                         {
                                             "id": generateRandomId(),
-                                            "text": localizedContent.address2,
+                                            "text": localizedContent[
+                                                content.address2
+                                            ],
                                             "color": "rgb(0, 0, 0)",
                                             "width": "0px",
                                             "height": "0px",
@@ -181,6 +196,7 @@ export const signature_e = () => {
                                             "borderBottomColor": "rgb(0, 0, 0)",
                                             "borderBottomStyle": "none",
                                             "borderBottomWidth": "0px",
+                                            "whiteSpace": "nowrap",
                                         },
                                     ],
                                 },
@@ -192,8 +208,9 @@ export const signature_e = () => {
                                     "components": [
                                         {
                                             "id": generateRandomId(),
-                                            "text":
-                                                localizedContent.phonePrefix,
+                                            "text": localizedContent[
+                                                content.phonePrefix
+                                            ],
                                             "type": "text",
                                             "color": "rgb(0, 0, 0)",
                                             "width": "0px",
@@ -207,10 +224,12 @@ export const signature_e = () => {
                                             "lineHeight": "1",
                                             "letterSpacing": "0px",
                                             "textDecoration": "none",
+                                            "whiteSpace": "nowrap",
                                         },
                                         {
                                             "id": generateRandomId(),
-                                            "text": localizedContent.phoneValue,
+                                            "text":
+                                                localizedContent[content.phone],
                                             "type": "phoneLink",
                                             "color": "rgb(0, 0, 0)",
                                             "fontSize": "14px",
@@ -221,6 +240,7 @@ export const signature_e = () => {
                                             "lineHeight": "1",
                                             "letterSpacing": "0px",
                                             "textDecoration": "none",
+                                            "whiteSpace": "nowrap",
                                         },
                                     ],
                                 },
@@ -232,14 +252,15 @@ export const signature_e = () => {
                                     "components": [
                                         {
                                             "id": generateRandomId(),
-                                            "text":
-                                                localizedContent.emailPrefix,
+                                            "text": localizedContent[
+                                                content.emailPrefix
+                                            ],
                                             "type": "text",
                                             "color": "rgb(0, 0, 0)",
                                             "width": "0px",
                                             "height": "0px",
                                             "padding": "0px 0px 10px 0px",
-                                            "fontSize": "20px",
+                                            "fontSize": "14px",
                                             "fontStyle": "normal",
                                             "textAlign": "left",
                                             "fontFamily": "Verdana",
@@ -250,7 +271,8 @@ export const signature_e = () => {
                                         },
                                         {
                                             "id": generateRandomId(),
-                                            "text": localizedContent.emailValue,
+                                            "text":
+                                                localizedContent[content.email],
                                             "type": "emailLink",
                                             "color": "rgb(0, 0, 0)",
                                             "fontSize": "14px",
@@ -260,6 +282,7 @@ export const signature_e = () => {
                                             "lineHeight": "1",
                                             "letterSpacing": "0px",
                                             "textDecoration": "none",
+                                            "whiteSpace": "nowrap",
                                         },
                                     ],
                                 },
@@ -271,8 +294,9 @@ export const signature_e = () => {
                                     "components": [
                                         {
                                             "id": generateRandomId(),
-                                            "text":
-                                                localizedContent.websitePrefix,
+                                            "text": localizedContent[
+                                                content.websitePrefix
+                                            ],
                                             "type": "text",
                                             "color": "rgb(0, 0, 0)",
                                             "width": "0px",
@@ -289,10 +313,12 @@ export const signature_e = () => {
                                         },
                                         {
                                             "id": generateRandomId(),
-                                            "link":
-                                                localizedContent.websiteLink,
-                                            "text":
-                                                localizedContent.websiteValue,
+                                            "link": localizedContent[
+                                                content.websiteLink
+                                            ],
+                                            "text": localizedContent[
+                                                content.website
+                                            ],
                                             "type": "websiteLink",
                                             "color": "rgb(65, 26, 138)",
                                             "fontSize": "14px",
@@ -303,6 +329,7 @@ export const signature_e = () => {
                                             "lineHeight": "1",
                                             "letterSpacing": "0px",
                                             "textDecoration": "underline",
+                                            "whiteSpace": "nowrap",
                                         },
                                     ],
                                 },
@@ -313,7 +340,7 @@ export const signature_e = () => {
                             "height": "auto",
                             "padding": "15px 10px 15px 15px",
                             "borderRadius": "0px 0px 0px 0px",
-                            "verticalAlign": "top",
+                            "verticalAlign": "middle",
                             "borderTopColor": "rgb(0, 0, 0)",
                             "borderTopStyle": "none",
                             "borderTopWidth": "0px",
@@ -360,10 +387,10 @@ export const signature_e = () => {
                                                 "aspect": "free",
                                                 "isCircular": false,
                                                 "borderRadius": {
-                                                    "topLeft": 49,
-                                                    "topRight": 49,
-                                                    "bottomLeft": 49,
-                                                    "bottomRight": 49,
+                                                    "topLeft": 50,
+                                                    "topRight": 50,
+                                                    "bottomLeft": 50,
+                                                    "bottomRight": 50,
                                                 },
                                             },
                                             "borderTopColor": "rgb(0, 0, 0)",
@@ -386,7 +413,7 @@ export const signature_e = () => {
                         "style": {
                             "width": "auto",
                             "height": "auto",
-                            "padding": "15px 10px 15px 0px",
+                            "padding": "0px 10px 0px 0px",
                             "borderRadius": "0px 10px 10px 0px",
                             "verticalAlign": "middle",
                             "borderTopColor": "rgb(0, 0, 0)",

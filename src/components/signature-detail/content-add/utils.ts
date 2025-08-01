@@ -14,7 +14,7 @@ export const getContentAdd = (type: ContentType) => {
             return getPhone();
         case ContentType.WEBSITE:
             return getWebsite();
-        case ContentType.CUSTOM_VALUE:
+        case ContentType.TWO_PART_TEXT:
             return getCustomValue();
         default:
             return getText();
@@ -42,6 +42,7 @@ const getText = () => {
                     lineHeight: "1",
                     textAlign: "left",
                     padding: "0px 0px 5px 0px",
+                    whiteSpace: "normal",
                 },
             ],
         },
@@ -87,8 +88,8 @@ export const getWebsiteTextExample = () => {
 
 export const getCustomValueTextExample = () => {
     return {
-        value: "example text",
-        prefix: "prefix text: ",
+        prefix: "the first text ",
+        value: "and the second text",
     };
 };
 
@@ -112,6 +113,7 @@ export const getEmail = () => {
                     lineHeight: "1",
                     textAlign: "left",
                     padding: "0px 0px 5px 0px",
+                    whiteSpace: "nowrap",
                 },
                 {
                     id: generateRandomId(),
@@ -125,6 +127,7 @@ export const getEmail = () => {
                     fontWeight: "normal",
                     letterSpacing: "0px",
                     lineHeight: "1",
+                    whiteSpace: "nowrap",
                 },
             ],
         },
@@ -151,6 +154,7 @@ const getPhone = () => {
                     lineHeight: "1",
                     textAlign: "left",
                     padding: "0px 0px 5px 0px",
+                    whiteSpace: "nowrap",
                 },
                 {
                     id: generateRandomId(),
@@ -164,6 +168,7 @@ const getPhone = () => {
                     fontWeight: "normal",
                     letterSpacing: "0px",
                     lineHeight: "1",
+                    whiteSpace: "nowrap",
                 },
             ],
         },
@@ -189,6 +194,7 @@ const getWebsite = () => {
                     lineHeight: "1",
                     textAlign: "left",
                     padding: "0px 0px 5px 0px",
+                    whiteSpace: "nowrap",
                 },
                 {
                     id: generateRandomId(),
@@ -201,6 +207,7 @@ const getWebsite = () => {
                     fontWeight: "normal",
                     letterSpacing: "0px",
                     lineHeight: "1",
+                    whiteSpace: "nowrap",
                 },
             ],
         },
@@ -211,12 +218,12 @@ const getCustomValue = () => {
     return {
         id: generateRandomId(),
         content: {
-            type: ContentType.CUSTOM_VALUE,
+            type: ContentType.TWO_PART_TEXT,
             components: [
                 {
                     id: generateRandomId(),
                     text: getCustomValueTextExample().prefix,
-                    type: ContentType.TEXT,
+                    type: ContentType.TWO_PART_TEXT,
                     fontSize: "14px",
                     color: "rgb(0, 0, 0)",
                     fontFamily: "Arial",
@@ -226,11 +233,12 @@ const getCustomValue = () => {
                     lineHeight: "1",
                     textAlign: "left",
                     padding: "0px 0px 5px 0px",
+                    whiteSpace: "nowrap",
                 },
                 {
                     id: generateRandomId(),
                     text: getCustomValueTextExample().value,
-                    type: ContentType.CUSTOM_VALUE,
+                    type: ContentType.TWO_PART_TEXT,
                     fontSize: "14px",
                     color: "rgb(0, 0, 0)",
                     fontFamily: "Arial",
@@ -238,6 +246,7 @@ const getCustomValue = () => {
                     fontWeight: "normal",
                     letterSpacing: "0px",
                     lineHeight: "1",
+                    whiteSpace: "nowrap",
                 },
             ],
         },

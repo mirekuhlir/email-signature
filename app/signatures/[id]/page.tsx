@@ -21,6 +21,7 @@ export default async function Signature(props: Props) {
   const { id } = await params;
   const awaitedSearchParams = await searchParams;
   const templateSlug = awaitedSearchParams['template'];
+  const tempSignatureCreatedAt = awaitedSearchParams['createdAt'];
 
   const supabase = await createClient();
 
@@ -46,16 +47,15 @@ export default async function Signature(props: Props) {
       <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100">
         <Header user={user} />
         <main>
-          <div className="pt-24">
-            <SignatureDetail
-              signatureDetail={{
-                ...template,
-              }}
-              isSignedIn={isSignedIn}
-              templateSlug={templateSlug}
-              userStatus={userStatus}
-            />
-          </div>
+          <SignatureDetail
+            signatureDetail={{
+              ...template,
+            }}
+            isSignedIn={isSignedIn}
+            templateSlug={templateSlug}
+            userStatus={userStatus}
+            tempSignatureCreatedAt={tempSignatureCreatedAt}
+          />
         </main>
       </div>
     );
@@ -79,18 +79,17 @@ export default async function Signature(props: Props) {
       <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100">
         <Header user={user} />
         <main>
-          <div className="pt-20">
-            <SignatureDetail
-              user={user}
-              isSignedIn={isSignedIn}
-              signatureDetail={{
-                ...data?.signature_content,
-                rows,
-                colors,
-              }}
-              userStatus={userStatus}
-            />
-          </div>
+          <SignatureDetail
+            user={user}
+            isSignedIn={isSignedIn}
+            signatureDetail={{
+              ...data?.signature_content,
+              rows,
+              colors,
+            }}
+            userStatus={userStatus}
+            tempSignatureCreatedAt={''}
+          />
         </main>
       </div>
     );

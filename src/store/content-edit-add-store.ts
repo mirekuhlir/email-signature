@@ -10,7 +10,12 @@ import {
 import { createClient } from "../utils/supabase/client";
 import { base64ToFile } from "../utils/base64ToFile";
 import { useToastStore } from "../components/ui/toast";
-import { MAX_COLORS } from "@/supabase/functions/_shared/const";
+import {
+  MAX_COLORS,
+  MAX_DIMENSION_VALUES,
+} from "@/supabase/functions/_shared/const";
+import { UserStatus } from "@/src/utils/userState";
+import { saveTempSignature } from "../components/signature-detail/content-edit/utils";
 
 const supabase = createClient();
 
@@ -21,6 +26,9 @@ const moveRowWithWrapping = async (
   direction: "up" | "down",
   state: StoreState,
   set: (partial: Partial<StoreState>) => void,
+  userStatus: UserStatus,
+  templateSlug: string,
+  tempSignatureCreatedAt?: string,
 ) => {
   const { addToast } = useToastStore.getState();
   const cloneRows = cloneDeep(state.rows);
@@ -66,14 +74,15 @@ const moveRowWithWrapping = async (
   set({ rows: cloneRows });
 
   // Save changes to the database
-  if (signatureId && signatureId !== "example") {
-    // Calculate the target path (where the item will be after moving)
-    const targetPath = path.replace(
-      /rows\[(\d+)\]/,
-      `rows[${targetIndex}]`,
-    );
-    set({ isSavingOrder: true, savingOrderPath: targetPath });
 
+  // Calculate the target path (where the item will be after moving)
+  const targetPath = path.replace(
+    /rows\[(\d+)\]/,
+    `rows[${targetIndex}]`,
+  );
+  set({ isSavingOrder: true, savingOrderPath: targetPath });
+
+  if (userStatus !== UserStatus.NOT_LOGGED_IN) {
     const { error } = await supabase.functions.invoke("patch-signature", {
       method: "PATCH",
       body: {
@@ -81,6 +90,7 @@ const moveRowWithWrapping = async (
         signatureContent: {
           rows: cloneRows,
           colors: state.colors,
+          dimensions: state.dimensions,
         },
       },
     });
@@ -92,14 +102,29 @@ const moveRowWithWrapping = async (
         variant: "error",
       });
     }
-
-    set({ isSavingOrder: false, savingOrderPath: null });
+  } else {
+    saveTempSignature({
+      templateSlug: templateSlug,
+      updatedAt: new Date().toISOString(),
+      createdAt: tempSignatureCreatedAt || "",
+      rows: cloneRows,
+      colors: state.colors,
+      dimensions: state.dimensions,
+    });
   }
+
+  set({ isSavingOrder: false, savingOrderPath: null });
 };
 
 export interface StoreState {
   rows: any[];
   colors: string[];
+  dimensions: {
+    spaces: string[];
+    corners: string[];
+    borders: string[];
+    lengths: string[];
+  };
   isDarkMode: boolean;
   isSavingOrder: boolean;
   savingOrderPath: string | null;
@@ -108,6 +133,12 @@ export interface StoreState {
   initSignature: (signature: {
     rows: any;
     colors?: string[];
+    dimensions?: {
+      spaces: string[];
+      corners: string[];
+      borders: string[];
+      lengths: string[];
+    };
   }) => void;
   addRow: (path: string, type: ContentType, insertIndex?: number) => void;
   addRowTable: (position: "start" | "end", type: ContentType) => void;
@@ -122,9 +153,24 @@ export interface StoreState {
     contentPathToEdit: string,
   ) => Promise<void>;
   addColor: (color: string) => void;
-  getColors: () => string[];
-  moveRowUp: (path: string, signatureId: string) => Promise<void>;
-  moveRowDown: (path: string, signatureId: string) => Promise<void>;
+  addSpace: (space: string) => void;
+  addCorner: (corner: string) => void;
+  addBorder: (border: string) => void;
+  addLength: (length: string) => void;
+  moveRowUp: (
+    path: string,
+    signatureId: string,
+    userStatus: UserStatus,
+    templateSlug: string,
+    tempSignatureCreatedAt?: string,
+  ) => Promise<void>;
+  moveRowDown: (
+    path: string,
+    signatureId: string,
+    userStatus: UserStatus,
+    templateSlug: string,
+    tempSignatureCreatedAt?: string,
+  ) => Promise<void>;
   toggleDarkMode: () => void;
 }
 
@@ -132,6 +178,12 @@ export const useSignatureStore = create<StoreState>((set, get) => {
   return {
     rows: [],
     colors: [],
+    dimensions: {
+      spaces: [],
+      corners: [],
+      borders: [],
+      lengths: [],
+    },
     isDarkMode: false,
     isSavingOrder: false,
     savingOrderPath: null,
@@ -140,12 +192,33 @@ export const useSignatureStore = create<StoreState>((set, get) => {
     initSignature: (signature: {
       rows: any;
       colors?: string[];
+      dimensions?: {
+        spaces: string[];
+        corners: string[];
+        borders: string[];
+        lengths: string[];
+      };
     }) => {
       const {
         rows,
         colors = [],
+        dimensions = {
+          spaces: [],
+          corners: [],
+          borders: [],
+          lengths: [],
+        },
       } = signature;
-      set({ rows, colors });
+      set({
+        rows,
+        colors,
+        dimensions: dimensions || {
+          spaces: [],
+          corners: [],
+          borders: [],
+          lengths: [],
+        },
+      });
     },
 
     addRow: (path: string, type: ContentType, insertIndex?: number) =>
@@ -159,7 +232,7 @@ export const useSignatureStore = create<StoreState>((set, get) => {
           ContentType.EMAIL,
           ContentType.PHONE,
           ContentType.WEBSITE,
-          ContentType.CUSTOM_VALUE,
+          ContentType.TWO_PART_TEXT,
         ];
 
         const applyToTypes = [
@@ -298,7 +371,7 @@ export const useSignatureStore = create<StoreState>((set, get) => {
     ) => {
       const { addToast } = useToastStore.getState();
       const cloneRows = cloneDeep(get().rows);
-      const { colors } = get();
+      const { colors, dimensions } = get();
       const tableIndex = parseInt(path.split(".")[0].replace(/[[\]]/g, ""));
 
       const columnIndex = parseInt(path.split("columns[")[1].split("]")[0]);
@@ -319,6 +392,7 @@ export const useSignatureStore = create<StoreState>((set, get) => {
             signatureContent: {
               rows: cloneRows,
               colors,
+              dimensions,
             },
           },
         });
@@ -335,12 +409,42 @@ export const useSignatureStore = create<StoreState>((set, get) => {
       set({ rows: cloneRows });
     },
 
-    moveRowUp: async (path: string, signatureId: string) => {
-      await moveRowWithWrapping(path, signatureId, "up", get(), set);
+    moveRowUp: async (
+      path: string,
+      signatureId: string,
+      userStatus: UserStatus,
+      templateSlug: string,
+      tempSignatureCreatedAt?: string,
+    ) => {
+      await moveRowWithWrapping(
+        path,
+        signatureId,
+        "up",
+        get(),
+        set,
+        userStatus,
+        templateSlug,
+        tempSignatureCreatedAt,
+      );
     },
 
-    moveRowDown: async (path: string, signatureId: string) => {
-      await moveRowWithWrapping(path, signatureId, "down", get(), set);
+    moveRowDown: async (
+      path: string,
+      signatureId: string,
+      userStatus: UserStatus,
+      templateSlug: string,
+      tempSignatureCreatedAt?: string,
+    ) => {
+      await moveRowWithWrapping(
+        path,
+        signatureId,
+        "down",
+        get(),
+        set,
+        userStatus,
+        templateSlug,
+        tempSignatureCreatedAt,
+      );
     },
 
     setContent: (path: string, content: any) =>
@@ -401,13 +505,91 @@ export const useSignatureStore = create<StoreState>((set, get) => {
         return { colors: newColors };
       }),
 
-    getColors: () => get().colors,
+    addSpace: (space: string) =>
+      set((state) => {
+        if (state.dimensions.spaces.includes(space)) return state;
+        const newSpaces = [...state.dimensions.spaces, space];
+        if (newSpaces.length > MAX_DIMENSION_VALUES) {
+          return {
+            dimensions: {
+              ...state.dimensions,
+              spaces: newSpaces.slice(-MAX_DIMENSION_VALUES),
+            },
+          };
+        }
+        return ({
+          dimensions: {
+            ...state.dimensions,
+            spaces: newSpaces,
+          },
+        });
+      }),
+
+    addCorner: (corner: string) =>
+      set((state) => {
+        if (state.dimensions.corners.includes(corner)) return state;
+        const newCorners = [...state.dimensions.corners, corner];
+        if (newCorners.length > MAX_DIMENSION_VALUES) {
+          return {
+            dimensions: {
+              ...state.dimensions,
+              corners: newCorners.slice(-MAX_DIMENSION_VALUES),
+            },
+          };
+        }
+        return ({
+          dimensions: {
+            ...state.dimensions,
+            corners: newCorners,
+          },
+        });
+      }),
+
+    addBorder: (border: string) =>
+      set((state) => {
+        if (state.dimensions.borders.includes(border)) return state;
+        const newBorders = [...state.dimensions.borders, border];
+        if (newBorders.length > MAX_DIMENSION_VALUES) {
+          return {
+            dimensions: {
+              ...state.dimensions,
+              borders: newBorders.slice(-MAX_DIMENSION_VALUES),
+            },
+          };
+        }
+        return ({
+          dimensions: {
+            ...state.dimensions,
+            borders: newBorders,
+          },
+        });
+      }),
+
+    addLength: (length: string) =>
+      set((state) => {
+        if (state.dimensions.lengths.includes(length)) return state;
+        const newLengths = [...state.dimensions.lengths, length];
+        if (newLengths.length > MAX_DIMENSION_VALUES) {
+          return {
+            dimensions: {
+              ...state.dimensions,
+              lengths: newLengths.slice(-MAX_DIMENSION_VALUES),
+            },
+          };
+        }
+        return ({
+          dimensions: {
+            ...state.dimensions,
+            lengths: newLengths,
+          },
+        });
+      }),
 
     saveSignatureContentRow: async (
       signatureId: string,
       contentPathToEdit: string,
     ) => {
-      const { rows, colors, setContent } = get();
+      const { rows, colors, dimensions, setContent } = get();
 
       const content = lGet(rows, contentPathToEdit);
 
@@ -488,6 +670,7 @@ export const useSignatureStore = create<StoreState>((set, get) => {
                 signatureContent: {
                   rows: deepCopyRows,
                   colors,
+                  dimensions,
                 },
               },
             },
@@ -507,6 +690,7 @@ export const useSignatureStore = create<StoreState>((set, get) => {
               signatureContent: {
                 rows,
                 colors,
+                dimensions,
               },
             },
           },

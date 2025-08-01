@@ -1,6 +1,6 @@
 export const MAX_SIGNATURES = 15;
 
-export const MAX_IMAGES = 10;
+export const MAX_IMAGES = 15;
 export const MAX_FILE_SIZE_BYTES = 70 * 1024 * 1024;
 
 // Constants for validation limits
@@ -20,4 +20,10 @@ export const MAX_BORDER_RADIUS = 100;
 export const MAX_BORDER_WIDTH = 100;
 
 export const MIN_IMAGE_WIDTH = 50;
-export const MAX_IMAGE_WIDTH = 375;
+export const MAX_MOBILE_IMAGE_WIDTH = 375;
+export const MAX_IMAGE_WIDTH = 500;
+export const MAX_WIDTH_OR_HEIGHT = 1000;
+
+// Dimensions limits
+export const MAX_DIMENSION_VALUES = 20;
+export const MAX_DIMENSION_VALUE_LENGTH = 10;

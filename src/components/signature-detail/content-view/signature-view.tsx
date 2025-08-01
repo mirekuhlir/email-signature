@@ -1,10 +1,15 @@
+'use client';
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Fragment } from 'react';
 import { getContentView } from './content-view';
 import { getWidthHeightStyle } from './utils';
+interface EmailTemplateViewProps {
+  rows: any;
+  isCopySignature?: boolean;
+}
 
-export const EmailTemplateView = (props: any) => {
-  const { rows, isMobilePreview } = props;
+export const EmailTemplateView = (props: EmailTemplateViewProps) => {
+  const { rows, isCopySignature } = props;
 
   const renderColumn = (column: any) => {
     return (
@@ -72,7 +77,7 @@ export const EmailTemplateView = (props: any) => {
         );
       }
 
-      const content = getContentView(row?.content, isMobilePreview);
+      const content = getContentView(row?.content, isCopySignature);
       const padding = row.content.components[0].padding;
       const backgroundColor = row.content.components[0].backgroundColor;
       const borderRadius = row.content.components[0].borderRadius;
@@ -96,13 +101,12 @@ export const EmailTemplateView = (props: any) => {
 
       if (content) {
         return (
-          <tr key={`tr-${row.id}`}>
+          <tr key={`tr-${row.id}`} style={{ fontSize: 0 }}>
             <td
               style={{
                 padding: padding,
                 backgroundColor: backgroundColor,
                 borderRadius: borderRadius,
-                lineHeight: 1,
                 borderBottomWidth: borderBottomWidth,
                 borderBottomColor: borderBottomColor,
                 borderBottomStyle: borderBottomStyle,
@@ -135,7 +139,7 @@ export const EmailTemplateView = (props: any) => {
     });
   };
 
-  return (
+  const tableContent = (
     <table border={0} cellPadding="0" cellSpacing="0" role="presentation">
       <tbody>
         <tr>
@@ -143,5 +147,19 @@ export const EmailTemplateView = (props: any) => {
         </tr>
       </tbody>
     </table>
+  );
+
+  if (isCopySignature) {
+    return <>{tableContent}</>;
+  }
+
+  return (
+    <div
+      style={{
+        overflowX: 'auto',
+      }}
+    >
+      {tableContent}
+    </div>
   );
 };

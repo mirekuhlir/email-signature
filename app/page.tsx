@@ -46,15 +46,20 @@ export default async function Home() {
           </p>
           {(userStatus === UserStatus.NOT_LOGGED_IN ||
             userStatus === UserStatus.PREMIUM) && (
-            <StyledLink variant="button-orange" size="xl" href="/templates">
+            <StyledLink variant="button-orange" size="xl" href="/signatures">
               Create your signature now!
             </StyledLink>
           )}
 
           {/*   TODO: odkaz přímo na stripe */}
           {userStatus === UserStatus.TRIAL && (
-            <StyledLink variant="button-brand-blue" size="xl" href="/pricing">
-              Buy full version
+            <StyledLink
+              variant="button-orange"
+              size="xl"
+              href="/pricing"
+              className="min-w-50"
+            >
+              Buy
             </StyledLink>
           )}
         </div>
@@ -74,15 +79,13 @@ export default async function Home() {
             <EmailTemplateView rows={signature_a().rows} />
             <EmailTemplateView rows={signature_d().rows} />
           </div>
-          <p className="text-lg md:text-xl mx-auto mb-8 text-brand-purple-900 text-center mt-12">
-            You can customize your signature to match your style - change
-            colors, fonts and anything else you want.
+          <p className="text-lg text-brand-purple-900 text-center mt-8">
+            And many more templates to choose from!
           </p>
-          <div className="flex mt-6 justify-center">
-            <StyledLink variant="button-brand-blue" size="xl" href="/templates">
-              {'See all templates'}
-            </StyledLink>
-          </div>
+          <p className="text-lg md:text-xl mx-auto text-brand-purple-900 text-center mt-8">
+            You can customize your signature to match your style - change
+            colors, fonts, layouts and anything else you want.
+          </p>
         </div>
       </section>
 
@@ -179,7 +182,7 @@ export default async function Home() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-12 sm:gap-16 max-w-3xl mx-auto justify-center items-center">
-            <div className="flex flex-row gap-4">
+            <div className="flex flex-row gap-2">
               <div>
                 <Image
                   src={gmail}
@@ -194,7 +197,7 @@ export default async function Home() {
               </div>
             </div>
 
-            <div className="flex flex-row gap-4">
+            <div className="flex flex-row gap-2">
               <div>
                 <Image
                   src={outlook}
@@ -209,7 +212,7 @@ export default async function Home() {
               </div>
             </div>
 
-            <div className="flex flex-row gap-4">
+            <div className="flex flex-row gap-2">
               <div>
                 <Image
                   src={ios}
@@ -229,8 +232,9 @@ export default async function Home() {
 
           <div className="text-center mt-8">
             <p className="text-gray-600">
-              And many more email clients including Thunderbird, Yahoo Mail, and
-              others
+              Works with all major email clients including iPhone Mail,
+              Thunderbird, Yahoo Mail, Google Workspace, and Microsoft Office
+              365
             </p>
           </div>
         </div>
@@ -314,7 +318,7 @@ export default async function Home() {
           </div>
 
           <div className="flex justify-center mt-6">
-            <StyledLink variant="button-orange" size="xl" href="/templates">
+            <StyledLink variant="button-orange" size="xl" href="/signatures">
               Try for free
             </StyledLink>
           </div>

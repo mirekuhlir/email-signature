@@ -1,31 +1,37 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useSignatureStore } from '@/src/store/content-edit-add-store';
 import { Button } from '@/src/components/ui/button';
-import { handleCopy } from './content-view/utils';
+import { copySignatureToClipboard } from './content-view/utils';
 import { EmailTemplateEdit } from './signature-edit-add';
 import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
 import StyledLink from '../ui/styled-link';
 import { useModal } from '@/src/components/ui/modal-system';
 import CopyInstructionsModalContent from './copy-instructions-modal';
 import SignaturePreview from './signature-preview';
-import { useAuthModal } from '@/src/hooks/use-auth-modal';
+
 import { Hr } from '../ui/hr';
-import { ChevronLeft, Edit2, Copy, Eye } from 'lucide-react';
+import { ChevronLeft } from 'lucide-react';
 import { Container } from '../ui/container';
-import { TEMP_SIGNATURE } from '@/src/const/content';
 import TrialBanner from '../trial/trial-banner';
 import { useMediaQuery } from '@/src/hooks/useMediaQuery';
 import { MEDIA_QUERIES } from '@/src/constants/mediaQueries';
-import { getUserStatus } from '@/src/utils/userState';
+import { getUserStatus, UserStatus } from '@/src/utils/userState';
+import EditPanel from './edit-panel';
+import { useAuthModal } from '@/src/hooks/useAuthModal';
 
 export const SignatureDetail = (props: any) => {
-  const { signatureDetail, isSignedIn, templateSlug, user } = props;
+  const {
+    signatureDetail,
+    isSignedIn,
+    templateSlug,
+    user,
+    tempSignatureCreatedAt,
+  } = props;
 
   const { rows, initSignature } = useSignatureStore();
   const { contentEdit, resetContentEdit } = useContentEditStore();
-  const [isEdit, setIsEdit] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
   const { modal } = useModal();
   const { showAuthModal } = useAuthModal();
@@ -40,7 +46,7 @@ export const SignatureDetail = (props: any) => {
 
   useEffect(() => {
     const tempSignature = JSON.parse(
-      localStorage.getItem(TEMP_SIGNATURE) || '{}',
+      localStorage.getItem(`${templateSlug}-${tempSignatureCreatedAt}`) || '{}',
     );
 
     // Load signature if template slug from url matches the template slug from local storage
@@ -48,14 +54,29 @@ export const SignatureDetail = (props: any) => {
       initSignature({
         rows: tempSignature.rows,
         colors: tempSignature.colors,
+        dimensions: tempSignature.dimensions,
       });
     } else {
       initSignature({
         rows: signatureDetail.rows,
         colors: signatureDetail.colors,
+        dimensions: signatureDetail.dimensions,
       });
     }
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const showPreview = useCallback(() => {
+    modal({
+      content: (
+        <div className="pt-6">
+          <SignaturePreview />
+        </div>
+      ),
+      isZeroPadding: true,
+      size: 'fullscreen',
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -89,124 +110,86 @@ export const SignatureDetail = (props: any) => {
     });
   };
 
-  const isPreview =
-    !contentEdit.editPath && !contentEdit.columnPath && !contentEdit.addPath;
-
-  // Debug info
-  console.log('Content edit state:', {
-    editPath: contentEdit.editPath,
-    columnPath: contentEdit.columnPath,
-    addPath: contentEdit.addPath,
-    isSticky,
-    shouldShowSticky: contentEdit.editPath || contentEdit.columnPath,
-  });
+  const isEdit = contentEdit.editPath || contentEdit.columnPath;
 
   return (
-    <div className="pb-8">
-      <Container>
-        {isPreview && (
-          <>
-            {isSignedIn && (
-              <>
-                <StyledLink
-                  variant="default"
-                  href="/signatures"
-                  className="flex items-center gap-1"
-                >
-                  <ChevronLeft size={23} />
-                  Back to My signatures
-                </StyledLink>
-                <Hr className="mt-4 mb-2 sm:mb-8 sm:mt-4" />
-              </>
-            )}
+    <div className={`pb-12 min-h-screen ${isEdit ? 'pt-6' : 'pt-20'}`}>
+      {!isEdit && (
+        <Container>
+          <StyledLink
+            variant="default"
+            href="/signatures"
+            className="flex items-center gap-1"
+          >
+            <ChevronLeft size={23} />
+            Back to My signatures
+          </StyledLink>
+          <Hr className="mt-4 mb-4 sm:mb-4 sm:mt-4" />
+        </Container>
+      )}
 
-            {!isSignedIn && !isEdit && (
-              <>
-                <StyledLink
-                  variant="default"
-                  href="/templates"
-                  className="flex items-center gap-1"
-                >
-                  <ChevronLeft size={23} />
-                  Back to templates
-                </StyledLink>
-                <Hr className="mt-4 mb-2 sm:mb-8 sm:mt-4" />
-              </>
-            )}
-          </>
-        )}
-      </Container>
-
-      {(contentEdit.editPath || contentEdit.columnPath) && (
+      {isEdit && (
         <div
-          className={`${isSticky ? 'sticky top-0 bg-gray-50 z-10 pt-20 border-b border-gray-300' : ''}`}
+          className={`${isSticky ? 'sticky top-0 bg-gray-50 z-10 pt-5 border-b border-gray-300' : ''}`}
         >
           <SignaturePreview />
         </div>
       )}
 
-      {!isEdit && (
-        <>
+      {userStatus === UserStatus.TRIAL &&
+        !contentEdit.editPath &&
+        !contentEdit.columnPath && (
           <div className="flex justify-center">
             <TrialBanner user={user} />
           </div>
+        )}
 
-          <SignaturePreview />
-
+      {!isEdit && (
+        <EditPanel>
           <Container>
-            {!contentEdit.editPath && (
-              <div className="mt-0 sm:mt-4 flex justify-center sm:justify-start">
-                <Button
-                  size="lg"
-                  variant="brandBlue"
-                  onClick={() => {
-                    if (isSignedIn) {
-                      handleCopy(userStatus);
-                      showCopyInstructionsModal();
-                    } else {
-                      showAuthModal({
-                        title: 'Sign in to use your signature',
-                        description:
-                          'Please enter your email to sign in. Then you can also save signatures and edit them again later.',
-                      });
-                    }
-                  }}
-                >
-                  <Copy size={18} className="mr-2" /> Use signature
-                </Button>
-                <div className="ml-6">
-                  <Button size="lg" onClick={() => setIsEdit(true)}>
-                    <Edit2 size={18} className="mr-2" /> Edit
-                  </Button>
-                </div>
-              </div>
-            )}
+            <div className="flex sm:justify-end sm:gap-8 justify-between flex-row sm:flex-row-reverse">
+              <Button
+                variant="outline"
+                buttonClassName="min-w-35"
+                onClick={showPreview}
+              >
+                Preview
+              </Button>
+              <Button
+                size="md"
+                variant="blue"
+                buttonClassName="min-w-35"
+                onClick={() => {
+                  if (isSignedIn) {
+                    copySignatureToClipboard(userStatus);
+                    showCopyInstructionsModal();
+                  } else {
+                    showAuthModal({
+                      title: 'Sign in to use your signature',
+                      description:
+                        'To use your signature in email, you need to sign up first.',
+                    });
+                  }
+                }}
+              >
+                Use signature
+              </Button>
+            </div>
           </Container>
-        </>
+        </EditPanel>
       )}
 
-      {isEdit && (
-        <Container>
+      <Container>
+        <div className="overflow-x-auto min-h-screen">
           <EmailTemplateEdit
             isSignedIn={isSignedIn}
             templateSlug={templateSlug}
             rows={rows}
+            userStatus={userStatus}
+            tempSignatureCreatedAt={tempSignatureCreatedAt}
           />
-          {!contentEdit.editPath &&
-            !contentEdit.addPath &&
-            !contentEdit.columnPath && (
-              <div className="mb-8">
-                <Button
-                  size="lg"
-                  onClick={() => setIsEdit(false)}
-                  variant="brandBlue"
-                >
-                  <Eye size={20} className="mr-2" /> View
-                </Button>
-              </div>
-            )}
-        </Container>
-      )}
+        </div>
+      </Container>
     </div>
   );
 };

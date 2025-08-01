@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { useSignatureStore } from '@/src/store/content-edit-add-store';
 import { EmailTemplateView } from './content-view/signature-view';
 import { TitleSwitch } from '../ui/title-switch';
@@ -7,7 +7,8 @@ import { useMediaQuery } from '@/src/hooks/useMediaQuery';
 import { MEDIA_QUERIES } from '@/src/constants/mediaQueries';
 import { getInvertedSignatureRows } from '@/src/utils/colorUtils';
 import { Container } from '../ui/container';
-import { MAX_IMAGE_WIDTH } from '@/supabase/functions/_shared/const';
+import { MAX_MOBILE_IMAGE_WIDTH } from '@/supabase/functions/_shared/const';
+import { AutoScaleContainer } from '../ui/auto-scale-container';
 
 export const SignaturePreview: React.FC = () => {
   const isDesktopScreen = useMediaQuery(MEDIA_QUERIES.MD);
@@ -29,7 +30,7 @@ export const SignaturePreview: React.FC = () => {
   const outerDivClasses = 'py-2 flex justify-center';
 
   const wrapperDivClasses = [
-    !isDesktopScreen || isMobilePreview ? 'inline-flex' : '',
+    isMobilePreview ? 'inline-flex' : '',
 
     isDarkMode ? 'bg-neutral-800' : '',
     !isDesktopScreen ? 'w-full px-4' : '',
@@ -45,7 +46,9 @@ export const SignaturePreview: React.FC = () => {
     .filter(Boolean)
     .join(' ');
 
-  const mobilePreviewWidth = isMobilePreview ? { width: MAX_IMAGE_WIDTH } : {};
+  const mobilePreviewWidth = isMobilePreview
+    ? { width: MAX_MOBILE_IMAGE_WIDTH }
+    : {};
 
   const containerDivClasses = [
     isDesktopScreen ? 'pt-4 pb-4' : '',
@@ -55,6 +58,8 @@ export const SignaturePreview: React.FC = () => {
     .filter(Boolean)
     .join(' ');
 
+  const containerRef = useRef<HTMLDivElement>(null);
+
   return (
     <>
       <div
@@ -62,7 +67,7 @@ export const SignaturePreview: React.FC = () => {
         style={{ position: 'absolute', left: '-9999px', top: '-9999px' }}
         aria-hidden="true"
       >
-        <EmailTemplateView rows={rows} />
+        <EmailTemplateView rows={rows} isCopySignature={true} />
       </div>
 
       <div className={`sm:px-0 lg:px-4`}>
@@ -112,17 +117,22 @@ export const SignaturePreview: React.FC = () => {
             </div>
           </div>
         </Container>
-
-        <div className={`${outerDivClasses} w-full max-w-6xl mx-auto`}>
-          <div
-            className={`${wrapperDivClasses}`}
-            style={{ ...mobilePreviewWidth }}
-          >
-            <div className={containerDivClasses}>
-              <EmailTemplateView
-                rows={rowsToDisplay}
-                isMobilePreview={isMobilePreview}
-              />
+        <div style={{ overflowX: 'auto' }}>
+          <div className={`${outerDivClasses} w-full max-w-6xl mx-auto`}>
+            <div
+              className={`${wrapperDivClasses}`}
+              style={{ ...mobilePreviewWidth }}
+              ref={containerRef}
+            >
+              <AutoScaleContainer
+                containerRef={containerRef}
+                margin={0}
+                isActive={isMobilePreview}
+              >
+                <div className={containerDivClasses}>
+                  <EmailTemplateView rows={rowsToDisplay} />
+                </div>
+              </AutoScaleContainer>
             </div>
           </div>
         </div>

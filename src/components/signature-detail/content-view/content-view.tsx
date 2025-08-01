@@ -16,12 +16,13 @@ const formatTextWithLineBreaks = (text?: string) => {
     ));
 };
 
-export const getContentView = (content?: any, isMobilePreview?: boolean) => {
+export const getContentView = (content?: any, isCopySignature?: boolean) => {
   if (content?.type == ContentType.IMAGE) {
     const { components } = content;
 
     return components.map((component: any) => {
-      const { id, src, cropImagePreview, link, margin } = component;
+      const { id, src, cropImagePreview, link, margin, previewWidth } =
+        component;
 
       const image = cropImagePreview || src;
       let imageSrc = image;
@@ -40,7 +41,7 @@ export const getContentView = (content?: any, isMobilePreview?: boolean) => {
         <Img
           key={id}
           src={imageSrc}
-          /*      width={previewWidth} */
+          width={!isCopySignature ? previewWidth : undefined}
           style={{
             margin: margin,
           }}
@@ -84,14 +85,17 @@ export const getContentView = (content?: any, isMobilePreview?: boolean) => {
         lineHeight,
         textDecoration,
         textAlign,
+        whiteSpace,
       } = component;
 
       const formattedText = formatTextWithLineBreaks(text);
 
       return (
-        <div
+        <span
           key={id}
           style={{
+            width: '100%',
+            display: whiteSpace === 'nowrap' ? 'inline-block' : 'initial',
             fontSize: fontSize,
             color,
             letterSpacing: letterSpacing,
@@ -101,13 +105,11 @@ export const getContentView = (content?: any, isMobilePreview?: boolean) => {
             lineHeight,
             textDecoration,
             textAlign,
-            wordBreak: 'break-word' as React.CSSProperties['wordBreak'],
-            wordWrap: 'break-word',
-            overflowWrap: 'break-word',
+            whiteSpace,
           }}
         >
           {formattedText}
-        </div>
+        </span>
       );
     });
   }
@@ -115,6 +117,7 @@ export const getContentView = (content?: any, isMobilePreview?: boolean) => {
   if (content?.type === ContentType.EMAIL) {
     const { components } = content;
     const textAlign = components[1].textAlign;
+    const whiteSpace = components[1].whiteSpace;
 
     return (
       <span
@@ -122,6 +125,7 @@ export const getContentView = (content?: any, isMobilePreview?: boolean) => {
           width: '100%',
           display: 'inline-block',
           textAlign,
+          whiteSpace,
         }}
       >
         {components.map((component: any) => {
@@ -150,7 +154,6 @@ export const getContentView = (content?: any, isMobilePreview?: boolean) => {
             lineHeight,
             textDecoration,
             textAlign,
-            whiteSpace: isMobilePreview ? 'nowrap' : 'break-spaces',
           };
 
           if (!text) {
@@ -165,7 +168,6 @@ export const getContentView = (content?: any, isMobilePreview?: boolean) => {
                 target="_blank"
                 style={{
                   ...style,
-                  wordBreak: 'break-all',
                 }}
                 rel="noreferrer"
               >
@@ -187,13 +189,14 @@ export const getContentView = (content?: any, isMobilePreview?: boolean) => {
   if (content?.type === ContentType.PHONE) {
     const { components } = content;
     const textAlign = components[1].textAlign;
-
+    const whiteSpace = components[1].whiteSpace;
     return (
       <span
         style={{
           width: '100%',
           display: 'inline-block',
           textAlign,
+          whiteSpace,
         }}
       >
         {components.map((component: any) => {
@@ -222,7 +225,6 @@ export const getContentView = (content?: any, isMobilePreview?: boolean) => {
             lineHeight,
             textDecoration,
             textAlign,
-            whiteSpace: isMobilePreview ? 'nowrap' : 'break-spaces',
           };
 
           if (!text) {
@@ -237,7 +239,6 @@ export const getContentView = (content?: any, isMobilePreview?: boolean) => {
                 target="_blank"
                 style={{
                   ...style,
-                  wordBreak: 'break-all',
                 }}
                 rel="noreferrer"
               >
@@ -259,13 +260,14 @@ export const getContentView = (content?: any, isMobilePreview?: boolean) => {
   if (content?.type === ContentType.WEBSITE) {
     const { components } = content;
     const textAlign = components[1].textAlign;
-
+    const whiteSpace = components[1].whiteSpace;
     return (
       <span
         style={{
           width: '100%',
           display: 'inline-block',
           textAlign,
+          whiteSpace,
         }}
       >
         {components.map((component: any) => {
@@ -295,7 +297,7 @@ export const getContentView = (content?: any, isMobilePreview?: boolean) => {
             lineHeight,
             textDecoration,
             textAlign,
-            whiteSpace: isMobilePreview ? 'nowrap' : 'break-spaces',
+            whiteSpace,
           };
 
           if (!text) {
@@ -316,7 +318,6 @@ export const getContentView = (content?: any, isMobilePreview?: boolean) => {
                 target="_blank"
                 style={{
                   ...style,
-                  wordBreak: 'break-all',
                 }}
                 rel="noreferrer"
               >
@@ -335,16 +336,17 @@ export const getContentView = (content?: any, isMobilePreview?: boolean) => {
     );
   }
 
-  if (content?.type === ContentType.CUSTOM_VALUE) {
+  if (content?.type === ContentType.TWO_PART_TEXT) {
     const { components } = content;
-    const textAlign = components[1].textAlign;
-
+    const textAlign = components[0].textAlign;
+    const whiteSpace = components[0].whiteSpace;
     return (
       <span
         style={{
           width: '100%',
           display: 'inline-block',
           textAlign,
+          whiteSpace,
         }}
       >
         {components.map((component: any) => {
@@ -360,6 +362,7 @@ export const getContentView = (content?: any, isMobilePreview?: boolean) => {
             lineHeight,
             textDecoration,
             textAlign,
+            whiteSpace,
           } = component;
 
           const style = {
@@ -373,7 +376,7 @@ export const getContentView = (content?: any, isMobilePreview?: boolean) => {
             lineHeight,
             textDecoration,
             textAlign,
-            whiteSpace: isMobilePreview ? 'nowrap' : 'break-spaces',
+            whiteSpace,
           };
 
           if (!text) {
@@ -381,7 +384,12 @@ export const getContentView = (content?: any, isMobilePreview?: boolean) => {
           }
 
           return (
-            <span key={id} style={style}>
+            <span
+              key={id}
+              style={{
+                ...style,
+              }}
+            >
               {formatTextWithLineBreaks(text)}
             </span>
           );

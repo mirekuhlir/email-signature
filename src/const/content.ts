@@ -7,7 +7,5 @@ export enum ContentType {
     PHONE_LINK = "phoneLink",
     WEBSITE = "website",
     WEBSITE_LINK = "websiteLink",
-    CUSTOM_VALUE = "customValue",
+    TWO_PART_TEXT = "twoPartText",
 }
-
-export const TEMP_SIGNATURE = "temp-signature";

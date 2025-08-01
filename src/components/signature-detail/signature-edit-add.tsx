@@ -43,7 +43,8 @@ function isColorDark(colorString: string): boolean {
 }
 
 export const EmailTemplateEdit = (props: any) => {
-  const { rows, isSignedIn, templateSlug } = props;
+  const { rows, isSignedIn, templateSlug, userStatus, tempSignatureCreatedAt } =
+    props;
   const { setContentEdit, contentEdit } = useContentEditStore();
   const { moveRowUp, moveRowDown, isSavingOrder, savingOrderPath, deleteRow } =
     useSignatureStore();
@@ -90,7 +91,7 @@ export const EmailTemplateEdit = (props: any) => {
         style={{
           ...column.style,
           display: 'table-cell',
-          verticalAlign: column.style?.verticalAlign || 'top',
+          verticalAlign: column.style?.verticalAlign || 'middle',
         }}
       >
         <div
@@ -203,7 +204,7 @@ export const EmailTemplateEdit = (props: any) => {
         );
       }
 
-      const content = getContentView(row?.content);
+      const content = getContentView(row?.content, false);
 
       const padding = row?.content?.components[0]?.padding;
       const backgroundColor = row?.content?.components[0]?.backgroundColor;
@@ -326,7 +327,13 @@ export const EmailTemplateEdit = (props: any) => {
                                 variant="ghost"
                                 disabled={isSavingOrder}
                                 onClick={() => {
-                                  moveRowUp(currentPath, signatureId as string);
+                                  moveRowUp(
+                                    currentPath,
+                                    signatureId as string,
+                                    userStatus,
+                                    templateSlug,
+                                    tempSignatureCreatedAt,
+                                  );
                                 }}
                               >
                                 Move up
@@ -338,6 +345,9 @@ export const EmailTemplateEdit = (props: any) => {
                                   moveRowDown(
                                     currentPath,
                                     signatureId as string,
+                                    userStatus,
+                                    templateSlug,
+                                    tempSignatureCreatedAt,
                                   );
                                 }}
                               >
@@ -463,6 +473,7 @@ export const EmailTemplateEdit = (props: any) => {
           contentPathToEdit={contentEdit.editPath}
           key={`edit-${contentEdit.editPath}`}
           signatureId={signatureId}
+          tempSignatureCreatedAt={tempSignatureCreatedAt}
         />
       )}
 
@@ -473,6 +484,7 @@ export const EmailTemplateEdit = (props: any) => {
           columnPathToEdit={contentEdit.columnPath}
           key={`settings-${contentEdit.columnPath}`}
           signatureId={signatureId}
+          tempSignatureCreatedAt={tempSignatureCreatedAt}
         />
       )}
 

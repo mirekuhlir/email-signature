@@ -25,6 +25,18 @@ const joinClasses = (...classes: (string | undefined | false)[]): string => {
   return classes.filter(Boolean).join(' ');
 };
 
+const formatTextWithLineBreaks = (text: string) => {
+  return text
+    .replace(/\r\n|\r/g, '\n')
+    .split('\n')
+    .map((line: string, index: number, array: string[]) => (
+      <React.Fragment key={index}>
+        {line}
+        {index < array.length - 1 && <br />}
+      </React.Fragment>
+    ));
+};
+
 const variantStyles: Record<VariantType, string> = {
   h1: 'text-5xl font-bold tracking-tight',
   h2: 'text-4xl font-semibold tracking-tight',
@@ -103,9 +115,14 @@ export const Typography = ({
     textColor,
   );
 
+  const processedChildren =
+    typeof children === 'string'
+      ? formatTextWithLineBreaks(children)
+      : children;
+
   return (
     <Component id={id} className={classes}>
-      {children}
+      {processedChildren}
     </Component>
   );
 };

@@ -51,11 +51,11 @@ export default async function Account() {
                   {userStatus === UserStatus.TRIAL && (
                     <div className="flex justify-end sm:justify-start">
                       <StyledLink
-                        variant="button-brand-blue"
+                        variant="button-orange"
                         href="/pricing"
-                        className="mt-4"
+                        className="mt-4 min-w-40"
                       >
-                        Upgrade to full version
+                        Buy
                       </StyledLink>
                     </div>
                   )}

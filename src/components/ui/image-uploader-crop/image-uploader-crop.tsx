@@ -28,6 +28,8 @@ import {
   MAX_IMAGE_WIDTH,
 } from '@/supabase/functions/_shared/const';
 import { CollapsibleSection } from '../collapsible-section';
+import { EEditType, SliderDimensions } from '../slider-dimensions';
+import { Loading } from '../loading';
 
 // Resolution multiplier for output images
 const RESOLUTION_MULTIPLIER = 1;
@@ -58,8 +60,6 @@ interface ImageUploaderProps {
   isSignedIn?: boolean;
   imageCount?: number;
   originalImageFile?: File;
-  onResizing?: (isResizing: boolean) => void;
-  isResizing?: boolean;
   imageLink?: ReactNode;
   horizontalAlign?: ReactNode;
 }
@@ -76,8 +76,6 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     originalSrc,
     onLoadingChange,
     originalImageFile,
-    onResizing,
-    isResizing,
     imageLink,
     horizontalAlign,
   } = props;
@@ -121,6 +119,8 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     string | undefined
   >(undefined);
   const [isLoadingOriginalImage, setIsLoadingOriginalImage] = useState(false);
+
+  const [isResizing, setIsResizing] = useState(false);
 
   const imgRef = useRef<HTMLImageElement>(null);
   const previewCanvasRef = useRef<HTMLCanvasElement>(null);
@@ -170,7 +170,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
               { type: 'image/jpg' },
             );
 
-            onResizing?.(false);
+            setIsResizing(false);
 
             setCroppedImageData(null);
             onSetOriginalImage?.(jpegFile); // Pass the File object instead of the data URL
@@ -178,7 +178,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         };
       }
     },
-    [onResizing, onSetOriginalImage],
+    [onSetOriginalImage],
   );
 
   const handleFileDrop = useCallback(
@@ -186,12 +186,12 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
       if (file.type.startsWith('image/')) {
         const fileUrl = URL.createObjectURL(file);
         setOriginalImagePreview(fileUrl);
-        onResizing?.(false);
+        setIsResizing(false);
         setCroppedImageData(null);
         onSetOriginalImage?.(file);
       }
     },
-    [onResizing, onSetOriginalImage],
+    [onSetOriginalImage],
   );
 
   const handleDragEnter = useCallback((e: React.DragEvent<HTMLDivElement>) => {
@@ -535,7 +535,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     () =>
       // First debounce with 400ms, then call handleCrop after 100ms delay
       debounce(() => {
-        onResizing?.(true);
+        setIsResizing(true);
 
         setTimeout(() => {
           handleCrop()
@@ -543,12 +543,12 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
               console.error('Error in debounced crop handler:', err);
             })
             .finally(() => {
-              onResizing?.(false);
+              setIsResizing(false);
             });
           // display resizing text
         }, 100);
       }, 1000),
-    [handleCrop, onResizing],
+    [handleCrop],
   );
 
   useEffect(() => {
@@ -695,9 +695,9 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     if (croppedImageData && !initCalledRef.current) {
       initCalledRef.current = true;
       onInit?.();
-      onResizing?.(false);
+      setIsResizing(false);
     }
-  }, [croppedImageData, onInit, onResizing]);
+  }, [croppedImageData, onInit]);
 
   if (isLoadingOriginalImage) {
     return (
@@ -713,7 +713,15 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     <>
       <canvas ref={previewCanvasRef} className="hidden" />
       <div className="w-full mb-2">
-        <CollapsibleSection title="Image" isInitOpen={true}>
+        <CollapsibleSection
+          title="Image"
+          isInitOpen={true}
+          panelContent={
+            isResizing ? (
+              <Loading size="sm" className="w-4 h-4 text-gray-900" />
+            ) : null
+          }
+        >
           {!originalImagePreview && !originalSrc ? (
             <div
               className={`grid place-items-center p-4 border border-dashed ${isDragging ? 'border-orange-500 bg-orange-50' : 'border-gray-300'} rounded min-h-[200px] w-[80%] md:w-[400px] mx-auto transition-colors duration-200`}
@@ -764,13 +772,9 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
               {croppedImageData && (
                 <div className="space-y-2">
                   <>
-                    <Typography variant="labelBase">
-                      {`Width of image: ${
-                        croppedImageData ? `${previewWidth} px` : ''
-                      }`}
-                    </Typography>
                     <div className="pb-3">
                       <Slider
+                        label={`Width of image: ${previewWidth} px`}
                         min={MIN_IMAGE_WIDTH}
                         max={MAX_IMAGE_WIDTH}
                         units="pixels"
@@ -869,7 +873,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
                 </div>
               </div>
               <div className="mb-4">
-                <Typography variant="labelBase">Aspect ratio</Typography>
+                <Typography variant="labelBase">Select aspect ratio</Typography>
                 <div className="flex flex-wrap gap-y-4 gap-x-8">
                   <Button
                     size="md"
@@ -942,12 +946,8 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
                   <div className="space-y-2">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                       <div>
-                        <div className="mb-1">
-                          <Typography variant="labelBase">
-                            {`Top Left: ${borderRadii.topLeft} px`}
-                          </Typography>
-                        </div>
-                        <Slider
+                        <SliderDimensions
+                          label={`Top Left: ${borderRadii.topLeft} px`}
                           min={0}
                           max={maxImageRadius}
                           units="px"
@@ -955,15 +955,12 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
                           onChange={handleBorderRadiusTopLeftChange}
                           id="border-radius-slider-tl"
                           isDisabled={isResizing}
+                          editType={EEditType.CORNER}
                         />
                       </div>
                       <div>
-                        <div className="mb-1">
-                          <Typography variant="labelBase">
-                            {`Top Right: ${borderRadii.topRight} px`}
-                          </Typography>
-                        </div>
-                        <Slider
+                        <SliderDimensions
+                          label={`Top Right: ${borderRadii.topRight} px`}
                           min={0}
                           max={maxImageRadius}
                           units="px"
@@ -971,15 +968,12 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
                           onChange={handleBorderRadiusTopRightChange}
                           id="border-radius-slider-tr"
                           isDisabled={isResizing}
+                          editType={EEditType.CORNER}
                         />
                       </div>
                       <div>
-                        <div className="mb-1">
-                          <Typography variant="labelBase">
-                            {`Bottom Left: ${borderRadii.bottomLeft} px`}
-                          </Typography>
-                        </div>
-                        <Slider
+                        <SliderDimensions
+                          label={`Bottom Left: ${borderRadii.bottomLeft} px`}
                           min={0}
                           max={maxImageRadius}
                           units="px"
@@ -987,15 +981,12 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
                           onChange={handleBorderRadiusBottomLeftChange}
                           id="border-radius-slider-bl"
                           isDisabled={isResizing}
+                          editType={EEditType.CORNER}
                         />
                       </div>
                       <div>
-                        <div className="mb-1">
-                          <Typography variant="labelBase">
-                            {`Bottom Right: ${borderRadii.bottomRight} px`}
-                          </Typography>
-                        </div>
-                        <Slider
+                        <SliderDimensions
+                          label={`Bottom Right: ${borderRadii.bottomRight} px`}
                           min={0}
                           max={maxImageRadius}
                           units="px"
@@ -1003,6 +994,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
                           onChange={handleBorderRadiusBottomRightChange}
                           id="border-radius-slider-br"
                           isDisabled={isResizing}
+                          editType={EEditType.CORNER}
                         />
                       </div>
                     </div>

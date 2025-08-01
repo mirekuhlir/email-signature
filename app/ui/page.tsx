@@ -375,7 +375,9 @@ const TextInputExample: React.FC = () => {
           placeholder="email@example.com"
         />
 
-        <Button type="submit">Send</Button>
+        <Button variant="brandBlue" type="submit">
+          Send
+        </Button>
       </form>
     </div>
   );

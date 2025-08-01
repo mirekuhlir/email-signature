@@ -31,7 +31,28 @@ export const getTemplates = () => {
 };
 
 export const getTemplateBySlug = (slug: string) => {
-  return getTemplates().find(
+  const template = getTemplates().find(
     (template) => template?.info?.templateSlug === slug,
   );
+  if (!template) {
+    return signature_empty_one_columns();
+  }
+
+  return template;
 };
+
+export const templatesSlugs = [
+  'signature-a',
+  'signature-b',
+  'signature-c',
+  'signature-d',
+  'signature-e',
+  'signature-f',
+  'signature-g',
+  'signature-h',
+  'signature-i',
+  'signature-j',
+  'signature-k',
+  'signature-empty-one-columns',
+  'signature-empty-two-columns',
+];

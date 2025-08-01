@@ -38,6 +38,8 @@ const MAX_ASPECT_STRING = 10;
 import {
     MAX_BORDER_RADIUS,
     MAX_BORDER_WIDTH,
+    MAX_DIMENSION_VALUE_LENGTH,
+    MAX_DIMENSION_VALUES,
     MAX_IMAGE_WIDTH,
     MAX_MARGIN,
     MAX_PADDING,
@@ -304,11 +306,11 @@ const websiteContentSchema = z.object({
 // Content schema for custom type
 const CustomValueTypedComponentSchema = baseComponentSchema.extend({
     text: sanitizedString(MAX_STRING_LENGTH).optional(),
-    type: z.literal("customValue"),
+    type: z.literal("twoPartText"),
 }).strip();
 
 const customValueContentSchema = z.object({
-    type: z.literal("customValue"),
+    type: z.literal("twoPartText"),
     components: z.array(
         z.discriminatedUnion("type", [
             TextTypedComponentSchema, // For prefix text
@@ -387,6 +389,22 @@ const tableRowSchema = z.object({
     columns: z.array(columnSchema).max(MAX_COLUMNS), // Limit to 30 columns
 }).strip();
 
+// Dimensions schema
+const dimensionsSchema = z.object({
+    spaces: z.array(sanitizedString(MAX_DIMENSION_VALUE_LENGTH)).max(
+        MAX_DIMENSION_VALUES,
+    ),
+    corners: z.array(sanitizedString(MAX_DIMENSION_VALUE_LENGTH)).max(
+        MAX_DIMENSION_VALUES,
+    ),
+    borders: z.array(sanitizedString(MAX_DIMENSION_VALUE_LENGTH)).max(
+        MAX_DIMENSION_VALUES,
+    ),
+    lengths: z.array(sanitizedString(MAX_DIMENSION_VALUE_LENGTH)).max(
+        MAX_DIMENSION_VALUES,
+    ),
+}).strip();
+
 // Signature template schema
 export const signatureTemplateSchema = z.object({
     info: z.object({
@@ -395,6 +413,7 @@ export const signatureTemplateSchema = z.object({
     }).strip().optional(),
     // Ensure colors are sanitized
     colors: z.array(sanitizedString(MAX_COLOR_LENGTH)).max(MAX_COLORS),
+    dimensions: dimensionsSchema.optional(),
     rows: z.array(tableRowSchema).max(MAX_ROWS), // Limit to 30 rows
 }).strip();
 
