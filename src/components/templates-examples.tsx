@@ -19,8 +19,7 @@ export const TemplatesExamples = (props: TemplatesExamplesProps) => {
     <div className="bg-color-gray-50">
       <div className="mb-4">
         <Typography variant="h4" textColor="text-brand-blue-900">
-          Choose a signature signature you like and customize it to fit your
-          style
+          Choose a signature signature you like style
         </Typography>
       </div>
       <div className="mb-6">
