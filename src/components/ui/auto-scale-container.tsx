@@ -2,6 +2,7 @@ import React, {
   useRef,
   useState,
   useEffect,
+  useCallback,
   ReactNode,
   RefObject,
 } from 'react';
@@ -21,11 +22,11 @@ export const AutoScaleContainer: React.FC<AutoScaleContainerProps> = ({
   children,
   margin = 32,
   minScale = 0.1,
-  dependencies = [],
   className = '',
   style = {},
   containerRef: externalContainerRef,
   isActive = false,
+  dependencies,
 }) => {
   const internalContainerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -35,7 +36,7 @@ export const AutoScaleContainer: React.FC<AutoScaleContainerProps> = ({
   const containerRef = externalContainerRef || internalContainerRef;
 
   // Calculate scale based on container and content width
-  const calculateScale = () => {
+  const calculateScale = useCallback(() => {
     if (!containerRef.current || !contentRef.current || !isActive) return;
 
     const containerWidth = containerRef.current.offsetWidth;
@@ -48,7 +49,7 @@ export const AutoScaleContainer: React.FC<AutoScaleContainerProps> = ({
     } else {
       setScale(1);
     }
-  };
+  }, [containerRef, isActive, margin, minScale]);
 
   // Effect to calculate scale on mount and when dependencies change
   useEffect(() => {
@@ -61,7 +62,8 @@ export const AutoScaleContainer: React.FC<AutoScaleContainerProps> = ({
     } else {
       setScale(1);
     }
-  }, [margin, minScale, isActive, ...dependencies]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isActive, calculateScale, ...(dependencies || [])]);
 
   // ResizeObserver to recalculate scale when window resizes
   useEffect(() => {
@@ -77,7 +79,7 @@ export const AutoScaleContainer: React.FC<AutoScaleContainerProps> = ({
     return () => {
       resizeObserver.disconnect();
     };
-  }, [isActive, containerRef, contentRef]);
+  }, [isActive, containerRef, contentRef, calculateScale]);
 
   if (!isActive) {
     return <>{children}</>;
