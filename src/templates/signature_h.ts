@@ -30,7 +30,7 @@ export const signature_h = () => {
         "dimensions": {
             "spaces": ["7", "5"],
             "corners": [],
-            "borders": ["3"],
+            "borders": ["2"],
             "lengths": [],
         },
         rows: [
@@ -112,7 +112,7 @@ export const signature_h = () => {
                                             borderRightWidth: "0px",
                                             borderBottomColor: "rgb(0, 0, 0)",
                                             borderBottomStyle: "solid",
-                                            borderBottomWidth: "3px",
+                                            borderBottomWidth: "2px",
                                             whiteSpace: "nowrap",
                                         },
                                     ],
