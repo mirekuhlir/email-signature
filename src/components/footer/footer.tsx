@@ -22,6 +22,12 @@ export const Footer = () => {
             <StyledLink variant="white" href="/account">
               Account
             </StyledLink>
+            <StyledLink variant="white" href="/pricing">
+              Pricing
+            </StyledLink>
+            <StyledLink variant="white" href="/signatures">
+              My Signatures
+            </StyledLink>
           </div>
         </div>
         <div className="flex justify-center mt-4">
