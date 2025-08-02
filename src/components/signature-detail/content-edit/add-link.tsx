@@ -122,7 +122,7 @@ export const LinkComponent = (props: LinkComponentProps) => {
                   <div className="py-2">
                     <Typography variant="labelBase">Link</Typography>
                     <Typography
-                      variant="large"
+                      variant="body"
                       className="text-gray-900 break-all"
                     >
                       {component.link}
