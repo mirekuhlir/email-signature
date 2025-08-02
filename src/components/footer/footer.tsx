@@ -28,6 +28,9 @@ export const Footer = () => {
             <StyledLink variant="white" href="/signatures">
               My Signatures
             </StyledLink>
+            <StyledLink variant="white" href="/contact">
+              Contact
+            </StyledLink>
           </div>
         </div>
         <div className="flex justify-center mt-4">
