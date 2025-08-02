@@ -5,19 +5,11 @@ export const Footer = () => {
   return (
     <footer className="bg-zinc-900 text-white py-8 mt-auto">
       <Container>
-        <div className="flex">
-          <div className="flex flex-col">
+        <div className="flex flex-row">
+          {/* First column */}
+          <div className="flex flex-col mb-4 md:mb-0">
             <StyledLink variant="white" href="/">
               Home
-            </StyledLink>
-            <StyledLink variant="white" href="/privacy">
-              Privacy Policy
-            </StyledLink>
-            <StyledLink variant="white" href="/terms">
-              Terms of Service
-            </StyledLink>
-            <StyledLink variant="white" href="/refund">
-              Refund
             </StyledLink>
             <StyledLink variant="white" href="/account">
               Account
@@ -30,6 +22,19 @@ export const Footer = () => {
             </StyledLink>
             <StyledLink variant="white" href="/contact">
               Contact
+            </StyledLink>
+          </div>
+
+          {/* Second column */}
+          <div className="flex flex-col ml-10">
+            <StyledLink variant="white" href="/privacy">
+              Privacy Policy
+            </StyledLink>
+            <StyledLink variant="white" href="/terms">
+              Terms of Service
+            </StyledLink>
+            <StyledLink variant="white" href="/refund">
+              Refund
             </StyledLink>
           </div>
         </div>
