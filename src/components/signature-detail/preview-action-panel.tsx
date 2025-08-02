@@ -4,6 +4,8 @@ import { Container } from '@/src/components/ui/container';
 import { Button } from '@/src/components/ui/button';
 import SignaturePreview from './signature-preview';
 import EditPanel from './edit-panel';
+import { useMediaQuery } from '@/src/hooks/useMediaQuery';
+import { MEDIA_QUERIES } from '@/src/constants/mediaQueries';
 
 interface ActionPanelProps {
   visible: boolean;
@@ -24,6 +26,8 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({
   isVisibleOnlyPreview = false,
   isVisibleOnlyClose = false,
 }) => {
+  const isMobile = useMediaQuery(MEDIA_QUERIES.MOBILE);
+
   if (!visible) return null;
 
   const renderButtons = () => {
@@ -31,7 +35,7 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({
       return (
         <div className="flex justify-end">
           <Button variant="outline" onClick={onClose}>
-            Close
+            Cancel
           </Button>
         </div>
       );
@@ -55,11 +59,11 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({
             onClick={onClose}
             buttonClassName="sm:min-w-35"
           >
-            Close
+            Cancel
           </Button>
         )}
         <div className="flex gap-4 sm:gap-8 sm:flex-row-reverse">
-          {onPreview && (
+          {onPreview && isMobile && (
             <Button
               variant="outline"
               onClick={onPreview}
