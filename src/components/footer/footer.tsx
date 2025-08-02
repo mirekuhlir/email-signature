@@ -7,13 +7,16 @@ export const Footer = () => {
       <Container>
         <div className="flex">
           <div className="flex flex-col">
+            <StyledLink variant="white" href="/">
+              Home
+            </StyledLink>
             <StyledLink variant="white" href="/privacy">
               Privacy Policy
             </StyledLink>
             <StyledLink variant="white" href="/terms">
               Terms of Service
             </StyledLink>
-            <StyledLink variant="white" href="/privacy">
+            <StyledLink variant="white" href="/refund">
               Refund
             </StyledLink>
           </div>

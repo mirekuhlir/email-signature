@@ -5,6 +5,7 @@ import { Container } from '@/src/components/ui/container';
 import { Typography } from '@/src/components/ui/typography';
 import { getUserStatus, UserStatus } from '@/src/utils/userState';
 import StyledLink from '@/src/components/ui/styled-link';
+import { Footer } from '@/src/components/footer/footer';
 
 export default async function Account() {
   const supabase = await createClient();
@@ -23,9 +24,9 @@ export default async function Account() {
   const userStatus = await getUserStatus(user);
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100">
+    <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100 flex flex-col">
       <Header user={user} />
-      <main>
+      <main className="flex-1">
         <div className="pt-24">
           <Container>
             <div className="w-full">
@@ -85,6 +86,7 @@ export default async function Account() {
           </Container>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }
