@@ -18,6 +18,7 @@ import gmail from '@/src/asset/email-clients/gmail.png';
 import outlook from '@/src/asset/email-clients/outlook.png';
 import ios from '@/src/asset/email-clients/ios.png';
 import Image from 'next/image';
+import { Footer } from '@/src/components/footer/footer';
 
 export default async function Home() {
   const supabase = await createClient();
@@ -371,11 +372,7 @@ export default async function Home() {
       </section> */}
 
       {/* Footer */}
-      <footer className="bg-gray-800 text-white py-8 mt-auto">
-        <div className="container mx-auto px-4 text-center">
-          <p>© 2025. All rights reserved.</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

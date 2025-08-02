@@ -55,7 +55,7 @@ export default async function Account() {
                         href="/pricing"
                         className="mt-4 min-w-40"
                       >
-                        Buy
+                        Buy Full Version
                       </StyledLink>
                     </div>
                   )}
