@@ -19,9 +19,12 @@ export const Footer = () => {
             <StyledLink variant="white" href="/refund">
               Refund
             </StyledLink>
+            <StyledLink variant="white" href="/account">
+              Account
+            </StyledLink>
           </div>
         </div>
-        <div className="flex justify-center">
+        <div className="flex justify-center mt-4">
           <p>© {new Date().getFullYear()}. All rights reserved.</p>
         </div>
       </Container>
