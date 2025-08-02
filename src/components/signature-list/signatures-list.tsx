@@ -206,6 +206,31 @@ export const SignaturesList = (props: any) => {
             <Hr className="pb-4 mt-4" />
           </>
         )}
+        {signatures
+          ?.sort(
+            (a, b) =>
+              new Date(b.updated_at || b.created_at).getTime() -
+              new Date(a.updated_at || a.created_at).getTime(),
+          )
+          .map((signature: any) => (
+            <SignatureListItem
+              key={signature.id}
+              rows={signature.signature_content.rows}
+              createdAt={signature.created_at}
+              updatedAt={signature.updated_at}
+              isLoading={isLoading}
+              onEdit={() => {
+                router.push(`/signatures/${signature.id}`);
+              }}
+              onDelete={() => {
+                setSignatureToDelete(signature);
+                setIsDeleteModalOpen(true);
+              }}
+              duplicateSignature={duplicateSignature}
+              signatureId={signature.id}
+              signatureCount={signatures.length}
+            />
+          ))}
 
         {tempSignatures
           ?.sort(
@@ -237,31 +262,6 @@ export const SignaturesList = (props: any) => {
               duplicateTempSignature={() => {
                 createSignature(tempSignature, userStatus, true);
               }}
-            />
-          ))}
-        {signatures
-          ?.sort(
-            (a, b) =>
-              new Date(b.updated_at || b.created_at).getTime() -
-              new Date(a.updated_at || a.created_at).getTime(),
-          )
-          .map((signature: any) => (
-            <SignatureListItem
-              key={signature.id}
-              rows={signature.signature_content.rows}
-              createdAt={signature.created_at}
-              updatedAt={signature.updated_at}
-              isLoading={isLoading}
-              onEdit={() => {
-                router.push(`/signatures/${signature.id}`);
-              }}
-              onDelete={() => {
-                setSignatureToDelete(signature);
-                setIsDeleteModalOpen(true);
-              }}
-              duplicateSignature={duplicateSignature}
-              signatureId={signature.id}
-              signatureCount={signatures.length}
             />
           ))}
       </div>

@@ -8,6 +8,7 @@ import appleMail from '@/src/asset/email-clients/apple_mail.png';
 import { StaticImageData } from 'next/image';
 
 import Image from 'next/image';
+import { SignaturePreview } from './signature-preview';
 
 type EmailClient = 'gmail' | 'outlook' | 'apple-mail';
 
@@ -63,19 +64,23 @@ export const CopyInstructionsModalContent = () => {
   );
 
   return (
-    <Container>
+    <Container isZeroPadding={true}>
       <div className="py-4">
-        <div className="space-y-5">
-          <div className="flex justify-center text-center">
-            <Typography variant="h4" textColor="text-brand-blue-900">
-              Your signature has been copied to clipboard!
-            </Typography>
+        <div className="flex justify-center text-center">
+          <Typography variant="h4" textColor="text-brand-blue-900">
+            Your signature has been copied to clipboard!
+          </Typography>
+        </div>
+        <div className="flex justify-center">
+          <div style={{ overflowX: 'auto' }}>
+            <SignaturePreview isOnlyView />
           </div>
-          <div className="mb-3 flex justify-center">
-            <Typography variant="large" textColor="text-gray-700">
-              Select your email client:
-            </Typography>
-          </div>
+        </div>
+
+        <div className="mb-3 flex justify-center">
+          <Typography variant="large" textColor="text-gray-700">
+            Select your email client:
+          </Typography>
         </div>
 
         <div className="flex flex-col items-center space-y-3">
