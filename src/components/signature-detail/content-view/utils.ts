@@ -54,7 +54,7 @@ export const copySignatureToClipboard = async (
           Buy to the full version:
         </div>
         <div style="font-size: 14px; color: white; font-family: Arial, sans-serif; line-height: normal;">
-          <a href="https://www.myemailavatar.com" target="_blank" rel="noreferrer" style="color: white; text-decoration: underline;">
+          <a href="https://www.myemailavatar.com/pricing" target="_blank" rel="noreferrer" style="color: white; text-decoration: underline;">
           https://www.myemailavatar.com/pricing
           </a>
         </div>
