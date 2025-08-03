@@ -38,10 +38,10 @@ export const getTemplatesMainPage = () => {
     signature_d(),
     signature_e(),
     signature_f(),
-    signature_g(),
-    signature_h(),
-    signature_i(),
     signature_j(),
+    signature_g(),
+    signature_i(),
+    signature_h(),
     signature_k(),
   ];
 };
