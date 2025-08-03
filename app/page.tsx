@@ -76,9 +76,8 @@ export default async function Home() {
           </div>
 
           <LoadMoreTemplates
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             initialTemplates={
-              [signature_i(), signature_a(), signature_d()] as any[]
+              [signature_i(), signature_a(), signature_d()] as unknown[]
             }
           />
           <p className="text-lg md:text-xl mx-auto text-brand-purple-900 text-center mt-8">

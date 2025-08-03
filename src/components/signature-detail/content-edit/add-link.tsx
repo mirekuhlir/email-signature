@@ -69,7 +69,7 @@ export const LinkComponent = (props: LinkComponentProps) => {
   }, [reset, showLinkInput, component.link]);
 
   return (
-    <>
+    <div className="w-full sm:w-1/2">
       <div className="pb-2">
         <div
           className={
@@ -105,7 +105,7 @@ export const LinkComponent = (props: LinkComponentProps) => {
                       removeEditingSectionId(component.id);
                     }}
                   >
-                    Close
+                    Cancel
                   </Button>
                   <Button type="submit" variant="blue">
                     Confirm
@@ -168,6 +168,6 @@ export const LinkComponent = (props: LinkComponentProps) => {
           )}
         </div>
       </div>
-    </>
+    </div>
   );
 };

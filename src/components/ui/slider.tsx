@@ -309,7 +309,7 @@ const Slider: React.FC<SliderProps> = (props) => {
             {enhancedModalContent}
             <div className="flex justify-between gap-1">
               <Button type="button" variant="outline" onClick={closeModal}>
-                Close
+                Cancel
               </Button>
               <Button type="submit" variant="blue">
                 Confirm

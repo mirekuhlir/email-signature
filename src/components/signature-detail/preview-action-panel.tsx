@@ -52,7 +52,7 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({
     }
 
     return (
-      <div className="flex justify-between items-center sm:flex-row-reverse">
+      <div className="flex justify-between items-center">
         {onClose && (
           <Button
             variant="outline"
@@ -62,7 +62,7 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({
             Cancel
           </Button>
         )}
-        <div className="flex gap-4 sm:gap-8 sm:flex-row-reverse">
+        <div className="flex gap-4 sm:gap-8">
           {onPreview && isMobile && (
             <Button
               variant="outline"
