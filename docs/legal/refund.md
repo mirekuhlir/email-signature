@@ -11,7 +11,7 @@ Chceme, abyste byli s nákupem spokojeni. Pokud nejste, můžete za určitých p
 ## Jak požádat o refundaci
 
 - Pro žádost o refundaci kontaktujte naši podporu s údaji o objednávce a důvodem žádosti.
-- Většinu žádostí o refundaci zpracováváme do 1 pracovního dne.
+- Zpracování žádosti o refundaci může trvat až 5 pracovních dní.
 
 ## Právní upozornění
 
