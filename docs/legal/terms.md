@@ -63,9 +63,9 @@ Zásady zpracování osobních údajů jsou uvedeny v samostatném dokumentu Zá
 
 ### 9.1 Právo na odstoupení a refundaci
 
-- Uživatel má právo odstoupit od smlouvy bez udání důvodu do 14 dnů od zakoupení produktu, pokud v této lhůtě nevyužil službu ke stažení nebo exportu šablony.
+- Uživatel má právo odstoupit od smlouvy bez udání důvodu do 14 dnů od zakoupení produktu.
 - O refundaci je nutné požádat emailem na [doplnit email]. Žádost musí obsahovat identifikaci uživatele a důvod žádosti.
-- Po uplynutí 14 dnů nebo po využití služby (stažení/export šablony) již na refundaci nevzniká nárok, s výjimkou případů, kdy to vyžaduje zákon.
+- Po uplynutí 14 dnů již na refundaci nevzniká nárok, s výjimkou případů, kdy to vyžaduje zákon.
 
 ## 10. Duševní vlastnictví a uživatelský obsah
 
