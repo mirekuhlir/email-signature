@@ -1,63 +1,86 @@
-## Podmínky užívání produktu myemailavatar.com
+# Podmínky užívání služby myemailavatar.com
 
-### 1. Úvod a akceptace podmínek
+## 1. Úvod a akceptace podmínek
 
-- Tyto Podmínky užívání upravují vztah mezi provozovatelem webu **myemailavatar.com** (dostupného na adrese [https://myemailavatar.com](https://myemailavatar.com)) a kupujícími.
-- Zakoupením přístupu k šablonám a editoru uživatel souhlasí s těmito podmínkami. Pokud s podmínkami nesouhlasíte, produkt nekupujte ani nepoužívejte.
+Používáním webu **myemailavatar.com** (dále jen „Služba“) souhlasíte s těmito Podmínkami užívání. Pokud s podmínkami nesouhlasíte, službu nepoužívejte.
 
-### 2. Definice pojmů
+## 2. Provozovatel a kontaktní údaje
 
-- **Produkt**: Digitální šablony emailových podpisů a online editor dostupný na adrese [https://myemailavatar.com](https://myemailavatar.com).
-- **Uživatel / Kupující**: Fyzická nebo právnická osoba, která si zakoupila přístup k produktu.
+- Provozovatel: Miroslav Uhlíř, Blížkovice 31, 671 55 Blížkovice, Česká republika
+- IČO: [doplnit]
+- Kontaktní email: [doplnit]
+- Webová adresa: [https://myemailavatar.com](https://myemailavatar.com)
+
+## 3. Definice pojmů
+
+- **Služba**: Online editor a šablony emailových podpisů dostupné na webu myemailavatar.com.
+- **Uživatel**: Fyzická nebo právnická osoba, která využívá Službu.
 - **Trial**: Bezplatné zkušební období s omezením (např. vodoznak, informační text).
 - **Placený přístup**: Uživatel, který uhradil jednorázový poplatek a získal plný přístup k úpravám a stahování šablon.
-- **Provozovatel**: Vlastník a správce webu.
+- **Obsah uživatele**: Veškeré informace, obrázky, loga, texty a další data vložená uživatelem do Služby.
 
-### 3. Popis produktu
+## 4. Věková a územní omezení
+
+- Služba je určena pouze osobám starším 18 let.
+- Služba je dostupná uživatelům po celém světě, pokud to neodporuje místním zákonům.
+
+## 5. Registrace a uživatelský účet
+
+- Pro plný přístup ke Službě je nutná registrace a vytvoření uživatelského účtu.
+- Uživatel je povinen uvádět pravdivé a aktuální údaje a odpovídá za bezpečnost svého účtu a hesla.
+
+## 6. Popis služby
 
 - Web umožňuje jednorázový nákup přístupu k profesionálním šablonám emailových podpisů a jejich úpravám v online editoru.
 - Šablony jsou kompatibilní s hlavními email klienty a lze je exportovat v HTML formátu.
 - Produkt umožňuje přidání obrázků, loga, kontaktních údajů a další personalizaci.
 
-### 4. Registrace a uživatelský účet
+## 7. Práva a povinnosti uživatele
 
-- Pro plný přístup k produktu je nutná registrace a vytvoření uživatelského účtu.
-- Uživatel je povinen uvádět pravdivé a aktuální údaje.
-- Uživatel odpovídá za bezpečnost svého účtu a hesla.
-
-### 5. Práva a povinnosti uživatele
-
-- Uživatel nesmí produkt zneužívat, narušovat jeho provoz nebo porušovat práva třetích stran.
-- Uživatel odpovídá za obsah, který do editoru vkládá (např. obrázky, texty).
+- Uživatel nesmí Službu zneužívat, narušovat její provoz nebo porušovat práva třetích stran.
+- Uživatel odpovídá za obsah, který do editoru vkládá (např. obrázky, texty) a musí mít potřebná práva k jeho použití.
 - Uživatel nesmí používat trial šablony pro veřejnou komunikaci.
+- Uživatel je oprávněn vygenerované emailové podpisy využívat jak pro osobní, tak pro komerční účely.
 
-### 6. Práva a povinnosti provozovatele
+## 8. Práva a povinnosti provozovatele
 
-- Provozovatel se zavazuje zpřístupnit produkt v rozsahu odpovídajícím popisu na webu.
-- Provozovatel může produkt upravovat, aktualizovat nebo dočasně omezit jeho dostupnost (např. kvůli údržbě).
+- Provozovatel se zavazuje zpřístupnit Službu v rozsahu odpovídajícím popisu na webu.
+- Provozovatel může Službu upravovat, aktualizovat nebo dočasně omezit její dostupnost (např. kvůli údržbě).
 - Provozovatel má právo zablokovat účet uživatele při porušení podmínek.
 
-### 7. Omezení odpovědnosti
+## 9. Platební podmínky a refundace
 
-- Provozovatel nenese odpovědnost za škody vzniklé v důsledku používání nebo nemožnosti používání produktu.
-- Provozovatel negarantuje nepřetržitou dostupnost produktu ani kompatibilitu se všemi email klienty za všech okolností.
-
-### 8. Duševní vlastnictví (copyright, licence)
-
-- Veškerý obsah webu (kód, šablony, design) je chráněn autorským právem provozovatele.
-- Uživatel získává nevýhradní licenci k používání zakoupených šablon pro vlastní potřebu.
-- Uživatel nesmí produkt ani jeho části kopírovat, šířit nebo upravovat bez souhlasu provozovatele.
-
-### 9. Platební podmínky a fakturace
-
-- Přístup k produktu je zpoplatněn jednorázovou platbou, která zajišťuje doživotní přístup k zakoupeným šablonám a editoru.
+- Přístup ke Službě je zpoplatněn jednorázovou platbou, která zajišťuje doživotní přístup k zakoupeným šablonám a editoru.
 - Platby jsou zpracovávány přes poskytovatele Paddle.
 - Po zaplacení je uživateli vystavena faktura a aktivován plný přístup.
 - Nejsou účtovány žádné opakované nebo skryté poplatky.
-- **Upozornění:** V případě, že uživatel po zaplacení svůj účet zruší, nebude platba vrácena a přístup k produktu i všem vygenerovaným šablonám bude ztracen.
-- **Pokud uživatel zruší nebo reklamuje platbu (například prostřednictvím banky nebo platební brány), může být jeho účet a veškerý obsah účtu bez náhrady smazán.**
 
-### 10. Zrušení účtu a ukončení přístupu
+### 9.1 Právo na odstoupení a refundaci
+
+- Uživatel má právo odstoupit od smlouvy bez udání důvodu do 14 dnů od zakoupení produktu, pokud v této lhůtě nevyužil službu ke stažení nebo exportu šablony.
+- O refundaci je nutné požádat emailem na [doplnit email]. Žádost musí obsahovat identifikaci uživatele a důvod žádosti.
+- Po uplynutí 14 dnů nebo po využití služby (stažení/export šablony) již na refundaci nevzniká nárok, s výjimkou případů, kdy to vyžaduje zákon.
+
+## 10. Duševní vlastnictví a uživatelský obsah
+
+- Veškerý obsah webu (kód, šablony, design) je chráněn autorským právem provozovatele.
+- Uživatel získává nevýhradní licenci k používání zakoupených šablon pro vlastní potřebu, včetně komerčního využití.
+- Uživatel uděluje provozovateli nevýhradní právo použít vložený obsah (např. podpisy, obrázky) pro účely marketingu a vývoje produktu. Provozovatel nebude tento obsah zveřejňovat bez souhlasu uživatele, pokud obsahuje osobní údaje.
+- Veškeré obrázky a soubory nahrané uživatelem (loga, fotografie) jsou po zrušení účtu nenávratně smazány a nejsou dále uchovávány ani zálohovány.
+
+## 11. Zakázané aktivity a technická omezení
+
+- Je zakázáno vkládat nelegální, urážlivý, klamavý nebo jinak nevhodný obsah.
+- Je zakázáno pokoušet se narušit bezpečnost nebo funkčnost Služby.
+- Je zakázáno obcházet omezení trial verze.
+- Je výslovně zakázáno provádět scraping, automatizované stahování, reverzní inženýrství, pokusy o obcházení technických opatření, nebo jiné technické zásahy do Služby.
+
+## 12. Omezení odpovědnosti
+
+- Provozovatel nenese odpovědnost za škody vzniklé v důsledku používání nebo nemožnosti používání Služby.
+- Provozovatel negarantuje nepřetržitou dostupnost Služby ani kompatibilitu se všemi email klienty za všech okolností.
+
+## 13. Zrušení účtu, ukončení služby a důležitá upozornění
 
 - Uživatel může kdykoliv požádat o zrušení účtu.
 - Provozovatel si vyhrazuje právo účet zrušit při porušení podmínek.
@@ -67,45 +90,40 @@
 - **Důležité:** Po smazání účtu mohou přestat fungovat emailové podpisy (šablony), které byly vygenerovány prostřednictvím produktu a používány v emailové komunikaci.
 - Uživatel bere na vědomí, že smazáním účtu ztrácí přístup ke všem funkcím a obsahu, bez nároku na vrácení zaplacené částky.
 
-### 11. Zakázané aktivity a obsah
-
-- Je zakázáno vkládat nelegální, urážlivý, klamavý nebo jinak nevhodný obsah.
-- Je zakázáno pokoušet se narušit bezpečnost nebo funkčnost produktu.
-- Je zakázáno obcházet omezení trial verze.
-
-### 12. Změny podmínek
-
-- Provozovatel si vyhrazuje právo podmínky kdykoliv změnit.
-- O změnách budou uživatelé informováni (např. emailem nebo oznámením na webu).
-- Pokračováním v používání produktu po změně podmínek uživatel souhlasí s novým zněním.
-
-### 13. Dostupnost produktu a údržba
+## 14. Dostupnost produktu a údržba
 
 - Provozovatel se snaží zajistit maximální dostupnost produktu.
 - Krátkodobé výpadky z důvodu údržby nebo aktualizací jsou možné.
 - O plánovaných odstávkách bude uživatel informován předem, pokud to bude možné.
 
-### 14. Reklamace a podpora
+## 15. Podpora a komunikace
 
-- Uživatel může kontaktovat podporu v případě technických problémů nebo reklamace platby.
-- Reklamace budou řešeny individuálně dle povahy problému.
+- Provozovatel poskytuje technickou podporu pouze prostřednictvím emailu [doplnit email].
+- O změnách podmínek bude uživatel informován emailem a/nebo oznámením na webu.
 
-### 15. Rozhodné právo a jurisdikce
+## 16. Změny podmínek
 
-- Tyto podmínky se řídí právem České republiky (nebo jiného státu dle sídla provozovatele).
-- Veškeré spory budou řešeny příslušnými soudy dle sídla provozovatele.
+- Provozovatel si vyhrazuje právo podmínky kdykoliv změnit.
+- O změnách budou uživatelé informováni (emailem nebo oznámením na webu).
+- Pokračováním v používání Služby po změně podmínek uživatel souhlasí s novým zněním.
 
-### 16. Kontaktní informace
+## 17. Ochrana duševního vlastnictví a DMCA
 
-- Provozovatel: [doplňte název firmy nebo jméno]
-- Kontaktní email: [doplňte email]
-- Webová adresa: [https://myemailavatar.com](https://myemailavatar.com)
+- Provozovatel respektuje práva duševního vlastnictví třetích stran. Pokud se domníváte, že byl prostřednictvím Služby porušen váš autorský nebo jiný chráněný obsah, kontaktujte nás na [doplnit email] s popisem porušení a důkazy.
+- Provozovatel si vyhrazuje právo odstranit obsah, který porušuje práva třetích stran, a v případě opakovaného porušení zrušit účet uživatele.
+- Uživatel je povinen vkládat pouze obsah, ke kterému má potřebná práva a licence.
 
-### 17. Datum účinnosti podmínek
+## 18. Rozhodné právo a jurisdikce
+
+- Tyto podmínky se řídí výhradně právem České republiky.
+- Veškeré spory budou řešeny příslušnými soudy v České republice dle sídla provozovatele.
+- Arbitráž není přípustná.
+
+## 19. Důležité upozornění
+
+- Pokud uživatel po zaplacení jednorázového poplatku svůj účet zruší, bude jeho účet a veškerý obsah nenávratně smazán. Všechny vygenerované šablony mohou přestat fungovat a uživatel ztrácí přístup ke Službě bez nároku na vrácení zaplacené částky.
+- Pokud uživatel zruší nebo reklamuje platbu, může být jeho účet a veškerý obsah účtu bez náhrady smazán.
+
+## 20. Datum účinnosti podmínek
 
 - Podmínky nabývají účinnosti dnem zveřejnění na webu.
-
-### 18. Důležité upozornění
-
-- Pokud uživatel po zaplacení jednorázového poplatku svůj účet zruší, bude jeho účet a veškerý obsah nenávratně smazán. Všechny vygenerované šablony mohou přestat fungovat a uživatel ztrácí přístup k produktu bez nároku na vrácení zaplacené částky.
-- Pokud uživatel zruší nebo reklamuje platbu, může být jeho účet a veškerý obsah účtu bez náhrady smazán.
