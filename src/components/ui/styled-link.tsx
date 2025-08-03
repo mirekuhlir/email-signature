@@ -19,6 +19,7 @@ interface StyledLinkProps {
     | 'primary'
     | 'secondary'
     | 'underline'
+    | 'white'
     | 'none';
   size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
   className?: string;
@@ -49,6 +50,7 @@ const StyledLink: FC<StyledLinkProps> = ({
     underline:
       'text-gray-700 hover:text-gray-900 border-b-1 border-gray-600 hover:border-gray-900',
     none: '',
+    white: 'text-white hover:text-gray-200',
   };
 
   const variantStyles = variants[variant];
