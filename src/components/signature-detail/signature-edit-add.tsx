@@ -47,8 +47,14 @@ export const EmailTemplateEdit = (props: any) => {
   const { rows, isSignedIn, templateSlug, userStatus, tempSignatureCreatedAt } =
     props;
   const { setContentEdit, contentEdit } = useContentEditStore();
-  const { moveRowUp, moveRowDown, isSavingOrder, savingOrderPath, deleteRow } =
-    useSignatureStore();
+  const {
+    moveRowUp,
+    moveRowDown,
+    duplicateRow,
+    isSavingOrder,
+    savingOrderPath,
+    deleteRow,
+  } = useSignatureStore();
   const { id: signatureId } = useParams();
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -320,6 +326,21 @@ export const EmailTemplateEdit = (props: any) => {
                             }}
                           >
                             Add
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            disabled={isSavingOrder}
+                            onClick={() => {
+                              duplicateRow(
+                                currentPath,
+                                signatureId as string,
+                                userStatus,
+                                templateSlug,
+                                tempSignatureCreatedAt,
+                              );
+                            }}
+                          >
+                            Duplicate
                           </Button>
                           {totalRowsInColumn > 1 && (
                             <>

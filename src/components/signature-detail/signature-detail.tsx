@@ -30,7 +30,7 @@ export const SignatureDetail = (props: any) => {
     tempSignatureCreatedAt,
   } = props;
 
-  const { rows, initSignature } = useSignatureStore();
+  const { rows, initSignature, isSavingOrder } = useSignatureStore();
   const { contentEdit, resetContentEdit } = useContentEditStore();
   const [isSticky, setIsSticky] = useState(false);
   const { modal } = useModal();
@@ -140,6 +140,7 @@ export const SignatureDetail = (props: any) => {
                 size="md"
                 variant="blue"
                 buttonClassName="min-w-35"
+                disabled={isSavingOrder}
                 onClick={() => {
                   if (isSignedIn) {
                     copySignatureToClipboard(userStatus, () => {

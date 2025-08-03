@@ -3,9 +3,9 @@ import StyledLink from '../ui/styled-link';
 
 export const Footer = () => {
   return (
-    <footer className="bg-zinc-900 text-white py-8 mt-auto">
+    <footer className="bg-zinc-900 text-white py-8">
       <Container>
-        <div className="flex flex-row">
+        <div className="flex flex-col sm:flex-row">
           {/* First column */}
           <div className="flex flex-col mb-4 md:mb-0">
             <StyledLink variant="white" href="/">
@@ -26,7 +26,7 @@ export const Footer = () => {
           </div>
 
           {/* Second column */}
-          <div className="flex flex-col ml-10">
+          <div className="flex flex-col sm:ml-10">
             <StyledLink variant="white" href="/privacy">
               Privacy Policy
             </StyledLink>
