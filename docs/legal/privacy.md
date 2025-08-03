@@ -15,9 +15,9 @@ Tato zásady ochrany osobních údajů se vztahují na webovou stránku [https:/
 
 Shromažďujeme následující typy údajů:
 
-- **Identifikační a kontaktní údaje**: jméno, e-mailová adresa, fakturační údaje.
-- **Údaje o užívání služby**: informace o využívání editoru, šablon a funkcí webu.
-- **Technické údaje**: IP adresa, typ zařízení, prohlížeč.
+- Identifikační a kontaktní údaje: jméno, e-mailová adresa, fakturační údaje.
+- Údaje o užívání služby: informace o využívání editoru, šablon a funkcí webu.
+- Technické údaje: IP adresa, typ zařízení, prohlížeč.
 
 ## 3. Účely zpracování osobních údajů
 
@@ -77,7 +77,7 @@ Přijímáme technická a organizační opatření k ochraně vašich údajů p�
 
 ## 9. Cookies
 
-**Na webu myemailavatar.com nejsou používány cookies ani obdobné sledovací technologie.**
+Na webu myemailavatar.com nejsou používány cookies ani obdobné sledovací technologie.
 
 ## 10. Změny zásad ochrany osobních údajů
 
