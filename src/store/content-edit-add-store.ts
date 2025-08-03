@@ -16,8 +16,29 @@ import {
 } from "@/supabase/functions/_shared/const";
 import { UserStatus } from "@/src/utils/userState";
 import { saveTempSignature } from "../components/signature-detail/content-edit/utils";
+import { generateRandomId } from "../utils/generateRandomId";
 
 const supabase = createClient();
+
+// Helper function to regenerate IDs in a duplicated row
+const regenerateRowIds = (row: any): any => {
+  const newRow = cloneDeep(row);
+
+  // Regenerate row ID
+  newRow.id = generateRandomId();
+
+  // Regenerate component IDs if they exist
+  if (newRow.content && newRow.content.components) {
+    newRow.content.components = newRow.content.components.map((
+      component: any,
+    ) => ({
+      ...component,
+      id: generateRandomId(),
+    }));
+  }
+
+  return newRow;
+};
 
 // Helper function to move rows with wrapping
 const moveRowWithWrapping = async (
@@ -165,6 +186,13 @@ export interface StoreState {
     tempSignatureCreatedAt?: string,
   ) => Promise<void>;
   moveRowDown: (
+    path: string,
+    signatureId: string,
+    userStatus: UserStatus,
+    templateSlug: string,
+    tempSignatureCreatedAt?: string,
+  ) => Promise<void>;
+  duplicateRow: (
     path: string,
     signatureId: string,
     userStatus: UserStatus,
@@ -445,6 +473,84 @@ export const useSignatureStore = create<StoreState>((set, get) => {
         templateSlug,
         tempSignatureCreatedAt,
       );
+    },
+
+    duplicateRow: async (
+      path: string,
+      signatureId: string,
+      userStatus: UserStatus,
+      templateSlug: string,
+      tempSignatureCreatedAt?: string,
+    ) => {
+      const { addToast } = useToastStore.getState();
+      const state = get();
+      const cloneRows = cloneDeep(state.rows);
+
+      // Parse the path to get indices
+      const tableIndex = parseInt(path.split(".")[0].replace(/[[\]]/g, ""));
+      const columnIndex = parseInt(path.split("columns[")[1].split("]")[0]);
+      const rowIndex = parseInt(path.split("rows[")[1].split("]")[0]);
+
+      const rows = cloneRows[tableIndex].columns[columnIndex].rows;
+      const rowToDuplicate = rows[rowIndex];
+
+      if (!rowToDuplicate) {
+        addToast({
+          title: "Error",
+          description: "Row to duplicate not found.",
+          variant: "error",
+        });
+        return;
+      }
+
+      // Create a deep copy of the row to duplicate with new IDs
+      const duplicatedRow = regenerateRowIds(rowToDuplicate);
+
+      // Insert the duplicated row right after the original row
+      const insertIndex = rowIndex + 1;
+      rows.splice(insertIndex, 0, duplicatedRow);
+
+      set({ rows: cloneRows });
+
+      // Calculate the target path for the new duplicated row
+      const targetPath = path.replace(
+        /rows\[(\d+)\]/,
+        `rows[${insertIndex}]`,
+      );
+      set({ isSavingOrder: true, savingOrderPath: targetPath });
+
+      if (userStatus !== UserStatus.NOT_LOGGED_IN) {
+        const { error } = await supabase.functions.invoke("patch-signature", {
+          method: "PATCH",
+          body: {
+            signatureId,
+            signatureContent: {
+              rows: cloneRows,
+              colors: state.colors,
+              dimensions: state.dimensions,
+            },
+          },
+        });
+
+        if (error) {
+          addToast({
+            title: "Error",
+            description: "Failed to duplicate row. Please try again.",
+            variant: "error",
+          });
+        }
+      } else {
+        saveTempSignature({
+          templateSlug: templateSlug,
+          updatedAt: new Date().toISOString(),
+          createdAt: tempSignatureCreatedAt || "",
+          rows: cloneRows,
+          colors: state.colors,
+          dimensions: state.dimensions,
+        });
+      }
+
+      set({ isSavingOrder: false, savingOrderPath: null });
     },
 
     setContent: (path: string, content: any) =>
