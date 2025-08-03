@@ -41,7 +41,7 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({
       );
     }
 
-    if (isVisibleOnlyPreview) {
+    if (isVisibleOnlyPreview && isMobile) {
       return (
         <div className="flex justify-end">
           <Button variant="outline" onClick={onPreview}>
@@ -85,6 +85,10 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({
       </div>
     );
   };
+
+  if (isVisibleOnlyPreview && !isMobile) {
+    return null;
+  }
 
   return (
     <>
