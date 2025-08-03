@@ -1,10 +1,10 @@
 import { createClient } from '@/src/utils/supabase/server';
 import { Header } from '@/src/components/header';
 import StyledLink from '@/src/components/ui/styled-link';
-import { EmailTemplateView } from '@/src/components/signature-detail/content-view/signature-view';
 import { signature_a } from '@/src/templates/signature_a';
 import { signature_d } from '@/src/templates/signature_d';
 import { signature_i } from '@/src/templates/signature_i';
+import { LoadMoreTemplates } from '@/src/components/load-more-templates/load-more-templates';
 import {
   Handshake,
   ChartLine,
@@ -75,14 +75,12 @@ export default async function Home() {
             </h2>
           </div>
 
-          <div className="flex flex-col md:flex-row gap-16 justify-center items-center sm:items-end">
-            <EmailTemplateView rows={signature_i().rows} />
-            <EmailTemplateView rows={signature_a().rows} />
-            <EmailTemplateView rows={signature_d().rows} />
-          </div>
-          <p className="text-lg text-brand-purple-900 text-center mt-8">
-            And many more templates to choose from!
-          </p>
+          <LoadMoreTemplates
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            initialTemplates={
+              [signature_i(), signature_a(), signature_d()] as any[]
+            }
+          />
           <p className="text-lg md:text-xl mx-auto text-brand-purple-900 text-center mt-8">
             You can customize your signature to match your style - change
             colors, fonts, layouts and anything else you want.

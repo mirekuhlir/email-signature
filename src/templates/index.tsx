@@ -30,6 +30,22 @@ export const getTemplates = () => {
   ];
 };
 
+export const getTemplatesMainPage = () => {
+  return [
+    signature_a(),
+    signature_b(),
+    signature_c(),
+    signature_d(),
+    signature_e(),
+    signature_f(),
+    signature_g(),
+    signature_h(),
+    signature_i(),
+    signature_j(),
+    signature_k(),
+  ];
+};
+
 export const getTemplateBySlug = (slug: string) => {
   const template = getTemplates().find(
     (template) => template?.info?.templateSlug === slug,
