@@ -1,7 +1,7 @@
 import { createClient } from '@/src/utils/supabase/server';
 import { PageLayout } from '@/src/components/layout/page';
 
-export default async function Home() {
+export default async function Privacy() {
   const supabase = await createClient();
   const {
     data: { user },

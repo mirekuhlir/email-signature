@@ -1,7 +1,7 @@
 import { createClient } from '@/src/utils/supabase/server';
 import { PageLayout } from '@/src/components/layout/page';
 
-export default async function Home() {
+export default async function Terms() {
   const supabase = await createClient();
 
   const {
@@ -14,9 +14,9 @@ export default async function Home() {
 
       <h2 className="mt-8">1. Introduction and Acceptance of Terms</h2>
       <p>
-        By using the website <strong>myemailavatar.com</strong> (the "Service"),
-        you agree to these Terms of Service. If you do not agree with these
-        terms, please do not use the Service.
+        By using the website <strong>myemailavatar.com</strong> (the
+        &quot;Service&quot;), you agree to these Terms of Service. If you do not
+        agree with these terms, please do not use the Service.
       </p>
       <h3 className="mt-4">Contract Formation</h3>
       <p>
