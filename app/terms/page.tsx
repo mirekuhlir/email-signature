@@ -166,7 +166,7 @@ export default async function Home() {
       <ul className="space-y-2">
         <li>
           All website content (code, templates, design) is protected by the
-          operator's copyright.
+          operator&apos;s copyright.
         </li>
         <li>
           The user obtains a non-exclusive license to use purchased templates
@@ -176,7 +176,7 @@ export default async function Home() {
           The user grants the operator a non-exclusive right to use uploaded
           content (e.g., signatures, images) for marketing and product
           development purposes. The operator will not publish this content
-          without the user's consent if it contains personal data.
+          without the user&apos;s consent if it contains personal data.
         </li>
         <li>
           All images and files uploaded by the user (logos, photos) are
@@ -298,7 +298,7 @@ export default async function Home() {
         <li>
           The operator reserves the right to remove content that infringes
           third-party rights and, in case of repeated infringement, to cancel
-          the user's account.
+          the user&apos;s account.
         </li>
         <li>
           The user is obliged to upload only content for which they have the
@@ -314,7 +314,7 @@ export default async function Home() {
         </li>
         <li>
           All disputes will be resolved by the competent courts in the Czech
-          Republic according to the operator's registered office.
+          Republic according to the operator&apos;s registered office.
         </li>
         <li>Arbitration is not permitted.</li>
       </ul>
