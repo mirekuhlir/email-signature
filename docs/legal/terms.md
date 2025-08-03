@@ -91,10 +91,10 @@ Zásady zpracování osobních údajů jsou uvedeny v samostatném dokumentu Zá
 
 - Uživatel může kdykoliv požádat o zrušení účtu.
 - Provozovatel si vyhrazuje právo účet zrušit při porušení podmínek.
-- **Provozovatel si dále vyhrazuje právo kdykoliv ukončit poskytování produktu nebo zrušit uživatelský účet i bez udání důvodu. V takovém případě bude uživatel informován předem, pokud to bude možné.**
-- **Pokud uživatel zruší nebo reklamuje platbu, může být jeho účet a veškerý obsah účtu bez náhrady smazán.**
+- Provozovatel si dále vyhrazuje právo kdykoliv ukončit poskytování produktu nebo zrušit uživatelský účet i bez udání důvodu. V takovém případě bude uživatel informován předem, pokud to bude možné.
+- Pokud uživatel zruší nebo reklamuje platbu, může být jeho účet a veškerý obsah účtu bez náhrady smazán.
 - Po zrušení účtu bude veškerý uživatelský obsah, včetně vygenerovaných šablon, nenávratně smazán.
-- **Důležité:** Po smazání účtu mohou přestat fungovat emailové podpisy (šablony), které byly vygenerovány prostřednictvím produktu a používány v emailové komunikaci.
+- Důležité: Po smazání účtu mohou přestat fungovat emailové podpisy (šablony), které byly vygenerovány prostřednictvím produktu a používány v emailové komunikaci.
 - Uživatel bere na vědomí, že smazáním účtu ztrácí přístup ke všem funkcím a obsahu, bez nároku na vrácení zaplacené částky.
 
 ## 14. Dostupnost produktu a údržba
