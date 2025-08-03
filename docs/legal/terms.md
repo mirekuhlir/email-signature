@@ -4,6 +4,10 @@
 
 Používáním webu **myemailavatar.com** (dále jen „Služba“) souhlasíte s těmito Podmínkami užívání. Pokud s podmínkami nesouhlasíte, službu nepoužívejte.
 
+### Uzavření smlouvy
+
+Smlouva mezi uživatelem a provozovatelem je uzavřena elektronicky registrací, objednávkou nebo jiným způsobem akceptace těchto podmínek na webu.
+
 ## 2. Provozovatel a kontaktní údaje
 
 - Provozovatel: Miroslav Uhlíř, Blížkovice 31, 671 55 Blížkovice, Česká republika
@@ -18,6 +22,8 @@ Používáním webu **myemailavatar.com** (dále jen „Služba“) souhlasíte 
 - **Trial**: Bezplatné zkušební období s omezením (např. vodoznak, informační text).
 - **Placený přístup**: Uživatel, který uhradil jednorázový poplatek a získal plný přístup k úpravám a stahování šablon.
 - **Obsah uživatele**: Veškeré informace, obrázky, loga, texty a další data vložená uživatelem do Služby.
+
+Zásady zpracování osobních údajů jsou uvedeny v samostatném dokumentu Zásady ochrany osobních údajů (Privacy Policy).
 
 ## 4. Věková a územní omezení
 
@@ -78,6 +84,7 @@ Používáním webu **myemailavatar.com** (dále jen „Služba“) souhlasíte 
 ## 12. Omezení odpovědnosti
 
 - Provozovatel nenese odpovědnost za škody vzniklé v důsledku používání nebo nemožnosti používání Služby.
+- Provozovatel nenese odpovědnost za ztrátu dat, ušlý zisk, přerušení podnikání nebo jakékoli nepřímé či následné škody vzniklé v souvislosti s používáním Služby.
 - Provozovatel negarantuje nepřetržitou dostupnost Služby ani kompatibilitu se všemi email klienty za všech okolností.
 
 ## 13. Zrušení účtu, ukončení služby a důležitá upozornění
@@ -119,11 +126,15 @@ Používáním webu **myemailavatar.com** (dále jen „Služba“) souhlasíte 
 - Veškeré spory budou řešeny příslušnými soudy v České republice dle sídla provozovatele.
 - Arbitráž není přípustná.
 
-## 19. Důležité upozornění
+## 19. Archivace a zálohování
+
+Provozovatel neprovádí zálohování uživatelského obsahu. Uživatel je odpovědný za zálohování svých dat.
+
+## 20. Důležité upozornění
 
 - Pokud uživatel po zaplacení jednorázového poplatku svůj účet zruší, bude jeho účet a veškerý obsah nenávratně smazán. Všechny vygenerované šablony mohou přestat fungovat a uživatel ztrácí přístup ke Službě bez nároku na vrácení zaplacené částky.
 - Pokud uživatel zruší nebo reklamuje platbu, může být jeho účet a veškerý obsah účtu bez náhrady smazán.
 
-## 20. Datum účinnosti podmínek
+## 21. Datum účinnosti podmínek
 
 - Podmínky nabývají účinnosti dnem zveřejnění na webu.
