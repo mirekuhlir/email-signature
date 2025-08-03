@@ -40,7 +40,7 @@ export function LoadMoreTemplates({
 
   return (
     <div>
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-16 justify-items-center max-w-6xl mx-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-16 max-w-6xl mx-auto items-end">
         {visibleTemplates.map((template, index) => (
           <div key={index}>
             <EmailTemplateView rows={template.rows} />
