@@ -25,11 +25,13 @@ export const TemplatesExamples = (props: TemplatesExamplesProps) => {
       <div className="mb-6">
         <Hr />
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-12 sm:gap-16 justify-items-center items-end max-w-6xl mx-auto mb-16">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-12 sm:gap-16 items-end max-w-3xl mx-auto mb-16">
         {templates.map((template, index) => (
           <div key={index} className="flex flex-col">
-            <EmailTemplateView rows={template.rows} />
-            <div className="flex mt-4 justify-center">
+            <div className="flex justify-center">
+              <EmailTemplateView rows={template.rows} />
+            </div>
+            <div className="flex mt-4 justify-end sm:justify-center">
               <Button
                 onClick={async () => {
                   onCreateSignature?.(template);
