@@ -19,13 +19,13 @@ export const TemplatesExamples = (props: TemplatesExamplesProps) => {
     <div className="bg-color-gray-50">
       <div className="mb-4">
         <Typography variant="h4" textColor="text-brand-blue-900">
-          Choose a signature signature you like
+          Choose a signature you like
         </Typography>
       </div>
       <div className="mb-6">
         <Hr />
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-16 justify-items-center items-end max-w-6xl mx-auto mb-16">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-12 sm:gap-16 justify-items-center items-end max-w-6xl mx-auto mb-16">
         {templates.map((template, index) => (
           <div key={index} className="flex flex-col">
             <EmailTemplateView rows={template.rows} />
