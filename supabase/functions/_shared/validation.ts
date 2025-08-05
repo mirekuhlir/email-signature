@@ -139,6 +139,7 @@ const baseComponentSchema = z.object({
     lineHeight: sanitizedString(MAX_LINE_HEIGHT).optional(),
     textAlign: sanitizedString(MAX_TEXT_ALIGN).optional(), // Consider enums for stricter validation: z.enum(["left", "center", "right", "justify"])
     textDecoration: sanitizedString(MAX_TEXT_DECORATION).optional(), // Consider enums: z.enum(["none", "underline", "overline", "line-through"])
+    whiteSpace: sanitizedString(MAX_TEXT_ALIGN).optional(), // Consider enums: z.enum(["normal", "nowrap", "pre", "pre-line", "pre-wrap"])
     // Added properties based on JSON
     padding: pxUnitValueSchema(0, MAX_PADDING, "padding", true).optional(),
     width: pxUnitValueSchema(0, MAX_IMAGE_WIDTH, "width", true, 1).optional(),

@@ -490,6 +490,7 @@ export const ContentEdit = (props: any) => {
   return (
     <div key={path}>
       <div className="pb-24">
+        {isSavingSignature && <LoadingInfo />}
         <div ref={wrapperRef}>
           {!isSavingSignature && (
             <>
@@ -845,8 +846,6 @@ export const ContentEdit = (props: any) => {
             </>
           )}
         </div>
-
-        {isSavingSignature && <LoadingInfo />}
 
         {!isSavingSignature &&
           !contentEdit.subEdit &&

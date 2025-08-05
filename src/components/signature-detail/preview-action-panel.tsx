@@ -130,12 +130,17 @@ const PreviewActionPanel: React.FC<PreviewActionPanelProps> = ({
     });
   };
 
+  const handleSave = () => {
+    onSave?.();
+    window.scrollTo(0, 0);
+  };
+
   return (
     <>
       <ActionPanel
         visible={visible}
         onPreview={showPreview}
-        onSave={onSave}
+        onSave={handleSave}
         onClose={onClose}
         isVisibleOnlyPreview={isVisibleOnlyPreview}
         isVisibleOnlyClose={isVisibleOnlyClose}

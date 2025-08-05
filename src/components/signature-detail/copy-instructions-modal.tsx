@@ -65,7 +65,7 @@ export const CopyInstructionsModalContent = () => {
 
   return (
     <Container isZeroPadding={true}>
-      <div className="py-4">
+      <div className="py-4 mb-16">
         <div className="flex justify-center text-center">
           <Typography variant="h4" textColor="text-brand-blue-900">
             Your signature has been copied to clipboard!
