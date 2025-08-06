@@ -55,7 +55,7 @@ export default async function Terms() {
         </li>
         <li>
           <strong>Paid Access:</strong> A user who has paid a one-time fee and
-          gained full access to editing and downloading templates.
+          gained full access to editing and using templates.
         </li>
         <li>
           <strong>User Content:</strong> All information, images, logos, texts,
@@ -80,7 +80,7 @@ export default async function Terms() {
         </li>
         <li>
           The user must provide truthful and up-to-date information and is
-          responsible for the security of their account and password.
+          responsible for the security of their account.
         </li>
       </ul>
 
@@ -139,7 +139,7 @@ export default async function Terms() {
           Access to the Service is subject to a one-time payment, which ensures
           lifetime access to purchased templates and the editor.
         </li>
-        <li>Payments are processed via the provider Paddle.</li>
+        <li>Payments are processed via payment service provider.</li>
         <li>
           After payment, the user receives an invoice and full access is
           activated.
@@ -238,20 +238,13 @@ export default async function Terms() {
         </li>
         <li>
           If the user cancels or disputes a payment, their account and all
-          account content may be deleted without compensation.
+          account content may be deleted without compensation. Email signatures
+          in emails may stop working.
         </li>
         <li>
-          After account cancellation, all user content, including generated
-          templates, will be permanently deleted.
-        </li>
-        <li>
-          Important: After account deletion, email signatures (templates)
-          generated through the product and used in email communication may
-          cease to function.
-        </li>
-        <li>
-          The user acknowledges that by deleting the account, they lose access
-          to all features and content, without the right to a refund.
+          By deleting the account, the user acknowledges they lose access to all
+          features and content, without the right to a refund. Email signatures
+          in emails may stop working.
         </li>
       </ul>
 
@@ -264,7 +257,17 @@ export default async function Terms() {
         </li>
       </ul>
 
-      <h2 className="mt-8">15. Support and Communication</h2>
+      <h2 className="mt-8">15. Limitation of Liability for Data Loss</h2>
+      <ul className="space-y-2">
+        <li>
+          The operator is not liable for any loss, damage, or unavailability of
+          user data resulting from technical failure, system outage, third-party
+          intervention, or any other unforeseeable event. The user is
+          responsible for backing up their own data.
+        </li>
+      </ul>
+
+      <h2 className="mt-8">16. Support and Communication</h2>
       <ul className="space-y-2">
         <li>Technical support is provided only via email [to be completed].</li>
         <li>
@@ -273,7 +276,7 @@ export default async function Terms() {
         </li>
       </ul>
 
-      <h2 className="mt-8">16. Changes to the Terms</h2>
+      <h2 className="mt-8">17. Changes to the Terms</h2>
       <ul className="space-y-2">
         <li>
           The operator reserves the right to change the terms at any time.
@@ -287,7 +290,7 @@ export default async function Terms() {
         </li>
       </ul>
 
-      <h2 className="mt-8">17. Intellectual Property Protection and DMCA</h2>
+      <h2 className="mt-8">18. Intellectual Property Protection and DMCA</h2>
       <ul className="space-y-2">
         <li>
           The operator respects the intellectual property rights of third
@@ -306,7 +309,7 @@ export default async function Terms() {
         </li>
       </ul>
 
-      <h2 className="mt-8">18. Governing Law and Jurisdiction</h2>
+      <h2 className="mt-8">19. Governing Law and Jurisdiction</h2>
       <ul className="space-y-2">
         <li>
           These terms are governed exclusively by the laws of the Czech
@@ -319,29 +322,7 @@ export default async function Terms() {
         <li>Arbitration is not permitted.</li>
       </ul>
 
-      <h2 className="mt-8">19. Archiving and Backups</h2>
-      <ul className="space-y-2">
-        <li>
-          The operator does not back up user content. The user is responsible
-          for backing up their data.
-        </li>
-      </ul>
-
-      <h2 className="mt-8">20. Important Notice</h2>
-      <ul className="space-y-2">
-        <li>
-          If the user cancels their account after paying the one-time fee, their
-          account and all content will be permanently deleted. All generated
-          templates may cease to function and the user loses access to the
-          Service without the right to a refund.
-        </li>
-        <li>
-          If the user cancels or disputes a payment, their account and all
-          account content may be deleted without compensation.
-        </li>
-      </ul>
-
-      <h2 className="mt-8">21. Effective Date</h2>
+      <h2 className="mt-8">20. Effective Date</h2>
       <ul className="space-y-2">
         <li>
           These terms are effective as of the date of publication on the
