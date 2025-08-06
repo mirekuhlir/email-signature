@@ -28,7 +28,7 @@ export default async function Privacy() {
       <h2 className="mt-8">2. What Data We Collect</h2>
       <ul className="space-y-2">
         <li>
-          Identification and contact data: name, email address, billing
+          Identification and contact data: email address and billing
           information.
         </li>
         <li>
@@ -66,9 +66,7 @@ export default async function Privacy() {
 
       <h2 className="mt-8">5. Data Sharing with Third Parties</h2>
       <ul className="space-y-2">
-        <li>
-          Payment service providers (e.g., Paddle) for payment processing.
-        </li>
+        <li>Payment service providers for payment processing.</li>
         <li>Technical infrastructure providers (hosting, email).</li>
         <li>Public authorities if required by law.</li>
         <li>For marketing communications only with your consent.</li>
