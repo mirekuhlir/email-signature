@@ -210,7 +210,7 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
             fontFamily: editFontFamily,
             letterSpacing: editLetterSpacing,
             resize: 'vertical',
-            minHeight: '100px',
+            minHeight: '70px',
             backgroundColor,
             whiteSpace: editWhiteSpace,
           }}

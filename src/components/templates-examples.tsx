@@ -25,7 +25,7 @@ export const TemplatesExamples = (props: TemplatesExamplesProps) => {
       <div className="mb-6">
         <Hr />
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-12 sm:gap-16 items-end max-w-3xl mx-auto mb-16">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-12 sm:gap-16 items-end max-w-6xl mx-auto mb-16">
         {templates.map((template, index) => (
           <div key={index} className="flex flex-col">
             <div className="flex justify-center">

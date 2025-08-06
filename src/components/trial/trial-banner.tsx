@@ -18,8 +18,7 @@ const TrialBanner = (user: any) => {
           <Typography variant="large">Upgrade to full version</Typography>
 
           <Typography variant="body">
-            Pay once and use all signatures without limitations. All your
-            signatures will remain yours forever.
+            Pay once and use all signatures without limitations.
           </Typography>
 
           <div className="flex justify-end">

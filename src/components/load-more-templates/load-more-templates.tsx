@@ -42,7 +42,7 @@ export function LoadMoreTemplates({
     <div>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-16 max-w-6xl mx-auto items-end">
         {visibleTemplates.map((template, index) => (
-          <div key={index}>
+          <div key={index} className="flex flex-col items-center">
             <EmailTemplateView rows={template.rows} />
           </div>
         ))}
