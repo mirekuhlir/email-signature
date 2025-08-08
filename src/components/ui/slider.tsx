@@ -31,6 +31,8 @@ export interface SliderProps {
   borders?: string[];
   onSubmit?: (value: number) => void;
   modalContent?: React.ReactNode;
+  onPointerStart?: () => void;
+  onPointerEnd?: () => void;
 }
 
 const Slider: React.FC<SliderProps> = (props) => {
@@ -48,6 +50,8 @@ const Slider: React.FC<SliderProps> = (props) => {
     isDisabled,
     onSubmit,
     modalContent,
+    onPointerStart,
+    onPointerEnd,
   } = props;
 
   const isUsingSteps = 'steps' in props;
@@ -242,6 +246,7 @@ const Slider: React.FC<SliderProps> = (props) => {
                 if (!isDisabled) {
                   isDraggingRef.current = true;
                   (e.target as HTMLElement).setPointerCapture(e.pointerId);
+                  onPointerStart?.();
                 }
               }}
               onPointerMove={(e) => {
@@ -253,10 +258,12 @@ const Slider: React.FC<SliderProps> = (props) => {
                 if (isDraggingRef.current) {
                   isDraggingRef.current = false;
                   (e.target as HTMLElement).releasePointerCapture(e.pointerId);
+                  onPointerEnd?.();
                 }
               }}
               onLostPointerCapture={() => {
                 isDraggingRef.current = false;
+                onPointerEnd?.();
               }}
             />
 

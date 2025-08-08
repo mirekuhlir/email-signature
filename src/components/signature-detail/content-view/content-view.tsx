@@ -24,7 +24,10 @@ export const getContentView = (content?: any, isCopySignature?: boolean) => {
       const { id, src, cropImagePreview, link, margin, previewWidth } =
         component;
 
-      const image = cropImagePreview || src;
+      const tempRect = component?.tempRectCropPreview;
+      const isCornersPreviewing = Boolean(component?.isCornersPreviewing);
+      const image =
+        isCornersPreviewing && tempRect ? tempRect : cropImagePreview || src;
       let imageSrc = image;
 
       if (
@@ -37,6 +40,15 @@ export const getContentView = (content?: any, isCopySignature?: boolean) => {
         imageSrc = `${imageSrc}?t=${Date.now()}`;
       }
 
+      const imageSettings = component?.imageSettings;
+      const isCircular = Boolean(imageSettings?.isCircular);
+      const radii = imageSettings?.borderRadius;
+      const borderRadiusStyle = isCircular
+        ? '50%'
+        : radii
+          ? `${radii.topLeft || 0}px ${radii.topRight || 0}px ${radii.bottomRight || 0}px ${radii.bottomLeft || 0}px`
+          : undefined;
+
       const imgElement = (
         <Img
           key={id}
@@ -44,6 +56,7 @@ export const getContentView = (content?: any, isCopySignature?: boolean) => {
           width={!isCopySignature ? previewWidth : undefined}
           style={{
             margin: margin,
+            borderRadius: borderRadiusStyle,
           }}
         />
       );

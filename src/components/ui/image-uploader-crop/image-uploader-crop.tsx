@@ -52,6 +52,8 @@ interface ImageUploaderProps {
   onSetImageSettings?: (info: ImageSettings | string) => void;
   onSetPreviewWidth?: (width: number) => void;
   onLoadingChange?: (isLoading: boolean) => void;
+  onSetTempRectCropPreview?: (preview: string) => void;
+  onSetIsCornersPreviewing?: (isPreviewing: boolean) => void;
   imageName: string;
   imageSettings?: ImageSettings;
   previewWidthInit?: number;
@@ -78,6 +80,8 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     originalImageFile,
     imageLink,
     horizontalAlign,
+    onSetTempRectCropPreview,
+    onSetIsCornersPreviewing,
   } = props;
 
   const isDesktop = useMediaQuery('(min-width: 768px)');
@@ -298,15 +302,21 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         isCircular,
         borderRadius: borderRadii,
       });
+
+      // Cropping finished → switch off corners preview and clear temp image
+      onSetIsCornersPreviewing?.(false);
+      onSetTempRectCropPreview?.('');
     }
   }, [
     onSetCropImagePreview,
     onSetImageSettings,
+    onSetIsCornersPreviewing,
     crop,
     aspect,
     isCircular,
     borderRadii,
     generateCroppedImage,
+    onSetTempRectCropPreview,
   ]);
 
   const debouncedHandleCrop = useMemo(
@@ -411,17 +421,110 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     [onSetPreviewWidth],
   );
 
-  const handleBorderRadiusTopLeftChange = useCallback((value: number) => {
-    setBorderRadii((prev) => ({ ...prev, topLeft: value }));
-  }, []);
-  const handleBorderRadiusTopRightChange = useCallback((value: number) => {
-    setBorderRadii((prev) => ({ ...prev, topRight: value }));
-  }, []);
-  const handleBorderRadiusBottomRightChange = useCallback((value: number) => {
-    setBorderRadii((prev) => ({ ...prev, bottomRight: value }));
-  }, []);
-  const handleBorderRadiusBottomLeftChange = useCallback((value: number) => {
-    setBorderRadii((prev) => ({ ...prev, bottomLeft: value }));
+  const handleBorderRadiusTopLeftChange = useCallback(
+    (value: number) => {
+      setBorderRadii((prev) => {
+        const updated = { ...prev, topLeft: value };
+        onSetImageSettings?.({
+          crop: crop!,
+          aspect: aspect === undefined ? 'free' : aspect,
+          isCircular,
+          borderRadius: updated,
+        });
+        return updated;
+      });
+    },
+    [onSetImageSettings, crop, aspect, isCircular],
+  );
+  const handleBorderRadiusTopRightChange = useCallback(
+    (value: number) => {
+      setBorderRadii((prev) => {
+        const updated = { ...prev, topRight: value };
+        onSetImageSettings?.({
+          crop: crop!,
+          aspect: aspect === undefined ? 'free' : aspect,
+          isCircular,
+          borderRadius: updated,
+        });
+        return updated;
+      });
+    },
+    [onSetImageSettings, crop, aspect, isCircular],
+  );
+  const handleBorderRadiusBottomRightChange = useCallback(
+    (value: number) => {
+      setBorderRadii((prev) => {
+        const updated = { ...prev, bottomRight: value };
+        onSetImageSettings?.({
+          crop: crop!,
+          aspect: aspect === undefined ? 'free' : aspect,
+          isCircular,
+          borderRadius: updated,
+        });
+        return updated;
+      });
+    },
+    [onSetImageSettings, crop, aspect, isCircular],
+  );
+  const handleBorderRadiusBottomLeftChange = useCallback(
+    (value: number) => {
+      setBorderRadii((prev) => {
+        const updated = { ...prev, bottomLeft: value };
+        onSetImageSettings?.({
+          crop: crop!,
+          aspect: aspect === undefined ? 'free' : aspect,
+          isCircular,
+          borderRadius: updated,
+        });
+        return updated;
+      });
+    },
+    [onSetImageSettings, crop, aspect, isCircular],
+  );
+
+  const handleCornersPreviewStart = useCallback(async () => {
+    onSetIsCornersPreviewing?.(true);
+    // Ensure we have a rectangular base preview
+    try {
+      const rectPreview = await generateCroppedImageFromParams({
+        crop,
+        previewWidth,
+        originalImagePreview,
+        naturalWidth: imgRef.current?.naturalWidth ?? lastKnownNatWidth ?? null,
+        naturalHeight:
+          imgRef.current?.naturalHeight ?? lastKnownNatHeight ?? null,
+        displayWidth:
+          imgRef.current?.getBoundingClientRect().width ??
+          lastKnownDispWidth ??
+          null,
+        displayHeight:
+          imgRef.current?.getBoundingClientRect().height ??
+          lastKnownDispHeight ??
+          null,
+        isCircular: false,
+        borderRadii: { topLeft: 0, topRight: 0, bottomRight: 0, bottomLeft: 0 },
+        resolutionMultiplier: RESOLUTION_MULTIPLIER,
+      });
+      if (rectPreview) {
+        onSetTempRectCropPreview?.(rectPreview);
+      }
+    } catch {
+      // ignore
+    }
+  }, [
+    onSetIsCornersPreviewing,
+    crop,
+    previewWidth,
+    originalImagePreview,
+    lastKnownNatWidth,
+    lastKnownNatHeight,
+    lastKnownDispWidth,
+    lastKnownDispHeight,
+    onSetTempRectCropPreview,
+  ]);
+
+  const handleCornersPreviewEnd = useCallback(() => {
+    // Keep previewing ON until the new pica image is generated in handleCrop
   }, []);
 
   useEffect(() => {
@@ -635,6 +738,8 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
                   onTopRight={handleBorderRadiusTopRightChange}
                   onBottomLeft={handleBorderRadiusBottomLeftChange}
                   onBottomRight={handleBorderRadiusBottomRightChange}
+                  onPointerStart={handleCornersPreviewStart}
+                  onPointerEnd={handleCornersPreviewEnd}
                 />
               )}
             </div>

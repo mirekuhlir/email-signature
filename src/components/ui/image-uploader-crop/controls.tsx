@@ -184,6 +184,8 @@ interface BorderRadiusControlsProps {
   onTopRight: (v: number) => void;
   onBottomLeft: (v: number) => void;
   onBottomRight: (v: number) => void;
+  onPointerStart?: () => void;
+  onPointerEnd?: () => void;
 }
 
 export function BorderRadiusControls({
@@ -194,6 +196,8 @@ export function BorderRadiusControls({
   onTopRight,
   onBottomLeft,
   onBottomRight,
+  onPointerStart,
+  onPointerEnd,
 }: BorderRadiusControlsProps) {
   return (
     <div className="space-y-2">
@@ -210,6 +214,8 @@ export function BorderRadiusControls({
               id="border-radius-slider-tl"
               isDisabled={isDisabled}
               editType={EEditType.CORNER}
+              onPointerStart={onPointerStart}
+              onPointerEnd={onPointerEnd}
             />
           </div>
           <div>
@@ -223,6 +229,8 @@ export function BorderRadiusControls({
               id="border-radius-slider-tr"
               isDisabled={isDisabled}
               editType={EEditType.CORNER}
+              onPointerStart={onPointerStart}
+              onPointerEnd={onPointerEnd}
             />
           </div>
           <div>
@@ -236,6 +244,8 @@ export function BorderRadiusControls({
               id="border-radius-slider-bl"
               isDisabled={isDisabled}
               editType={EEditType.CORNER}
+              onPointerStart={onPointerStart}
+              onPointerEnd={onPointerEnd}
             />
           </div>
           <div>
@@ -249,6 +259,8 @@ export function BorderRadiusControls({
               id="border-radius-slider-br"
               isDisabled={isDisabled}
               editType={EEditType.CORNER}
+              onPointerStart={onPointerStart}
+              onPointerEnd={onPointerEnd}
             />
           </div>
         </div>

@@ -115,6 +115,26 @@ export const ImageEditContent = (props: ImageEditContentProps) => {
     [contentPathToEdit, setContent],
   );
 
+  const handleTempRectCropPreview = useCallback(
+    (preview: string) => {
+      setContent(
+        `${contentPathToEdit}.components[0].tempRectCropPreview`,
+        preview,
+      );
+    },
+    [contentPathToEdit, setContent],
+  );
+
+  const handleIsCornersPreviewing = useCallback(
+    (isPreviewing: boolean) => {
+      setContent(
+        `${contentPathToEdit}.components[0].isCornersPreviewing`,
+        isPreviewing,
+      );
+    },
+    [contentPathToEdit, setContent],
+  );
+
   const handlePreviewWidth = useCallback(
     (width: number) => {
       setContent(`${contentPathToEdit}.components[0].previewWidth`, width);
@@ -170,6 +190,8 @@ export const ImageEditContent = (props: ImageEditContentProps) => {
       <ImageUploadCrop
         onSetCropImagePreview={handleCropImagePreview}
         onSetImageSettings={handleImageSettings}
+        onSetTempRectCropPreview={handleTempRectCropPreview}
+        onSetIsCornersPreviewing={handleIsCornersPreviewing}
         imageSettings={imageComponent.imageSettings}
         imageName={imageComponent.id}
         previewWidthInit={imageComponent.previewWidth}
