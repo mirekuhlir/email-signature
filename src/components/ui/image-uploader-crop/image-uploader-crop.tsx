@@ -9,27 +9,27 @@ import {
 } from 'react';
 import ReactCrop, { type Crop } from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
-import {
-  baseStyles,
-  Button,
-  sizes,
-  variants,
-} from '@/src/components/ui/button';
-import Slider from '../slider';
+import { Button } from '@/src/components/ui/button';
 import { debounce } from 'lodash';
-import { getDefaultCrop, imageWidthDefault } from './utils';
-import { Typography } from '../typography';
+import {
+  getDefaultCrop,
+  imageWidthDefault,
+  convertFileToJpeg,
+  generateCroppedImageFromParams,
+  type BorderRadii,
+} from './utils';
 import { useMediaQuery } from '@/src/hooks/useMediaQuery';
 import { useToast } from '@/src/components/ui/toast';
 import { LoadingInfo } from '../../signature-detail/content-edit/content-edit';
-import pica from 'pica';
-import {
-  MIN_IMAGE_WIDTH,
-  MAX_IMAGE_WIDTH,
-} from '@/supabase/functions/_shared/const';
+import { MAX_IMAGE_WIDTH } from '@/supabase/functions/_shared/const';
 import { CollapsibleSection } from '../collapsible-section';
-import { EEditType, SliderDimensions } from '../slider-dimensions';
 import { Loading } from '../loading';
+import {
+  ImageDropZone,
+  WidthSliderControl,
+  AspectRatioSelector,
+  BorderRadiusControls,
+} from './controls';
 
 // Resolution multiplier for output images
 const RESOLUTION_MULTIPLIER = 1;
@@ -86,7 +86,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   const [crop, setCrop] = useState<Crop | undefined>(undefined);
   const [aspect, setAspect] = useState<number | undefined>(undefined);
   const [isCircular, setIsCircular] = useState(false);
-  const [borderRadii, setBorderRadii] = useState({
+  const [borderRadii, setBorderRadii] = useState<BorderRadii>({
     topLeft: 0,
     topRight: 0,
     bottomRight: 0,
@@ -123,9 +123,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   const [isResizing, setIsResizing] = useState(false);
 
   const imgRef = useRef<HTMLImageElement>(null);
-  const previewCanvasRef = useRef<HTMLCanvasElement>(null);
-
-  const picaInstanceRef = useRef(pica());
+  // Removed hidden canvas and local pica instance; handled in utils
 
   const getDefaultCropForCurrentImage = useCallback((aspectRatio: number) => {
     if (!imgRef.current) return undefined;
@@ -142,53 +140,35 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   const onSelectFile = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
       const files = e.target.files;
-      if (files && files.length > 0) {
-        const file = files[0];
-
-        const fileUrl = URL.createObjectURL(file);
+      if (!files || files.length === 0) return;
+      const file = files[0];
+      try {
+        const jpegFile = await convertFileToJpeg(file);
+        const fileUrl = URL.createObjectURL(jpegFile);
         setOriginalImagePreview(fileUrl);
-
-        const img = new Image();
-        img.src = fileUrl;
-
-        const picaInstance = new pica();
-
-        img.onload = async () => {
-          // Create a canvas to draw the image
-          const canvas = document.createElement('canvas');
-          const ctx = canvas.getContext('2d');
-          if (ctx) {
-            canvas.width = img.width;
-            canvas.height = img.height;
-            ctx.drawImage(img, 0, 0);
-
-            const blob = await picaInstance.toBlob(canvas, 'image/jpeg', 0.9);
-
-            const jpegFile = new File(
-              [blob],
-              file.name.replace(/\.[^/.]+$/, '') + '.jpg',
-              { type: 'image/jpg' },
-            );
-
-            setIsResizing(false);
-
-            setCroppedImageData(null);
-            onSetOriginalImage?.(jpegFile); // Pass the File object instead of the data URL
-          }
-        };
+        setIsResizing(false);
+        setCroppedImageData(null);
+        onSetOriginalImage?.(jpegFile);
+      } catch (err) {
+        console.error('Failed to convert file to JPEG', err);
+        setIsResizing(false);
       }
     },
     [onSetOriginalImage],
   );
 
   const handleFileDrop = useCallback(
-    (file: File) => {
-      if (file.type.startsWith('image/')) {
-        const fileUrl = URL.createObjectURL(file);
+    async (file: File) => {
+      if (!file.type.startsWith('image/')) return;
+      try {
+        const jpegFile = await convertFileToJpeg(file);
+        const fileUrl = URL.createObjectURL(jpegFile);
         setOriginalImagePreview(fileUrl);
         setIsResizing(false);
         setCroppedImageData(null);
-        onSetOriginalImage?.(file);
+        onSetOriginalImage?.(jpegFile);
+      } catch (err) {
+        console.error('Failed to convert dropped file to JPEG', err);
       }
     },
     [onSetOriginalImage],
@@ -275,225 +255,26 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   }, [originalSrc, originalImageFile]);
 
   const generateCroppedImage = useCallback((): Promise<string | null> => {
-    let currentImageNaturalWidth: number | null = null;
-    let currentImageNaturalHeight: number | null = null;
-    let currentImageDisplayWidth: number | null = null;
-    let currentImageDisplayHeight: number | null = null;
+    const currentNaturalWidth =
+      imgRef.current?.naturalWidth ?? lastKnownNatWidth;
+    const currentNaturalHeight =
+      imgRef.current?.naturalHeight ?? lastKnownNatHeight;
+    const rect = imgRef.current?.getBoundingClientRect();
+    const currentDisplayWidth = rect?.width ?? lastKnownDispWidth;
+    const currentDisplayHeight = rect?.height ?? lastKnownDispHeight;
 
-    if (imgRef.current) {
-      currentImageNaturalWidth = imgRef.current.naturalWidth;
-      currentImageNaturalHeight = imgRef.current.naturalHeight;
-      const rect = imgRef.current.getBoundingClientRect();
-      currentImageDisplayWidth = rect.width;
-      currentImageDisplayHeight = rect.height;
-    } else {
-      currentImageNaturalWidth = lastKnownNatWidth;
-      currentImageNaturalHeight = lastKnownNatHeight;
-      currentImageDisplayWidth = lastKnownDispWidth;
-      currentImageDisplayHeight = lastKnownDispHeight;
-    }
-
-    if (
-      !(crop?.width && crop?.height && previewWidth && originalImagePreview) ||
-      currentImageNaturalWidth === null ||
-      currentImageNaturalHeight === null ||
-      currentImageDisplayWidth === null ||
-      currentImageDisplayHeight === null ||
-      currentImageNaturalWidth === 0 ||
-      currentImageNaturalHeight === 0 ||
-      currentImageDisplayWidth === 0 ||
-      currentImageDisplayHeight === 0
-    ) {
-      return Promise.resolve(null);
-    }
-
-    try {
-      let cropXPercent, cropYPercent, cropWidthPercent, cropHeightPercent;
-
-      if (crop.unit === '%') {
-        cropWidthPercent = crop.width;
-        cropHeightPercent = crop.height;
-        cropXPercent = crop.x;
-        cropYPercent = crop.y;
-      } else {
-        // Convert pixel crop to percentage based on current display dimensions
-        cropWidthPercent = (crop.width / currentImageDisplayWidth) * 100;
-        cropHeightPercent = (crop.height / currentImageDisplayHeight) * 100;
-        cropXPercent = (crop.x / currentImageDisplayWidth) * 100;
-        cropYPercent = (crop.y / currentImageDisplayHeight) * 100;
-      }
-
-      // Convert percentage crop (which is relative to the *displayed* image in ReactCrop)
-      // to absolute pixels on the *displayed* image
-      const cropDisplayX = (cropXPercent / 100) * currentImageDisplayWidth;
-      const cropDisplayY = (cropYPercent / 100) * currentImageDisplayHeight;
-      const cropDisplayWidth =
-        (cropWidthPercent / 100) * currentImageDisplayWidth;
-      const cropDisplayHeight =
-        (cropHeightPercent / 100) * currentImageDisplayHeight;
-
-      // Calculate scaling factors from displayed size to natural size
-      const displayToNaturalRatioX =
-        currentImageNaturalWidth / currentImageDisplayWidth;
-      const displayToNaturalRatioY =
-        currentImageNaturalHeight / currentImageDisplayHeight;
-
-      // Convert crop from displayed image coordinates to natural image coordinates
-      const cropNaturalX = cropDisplayX * displayToNaturalRatioX;
-      const cropNaturalY = cropDisplayY * displayToNaturalRatioY;
-      const cropNaturalWidth = cropDisplayWidth * displayToNaturalRatioX;
-      const cropNaturalHeight = cropDisplayHeight * displayToNaturalRatioY;
-
-      const originalImg = new Image();
-      originalImg.crossOrigin = 'anonymous';
-
-      // Return a promise that resolves with the final image URL
-      return new Promise<string | null>((resolve, reject) => {
-        originalImg.onload = async () => {
-          try {
-            // Calculate output dimensions at specified resolution multiplier
-            const displayWidth = previewWidth;
-            const displayHeight = Math.round(
-              (cropNaturalHeight / cropNaturalWidth) * displayWidth,
-            );
-            const outputWidth = displayWidth * RESOLUTION_MULTIPLIER;
-            const outputHeight = displayHeight * RESOLUTION_MULTIPLIER;
-
-            // Create source canvas for the cropped area at full resolution
-            const sourceCanvas = document.createElement('canvas');
-            sourceCanvas.width = cropNaturalWidth;
-            sourceCanvas.height = cropNaturalHeight;
-            const sourceCtx = sourceCanvas.getContext('2d');
-            if (!sourceCtx) {
-              reject("Couldn't get source canvas context");
-              return;
-            }
-            sourceCtx.drawImage(
-              originalImg,
-              cropNaturalX,
-              cropNaturalY,
-              cropNaturalWidth,
-              cropNaturalHeight,
-              0,
-              0,
-              cropNaturalWidth,
-              cropNaturalHeight,
-            );
-
-            // Create target canvas for the final resized image at specified resolution
-            const targetCanvas = document.createElement('canvas');
-            targetCanvas.width = outputWidth;
-            targetCanvas.height = outputHeight;
-
-            // Use pica to resize from sourceCanvas to targetCanvas
-            await picaInstanceRef.current.resize(sourceCanvas, targetCanvas, {
-              // quality: 3, // Optional: Higher quality, slower
-            });
-
-            // Get context of the target canvas to apply masking
-            const targetCtx = targetCanvas.getContext('2d', {
-              alpha: true, // Ensure context supports transparency
-            });
-
-            if (!targetCtx) {
-              reject("Couldn't get target canvas context");
-              return;
-            }
-
-            // Apply circular mask if needed (AFTER resizing) - scale values for resolution multiplier
-            if (isCircular) {
-              targetCtx.globalCompositeOperation = 'destination-in';
-              targetCtx.beginPath();
-              targetCtx.arc(
-                outputWidth / 2,
-                outputHeight / 2,
-                Math.min(outputWidth, outputHeight) / 2,
-                0,
-                Math.PI * 2,
-              );
-              targetCtx.fill();
-              targetCtx.globalCompositeOperation = 'source-over'; // Reset composite operation
-            }
-            // Apply border radius if needed (AFTER resizing) - scale values for resolution multiplier
-            else if (
-              borderRadii.topLeft > 0 ||
-              borderRadii.topRight > 0 ||
-              borderRadii.bottomRight > 0 ||
-              borderRadii.bottomLeft > 0
-            ) {
-              targetCtx.globalCompositeOperation = 'destination-in';
-              targetCtx.beginPath();
-
-              // Scale border radii for resolution multiplier
-              const rTL = Math.min(
-                borderRadii.topLeft * RESOLUTION_MULTIPLIER,
-                outputWidth / 2,
-                outputHeight / 2,
-              );
-              const rTR = Math.min(
-                borderRadii.topRight * RESOLUTION_MULTIPLIER,
-                outputWidth / 2,
-                outputHeight / 2,
-              );
-              const rBR = Math.min(
-                borderRadii.bottomRight * RESOLUTION_MULTIPLIER,
-                outputWidth / 2,
-                outputHeight / 2,
-              );
-              const rBL = Math.min(
-                borderRadii.bottomLeft * RESOLUTION_MULTIPLIER,
-                outputWidth / 2,
-                outputHeight / 2,
-              );
-
-              targetCtx.moveTo(rTL, 0);
-              targetCtx.lineTo(outputWidth - rTR, 0);
-              targetCtx.arcTo(outputWidth, 0, outputWidth, rTR, rTR);
-              targetCtx.lineTo(outputWidth, outputHeight - rBR);
-              targetCtx.arcTo(
-                outputWidth,
-                outputHeight,
-                outputWidth - rBR,
-                outputHeight,
-                rBR,
-              );
-              targetCtx.lineTo(rBL, outputHeight);
-              targetCtx.arcTo(0, outputHeight, 0, outputHeight - rBL, rBL);
-              targetCtx.lineTo(0, rTL);
-              targetCtx.arcTo(0, 0, rTL, 0, rTL);
-
-              targetCtx.closePath();
-              targetCtx.fill();
-              targetCtx.globalCompositeOperation = 'source-over'; // Reset composite operation
-            }
-
-            const imageDataUrl = targetCanvas.toDataURL('image/png', 0.9);
-            resolve(imageDataUrl);
-          } catch (error) {
-            console.error('Error processing image with pica:', error);
-            reject(error);
-            return null;
-          }
-        };
-
-        originalImg.onerror = () => {
-          console.error('Failed to load original image for processing');
-          reject('Failed to load original image');
-          return null;
-        };
-
-        originalImg.src = originalImagePreview;
-      })
-        .then((dataUrl) => dataUrl)
-        .catch((error) => {
-          console.error('Error in image processing promise:', error);
-          return null;
-        });
-    } catch (error) {
-      console.error('Error in crop operation:', error);
-
-      return Promise.resolve(null);
-    }
+    return generateCroppedImageFromParams({
+      crop,
+      previewWidth,
+      originalImagePreview,
+      naturalWidth: currentNaturalWidth ?? null,
+      naturalHeight: currentNaturalHeight ?? null,
+      displayWidth: currentDisplayWidth ?? null,
+      displayHeight: currentDisplayHeight ?? null,
+      isCircular,
+      borderRadii,
+      resolutionMultiplier: RESOLUTION_MULTIPLIER,
+    });
   }, [
     crop,
     previewWidth,
@@ -503,10 +284,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     lastKnownDispWidth,
     lastKnownDispHeight,
     isCircular,
-    borderRadii.topLeft,
-    borderRadii.topRight,
-    borderRadii.bottomRight,
-    borderRadii.bottomLeft,
+    borderRadii,
   ]);
 
   const handleCrop = useCallback(async () => {
@@ -713,7 +491,6 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
 
   return (
     <>
-      <canvas ref={previewCanvasRef} className="hidden" />
       <div className="w-full mb-2">
         <CollapsibleSection
           title="Image"
@@ -725,68 +502,24 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
           }
         >
           {!originalImagePreview && !originalSrc ? (
-            <div
-              className={`grid place-items-center p-4 border border-dashed ${isDragging ? 'border-orange-500 bg-orange-50' : 'border-gray-300'} rounded min-h-[200px] w-[80%] md:w-[400px] mx-auto transition-colors duration-200`}
-              onDragEnter={isDesktop ? handleDragEnter : undefined}
-              onDragOver={isDesktop ? handleDragOver : undefined}
-              onDragLeave={isDesktop ? handleDragLeave : undefined}
-              onDrop={isDesktop ? handleDrop : undefined}
-            >
-              <div className="flex flex-col items-center space-y-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-12 w-12 text-gray-400"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                  />
-                </svg>
-                <Typography variant="body" className="text-center">
-                  {isDesktop
-                    ? isDragging
-                      ? 'Drop image here'
-                      : 'Drag and drop an image here, or'
-                    : 'Select an image to upload'}
-                </Typography>
-                <input
-                  id="file-upload"
-                  type="file"
-                  accept="image/*"
-                  onChange={onSelectFile}
-                  className="hidden"
-                />
-                <label
-                  htmlFor="file-upload"
-                  className={`${baseStyles} ${variants.orange} ${sizes.md} cursor-pointer`}
-                >
-                  Select image
-                </label>
-              </div>
-            </div>
+            <ImageDropZone
+              isDesktop={isDesktop}
+              isDragging={isDragging}
+              onDragEnter={handleDragEnter}
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              onDrop={handleDrop}
+              onFileChange={onSelectFile}
+            />
           ) : (
             <>
               {croppedImageData && (
                 <div className="space-y-2">
-                  <>
-                    <div className="pb-3">
-                      <Slider
-                        label={`Width of image: ${previewWidth} px`}
-                        min={MIN_IMAGE_WIDTH}
-                        max={MAX_IMAGE_WIDTH}
-                        units="pixels"
-                        defaultValue={previewWidth}
-                        onChange={handlePreviewWidthChange}
-                        id="slider"
-                        isDisabled={isResizing}
-                      />
-                    </div>
-                  </>
+                  <WidthSliderControl
+                    previewWidth={previewWidth}
+                    isResizing={isResizing}
+                    onChange={handlePreviewWidthChange}
+                  />
                 </div>
               )}
               <div className="overflow-hidden bg-black/5 max-w-[90%] sm:max-w-[100%] mx-0 sm:mx-auto">
@@ -874,68 +607,18 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
                   </Button>
                 </div>
               </div>
-              <div className="mb-4">
-                <Typography variant="labelBase">Select aspect ratio</Typography>
-                <div className="flex flex-wrap gap-y-4 gap-x-8">
-                  <Button
-                    size="md"
-                    variant="outline"
-                    onClick={() => {
-                      handleAspectChange(1, false);
-                    }}
-                    selected={!isCircular && aspect === 1}
-                  >
-                    1:1
-                  </Button>
-                  <Button
-                    size="md"
-                    variant="outline"
-                    onClick={() => {
-                      handleAspectChange(3 / 2, false);
-                    }}
-                    selected={!isCircular && aspect === 3 / 2}
-                  >
-                    3:2
-                  </Button>
-                  <Button
-                    size="md"
-                    variant="outline"
-                    onClick={() => {
-                      handleAspectChange(2 / 3, false);
-                    }}
-                    selected={!isCircular && aspect === 2 / 3}
-                  >
-                    2:3
-                  </Button>
-                  <Button
-                    size="md"
-                    variant="outline"
-                    onClick={() => {
-                      handleAspectChange(1, true);
-                    }}
-                    selected={isCircular}
-                  >
-                    Circular
-                  </Button>
-                  <Button
-                    size="md"
-                    variant="outline"
-                    onClick={() => {
-                      setIsCircular(false);
-                      setAspect(undefined);
-                      if (crop) {
-                        setCrop({
-                          ...crop,
-                          unit: '%',
-                        });
-                      }
-                    }}
-                    selected={!isCircular && aspect === undefined}
-                  >
-                    Free
-                  </Button>
-                </div>
-              </div>
+              <AspectRatioSelector
+                isCircular={isCircular}
+                aspect={aspect}
+                onSelectAspect={handleAspectChange}
+                onSelectFree={() => {
+                  setIsCircular(false);
+                  setAspect(undefined);
+                  if (crop) {
+                    setCrop({ ...crop, unit: '%' });
+                  }
+                }}
+              />
             </>
           )}
         </CollapsibleSection>
@@ -944,64 +627,15 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
           <CollapsibleSection title="Image rounded corners">
             <div className="space-y-2">
               {croppedImageData && (
-                <div className="space-y-2">
-                  <div className="space-y-2">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                      <div>
-                        <SliderDimensions
-                          label={`Top Left: ${borderRadii.topLeft} px`}
-                          min={0}
-                          max={maxImageRadius}
-                          units="px"
-                          value={borderRadii.topLeft}
-                          onChange={handleBorderRadiusTopLeftChange}
-                          id="border-radius-slider-tl"
-                          isDisabled={isResizing}
-                          editType={EEditType.CORNER}
-                        />
-                      </div>
-                      <div>
-                        <SliderDimensions
-                          label={`Top Right: ${borderRadii.topRight} px`}
-                          min={0}
-                          max={maxImageRadius}
-                          units="px"
-                          value={borderRadii.topRight}
-                          onChange={handleBorderRadiusTopRightChange}
-                          id="border-radius-slider-tr"
-                          isDisabled={isResizing}
-                          editType={EEditType.CORNER}
-                        />
-                      </div>
-                      <div>
-                        <SliderDimensions
-                          label={`Bottom Left: ${borderRadii.bottomLeft} px`}
-                          min={0}
-                          max={maxImageRadius}
-                          units="px"
-                          value={borderRadii.bottomLeft}
-                          onChange={handleBorderRadiusBottomLeftChange}
-                          id="border-radius-slider-bl"
-                          isDisabled={isResizing}
-                          editType={EEditType.CORNER}
-                        />
-                      </div>
-                      <div>
-                        <SliderDimensions
-                          label={`Bottom Right: ${borderRadii.bottomRight} px`}
-                          min={0}
-                          max={maxImageRadius}
-                          units="px"
-                          value={borderRadii.bottomRight}
-                          onChange={handleBorderRadiusBottomRightChange}
-                          id="border-radius-slider-br"
-                          isDisabled={isResizing}
-                          editType={EEditType.CORNER}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <BorderRadiusControls
+                  isDisabled={isResizing}
+                  maxRadius={maxImageRadius}
+                  values={borderRadii}
+                  onTopLeft={handleBorderRadiusTopLeftChange}
+                  onTopRight={handleBorderRadiusTopRightChange}
+                  onBottomLeft={handleBorderRadiusBottomLeftChange}
+                  onBottomRight={handleBorderRadiusBottomRightChange}
+                />
               )}
             </div>
           </CollapsibleSection>
