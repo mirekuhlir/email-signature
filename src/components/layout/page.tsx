@@ -21,7 +21,7 @@ export function PageLayout({ user, title, children }: PageLayoutProps) {
               <Typography variant="h3" textColor="text-brand-blue-900">
                 {title}
               </Typography>
-              <div className="mt-2 p-6 bg-white rounded-sm shadow-md">
+              <div className="mt-2 p-6 bg-white rounded-sm shadow-md mb-10">
                 {children}
               </div>
             </div>
