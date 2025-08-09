@@ -1,92 +1,75 @@
-# Zásady ochrany osobních údajů
+# Privacy Policy for myemailavatar.com
 
-Vaše soukromí a ochrana vašich dat jsou pro nás na myemailavatar.com nejvyšší prioritou. Veškeré osobní i neosobní údaje jsou chráněny v souladu s platnými právními předpisy, zejména Nařízením Evropského parlamentu a Rady (EU) 2016/679 (GDPR).
+## 1. Data Controller and Contact Information
 
-Tato zásady ochrany osobních údajů se vztahují na webovou stránku [https://myemailavatar.com](https://myemailavatar.com) a na využívání služeb poskytovaných tímto webem.
+- Controller: Miroslav Uhlíř, Blížkovice 31, 671 55 Blížkovice, Czech Republic
+- Company ID: [to be completed]
+- Contact email: [to be completed]
+- Website: https://myemailavatar.com
 
-## 1. Správce osobních údajů a kontaktní údaje
+## 2. What Data We Collect
 
-- Správce: Miroslav Uhlíř, Blížkovice 31, 671 55 Blížkovice, Česká republika
-- IČO: [doplnit]
-- Kontaktní email: [doplnit]
-- Webová adresa: [https://myemailavatar.com](https://myemailavatar.com)
+- Identification and contact data: email address and billing information.
+- Service usage data: information about the use of the editor, templates, and website features.
+- Technical data: IP address, device type, browser.
 
-## 2. Jaké údaje shromažďujeme
+## 3. Purposes of Data Processing
 
-Shromažďujeme následující typy údajů:
+- Providing access to the service and its features.
+- Processing payments and issuing invoices.
+- Communication regarding orders, support, and important service information.
+- Improving and developing the service based on anonymized usage data.
+- Fulfilling legal obligations (e.g., accounting, tax obligations).
 
-- Identifikační a kontaktní údaje: jméno, e-mailová adresa, fakturační údaje.
-- Údaje o užívání služby: informace o využívání editoru, šablon a funkcí webu.
-- Technické údaje: IP adresa, typ zařízení, prohlížeč.
+## 4. Legal Basis for Processing
 
-## 3. Účely zpracování osobních údajů
+- Performance of a contract (providing the service).
+- Compliance with legal obligations.
+- Legitimate interest (service improvement, protection against misuse).
+- Consent (e.g., for marketing purposes, if required).
 
-Vaše osobní údaje zpracováváme za těmito účely:
+## 5. Data Sharing with Third Parties
 
-- Poskytnutí přístupu ke službě a jejím funkcím.
-- Zpracování plateb a vystavení faktury.
-- Komunikace ohledně objednávek, podpory a důležitých informací o službě.
-- Zlepšování a vývoj služby na základě anonymizovaných údajů o užívání.
-- Plnění zákonných povinností (např. účetnictví, daňové povinnosti).
+- Payment service providers for payment processing.
+- Technical infrastructure providers (hosting, email).
+- Public authorities if required by law.
+- For marketing communications only with your consent.
+- All partners are contractually obliged to protect your data and use it only for specified purposes.
 
-## 4. Právní základ zpracování
+## 6. Data Retention Period
 
-Vaše údaje zpracováváme na základě:
+Your personal data is retained only for as long as necessary to fulfill the above purposes, but no longer than until account deletion or withdrawal of consent. After account deletion, all personal data and files are irreversibly deleted unless the law requires further retention.
 
-- Plnění smlouvy (poskytnutí služby).
-- Plnění právních povinností.
-- Oprávněného zájmu (zlepšování služby, ochrana proti zneužití).
-- Souhlasu (např. pro marketingové účely, pokud je vyžadován).
+## 7. Data Subject Rights
 
-## 5. Předávání údajů třetím stranám
+- Right to access your personal data.
+- Right to rectify inaccurate or incomplete data.
+- Right to erasure (right to be forgotten).
+- Right to restrict processing.
+- Right to data portability.
+- Right to object to processing (especially for marketing).
+- Right to withdraw consent (if processing is based on consent).
 
-Vaše osobní údaje mohou být předány třetím stranám pouze v nezbytném rozsahu:
+To exercise these rights, contact us at [to be completed email].
 
-- Poskytovatelům platebních služeb (např. Paddle) pro zpracování plateb.
-- Poskytovatelům technické infrastruktury (hosting, e-mail).
-- Orgánům veřejné moci, pokud to vyžaduje zákon.
-- V případě zasílání marketingových sdělení pouze s vaším souhlasem.
+## 8. Data Security
 
-Všichni partneři jsou smluvně zavázáni chránit vaše údaje a používat je pouze k určeným účelům.
-
-## 6. Doba uchovávání údajů
-
-Vaše osobní údaje uchováváme pouze po dobu nezbytně nutnou k naplnění výše uvedených účelů, nejdéle však do doby zrušení účtu nebo odvolání souhlasu. Po zrušení účtu jsou veškeré osobní údaje a soubory nenávratně smazány, pokud zákon nevyžaduje jejich další uchování.
-
-## 7. Práva subjektu údajů
-
-Máte právo:
-
-- Na přístup ke svým osobním údajům.
-- Na opravu nepřesných nebo neúplných údajů.
-- Na výmaz (právo být zapomenut).
-- Na omezení zpracování.
-- Na přenositelnost údajů.
-- Vznést námitku proti zpracování (zejména pro marketing).
-- Odvolat souhlas se zpracováním údajů (pokud je zpracování založeno na souhlasu).
-
-Pro uplatnění těchto práv nás kontaktujte na [doplnit email].
-
-## 8. Zabezpečení údajů
-
-Přijímáme technická a organizační opatření k ochraně vašich údajů před neoprávněným přístupem, ztrátou nebo zneužitím, včetně:
-
-- Šifrovaného přenosu dat (TLS).
-- Pravidelných záloh a aktualizací systému.
-- Ochrany serverů a databází.
+- Encrypted data transmission (TLS).
+- Regular system backups and updates.
+- Server and database protection.
 
 ## 9. Cookies
 
-Na webu myemailavatar.com nejsou používány cookies ani obdobné sledovací technologie.
+No cookies or similar tracking technologies are used on myemailavatar.com.
 
-## 10. Změny zásad ochrany osobních údajů
+## 10. Changes to the Privacy Policy
 
-Vyhrazujeme si právo tyto zásady kdykoliv změnit. O změnách budete informováni na webu nebo e-mailem. Nové znění je účinné dnem zveřejnění.
+We reserve the right to change this policy at any time. You will be informed of changes on the website or by email. The new version is effective on the date of publication.
 
-## 11. Kontakt
+## 11. Contact
 
-V případě dotazů, žádostí nebo uplatnění práv v oblasti ochrany osobních údajů nás kontaktujte na [doplnit email].
+If you have any questions, requests, or wish to exercise your data protection rights, contact us at [to be completed email].
 
----
+## 12. Effective Date
 
-_Tyto zásady nabývají účinnosti dnem zveřejnění na webu._
+These terms are effective as of the date of publication on the website.

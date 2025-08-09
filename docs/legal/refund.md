@@ -1,18 +1,20 @@
-# Zásady vrácení peněz (Refundace)
+# Refund Policy for myemailavatar.com
 
-Chceme, abyste byli s nákupem spokojeni. Pokud nejste, můžete za určitých podmínek požádat o vrácení peněz. Zde jsou pravidla:
+## 1. When Are You Eligible for a Refund?
 
-## Kdy máte nárok na refundaci
+- You may request a refund if no more than 14 days have passed since your purchase.
+- Refunds are not provided in cases of product misuse, violation of terms, or attempts to circumvent trial version limitations.
+- Each refund request is assessed individually. If you encounter technical issues or have questions about payment, please contact our support.
 
-- O vrácení peněz můžete požádat, pokud od zaplacení objednávky neuplynulo více než 14 dní.
-- Refundace se neposkytuje v případě zneužití produktu, porušení podmínek nebo pokusu obejít omezení trial verze.
-- Každá žádost o refundaci je posuzována individuálně. Pokud narazíte na technické problémy nebo máte dotazy ohledně platby, kontaktujte naši podporu.
+## 2. How to Request a Refund
 
-## Jak požádat o refundaci
+- To request a refund, contact our support with your order details and the reason for your request.
+- Processing a refund request may take up to 5 business days.
 
-- Pro žádost o refundaci kontaktujte naši podporu s údaji o objednávce a důvodem žádosti.
-- Zpracování žádosti o refundaci může trvat až 5 pracovních dní.
+## 3. Legal Notice
 
-## Právní upozornění
+- All disputes will be resolved according to the law and jurisdiction specified in our Terms of Use.
 
-- Veškeré spory budou řešeny dle práva a jurisdikce uvedené v našich Podmínkách užívání.
+## 4. Effective Date
+
+- These terms are effective as of the date of publication on the website.
