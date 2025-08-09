@@ -423,63 +423,55 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
 
   const handleBorderRadiusTopLeftChange = useCallback(
     (value: number) => {
-      setBorderRadii((prev) => {
-        const updated = { ...prev, topLeft: value };
-        onSetImageSettings?.({
-          crop: crop!,
-          aspect: aspect === undefined ? 'free' : aspect,
-          isCircular,
-          borderRadius: updated,
-        });
-        return updated;
+      const updated = { ...borderRadii, topLeft: value };
+      setBorderRadii(updated);
+      onSetImageSettings?.({
+        crop: crop!,
+        aspect: aspect === undefined ? 'free' : aspect,
+        isCircular,
+        borderRadius: updated,
       });
     },
-    [onSetImageSettings, crop, aspect, isCircular],
+    [onSetImageSettings, crop, aspect, isCircular, borderRadii],
   );
   const handleBorderRadiusTopRightChange = useCallback(
     (value: number) => {
-      setBorderRadii((prev) => {
-        const updated = { ...prev, topRight: value };
-        onSetImageSettings?.({
-          crop: crop!,
-          aspect: aspect === undefined ? 'free' : aspect,
-          isCircular,
-          borderRadius: updated,
-        });
-        return updated;
+      const updated = { ...borderRadii, topRight: value };
+      setBorderRadii(updated);
+      onSetImageSettings?.({
+        crop: crop!,
+        aspect: aspect === undefined ? 'free' : aspect,
+        isCircular,
+        borderRadius: updated,
       });
     },
-    [onSetImageSettings, crop, aspect, isCircular],
+    [onSetImageSettings, crop, aspect, isCircular, borderRadii],
   );
   const handleBorderRadiusBottomRightChange = useCallback(
     (value: number) => {
-      setBorderRadii((prev) => {
-        const updated = { ...prev, bottomRight: value };
-        onSetImageSettings?.({
-          crop: crop!,
-          aspect: aspect === undefined ? 'free' : aspect,
-          isCircular,
-          borderRadius: updated,
-        });
-        return updated;
+      const updated = { ...borderRadii, bottomRight: value };
+      setBorderRadii(updated);
+      onSetImageSettings?.({
+        crop: crop!,
+        aspect: aspect === undefined ? 'free' : aspect,
+        isCircular,
+        borderRadius: updated,
       });
     },
-    [onSetImageSettings, crop, aspect, isCircular],
+    [onSetImageSettings, crop, aspect, isCircular, borderRadii],
   );
   const handleBorderRadiusBottomLeftChange = useCallback(
     (value: number) => {
-      setBorderRadii((prev) => {
-        const updated = { ...prev, bottomLeft: value };
-        onSetImageSettings?.({
-          crop: crop!,
-          aspect: aspect === undefined ? 'free' : aspect,
-          isCircular,
-          borderRadius: updated,
-        });
-        return updated;
+      const updated = { ...borderRadii, bottomLeft: value };
+      setBorderRadii(updated);
+      onSetImageSettings?.({
+        crop: crop!,
+        aspect: aspect === undefined ? 'free' : aspect,
+        isCircular,
+        borderRadius: updated,
       });
     },
-    [onSetImageSettings, crop, aspect, isCircular],
+    [onSetImageSettings, crop, aspect, isCircular, borderRadii],
   );
 
   const handleCornersPreviewStart = useCallback(async () => {
