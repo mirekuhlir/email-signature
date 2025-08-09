@@ -39,7 +39,7 @@ export const Footer = () => {
           </div>
         </div>
         <div className="flex justify-center mt-4">
-          <p>© {new Date().getFullYear()}. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} All rights reserved</p>
         </div>
       </Container>
     </footer>
