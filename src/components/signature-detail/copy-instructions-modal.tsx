@@ -65,20 +65,20 @@ export const CopyInstructionsModalContent = () => {
 
   return (
     <Container isZeroPadding={true}>
-      <div className="py-4 mb-16">
+      <div className="py-6 mb-16">
         <div className="flex justify-center text-center">
           <Typography variant="h4" textColor="text-brand-blue-900">
             Your signature has been copied to clipboard!
           </Typography>
         </div>
-        <div className="flex justify-center">
+        <div className="flex justify-center mt-4 mb-2">
           <div style={{ overflowX: 'auto' }}>
             <SignaturePreview isOnlyView />
           </div>
         </div>
 
         <div className="mb-3 flex justify-center">
-          <Typography variant="large" textColor="text-gray-700">
+          <Typography variant="large" textColor="text-brand-blue-900">
             Select your email client:
           </Typography>
         </div>
