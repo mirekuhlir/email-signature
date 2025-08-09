@@ -114,6 +114,7 @@ interface AspectRatioSelectorProps {
   aspect: number | undefined;
   onSelectAspect: (aspect: number, circular?: boolean) => void;
   onSelectFree: () => void;
+  isDisabled?: boolean;
 }
 
 export function AspectRatioSelector({
@@ -121,6 +122,7 @@ export function AspectRatioSelector({
   aspect,
   onSelectAspect,
   onSelectFree,
+  isDisabled,
 }: AspectRatioSelectorProps) {
   return (
     <div className="mb-4">
@@ -131,6 +133,7 @@ export function AspectRatioSelector({
           variant="outline"
           onClick={() => onSelectAspect(1, false)}
           selected={!isCircular && aspect === 1}
+          disabled={isDisabled}
         >
           1:1
         </Button>
@@ -139,6 +142,7 @@ export function AspectRatioSelector({
           variant="outline"
           onClick={() => onSelectAspect(3 / 2, false)}
           selected={!isCircular && aspect === 3 / 2}
+          disabled={isDisabled}
         >
           3:2
         </Button>
@@ -147,6 +151,7 @@ export function AspectRatioSelector({
           variant="outline"
           onClick={() => onSelectAspect(2 / 3, false)}
           selected={!isCircular && aspect === 2 / 3}
+          disabled={isDisabled}
         >
           2:3
         </Button>
@@ -155,6 +160,7 @@ export function AspectRatioSelector({
           variant="outline"
           onClick={() => onSelectAspect(1, true)}
           selected={isCircular}
+          disabled={isDisabled}
         >
           Circular
         </Button>
@@ -163,6 +169,7 @@ export function AspectRatioSelector({
           variant="outline"
           onClick={onSelectFree}
           selected={!isCircular && aspect === undefined}
+          disabled={isDisabled}
         >
           Free
         </Button>

@@ -386,6 +386,8 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
 
   const handleAspectChange = useCallback(
     (newAspect: number, circular: boolean = false) => {
+      // Immediately disable ratio buttons and related controls for snappier UX
+      setIsResizing(true);
       if (circular) {
         setIsCircular(true);
         setAspect(1);
@@ -707,12 +709,15 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
                 aspect={aspect}
                 onSelectAspect={handleAspectChange}
                 onSelectFree={() => {
+                  // Immediately disable ratio buttons and related controls for snappier UX
+                  setIsResizing(true);
                   setIsCircular(false);
                   setAspect(undefined);
                   if (crop) {
                     setCrop({ ...crop, unit: '%' });
                   }
                 }}
+                isDisabled={isResizing}
               />
             </>
           )}
