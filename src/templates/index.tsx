@@ -34,13 +34,13 @@ export const getTemplatesMainPage = () => {
   return [
     signature_a(),
     signature_b(),
-    signature_c(),
     signature_d(),
     signature_e(),
     signature_f(),
+    signature_i(),
+    signature_c(),
     signature_j(),
     signature_g(),
-    signature_i(),
     signature_h(),
     signature_k(),
   ];
