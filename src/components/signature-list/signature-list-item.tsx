@@ -81,7 +81,7 @@ export const SignatureListItem = (props: SignatureListItemProps) => {
                       onDelete();
                     }}
                   >
-                    {t('Delete')}
+                    Delete
                   </Button>
                   {(signatureCount ?? 0) < MAX_SIGNATURES && (
                     <Button
@@ -95,7 +95,7 @@ export const SignatureListItem = (props: SignatureListItemProps) => {
                         }
                       }}
                     >
-                      {t('Duplicate')}
+                      Duplicate
                     </Button>
                   )}
                 </div>

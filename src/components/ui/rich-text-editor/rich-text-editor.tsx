@@ -194,7 +194,7 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
 
   return (
     <div className="w-full max-w-4xl space-y-3">
-      <>
+      <div>
         {label && <Typography variant="labelBase">{label}</Typography>}
         <textarea
           id={componentId}
@@ -225,10 +225,8 @@ export const RichTextEditor = (props: RichTextEditorProps) => {
           value={editText}
           ref={textareaRef}
         />
-        {errorMessage && (
-          <p className="text-red-500 mt-2 text-sm">{errorMessage}</p>
-        )}
-      </>
+        {errorMessage && <p className="text-red-500 text-sm">{errorMessage}</p>}
+      </div>
       {linkComponent ? linkComponent : null}
       <div>
         <div className="grid grid-cols-2 gap-x-4 gap-y-3">

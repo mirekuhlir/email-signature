@@ -1,6 +1,3 @@
 {
-  "edit": "Edit",
-  "signatureEdit": "Edit Signature",
-  "exampleText": "example text",
-  "emailWrongFormat": "Email is in wrong format."
+  "exampleText": "example text"
 }

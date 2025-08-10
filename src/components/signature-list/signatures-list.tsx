@@ -282,12 +282,10 @@ export const SignaturesList = (props: any) => {
       <Modal size="small" isOpen={isDeleteModalOpen}>
         <div className="mb-1">
           <Typography variant="lead" textColor="text-gray-900">
-            {t('Confirm Deletion')}
+            Confirm deletion
           </Typography>
         </div>
-        <Typography>
-          {t('Are you sure you want to delete this signature?')}
-        </Typography>
+        <Typography>Are you sure you want to delete this signature?</Typography>
         <div className="mt-4 flex justify-between">
           <Button
             variant="gray"
@@ -298,7 +296,7 @@ export const SignaturesList = (props: any) => {
               setTempSignatureToDelete(null);
             }}
           >
-            {t('Cancel')}
+            Cancel
           </Button>
           <Button
             loading={isDeleteLoading}
@@ -333,7 +331,7 @@ export const SignaturesList = (props: any) => {
               }
             }}
           >
-            {isDeleteLoading ? 'Deleting...' : t('Delete')}
+            {isDeleteLoading ? 'Deleting...' : 'Delete'}
           </Button>
         </div>
       </Modal>
