@@ -171,6 +171,13 @@ export const ImageEditContent = (props: ImageEditContentProps) => {
     [setContentEdit],
   );
 
+  const handleResizingChange = useCallback(
+    (isResizing: boolean) => {
+      setContentEdit({ isImageResizing: isResizing });
+    },
+    [setContentEdit],
+  );
+
   const imageCount = useMemo(() => {
     if (isSignedIn) {
       return;
@@ -192,6 +199,7 @@ export const ImageEditContent = (props: ImageEditContentProps) => {
         onSetImageSettings={handleImageSettings}
         onSetTempRectCropPreview={handleTempRectCropPreview}
         onSetIsCornersPreviewing={handleIsCornersPreviewing}
+        onResizingChange={handleResizingChange}
         imageSettings={imageComponent.imageSettings}
         imageName={imageComponent.id}
         previewWidthInit={imageComponent.previewWidth}

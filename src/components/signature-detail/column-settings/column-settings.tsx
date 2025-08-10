@@ -52,7 +52,7 @@ export const ColumnSettings = (props: any) => {
   const { rows, setContent, saveSignatureContentRow, colors, dimensions } =
     useSignatureStore();
   const { editingSectionIds } = useContentEditStore();
-  const { setContentEdit } = useContentEditStore();
+  const { setContentEdit, contentEdit } = useContentEditStore();
 
   const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -321,6 +321,7 @@ export const ColumnSettings = (props: any) => {
 
   const isVisibleOnlyPreview = editingSectionIds.length > 0;
   const isSlidersDisabled = editingSectionIds.length > 0;
+  const isImageResizing = contentEdit.isImageResizing;
 
   return (
     <div key={`settings-${columnPathToEdit}`} className="mt-6 pb-24">
@@ -656,6 +657,7 @@ export const ColumnSettings = (props: any) => {
         onClose={closeSettings}
         onSave={handleSave}
         isVisibleOnlyPreview={isVisibleOnlyPreview}
+        isSaveDisabled={Boolean(isImageResizing)}
       />
     </div>
   );

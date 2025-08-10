@@ -15,6 +15,7 @@ interface ActionPanelProps {
   onSave?: () => void;
   isVisibleOnlyPreview?: boolean;
   isVisibleOnlyClose?: boolean;
+  isSaveDisabled?: boolean;
 }
 
 export const ActionPanel: React.FC<ActionPanelProps> = ({
@@ -25,6 +26,7 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({
   onPreview,
   isVisibleOnlyPreview = false,
   isVisibleOnlyClose = false,
+  isSaveDisabled = false,
 }) => {
   const isMobile = useMediaQuery(MEDIA_QUERIES.MOBILE);
 
@@ -58,6 +60,7 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({
             variant="outline"
             onClick={onClose}
             buttonClassName="sm:min-w-35"
+            disabled={isSaveDisabled}
           >
             Cancel
           </Button>
@@ -77,6 +80,7 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({
               size="md"
               onClick={onSave}
               buttonClassName="min-w-24 sm:min-w-35"
+              disabled={isSaveDisabled}
             >
               Save
             </Button>
@@ -105,6 +109,7 @@ interface PreviewActionPanelProps {
   onSave?: () => void;
   isVisibleOnlyPreview?: boolean;
   isVisibleOnlyClose?: boolean;
+  isSaveDisabled?: boolean;
 }
 
 const PreviewActionPanel: React.FC<PreviewActionPanelProps> = ({
@@ -113,6 +118,7 @@ const PreviewActionPanel: React.FC<PreviewActionPanelProps> = ({
   onSave,
   isVisibleOnlyPreview = false,
   isVisibleOnlyClose = false,
+  isSaveDisabled = false,
 }) => {
   const { modal } = useModal();
 
@@ -144,6 +150,7 @@ const PreviewActionPanel: React.FC<PreviewActionPanelProps> = ({
         onClose={onClose}
         isVisibleOnlyPreview={isVisibleOnlyPreview}
         isVisibleOnlyClose={isVisibleOnlyClose}
+        isSaveDisabled={isSaveDisabled}
       />
     </>
   );

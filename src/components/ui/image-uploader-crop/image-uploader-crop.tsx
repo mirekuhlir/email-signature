@@ -54,6 +54,7 @@ interface ImageUploaderProps {
   onLoadingChange?: (isLoading: boolean) => void;
   onSetTempRectCropPreview?: (preview: string) => void;
   onSetIsCornersPreviewing?: (isPreviewing: boolean) => void;
+  onResizingChange?: (isResizing: boolean) => void;
   imageName: string;
   imageSettings?: ImageSettings;
   previewWidthInit?: number;
@@ -82,6 +83,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     horizontalAlign,
     onSetTempRectCropPreview,
     onSetIsCornersPreviewing,
+    onResizingChange,
   } = props;
 
   const isDesktop = useMediaQuery('(min-width: 768px)');
@@ -151,14 +153,16 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         const fileUrl = URL.createObjectURL(jpegFile);
         setOriginalImagePreview(fileUrl);
         setIsResizing(false);
+        onResizingChange?.(false);
         setCroppedImageData(null);
         onSetOriginalImage?.(jpegFile);
       } catch (err) {
         console.error('Failed to convert file to JPEG', err);
         setIsResizing(false);
+        onResizingChange?.(false);
       }
     },
-    [onSetOriginalImage],
+    [onSetOriginalImage, onResizingChange],
   );
 
   const handleFileDrop = useCallback(
@@ -169,13 +173,14 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         const fileUrl = URL.createObjectURL(jpegFile);
         setOriginalImagePreview(fileUrl);
         setIsResizing(false);
+        onResizingChange?.(false);
         setCroppedImageData(null);
         onSetOriginalImage?.(jpegFile);
       } catch (err) {
         console.error('Failed to convert dropped file to JPEG', err);
       }
     },
-    [onSetOriginalImage],
+    [onSetOriginalImage, onResizingChange],
   );
 
   const handleDragEnter = useCallback((e: React.DragEvent<HTMLDivElement>) => {
@@ -324,6 +329,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
       // First debounce with 400ms, then call handleCrop after 100ms delay
       debounce(() => {
         setIsResizing(true);
+        onResizingChange?.(true);
 
         setTimeout(() => {
           handleCrop()
@@ -332,11 +338,12 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
             })
             .finally(() => {
               setIsResizing(false);
+              onResizingChange?.(false);
             });
           // display resizing text
         }, 100);
       }, 1000),
-    [handleCrop],
+    [handleCrop, onResizingChange],
   );
 
   useEffect(() => {
@@ -388,6 +395,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
     (newAspect: number, circular: boolean = false) => {
       // Immediately disable ratio buttons and related controls for snappier UX
       setIsResizing(true);
+      onResizingChange?.(true);
       if (circular) {
         setIsCircular(true);
         setAspect(1);
@@ -412,7 +420,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
         }
       }
     },
-    [getDefaultCropForCurrentImage],
+    [getDefaultCropForCurrentImage, onResizingChange],
   );
 
   const handlePreviewWidthChange = useCallback(
@@ -711,6 +719,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
                 onSelectFree={() => {
                   // Immediately disable ratio buttons and related controls for snappier UX
                   setIsResizing(true);
+                  onResizingChange?.(true);
                   setIsCircular(false);
                   setAspect(undefined);
                   if (crop) {

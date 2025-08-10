@@ -486,6 +486,7 @@ export const ContentEdit = (props: any) => {
 
   const isVisibleOnlyPreview = editingSectionIds.length > 0;
   const isSlidersDisabled = editingSectionIds.length > 0;
+  const isImageResizing = contentEdit.isImageResizing;
 
   return (
     <div key={path}>
@@ -884,6 +885,7 @@ export const ContentEdit = (props: any) => {
           onSave={handleSave}
           isVisibleOnlyClose={isVisibleOnlyClose}
           isVisibleOnlyPreview={isVisibleOnlyPreview}
+          isSaveDisabled={Boolean(isImageResizing)}
         />
       </div>
     </div>
