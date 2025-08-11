@@ -155,6 +155,13 @@ export const EmailTemplateView = (props: EmailTemplateViewProps) => {
 
   return (
     <div
+      onCopy={(e) => {
+        const selectedText = window.getSelection()?.toString() ?? '';
+
+        e.preventDefault();
+        e.clipboardData?.setData('text/plain', selectedText);
+        e.clipboardData?.setData('text/html', '');
+      }}
       style={{
         overflowX: 'auto',
       }}
