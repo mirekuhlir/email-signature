@@ -2,7 +2,6 @@
 'use client';
 import { useState, useCallback } from 'react';
 import { Typography } from '@/src/components/ui/typography';
-import t from '@/src/localization/translate';
 import Modal from '../ui/modal';
 import { Button } from '@/src/components/ui/button';
 import { createClient } from '@/src/utils/supabase/client';
