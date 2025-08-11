@@ -2,7 +2,6 @@
 'use client';
 import { useRef } from 'react';
 import { Typography } from '@/src/components/ui/typography';
-import t from '@/src/localization/translate';
 import { Button } from '@/src/components/ui/button';
 import { EmailTemplateView } from '../signature-detail/content-view/signature-view';
 import { ContextMenu } from '../ui/context-menu';

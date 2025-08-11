@@ -25,17 +25,12 @@ export function LoadMoreTemplates({
         (initial) => initial.info?.templateSlug === template.info?.templateSlug,
       ),
   );
-
-  const [loadedFromRemaining, setLoadedFromRemaining] = useState(0);
-  const hasMore = loadedFromRemaining < remainingTemplates.length;
+  const [allLoaded, setAllLoaded] = useState(false);
+  const hasMore = !allLoaded && remainingTemplates.length > 0;
 
   const loadMore = () => {
-    const nextBatch = remainingTemplates.slice(
-      loadedFromRemaining,
-      loadedFromRemaining + 3,
-    );
-    setVisibleTemplates((prev) => [...prev, ...nextBatch]);
-    setLoadedFromRemaining((prev) => prev + 3);
+    setVisibleTemplates((prev) => [...prev, ...remainingTemplates]);
+    setAllLoaded(true);
   };
 
   return (
