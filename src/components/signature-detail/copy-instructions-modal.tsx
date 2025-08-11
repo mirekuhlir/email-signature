@@ -67,9 +67,11 @@ export const CopyInstructionsModalContent = () => {
     <Container isZeroPadding={true}>
       <div className="py-6 mb-16">
         <div className="flex justify-center text-center">
-          <Typography variant="h4" textColor="text-brand-blue-900">
-            Your signature has been copied to clipboard!
-          </Typography>
+          <div className="px-4">
+            <Typography variant="h4" textColor="text-brand-blue-900">
+              Your signature has been copied to clipboard!
+            </Typography>
+          </div>
         </div>
         <div className="flex justify-center mt-4 mb-2">
           <div style={{ overflowX: 'auto' }}>
