@@ -162,7 +162,7 @@ export const SignatureDetail = (props: any) => {
       {!isMobile && isEdit && (
         <Container className="max-w-7xl">
           <div className="flex flex-row gap-4">
-            <div className="min-w-1/2">
+            <div className="w-1/2">
               <EmailTemplateEdit
                 isSignedIn={isSignedIn}
                 templateSlug={templateSlug}
@@ -171,8 +171,8 @@ export const SignatureDetail = (props: any) => {
                 tempSignatureCreatedAt={tempSignatureCreatedAt}
               />
             </div>
-            <div className="min-w-1/2 mt-4">
-              <div className="fixed top-7">
+            <div className="w-1/2">
+              <div className="sticky top-4 w-full">
                 <SignaturePreview />
               </div>
             </div>

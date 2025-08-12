@@ -66,7 +66,7 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({
           </Button>
         )}
         <div className="flex gap-4 sm:gap-8">
-          {onPreview && isMobile && (
+          {onPreview && (
             <Button
               variant="outline"
               onClick={onPreview}
