@@ -277,7 +277,7 @@ export const EmailTemplateEdit = (props: any) => {
               </div>
             </div>
 
-            {contentEdit.editPath !== currentPath &&
+            {contentEdit.editPath === null &&
               contentEdit.columnPath === null && (
                 <>
                   <div className="flex justify-end items-center gap-2 mb-2 mt-1 mr-1">
@@ -417,59 +417,57 @@ export const EmailTemplateEdit = (props: any) => {
     });
   };
 
+  const isEdit =
+    !contentEdit.editPath && !contentEdit.addPath && !contentEdit.columnPath;
+
   return (
     <>
       <div ref={containerRef}>
-        {!contentEdit.editPath &&
-          !contentEdit.addPath &&
-          !contentEdit.columnPath &&
-          rows.length < MAX_ROWS && (
-            <div className="mb-4">
-              <Button
-                onClick={() => {
-                  setContentEdit({
-                    editPath: null,
-                    position: 'start',
-                    addPath: 'table-root',
-                    nextEditPath: '[0].columns[0].rows[0]',
-                  });
-                }}
-                variant="gray"
-                disabled={isSavingOrder}
-              >
-                Add
-              </Button>
-              <Hr className={`my-4 ${hrColor} border-dotted`} />
+        {isEdit && (
+          <div className="flex flex-col">
+            {rows.length < MAX_ROWS && (
+              <div className="mb-4">
+                <Button
+                  onClick={() => {
+                    setContentEdit({
+                      editPath: null,
+                      position: 'start',
+                      addPath: 'table-root',
+                      nextEditPath: '[0].columns[0].rows[0]',
+                    });
+                  }}
+                  variant="gray"
+                  disabled={isSavingOrder}
+                >
+                  Add
+                </Button>
+                <Hr className={`my-4 ${hrColor} border-dotted`} />
+              </div>
+            )}
+            <div className="flex justify-start sm:justify-center">
+              {renderRows(rows, true, '')}
             </div>
-          )}
-        <>
-          {!contentEdit.addPath &&
-            !contentEdit.editPath &&
-            !contentEdit.columnPath &&
-            renderRows(rows, true, '')}
-        </>
-        {!contentEdit.editPath &&
-          !contentEdit.addPath &&
-          !contentEdit.columnPath &&
-          rows.length < MAX_ROWS && (
-            <div className="mt-5 mb-5">
-              <Hr className={`my-4 ${hrColor} border-dotted`} />
-              <Button
-                onClick={() => {
-                  setContentEdit({
-                    editPath: null,
-                    position: 'end',
-                    addPath: 'table-root',
-                    nextEditPath: `[${rows.length}].columns[0].rows[0]`,
-                  });
-                }}
-                variant="gray"
-                disabled={isSavingOrder}
-              >
-                Add
-              </Button>
-            </div>
-          )}
+            {rows.length < MAX_ROWS && (
+              <div className="mt-5 mb-5">
+                <Hr className={`my-4 ${hrColor} border-dotted`} />
+                <Button
+                  onClick={() => {
+                    setContentEdit({
+                      editPath: null,
+                      position: 'end',
+                      addPath: 'table-root',
+                      nextEditPath: `[${rows.length}].columns[0].rows[0]`,
+                    });
+                  }}
+                  variant="gray"
+                  disabled={isSavingOrder}
+                >
+                  Add
+                </Button>
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       {contentEdit.addPath && (

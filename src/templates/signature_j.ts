@@ -251,7 +251,7 @@ export const signature_j = () => {
                                             "padding": "0px 0px 15px 0px",
                                             "fontSize": "14px",
                                             "fontStyle": "normal",
-                                            "textAlign": "center",
+                                            "textAlign": "left",
                                             "fontFamily": "Arial",
                                             "fontWeight": "normal",
                                             "lineHeight": "1",

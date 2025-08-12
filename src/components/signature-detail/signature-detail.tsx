@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useSignatureStore } from '@/src/store/content-edit-add-store';
 import { Button } from '@/src/components/ui/button';
 import { copySignatureToClipboard } from './content-view/utils';
@@ -32,7 +32,6 @@ export const SignatureDetail = (props: any) => {
 
   const { rows, initSignature, isSavingOrder } = useSignatureStore();
   const { contentEdit, resetContentEdit } = useContentEditStore();
-  const [isSticky, setIsSticky] = useState(false);
   const { modal } = useModal();
   const { showAuthModal } = useAuthModal();
   const isMobile = useMediaQuery(MEDIA_QUERIES.MOBILE);
@@ -134,6 +133,21 @@ export const SignatureDetail = (props: any) => {
       {!isEdit && (
         <Container>
           <div className="overflow-x-auto ">
+            <EmailTemplateEdit
+              isSignedIn={isSignedIn}
+              templateSlug={templateSlug}
+              rows={rows}
+              userStatus={userStatus}
+              tempSignatureCreatedAt={tempSignatureCreatedAt}
+            />
+          </div>
+        </Container>
+      )}
+
+      {isMobile && isEdit && (
+        <Container>
+          <div className="overflow-x-auto ">
+            <SignaturePreview />
             <EmailTemplateEdit
               isSignedIn={isSignedIn}
               templateSlug={templateSlug}
