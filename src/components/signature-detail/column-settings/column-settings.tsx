@@ -329,7 +329,7 @@ export const ColumnSettings = (props: any) => {
         {!isSavingSignature && (
           <div className="pb-2">
             <CollapsibleSection title="Spaces">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <div className="grid grid-cols-1 gap-2">
                 <div>
                   <SliderDimensions
                     label={`Top space: ${paddingTop}px`}
@@ -389,7 +389,7 @@ export const ColumnSettings = (props: any) => {
             </CollapsibleSection>
 
             <CollapsibleSection title="Borders">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <div className="grid grid-cols-1 gap-2">
                 <div className="mb-2">
                   <div>
                     <SliderDimensions
@@ -542,7 +542,7 @@ export const ColumnSettings = (props: any) => {
                   />
                 </div>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <div className="grid grid-cols-1 gap-2">
                 <div>
                   <SliderDimensions
                     label={`Top-left rounded corner : ${borderRadiusCorners.topLeft}px`}
@@ -617,7 +617,7 @@ export const ColumnSettings = (props: any) => {
               />
             </CollapsibleSection>
             <CollapsibleSection title="Width and Height">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <div className="grid grid-cols-1 gap-2">
                 <div>
                   <SliderDimensions
                     label={`Width: ${columnWidth === 0 ? 'auto' : `${columnWidth}px`}`}

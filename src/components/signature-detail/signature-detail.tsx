@@ -67,29 +67,6 @@ export const SignatureDetail = (props: any) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!isMobile) {
-        const shouldBeSticky = window.scrollY > 1;
-        setIsSticky(shouldBeSticky);
-      } else {
-        setIsSticky(false);
-      }
-    };
-
-    // Only add scroll listener when in edit mode with edit/column path
-    if (contentEdit.editPath || contentEdit.columnPath) {
-      window.addEventListener('scroll', handleScroll);
-      window.addEventListener('resize', handleScroll); // Handle screen size changes
-      // Call once to set initial state
-      handleScroll();
-      return () => {
-        window.removeEventListener('scroll', handleScroll);
-        window.removeEventListener('resize', handleScroll);
-      };
-    }
-  }, [contentEdit.editPath, contentEdit.columnPath, isMobile]);
-
   const showCopyInstructionsModal = () => {
     modal({
       content: <CopyInstructionsModalContent />,
@@ -114,14 +91,6 @@ export const SignatureDetail = (props: any) => {
           </StyledLink>
           <Hr className="mt-4 mb-4 sm:mb-4 sm:mt-4" />
         </Container>
-      )}
-
-      {isEdit && (
-        <div
-          className={`${isSticky ? 'sticky top-0 bg-gray-50 z-10 pt-5 border-b border-gray-300' : ''}`}
-        >
-          <SignaturePreview />
-        </div>
       )}
 
       {userStatus === UserStatus.TRIAL &&
@@ -162,17 +131,40 @@ export const SignatureDetail = (props: any) => {
         </EditPanel>
       )}
 
-      <Container>
-        <div className="overflow-x-auto ">
-          <EmailTemplateEdit
-            isSignedIn={isSignedIn}
-            templateSlug={templateSlug}
-            rows={rows}
-            userStatus={userStatus}
-            tempSignatureCreatedAt={tempSignatureCreatedAt}
-          />
-        </div>
-      </Container>
+      {!isEdit && (
+        <Container>
+          <div className="overflow-x-auto ">
+            <EmailTemplateEdit
+              isSignedIn={isSignedIn}
+              templateSlug={templateSlug}
+              rows={rows}
+              userStatus={userStatus}
+              tempSignatureCreatedAt={tempSignatureCreatedAt}
+            />
+          </div>
+        </Container>
+      )}
+
+      {!isMobile && isEdit && (
+        <Container className="max-w-7xl">
+          <div className="flex flex-row gap-4">
+            <div className="min-w-1/2">
+              <EmailTemplateEdit
+                isSignedIn={isSignedIn}
+                templateSlug={templateSlug}
+                rows={rows}
+                userStatus={userStatus}
+                tempSignatureCreatedAt={tempSignatureCreatedAt}
+              />
+            </div>
+            <div className="min-w-1/2 mt-4">
+              <div className="fixed top-7">
+                <SignaturePreview />
+              </div>
+            </div>
+          </div>
+        </Container>
+      )}
     </div>
   );
 };

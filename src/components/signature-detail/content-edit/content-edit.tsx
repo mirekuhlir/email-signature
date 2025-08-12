@@ -510,7 +510,7 @@ export const ContentEdit = (props: any) => {
                 )}
               <>
                 <CollapsibleSection title="Spaces">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <div className="grid grid-cols-1 gap-2">
                     <div>
                       <SliderDimensions
                         label={`Top space: ${paddingTop}px`}
@@ -569,7 +569,7 @@ export const ContentEdit = (props: any) => {
                   </div>
                 </CollapsibleSection>
                 <CollapsibleSection title="Borders">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <div className="grid grid-cols-1 gap-2">
                     <div>
                       <div>
                         <SliderDimensions
@@ -736,7 +736,7 @@ export const ContentEdit = (props: any) => {
                       }}
                     />
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <div className="grid grid-cols-1 gap-2">
                     <div>
                       <SliderDimensions
                         label={`Top-left rounded corner: ${borderRadiusCorners.topLeft}px`}
@@ -814,7 +814,7 @@ export const ContentEdit = (props: any) => {
                 )}
 
                 <CollapsibleSection title="Width and height">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <div className="grid grid-cols-1 gap-2">
                     <div>
                       <SliderDimensions
                         label={`Width: ${width === 0 ? 'auto' : `${width}px`}`}
