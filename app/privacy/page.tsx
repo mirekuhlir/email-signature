@@ -15,10 +15,12 @@ export default async function Privacy() {
       </Typography>
       <Typography variant="body">
         Controller: Miroslav Uhlíř, Blížkovice 31, 671 55 Blížkovice, Czech
-        Republic
+        Republic, EU
       </Typography>
-      <Typography variant="body">Company ID: [to be completed]</Typography>
-      <Typography variant="body">Contact email: [to be completed]</Typography>
+      <Typography variant="body">Company ID: CZ88384853</Typography>
+      <Typography variant="body">
+        Contact email: mirek.uhlir@gmail.com
+      </Typography>
       <Typography variant="body">
         Website:{' '}
         <a href="https://myemailavatar.com">https://myemailavatar.com</a>

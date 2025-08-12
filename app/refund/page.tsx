@@ -30,8 +30,8 @@ export default async function RefundPolicyPage() {
         2. How to Request a Refund
       </Typography>
       <Typography variant="body">
-        To request a refund, contact our support with your order details and the
-        reason for your request.
+        To request a refund, contact our support at support@myemailavatar.com
+        with your order details.
       </Typography>
       <Typography variant="body">
         Processing a refund request may take up to 5 business days.
