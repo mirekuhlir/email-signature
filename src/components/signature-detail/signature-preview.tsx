@@ -6,7 +6,6 @@ import { Smartphone, Monitor, Sun, Moon } from 'lucide-react';
 import { useMediaQuery } from '@/src/hooks/useMediaQuery';
 import { MEDIA_QUERIES } from '@/src/constants/mediaQueries';
 import { getInvertedSignatureRows } from '@/src/utils/colorUtils';
-import { Container } from '../ui/container';
 import { MAX_MOBILE_IMAGE_WIDTH } from '@/supabase/functions/_shared/const';
 import { AutoScaleContainer } from '../ui/auto-scale-container';
 
@@ -111,23 +110,22 @@ export const SignaturePreview: React.FC<SignaturePreviewProps> = ({
             </div>
           </div>
         )}
-        <div style={{ overflowX: 'auto' }}>
-          <div className={`${outerDivClasses} w-full max-w-6xl mx-auto`}>
-            <div
-              className={`${wrapperDivClasses}`}
-              style={{ ...mobilePreviewWidth }}
-              ref={containerRef}
+
+        <div className={`${outerDivClasses} w-full max-w-6xl mx-auto`}>
+          <div
+            className={`${wrapperDivClasses}`}
+            style={{ ...mobilePreviewWidth }}
+            ref={containerRef}
+          >
+            <AutoScaleContainer
+              containerRef={containerRef}
+              margin={0}
+              isActive={isMobilePreview}
             >
-              <AutoScaleContainer
-                containerRef={containerRef}
-                margin={0}
-                isActive={isMobilePreview}
-              >
-                <div className={containerDivClasses}>
-                  <EmailTemplateView rows={rowsToDisplay} />
-                </div>
-              </AutoScaleContainer>
-            </div>
+              <div className={containerDivClasses}>
+                <EmailTemplateView rows={rowsToDisplay} />
+              </div>
+            </AutoScaleContainer>
           </div>
         </div>
       </div>

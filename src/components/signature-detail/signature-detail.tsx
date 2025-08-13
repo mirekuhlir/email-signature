@@ -130,9 +130,10 @@ export const SignatureDetail = (props: any) => {
         </EditPanel>
       )}
 
-      {!isEdit && (
+      {isMobile && (
         <Container>
           <div className="overflow-x-auto ">
+            {isEdit && <SignaturePreview />}
             <EmailTemplateEdit
               isSignedIn={isSignedIn}
               templateSlug={templateSlug}
@@ -144,35 +145,22 @@ export const SignatureDetail = (props: any) => {
         </Container>
       )}
 
-      {isMobile && isEdit && (
-        <Container>
-          <div className="overflow-x-auto ">
-            <SignaturePreview />
-            <EmailTemplateEdit
-              isSignedIn={isSignedIn}
-              templateSlug={templateSlug}
-              rows={rows}
-              userStatus={userStatus}
-              tempSignatureCreatedAt={tempSignatureCreatedAt}
-            />
-          </div>
-        </Container>
-      )}
-
-      {!isMobile && isEdit && (
+      {!isMobile && (
         <Container className="max-w-7xl">
           <div className="flex flex-row gap-4">
-            <div className="w-1/2">
-              <EmailTemplateEdit
-                isSignedIn={isSignedIn}
-                templateSlug={templateSlug}
-                rows={rows}
-                userStatus={userStatus}
-                tempSignatureCreatedAt={tempSignatureCreatedAt}
-              />
+            <div className="min-w-1/2">
+              <div className="overflow-x-auto ">
+                <EmailTemplateEdit
+                  isSignedIn={isSignedIn}
+                  templateSlug={templateSlug}
+                  rows={rows}
+                  userStatus={userStatus}
+                  tempSignatureCreatedAt={tempSignatureCreatedAt}
+                />
+              </div>
             </div>
-            <div className="w-1/2">
-              <div className="sticky top-4 w-full">
+            <div className="min-w-1/2">
+              <div className={`sticky ${!isEdit ? 'top-20' : 'top-4'} w-full`}>
                 <SignaturePreview />
               </div>
             </div>

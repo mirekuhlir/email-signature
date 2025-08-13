@@ -11,7 +11,7 @@ export const Container = ({
 }: ContainerProps) => {
   return (
     <div
-      className={`w-full max-w-6xl mx-auto ${isZeroPadding ? '' : 'px-4 lg:px-0'} ${className}`}
+      className={`w-full max-w-7xl mx-auto ${isZeroPadding ? '' : 'px-4 lg:px-0'} ${className}`}
     >
       {children}
     </div>

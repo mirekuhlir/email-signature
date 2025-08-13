@@ -417,13 +417,13 @@ export const EmailTemplateEdit = (props: any) => {
     });
   };
 
-  const isEdit =
+  const isEditMenu =
     !contentEdit.editPath && !contentEdit.addPath && !contentEdit.columnPath;
 
   return (
     <>
       <div ref={containerRef}>
-        {isEdit && (
+        {isEditMenu && (
           <div className="flex flex-col">
             {rows.length < MAX_ROWS && (
               <div className="mb-4">
@@ -444,7 +444,7 @@ export const EmailTemplateEdit = (props: any) => {
                 <Hr className={`my-4 ${hrColor} border-dotted`} />
               </div>
             )}
-            <div className="flex justify-start sm:justify-center">
+            <div className="flex flex-col justify-start sm:justify-center">
               {renderRows(rows, true, '')}
             </div>
             {rows.length < MAX_ROWS && (
