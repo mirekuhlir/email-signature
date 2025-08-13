@@ -597,15 +597,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
   return (
     <>
       <div className="w-full mb-2">
-        <CollapsibleSection
-          title="Image"
-          isInitOpen={true}
-          panelContent={
-            isResizing ? (
-              <Loading size="sm" className="w-4 h-4 text-gray-900" />
-            ) : null
-          }
-        >
+        <CollapsibleSection title="Image" isInitOpen={true}>
           {!originalImagePreview && !originalSrc ? (
             <ImageDropZone
               isDesktop={isDesktop}

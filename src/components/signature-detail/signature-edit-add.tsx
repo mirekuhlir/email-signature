@@ -13,8 +13,6 @@ import { useSignatureStore } from '@/src/store/content-edit-add-store';
 import { get } from 'lodash';
 import { ContentType } from '@/src/const/content';
 import { MAX_ROWS } from '@/supabase/functions/_shared/const';
-import { useMediaQuery } from '@/src/hooks/useMediaQuery';
-import { MEDIA_QUERIES } from '@/src/constants/mediaQueries';
 import { getWidthHeightStyle } from './content-view/utils';
 import { DeleteConfirmationModal } from '@/src/components/ui/delete-confirmation-modal';
 import Modal from '../ui/modal';
@@ -57,8 +55,6 @@ export const EmailTemplateEdit = (props: any) => {
   } = useSignatureStore();
   const { id: signatureId } = useParams();
   const containerRef = useRef<HTMLDivElement>(null);
-
-  const isMobile = useMediaQuery(MEDIA_QUERIES.MOBILE);
 
   const [isBackgroundDark, setIsBackgroundDark] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
