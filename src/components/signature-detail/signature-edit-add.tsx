@@ -302,7 +302,7 @@ export const EmailTemplateEdit = (props: any) => {
                     {showContextMenu && (
                       <ContextMenu
                         size="sm"
-                        placement={isMobile ? 'left' : 'right'}
+                        placement="left"
                         isDisabled={isSavingOrder}
                         isLoading={
                           isSavingOrder && savingOrderPath === currentPath

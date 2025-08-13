@@ -149,14 +149,27 @@ export const SignatureDetail = (props: any) => {
         <Container className="max-w-7xl">
           <div className="flex flex-row gap-4">
             <div className="min-w-1/2">
-              <div className="overflow-x-auto ">
-                <EmailTemplateEdit
-                  isSignedIn={isSignedIn}
-                  templateSlug={templateSlug}
-                  rows={rows}
-                  userStatus={userStatus}
-                  tempSignatureCreatedAt={tempSignatureCreatedAt}
-                />
+              <div className="overflow-x-auto">
+                {isEdit && (
+                  <EmailTemplateEdit
+                    isSignedIn={isSignedIn}
+                    templateSlug={templateSlug}
+                    rows={rows}
+                    userStatus={userStatus}
+                    tempSignatureCreatedAt={tempSignatureCreatedAt}
+                  />
+                )}
+                {!isEdit && (
+                  <div className="flex justify-center">
+                    <EmailTemplateEdit
+                      isSignedIn={isSignedIn}
+                      templateSlug={templateSlug}
+                      rows={rows}
+                      userStatus={userStatus}
+                      tempSignatureCreatedAt={tempSignatureCreatedAt}
+                    />
+                  </div>
+                )}
               </div>
             </div>
             <div className="min-w-1/2">
