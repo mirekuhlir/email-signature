@@ -287,7 +287,7 @@ export const signature_c = () => {
                                             "text": localizedContent[
                                                 content.addressPrefix
                                             ],
-                                            "type": "text",
+                                            "type": "twoPartText",
                                             "color": "rgb(48, 52, 112)",
                                             "padding": "0px 0px 5px 0px",
                                             "fontSize": "14px",
@@ -318,7 +318,7 @@ export const signature_c = () => {
                                             "text": localizedContent[
                                                 content.address
                                             ],
-                                            "type": "text",
+                                            "type": "twoPartText",
                                             "color": "rgb(0, 0, 0)",
                                             "fontSize": "14px",
                                             "fontStyle": "normal",
