@@ -69,6 +69,7 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({
           {onPreview && (
             <Button
               variant="outline"
+              disabled={isSaveDisabled}
               onClick={onPreview}
               buttonClassName="min-w-24 sm:min-w-35"
             >
