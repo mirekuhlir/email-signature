@@ -6,6 +6,9 @@ import SignaturePreview from './signature-preview';
 import EditPanel from './edit-panel';
 import { useMediaQuery } from '@/src/hooks/useMediaQuery';
 import { MEDIA_QUERIES } from '@/src/constants/mediaQueries';
+import { UseSignature } from './use-signature';
+import { useSignatureStore } from '@/src/store/content-edit-add-store';
+import { UserStatus } from '@/src/utils/userState';
 
 interface ActionPanelProps {
   visible: boolean;
@@ -111,6 +114,8 @@ interface PreviewActionPanelProps {
   isVisibleOnlyPreview?: boolean;
   isVisibleOnlyClose?: boolean;
   isSaveDisabled?: boolean;
+  isSignedIn: boolean;
+  userStatus: UserStatus;
 }
 
 const PreviewActionPanel: React.FC<PreviewActionPanelProps> = ({
@@ -120,8 +125,11 @@ const PreviewActionPanel: React.FC<PreviewActionPanelProps> = ({
   isVisibleOnlyPreview = false,
   isVisibleOnlyClose = false,
   isSaveDisabled = false,
+  isSignedIn,
+  userStatus,
 }) => {
   const { modal } = useModal();
+  const { isSavingOrder } = useSignatureStore();
 
   if (!visible) return null;
 
@@ -130,6 +138,15 @@ const PreviewActionPanel: React.FC<PreviewActionPanelProps> = ({
       content: (
         <div className="pt-6">
           <SignaturePreview />
+          <Container>
+            <div className="flex justify-center mt-4">
+              <UseSignature
+                isSavingOrder={isSavingOrder}
+                isSignedIn={isSignedIn}
+                userStatus={userStatus}
+              />
+            </div>
+          </Container>
         </div>
       ),
       isZeroPadding: true,

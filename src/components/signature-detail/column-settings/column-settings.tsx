@@ -46,6 +46,7 @@ export const ColumnSettings = (props: any) => {
     isSignedIn,
     templateSlug,
     tempSignatureCreatedAt,
+    userStatus,
   } = props;
   const { toast } = useToast();
 
@@ -658,6 +659,8 @@ export const ColumnSettings = (props: any) => {
         onSave={handleSave}
         isVisibleOnlyPreview={isVisibleOnlyPreview}
         isSaveDisabled={Boolean(isImageResizing)}
+        isSignedIn={isSignedIn}
+        userStatus={userStatus}
       />
     </div>
   );

@@ -88,6 +88,7 @@ export const ContentEdit = (props: any) => {
     isSignedIn,
     templateSlug,
     tempSignatureCreatedAt,
+    userStatus,
   } = props;
   const { toast } = useToast();
   const { validate, errors } = useValidate();
@@ -890,6 +891,8 @@ export const ContentEdit = (props: any) => {
           isVisibleOnlyClose={isVisibleOnlyClose}
           isVisibleOnlyPreview={isVisibleOnlyPreview}
           isSaveDisabled={Boolean(isImageResizing)}
+          isSignedIn={isSignedIn}
+          userStatus={userStatus}
         />
       </div>
     </div>

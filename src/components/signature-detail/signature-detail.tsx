@@ -2,13 +2,9 @@
 'use client';
 import { useEffect } from 'react';
 import { useSignatureStore } from '@/src/store/content-edit-add-store';
-import { Button } from '@/src/components/ui/button';
-import { copySignatureToClipboard } from './content-view/utils';
 import { EmailTemplateEdit } from './signature-edit-add';
 import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
 import StyledLink from '../ui/styled-link';
-import { useModal } from '@/src/components/ui/modal-system';
-import CopyInstructionsModalContent from './copy-instructions-modal';
 import SignaturePreview from './signature-preview';
 
 import { Hr } from '../ui/hr';
@@ -19,7 +15,7 @@ import { useMediaQuery } from '@/src/hooks/useMediaQuery';
 import { MEDIA_QUERIES } from '@/src/constants/mediaQueries';
 import { getUserStatus, UserStatus } from '@/src/utils/userState';
 import EditPanel from './edit-panel';
-import { useAuthModal } from '@/src/hooks/useAuthModal';
+import { UseSignature } from './use-signature';
 
 export const SignatureDetail = (props: any) => {
   const {
@@ -32,8 +28,6 @@ export const SignatureDetail = (props: any) => {
 
   const { rows, initSignature, isSavingOrder } = useSignatureStore();
   const { contentEdit, resetContentEdit } = useContentEditStore();
-  const { modal } = useModal();
-  const { showAuthModal } = useAuthModal();
   const isMobile = useMediaQuery(MEDIA_QUERIES.MOBILE);
 
   const userStatus = getUserStatus(user);
@@ -66,14 +60,6 @@ export const SignatureDetail = (props: any) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const showCopyInstructionsModal = () => {
-    modal({
-      content: <CopyInstructionsModalContent />,
-      size: 'fullscreen',
-      isZeroPadding: true,
-    });
-  };
-
   const isEdit = contentEdit.editPath || contentEdit.columnPath;
 
   return (
@@ -104,27 +90,11 @@ export const SignatureDetail = (props: any) => {
         <EditPanel>
           <Container>
             <div className="flex justify-end sm:justify-start sm:gap-8  flex-row ">
-              <Button
-                size="md"
-                variant="blue"
-                buttonClassName="min-w-35"
-                disabled={isSavingOrder}
-                onClick={() => {
-                  if (isSignedIn) {
-                    copySignatureToClipboard(userStatus, () => {
-                      showCopyInstructionsModal();
-                    });
-                  } else {
-                    showAuthModal({
-                      title: 'Sign in to use your signature',
-                      description:
-                        'To use your signature in email, you need to sign up first.',
-                    });
-                  }
-                }}
-              >
-                Use signature
-              </Button>
+              <UseSignature
+                isSavingOrder={isSavingOrder}
+                isSignedIn={isSignedIn}
+                userStatus={userStatus}
+              />
             </div>
           </Container>
         </EditPanel>

@@ -490,6 +490,7 @@ export const EmailTemplateEdit = (props: any) => {
           key={`edit-${contentEdit.editPath}`}
           signatureId={signatureId}
           tempSignatureCreatedAt={tempSignatureCreatedAt}
+          userStatus={userStatus}
         />
       )}
 
@@ -501,6 +502,7 @@ export const EmailTemplateEdit = (props: any) => {
           key={`settings-${contentEdit.columnPath}`}
           signatureId={signatureId}
           tempSignatureCreatedAt={tempSignatureCreatedAt}
+          userStatus={userStatus}
         />
       )}
 
