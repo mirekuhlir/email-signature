@@ -619,112 +619,116 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
                   />
                 </div>
               )}
-              <div className="overflow-hidden bg-black/5 max-w-[90%] sm:max-w-[100%] mx-0 sm:mx-auto">
-                <ReactCrop
-                  crop={crop}
-                  onChange={(c, percentCrop) => {
-                    if (percentCrop) {
-                      setCrop(percentCrop);
-                    } else {
-                      setCrop({
-                        ...c,
-                        unit: crop?.unit || '%',
-                      });
-                    }
-                  }}
-                  aspect={aspect}
-                  circularCrop={isCircular}
-                  style={{ width: '100%' }}
-                >
-                  <img
-                    ref={imgRef}
-                    alt="Crop me"
-                    src={originalImagePreview}
-                    onLoad={(e) => {
-                      const img = e.currentTarget;
-                      if (img) {
-                        setLastKnownNatWidth(img.naturalWidth);
-                        setLastKnownNatHeight(img.naturalHeight);
-
-                        const rect = img.getBoundingClientRect();
-                        setLastKnownDispWidth(rect.width);
-                        setLastKnownDispHeight(rect.height);
-
-                        setOriginalImageNaturalHeight(img.naturalHeight);
-
-                        // Initialize crop here if not already set by imageSettings
-                        // and if current dimensions are valid
-                        if (
-                          !crop?.width &&
-                          rect.width > 0 &&
-                          rect.height > 0 &&
-                          !imageSettings?.crop?.width
-                        ) {
-                          const defaultCrop = getDefaultCrop(
-                            aspect ?? 1, // Use current aspect or fallback
-                            rect.width,
-                            rect.height,
-                          );
+              {originalImagePreview && (
+                <>
+                  <div className="overflow-hidden bg-black/5 max-w-[90%] sm:max-w-[100%] mx-0 sm:mx-auto">
+                    <ReactCrop
+                      crop={crop}
+                      onChange={(c, percentCrop) => {
+                        if (percentCrop) {
+                          setCrop(percentCrop);
+                        } else {
                           setCrop({
-                            ...defaultCrop,
-                            unit: '%' as const,
+                            ...c,
+                            unit: crop?.unit || '%',
                           });
                         }
+                      }}
+                      aspect={aspect}
+                      circularCrop={isCircular}
+                      style={{ width: '100%' }}
+                    >
+                      <img
+                        ref={imgRef}
+                        alt="Crop me"
+                        src={originalImagePreview}
+                        onLoad={(e) => {
+                          const img = e.currentTarget;
+                          if (img) {
+                            setLastKnownNatWidth(img.naturalWidth);
+                            setLastKnownNatHeight(img.naturalHeight);
 
-                        // If the image height has changed, update the crop
-                        if (
-                          originalImageNaturalHeight &&
-                          originalImageNaturalHeight > 0 &&
-                          img.naturalHeight !== originalImageNaturalHeight
-                        ) {
-                          const defaultCrop = getDefaultCrop(
-                            aspect ?? 1,
-                            rect.width,
-                            rect.height,
-                          );
-                          setCrop({
-                            ...defaultCrop,
-                            unit: '%' as const,
-                          });
-                        }
+                            const rect = img.getBoundingClientRect();
+                            setLastKnownDispWidth(rect.width);
+                            setLastKnownDispHeight(rect.height);
+
+                            setOriginalImageNaturalHeight(img.naturalHeight);
+
+                            // Initialize crop here if not already set by imageSettings
+                            // and if current dimensions are valid
+                            if (
+                              !crop?.width &&
+                              rect.width > 0 &&
+                              rect.height > 0 &&
+                              !imageSettings?.crop?.width
+                            ) {
+                              const defaultCrop = getDefaultCrop(
+                                aspect ?? 1, // Use current aspect or fallback
+                                rect.width,
+                                rect.height,
+                              );
+                              setCrop({
+                                ...defaultCrop,
+                                unit: '%' as const,
+                              });
+                            }
+
+                            // If the image height has changed, update the crop
+                            if (
+                              originalImageNaturalHeight &&
+                              originalImageNaturalHeight > 0 &&
+                              img.naturalHeight !== originalImageNaturalHeight
+                            ) {
+                              const defaultCrop = getDefaultCrop(
+                                aspect ?? 1,
+                                rect.width,
+                                rect.height,
+                              );
+                              setCrop({
+                                ...defaultCrop,
+                                unit: '%' as const,
+                              });
+                            }
+                          }
+                        }}
+                        className="max-h-[600px] w-full object-contain"
+                      />
+                    </ReactCrop>
+                  </div>
+                  <div>
+                    <div className="mt-10 mb-4 flex justify-center">
+                      <Button
+                        variant="orange"
+                        size="md"
+                        onClick={handleDeleteImage}
+                      >
+                        Replace image
+                      </Button>
+                    </div>
+                  </div>
+                  <AspectRatioSelector
+                    isCircular={isCircular}
+                    aspect={aspect}
+                    onSelectAspect={handleAspectChange}
+                    onSelectFree={() => {
+                      // Immediately disable ratio buttons and related controls for snappier UX
+                      setIsResizing(true);
+                      onResizingChange?.(true);
+                      setIsCircular(false);
+                      setAspect(undefined);
+                      if (crop) {
+                        setCrop({ ...crop, unit: '%' });
                       }
                     }}
-                    className="max-h-[600px] w-full object-contain"
+                    isDisabled={isResizing}
                   />
-                </ReactCrop>
-              </div>
-              <div>
-                <div className="mt-10 mb-4 flex justify-center">
-                  <Button
-                    variant="orange"
-                    size="md"
-                    onClick={handleDeleteImage}
-                  >
-                    Replace image
-                  </Button>
-                </div>
-              </div>
-              <AspectRatioSelector
-                isCircular={isCircular}
-                aspect={aspect}
-                onSelectAspect={handleAspectChange}
-                onSelectFree={() => {
-                  // Immediately disable ratio buttons and related controls for snappier UX
-                  setIsResizing(true);
-                  onResizingChange?.(true);
-                  setIsCircular(false);
-                  setAspect(undefined);
-                  if (crop) {
-                    setCrop({ ...crop, unit: '%' });
-                  }
-                }}
-                isDisabled={isResizing}
-              />
+                </>
+              )}
             </>
           )}
         </CollapsibleSection>
 
-        {originalImagePreview && !isCircular && (
+        {originalImagePreview && !isCircular && croppedImageData && (
           <CollapsibleSection title="Image rounded corners">
             <div className="space-y-2">
               {croppedImageData && (
@@ -744,8 +748,12 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
           </CollapsibleSection>
         )}
       </div>
-      {imageLink}
-      {horizontalAlign}
+      {!originalImagePreview && (
+        <>
+          {imageLink}
+          {horizontalAlign}
+        </>
+      )}
     </>
   );
 }

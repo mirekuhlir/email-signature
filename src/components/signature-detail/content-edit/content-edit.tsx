@@ -413,7 +413,7 @@ export const ContentEdit = (props: any) => {
 
   const isImage = content?.type === ContentType.IMAGE;
 
-  const canDisplayDeleteButton = isImage
+  const isImageLoaded = isImage
     ? content?.components[0]?.cropImagePreview
     : true;
 
@@ -508,342 +508,346 @@ export const ContentEdit = (props: any) => {
                   removeEditingSectionId,
                   setContentEdit,
                 )}
-              <>
-                <CollapsibleSection title="Spaces">
-                  <div className="grid grid-cols-1 gap-2">
-                    <div>
-                      <SliderDimensions
-                        label={`Top space: ${paddingTop}px`}
-                        min={0}
-                        max={MAX_PADDING}
-                        value={paddingTop}
-                        onChange={(value: number) => {
-                          setPaddingTop(value);
-                        }}
-                        isDisabled={isSlidersDisabled}
-                        editType={EEditType.SPACE}
-                      />
-                    </div>
-
-                    <div>
-                      <SliderDimensions
-                        label={`Right space: ${paddingRight}px`}
-                        min={0}
-                        max={MAX_PADDING}
-                        value={paddingRight}
-                        onChange={(value: number) => {
-                          setPaddingRight(value);
-                        }}
-                        isDisabled={isSlidersDisabled}
-                        editType={EEditType.SPACE}
-                      />
-                    </div>
-
-                    <div>
-                      <SliderDimensions
-                        label={`Bottom space: ${paddingBottom}px`}
-                        min={0}
-                        max={MAX_PADDING}
-                        value={paddingBottom}
-                        onChange={(value: number) => {
-                          setPaddingBottom(value);
-                        }}
-                        isDisabled={isSlidersDisabled}
-                        editType={EEditType.SPACE}
-                      />
-                    </div>
-
-                    <div>
-                      <SliderDimensions
-                        label={`Left space: ${paddingLeft}px`}
-                        min={0}
-                        max={MAX_PADDING}
-                        value={paddingLeft}
-                        onChange={(value: number) => {
-                          setPaddingLeft(value);
-                        }}
-                        isDisabled={isSlidersDisabled}
-                        editType={EEditType.SPACE}
-                      />
-                    </div>
-                  </div>
-                </CollapsibleSection>
-                <CollapsibleSection title="Borders">
-                  <div className="grid grid-cols-1 gap-2">
-                    <div>
+              {isImageLoaded && (
+                <>
+                  {}
+                  {/*    TOTO */}
+                  <CollapsibleSection title="Spaces">
+                    <div className="grid grid-cols-1 gap-2">
                       <div>
                         <SliderDimensions
-                          label={`Top border width : ${borderWidths.top}px`}
+                          label={`Top space: ${paddingTop}px`}
                           min={0}
-                          max={MAX_BORDER_WIDTH}
-                          value={borderWidths.top}
+                          max={MAX_PADDING}
+                          value={paddingTop}
                           onChange={(value: number) => {
-                            setBorderWidths((prev) => ({
-                              ...prev,
-                              top: value,
-                            }));
+                            setPaddingTop(value);
                           }}
                           isDisabled={isSlidersDisabled}
-                          editType={EEditType.BORDER}
+                          editType={EEditType.SPACE}
                         />
                       </div>
 
-                      {borderWidths.top !== 0 && (
-                        <div className="mb-2">
-                          <EditColor
-                            initColor={borderColors.top}
-                            label="Top border color"
-                            sectionId={componentId}
-                            onChange={(color) => {
-                              if (color) {
-                                setBorderColors((prev) => ({
-                                  ...prev,
-                                  top: color,
-                                }));
-                              }
-                            }}
-                          />
-                        </div>
-                      )}
-                    </div>
-
-                    <div>
                       <div>
                         <SliderDimensions
-                          label={`Right border width : ${borderWidths.right}px`}
+                          label={`Right space: ${paddingRight}px`}
                           min={0}
-                          max={MAX_BORDER_WIDTH}
-                          value={borderWidths.right}
+                          max={MAX_PADDING}
+                          value={paddingRight}
                           onChange={(value: number) => {
-                            setBorderWidths((prev) => ({
-                              ...prev,
-                              right: value,
-                            }));
+                            setPaddingRight(value);
                           }}
                           isDisabled={isSlidersDisabled}
-                          editType={EEditType.BORDER}
+                          editType={EEditType.SPACE}
                         />
                       </div>
 
-                      {borderWidths.right !== 0 && (
-                        <div className="mb-2">
-                          <EditColor
-                            initColor={borderColors.right}
-                            label="Right border color"
-                            sectionId={componentId}
-                            onChange={(color) => {
-                              if (color) {
-                                setBorderColors((prev) => ({
-                                  ...prev,
-                                  right: color,
-                                }));
-                              }
-                            }}
-                          />
-                        </div>
-                      )}
-                    </div>
-
-                    <div>
                       <div>
                         <SliderDimensions
-                          label={`Bottom border width : ${borderWidths.bottom}px`}
+                          label={`Bottom space: ${paddingBottom}px`}
                           min={0}
-                          max={MAX_BORDER_WIDTH}
-                          value={borderWidths.bottom}
+                          max={MAX_PADDING}
+                          value={paddingBottom}
                           onChange={(value: number) => {
-                            setBorderWidths((prev) => ({
-                              ...prev,
-                              bottom: value,
-                            }));
+                            setPaddingBottom(value);
                           }}
                           isDisabled={isSlidersDisabled}
-                          editType={EEditType.BORDER}
+                          editType={EEditType.SPACE}
                         />
                       </div>
 
-                      {borderWidths.bottom !== 0 && (
-                        <div className="mb-2">
-                          <EditColor
-                            initColor={borderColors.bottom}
-                            label="Bottom border color"
-                            sectionId={componentId}
-                            onChange={(color) => {
-                              if (color) {
-                                setBorderColors((prev) => ({
-                                  ...prev,
-                                  bottom: color,
-                                }));
-                              }
-                            }}
-                          />
-                        </div>
-                      )}
-                    </div>
-
-                    <div>
                       <div>
                         <SliderDimensions
-                          label={`Left border width : ${borderWidths.left}px`}
+                          label={`Left space: ${paddingLeft}px`}
                           min={0}
-                          max={MAX_BORDER_WIDTH}
-                          value={borderWidths.left}
+                          max={MAX_PADDING}
+                          value={paddingLeft}
                           onChange={(value: number) => {
-                            setBorderWidths((prev) => ({
-                              ...prev,
-                              left: value,
-                            }));
+                            setPaddingLeft(value);
                           }}
                           isDisabled={isSlidersDisabled}
-                          editType={EEditType.BORDER}
+                          editType={EEditType.SPACE}
                         />
                       </div>
-
-                      {borderWidths.left !== 0 && (
-                        <div className="mb-2">
-                          <EditColor
-                            initColor={borderColors.left}
-                            label="Left border color"
-                            sectionId={componentId}
-                            onChange={(color) => {
-                              if (color) {
-                                setBorderColors((prev) => ({
-                                  ...prev,
-                                  left: color,
-                                }));
-                              }
-                            }}
-                          />
-                        </div>
-                      )}
                     </div>
-                  </div>
-                </CollapsibleSection>
-                <CollapsibleSection title="Background and rounded corners">
-                  <div className="mb-4">
-                    <EditColor
-                      initColor={content?.components[0]?.backgroundColor}
-                      label="Background color"
-                      sectionId={componentId}
-                      isResetToTransparent
-                      onChange={(color) => {
-                        const stylePath = `${path}.components[0]`;
-                        const currentStyle = content?.components[0] || {};
-                        setContent(stylePath, {
-                          ...currentStyle,
-                          backgroundColor: color,
-                        });
-                      }}
-                    />
-                  </div>
-                  <div className="grid grid-cols-1 gap-2">
-                    <div>
-                      <SliderDimensions
-                        label={`Top-left rounded corner: ${borderRadiusCorners.topLeft}px`}
-                        min={0}
-                        max={MAX_BORDER_RADIUS}
-                        value={Number(borderRadiusCorners.topLeft)}
-                        onChange={(value: number) => {
-                          setBorderRadiusCorners((prev) => ({
-                            ...prev,
-                            topLeft: value.toString(),
-                          }));
-                        }}
-                        isDisabled={isSlidersDisabled}
-                        editType={EEditType.CORNER}
-                      />
-                    </div>
-                    <div>
-                      <SliderDimensions
-                        label={`Top-right rounded corner: ${borderRadiusCorners.topRight}px`}
-                        min={0}
-                        max={MAX_BORDER_RADIUS}
-                        value={Number(borderRadiusCorners.topRight)}
-                        onChange={(value: number) => {
-                          setBorderRadiusCorners((prev) => ({
-                            ...prev,
-                            topRight: value.toString(),
-                          }));
-                        }}
-                        isDisabled={isSlidersDisabled}
-                        editType={EEditType.CORNER}
-                      />
-                    </div>
-                    <div>
-                      <SliderDimensions
-                        label={`Bottom-left rounded corner: ${borderRadiusCorners.bottomLeft}px`}
-                        min={0}
-                        max={MAX_BORDER_RADIUS}
-                        value={Number(borderRadiusCorners.bottomLeft)}
-                        onChange={(value: number) => {
-                          setBorderRadiusCorners((prev) => ({
-                            ...prev,
-                            bottomLeft: value.toString(),
-                          }));
-                        }}
-                        isDisabled={isSlidersDisabled}
-                        editType={EEditType.CORNER}
-                      />
-                    </div>
-                    <div>
-                      <SliderDimensions
-                        label={`Bottom-right rounded corner: ${borderRadiusCorners.bottomRight}px`}
-                        min={0}
-                        max={MAX_BORDER_RADIUS}
-                        value={Number(borderRadiusCorners.bottomRight)}
-                        onChange={(value: number) => {
-                          setBorderRadiusCorners((prev) => ({
-                            ...prev,
-                            bottomRight: value.toString(),
-                          }));
-                        }}
-                        isDisabled={isSlidersDisabled}
-                        editType={EEditType.CORNER}
-                      />
-                    </div>
-                  </div>
-                </CollapsibleSection>
-
-                {content.type !== ContentType.IMAGE && (
-                  <CollapsibleSection title="Alignment">
-                    <VerticalAlign
-                      verticalAlign={verticalAlign}
-                      setVerticalAlign={setVerticalAlign}
-                    />
                   </CollapsibleSection>
-                )}
+                  <CollapsibleSection title="Borders">
+                    <div className="grid grid-cols-1 gap-2">
+                      <div>
+                        <div>
+                          <SliderDimensions
+                            label={`Top border width : ${borderWidths.top}px`}
+                            min={0}
+                            max={MAX_BORDER_WIDTH}
+                            value={borderWidths.top}
+                            onChange={(value: number) => {
+                              setBorderWidths((prev) => ({
+                                ...prev,
+                                top: value,
+                              }));
+                            }}
+                            isDisabled={isSlidersDisabled}
+                            editType={EEditType.BORDER}
+                          />
+                        </div>
 
-                <CollapsibleSection title="Width and height">
-                  <div className="grid grid-cols-1 gap-2">
-                    <div>
-                      <SliderDimensions
-                        label={`Width: ${width === 0 ? 'auto' : `${width}px`}`}
-                        min={0}
-                        max={MAX_WIDTH_OR_HEIGHT}
-                        value={width}
-                        onChange={(value: number) => {
-                          setWidth(value);
+                        {borderWidths.top !== 0 && (
+                          <div className="mb-2">
+                            <EditColor
+                              initColor={borderColors.top}
+                              label="Top border color"
+                              sectionId={componentId}
+                              onChange={(color) => {
+                                if (color) {
+                                  setBorderColors((prev) => ({
+                                    ...prev,
+                                    top: color,
+                                  }));
+                                }
+                              }}
+                            />
+                          </div>
+                        )}
+                      </div>
+
+                      <div>
+                        <div>
+                          <SliderDimensions
+                            label={`Right border width : ${borderWidths.right}px`}
+                            min={0}
+                            max={MAX_BORDER_WIDTH}
+                            value={borderWidths.right}
+                            onChange={(value: number) => {
+                              setBorderWidths((prev) => ({
+                                ...prev,
+                                right: value,
+                              }));
+                            }}
+                            isDisabled={isSlidersDisabled}
+                            editType={EEditType.BORDER}
+                          />
+                        </div>
+
+                        {borderWidths.right !== 0 && (
+                          <div className="mb-2">
+                            <EditColor
+                              initColor={borderColors.right}
+                              label="Right border color"
+                              sectionId={componentId}
+                              onChange={(color) => {
+                                if (color) {
+                                  setBorderColors((prev) => ({
+                                    ...prev,
+                                    right: color,
+                                  }));
+                                }
+                              }}
+                            />
+                          </div>
+                        )}
+                      </div>
+
+                      <div>
+                        <div>
+                          <SliderDimensions
+                            label={`Bottom border width : ${borderWidths.bottom}px`}
+                            min={0}
+                            max={MAX_BORDER_WIDTH}
+                            value={borderWidths.bottom}
+                            onChange={(value: number) => {
+                              setBorderWidths((prev) => ({
+                                ...prev,
+                                bottom: value,
+                              }));
+                            }}
+                            isDisabled={isSlidersDisabled}
+                            editType={EEditType.BORDER}
+                          />
+                        </div>
+
+                        {borderWidths.bottom !== 0 && (
+                          <div className="mb-2">
+                            <EditColor
+                              initColor={borderColors.bottom}
+                              label="Bottom border color"
+                              sectionId={componentId}
+                              onChange={(color) => {
+                                if (color) {
+                                  setBorderColors((prev) => ({
+                                    ...prev,
+                                    bottom: color,
+                                  }));
+                                }
+                              }}
+                            />
+                          </div>
+                        )}
+                      </div>
+
+                      <div>
+                        <div>
+                          <SliderDimensions
+                            label={`Left border width : ${borderWidths.left}px`}
+                            min={0}
+                            max={MAX_BORDER_WIDTH}
+                            value={borderWidths.left}
+                            onChange={(value: number) => {
+                              setBorderWidths((prev) => ({
+                                ...prev,
+                                left: value,
+                              }));
+                            }}
+                            isDisabled={isSlidersDisabled}
+                            editType={EEditType.BORDER}
+                          />
+                        </div>
+
+                        {borderWidths.left !== 0 && (
+                          <div className="mb-2">
+                            <EditColor
+                              initColor={borderColors.left}
+                              label="Left border color"
+                              sectionId={componentId}
+                              onChange={(color) => {
+                                if (color) {
+                                  setBorderColors((prev) => ({
+                                    ...prev,
+                                    left: color,
+                                  }));
+                                }
+                              }}
+                            />
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </CollapsibleSection>
+                  <CollapsibleSection title="Background and rounded corners">
+                    <div className="mb-4">
+                      <EditColor
+                        initColor={content?.components[0]?.backgroundColor}
+                        label="Background color"
+                        sectionId={componentId}
+                        isResetToTransparent
+                        onChange={(color) => {
+                          const stylePath = `${path}.components[0]`;
+                          const currentStyle = content?.components[0] || {};
+                          setContent(stylePath, {
+                            ...currentStyle,
+                            backgroundColor: color,
+                          });
                         }}
-                        isDisabled={isSlidersDisabled}
-                        editType={EEditType.LENGTH}
                       />
                     </div>
-                    <div>
-                      <SliderDimensions
-                        label={`Height: ${height === 0 ? 'auto' : `${height}px`}`}
-                        min={0}
-                        max={MAX_WIDTH_OR_HEIGHT}
-                        value={height}
-                        onChange={(value: number) => {
-                          setHeight(value);
-                        }}
-                        isDisabled={isSlidersDisabled}
-                        editType={EEditType.LENGTH}
-                      />
+                    <div className="grid grid-cols-1 gap-2">
+                      <div>
+                        <SliderDimensions
+                          label={`Top-left rounded corner: ${borderRadiusCorners.topLeft}px`}
+                          min={0}
+                          max={MAX_BORDER_RADIUS}
+                          value={Number(borderRadiusCorners.topLeft)}
+                          onChange={(value: number) => {
+                            setBorderRadiusCorners((prev) => ({
+                              ...prev,
+                              topLeft: value.toString(),
+                            }));
+                          }}
+                          isDisabled={isSlidersDisabled}
+                          editType={EEditType.CORNER}
+                        />
+                      </div>
+                      <div>
+                        <SliderDimensions
+                          label={`Top-right rounded corner: ${borderRadiusCorners.topRight}px`}
+                          min={0}
+                          max={MAX_BORDER_RADIUS}
+                          value={Number(borderRadiusCorners.topRight)}
+                          onChange={(value: number) => {
+                            setBorderRadiusCorners((prev) => ({
+                              ...prev,
+                              topRight: value.toString(),
+                            }));
+                          }}
+                          isDisabled={isSlidersDisabled}
+                          editType={EEditType.CORNER}
+                        />
+                      </div>
+                      <div>
+                        <SliderDimensions
+                          label={`Bottom-left rounded corner: ${borderRadiusCorners.bottomLeft}px`}
+                          min={0}
+                          max={MAX_BORDER_RADIUS}
+                          value={Number(borderRadiusCorners.bottomLeft)}
+                          onChange={(value: number) => {
+                            setBorderRadiusCorners((prev) => ({
+                              ...prev,
+                              bottomLeft: value.toString(),
+                            }));
+                          }}
+                          isDisabled={isSlidersDisabled}
+                          editType={EEditType.CORNER}
+                        />
+                      </div>
+                      <div>
+                        <SliderDimensions
+                          label={`Bottom-right rounded corner: ${borderRadiusCorners.bottomRight}px`}
+                          min={0}
+                          max={MAX_BORDER_RADIUS}
+                          value={Number(borderRadiusCorners.bottomRight)}
+                          onChange={(value: number) => {
+                            setBorderRadiusCorners((prev) => ({
+                              ...prev,
+                              bottomRight: value.toString(),
+                            }));
+                          }}
+                          isDisabled={isSlidersDisabled}
+                          editType={EEditType.CORNER}
+                        />
+                      </div>
                     </div>
-                  </div>
-                </CollapsibleSection>
-              </>
+                  </CollapsibleSection>
+
+                  {content.type !== ContentType.IMAGE && (
+                    <CollapsibleSection title="Alignment">
+                      <VerticalAlign
+                        verticalAlign={verticalAlign}
+                        setVerticalAlign={setVerticalAlign}
+                      />
+                    </CollapsibleSection>
+                  )}
+
+                  <CollapsibleSection title="Width and height">
+                    <div className="grid grid-cols-1 gap-2">
+                      <div>
+                        <SliderDimensions
+                          label={`Width: ${width === 0 ? 'auto' : `${width}px`}`}
+                          min={0}
+                          max={MAX_WIDTH_OR_HEIGHT}
+                          value={width}
+                          onChange={(value: number) => {
+                            setWidth(value);
+                          }}
+                          isDisabled={isSlidersDisabled}
+                          editType={EEditType.LENGTH}
+                        />
+                      </div>
+                      <div>
+                        <SliderDimensions
+                          label={`Height: ${height === 0 ? 'auto' : `${height}px`}`}
+                          min={0}
+                          max={MAX_WIDTH_OR_HEIGHT}
+                          value={height}
+                          onChange={(value: number) => {
+                            setHeight(value);
+                          }}
+                          isDisabled={isSlidersDisabled}
+                          editType={EEditType.LENGTH}
+                        />
+                      </div>
+                    </div>
+                  </CollapsibleSection>
+                </>
+              )}
             </>
           )}
         </div>
@@ -852,7 +856,7 @@ export const ContentEdit = (props: any) => {
           !contentEdit.subEdit &&
           !contentEdit.isImageLoading && (
             <>
-              {canDisplayDeleteButton && (
+              {isImageLoaded && (
                 <CollapsibleSection title="Delete">
                   <Typography variant="labelBase" className="mb-2">
                     Delete {getContentTypeName(content.type)}
