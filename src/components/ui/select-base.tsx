@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, ReactNode } from 'react';
+import { createPortal } from 'react-dom';
 import { Typography } from './typography';
 
 interface Option {
@@ -23,13 +24,18 @@ const SelectBase: React.FC<CustomSelectProps> = ({
   const selectRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
   const selectedOptionRef = useRef<HTMLLIElement>(null);
+  const [dropdownStyle, setDropdownStyle] = useState<{
+    top: number;
+    left: number;
+    width: number;
+  } | null>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        selectRef.current &&
-        !selectRef.current.contains(event.target as Node)
-      ) {
+      const target = event.target as Node;
+      const clickedInsideTrigger = !!selectRef.current?.contains(target);
+      const clickedInsideList = !!listRef.current?.contains(target);
+      if (!clickedInsideTrigger && !clickedInsideList) {
         setIsOpen(false);
       }
     };
@@ -38,6 +44,31 @@ const SelectBase: React.FC<CustomSelectProps> = ({
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+
+  // When the dropdown opens, compute fixed positioning relative to the trigger.
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const updatePosition = () => {
+      const triggerEl = selectRef.current;
+      if (!triggerEl) return;
+      const rect = triggerEl.getBoundingClientRect();
+      setDropdownStyle({
+        top: rect.bottom + 4, // 4px gap below the trigger
+        left: rect.left,
+        width: rect.width,
+      });
+    };
+
+    updatePosition();
+    window.addEventListener('resize', updatePosition);
+    // Use capture to catch scroll on any ancestor
+    window.addEventListener('scroll', updatePosition, true);
+    return () => {
+      window.removeEventListener('resize', updatePosition);
+      window.removeEventListener('scroll', updatePosition, true);
+    };
+  }, [isOpen]);
 
   useEffect(() => {
     if (isOpen && selectedOptionRef.current && listRef.current) {
@@ -111,52 +142,61 @@ const SelectBase: React.FC<CustomSelectProps> = ({
             )}
           </span>
         </button>
-        {isOpen && (
-          <ul
-            ref={listRef}
-            className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-gray-300 ring-opacity-5 overflow-auto focus:outline-hidden"
-            role="listbox"
-            tabIndex={-1}
-          >
-            {options.map((option) => (
-              <li
-                key={option.value}
-                ref={option.value === value ? selectedOptionRef : null}
-                className={`cursor-pointer select-none relative py-2 pl-3 pr-9 ${
-                  option.value === value
-                    ? 'text-white bg-blue-600'
-                    : 'text-gray-900 hover:bg-blue-100'
-                }`}
-                onClick={() => handleOptionClick(option)}
-                role="option"
-                aria-selected={option.value === value}
-              >
-                <span
-                  className={`block truncate ${option.value === value ? 'font-semibold' : 'font-normal'}`}
+        {isOpen &&
+          dropdownStyle &&
+          createPortal(
+            <ul
+              ref={listRef}
+              className="fixed bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-gray-300 ring-opacity-5 overflow-auto focus:outline-hidden"
+              style={{
+                top: dropdownStyle.top,
+                left: dropdownStyle.left,
+                width: dropdownStyle.width,
+                zIndex: 1000,
+              }}
+              role="listbox"
+              tabIndex={-1}
+            >
+              {options.map((option) => (
+                <li
+                  key={option.value}
+                  ref={option.value === value ? selectedOptionRef : null}
+                  className={`cursor-pointer select-none relative py-2 pl-3 pr-9 ${
+                    option.value === value
+                      ? 'text-white bg-blue-600'
+                      : 'text-gray-900 hover:bg-blue-100'
+                  }`}
+                  onClick={() => handleOptionClick(option)}
+                  role="option"
+                  aria-selected={option.value === value}
                 >
-                  {option.label}
-                </span>
-                {option.value === value && (
-                  <span className="absolute inset-y-0 right-0 flex items-center pr-4">
-                    <svg
-                      className="h-5 w-5"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      aria-hidden="true"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
+                  <span
+                    className={`block truncate ${option.value === value ? 'font-semibold' : 'font-normal'}`}
+                  >
+                    {option.label}
                   </span>
-                )}
-              </li>
-            ))}
-          </ul>
-        )}
+                  {option.value === value && (
+                    <span className="absolute inset-y-0 right-0 flex items-center pr-4">
+                      <svg
+                        className="h-5 w-5"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </span>
+                  )}
+                </li>
+              ))}
+            </ul>,
+            document.body,
+          )}
       </div>
     </div>
   );
