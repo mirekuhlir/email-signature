@@ -2,7 +2,7 @@
 'use client';
 import { useEffect } from 'react';
 import { useSignatureStore } from '@/src/store/content-edit-add-store';
-import { EmailTemplateEdit } from './signature-edit-add';
+import { EmailTemplateEdit } from './signature-edit-preview';
 import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
 import StyledLink from '../ui/styled-link';
 import SignaturePreview from './signature-preview';
@@ -106,7 +106,6 @@ export const SignatureDetail = (props: any) => {
             <div className="min-w-1/2">
               <div className="overflow-x-auto">
                 {isEdit && (
-                  // TODO - odělit na 2 komponenty
                   <EmailTemplateEdit
                     isSignedIn={isSignedIn}
                     templateSlug={templateSlug}
