@@ -45,7 +45,7 @@ export const UseSignature = ({
             showAuthModal({
               title: 'Sign in to use your signature',
               description:
-                'To use your signature in email, you need to sign up first.',
+                'To use your signature in email, you need to sign in first.',
             });
           }
         }}
