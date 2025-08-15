@@ -3,7 +3,7 @@ import { useModal } from '@/src/components/ui/modal-system';
 import { Container } from '@/src/components/ui/container';
 import { Button } from '@/src/components/ui/button';
 import SignaturePreview from './signature-preview';
-import EditPanel from './edit-panel';
+import EditPanel from '../ui/panel';
 import { useMediaQuery } from '@/src/hooks/useMediaQuery';
 import { MEDIA_QUERIES } from '@/src/constants/mediaQueries';
 import { UseSignature } from './use-signature';

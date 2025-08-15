@@ -1,6 +1,6 @@
 import { UserStatus } from '@/src/utils/userState';
 import { Container } from '../ui/container';
-import EditPanel from './edit-panel';
+import EditPanel from '../ui/panel';
 import { UseSignature } from './use-signature';
 import { usePreviewModal } from './preview-action-panel';
 import { Button } from '../ui/button';

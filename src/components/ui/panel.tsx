@@ -1,4 +1,4 @@
-const EditPanel = ({ children }: { children: React.ReactNode }) => {
+const Panel = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <div
@@ -10,4 +10,4 @@ const EditPanel = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default EditPanel;
+export default Panel;
