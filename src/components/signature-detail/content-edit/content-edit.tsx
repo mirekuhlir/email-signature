@@ -808,14 +808,14 @@ export const ContentEdit = (props: any) => {
                     </div>
                   </CollapsibleSection>
 
-                  {content.type !== ContentType.IMAGE && (
+                  {/*               {content.type !== ContentType.IMAGE && (
                     <CollapsibleSection title="Alignment">
                       <VerticalAlign
                         verticalAlign={verticalAlign}
                         setVerticalAlign={setVerticalAlign}
                       />
                     </CollapsibleSection>
-                  )}
+                  )} */}
                   {/* 
                   <CollapsibleSection title="Width and height">
                     <div className="grid grid-cols-1 gap-2">
