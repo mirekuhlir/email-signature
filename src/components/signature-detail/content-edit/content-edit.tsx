@@ -816,7 +816,7 @@ export const ContentEdit = (props: any) => {
                       />
                     </CollapsibleSection>
                   )}
-
+                  {/* 
                   <CollapsibleSection title="Width and height">
                     <div className="grid grid-cols-1 gap-2">
                       <div>
@@ -846,7 +846,7 @@ export const ContentEdit = (props: any) => {
                         />
                       </div>
                     </div>
-                  </CollapsibleSection>
+                  </CollapsibleSection> */}
                 </>
               )}
             </>

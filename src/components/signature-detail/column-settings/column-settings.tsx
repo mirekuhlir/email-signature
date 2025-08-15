@@ -617,7 +617,7 @@ export const ColumnSettings = (props: any) => {
                 setVerticalAlign={setVerticalAlign}
               />
             </CollapsibleSection>
-            <CollapsibleSection title="Width and Height">
+            {/*             <CollapsibleSection title="Width and Height">
               <div className="grid grid-cols-1 gap-2">
                 <div>
                   <SliderDimensions
@@ -646,7 +646,7 @@ export const ColumnSettings = (props: any) => {
                   />
                 </div>
               </div>
-            </CollapsibleSection>
+            </CollapsibleSection> */}
           </div>
         )}
       </div>
