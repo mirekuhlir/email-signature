@@ -14,7 +14,6 @@ import {
   MAX_PADDING,
   MAX_BORDER_RADIUS,
   MAX_BORDER_WIDTH,
-  MAX_WIDTH_OR_HEIGHT,
 } from '@/supabase/functions/_shared/const';
 import { EEditType, SliderDimensions } from '../../ui/slider-dimensions';
 import { saveTempSignature } from '../content-edit/utils';
