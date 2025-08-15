@@ -7,7 +7,7 @@ import SelectBase from '@/src/components/ui/select-base';
 import { EditColor } from '../../ui/edit-color';
 import { useToast } from '@/src/components/ui/toast';
 import { CollapsibleSection } from '@/src/components/ui/collapsible-section';
-import PreviewActionPanel from '../preview-action-panel';
+import EditPanel from '../edit-panel';
 import { LoadingInfo } from '../content-edit/content-edit';
 import { useContentEditStore } from '@/src/store/content-edit-add-path-store';
 import {
@@ -653,7 +653,7 @@ export const ColumnSettings = (props: any) => {
 
       {isSavingSignature && <LoadingInfo />}
 
-      <PreviewActionPanel
+      <EditPanel
         visible={!isSavingSignature}
         onClose={closeSettings}
         onSave={handleSave}

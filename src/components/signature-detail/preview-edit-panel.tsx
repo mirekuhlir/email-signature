@@ -2,7 +2,7 @@ import { UserStatus } from '@/src/utils/userState';
 import { Container } from '../ui/container';
 import EditPanel from '../ui/panel';
 import { UseSignature } from './use-signature';
-import { usePreviewModal } from './preview-action-panel';
+import { usePreviewModal } from './edit-panel';
 import { Button } from '../ui/button';
 import { useMediaQuery } from '@/src/hooks/useMediaQuery';
 import { MEDIA_QUERIES } from '@/src/constants/mediaQueries';

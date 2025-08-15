@@ -13,7 +13,7 @@ import { CollapsibleSection } from '@/src/components/ui/collapsible-section';
 import { EditColor } from '@/src/components/ui/edit-color';
 import { useToast } from '@/src/components/ui/toast';
 import { Loading } from '../../ui/loading';
-import PreviewActionPanel from '../preview-action-panel';
+import EditPanel from '../edit-panel';
 import { GenericEditContent } from './text-edit-content';
 import { LayoutType } from '@/src/components/ui/rich-text-editor/rich-text-editor';
 import useValidate from '@/src/hooks/useValidate';
@@ -885,8 +885,7 @@ export const ContentEdit = (props: any) => {
             </>
           )}
 
-        {/* TODO - přejmenovat */}
-        <PreviewActionPanel
+        <EditPanel
           visible={!isSavingSignature}
           onClose={closeContent}
           onSave={handleSave}

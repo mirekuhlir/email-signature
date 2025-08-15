@@ -3,7 +3,7 @@ import { useModal } from '@/src/components/ui/modal-system';
 import { Container } from '@/src/components/ui/container';
 import { Button } from '@/src/components/ui/button';
 import SignaturePreview from './signature-preview';
-import EditPanel from '../ui/panel';
+import Panel from '../ui/panel';
 import { useMediaQuery } from '@/src/hooks/useMediaQuery';
 import { MEDIA_QUERIES } from '@/src/constants/mediaQueries';
 import { UseSignature } from './use-signature';
@@ -100,9 +100,9 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({
 
   return (
     <>
-      <EditPanel>
+      <Panel>
         <Container>{renderButtons()}</Container>
-      </EditPanel>
+      </Panel>
     </>
   );
 };
@@ -149,7 +149,7 @@ interface PreviewActionPanelProps {
   userStatus: UserStatus;
 }
 
-const PreviewActionPanel: React.FC<PreviewActionPanelProps> = ({
+const EditPanel: React.FC<PreviewActionPanelProps> = ({
   visible,
   onClose,
   onSave,
@@ -182,4 +182,4 @@ const PreviewActionPanel: React.FC<PreviewActionPanelProps> = ({
   );
 };
 
-export default PreviewActionPanel;
+export default EditPanel;
