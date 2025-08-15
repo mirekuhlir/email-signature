@@ -10,7 +10,7 @@ const PricingCard = () => {
           Simple, Transparent Pricing
         </h2>
         <Typography className="text-xl text-gray-600 mx-auto">
-          Use all signatures without limitations
+          Use all email signatures without limitations
         </Typography>
       </div>
 
