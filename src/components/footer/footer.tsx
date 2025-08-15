@@ -38,7 +38,6 @@ export const Footer = () => {
             </StyledLink>
           </div>
         </div>
-
         <div className="flex justify-center mt-4">
           <p>© {new Date().getFullYear()} MyEmailAvatar.com</p>
         </div>
