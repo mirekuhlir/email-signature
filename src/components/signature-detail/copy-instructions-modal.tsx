@@ -21,9 +21,7 @@ interface InstructionItem {
 
 // TODO - kopírovat mohou jen uživatele s premium účtem
 export const CopyInstructionsModalContent = () => {
-  const [selectedClient, setSelectedClient] = useState<EmailClient | null>(
-    null,
-  );
+  const [selectedClient, setSelectedClient] = useState<EmailClient>('gmail');
 
   const instructions: InstructionItem[] = [
     {
