@@ -14,8 +14,7 @@ import TrialBanner from '../trial/trial-banner';
 import { useMediaQuery } from '@/src/hooks/useMediaQuery';
 import { MEDIA_QUERIES } from '@/src/constants/mediaQueries';
 import { getUserStatus, UserStatus } from '@/src/utils/userState';
-import EditPanel from './edit-panel';
-import { UseSignature } from './use-signature';
+import PreviewEditPanel from './preview-edit-panel';
 
 export const SignatureDetail = (props: any) => {
   const {
@@ -86,20 +85,6 @@ export const SignatureDetail = (props: any) => {
           </div>
         )}
 
-      {!isEdit && (
-        <EditPanel>
-          <Container>
-            <div className="flex justify-end sm:justify-start sm:gap-8  flex-row ">
-              <UseSignature
-                isSavingOrder={isSavingOrder}
-                isSignedIn={isSignedIn}
-                userStatus={userStatus}
-              />
-            </div>
-          </Container>
-        </EditPanel>
-      )}
-
       {isMobile && (
         <Container>
           <div className="overflow-x-auto ">
@@ -121,6 +106,7 @@ export const SignatureDetail = (props: any) => {
             <div className="min-w-1/2">
               <div className="overflow-x-auto">
                 {isEdit && (
+                  // TODO - odělit na 2 komponenty
                   <EmailTemplateEdit
                     isSignedIn={isSignedIn}
                     templateSlug={templateSlug}
@@ -149,6 +135,13 @@ export const SignatureDetail = (props: any) => {
             </div>
           </div>
         </Container>
+      )}
+      {!isEdit && (
+        <PreviewEditPanel
+          isSavingOrder={isSavingOrder}
+          isSignedIn={isSignedIn}
+          userStatus={userStatus}
+        />
       )}
     </div>
   );

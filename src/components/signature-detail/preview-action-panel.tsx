@@ -107,31 +107,12 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({
   );
 };
 
-interface PreviewActionPanelProps {
-  visible: boolean;
-  onClose?: () => void;
-  onSave?: () => void;
-  isVisibleOnlyPreview?: boolean;
-  isVisibleOnlyClose?: boolean;
-  isSaveDisabled?: boolean;
-  isSignedIn: boolean;
-  userStatus: UserStatus;
-}
-
-const PreviewActionPanel: React.FC<PreviewActionPanelProps> = ({
-  visible,
-  onClose,
-  onSave,
-  isVisibleOnlyPreview = false,
-  isVisibleOnlyClose = false,
-  isSaveDisabled = false,
-  isSignedIn,
-  userStatus,
-}) => {
+export const usePreviewModal = (
+  isSignedIn: boolean,
+  userStatus: UserStatus,
+) => {
   const { modal } = useModal();
   const { isSavingOrder } = useSignatureStore();
-
-  if (!visible) return null;
 
   const showPreview = () => {
     modal({
@@ -153,6 +134,33 @@ const PreviewActionPanel: React.FC<PreviewActionPanelProps> = ({
       size: 'fullscreen',
     });
   };
+
+  return { showPreview };
+};
+
+interface PreviewActionPanelProps {
+  visible: boolean;
+  onClose?: () => void;
+  onSave?: () => void;
+  isVisibleOnlyPreview?: boolean;
+  isVisibleOnlyClose?: boolean;
+  isSaveDisabled?: boolean;
+  isSignedIn: boolean;
+  userStatus: UserStatus;
+}
+
+const PreviewActionPanel: React.FC<PreviewActionPanelProps> = ({
+  visible,
+  onClose,
+  onSave,
+  isVisibleOnlyPreview = false,
+  isVisibleOnlyClose = false,
+  isSaveDisabled = false,
+  isSignedIn,
+  userStatus,
+}) => {
+  const { showPreview } = usePreviewModal(isSignedIn, userStatus);
+  if (!visible) return null;
 
   const handleSave = () => {
     onSave?.();

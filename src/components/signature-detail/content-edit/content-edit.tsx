@@ -884,6 +884,8 @@ export const ContentEdit = (props: any) => {
               />
             </>
           )}
+
+        {/* TODO - přejmenovat */}
         <PreviewActionPanel
           visible={!isSavingSignature}
           onClose={closeContent}
