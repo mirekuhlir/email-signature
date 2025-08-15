@@ -10,8 +10,7 @@ const PricingCard = () => {
           Simple, Transparent Pricing
         </h2>
         <Typography className="text-xl text-gray-600 mx-auto">
-          Use all signatures without limitations. Get lifetime access to all
-          professional email signatures with a single payment.
+          Use all signatures without limitations
         </Typography>
       </div>
 
