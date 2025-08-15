@@ -13,7 +13,7 @@ const getLocalizedContent = () => {
         [content.address2]: "Los Angeles, CA 90031",
         [content.websitePrefix]: "Visit our ",
         [content.website]: "Instagram",
-        [content.websiteLink]: "https://www.example.com",
+        [content.websiteLink]: "example.com",
     };
 };
 

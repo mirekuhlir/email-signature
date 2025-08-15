@@ -8,9 +8,10 @@ const getLocalizedContent = () => {
         [content.title]: "SOUND PRODUCER",
         [content.phone]: "+1 123 456 7890",
         [content.email]: "example@email.com",
-        [content.website]: "www.example.com",
+        [content.website]: "example.com",
+        [content.websiteLink]: "example.com",
         [content.youtubeText]: "YouTube",
-        [content.youtubeLink]: "https://www.youtube.com",
+        [content.youtubeLink]: "youtube.com",
         [content.visitText]: "Visit our ",
     };
 };
@@ -327,6 +328,9 @@ export const signature_k = () => {
                                             id: generateRandomId(),
                                             text: localizedContent[
                                                 content.website
+                                            ],
+                                            link: localizedContent[
+                                                content.websiteLink
                                             ],
                                             type: "websiteLink",
                                             color: "rgb(0, 0, 0)",

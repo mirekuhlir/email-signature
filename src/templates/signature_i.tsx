@@ -10,7 +10,8 @@ const getLocalizedContent = () => {
     [content.emailPrefix]: '',
     [content.email]: 'example@email.com',
     [content.websitePrefix]: '',
-    [content.website]: 'www.example.com',
+    [content.website]: 'example.com',
+    [content.websiteLink]: 'example.com',
     [content.slogan]: 'Turning your vision into a stunning landscape reality.',
   };
 };
@@ -315,6 +316,7 @@ export const signature_i = () => {
                     },
                     {
                       id: generateRandomId(),
+                      link: localizedContent[content.websiteLink],
                       text: localizedContent[content.website],
                       type: 'websiteLink',
                       color: 'rgb(71, 71, 71)',

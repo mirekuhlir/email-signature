@@ -15,6 +15,7 @@ const getLocalizedContent = () => {
         [content.address]: "2645 Beeghley Street, Waco, TX 76701",
         [content.websitePrefix]: "Visit ",
         [content.website]: "www.example.com",
+        [content.websiteLink]: "example.com",
     };
 };
 
@@ -371,6 +372,9 @@ export const signature_c = () => {
                                         },
                                         {
                                             "id": generateRandomId(),
+                                            "link": localizedContent[
+                                                content.websiteLink
+                                            ],
                                             "text": localizedContent[
                                                 content.website
                                             ],

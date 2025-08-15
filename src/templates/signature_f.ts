@@ -11,8 +11,8 @@ const getLocalizedContent = () => {
         [content.emailPrefix]: "E: ",
         [content.email]: "example@email.com",
         [content.websitePrefix]: "W: ",
-        [content.website]: "www.example.com",
-        [content.websiteLink]: "https://www.example.com",
+        [content.website]: "example.com",
+        [content.websiteLink]: "example.com",
         [content.address]: "3943 Lyon Avenue, Worcester",
         [content.address2]: "Massachusetts 01608",
         [content.disclaimer]:
