@@ -23,7 +23,6 @@ import { useToast } from '@/src/components/ui/toast';
 import { LoadingInfo } from '../../signature-detail/content-edit/content-edit';
 import { MAX_IMAGE_WIDTH } from '@/supabase/functions/_shared/const';
 import { CollapsibleSection } from '../collapsible-section';
-import { Loading } from '../loading';
 import {
   ImageDropZone,
   WidthSliderControl,
@@ -748,7 +747,7 @@ export default function ImageUploadCrop(props: ImageUploaderProps) {
           </CollapsibleSection>
         )}
       </div>
-      {!originalImagePreview && (
+      {originalImagePreview && croppedImageData && (
         <>
           {imageLink}
           {horizontalAlign}
