@@ -102,15 +102,30 @@ const pxUnitValueSchema = (
     )
     .transform(sanitizeString);
 
-// Helper schema for safe URLs
+// Helper schema for safe URLs (http/https or scheme-less domains; no auto-prefix)
 const safeUrlSchema = (maxLength: number) =>
     z.string()
         .max(maxLength)
-        .url("Invalid URL format")
-        .refine((val) => /^https?:/.test(val), {
-            message: "URL must start with http: or https:",
-        })
-        .transform(sanitizeString); // Sanitize just in case
+        .refine((val) => {
+            if (typeof val !== "string") return false;
+            const trimmed = val.trim();
+            if (!trimmed) return false;
+            if (/^https?:\/\//i.test(trimmed)) {
+                try {
+                    new URL(trimmed);
+                    return true;
+                } catch {
+                    return false;
+                }
+            }
+            if (
+                /^(www\.)?([a-z0-9-]+\.)+[a-z]{2,}(?:[/?#].*)?$/i.test(trimmed)
+            ) {
+                return true;
+            }
+            return false;
+        }, { message: "Invalid URL format" })
+        .transform(sanitizeString);
 
 // New schema for website link text, allowing for URLs without http/https prefix
 const websiteLinkTextSchema = (maxLength: number) =>
