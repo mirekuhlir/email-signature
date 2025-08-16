@@ -50,11 +50,7 @@ export const LinkComponent = (props: LinkComponentProps) => {
       return;
     }
 
-    let href = trimmedLink;
-    if (!/^https?:\/\//i.test(href)) {
-      href = `https://${href}`;
-    }
-    setContent(`${contentPathToEdit}`, href);
+    setContent(`${contentPathToEdit}`, trimmedLink);
     setContentEdit({
       subEdit: null,
     });
@@ -69,7 +65,7 @@ export const LinkComponent = (props: LinkComponentProps) => {
   }, [reset, showLinkInput, component.link]);
 
   return (
-    <div className="w-full sm:w-1/2">
+    <div className="w-full">
       <div className="pb-2">
         <div
           className={
@@ -84,7 +80,8 @@ export const LinkComponent = (props: LinkComponentProps) => {
                   name="link"
                   register={register}
                   errors={errors}
-                  placeholder="Enter link e.g. www.example.com"
+                  prefix="https://"
+                  placeholder="Enter link e.g. example.com"
                   validation={{
                     pattern: {
                       value:

@@ -13,7 +13,7 @@ const getLocalizedContent = () => {
         [content.address2]: "The North, Westeros 62633",
         [content.websitePrefix]: "",
         [content.website]: "example.com",
-        [content.websiteLink]: "https://www.example.com",
+        [content.websiteLink]: "example.com",
     };
 };
 

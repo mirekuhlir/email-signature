@@ -13,6 +13,7 @@ const getLocalizedContent = () => {
     [content.emailPrefix]: "e: ",
     [content.websitePrefix]: "w: ",
     [content.website]: "example.com",
+    [content.websiteLink]: "example.com",
     [content.address]: "987 Willow Street, Asheville",
     [content.address2]: "NC 28801",
   };
@@ -375,6 +376,7 @@ export const signature_a = () => {
                     },
                     {
                       "id": generateRandomId(),
+                      "link": localizedContent[content.websiteLink],
                       "text": localizedContent[content.website],
                       "type": "websiteLink",
                       "color": "rgb(81, 25, 92)",
