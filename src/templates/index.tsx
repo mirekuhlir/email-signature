@@ -9,6 +9,7 @@ import { signature_h } from './signature_h';
 import { signature_i } from './signature_i';
 import { signature_j } from './signature_j';
 import { signature_k } from './signature_k';
+import { signature_l } from './signature_l';
 import { signature_empty_one_columns } from './signature_empty_one_columns';
 import { signature_empty_two_columns } from './signature_empty_two_columns';
 
@@ -16,33 +17,35 @@ export const getTemplates = () => {
   return [
     signature_empty_one_columns(),
     signature_empty_two_columns(),
+    signature_i(),
     signature_a(),
+    signature_d(),
     signature_b(),
     signature_c(),
-    signature_d(),
     signature_e(),
     signature_f(),
     signature_g(),
     signature_h(),
-    signature_i(),
     signature_j(),
     signature_k(),
+    signature_l(),
   ];
 };
 
 export const getTemplatesMainPage = () => {
   return [
+    signature_i(),
     signature_a(),
-    signature_b(),
     signature_d(),
+    signature_b(),
     signature_e(),
     signature_f(),
-    signature_i(),
     signature_c(),
     signature_j(),
     signature_g(),
     signature_h(),
     signature_k(),
+    signature_l(),
   ];
 };
 
